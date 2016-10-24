@@ -160,20 +160,22 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					pcursor->Next();
 					continue;
 				}
-				if(txPos.safetyLevel >= SAFETY_LEVEL1)
+
+				const CAliasIndex &theAlias = myAliasVtxPos.back();
+				if(txPos.safetyLevel >= SAFETY_LEVEL1  || linkalias.safetyLevel >= SAFETY_LEVEL1)
 				{
 					if(safeSearch)
 					{
 						pcursor->Next();
 						continue;
 					}
-					if(txPos.safetyLevel > SAFETY_LEVEL1)
+					if(txPos.safetyLevel >= SAFETY_LEVEL2 || linkalias.safetyLevel >= SAFETY_LEVEL2)
 					{
 						pcursor->Next();
 						continue;
 					}
 				}
-				if(!txPos.safeSearch && safeSearch)
+				if((!txPos.safeSearch || !theAlias.safeSearch) && safeSearch)
 				{
 					pcursor->Next();
 					continue;
@@ -1158,8 +1160,10 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
     oCert.push_back(Pair("data", strData));
 	oCert.push_back(Pair("category", stringFromVch(ca.sCategory)));
 	oCert.push_back(Pair("private", ca.bPrivate? "Yes": "No"));
-	oCert.push_back(Pair("safesearch", ca.safeSearch ? "Yes" : "No"));
-	oCert.push_back(Pair("safetylevel", ca.safetyLevel));
+	oCert.push_back(Pair("safesearch", ca.safeSearch || alias.safeSearch ? "Yes" : "No"));
+	unsigned char safetyLevel = max(ca.safetyLevel, alias.safetyLevel );
+	oCert.push_back(Pair("safetylevel", safetyLevel));
+
     oCert.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
 
     uint64_t nHeight;
@@ -1266,8 +1270,9 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			}
 		}
 		oName.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
-		oName.push_back(Pair("safesearch", cert.safeSearch ? "Yes" : "No"));
-		oName.push_back(Pair("safetylevel", cert.safetyLevel));
+		oName.push_back(Pair("safesearch", cert.safeSearch || theAlias.safeSearch? "Yes" : "No"));
+		unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
+		oName.push_back(Pair("safetylevel", safetyLevel));
 		oName.push_back(Pair("data", strData));
 		oName.push_back(Pair("category", stringFromVch(cert.sCategory)));
 		oName.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
