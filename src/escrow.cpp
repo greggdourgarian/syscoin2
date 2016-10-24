@@ -850,9 +850,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					return error(errorMessage.c_str());
 				}
 			}
-
-			if(theEscrow.nQty <= 0)
-				theEscrow.nQty = 1;
 		}
 	
         // set the escrow's txn-dependent values
@@ -1118,7 +1115,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4518 - " + _("Cannot purchase a wanted offer"));
 		
 		selleralias = theLinkedAlias;
-		nQty = linkedOffer.nQty;
+		nAvailableQty = linkedOffer.nQty;
 	}
 	unsigned int memPoolQty = QtyOfPendingAcceptsInMempool(vchOffer);
 	if(nAvailableQty != -1 && nAvailableQty < (nQty+memPoolQty))
