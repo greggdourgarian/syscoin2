@@ -802,7 +802,8 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				return true;
 			}
 			vector<COffer> myVtxPos, myLinkVtxPos;
-
+			if(theEscrow.nQty <= 0)
+				theEscrow.nQty = 1;
 			// make sure offer is still valid and then refund qty
 			if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
 			{
