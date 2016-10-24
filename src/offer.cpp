@@ -1376,10 +1376,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				theOffer.vchCert = linkOffer.vchCert;
 				theOffer.vchAliasPeg = linkOffer.vchAliasPeg;
 				if(linkOffer.paymentOptions == PAYMENTOPTION_BTC)
-				{
 					theOffer.paymentOptions = linkOffer.paymentOptions;
-					theOffer.sCurrencyCode = linkOffer.sCurrencyCode;
-				}
+				
 				theOffer.SetPrice(linkOffer.nPrice);					
 			}
 		}
@@ -1656,13 +1654,11 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchOffer = vchFromString(GenerateSyscoinGuid());
 	EnsureWalletIsUnlocked();
 	
-	// unserialize offer from txn, serialize back
 	// build offer
 	COffer newOffer;
 	newOffer.vchOffer = vchOffer;
 	newOffer.vchAlias = alias.vchAlias;
 	newOffer.sDescription = vchDesc;
-	newOffer.paymentOptions = linkOffer.paymentOptions;
 	newOffer.SetPrice(linkOffer.GetPrice());
 	newOffer.nCommission = commissionInteger;
 	newOffer.vchLinkOffer = vchLinkOffer;
