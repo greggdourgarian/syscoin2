@@ -1427,7 +1427,6 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						"<private> set to 1 if this offer should be private not be searchable. Defaults to 0.\n"						
 						+ HelpRequiringPassphrase());
 	// gather inputs
-	string baSig;
 	float fPrice;
 	bool bExclusiveResell = true;
 	vector<unsigned char> vchAliasPeg = vchFromValue(params[0]);
@@ -1607,7 +1606,6 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 						"<description> description, 1 KB max. Defaults to original description. Leave as '' to use default.\n"
 						+ HelpRequiringPassphrase());
 	// gather inputs
-	string baSig;
 	COfferLinkWhitelistEntry whiteListEntry;
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 
