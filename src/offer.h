@@ -185,8 +185,8 @@ public:
         return !(a == b);
     }
     
-    inline void SetNull() { entries.clear();}
-    inline bool IsNull() const { return (entries.empty());}
+    inline void SetNull() { entries.clear(); bExclusiveResell = true;}
+    inline bool IsNull() const { return (entries.empty() && bExclusiveResell);}
 
 };
 class COffer {
