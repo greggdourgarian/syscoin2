@@ -672,16 +672,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	string pubkey = resultArray[0].get_str();		
 
 	// should fail: alias update on expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate aliasexpirenode2 newdata1 privdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate aliasexpirednode2 newdata1 privdata"), runtime_error);
 	// should fail: alias transfer from expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate aliasexpirenode2 changedata1 pvtdata Yes " + pubkey), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate aliasexpirednode2 changedata1 pvtdata Yes " + pubkey), runtime_error);
 	// should fail: alias transfer to another alias
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate aliasexpire2 changedata1 pvtdata Yes " + aliasexpirenode2pubkey), runtime_error);
 
 	// should fail: link to an expired alias in offer
-	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirenode2 " + offerguid + " 5 newdescription"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirednode2 " + offerguid + " 5 newdescription"), runtime_error);
 	// should fail: generate an offer using expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "offernew sysrates.peg aliasexpirenode2 category title 1 0.05 description USD nocert 0 1"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "offernew sysrates.peg aliasexpirednode2 category title 1 0.05 description USD nocert 0 1"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpirenode2"), runtime_error);
@@ -691,7 +691,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node1", "messagenew subject title aliasexpire aliasexpirednode2"), runtime_error);
 
 	// should fail: new escrow with expired arbiter alias
-	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 message aliasexpirenode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 message aliasexpirednode2"), runtime_error);
 	// should fail: new escrow with expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire"), runtime_error);
 
@@ -724,8 +724,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + escrowguid));
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
-	// not able to release an escrow with expired aliases
-	BOOST_CHECK_THROW(CallRPC("node2", "escrowrelease " + escrowguid + " buyer"), runtime_error);
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK_EQUAL(aliasexpirenode2pubkey, AliasNew("node2", "aliasexpirenode2", "somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata 0"));
