@@ -633,46 +633,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4046 - " + _("Only arbiter can refund an escrow after it has already been refunded");
 						serializedEscrow = theEscrow;
 					}
-					// make sure offer is still valid and then refund qty
-					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
-					{
-						vector<COffer> myLinkVtxPos;
-						int nQty = dbOffer.nQty;
-						COffer myLinkOffer;
-						// if this is a linked offer we must update the linked offer qty
-						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
-							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
-							{
-								myLinkOffer = myLinkVtxPos.back();
-								nQty = myLinkOffer.nQty;
-							}
-						}
-						if(nQty != -1)
-						{
-
-							nQty += theEscrow.nQty;
-							if (!myLinkOffer.IsNull())
-							{
-								myLinkOffer.nQty = nQty;
-								myLinkOffer.PutToOfferList(myLinkVtxPos);
-								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
-								{
-									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
-									return true;
-								}							
-							}
-							else
-							{
-								dbOffer.nQty = nQty;
-								dbOffer.PutToOfferList(myVtxPos);
-								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
-								{
-									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
-									return true;
-								}
-							}
-						}
-					}
 				}
 				else if(op == OP_ESCROW_REFUND && vvchArgs[1] == vchFromString("1"))
 				{
@@ -720,62 +680,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					else if(theEscrow.op == OP_ESCROW_RELEASE && serializedEscrow.vchLinkAlias != theEscrow.vchArbiterAlias)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4055 - " + _("Only arbiter can release an escrow after it has already been released");
-						serializedEscrow = theEscrow;
-					}
-					vector<COffer> myVtxPos, myLinkVtxPos;
-	
-					// make sure offer is still valid and then refund qty
-					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
-					{
-						vector<COffer> myLinkVtxPos;
-						int nQty = dbOffer.nQty;
-						COffer myLinkOffer;
-						// if this is a linked offer we must update the linked offer qty
-						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
-							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
-							{
-								myLinkOffer = myLinkVtxPos.back();
-								nQty = myLinkOffer.nQty;
-							}
-						}
-						if(dbOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(dbOffer.sCategory), "wanted"))
-						{
-							errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4071 - " + _("Cannot purchase a wanted offer");
-							serializedEscrow = theEscrow;
-						}
-						if(nQty != -1)
-						{
-							nQty -= theEscrow.nQty;
-							if(nQty < 0)
-							{
-								errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4071 - " + _("Not enough quantity left in this offer for this purchase");
-								serializedEscrow = theEscrow;
-							}
-							if (!myLinkOffer.IsNull())
-							{
-								myLinkOffer.nQty = nQty;
-								myLinkOffer.PutToOfferList(myLinkVtxPos);
-								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
-								{
-									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
-									serializedEscrow = theEscrow;
-								}							
-							}
-							else
-							{
-								dbOffer.nQty = nQty;
-								dbOffer.PutToOfferList(myVtxPos);
-								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
-								{
-									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
-									serializedEscrow = theEscrow;
-								}
-							}
-						}
-					}
-					else
-					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4076 - " + _("Cannot find offer for this escrow. It may be expired");
 						serializedEscrow = theEscrow;
 					}
 				}
@@ -896,6 +800,41 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4068 - " + _("Escrow already exists");
 				return true;
+			}
+			vector<COffer> myVtxPos, myLinkVtxPos;
+
+			// make sure offer is still valid and then refund qty
+			if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
+			{
+				vector<COffer> myLinkVtxPos;
+				int nQty = dbOffer.nQty;
+				COffer myLinkOffer;
+				if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
+					if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
+					{
+						myLinkOffer = myLinkVtxPos.back();
+						nQty = myLinkOffer.nQty;
+					}
+				}
+				if(dbOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(dbOffer.sCategory), "wanted"))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4071 - " + _("Cannot purchase a wanted offer");
+					serializedEscrow = theEscrow;
+				}
+				if(nQty != -1)
+				{
+					nQty -= theEscrow.nQty;
+					if(nQty < 0)
+					{
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4071 - " + _("Not enough quantity left in this offer for this purchase");
+						serializedEscrow = theEscrow;
+					}
+				}
+			}
+			else
+			{
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4076 - " + _("Cannot find offer for this escrow. It may be expired");
+				serializedEscrow = theEscrow;
 			}
 			if(!theEscrow.txBTCId.IsNull())
 			{
