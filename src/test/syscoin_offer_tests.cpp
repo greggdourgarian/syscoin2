@@ -292,7 +292,7 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 	string offerguid = OfferNew("node1", "selleraliascurrency", "category", "title", "100", "0.05", "description", "USD");
 	// accept and confirm payment is accurate with usd
 	string acceptguid = OfferAccept("node1", "node2", "buyeraliascurrency", offerguid, "2", "message");
-	UniValue acceptRet = FindOfferAccept("node2", offerguid, acceptguid);
+	UniValue acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
 	CAmount nTotal = find_value(acceptRet, "systotal").get_int64();
 	// 2690.1 SYS/USD
 	BOOST_CHECK_EQUAL(nTotal, AmountFromValue(2*0.05*2690.1));
@@ -301,7 +301,7 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 	OfferUpdate("node1", "selleraliascurrency", offerguid, "category", "titlenew", "90", "0.15", "descriptionnew", "CAD");
 	// accept and confirm payment is accurate with cad
 	acceptguid = OfferAccept("node1", "node2", "buyeraliascurrency", offerguid, "3", "message");
-	acceptRet = FindOfferAccept("node2", offerguid, acceptguid);
+	acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
 	nTotal = find_value(acceptRet, "systotal").get_int64();
 	// 2698.0 SYS/CAD
 	BOOST_CHECK_EQUAL(nTotal, AmountFromValue(3*0.15*2698.0));
@@ -313,7 +313,7 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 	OfferUpdate("node1", "selleraliascurrency", offerguid, "category", "titlenew", "90", "1.00", "descriptionnew", "SYS");
 	// accept and confirm payment is accurate with sys
 	acceptguid = OfferAccept("node1", "node2", "buyeraliascurrency", offerguid, "3", "message");
-	acceptRet = FindOfferAccept("node2", offerguid, acceptguid);
+	acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
 	nTotal = find_value(acceptRet, "systotal").get_int64();
 	// 1 SYS/SYS
 	BOOST_CHECK_EQUAL(nTotal, AmountFromValue(3));
@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 	OfferUpdate("node1", "selleraliascurrency", offerguid, "category", "titlenew", "90", "0.00001000", "descriptionnew", "BTC");
 	// accept and confirm payment is accurate with btc
 	acceptguid = OfferAccept("node1", "node2", "buyeraliascurrency", offerguid, "4", "message");
-	acceptRet = FindOfferAccept("node2", offerguid, acceptguid);
+	acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
 	nTotal = find_value(acceptRet, "systotal").get_int64();
 	// 100000.0 SYS/BTC
 	BOOST_CHECK_EQUAL(nTotal, AmountFromValue(4*0.00001000*100000.0));
@@ -334,13 +334,13 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 	GenerateBlocks(2);
 	GenerateBlocks(3);
 	GenerateBlocks(5, "node2");
-	acceptRet = FindOfferAccept("node2", offerguid, acceptguid);
+	acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
 	nTotal = find_value(acceptRet, "systotal").get_int64();
 	// still used BTC conversion amount
 	BOOST_CHECK_EQUAL(nTotal, AmountFromValue(10*0.00001000*100000.0));
 	// 2695.2 SYS/EUR
 	acceptguid = OfferAccept("node1", "node2", "buyeraliascurrency", offerguid, "3", "message");
-	acceptRet = FindOfferAccept("node2", offerguid, acceptguid);
+	acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
 	nTotal = find_value(acceptRet, "systotal").get_int64();
 	BOOST_CHECK_EQUAL(nTotal, AmountFromValue(3*0.2*2695.2));
 
