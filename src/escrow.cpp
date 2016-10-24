@@ -556,7 +556,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 
 
     if (!fJustCheck ) {
-		if(op == OP_ESCROW_ACTIVATE) 
+		if(theEscrow.op != OP_ESCROW_COMPLETE) 
 		{
 			if(!GetTxOfAlias(theEscrow.vchBuyerAlias, alias, aliasTx))
 			{
