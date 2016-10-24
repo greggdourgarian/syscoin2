@@ -962,7 +962,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	UniValue r;
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));
-	string selleralias = find_value(r.get_obj(), "alias").get_string();
+	string selleralias = find_value(r.get_obj(), "alias").get_str();
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
@@ -995,7 +995,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	if(!rootofferguid.empty() && !resellernode.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(resellernode, "offerinfo " + rootofferguid));
-		string reselleralias = find_value(r.get_obj(), "alias").get_string();
+		string reselleralias = find_value(r.get_obj(), "alias").get_str();
 		nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
 		// now get the accept from the resellernode
 		const UniValue &acceptReSellerValue = FindOfferAcceptList(resellernode, reselleralias, offerguid, acceptguid);
