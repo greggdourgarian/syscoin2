@@ -820,7 +820,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				if(dbOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(dbOffer.sCategory), "wanted"))
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4071 - " + _("Cannot purchase a wanted offer");
-					serializedEscrow = theEscrow;
+					return true;
 				}
 				if(nQty != -1)
 				{
@@ -828,14 +828,14 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					if(nQty < 0)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4071 - " + _("Not enough quantity left in this offer for this purchase");
-						serializedEscrow = theEscrow;
+						return true;
 					}
 				}
 			}
 			else
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4076 - " + _("Cannot find offer for this escrow. It may be expired");
-				serializedEscrow = theEscrow;
+				return true;
 			}
 			if(!theEscrow.txBTCId.IsNull())
 			{
