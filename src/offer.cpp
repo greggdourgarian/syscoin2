@@ -126,6 +126,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					pcursor->Next();
 					continue;
 				} 
+				CAliasIndex linkAlias;
 				if( !txPos.vchLinkOffer.empty())
 				{
 					vector<COffer> myLinkedOfferVtxPos;
@@ -143,7 +144,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 						continue;
 					}
 
-					const CAliasIndex &linkAlias = myLinkedAliasVtxPos.back();
+					linkAlias = myLinkedAliasVtxPos.back();
 
 					if(linkOffer.nQty <= 0 && linkOffer.nQty != -1)
 					{
@@ -160,7 +161,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 						if(linkOffer.safetyLevel >= SAFETY_LEVEL2 || linkAlias.safetyLevel >= SAFETY_LEVEL2)
 						{
 							pcursor->Next();
-							continue2
+							continue;
 						}
 					}
 					if((!linkOffer.safeSearch || !linkAlias.safeSearch) && safeSearch)
@@ -179,14 +180,13 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 						continue;
 					}
 				}
-				vector<CAliasIndex> myAliasVtxPos;
-				if (!paliasdb->ReadAlias(txPos.vchAlias, myAliasVtxPos) || myAliasVtxPos.empty())
+				CAliasIndex theAlias;
+				CTransaction aliastx;
+				if(!GetTxOfAlias(txPos.vchAlias, theAlias, aliastx))
 				{
 					pcursor->Next();
 					continue;
 				}
-
-				const CAliasIndex &theAlias = myAliasVtxPos.back();
 				if(txPos.safetyLevel >= SAFETY_LEVEL1  || linkalias.safetyLevel >= SAFETY_LEVEL1)
 				{
 					if(safeSearch)
@@ -216,13 +216,6 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 				boost::algorithm::to_lower(title);
 				string description = stringFromVch(txPos.sDescription);
 				boost::algorithm::to_lower(description);
-				CAliasIndex theAlias;
-				CTransaction aliastx;
-				if(!GetTxOfAlias(txPos.vchAlias, theAlias, aliastx))
-				{
-					pcursor->Next();
-					continue;
-				}
 				if(!theAlias.safeSearch && safeSearch)
 				{
 					pcursor->Next();
@@ -1292,7 +1285,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 			// decrease qty + increase # sold
 			if(theOfferAccept.nQty <= 0)
-				theOfferAccept.nQty = 1
+				theOfferAccept.nQty = 1;
 			vector<COffer> myLinkVtxPos;
 			int nQty = theOffer.nQty;
 			COffer myLinkOffer = offerVtxPos.back();
@@ -1316,8 +1309,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				myLinkOffer.nQty = nQty;
 				myLinkOffer.nSold++;
 				myLinkOffer.accept = theOfferAccept;
-				myLinkOffer.PutToOfferList(myLinkVtxPos);
-				if (!dontaddtodb && !pofferdb->WriteOffer(myPriceOffer.vchLinkOffer, myLinkVtxPos))
+				myLinkOffer.PutToOfferList(offerVtxPos);
+				if (!dontaddtodb && !pofferdb->WriteOffer(myPriceOffer.vchLinkOffer, offerVtxPos))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
 					return true;
@@ -2912,17 +2905,16 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	COffer linkOffer;
 	vector<COffer> myLinkedVtxPos;
 	CTransaction linkaliastx;
-	CAliasIndex linkalias;
+	CAliasIndex linkAlias;
 	if( !theOffer.vchLinkOffer.empty())
 	{
 		if(!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, myLinkedVtxPos, true))
 			throw runtime_error("failed to read linked offer transaction from disk");
-
-		if(!GetTxOfAlias(linkOffer.vchAlias, linkalias, linkaliastx, true))
+		if(!GetTxOfAlias(linkOffer.vchAlias, linkAlias, linkaliastx, true))
 			throw runtime_error("Could not find the alias associated with this linked offer");
 		if(linkOffer.safetyLevel >= SAFETY_LEVEL2)
 			throw runtime_error("root offer has been banned");
-		if(linkalias.safetyLevel >= SAFETY_LEVEL2)
+		if(linkAlias.safetyLevel >= SAFETY_LEVEL2)
 			throw runtime_error("root offer owner has been banned");
 
 	}
@@ -2969,7 +2961,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	oOffer.push_back(Pair("sysprice", theOffer.GetPrice()));
 	oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real()))); 
 	
-	oOffer.push_back(Pair("ismine", ismine  ? "true" : "false"));
+	oOffer.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")  ? "true" : "false"));
 	if(!theOffer.vchLinkOffer.empty()) {
 		oOffer.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
 		oOffer.push_back(Pair("offerlink", "true"));
@@ -3350,7 +3342,7 @@ UniValue offeracceptinfo(const UniValue& params, bool fHelp) {
 		oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOfferAccept.nQty )));
 		oOfferAccept.push_back(Pair("buyer", stringFromVch(theOfferAccept.vchBuyerAlias)));
 		oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-		oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
+		oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliasTx, "alias")? "true" : "false"));
 		if(!theOfferAccept.txBTCId.IsNull())
 			oOfferAccept.push_back(Pair("status","Paid (BTC)"));
 		else
@@ -3460,8 +3452,8 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				continue;
 
 			const COffer &theOffer = vtxOfferPos.back();
-			const COffer &linkOffer;
-			const CAliasIndex &linkAlias;
+			COffer linkOffer;
+			CAliasIndex linkAlias;
 			vector<COffer> myLinkedOfferVtxPos;
 			vector<CAliasIndex> myLinkedAliasVtxPos;
 			if( !theOffer.vchLinkOffer.empty())
@@ -3470,7 +3462,6 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					continue;
 
 				linkOffer = myLinkedOfferVtxPos.back();
-
 				if (!paliasdb->ReadAlias(linkOffer.vchAlias, myLinkedAliasVtxPos) || myLinkedAliasVtxPos.empty())
 					continue;
 				linkAlias = myLinkedAliasVtxPos.back();
@@ -3561,10 +3552,19 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 		vector<COffer> vtxPos;
 		if (!pofferdb->ReadOffer(vchOffer, vtxPos) || vtxPos.empty())
 			throw runtime_error("failed to read from offer DB");
-
 		COffer txPos2;
 		uint256 txHash;
 		BOOST_FOREACH(txPos2, vtxPos) {
+			COffer linkOffer;
+			if( !txPos2.vchLinkOffer.empty())
+			{
+				vector<COffer> vtxLinkPos;
+				CTransaction linkTx;
+				if(!GetTxAndVtxOfOffer( txPos2.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true))
+					continue;
+				linkOffer.nHeight = txPos2.nHeight;	
+				linkOffer.GetOfferFromList(vtxLinkPos);
+			}
 			txHash = txPos2.txHash;
 			CTransaction tx;
 			if (!GetSyscoinTransaction(txPos2.nHeight, txHash, tx, Params().GetConsensus())) {
