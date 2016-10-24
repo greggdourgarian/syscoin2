@@ -164,7 +164,9 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedoffer)
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias5", "category", "title", "100", "10.00", "description", "USD", "nocert", false);
 	string lofferguid = OfferLink("node2", "selleralias6", offerguid, "5", "newdescription");
-	// add 5% discount to selleralias6
+
+	// it was already added to whitelist because exclusive mode was false, so remove it and add it as 5% discount
+	OfferRemoveWhitelist("node1", offerguid, "selleralias6");
 	OfferAddWhitelist("node1", offerguid, "selleralias6", "5");
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + lofferguid));
