@@ -2969,7 +2969,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	safetyLevel = max(safetyLevel, linkOffer.safetyLevel );
 	safetyLevel = max(safetyLevel, linkAlias.safetyLevel );
 	oOffer.push_back(Pair("safetylevel", safetyLevel));
-	oOffer.push_back(Pair("paymentoptions", theOffer.paymentOptions));
+	oOffer.push_back(Pair("paymentoptions", (int)theOffer.paymentOptions));
 	oOffer.push_back(Pair("paymentoptions_display", theOffer.GetPaymentOptionsString()));
 	oOffer.push_back(Pair("alias_peg", stringFromVch(theOffer.vchAliasPeg)));
 	oOffer.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
@@ -3310,7 +3310,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				oName.push_back(Pair("quantity", strprintf("%d", nQty)));
 				
 			oName.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
-			oName.push_back(Pair("paymentoptions", theOffer.paymentOptions));
+			oName.push_back(Pair("paymentoptions", (int)theOffer.paymentOptions));
 			oName.push_back(Pair("paymentoptions_display", theOffer.GetPaymentOptionsString()));
 			oName.push_back(Pair("alias_peg", stringFromVch(theOffer.vchAliasPeg)));
 			oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
@@ -3521,7 +3521,7 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		else
 			oOffer.push_back(Pair("quantity", strprintf("%d", nQty)));
 		oOffer.push_back(Pair("exclusive_resell", txOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
-		oOffer.push_back(Pair("paymentoptions", txOffer.paymentOptions));
+		oOffer.push_back(Pair("paymentoptions", (int)txOffer.paymentOptions));
 		oOffer.push_back(Pair("paymentoptions_display", txOffer.GetPaymentOptionsString()));
 		oOffer.push_back(Pair("alias_peg", stringFromVch(txOffer.vchAliasPeg)));
 		oOffer.push_back(Pair("offers_sold", (int)txOffer.nSold));
