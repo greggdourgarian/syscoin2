@@ -42,7 +42,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
 		READWRITE(vchAliases);
-		READWRITE(nRequiredSigs);
+		READWRITE(VARINT(nRequiredSigs));
 		READWRITE(vchRedeemScript);
 	}
 
@@ -71,22 +71,22 @@ public:
 };
 class CAliasIndex {
 public:
-	 std::vector<unsigned char> vchAlias;
-	 std::vector<unsigned char> vchGUID;
+	std::vector<unsigned char> vchAlias;
+	std::vector<unsigned char> vchGUID;
     uint256 txHash;
-    int64_t nHeight;
+    uint64_t nHeight;
     std::vector<unsigned char> vchPublicValue;
 	std::vector<unsigned char> vchPrivateValue;
 	std::vector<unsigned char> vchPubKey;
 	CMultiSigAliasInfo multiSigInfo;
 	unsigned char safetyLevel;
 	unsigned char nRenewal;
-	int nRatingAsBuyer;
-	int nRatingCountAsBuyer;
-	int nRatingAsSeller;
-	int nRatingCountAsSeller;
-	int nRatingAsArbiter;
-	int nRatingCountAsArbiter;
+	unsigned int nRatingAsBuyer;
+	unsigned int nRatingCountAsBuyer;
+	unsigned int nRatingAsSeller;
+	unsigned int nRatingCountAsSeller;
+	unsigned int nRatingAsArbiter;
+	unsigned int nRatingCountAsArbiter;
 	bool safeSearch;
 	bool acceptCertTransfers;
     CAliasIndex() { 
@@ -135,8 +135,8 @@ public:
 		READWRITE(vchPubKey);
 		READWRITE(vchAlias);
 		READWRITE(vchGUID);
-		READWRITE(safetyLevel);
-		READWRITE(nRenewal);
+		READWRITE(VARINT(safetyLevel));
+		READWRITE(VARINT(nRenewal));
 		READWRITE(safeSearch);
 		READWRITE(acceptCertTransfers);
 		READWRITE(multiSigInfo);

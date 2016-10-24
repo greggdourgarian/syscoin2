@@ -68,7 +68,7 @@ public:
 		READWRITE(vchViewAlias);
 		READWRITE(bPrivate);
 		READWRITE(vchCert);
-		READWRITE(safetyLevel);
+		READWRITE(VARINT(safetyLevel));
 		READWRITE(safeSearch);
 		READWRITE(sCategory);
 		READWRITE(vchAlias);
