@@ -210,7 +210,7 @@ public:
 	std::vector<unsigned char> vchAliasPeg;
 	COfferLinkWhitelist linkWhitelist;
 	bool bPrivate;
-	unsigned char paymentOptions;
+	unsigned int paymentOptions;
 	unsigned char safetyLevel;
 	unsigned int nSold;
 	std::vector<unsigned char> vchGeoLocation;
@@ -260,9 +260,9 @@ public:
 			READWRITE(vchCert);
 			READWRITE(bPrivate);
 			READWRITE(vchAliasPeg);
-			READWRITE(paymentOptions);
+			READWRITE(VARINT(paymentOptions));
 			READWRITE(vchOffer);
-			READWRITE(safetyLevel);
+			READWRITE(VARINT(safetyLevel));
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
