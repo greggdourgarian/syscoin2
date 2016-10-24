@@ -31,7 +31,6 @@ extern bool IsSys21Fork(const uint64_t& nHeight);
 class COfferAccept {
 public:
 	std::vector<unsigned char> vchAcceptRand;
-	uint256 txHash;
 	uint64_t nAcceptHeight;
 	unsigned int nQty;
 	CAmount nPrice;
@@ -47,7 +46,6 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
 		READWRITE(vchAcceptRand);
-		READWRITE(txHash);
 		READWRITE(VARINT(nAcceptHeight));
         READWRITE(VARINT(nQty));
     	READWRITE(nPrice);
@@ -60,7 +58,6 @@ public:
     inline friend bool operator==(const COfferAccept &a, const COfferAccept &b) {
         return (
 		a.vchAcceptRand == b.vchAcceptRand
-        && a.txHash == b.txHash
 		&& a.nAcceptHeight == b.nAcceptHeight
         && a.nQty == b.nQty
         && a.nPrice == b.nPrice
@@ -73,7 +70,6 @@ public:
 
     inline COfferAccept operator=(const COfferAccept &b) {
 		vchAcceptRand = b.vchAcceptRand;
-        txHash = b.txHash;
 		nAcceptHeight = b.nAcceptHeight;
         nQty = b.nQty;
         nPrice = b.nPrice;
@@ -88,8 +84,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { vchMessage.clear(); feedback.clear(); vchAcceptRand.clear(); nAcceptHeight = nPrice = nQty = 0; txHash.SetNull(); txBTCId.SetNull(); vchBuyerAlias.clear();}
-    inline bool IsNull() const { return (vchMessage.empty() && feedback.empty() && vchAcceptRand.empty() && txHash.IsNull() && nAcceptHeight == 0 && nPrice == 0 && nQty == 0 && txBTCId.IsNull() && vchBuyerAlias.empty()); }
+    inline void SetNull() { vchMessage.clear(); feedback.clear(); vchAcceptRand.clear(); nAcceptHeight = nPrice = nQty = 0; txBTCId.SetNull(); vchBuyerAlias.clear();}
+    inline bool IsNull() const { return (vchMessage.empty() && feedback.empty() && vchAcceptRand.empty() && nAcceptHeight == 0 && nPrice == 0 && nQty == 0 && txBTCId.IsNull() && vchBuyerAlias.empty()); }
 
 };
 class COfferLinkWhitelistEntry {
@@ -213,7 +209,6 @@ public:
 	std::vector<unsigned char> vchCert;
 	std::vector<unsigned char> vchAliasPeg;
 	COfferLinkWhitelist linkWhitelist;
-	std::vector<std::string> offerLinks;
 	bool bPrivate;
 	unsigned char paymentOptions;
 	unsigned char safetyLevel;
@@ -233,7 +228,6 @@ public:
 	{
 		accept.SetNull();
 		linkWhitelist.SetNull();
-		offerLinks.clear();
 		sCategory.clear();
 		sTitle.clear();
 		vchAlias.clear();
@@ -262,7 +256,6 @@ public:
 			READWRITE(linkWhitelist);
 			READWRITE(sCurrencyCode);
 			READWRITE(nCommission);
-			READWRITE(offerLinks);
 			READWRITE(vchAlias);
 			READWRITE(vchCert);
 			READWRITE(bPrivate);
@@ -320,8 +313,8 @@ public:
 		// find the closest offer without going over in height, assuming offerList orders entries by nHeight ascending
         for(std::vector<COffer>::reverse_iterator it = offerList.rbegin(); it != offerList.rend(); ++it) {
             const COffer &o = *it;
-			// skip if this is an offeraccept or height is greater than our offer height
-			if(!o.accept.IsNull() || o.nHeight > nHeight)
+			// skip if height is greater than our offer height
+			if(o.nHeight > nHeight)
 				continue;
             myOffer = o;
 			break;
@@ -372,7 +365,6 @@ public:
 		vchLinkAlias = b.vchLinkAlias;
 		linkWhitelist = b.linkWhitelist;
 		sCurrencyCode = b.sCurrencyCode;
-		offerLinks = b.offerLinks;
 		nCommission = b.nCommission;
 		vchAlias = b.vchAlias;
 		vchCert = b.vchCert;
@@ -390,8 +382,8 @@ public:
         return !(a == b);
     }
     
-    inline void SetNull() { vchOffer.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); vchAliasPeg.clear(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();offerLinks.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
-    inline bool IsNull() const { return (vchOffer.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchAliasPeg.empty() && offerLinks.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
+    inline void SetNull() { vchOffer.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); vchAliasPeg.clear(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
+    inline bool IsNull() const { return (vchOffer.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchAliasPeg.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
 
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
