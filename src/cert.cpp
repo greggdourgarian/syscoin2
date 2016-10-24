@@ -161,21 +161,20 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					continue;
 				}
 
-				const CAliasIndex &theAlias = myAliasVtxPos.back();
-				if(txPos.safetyLevel >= SAFETY_LEVEL1  || linkalias.safetyLevel >= SAFETY_LEVEL1)
+				if(txPos.safetyLevel >= SAFETY_LEVEL1)
 				{
 					if(safeSearch)
 					{
 						pcursor->Next();
 						continue;
 					}
-					if(txPos.safetyLevel >= SAFETY_LEVEL2 || linkalias.safetyLevel >= SAFETY_LEVEL2)
+					if(txPos.safetyLevel >= SAFETY_LEVEL2)
 					{
 						pcursor->Next();
 						continue;
 					}
 				}
-				if((!txPos.safeSearch || !theAlias.safeSearch) && safeSearch)
+				if(!txPos.safeSearch && safeSearch)
 				{
 					pcursor->Next();
 					continue;
