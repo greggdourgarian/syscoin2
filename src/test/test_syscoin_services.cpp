@@ -962,6 +962,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	UniValue r;
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));
+	string selleralias = find_value(r.get_obj(), "alias").get_string();
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
@@ -978,7 +979,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	GenerateBlocks(5, ownernode);
 	GenerateBlocks(5, buyernode);
 	
-	const UniValue &acceptSellerValue = FindOfferAccept(ownernode, offerguid, acceptguid);
+	const UniValue &acceptSellerValue = FindOfferAcceptList(ownernode, selleralias, offerguid, acceptguid);
 	CAmount nSellerTotal = find_value(acceptSellerValue, "systotal").get_int64();
 	int discount = atoi(find_value(acceptSellerValue, "offer_discount_percentage").get_str().c_str());
 	int lMarkup = 100 - discount;
@@ -994,9 +995,10 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	if(!rootofferguid.empty() && !resellernode.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(resellernode, "offerinfo " + rootofferguid));
+		string reselleralias = find_value(r.get_obj(), "alias").get_string();
 		nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
 		// now get the accept from the resellernode
-		const UniValue &acceptReSellerValue = FindOfferAcceptList(resellernode, offerguid, acceptguid);
+		const UniValue &acceptReSellerValue = FindOfferAcceptList(resellernode, reselleralias, offerguid, acceptguid);
 		CAmount nCommission = find_value(acceptReSellerValue, "systotal").get_int64();
 		nSellerTotal += nCommission;
 		BOOST_CHECK(find_value(acceptReSellerValue, "pay_message").get_str() != pay_message);
@@ -1166,32 +1168,10 @@ void OfferClearWhitelist(const string& node, const string& offer)
 	BOOST_CHECK(arrayValue.empty());
 
 }
-const UniValue FindOfferAccept(const string& node, const string& offerguid, const string& acceptguid, bool nocheck)
+const UniValue FindOfferAcceptList(const string& node, const string& alias, const string& offerguid, const string& acceptguid, bool nocheck)
 {
 	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptinfo " + offerguid));
-	BOOST_CHECK(r.type() == UniValue::VARR);
-	const UniValue &arrayValue = r.get_array();
-	for(int i=0;i<arrayValue.size();i++)
-	{		
-		const UniValue& acceptObj = arrayValue[i].get_obj();
-		const string &acceptvalueguid = find_value(acceptObj, "id").get_str();
-		const string &offervalueguid = find_value(acceptObj, "offer").get_str();
-		if(acceptvalueguid == acceptguid && offervalueguid == offerguid)
-		{
-			ret = acceptObj;
-			break;
-		}
-
-	}
-	if(!nocheck)
-		BOOST_CHECK(!ret.isNull());
-	return ret;
-}
-const UniValue FindOfferAcceptList(const string& node, const string& offerguid, const string& acceptguid, bool nocheck)
-{
-	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + acceptguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias + " " + acceptguid));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)

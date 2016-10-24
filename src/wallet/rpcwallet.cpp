@@ -2759,7 +2759,6 @@ extern UniValue offerwhitelist(const UniValue& params, bool fHelp);
 extern UniValue offerinfo(const UniValue& params, bool fHelp);
 extern UniValue offerlist(const UniValue& params, bool fHelp);
 extern UniValue offeracceptlist(const UniValue& params, bool fHelp);
-extern UniValue offeracceptinfo(const UniValue& params, bool fHelp);
 extern UniValue offerhistory(const UniValue& params, bool fHelp);
 extern UniValue offerfilter(const UniValue& params, bool fHelp);
 
@@ -2865,7 +2864,6 @@ static const CRPCCommand commands[] =
 	{ "wallet", "offerwhitelist",		&offerwhitelist,	   false },
     { "wallet", "offerlist",            &offerlist,            false },
 	{ "wallet", "offeracceptlist",      &offeracceptlist,      false },
-	{ "wallet", "offeracceptinfo",      &offeracceptinfo,      false },
     { "wallet", "offerinfo",            &offerinfo,            false },
     { "wallet", "offerhistory",         &offerhistory,         false },
     { "wallet", "offerfilter",          &offerfilter,          false },
