@@ -120,7 +120,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					pcursor->Next();
 					continue;
 				}
-				const COffer &txPos = vtxPos.back();
+				COffer txPos = vtxPos.back();
   				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge)
 				{
 					pcursor->Next();
@@ -137,7 +137,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 						continue;
 					}
 					const COffer &linkOffer = myLinkedOfferVtxPos.back();
-
+					txPos.nQty = linkOffer.nQty;
 					if (!paliasdb->ReadAlias(linkOffer.vchAlias, myLinkedAliasVtxPos) || myLinkedAliasVtxPos.empty())
 					{
 						pcursor->Next();
@@ -145,12 +145,6 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					}
 
 					linkAlias = myLinkedAliasVtxPos.back();
-
-					if(linkOffer.nQty <= 0 && linkOffer.nQty != -1)
-					{
-						pcursor->Next();
-						continue;
-					}
 					if(linkOffer.safetyLevel >= SAFETY_LEVEL1 || linkAlias.safetyLevel >= SAFETY_LEVEL1)
 					{
 						if(safeSearch)
@@ -170,15 +164,11 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 						continue;
 					}	
 				}
-				else
-				{			
-
-					// dont return sold out offers
-					if(txPos.nQty <= 0 && txPos.nQty != -1)
-					{
-						pcursor->Next();
-						continue;
-					}
+				// dont return sold out offers
+				if(txPos.nQty <= 0 && txPos.nQty != -1)
+				{
+					pcursor->Next();
+					continue;
 				}
 				CAliasIndex theAlias;
 				CTransaction aliastx;
@@ -187,14 +177,14 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					pcursor->Next();
 					continue;
 				}
-				if(txPos.safetyLevel >= SAFETY_LEVEL1  || linkalias.safetyLevel >= SAFETY_LEVEL1)
+				if(txPos.safetyLevel >= SAFETY_LEVEL1  || linkAlias.safetyLevel >= SAFETY_LEVEL1)
 				{
 					if(safeSearch)
 					{
 						pcursor->Next();
 						continue;
 					}
-					if(txPos.safetyLevel >= SAFETY_LEVEL2 || linkalias.safetyLevel >= SAFETY_LEVEL2)
+					if(txPos.safetyLevel >= SAFETY_LEVEL2 || linkAlias.safetyLevel >= SAFETY_LEVEL2)
 					{
 						pcursor->Next();
 						continue;
@@ -3253,14 +3243,14 @@ UniValue offeracceptinfo(const UniValue& params, bool fHelp) {
 
 	if( !theOffer.vchLinkOffer.empty())
 	{
+		CAliasIndex linkAlias;
 		if(!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true))
 			throw runtime_error("failed to read linked offer transaction from disk");
-
-		if(!GetTxOfAlias(linkOffer.vchAlias, alias, linkAliasTx, true))
+		if(!GetTxOfAlias(linkOffer.vchAlias, linkAlias, linkAliasTx, true))
 			throw runtime_error("Could not find the alias associated with this linked offer");
 		if(linkOffer.safetyLevel >= SAFETY_LEVEL2)
 			throw runtime_error("root offer has been banned");
-		if(linkalias.safetyLevel >= SAFETY_LEVEL2)
+		if(linkAlias.safetyLevel >= SAFETY_LEVEL2)
 			throw runtime_error("root offer owner has been banned");
 	}
 
@@ -3702,8 +3692,6 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		oOffer.push_back(Pair("currency", stringFromVch(txOffer.sCurrencyCode)));
 		oOffer.push_back(Pair("commission", strprintf("%d", txOffer.nCommission)));
 		int nQty = txOffer.nQty;
-		if(!txOffer.vchLinkOffer.empty())
-			nQty = linkOffer.nQty;
 		if(nQty == -1)
 			oOffer.push_back(Pair("quantity", "unlimited"));
 		else
