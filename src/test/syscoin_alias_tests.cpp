@@ -630,7 +630,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	string aliasexpirepubkey = AliasNew("node1", "aliasexpire", "somedata");
 	AliasNew("node2", "aliasexpire1", "somedata");
 	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "somedata");
-	GenerateBlocks(45);
+	AliasNew("node2", "aliasexpirednode2", "somedata");
+	GenerateBlocks(35);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate aliasexpire newdata1 privdata"));
 	GenerateBlocks(5);
 	string offerguid = OfferNew("node1", "aliasexpire", "category", "title", "100", "0.01", "description", "USD");
@@ -683,16 +684,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node2", "offernew sysrates.peg aliasexpirenode2 category title 1 0.05 description USD nocert 0 1"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirenode2 aliasexpirenode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpirenode2"), runtime_error);
 	// should fail: send message from expired alias to non-expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirenode2 aliasexpire"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpire"), runtime_error);
 	// should fail: send message from non-expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew subject title aliasexpire aliasexpirenode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew subject title aliasexpire aliasexpirednode2"), runtime_error);
 
 	// should fail: new escrow with expired arbiter alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 message aliasexpirenode2"), runtime_error);
 	// should fail: new escrow with expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire"), runtime_error);
 
 	// keep alive for later calls
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate aliasexpire newdata1 privdata"));

@@ -1291,10 +1291,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Not enough quantity left in this offer for this purchase");
 					return true;
 				}
-				if (!linkOffer.IsNull())
-				{
-					nQty -= theOfferAccept.nQty;	
-				}
+				nQty -= theOfferAccept.nQty;
 			}
 			if (!linkOffer.IsNull())
 			{
