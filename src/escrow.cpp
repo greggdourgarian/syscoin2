@@ -556,7 +556,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 
 
     if (!fJustCheck ) {
-		if(theEscrow.op != OP_ESCROW_COMPLETE) 
+		if(op == OP_ESCROW_ACTIVATE) 
 		{
 			if(!GetTxOfAlias(theEscrow.vchBuyerAlias, alias, aliasTx))
 			{
@@ -586,7 +586,24 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Failed to read from escrow DB");
 				return true;
 			}
-			
+			if(serializedEscrow.op != OP_ESCROW_COMPLETE) 
+			{
+				if(!GetTxOfAlias(theEscrow.vchBuyerAlias, alias, aliasTx))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Cannot find buyer alias. It may be expired");
+					return true;
+				}
+				if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Cannot find seller alias. It may be expired");
+					return true;
+				}	
+				if(!GetTxOfAlias(theEscrow.vchArbiterAlias, alias, aliasTx))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find arbiter alias. It may be expired");
+					return true;
+				}
+			}			
 			// make sure we have found this escrow in db
 			if(!vtxPos.empty())
 			{
