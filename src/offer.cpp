@@ -1278,10 +1278,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				theOfferAccept.nQty = 1;
 			vector<COffer> myLinkVtxPos;
 			int nQty = theOffer.nQty;
-			COffer myLinkOffer = offerVtxPos.back();
 			// if this is a linked offer we must update the linked offer qty
-			if (!myLinkOffer.IsNull())
-				nQty = myLinkOffer.nQty;
+			if (!linkOffer.IsNull())
+			{
+				linkOffer = offerVtxPos.back();
+				nQty = linkOffer.nQty;
+			}
 			if(nQty != -1)
 			{
 				if(theOfferAccept.nQty > nQty)
@@ -1289,17 +1291,19 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Not enough quantity left in this offer for this purchase");
 					return true;
 				}
-				if (!myLinkOffer.IsNull())
+				if (!linkOffer.IsNull())
 				{
 					nQty -= theOfferAccept.nQty;	
 				}
 			}
-			if (!myLinkOffer.IsNull())
+			if (!linkOffer.IsNull())
 			{
-				myLinkOffer.nQty = nQty;
-				myLinkOffer.nSold++;
-				myLinkOffer.accept = theOfferAccept;
-				myLinkOffer.PutToOfferList(offerVtxPos);
+				linkOffer.nHeight = nHeight;
+				linkOffer.txHash = tx.GetHash();
+				linkOffer.nQty = nQty;
+				linkOffer.nSold++;
+				linkOffer.accept = theOfferAccept;
+				linkOffer.PutToOfferList(offerVtxPos);
 				if (!dontaddtodb && !pofferdb->WriteOffer(myPriceOffer.vchLinkOffer, offerVtxPos))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
