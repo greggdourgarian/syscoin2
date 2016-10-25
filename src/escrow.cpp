@@ -384,7 +384,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 		}
 	}
 
-	vector<COffer> myVtxPos;
+	vector<COffer> myVtxPos,myLinkVtxPos;
 	CAliasIndex alias;
 	CTransaction aliasTx;
     COffer theOffer;
@@ -648,6 +648,44 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4051 - " + _("Only buyer can claim an escrow refund");
 						serializedEscrow = theEscrow;
 					}
+					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
+					{
+						int nQty = dbOffer.nQty;
+						COffer myLinkOffer;
+						// if this is a linked offer we must update the linked offer qty
+						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
+							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
+							{
+								myLinkOffer = myLinkVtxPos.back();
+								nQty = myLinkOffer.nQty;
+							}
+						}
+						if(nQty != -1)
+						{
+
+							nQty += theEscrow.nQty;
+							if (!myLinkOffer.IsNull())
+							{
+								myLinkOffer.nQty = nQty;
+								myLinkOffer.PutToOfferList(myLinkVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
+									return true;
+								}							
+							}
+							else
+							{
+								dbOffer.nQty = nQty;
+								dbOffer.PutToOfferList(myVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
+									return true;
+								}
+							}
+						}
+					}
 				}
 				else if(op == OP_ESCROW_RELEASE && vvchArgs[1] == vchFromString("0"))
 				{
@@ -696,6 +734,49 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4056 - " + _("Only seller can claim an escrow release");
 						serializedEscrow = theEscrow;
+					}
+
+					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
+					{
+						int nQty = dbOffer.nQty;
+						COffer myLinkOffer;
+						// if this is a linked offer we must update the linked offer qty
+						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
+							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
+							{
+								myLinkOffer = myLinkVtxPos.back();
+								nQty = myLinkOffer.nQty;
+							}
+						}
+						if(nQty != -1)
+						{
+
+							nQty -= theEscrow.nQty;
+							if(nQty < = 0)
+								nQty = 0;
+							if (!myLinkOffer.IsNull())
+							{
+								myLinkOffer.nQty = nQty;
+								myLinkOffer.nSold++;
+								myLinkOffer.PutToOfferList(myLinkVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
+									return true;
+								}							
+							}
+							else
+							{
+								dbOffer.nQty = nQty;
+								dbOffer.nSold++;
+								dbOffer.PutToOfferList(myVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
+									return true;
+								}
+							}
+						}
 					}
 				}
 				else if(op == OP_ESCROW_COMPLETE)
@@ -801,13 +882,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4068 - " + _("Escrow already exists");
 				return true;
 			}
-			vector<COffer> myVtxPos, myLinkVtxPos;
 			if(theEscrow.nQty <= 0)
 				theEscrow.nQty = 1;
 			// make sure offer is still valid and then refund qty
 			if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
 			{
-				vector<COffer> myLinkVtxPos;
 				int nQty = dbOffer.nQty;
 				COffer myLinkOffer;
 				if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
