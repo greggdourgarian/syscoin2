@@ -34,6 +34,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="refreshButton">
+       <property name="toolTip">
+        <string>Refresh message list</string>
+       </property>
+       <property name="text">
+        <string>&amp;Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="newMessage">
        <property name="maximumSize">
         <size>
@@ -66,16 +76,6 @@
        </property>
        <property name="text">
         <string>Details</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="refreshButton">
-       <property name="toolTip">
-        <string>Refresh message list</string>
-       </property>
-       <property name="text">
-        <string>&amp;Refresh</string>
        </property>
       </widget>
      </item>

@@ -77,7 +77,6 @@ bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid
 				reselleralias = QString::fromStdString(find_value(result.get_obj(), "offerlink_seller").get_str());
 				resellerguid = QString::fromStdString(find_value(result.get_obj(), "offerlink_guid").get_str());
 			}
-			return true;
 		}
 		 
 
@@ -113,7 +112,7 @@ bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid
 				currency = QString::fromStdString(find_value(acceptObj, "currency").get_str());
 				total = QString::fromStdString(find_value(acceptObj, "total").get_str());
 				systotal = QString::number(ValueFromAmount(find_value(acceptObj.get_obj(), "systotal").get_int64()).get_real());
-				break;
+				return true;
 			}
 		}
 		 
