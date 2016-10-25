@@ -752,7 +752,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						{
 
 							nQty -= theEscrow.nQty;
-							if(nQty < = 0)
+							if(nQty <= 0)
 								nQty = 0;
 							if (!myLinkOffer.IsNull())
 							{
