@@ -2755,7 +2755,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	
 	offer.ClearOffer();
 	offer.accept = theOfferAccept;
-	offer.vchAlias = vchLinkAlias;
+	offer.accept.vchBuyerAlias = vchLinkAlias;
 	offer.nHeight = chainActive.Tip()->nHeight;
 	// buyer
 	if(foundBuyerKey)
