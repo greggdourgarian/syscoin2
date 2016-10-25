@@ -951,6 +951,9 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));
 	string selleralias = find_value(r.get_obj(), "alias").get_str();
+	string reselleralias = find_value(r.get_obj(), "offerlink_seller").get_str();
+	if(reselleralias != "")
+		selleralias = reselleralias;
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
@@ -973,7 +976,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	int lMarkup = 100 - discount;
 	nTotal = (nTotal*lMarkup) / 100;
 
-	BOOST_CHECK(find_value(acceptSellerValue, "pay_message").get_str() == pay_message);
+	BOOST_CHECK_EQUAL(find_value(acceptSellerValue, "pay_message").get_str(), pay_message);
 	
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));

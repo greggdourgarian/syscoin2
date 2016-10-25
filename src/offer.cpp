@@ -2435,11 +2435,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1541 - " + _("Could not encrypt message to seller"));
 	}
 	
-	vector<unsigned char> vchPaymentMessage;
-	if(strCipherText.size() > 0)
-		vchPaymentMessage = vchFromString(strCipherText);
-	else
-		vchPaymentMessage = vchMessage;
+	vector<unsigned char> vchPaymentMessage = vchFromString(strCipherText);
+
 	COfferAccept txAccept;
 	txAccept.vchAcceptRand = vchAccept;
 	txAccept.nQty = nQty;
