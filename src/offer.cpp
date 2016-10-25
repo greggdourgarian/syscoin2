@@ -1028,7 +1028,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				// if feedback is for buyer then we need to ensure attached input alias was from seller
 				if(theOfferAccept.feedback[0].nFeedbackUserFrom == FEEDBACKBUYER)
 				{
-					if(serializedOffer.vchAlias != offerAccept.vchBuyerAlias)
+					if(serializedOffer.vchBuyerAlias != offerAccept.vchBuyerAlias)
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1082 - " + _("Only seller can leaver the buyer feedback");
 						return true;
@@ -1036,7 +1036,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				else if(theOfferAccept.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER)
 				{
-					if(serializedOffer.vchAlias != acceptOffer.vchAlias)
+					if(serializedOffer.vchBuyerAlias != acceptOffer.vchAlias)
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1083 - " + _("Only buyer can leave the seller feedback");
 						return true;
