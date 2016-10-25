@@ -1218,7 +1218,7 @@ const UniValue FindOfferAcceptList(const string& node, const string& alias, cons
 const UniValue FindOfferAcceptFeedback(const string& node, const string &alias, const string& offerguid, const string& acceptguid,const string& accepttxid, bool nocheck)
 {
 	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias + " " + acceptguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)

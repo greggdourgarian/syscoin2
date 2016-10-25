@@ -2990,8 +2990,8 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("offeracceptlist <alias> [<acceptguid>]\n"
-                "list offer purchases that an alias owns");
+        throw runtime_error("offeracceptlist <alias> [acceptguid='']\n"
+                "list offer purchases that an alias owns.");
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	string name = stringFromVch(vchAlias);
 	vector<CAliasIndex> vtxPos;
@@ -3005,7 +3005,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		throw runtime_error("failed to read alias transaction");
 	}
     vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
+    if (params.size() >= 2)
         vchNameUniq = vchFromValue(params[1]);
 
     UniValue oRes(UniValue::VARR);
@@ -3031,8 +3031,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			continue;
 		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 			continue;
-		// get last active name only
-		if (vNamesI.find(vvch[0]) != vNamesI.end() && (offerTmp.nHeight <= vNamesI[vvch[0]] || vNamesI[vvch[0]] < 0))
+		// get unique offers
+		if (vNamesI.find(vvch[0]) != vNamesI.end())
 			continue;
 		vNamesI[vvch[0]] = offerTmp.nHeight;
 		int expired = 0;
@@ -3049,9 +3049,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				continue;
 			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch) 
         		|| (op != OP_OFFER_ACCEPT))
-				continue;
-			// dont show feedback outputs as accepts
-			if(vvch[2] == vchFromString("1"))
 				continue;
 
 			int nHeight = theOffer.accept.nAcceptHeight;	
