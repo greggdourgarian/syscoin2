@@ -2544,9 +2544,19 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
             // decode txn, skip non-alias txns
             vector<vector<unsigned char> > vvch;
             int op, nOut;
-            if (!DecodeAliasTx(tx, op, nOut, vvch) 
-            	|| !IsAliasOp(op) )
-                continue;
+			string opName;
+			if(DecodeOfferTx(tx, op, nOut, vvch) )
+				opName = offerFromOp(op);
+			else if(DecodeMessageTx(tx, op, nOut, vvch) )
+				opName = messageFromOp(op);
+			else if(DecodeEscrowTx(tx, op, nOut, vvch) )
+				opName = escrowFromOp(op);
+			else if(DecodeCertTx(tx, op, nOut, vvch) )
+				opName = certFromOp(op);
+            else if (DecodeAliasTx(tx, op, nOut, vvch) )
+				opName = aliasFromOp(op);
+			else
+				continue;
 			int expired = 0;
 			int expires_in = 0;
 			int expired_block = 0;
@@ -2554,59 +2564,61 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			uint64_t nHeight;
 			nHeight = txPos2.nHeight;
 			oName.push_back(Pair("name", name));
-			string opName = aliasFromOp(op);
-			oName.push_back(Pair("aliastype", opName));
-			oName.push_back(Pair("value", stringFromVch(txPos2.vchPublicValue)));
-			string strPrivateValue = "";
-			if(!txPos2.vchPrivateValue.empty())
-				strPrivateValue = _("Encrypted for alias owner");
-			string strDecrypted = "";
-			if(DecryptMessage(txPos2.vchPubKey, txPos2.vchPrivateValue, strDecrypted))
-				strPrivateValue = strDecrypted;		
-			oName.push_back(Pair("privatevalue", strPrivateValue));
-
-
-			oName.push_back(Pair("txid", tx.GetHash().GetHex()));
-			CSyscoinAddress address;
-			txPos2.GetAddress(&address);
-			oName.push_back(Pair("address", address.ToString()));
-            oName.push_back(Pair("lastupdate_height", nHeight));
-			float ratingAsBuyer = 0;
-			if(txPos2.nRatingCountAsBuyer > 0)
-				ratingAsBuyer = roundf(txPos2.nRatingAsBuyer/(float)txPos2.nRatingCountAsBuyer);
-			float ratingAsSeller = 0;
-			if(txPos2.nRatingCountAsSeller > 0)
-				ratingAsSeller = roundf(txPos2.nRatingAsSeller/(float)txPos2.nRatingCountAsSeller);
-			float ratingAsArbiter = 0;
-			if(txPos2.nRatingCountAsArbiter > 0)
-				ratingAsArbiter = roundf(txPos2.nRatingAsArbiter/(float)txPos2.nRatingCountAsArbiter);
-			oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
-			oName.push_back(Pair("buyer_ratingcount", (int)txPos2.nRatingCountAsBuyer));
-			oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
-			oName.push_back(Pair("seller_ratingcount", (int)txPos2.nRatingCountAsSeller));
-			oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
-			oName.push_back(Pair("arbiter_ratingcount", (int)txPos2.nRatingCountAsArbiter));
-			expired_block = nHeight + (txPos2.nRenewal*GetAliasExpirationDepth()) ;
-			if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
+			oName.push_back(Pair("type", opName));
+			if(IsAliasOp(op))
 			{
-				if(expired_block < chainActive.Tip()->nHeight)
+				oName.push_back(Pair("value", stringFromVch(txPos2.vchPublicValue)));
+				string strPrivateValue = "";
+				if(!txPos2.vchPrivateValue.empty())
+					strPrivateValue = _("Encrypted for alias owner");
+				string strDecrypted = "";
+				if(DecryptMessage(txPos2.vchPubKey, txPos2.vchPrivateValue, strDecrypted))
+					strPrivateValue = strDecrypted;		
+				oName.push_back(Pair("privatevalue", strPrivateValue));
+
+
+				oName.push_back(Pair("txid", tx.GetHash().GetHex()));
+				CSyscoinAddress address;
+				txPos2.GetAddress(&address);
+				oName.push_back(Pair("address", address.ToString()));
+				oName.push_back(Pair("lastupdate_height", nHeight));
+				float ratingAsBuyer = 0;
+				if(txPos2.nRatingCountAsBuyer > 0)
+					ratingAsBuyer = roundf(txPos2.nRatingAsBuyer/(float)txPos2.nRatingCountAsBuyer);
+				float ratingAsSeller = 0;
+				if(txPos2.nRatingCountAsSeller > 0)
+					ratingAsSeller = roundf(txPos2.nRatingAsSeller/(float)txPos2.nRatingCountAsSeller);
+				float ratingAsArbiter = 0;
+				if(txPos2.nRatingCountAsArbiter > 0)
+					ratingAsArbiter = roundf(txPos2.nRatingAsArbiter/(float)txPos2.nRatingCountAsArbiter);
+				oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
+				oName.push_back(Pair("buyer_ratingcount", (int)txPos2.nRatingCountAsBuyer));
+				oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
+				oName.push_back(Pair("seller_ratingcount", (int)txPos2.nRatingCountAsSeller));
+				oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
+				oName.push_back(Pair("arbiter_ratingcount", (int)txPos2.nRatingCountAsArbiter));
+				expired_block = nHeight + (txPos2.nRenewal*GetAliasExpirationDepth()) ;
+				if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 				{
-					expired = 1;
-				} 
+					if(expired_block < chainActive.Tip()->nHeight)
+					{
+						expired = 1;
+					} 
+				}
+				expires_in = expired_block - chainActive.Tip()->nHeight;
+				oName.push_back(Pair("expires_in", expires_in));
+				oName.push_back(Pair("expires_on", expired_block));
+				oName.push_back(Pair("expired", expired));
+				UniValue msInfo(UniValue::VOBJ);
+				msInfo.push_back(Pair("reqsigs", (int)txPos2.multiSigInfo.nRequiredSigs));
+				UniValue msAliases(UniValue::VARR);
+				for(int i =0;i<txPos2.multiSigInfo.vchAliases.size();i++)
+				{
+					msAliases.push_back(txPos2.multiSigInfo.vchAliases[i]);
+				}
+				msInfo.push_back(Pair("reqsigners", msAliases));
+				oName.push_back(Pair("multisiginfo", msInfo));
 			}
-			expires_in = expired_block - chainActive.Tip()->nHeight;
-			oName.push_back(Pair("expires_in", expires_in));
-			oName.push_back(Pair("expires_on", expired_block));
-			oName.push_back(Pair("expired", expired));
-			UniValue msInfo(UniValue::VOBJ);
-			msInfo.push_back(Pair("reqsigs", (int)txPos2.multiSigInfo.nRequiredSigs));
-			UniValue msAliases(UniValue::VARR);
-			for(int i =0;i<txPos2.multiSigInfo.vchAliases.size();i++)
-			{
-				msAliases.push_back(txPos2.multiSigInfo.vchAliases[i]);
-			}
-			msInfo.push_back(Pair("reqsigners", msAliases));
-			oName.push_back(Pair("multisiginfo", msInfo));
 			oRes.push_back(oName);
 		}
 	}
