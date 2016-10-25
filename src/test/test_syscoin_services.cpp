@@ -1132,7 +1132,6 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	UniValue r;
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
-	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
@@ -1147,7 +1146,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// claim doesn't touch qty
-	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore+nQty);
+	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore);
 }
 void OfferAddWhitelist(const string& node,const string& offerguid, const string& aliasname, const string& discount)
 {
@@ -1219,7 +1218,7 @@ const UniValue FindOfferAcceptList(const string& node, const string& alias, cons
 const UniValue FindOfferAcceptFeedback(const string& node, const string &alias, const string& offerguid, const string& acceptguid,const string& accepttxid, bool nocheck)
 {
 	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias + " " + offerguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias + " " + acceptguid));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)
