@@ -55,6 +55,22 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="refreshButton">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Refresh alias list</string>
+       </property>
+       <property name="text">
+        <string>&amp;Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="newAlias">
        <property name="toolTip">
         <string>Create a new alias</string>
@@ -91,22 +107,6 @@
        </property>
        <property name="text">
         <string>Transfer</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="refreshButton">
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>48</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Refresh alias list</string>
-       </property>
-       <property name="text">
-        <string>&amp;Refresh</string>
        </property>
       </widget>
      </item>

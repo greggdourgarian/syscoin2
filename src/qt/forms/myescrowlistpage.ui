@@ -65,6 +65,22 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <widget class="QPushButton" name="refreshButton">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>48</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Refresh your list of escrows</string>
+       </property>
+       <property name="text">
+        <string>&amp;Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="copyEscrow">
        <property name="toolTip">
         <string>Copy the currently selected escrow to the system clipboard</string>
@@ -124,22 +140,6 @@
        </property>
        <property name="text">
         <string>Send Msg To Arbiter</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="refreshButton">
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>48</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Refresh your list of escrows</string>
-       </property>
-       <property name="text">
-        <string>&amp;Refresh</string>
        </property>
       </widget>
      </item>

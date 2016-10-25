@@ -143,7 +143,7 @@ public:
 							seller_str = seller_value.get_str();
 
 						if((buyer_str == alias_str && type == Accept) || (seller_str == alias_str && type == MyAccept))
-							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(alias_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
+							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(seller_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
 					}
 				}
 			}
