@@ -800,7 +800,7 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "false");
 }
 
-void OfferAcceptFeedback(const string& node, const string& offerguid, const string& acceptguid, const string& feedback, const string& rating, const char& user, const bool israting) {
+void OfferAcceptFeedback(const string& node, const string &alias, const string& offerguid, const string& acceptguid, const string& feedback, const string& rating, const char& user, const bool israting) {
 
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -825,19 +825,19 @@ void OfferAcceptFeedback(const string& node, const string& offerguid, const stri
 
 	GenerateBlocks(10, node);
 	string ratingstr = (israting? rating: "0");
-	r = FindOfferAcceptFeedback(node, offerguid, acceptguid, acceptTxid);
+	r = FindOfferAcceptFeedback(node, alias, offerguid, acceptguid, acceptTxid);
 	BOOST_CHECK(find_value(r.get_obj(), "txid").get_str() == acceptTxid);
 	BOOST_CHECK(find_value(r.get_obj(), "rating").get_int() == atoi(ratingstr.c_str()));
 	BOOST_CHECK(find_value(r.get_obj(), "feedback").get_str() == feedback);
 	BOOST_CHECK(find_value(r.get_obj(), "feedbackuser").get_int() == user);
 	
-	r = FindOfferAcceptFeedback(otherNode1, offerguid, acceptguid, acceptTxid);
+	r = FindOfferAcceptFeedback(otherNode1, alias, offerguid, acceptguid, acceptTxid);
 	BOOST_CHECK(find_value(r.get_obj(), "txid").get_str() == acceptTxid);
 	BOOST_CHECK(find_value(r.get_obj(), "rating").get_int() == atoi(ratingstr.c_str()));
 	BOOST_CHECK(find_value(r.get_obj(), "feedback").get_str() == feedback);
 	BOOST_CHECK(find_value(r.get_obj(), "feedbackuser").get_int() == user);
 	
-	r = FindOfferAcceptFeedback(otherNode2, offerguid, acceptguid, acceptTxid);
+	r = FindOfferAcceptFeedback(otherNode2, alias, offerguid, acceptguid, acceptTxid);
 	BOOST_CHECK(find_value(r.get_obj(), "txid").get_str() == acceptTxid);
 	BOOST_CHECK(find_value(r.get_obj(), "rating").get_int() == atoi(ratingstr.c_str()));
 	BOOST_CHECK(find_value(r.get_obj(), "feedback").get_str() == feedback);
@@ -1216,10 +1216,10 @@ const UniValue FindOfferAcceptList(const string& node, const string& alias, cons
 		BOOST_CHECK(!ret.isNull());
 	return ret;
 }
-const UniValue FindOfferAcceptFeedback(const string& node, const string& offerguid, const string& acceptguid,const string& accepttxid, bool nocheck)
+const UniValue FindOfferAcceptFeedback(const string& node, const string &alias, const string& offerguid, const string& acceptguid,const string& accepttxid, bool nocheck)
 {
 	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptinfo " + offerguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias + " " + offerguid));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)
