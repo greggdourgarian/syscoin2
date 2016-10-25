@@ -1132,6 +1132,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	UniValue r;
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
+	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
@@ -1146,7 +1147,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// claim doesn't touch qty
-	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore);
+	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore-nQty);
 }
 void OfferAddWhitelist(const string& node,const string& offerguid, const string& aliasname, const string& discount)
 {
@@ -1273,6 +1274,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	UniValue r;
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
+	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
@@ -1287,7 +1289,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// release doesn't alter qty
-	BOOST_CHECK_EQUAL(nQtyOfferBefore, nQtyOfferAfter);
+	BOOST_CHECK_EQUAL(nQtyOfferBefore-nQty, nQtyOfferAfter);
 	
 }
 BasicSyscoinTestingSetup::BasicSyscoinTestingSetup()
