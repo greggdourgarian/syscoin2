@@ -400,7 +400,7 @@ BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 	string offerguid = OfferNew("node1", "node1aliaslinked", "category", "title", "10", "0.05", "description", "USD", "nocert", false);
 	string lofferguid = OfferLink("node2", "node2aliaslinked", offerguid, "3", "newdescription");
 
-	OfferAccept("node1", "node3", "node3aliaslinked", lofferguid, "6", "message", "node2");
+	LinkOfferAccept("node1", "node3", "node3aliaslinked", lofferguid, "6", "message", "node2");
 }
 BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 {
@@ -426,7 +426,7 @@ BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 	AliasUpdate("node1", "node1alias", "changeddata2", "privdata2");
 	AliasUpdate("node2", "node2alias", "changeddata2", "privdata2");
 	AliasUpdate("node3", "node3alias", "changeddata3", "privdata3");
-	OfferAccept("node1", "node3", "node3alias", lofferguid, "1", "message", "node2");
+	LinkOfferAccept("node1", "node3", "node3alias", lofferguid, "1", "message", "node2");
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node3");
 	// cert does not get transferred, need to do it manually after the sale
