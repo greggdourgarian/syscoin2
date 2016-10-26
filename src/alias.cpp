@@ -1587,6 +1587,11 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 
 	CPubKey aliasPubKey(theAlias.vchPubKey);
 	CCrypter crypt;
+	strAlias = stringFromVch(vchAlias);
+	if(strAlias.size() < WALLET_CRYPTO_IV_SIZE)
+		strAlias = strAlias + string(WALLET_CRYPTO_IV_SIZE - strAlias.size(), '0');
+	else if(strAlias.size() > WALLET_CRYPTO_IV_SIZE)
+		strAlias = strAlias.substr(8);
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 1, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
@@ -1689,7 +1694,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
 
 	CCrypter crypt;
-    if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 25000, 0))
+	strAlias = stringFromVch(vchAlias);
+	if(strAlias.size() < WALLET_CRYPTO_IV_SIZE)
+		strAlias = strAlias + string(WALLET_CRYPTO_IV_SIZE - strAlias.size(), '0');
+	else if(strAlias.size() > WALLET_CRYPTO_IV_SIZE)
+		strAlias = strAlias.substr(8);
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchFromString(strAlias), 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 	CKey key;
 	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
