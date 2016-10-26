@@ -1587,7 +1587,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 
 	CPubKey aliasPubKey(theAlias.vchPubKey);
 	CCrypter crypt;
-	string strAlias = stringFromVch(vchAlias);
+	string strAlias = HexStr(vchAlias);
 	if(strAlias.size() < WALLET_CRYPTO_IV_SIZE)
 		strAlias = strAlias + string(WALLET_CRYPTO_IV_SIZE - strAlias.size(), '0');
 	else if(strAlias.size() > WALLET_CRYPTO_IV_SIZE)
@@ -1694,7 +1694,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
 
 	CCrypter crypt;
-	string strAlias = stringFromVch(vchAlias);
+	string strAlias = HexStr(vchAlias);
 	if(strAlias.size() < WALLET_CRYPTO_IV_SIZE)
 		strAlias = strAlias + string(WALLET_CRYPTO_IV_SIZE - strAlias.size(), '0');
 	else if(strAlias.size() > WALLET_CRYPTO_IV_SIZE)
