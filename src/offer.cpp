@@ -485,19 +485,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		return true;
 	}
 	if(fJustCheck)
-	{
-		if(!vchData.empty())
-		{
-			CRecipient fee;
-			CScript scriptData;
-			scriptData << vchData;
-			CreateFeeRecipient(scriptData, vchData, fee);
-			if (fee.nAmount > tx.vout[nDataOut].nValue) 
-			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1002 - " + _("Transaction does not pay enough fees");
-				return error(errorMessage.c_str());
-			}
-		}		
+	{		
 		if(op != OP_OFFER_ACCEPT && vvchArgs.size() != 2)
 		{
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1003 - " + _("Offer arguments incorrect size");
