@@ -1415,9 +1415,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				theOffer.nQty = linkOffer.nQty;	
 				theOffer.vchCert = linkOffer.vchCert;
 				theOffer.vchAliasPeg = linkOffer.vchAliasPeg;
-				if(linkOffer.paymentOptions == PAYMENTOPTION_BTC)
-					theOffer.paymentOptions = linkOffer.paymentOptions;
-				
+				theOffer.paymentOptions = linkOffer.paymentOptions;				
 				theOffer.SetPrice(linkOffer.nPrice);					
 			}
 		}
@@ -3027,8 +3025,11 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	safetyLevel = max(safetyLevel, linkOffer.safetyLevel );
 	safetyLevel = max(safetyLevel, linkAlias.safetyLevel );
 	oOffer.push_back(Pair("safetylevel", safetyLevel));
-	oOffer.push_back(Pair("paymentoptions", (int)theOffer.paymentOptions));
-	oOffer.push_back(Pair("paymentoptions_display", theOffer.GetPaymentOptionsString()));
+	int paymentOptions = theOffer.paymentOptions;
+	if(!theOffer.vchLinkOffer.empty())
+		paymentOptions = linkOffer.paymentOptions;
+	oOffer.push_back(Pair("paymentoptions", paymentOptions));
+	oOffer.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
 	oOffer.push_back(Pair("alias_peg", stringFromVch(theOffer.vchAliasPeg)));
 	oOffer.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 	oOffer.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
@@ -3363,10 +3364,14 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				oName.push_back(Pair("quantity", "unlimited"));
 			else
 				oName.push_back(Pair("quantity", strprintf("%d", nQty)));
-				
+			int paymentOptions = theOffer.paymentOptions;
+			if(!theOffer.vchLinkOffer.empty())
+				paymentOptions = linkOffer.paymentOptions;
+			oName.push_back(Pair("paymentoptions", paymentOptions));
+			oName.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
 			oName.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
-			oName.push_back(Pair("paymentoptions", (int)theOffer.paymentOptions));
-			oName.push_back(Pair("paymentoptions_display", theOffer.GetPaymentOptionsString()));
+			
+			
 			oName.push_back(Pair("alias_peg", stringFromVch(theOffer.vchAliasPeg)));
 			oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
 			bool safeSearch = theOffer.safeSearch || alias.safeSearch || linkOffer.safeSearch || linkAlias.safeSearch;
@@ -3573,8 +3578,6 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		else
 			oOffer.push_back(Pair("quantity", strprintf("%d", nQty)));
 		oOffer.push_back(Pair("exclusive_resell", txOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
-		oOffer.push_back(Pair("paymentoptions", (int)txOffer.paymentOptions));
-		oOffer.push_back(Pair("paymentoptions_display", txOffer.GetPaymentOptionsString()));
 		oOffer.push_back(Pair("alias_peg", stringFromVch(txOffer.vchAliasPeg)));
 		oOffer.push_back(Pair("offers_sold", (int)txOffer.nSold));
 		expired_block = nHeight + GetOfferExpirationDepth();  
@@ -3611,7 +3614,7 @@ bool GetAcceptByHash(std::vector<COffer> &offerList, COfferAccept &ca, COffer &o
     }
 	return false;
 }
-std::string COffer::GetPaymentOptionsString() const
+std::string GetPaymentOptionsString(unsigned int paymentOptions)
 {
 	vector<std::string> currencies;
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_SYS)) {

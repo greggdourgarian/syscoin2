@@ -327,7 +327,6 @@ public:
         *this = myOffer;
         return true;
     }
-	std::string GetPaymentOptionsString() const;
     inline friend bool operator==(const COffer &a, const COffer &b) {
         return (
          a.sCategory==b.sCategory
@@ -434,4 +433,5 @@ bool GetTxOfOfferAccept(const std::vector<unsigned char> &vchOffer, const std::v
 bool GetTxOfOffer(const std::vector<unsigned char> &vchOffer, COffer& txPos, CTransaction& tx, bool skipExpiresCheck=false);
 bool GetTxAndVtxOfOffer(const std::vector<unsigned char> &vchOffer, 
 				  COffer& txPos, CTransaction& tx, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
+std::string GetPaymentOptionsString(unsigned int paymentOptions);
 #endif // OFFER_H

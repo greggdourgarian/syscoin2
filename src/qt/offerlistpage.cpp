@@ -532,9 +532,6 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 			const UniValue& aliasRatingCount_value = find_value(o, "alias_rating_count");
 			if (aliasRatingCount_value.type() == UniValue::VNUM)
 				aliasRatingCount = aliasRatingCount_value.get_int();
-			const UniValue& paymentoptions_value = find_value(o, "paymentoptions_display");
-			if (paymentoptions_value.type() == UniValue::VSTR)
-				paymentoptions_str = paymentoptions_value.get_str();
 			const UniValue& alias_peg_value = find_value(o, "alias_peg");
 			if (alias_peg_value.type() == UniValue::VSTR)
 				alias_peg_str = alias_peg_value.get_str();
