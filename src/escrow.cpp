@@ -563,15 +563,43 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Cannot find buyer alias. It may be expired");
 				return true;
 			}
-			if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
+			CSyscoinAddress sellerAlias;
+			vector<CAliasIndex> vtxSellerPos;
+			if(!GetTxAndVtxOfAlias(theEscrow.vchSellerAlias, sellerAlias, aliasTx, vtxSellerPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Cannot find seller alias. It may be expired");
 				return true;
 			}	
-			if(!GetTxOfAlias(theEscrow.vchArbiterAlias, alias, aliasTx))
+			sellerAlias.nHeight = nHeight;
+			sellerAlias.txHash = tx.GetHash();
+			PutToAliasList(vtxSellerPos, sellerAlias);
+			CPubKey PubKey(sellerAlias.vchPubKey);
+			CSyscoinAddress sellerAddress(PubKey.GetID());
+			CSyscoinAddress multisigSellerddress;
+			sellerAlias.GetAddress(&multisigSellerddress);
+			if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, vchFromString(sellerAddress.ToString()), vchFromString(multisigSellerddress.ToString()), vtxPos))
+			{
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write seller alias to DB");
+				return error(errorMessage.c_str());
+			}
+			CSyscoinAddress arbiterAlias;
+			vector<CAliasIndex> vtxArbiterPos;
+			if(!GetTxAndVtxOfAlias(theEscrow.vchArbiterAlias, arbiterAlias, aliasTx, vtxArbiterPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find arbiter alias. It may be expired");
 				return true;
+			}
+			arbiterAlias.nHeight = nHeight;
+			arbiterAlias.txHash = tx.GetHash();
+			PutToAliasList(vtxArbiterPos, arbiterAlias);
+			CPubKey PubKey(arbiterAlias.vchPubKey);
+			CSyscoinAddress arbiterAddress(PubKey.GetID());
+			CSyscoinAddress multisigArbiterAddress;
+			arbiterAlias.GetAddress(&multisigArbiterAddress);
+			if (!dontaddtodb && !paliasdb->WriteAlias(theEscrow.vchArbiterAlias, vchFromString(arbiterAddress.ToString()), vchFromString(multisigArbiterAddress.ToString()), vtxPos))
+			{
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write arbiter alias to DB");
+				return error(errorMessage.c_str());
 			}
 		}
 		vector<CEscrow> vtxPos;
@@ -3194,8 +3222,8 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 
 UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("escrowlist <buyeralias> [<escrow>]\n"
-                "list escrows a buyer has made");
+        throw runtime_error("escrowlist <alias> [<escrow>]\n"
+                "list escrows that an alias owns");
 	vector<unsigned char> vchEscrow;
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	string name = stringFromVch(vchAlias);
