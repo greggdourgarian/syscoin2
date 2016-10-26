@@ -212,7 +212,7 @@ bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QStri
 	string name_str;
 	try {
 		result = tableRPC.execute(strMethod, params);
-		if (result.type() == UniValue::COBJ)
+		if (result.type() == UniValue::VOBJ)
 		{
 			const UniValue& o = result.get_obj();
 	
