@@ -3194,8 +3194,8 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 
 UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("escrowlist <alias> [<escrow>]\n"
-                "list escrows that an alias owns");
+        throw runtime_error("escrowlist <buyeralias> [<escrow>]\n"
+                "list escrows a buyer has made");
 	vector<unsigned char> vchEscrow;
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	string name = stringFromVch(vchAlias);
