@@ -2814,10 +2814,10 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	}
 	
 	
-	offer.ClearOffer();
-	offer.accept = theOfferAccept;
-	offer.accept.vchBuyerAlias = vchLinkAlias;
-	offer.nHeight = chainActive.Tip()->nHeight;
+	theOffer.ClearOffer();
+	theOffer.accept = theOfferAccept;
+	theOffer.accept.vchBuyerAlias = vchLinkAlias;
+	theOffer.nHeight = chainActive.Tip()->nHeight;
 	// buyer
 	if(foundBuyerKey)
 	{
@@ -2825,8 +2825,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		sellerFeedback.vchFeedback = vchFeedback;
 		sellerFeedback.nRating = nRating;
 		sellerFeedback.nHeight = chainActive.Tip()->nHeight;
-		offer.accept.feedback.clear();
-		offer.accept.feedback.push_back(sellerFeedback);
+		theOffer.accept.feedback.clear();
+		theOffer.accept.feedback.push_back(sellerFeedback);
 		wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1550 - " + _("Buyer alias is not in your wallet"));
@@ -2845,8 +2845,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		buyerFeedback.vchFeedback = vchFeedback;
 		buyerFeedback.nRating = nRating;
 		buyerFeedback.nHeight = chainActive.Tip()->nHeight;
-		offer.accept.feedback.clear();
-		offer.accept.feedback.push_back(buyerFeedback);
+		theOffer.accept.feedback.clear();
+		theOffer.accept.feedback.push_back(buyerFeedback);
 		wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1551 - " + _("Seller alias is not in your wallet"));
@@ -2864,7 +2864,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1552 - " + _("You must be either the buyer or seller to leave feedback on this offer purchase"));
 	}
 
-	const vector<unsigned char> &data = offer.Serialize();
+	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
  	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
     vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
