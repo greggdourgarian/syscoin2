@@ -37,7 +37,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	ui->secondaryFeedback->setVisible(false);
 	ui->btcButton->setVisible(false);
 	ui->btcButton->setEnabled(false);
-	if(!loadEscrow(escrow, m_buyer, seller, arbiter, status, offertitle, total, m_btctxid, m_redeemTxId))
+	if(!loadEscrow(escrow, buyer, seller, arbiter, status, offertitle, total, m_btctxid, m_redeemTxId))
 	{
 		ui->manageInfo2->setText(tr("Cannot find this escrow on the network, please try again later."));
 		ui->releaseButton->setEnabled(false);
@@ -45,8 +45,8 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		return;
 	}
 
-	escrowRoleType = findYourEscrowRoleFromAliases(m_buyer, seller, arbiter);
-	ui->manageInfo->setText(tr("You are managing escrow ID: <b>%1</b> of an offer for <b>%2</b> totalling <b>%3</b>. The buyer is <b>%4</b>, merchant is <b>%5</b> and arbiter is <b>%6</b>").arg(escrow).arg(offertitle).arg(total).arg(m_buyer).arg(seller).arg(arbiter));
+	escrowRoleType = findYourEscrowRoleFromAliases(buyer, seller, arbiter);
+	ui->manageInfo->setText(tr("You are managing escrow ID: <b>%1</b> of an offer for <b>%2</b> totalling <b>%3</b>. The buyer is <b>%4</b>, merchant is <b>%5</b> and arbiter is <b>%6</b>").arg(escrow).arg(offertitle).arg(total).arg(buyer).arg(seller).arg(arbiter));
 	if(escrowRoleType == None)
 	{
 		ui->manageInfo2->setText(tr("You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases."));
