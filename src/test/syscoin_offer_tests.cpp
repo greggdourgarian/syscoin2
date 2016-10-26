@@ -93,9 +93,7 @@ BOOST_AUTO_TEST_CASE (generate_certoffernew)
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew sysrates.peg node1alias category title 1 0.05 description USD " + certguid1a), runtime_error);
 
 	// should fail: generate a cert offer with invalid payment option
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew sysrates.peg node1aalias category title 1 0.05 description USD " + certguid1a + " 1 0"), runtime_error);
-
-
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew sysrates.peg node1alias category title 1 0.05 description USD " + certguid1a + " 1 0 BTC+SSS"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_offerwhitelists)
 {
