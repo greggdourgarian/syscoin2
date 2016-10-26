@@ -1592,7 +1592,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 		strAlias = strAlias + string(WALLET_CRYPTO_IV_SIZE - strAlias.size(), '0');
 	else if(strAlias.size() > WALLET_CRYPTO_IV_SIZE)
 		strAlias = strAlias.substr(WALLET_CRYPTO_IV_SIZE);
-    if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 1, 0))
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchFromString(strAlias), 1, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
 	CKey key;
