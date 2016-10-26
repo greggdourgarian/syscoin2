@@ -3126,7 +3126,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			// for buyer (full price) #1
 
 			
-			CAmount priceAtTimeOfAccept;
+			CAmount priceAtTimeOfAccept = theOffer.GetPrice();
 			if(theOffer.vchLinkOffer.empty())
 			{
 				// NON-LINKED merchant
