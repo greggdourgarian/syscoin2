@@ -585,7 +585,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			}
 			CAliasIndex arbiterAlias;
 			vector<CAliasIndex> vtxArbiterPos;
-			bool isExpired;
 			if(!GetTxAndVtxOfAlias(theEscrow.vchArbiterAlias, arbiterAlias, aliasTx, vtxArbiterPos, isExpired))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find arbiter alias. It may be expired");
