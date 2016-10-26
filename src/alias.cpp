@@ -1700,7 +1700,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
-
+	if (!pwalletMain->AddKeyPubKey(key, defaultKey))
+        throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not add new key to wallet"));
 	// if renewing an alias you already had and its yours, just use the old pubkey
 	CAliasIndex theAlias;
 	CTransaction aliastx;
@@ -1710,6 +1711,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 			defaultKey = CPubKey(theAlias.vchPubKey);
 		}
 	}
+
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliasNames.size() > 0)
