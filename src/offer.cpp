@@ -165,6 +165,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					continue;
 				}
 				const COffer &txPos = vtxPos.back();
+				int nQty = txPos.nQty;
   				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge)
 				{
 					pcursor->Next();
@@ -181,7 +182,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 						continue;
 					}
 					const COffer &linkOffer = myLinkedOfferVtxPos.back();
-					txPos.nQty = linkOffer.nQty;
+					nQty = linkOffer.nQty;
 					if (!paliasdb->ReadAlias(linkOffer.vchAlias, myLinkedAliasVtxPos) || myLinkedAliasVtxPos.empty())
 					{
 						pcursor->Next();
@@ -209,7 +210,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					}	
 				}
 				// dont return sold out offers
-				if(txPos.nQty <= 0 && txPos.nQty != -1)
+				if(nQty <= 0 && nQty != -1)
 				{
 					pcursor->Next();
 					continue;
