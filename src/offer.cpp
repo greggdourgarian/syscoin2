@@ -2744,18 +2744,22 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
     // look for a transaction with this key
     CTransaction tx;
-	COffer offer;
+	COffer theOffer;
 	COfferAccept theOfferAccept;
 	const CWalletTx *wtxAliasIn = NULL;
 
-	if (!GetTxOfOfferAccept(vchOffer, vchAcceptRand, offer, theOfferAccept, tx))
+	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find an offer with this guid"));
+	if(!theOffer.vchLinkOffer.empty())
+	{
+		if (!GetTxOfOffer( theOffer.vchLinkOffer, theOffer, tx, true))
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find a linked offer with this guid"));
+	}
+
+	COffer tmpOffer;
+	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, tmpOffer, theOfferAccept, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find this offer purchase"));
 
-	vector<vector<unsigned char> > vvch;
-    int op, nOut;
-    if (!DecodeOfferTx(tx, op, nOut, vvch) 
-    	|| op != OP_OFFER_ACCEPT)
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1545 - " + _("Could not decode offer accept tx"));
 	
 	CAliasIndex buyerAlias, sellerAlias;
 	CTransaction buyeraliastx, selleraliastx;
@@ -2869,7 +2873,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CRecipient recipientAlias, recipient;
 
 
-	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACCEPT) << vvch[0] << vvch[1] << vchFromString("1") << vchHashOffer << OP_2DROP <<  OP_2DROP << OP_DROP;
+	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACCEPT) << theOffer.vchOffer << theOfferAccept.vchAcceptRand << vchFromString("1") << vchHashOffer << OP_2DROP <<  OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CreateRecipient(scriptPubKey, recipient);
 	CreateRecipient(scriptPubKeyAlias, recipientAlias);
