@@ -49,6 +49,7 @@ private:
 	const PlatformStyle *platformStyle;
 private Q_SLOTS:
 	void on_detailButton_clicked();
+	void on_manageButton_clicked();
 	void on_searchEscrow_clicked(std::string offer="");
 	void on_prevButton_clicked();
 	void on_nextButton_clicked();
