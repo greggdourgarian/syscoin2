@@ -241,21 +241,21 @@ void CreateSysRatesIfNotExist()
 		GenerateBlocks(200, "node1");	
 		GenerateBlocks(200, "node2");	
 		GenerateBlocks(200, "node3");	
-		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg " + data));
+		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg password " + data));
 	}
 	GenerateBlocks(5);
 }
 void CreateSysBanIfNotExist()
 {
 	string data = "{}";
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysban " + data));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysban password " + data));
 	GenerateBlocks(5);
 }
 void CreateSysCategoryIfNotExist()
 {
 	string data = "\"{\\\"categories\\\":[{\\\"cat\\\":\\\"certificates\\\"},{\\\"cat\\\":\\\"wanted\\\"},{\\\"cat\\\":\\\"for sale > general\\\"},{\\\"cat\\\":\\\"for sale > wanted\\\"},{\\\"cat\\\":\\\"services\\\"}]}\"";
 	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew syscategory " + data));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew syscategory password " + data));
 	GenerateBlocks(5);
 }
 void AliasBan(const string& node, const string& alias, int severity)
@@ -276,7 +276,7 @@ void CertBan(const string& node, const string& cert, int severity)
 	CallRPC(node, "aliasupdate sysban " + data);
 	GenerateBlocks(5);
 }
-string AliasNew(const string& node, const string& aliasname, const string& pubdata, string privdata, string safesearch)
+string AliasNew(const string& node, const string& aliasname, const string& password, const string& pubdata, string privdata, string safesearch)
 {
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -291,7 +291,7 @@ string AliasNew(const string& node, const string& aliasname, const string& pubda
 		otherNode2 = "node2";
 	}
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew " + aliasname + " " + pubdata + " " + privdata + " " + safesearch));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew " + aliasname + " " + password + " " + pubdata + " " + privdata + " " + safesearch));
 	string pubkey;
 	const UniValue &resultArray = r.get_array();
 	pubkey = resultArray[1].get_str();

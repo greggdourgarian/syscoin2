@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE (generate_offernew)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias1", "changeddata1");
+	AliasNew("node1", "selleralias1", "password", "changeddata1");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias1", "category", "title", "100", "0.05", "description", "USD");
@@ -58,9 +58,9 @@ BOOST_AUTO_TEST_CASE (generate_certoffernew)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "node1alias", "node1aliasdata");
-	AliasNew("node1", "node1aalias", "node1aliasdata");
-	AliasNew("node2", "node2alias", "node2aliasdata");
+	AliasNew("node1", "node1alias", "password", "node1aliasdata");
+	AliasNew("node1", "node1aalias", "password", "node1aliasdata");
+	AliasNew("node2", "node2alias", "password", "node2aliasdata");
 
 	string certguid1  = CertNew("node1", "node1alias", "title", "data");
 	string certguid1a = CertNew("node1", "node1aalias", "title", "data");
@@ -104,9 +104,9 @@ BOOST_AUTO_TEST_CASE (generate_offerwhitelists)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "sellerwhitelistalias", "changeddata1");
-	AliasNew("node2", "selleraddwhitelistalias", "changeddata1");
-	AliasNew("node2", "selleraddwhitelistalias1", "changeddata1");
+	AliasNew("node1", "sellerwhitelistalias", "password", "changeddata1");
+	AliasNew("node2", "selleraddwhitelistalias", "password", "changeddata1");
+	AliasNew("node2", "selleraddwhitelistalias1", "password", "changeddata1");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "sellerwhitelistalias", "category", "title", "100", "10.00", "description", "SYS", "nocert", false);
@@ -157,8 +157,8 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedoffer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias5", "changeddata1");
-	AliasNew("node2", "selleralias6", "changeddata1");
+	AliasNew("node1", "selleralias5", "password", "changeddata1");
+	AliasNew("node2", "selleralias6", "password", "changeddata1");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias5", "category", "title", "100", "10.00", "description", "USD", "nocert", false);
@@ -201,8 +201,8 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedofferexmode)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias8", "changeddata1");
-	AliasNew("node2", "selleralias9", "changeddata1");
+	AliasNew("node1", "selleralias8", "password", "changeddata1");
+	AliasNew("node2", "selleralias9", "password", "changeddata1");
 
 	// generate a good offer in exclusive mode
 	string offerguid = OfferNew("node1", "selleralias8", "category", "title", "100", "0.05", "description", "USD");
@@ -227,9 +227,9 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedlinkedoffer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias12", "changeddata1");
-	AliasNew("node2", "selleralias13", "changeddata1");
-	AliasNew("node3", "selleralias14", "changeddata1");
+	AliasNew("node1", "selleralias12", "password", "changeddata1");
+	AliasNew("node2", "selleralias13", "password", "changeddata1");
+	AliasNew("node3", "selleralias14", "password", "changeddata1");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias12", "category", "title", "100", "0.05", "description", "USD", "nocert", false);
@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias2", "changeddata1");
+	AliasNew("node1", "selleralias2", "password", "changeddata1");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias2", "category", "title", "100", "0.05", "description", "USD");
@@ -286,8 +286,8 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleraliascurrency", "changeddata1");
-	AliasNew("node2", "buyeraliascurrency", "changeddata2");
+	AliasNew("node1", "selleraliascurrency", "password", "changeddata1");
+	AliasNew("node2", "buyeraliascurrency", "password", "changeddata2");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleraliascurrency", "category", "title", "100", "0.05", "description", "USD");
@@ -360,8 +360,8 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias3", "somedata");
-	AliasNew("node2", "buyeralias3", "somedata");
+	AliasNew("node1", "selleralias3", "password", "somedata");
+	AliasNew("node2", "buyeralias3", "password", "somedata");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias3", "category", "title", "100", "0.01", "description", "USD");
@@ -392,9 +392,9 @@ BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "node1aliaslinked", "node1aliasdata");
-	AliasNew("node2", "node2aliaslinked", "node2aliasdata");
-	AliasNew("node3", "node3aliaslinked", "node2aliasdata");
+	AliasNew("node1", "node1aliaslinked", "password", "node1aliasdata");
+	AliasNew("node2", "node2aliaslinked", "password", "node2aliasdata");
+	AliasNew("node3", "node3aliaslinked", "password", "node2aliasdata");
 
 	string offerguid = OfferNew("node1", "node1aliaslinked", "category", "title", "10", "0.05", "description", "USD", "nocert", false);
 	string lofferguid = OfferLink("node2", "node2aliaslinked", offerguid, "3", "newdescription");
@@ -410,9 +410,9 @@ BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "node1alias", "node1aliasdata");
-	AliasNew("node2", "node2alias", "node2aliasdata");
-	AliasNew("node3", "node3alias", "node2aliasdata");
+	AliasNew("node1", "node1alias", "password", "node1aliasdata");
+	AliasNew("node2", "node2alias", "password", "node2aliasdata");
+	AliasNew("node3", "node3alias", "password", "node2aliasdata");
 
 	string certguid  = CertNew("node1", "node1alias", "title", "data");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certguid));
@@ -442,8 +442,8 @@ BOOST_AUTO_TEST_CASE (generate_offeracceptfeedback)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleraliasfeedback", "somedata");
-	AliasNew("node2", "buyeraliasfeedback", "somedata");
+	AliasNew("node1", "selleraliasfeedback", "password", "somedata");
+	AliasNew("node2", "buyeraliasfeedback", "password", "somedata");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleraliasfeedback", "category", "title", "100", "0.01", "description", "USD");
@@ -499,8 +499,8 @@ BOOST_AUTO_TEST_CASE (generate_offerexpired)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias4", "somedata");
-	AliasNew("node2", "buyeralias4", "somedata");
+	AliasNew("node1", "selleralias4", "password", "somedata");
+	AliasNew("node2", "buyeralias4", "password", "somedata");
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias4", "category", "title", "100", "0.01", "description", "USD");
@@ -533,8 +533,8 @@ BOOST_AUTO_TEST_CASE (generate_offerexpiredexmode)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "selleralias10", "changeddata1");
-	AliasNew("node2", "selleralias11", "changeddata1");
+	AliasNew("node1", "selleralias10", "password", "changeddata1");
+	AliasNew("node2", "selleralias11", "password", "changeddata1");
 
 	// generate a good offer in exclusive mode
 	string offerguid = OfferNew("node1", "selleralias10", "category", "title", "100", "0.05", "description", "USD", "nocert", true);
@@ -564,8 +564,8 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "node1alias2", "node1aliasdata");
-	AliasNew("node2", "node2alias2", "node2aliasdata");
+	AliasNew("node1", "node1alias2", "password", "node1aliasdata");
+	AliasNew("node2", "node2alias2", "password", "node2aliasdata");
 
 	string certguid  = CertNew("node1", "node1alias2", "title", "data");
 	string certguid2  = CertNew("node1", "node1alias2", "title", "data");
@@ -603,8 +603,8 @@ BOOST_AUTO_TEST_CASE (generate_offerlink_offlinenode)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node2", "selleralias15", "changeddata1");
-	AliasNew("node1", "selleralias16", "changeddata1");
+	AliasNew("node2", "selleralias15", "password", "changeddata1");
+	AliasNew("node1", "selleralias16", "password", "changeddata1");
 
 	// generate a good offer
 	string offerguid = OfferNew("node2", "selleralias15", "category", "title", "100", "10.00", "description", "USD", "nocert", false);
@@ -725,7 +725,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	// makes sure services expire in 100 blocks instead of 1 year of blocks for testing purposes
 
 	printf("Running generate_offerpruning...\n");
-	AliasNew("node1", "pruneoffer", "changeddata1");
+	AliasNew("node1", "pruneoffer", "password", "changeddata1");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew sysrates.peg pruneoffer category title 1 0.05 description USD"));

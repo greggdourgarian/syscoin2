@@ -1573,11 +1573,41 @@ CAmount GetDataFee(const CScript& scriptPubKey)
 	recipient.nAmount = fee > minFee? fee: minFee;
 	return recipient.nAmount;
 }
+UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
+	if (fHelp || 2 != params.size())
+		throw runtime_error("aliasauthenticate <alias> <password>\n"
+		"Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text.\n");
+	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
+	string strPassword = params[1].get_str();
+	
+	CTransaction tx;
+	CAliasIndex theAlias;
+	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not find an alias with this name"));
+
+	CPubKey aliasPubKey(theAlias.vchPubKey);
+	CCrypter crypt;
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 1, 0))
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
+
+	CKey key;
+	key.Set(crypt.chKey.begin(), crypt.chKey.end(), true);
+	CPubKey defaultKey = key.GetPubKey();
+	if(!defaultKey.IsFullyValid())
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
+
+	if(aliasPubKey != defaultKey)
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Password is incorrect"));
+
+	return CSyscoinSecret(key).ToString();
+
+}
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 > params.size() || 8 < params.size())
 		throw runtime_error(
-		"aliasnew <aliasname> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
+		"aliasnew <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"<aliasname> alias name.\n"
+						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.\n"
 						"<public value> alias public profile data, 1023 chars max.\n"
 						"<private value> alias private profile data, 1023 chars max. Will be private and readable by owner only.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
@@ -1627,6 +1657,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
+	string strPassword = params[1].get_str();
 	string strPublicValue = params[1].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 
@@ -1657,8 +1688,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	EnsureWalletIsUnlocked();
 
-	CPubKey defaultKey;
-	pwalletMain->GetKeyFromPool(defaultKey);
+	CCrypter crypt;
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 25000, 0))
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
+	CKey key;
+	key.Set(crypt.chKey.begin(), crypt.chKey.end(), true);
+	CPubKey defaultKey = key.GetPubKey();
+	if(!defaultKey.IsFullyValid())
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
+
 	// if renewing an alias you already had and its yours, just use the old pubkey
 	CAliasIndex theAlias;
 	CTransaction aliastx;

@@ -22,8 +22,8 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasdata)
 	string gooddata = "asdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";
 	// 1024 bytes long
 	string baddata =   "asdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
-	AliasNew("node1", "jag", gooddata);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew jag1 " + baddata), runtime_error);
+	AliasNew("node1", "jag",  "password", gooddata);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew jag1 password temp " + baddata), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 {
@@ -35,16 +35,16 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 	string gooddata = "asdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
 	// 64 bytes long
 	string badname =  "sfsdfdfsdsfsfsdfdfsdsfdsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdsfsdfda";
-	AliasNew("node1", goodname, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew " + badname + " 3d"), runtime_error);
+	AliasNew("node1", goodname, "password", "a");
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew " + badname + " password 3d"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
 	printf("Running generate_aliasupdate...\n");
 	GenerateBlocks(1);
-	AliasNew("node1", "jagupdate", "data");
+	AliasNew("node1", "jagupdate", "password", "data");
 	// update an alias that isn't yours
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate jagupdate test"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate jagupdate password test"), runtime_error);
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
 	// shouldnt update data, just uses prev data because it hasnt changed
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 {
 	printf("Running generate_sendmoneytoalias...\n");
 	GenerateBlocks(5, "node2");
-	AliasNew("node2", "sendnode2", "changeddata2");
+	AliasNew("node2", "sendnode2", "password", "changeddata2");
 	UniValue r;
 	// get balance of node2 first to know we sent right amount oater
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "getinfo"));
@@ -72,8 +72,8 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	UniValue r;
-	string strPubKey1 = AliasNew("node1", "jagnode1", "changeddata1");
-	string strPubKey2 = AliasNew("node2", "jagnode2", "changeddata2");
+	string strPubKey1 = AliasNew("node1", "jagnode1", "password", "changeddata1");
+	string strPubKey2 = AliasNew("node2", "jagnode2", "password", "changeddata2");
 	UniValue pkr = CallRPC("node2", "generatepublickey");
 	BOOST_CHECK(pkr.type() == UniValue::VARR);
 	const UniValue &resultArray = pkr.get_array();
@@ -102,9 +102,9 @@ BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
 	UniValue r;
 	GenerateBlocks(1);
 	// alias is safe to search
-	AliasNew("node1", "jagsafesearch", "pubdata", "privdata", "Yes");
+	AliasNew("node1", "jagsafesearch", "pubdata", "password", "privdata", "Yes");
 	// not safe to search
-	AliasNew("node1", "jagnonsafesearch", "pubdata", "privdata", "No");
+	AliasNew("node1", "jagnonsafesearch", "pubdata", "password", "privdata", "No");
 	// should include result in both safe search mode on and off
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "On"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "Off"), true);
@@ -145,25 +145,25 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	
-	AliasNew("node1", "aliasexpirebuyback", "somedata", "data");
+	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
 	// can't renew aliases that aren't expired
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback data"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data"), runtime_error);
 	GenerateBlocks(110);
 	// expired aliases shouldnt be searchable
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "On"), false);
 	
 	// renew alias and now its searchable
-	AliasNew("node1", "aliasexpirebuyback", "somedata1", "data1");
+	AliasNew("node1", "aliasexpirebuyback", "password", "somedata1", "data1");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "On"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "On"), true);
 
 	GenerateBlocks(110);
 	// try to renew alias again second time
-	AliasNew("node1", "aliasexpirebuyback", "somedata2", "data2");
+	AliasNew("node1", "aliasexpirebuyback", "password", "somedata2", "data2");
 	// run the test with node3 offline to test pruning with renewing alias
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback1 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback1 password data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback1", "On"), false);
@@ -180,13 +180,13 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 
 	// run the test with node3 offline to test pruning with renewing alias twice
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 password data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	// renew second time
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 password data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
@@ -201,21 +201,21 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasinfo aliasexpirebuyback2"), runtime_error);
 
 	// steal alias after expiry and original node try to recreate or update should fail
-	AliasNew("node1", "aliasexpirebuyback", "somedata", "data");
+	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
 	GenerateBlocks(110);
-	AliasNew("node2", "aliasexpirebuyback", "somedata", "data");
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback data"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback data"), runtime_error);
+	AliasNew("node2", "aliasexpirebuyback", "password", "somedata", "data");
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback password data"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data"), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate aliasexpirebuyback changedata1 pvtdata"), runtime_error);
 
 	// this time steal the alias and try to recreate at the same time
 	GenerateBlocks(110);
-	AliasNew("node1", "aliasexpirebuyback", "somedata", "data");
+	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
 	GenerateBlocks(110);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback data1"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback password data1"));
 	GenerateBlocks(5,"node2");
 	MilliSleep(2500);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback data2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data2"), runtime_error);
 	MilliSleep(2500);
 	GenerateBlocks(5);
 }
@@ -226,8 +226,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasban)
 	UniValue r;
 	GenerateBlocks(10);
 	// 2 aliases, one will be banned that is safe searchable other is banned that is not safe searchable
-	AliasNew("node1", "jagbansafesearch", "pubdata", "privdata", "Yes");
-	AliasNew("node1", "jagbannonsafesearch", "pubdata", "privdata", "No");
+	AliasNew("node1", "jagbansafesearch", "password", "pubdata", "privdata", "Yes");
+	AliasNew("node1", "jagbannonsafesearch", "password", "pubdata", "privdata", "No");
 	// can't ban on any other node than one that created sysban
 	BOOST_CHECK_THROW(AliasBan("node2","jagbansafesearch",SAFETY_LEVEL1), runtime_error);
 	BOOST_CHECK_THROW(AliasBan("node3","jagbansafesearch",SAFETY_LEVEL1), runtime_error);
@@ -280,8 +280,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	UniValue r;
 	GenerateBlocks(10);
 	// 2 aliases, one will be banned that is safe searchable other is banned that is not safe searchable
-	AliasNew("node1", "jagbansafesearchoffer", "pubdata", "privdata", "Yes");
-	AliasNew("node1", "jagbannonsafesearchoffer", "pubdata", "privdata", "No");
+	AliasNew("node1", "jagbansafesearchoffer", "password", "pubdata", "privdata", "Yes");
+	AliasNew("node1", "jagbannonsafesearchoffer", "password", "pubdata", "privdata", "No");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearchoffer", "On"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearchoffer", "Off"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearchoffer", "On"), false);
@@ -428,7 +428,7 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	printf("Running generate_aliaspruning...\n");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprune password data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune", "Off"), true);
@@ -451,7 +451,7 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	// stop node3
 	StopNode("node3");
 	// create a new service
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprune1 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprune1 password data"));
 	// make 89 blocks (10 get mined with new)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 79"));
 	MilliSleep(2500);
@@ -501,9 +501,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasprunewithoffer somedata"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasprunewithoffer1 somedata"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew aliasprunewithoffer2 somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasprunewithoffer password somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasprunewithoffer1 password somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew aliasprunewithoffer2 password somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 25"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -542,8 +542,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprunewithcertoffer somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew aliasprunewithcertoffer2 somedata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprunewithcertoffer password somedata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew aliasprunewithcertoffer2 password somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 20"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -596,8 +596,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprunewithcert somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew aliasprunewithcert2 somedata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasprunewithcert password somedata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew aliasprunewithcert2 password somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -627,10 +627,10 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	string aliasexpirepubkey = AliasNew("node1", "aliasexpire", "somedata");
-	AliasNew("node2", "aliasexpire1", "somedata");
-	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "somedata");
-	AliasNew("node2", "aliasexpirednode2", "somedata");
+	string aliasexpirepubkey = AliasNew("node1", "aliasexpire", "password", "somedata");
+	AliasNew("node2", "aliasexpire1", "password", "somedata");
+	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "password", "somedata");
+	AliasNew("node2", "aliasexpirednode2", "password", "somedata");
 	GenerateBlocks(35);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate aliasexpire newdata1 privdata"));
 	GenerateBlocks(5);
@@ -643,14 +643,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
 	MilliSleep(2500);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasexpire2 somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasexpire2 password somedata"));
 	const UniValue &array1 = r.get_array();
 	string aliasexpire2pubkey = array1[1].get_str();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
 	MilliSleep(2500);
 
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew aliasexpire2node2 somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew aliasexpire2node2 password somedata"));
 	const UniValue &array2 = r.get_array();
 	string aliasexpire2node2pubkey = array2[1].get_str();	
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -725,7 +725,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
-	BOOST_CHECK_EQUAL(aliasexpirenode2pubkey, AliasNew("node2", "aliasexpirenode2", "somedata"));
+	BOOST_CHECK_EQUAL(aliasexpirenode2pubkey, AliasNew("node2", "aliasexpirenode2", "password", "somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata 0"));
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 

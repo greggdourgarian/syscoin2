@@ -32,6 +32,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expiryEdit->addItem(tr("5 Years"),"5");
 	ui->expiryDisclaimer->setText(tr("<font color='blue'>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</font>"));
     ui->privateDisclaimer->setText(tr("<font color='blue'>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</font>"));
+	ui->passwordDisclaimer->setText(tr("<font color='blue'>Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.</font>"));
 	ui->publicDisclaimer->setText(tr("<font color='blue'>This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.</font>"));
 	ui->reqsigsDisclaimer->setText(tr("<font color='blue'>The number of required signatures ensures that not one person can control this alias and anything service that this alias uses (certificates, messages, offers).</font>"));
 	ui->acceptCertTransfersDisclaimer->setText(tr("<font color='blue'>Would you like to accept certificates transferred to this alias? Select <b>Yes</b> otherwise if you want to block others from sending certificates to this alias select <b>No</b>.</font>"));
@@ -225,6 +226,7 @@ bool EditAliasDialog::saveCurrentRow()
         }
 		strMethod = string("aliasnew");
         params.push_back(ui->aliasEdit->text().trimmed().toStdString());
+		params.push_back(ui->passwordEdit->text().trimmed().toStdString());
 		params.push_back(ui->nameEdit->toPlainText().toStdString());
 		params.push_back(ui->privateEdit->toPlainText().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
