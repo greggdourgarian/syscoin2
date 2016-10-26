@@ -50,7 +50,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	strBTCPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
 	strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()*quantity.toUInt()));
 	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant.</font>"));
-	if(paymentOptions == PAYMENTOPTION_BTC || paymentOptions == PAYMENTOPTION_SYSBTC)
+	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_BTC))
 	{
 		ui->acceptBtcButton->setEnabled(true);
 		ui->acceptBtcButton->setVisible(true);
