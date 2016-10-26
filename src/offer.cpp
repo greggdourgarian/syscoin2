@@ -3711,7 +3711,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 
 	string paymentOptionsValue = noDifferentStr;
 	if(offer.paymentOptions > 0 && offer.paymentOptions != dbOffer.paymentOptions)
-		paymentOptionsValue = offer.GetPaymentOptionsString();
+		paymentOptionsValue = GetPaymentOptionsString( offer.paymentOptions);
 
 	entry.push_back(Pair("paymentoptions", paymentOptionsValue));
 
