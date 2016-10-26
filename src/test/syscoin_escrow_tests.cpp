@@ -132,6 +132,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_invalid)
 	EscrowClaimRelease("node2", guid);
 	// cant inititate another release after claimed already
 	BOOST_CHECK_THROW(CallRPC("node1", "escrowrelease " + guid + " buyer"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "escrowrelease " + guid + " seller"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_escrowrelease_arbiter)
 {

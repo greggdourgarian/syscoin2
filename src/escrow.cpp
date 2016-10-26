@@ -1150,6 +1150,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(nAvailableQty != -1 && nAvailableQty < (nQty+memPoolQty))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4514 - " + _("Not enough remaining quantity to fulfill this escrow"));
 
+	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));	
 	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());		
 	scriptPubKeyAliasOrig = GetScriptForDestination(buyerKey.GetID());
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
@@ -1477,6 +1479,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
+		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the arbiter alias to complete this transaction"));	
 		wtxAliasIn = pwalletMain->GetWalletTx(arbiteraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(arbiterKey.GetID());
@@ -1489,6 +1493,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "buyer")
 	{
+		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));	
 		wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(buyerKey.GetID());
@@ -2022,7 +2028,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	
+	if(!IsSyscoinTxMine(selleraliastx, "alias"))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the seller alias to complete this transaction"));	
 	wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 	CScript scriptPubKeyOrig;
 	scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
@@ -2241,7 +2248,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or seller?
 	if(role == "arbiter")
 	{
-		
+		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the arbiter alias to complete this transaction"));		
 		wtxAliasIn = pwalletMain->GetWalletTx(arbiteraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(arbiterKey.GetID());
@@ -2254,6 +2262,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
+		if(!IsSyscoinTxMine(selleraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the seller alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(sellerKey.GetID());
@@ -2702,7 +2712,8 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	
+	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));
 	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 	CScript scriptPubKeyOrig;
 	scriptPubKeyOrig= GetScriptForDestination(buyerKey.GetID());
@@ -2840,6 +2851,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	if(role == "buyer")
 	{
+		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 		CScript scriptPubKeyAliasOrig= GetScriptForDestination(buyerKey.GetID());
 		if(buyerAliasLatest.multiSigInfo.vchAliases.size() > 0)
@@ -2851,6 +2864,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
+		if(!IsSyscoinTxMine(selleraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the seller alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 		CScript scriptPubKeyAliasOrig = GetScriptForDestination(sellerKey.GetID());
 		if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
@@ -2862,6 +2877,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "arbiter")
 	{
+		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the arbiter alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(arbiteraliastx.GetHash());
 		CScript scriptPubKeyAliasOrig = GetScriptForDestination(arbiterKey.GetID());
 		if(arbiterAliasLatest.multiSigInfo.vchAliases.size() > 0)
