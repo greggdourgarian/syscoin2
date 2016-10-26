@@ -2768,7 +2768,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CPubKey buyerKey(buyerAlias.vchPubKey);
 	CSyscoinAddress buyerAddress(buyerKey.GetID());
 
-	GetTxOfAlias(offer.vchAlias, sellerAlias, selleraliastx, true);
+	GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
 	CPubKey sellerKey(sellerAlias.vchPubKey);
 	CSyscoinAddress sellerAddress(sellerKey.GetID());
 
