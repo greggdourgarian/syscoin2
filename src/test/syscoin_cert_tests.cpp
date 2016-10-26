@@ -101,9 +101,9 @@ BOOST_AUTO_TEST_CASE (generate_certsafesearch)
 	GenerateBlocks(1);
 	AliasNew("node1", "jagsafesearch1", "password", "changeddata1");
 	// cert is safe to search
-	string certguidsafe = CertNew("node1", "jagsafesearch1", "password", "certtitle", "certdata", false, "Yes");
+	string certguidsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", false, "Yes");
 	// not safe to search
-	string certguidnotsafe = CertNew("node1", "jagsafesearch1", "password", "certtitle", "certdata", false, "No");
+	string certguidnotsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", false, "No");
 	// should include result in both safe search mode on and off
 	BOOST_CHECK_EQUAL(CertFilter("node1", certguidsafe, "On"), true);
 	BOOST_CHECK_EQUAL(CertFilter("node1", certguidsafe, "Off"), true);
