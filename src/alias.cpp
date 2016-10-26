@@ -1578,7 +1578,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 		throw runtime_error("aliasauthenticate <alias> <password>\n"
 		"Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text.\n");
 	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
-	string strPassword = params[1].get_str();
+	const SecureString &strPassword = params[1].get_str().c_str();
 	
 	CTransaction tx;
 	CAliasIndex theAlias;
@@ -1591,7 +1591,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
 	CKey key;
-	key.Set(crypt.chKey.begin(), crypt.chKey.end(), true);
+	key.Set(crypt.chKey, crypt.chKey + 32, true);
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
@@ -1603,7 +1603,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 > params.size() || 8 < params.size())
+	if (fHelp || 3 > params.size() || 9 < params.size())
 		throw runtime_error(
 		"aliasnew <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"<aliasname> alias name.\n"
@@ -1657,30 +1657,30 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	string strPassword = params[1].get_str();
-	string strPublicValue = params[1].get_str();
+	const SecureString &strPassword = params[1].get_str().c_str();
+	string strPublicValue = params[2].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 
-	string strPrivateValue = params.size()>=3?params[2].get_str():"";
+	string strPrivateValue = params.size()>=4?params[3].get_str():"";
 	string strSafeSearch = "Yes";
 	string strAcceptCertTransfers = "Yes";
 	int nRenewal = 1;
-	if(params.size() >= 4)
-	{
-		strSafeSearch = params[3].get_str();
-	}
 	if(params.size() >= 5)
 	{
-		strAcceptCertTransfers = params[4].get_str();
+		strSafeSearch = params[4].get_str();
 	}
 	if(params.size() >= 6)
-		nRenewal = boost::lexical_cast<int>(params[5].get_str());
+	{
+		strAcceptCertTransfers = params[5].get_str();
+	}
+	if(params.size() >= 7)
+		nRenewal = boost::lexical_cast<int>(params[6].get_str());
     int nMultiSig = 1;
-	if(params.size() >= 7)
-		nMultiSig = boost::lexical_cast<int>(params[6].get_str());
+	if(params.size() >= 8)
+		nMultiSig = boost::lexical_cast<int>(params[7].get_str());
     UniValue aliasNames;
-	if(params.size() >= 7)
-		aliasNames = params[7].get_array();
+	if(params.size() >= 9)
+		aliasNames = params[8].get_array();
 	
 	vchPrivateValue = vchFromString(strPrivateValue);
 
@@ -1692,7 +1692,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 	CKey key;
-	key.Set(crypt.chKey.begin(), crypt.chKey.end(), true);
+	key.Set(crypt.chKey, crypt.chKey + 32, true);
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
