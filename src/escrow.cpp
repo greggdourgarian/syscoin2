@@ -577,7 +577,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			CSyscoinAddress sellerAddress(SellerPubKey.GetID());
 			CSyscoinAddress multisigSellerddress;
 			sellerAlias.GetAddress(&multisigSellerddress);
-			if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, vchFromString(sellerAddress.ToString()), vchFromString(multisigSellerddress.ToString()), vtxSellerPos))
+			if (!dontaddtodb && !paliasdb->WriteAlias(theEscrow.vchSellerAlias, vchFromString(sellerAddress.ToString()), vchFromString(multisigSellerddress.ToString()), vtxSellerPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write seller alias to DB");
 				return error(errorMessage.c_str());
