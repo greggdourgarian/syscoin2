@@ -3316,7 +3316,8 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 
             // get the txn name
             const vector<unsigned char> &vchOffer = vvch[0];
-
+			if (vNamesI.find(vchOffer) != vNamesI.end())
+				continue;	
 			// skip this offer if it doesn't match the given filter value
 			if (vchNameUniq.size() > 0 && vchNameUniq != vchOffer)
 				continue;
@@ -3341,9 +3342,6 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				linkAlias = myLinkedAliasVtxPos.back();
 			}
 
-			// get last active name only
-			if (vNamesI.find(vchOffer) != vNamesI.end() && (theOffer.nHeight <= vNamesI[vchOffer] || vNamesI[vchOffer] < 0))
-				continue;	
 			nHeight = theOffer.nHeight;
             // build the output UniValue
             UniValue oName(UniValue::VOBJ);

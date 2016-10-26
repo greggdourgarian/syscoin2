@@ -3210,7 +3210,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		throw runtime_error("failed to read alias transaction");
 	}
     vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
+    if (params.size() >= 2)
         vchNameUniq = vchFromValue(params[1]);
 
     UniValue oRes(UniValue::VARR);
@@ -3233,9 +3233,11 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 
 		vector<vector<unsigned char> > vvch;
 		int op, nOut;
-		if (!DecodeEscrowTx(tx, op, nOut, vvch) || !IsEscrowOp(op))
+		if (!DecodeEscrowTx(tx, op, nOut, vvch))
 			continue;
 		vchEscrow = vvch[0];
+		if (vNamesI.find(vchEscrow) != vNamesI.end())
+			continue;
 		// skip this escrow if it doesn't match the given filter value
 		if (vchNameUniq.size() > 0 && vchNameUniq != vchEscrow)
 			continue;
@@ -3273,9 +3275,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		offer.nHeight = nHeight;
 		offer.GetOfferFromList(offerVtxPos);
 
-		// get last active name only
-		if (vNamesI.find(vchEscrow) != vNamesI.end() && (escrow.nHeight <= vNamesI[vchEscrow] || vNamesI[vchEscrow] < 0))
-			continue;
 
         // build the output
         UniValue oName(UniValue::VOBJ);

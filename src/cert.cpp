@@ -1224,8 +1224,8 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			continue;
 
 		vchCert = vvch[0];
-		
-		
+		if (vNamesI.find(vchCert) != vNamesI.end())
+			continue;		
 		// skip this cert if it doesn't match the given filter value
 		if (vchNameUniq.size() > 0 && vchNameUniq != vchCert)
 			continue;
@@ -1237,9 +1237,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if(cert.vchAlias != vchAlias)
 			continue;		
 		nHeight = cert.nHeight;
-		// get last active name only
-		if (vNamesI.find(vchCert) != vNamesI.end() && (nHeight <= vNamesI[vchCert] || vNamesI[vchCert] < 0))
-			continue;
 
 		
         // build the output object
