@@ -110,3 +110,7 @@ qa/cache/*
 
 libsyscoinconsensus.pc
 contrib/devtools/split-debug.sh
+
+src/test/node1/regtest
+src/test/node2/regtest
+src/test/node3/regtest
