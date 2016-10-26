@@ -321,7 +321,10 @@ void EditCertDialog::loadRow(int row, const QString &privatecert)
 		if(indexAlias.isValid())
 		{
 			QString aliasStr = indexAlias.data(CertTableModel::AliasRole).toString();
-			ui->aliasEdit->setCurrentIndex(ui->aliasEdit->findText(aliasStr));
+			int indexInComboBox = ui->aliasEdit->findText(aliasStr);
+			if(indexInComboBox < 0)
+				indexInComboBox = 0;
+			ui->aliasEdit->setCurrentIndex(indexInComboBox);
 		}
 		if(indexSafeSearch.isValid() && ui->safeSearchEdit->isEnabled())
 		{

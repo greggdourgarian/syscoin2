@@ -145,7 +145,10 @@ void NewMessageDialog::loadRow(int row)
 		if(indexAlias.isValid())
 		{
 			QString aliasStr = indexAlias.data(MessageTableModel::ToRole).toString();
-			ui->aliasEdit->setCurrentIndex(ui->aliasEdit->findText(aliasStr));
+			int indexInComboBox = ui->aliasEdit->findText(aliasStr);
+			if(indexInComboBox < 0)
+				indexInComboBox = 0;
+			ui->aliasEdit->setCurrentIndex(indexInComboBox);
 		}
 	}
 
