@@ -573,11 +573,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			sellerAlias.nHeight = nHeight;
 			sellerAlias.txHash = tx.GetHash();
 			PutToAliasList(vtxSellerPos, sellerAlias);
-			CPubKey PubKey(sellerAlias.vchPubKey);
-			CSyscoinAddress sellerAddress(PubKey.GetID());
+			CPubKey SellerPubKey(sellerAlias.vchPubKey);
+			CSyscoinAddress sellerAddress(SellerPubKey.GetID());
 			CSyscoinAddress multisigSellerddress;
 			sellerAlias.GetAddress(&multisigSellerddress);
-			if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, vchFromString(sellerAddress.ToString()), vchFromString(multisigSellerddress.ToString()), vtxPos))
+			if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, vchFromString(sellerAddress.ToString()), vchFromString(multisigSellerddress.ToString()), vtxSellerPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write seller alias to DB");
 				return error(errorMessage.c_str());
@@ -592,11 +592,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			arbiterAlias.nHeight = nHeight;
 			arbiterAlias.txHash = tx.GetHash();
 			PutToAliasList(vtxArbiterPos, arbiterAlias);
-			CPubKey PubKey(arbiterAlias.vchPubKey);
-			CSyscoinAddress arbiterAddress(PubKey.GetID());
+			CPubKey ArbiterPubKey(arbiterAlias.vchPubKey);
+			CSyscoinAddress arbiterAddress(ArbiterPubKey.GetID());
 			CSyscoinAddress multisigArbiterAddress;
 			arbiterAlias.GetAddress(&multisigArbiterAddress);
-			if (!dontaddtodb && !paliasdb->WriteAlias(theEscrow.vchArbiterAlias, vchFromString(arbiterAddress.ToString()), vchFromString(multisigArbiterAddress.ToString()), vtxPos))
+			if (!dontaddtodb && !paliasdb->WriteAlias(theEscrow.vchArbiterAlias, vchFromString(arbiterAddress.ToString()), vchFromString(multisigArbiterAddress.ToString()), vtxArbiterPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write arbiter alias to DB");
 				return error(errorMessage.c_str());
