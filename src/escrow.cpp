@@ -563,7 +563,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Cannot find buyer alias. It may be expired");
 				return true;
 			}
-			CSyscoinAddress sellerAlias;
+			CAliasIndex sellerAlias;
 			vector<CAliasIndex> vtxSellerPos;
 			if(!GetTxAndVtxOfAlias(theEscrow.vchSellerAlias, sellerAlias, aliasTx, vtxSellerPos))
 			{
@@ -582,7 +582,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write seller alias to DB");
 				return error(errorMessage.c_str());
 			}
-			CSyscoinAddress arbiterAlias;
+			CAliasIndex arbiterAlias;
 			vector<CAliasIndex> vtxArbiterPos;
 			if(!GetTxAndVtxOfAlias(theEscrow.vchArbiterAlias, arbiterAlias, aliasTx, vtxArbiterPos))
 			{
