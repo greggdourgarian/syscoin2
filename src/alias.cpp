@@ -1591,7 +1591,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
 	CKey key;
-	key.Set(crypt.chKey, crypt.chKey + 32, true);
+	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
@@ -1692,7 +1692,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAlias, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 	CKey key;
-	key.Set(crypt.chKey, crypt.chKey + 32, true);
+	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));

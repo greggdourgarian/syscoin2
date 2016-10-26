@@ -76,8 +76,10 @@ namespace wallet_crypto
 class CCrypter
 {
 friend class wallet_crypto::TestCrypter; // for test access to chKey/chIV
+// SYSCOIN
+public:
+	unsigned char chKey[WALLET_CRYPTO_KEY_SIZE];
 private:
-    unsigned char chKey[WALLET_CRYPTO_KEY_SIZE];
     unsigned char chIV[WALLET_CRYPTO_IV_SIZE];
     bool fKeySet;
 
