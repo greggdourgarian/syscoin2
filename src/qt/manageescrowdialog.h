@@ -51,7 +51,6 @@ private:
 	QString refundWarningStr;
 	QString releaseWarningStr;
 	QString m_buttontext;
-	QString m_buyer;
 };
 
 #endif // MANAGEESCROWDIALOG_H
