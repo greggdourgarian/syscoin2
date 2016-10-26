@@ -383,18 +383,6 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 
 	if(fJustCheck)
 	{
-		if(!vchData.empty())
-		{
-			CRecipient fee;
-			CScript scriptData;
-			scriptData << vchData;
-			CreateFeeRecipient(scriptData, vchData, fee);
-			if (fee.nAmount > tx.vout[nDataOut].nValue) 
-			{
-				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2002 - " + _("Transaction does not pay enough fees");
-				return error(errorMessage.c_str());
-			}
-		}
 		if(vvchArgs.size() != 2)
 		{
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2003 - " + _("Certificate arguments incorrect size");
@@ -1224,8 +1212,8 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			continue;
 
 		vchCert = vvch[0];
-		
-		
+		if (vNamesI.find(vchCert) != vNamesI.end())
+			continue;		
 		// skip this cert if it doesn't match the given filter value
 		if (vchNameUniq.size() > 0 && vchNameUniq != vchCert)
 			continue;
@@ -1237,9 +1225,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if(cert.vchAlias != vchAlias)
 			continue;		
 		nHeight = cert.nHeight;
-		// get last active name only
-		if (vNamesI.find(vchCert) != vNamesI.end() && (nHeight <= vNamesI[vchCert] || vNamesI[vchCert] < 0))
-			continue;
 
 		
         // build the output object

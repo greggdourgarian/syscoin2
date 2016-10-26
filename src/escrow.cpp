@@ -332,19 +332,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 	}	
 	vector<vector<unsigned char> > vvchPrevAliasArgs;
 	if(fJustCheck)
-	{
-		if(!vchData.empty())
-		{
-			CRecipient fee;
-			CScript scriptData;
-			scriptData << vchData;
-			CreateFeeRecipient(scriptData, vchData, fee);
-			if (fee.nAmount > tx.vout[nDataOut].nValue) 
-			{
-				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4001 - " + _("Transaction does not pay enough fees");
-				return error(errorMessage.c_str());
-			}
-		}			
+	{			
 		if(vvchArgs.size() != 3)
 		{
 			errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4002 - " + _("Escrow arguments incorrect size");
@@ -1162,6 +1150,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(nAvailableQty != -1 && nAvailableQty < (nQty+memPoolQty))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4514 - " + _("Not enough remaining quantity to fulfill this escrow"));
 
+	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));	
 	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());		
 	scriptPubKeyAliasOrig = GetScriptForDestination(buyerKey.GetID());
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
@@ -1489,6 +1479,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
+		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the arbiter alias to complete this transaction"));	
 		wtxAliasIn = pwalletMain->GetWalletTx(arbiteraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(arbiterKey.GetID());
@@ -1501,6 +1493,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "buyer")
 	{
+		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));	
 		wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(buyerKey.GetID());
@@ -2034,7 +2028,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	
+	if(!IsSyscoinTxMine(selleraliastx, "alias"))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the seller alias to complete this transaction"));	
 	wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 	CScript scriptPubKeyOrig;
 	scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
@@ -2253,7 +2248,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or seller?
 	if(role == "arbiter")
 	{
-		
+		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the arbiter alias to complete this transaction"));		
 		wtxAliasIn = pwalletMain->GetWalletTx(arbiteraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(arbiterKey.GetID());
@@ -2266,6 +2262,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
+		if(!IsSyscoinTxMine(selleraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the seller alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(sellerKey.GetID());
@@ -2714,7 +2712,8 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	
+	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));
 	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 	CScript scriptPubKeyOrig;
 	scriptPubKeyOrig= GetScriptForDestination(buyerKey.GetID());
@@ -2852,6 +2851,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	if(role == "buyer")
 	{
+		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 		CScript scriptPubKeyAliasOrig= GetScriptForDestination(buyerKey.GetID());
 		if(buyerAliasLatest.multiSigInfo.vchAliases.size() > 0)
@@ -2863,6 +2864,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
+		if(!IsSyscoinTxMine(selleraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the seller alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
 		CScript scriptPubKeyAliasOrig = GetScriptForDestination(sellerKey.GetID());
 		if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
@@ -2874,6 +2877,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "arbiter")
 	{
+		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the arbiter alias to complete this transaction"));
 		wtxAliasIn = pwalletMain->GetWalletTx(arbiteraliastx.GetHash());
 		CScript scriptPubKeyAliasOrig = GetScriptForDestination(arbiterKey.GetID());
 		if(arbiterAliasLatest.multiSigInfo.vchAliases.size() > 0)
@@ -3210,7 +3215,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		throw runtime_error("failed to read alias transaction");
 	}
     vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
+    if (params.size() >= 2)
         vchNameUniq = vchFromValue(params[1]);
 
     UniValue oRes(UniValue::VARR);
@@ -3233,9 +3238,11 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 
 		vector<vector<unsigned char> > vvch;
 		int op, nOut;
-		if (!DecodeEscrowTx(tx, op, nOut, vvch) || !IsEscrowOp(op))
+		if (!DecodeEscrowTx(tx, op, nOut, vvch))
 			continue;
 		vchEscrow = vvch[0];
+		if (vNamesI.find(vchEscrow) != vNamesI.end())
+			continue;
 		// skip this escrow if it doesn't match the given filter value
 		if (vchNameUniq.size() > 0 && vchNameUniq != vchEscrow)
 			continue;
@@ -3273,9 +3280,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		offer.nHeight = nHeight;
 		offer.GetOfferFromList(offerVtxPos);
 
-		// get last active name only
-		if (vNamesI.find(vchEscrow) != vNamesI.end() && (escrow.nHeight <= vNamesI[vchEscrow] || vNamesI[vchEscrow] < 0))
-			continue;
 
         // build the output
         UniValue oName(UniValue::VOBJ);

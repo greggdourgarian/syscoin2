@@ -802,11 +802,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	{
 		if(!vchData.empty())
 		{
-			CRecipient fee;
-			CScript scriptData;
-			scriptData << vchData;
-			CreateFeeRecipient(scriptData, vchData, fee);
-			if (fee.nAmount > tx.vout[nDataOut].nValue) 
+			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey);
+			if(!theAlias.IsNull())
+			{
+				if(theAlias.nRenewal > 1)
+					fee += 0.02*COIN*theAlias.nRenewal*theAlias.nRenewal;
+			}
+			if (fee > tx.vout[nDataOut].nValue) 
 			{
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5001 - " + _("Transaction does not pay enough fees");
 				return error(errorMessage.c_str());
@@ -859,6 +861,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 	}
 	vector<CAliasIndex> vtxPos;
+	CRecipient fee;
 	string retError = "";
 	if(fJustCheck)
 	{
@@ -901,7 +904,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5011 - " + _("Guid in data output doesn't match guid in tx");
 					return error(errorMessage.c_str());
 				}
-				
 				break;
 			case OP_ALIAS_UPDATE:
 				if (!IsAliasOp(prevOp))
@@ -1557,6 +1559,19 @@ void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& data
 	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
 	// minimum of 0.02 COIN fees for data
 	recipient.nAmount = fee > minFee? fee: minFee;
+}
+CAmount GetDataFee(const CScript& scriptPubKey)
+{
+	CRecipient recipient;
+	CAmount minFee = AmountFromValue(0.02);
+	CRecipient recp = {scriptPubKey, minFee, false};
+	recipient = recp;
+	CTxOut txout(0,	recipient.scriptPubKey);
+    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
+	// minimum of 0.02 COIN fees for data
+	recipient.nAmount = fee > minFee? fee: minFee;
+	return recipient.nAmount;
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 > params.size() || 8 < params.size())

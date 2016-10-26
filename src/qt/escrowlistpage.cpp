@@ -12,6 +12,7 @@
 #include "ui_interface.h"
 #include "platformstyle.h"
 #include "escrowinfodialog.h"
+#include "manageescrowdialog.h"
 #include <QClipboard>
 #include <QMessageBox>
 #include <QKeyEvent>
@@ -40,12 +41,14 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
 		ui->copyEscrow->setIcon(QIcon());
 		ui->searchEscrow->setIcon(QIcon());
 		ui->detailButton->setIcon(QIcon());
+		ui->manageButton->setIcon(QIcon());
 	}
 	else
 	{
 		ui->copyEscrow->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/editcopy"));
 		ui->searchEscrow->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
 		ui->detailButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/details"));
+		ui->manageButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/escrow1"));
 	}
     ui->labelExplanation->setText(tr("Search for Syscoin Escrows."));
 	
@@ -53,6 +56,7 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
     QAction *copyEscrowAction = new QAction(ui->copyEscrow->text(), this);
     QAction *copyOfferAction = new QAction(tr("&Copy Offer ID"), this);
 	QAction *detailsAction = new QAction(tr("&Details"), this);
+	QAction *manageAction = new QAction(tr("Manage Escrow"), this);
 
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));
     // Build context menu
@@ -61,11 +65,13 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
     contextMenu->addAction(copyOfferAction);
 	contextMenu->addSeparator();
 	contextMenu->addAction(detailsAction);
+	contextMenu->addAction(manageAction);
 
     // Connect signals for context menu actions
     connect(copyEscrowAction, SIGNAL(triggered()), this, SLOT(on_copyEscrow_clicked()));
     connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
 	connect(detailsAction, SIGNAL(triggered()), this, SLOT(on_detailButton_clicked()));
+	connect(manageAction, SIGNAL(triggered()), this, SLOT(on_manageButton_clicked()));
    
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
 
@@ -131,7 +137,21 @@ void EscrowListPage::on_copyOffer_clicked()
     GUIUtil::copyEntryData(ui->tableView, EscrowTableModel::Offer);
 }
 
-
+void EscrowListPage::on_manageButton_clicked()
+{
+ 	if(!model || !walletModel)	
+		return;
+	if(!ui->tableView->selectionModel())
+        return;
+    QModelIndexList selection = ui->tableView->selectionModel()->selectedRows();
+    if(selection.isEmpty())
+    {
+        return;
+    }
+	QString escrow = selection.at(0).data(EscrowTableModel::EscrowRole).toString();
+	ManageEscrowDialog dlg(walletModel, escrow);   
+	dlg.exec();
+}
 void EscrowListPage::selectionChanged()
 {
     // Set button states based on selected tab and selection

@@ -205,59 +205,51 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &btctxid, QString &redeemtxid)
 {
 	QSettings settings;
-	string strMethod = string("escrowlist");
+	string strMethod = string("escrowinfo");
     UniValue params(UniValue::VARR); 
-	params.push_back(settings.value("defaultAlias", "").toString().toStdString());
+	params.push_back(escrow.toStdString());
 	UniValue result ;
 	string name_str;
 	try {
 		result = tableRPC.execute(strMethod, params);
-		if (result.type() == UniValue::VARR)
+		if (result.type() == UniValue::VOBJ)
 		{
-			const UniValue &arr = result.get_array();
-		    for (unsigned int idx = 0; idx < arr.size(); idx++) {
-				name_str = "";
-			    const UniValue& input = arr[idx];
-				if (input.type() != UniValue::VOBJ)
-					continue;
-				const UniValue& o = input.get_obj();
-		
-				const UniValue& name_value = find_value(o, "escrow");
-				if (name_value.type() == UniValue::VSTR)
-					name_str = name_value.get_str();
-				if(QString::fromStdString(name_str) != escrow)
-					continue;
-				const UniValue& seller_value = find_value(o, "seller");
-				if (seller_value.type() == UniValue::VSTR)
-					seller = QString::fromStdString(seller_value.get_str());
-				const UniValue& arbiter_value = find_value(o, "arbiter");
-				if (arbiter_value.type() == UniValue::VSTR)
-					arbiter = QString::fromStdString(arbiter_value.get_str());
-				const UniValue& buyer_value = find_value(o, "buyer");
-				if (buyer_value.type() == UniValue::VSTR)
-					buyer = QString::fromStdString(buyer_value.get_str());
-				const UniValue& offertitle_value = find_value(o, "offertitle");
-				if (offertitle_value.type() == UniValue::VSTR)
-					offertitle = QString::fromStdString(offertitle_value.get_str());
-				string currency_str = "";
-				const UniValue& currency_value = find_value(o, "currency");
-				if (currency_value.type() == UniValue::VSTR)
-					currency_str = currency_value.get_str();
-				const UniValue& total_value = find_value(o, "total");
-				if (total_value.type() == UniValue::VSTR)
-					total = QString::fromStdString(total_value.get_str() + string(" ") + currency_str);
-				const UniValue& status_value = find_value(o, "status");
-				if (status_value.type() == UniValue::VSTR)
-					status = QString::fromStdString(status_value.get_str());
-				const UniValue& btctxid_value = find_value(o, "btctxid");
-				if (btctxid_value.type() == UniValue::VSTR)
-					btctxid = QString::fromStdString(btctxid_value.get_str());
-				const UniValue& redeemtxid_value = find_value(o, "redeem_txid");
-				if (redeemtxid_value.type() == UniValue::VSTR)
-					redeemtxid = QString::fromStdString(redeemtxid_value.get_str());
-				return true;
-				
-			}
+			const UniValue& o = result.get_obj();
+	
+			const UniValue& name_value = find_value(o, "escrow");
+			if (name_value.type() == UniValue::VSTR)
+				name_str = name_value.get_str();
+			if(QString::fromStdString(name_str) != escrow)
+				return false;
+			const UniValue& seller_value = find_value(o, "seller");
+			if (seller_value.type() == UniValue::VSTR)
+				seller = QString::fromStdString(seller_value.get_str());
+			const UniValue& arbiter_value = find_value(o, "arbiter");
+			if (arbiter_value.type() == UniValue::VSTR)
+				arbiter = QString::fromStdString(arbiter_value.get_str());
+			const UniValue& buyer_value = find_value(o, "buyer");
+			if (buyer_value.type() == UniValue::VSTR)
+				buyer = QString::fromStdString(buyer_value.get_str());
+			const UniValue& offertitle_value = find_value(o, "offertitle");
+			if (offertitle_value.type() == UniValue::VSTR)
+				offertitle = QString::fromStdString(offertitle_value.get_str());
+			string currency_str = "";
+			const UniValue& currency_value = find_value(o, "currency");
+			if (currency_value.type() == UniValue::VSTR)
+				currency_str = currency_value.get_str();
+			const UniValue& total_value = find_value(o, "total");
+			if (total_value.type() == UniValue::VSTR)
+				total = QString::fromStdString(total_value.get_str() + string(" ") + currency_str);
+			const UniValue& status_value = find_value(o, "status");
+			if (status_value.type() == UniValue::VSTR)
+				status = QString::fromStdString(status_value.get_str());
+			const UniValue& btctxid_value = find_value(o, "btctxid");
+			if (btctxid_value.type() == UniValue::VSTR)
+				btctxid = QString::fromStdString(btctxid_value.get_str());
+			const UniValue& redeemtxid_value = find_value(o, "redeem_txid");
+			if (redeemtxid_value.type() == UniValue::VSTR)
+				redeemtxid = QString::fromStdString(redeemtxid_value.get_str());
+			return true;
 		}
 	}
 	catch (UniValue& objError)
