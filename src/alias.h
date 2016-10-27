@@ -37,7 +37,13 @@ public:
         SetNull();
     }
 
-    inline friend bool operator==(const CAliasPayment &a, const CAliasPayment &b) {
+	ADD_SERIALIZE_METHODS;
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+		READWRITE(txHash);
+		READWRITE(VARINT(nHeight));
+	}
+	inline friend bool operator==(const CAliasPayment &a, const CAliasPayment &b) {
         return (
 		a.txHash == b.txHash
         && a.nHeight == b.nHeight
