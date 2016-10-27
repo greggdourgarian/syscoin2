@@ -1871,7 +1871,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	string strSafeSearch = "Yes";
 	if(params.size() >= 4)
 	{
-		strSafeSearch = params[5].get_str();
+		strSafeSearch = params[3].get_str();
 	}
 	string strPubKey;
     if (params.size() >= 5 && params[4].get_str().size() > 0) {
