@@ -1126,16 +1126,14 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		else if(op == OP_ALIAS_PAYMENT)
 		{
 			const uint256 &txHash = tx.GetHash();
-			if(paliasdb->ExistsAliasPayment(vchAlias, txHash))
+			vector<CAliasPayment> vtxPaymentPos;
+			if(paliasdb->ExistsAliasPayment(vchAlias))
 			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Payment transaction already exists for this alias");
-				return true;
-			}
-			std::vector<CAliasPayment>& vtxPaymentPos;
-			if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
-			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Payment transaction already exists for this alias");
-				return true;
+				if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
+				{
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Cannot read payments from alias DB");
+					return true;
+				}
 			}
 			CAliasPayment payment;
 			payment.txHash = txHash;
