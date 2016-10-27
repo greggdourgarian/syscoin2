@@ -20,6 +20,7 @@
 #include "chainparams.h"
 #include "core_io.h"
 #include "policy/policy.h"
+#include "keystore.h"
 #include "utiltime.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
