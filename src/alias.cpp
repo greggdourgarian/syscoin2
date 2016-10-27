@@ -1710,7 +1710,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	else
 	{
 		if (!pwalletMain->AddKeyPubKey(key, defaultKey))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not add new key to wallet"));
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not add new key to wallet. Perhaps it already exists"));
 	}
 
 	CScript scriptPubKeyOrig;
