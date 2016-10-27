@@ -91,8 +91,10 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     typeWidget->addItem(tr("To yourself"), TransactionFilterProxy::TYPE(TransactionRecord::SendToSelf));
     typeWidget->addItem(tr("Mined"), TransactionFilterProxy::TYPE(TransactionRecord::Generated));
     typeWidget->addItem(tr("Other"), TransactionFilterProxy::TYPE(TransactionRecord::Other));
-   // SYSCOIN
+    // SYSCOIN
 	typeWidget->addItem(tr("Alias Activated"), TransactionFilterProxy::TYPE(TransactionRecord::AliasActivate));
+	typeWidget->addItem(tr("Alias Payment Sent"), TransactionFilterProxy::TYPE(TransactionRecord::AliasPaymentSent));
+	typeWidget->addItem(tr("Alias Payment Received"), TransactionFilterProxy::TYPE(TransactionRecord::AliasPaymentRecv));
     typeWidget->addItem(tr("Alias Updated"), TransactionFilterProxy::TYPE(TransactionRecord::AliasUpdate));
     typeWidget->addItem(tr("Alias Transferred"), TransactionFilterProxy::TYPE(TransactionRecord::AliasTransfer));
 	typeWidget->addItem(tr("Alias Received"), TransactionFilterProxy::TYPE(TransactionRecord::AliasRecv));

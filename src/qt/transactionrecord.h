@@ -80,6 +80,8 @@ public:
         SendToSelf,
 		// SYSCOIN
         AliasActivate,
+		AliasPaymentSent,
+		AliasPaymentRecv,
         AliasUpdate,
         AliasTransfer,
 		AliasRecv,

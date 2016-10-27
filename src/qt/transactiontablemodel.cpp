@@ -383,8 +383,10 @@ QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
 	// SYSCOIN
     case TransactionRecord::AliasActivate:
         return tr("Alias Activated");
-    case TransactionRecord::AliasUpdate:
-        return tr("Alias Updated");
+    case TransactionRecord::AliasPaymentSent:
+        return tr("Alias Payment Sent");
+    case TransactionRecord::AliasPaymentRecv:
+        return tr("Alias Payment Received");
     case TransactionRecord::AliasTransfer:
         return tr("Alias Transferred");
     case TransactionRecord::AliasRecv:
@@ -448,6 +450,7 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
     case TransactionRecord::RecvFromOther:
 	// SYSCOIN
 	case TransactionRecord::AliasRecv:
+	case TransactionRecord::AliasPaymentRecv:
 	case TransactionRecord::CertRecv:
 	case TransactionRecord::OfferAcceptRecv:
 	case TransactionRecord::OfferAcceptFeedbackRecv:
@@ -460,6 +463,7 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
     case TransactionRecord::SendToOther:
 	// SYSCOIN
 	case TransactionRecord::AliasActivate:
+	case TransactionRecord::AliasPaymentSent:
     case TransactionRecord::AliasTransfer:
     case TransactionRecord::OfferUpdate:
     case TransactionRecord::OfferActivate:
@@ -499,6 +503,8 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord *wtx, b
     case TransactionRecord::SendToOther:
 	// SYSCOIN
     case TransactionRecord::AliasActivate:
+	case TransactionRecord::AliasPaymentRecv:
+	case TransactionRecord::AliasPaymentSent:
     case TransactionRecord::AliasUpdate:
     case TransactionRecord::AliasTransfer:
 	case TransactionRecord::AliasRecv:

@@ -30,6 +30,12 @@ static bool CreateSyscoinTransactionRecord(TransactionRecord& sub, int op, const
 	case OP_ALIAS_ACTIVATE:
 		sub.type = TransactionRecord::AliasActivate;
 		break;
+	case OP_ALIAS_PAYMENT:
+		if(type == SEND)
+			sub.type = TransactionRecord::AliasPaymentSent;	
+		else if(type == RECV)
+			sub.type = TransactionRecord::AliasPaymentRecv;
+		break;
 	case OP_ALIAS_UPDATE:
 		if(type == SEND)
 			sub.type = (IsSyscoinTxMine(wtx, "alias")) ? TransactionRecord::AliasUpdate : TransactionRecord::AliasTransfer;	

@@ -46,7 +46,7 @@ enum opcodetype
     // push value
     OP_0 = 0x00,
    // SYSCOIN aliases
-    OP_ALIAS_NEW = 0x01,
+    OP_ALIAS_PAYMENT = 0x01,
     OP_ALIAS_ACTIVATE=0x02,
     OP_ALIAS_UPDATE=0x03,
 

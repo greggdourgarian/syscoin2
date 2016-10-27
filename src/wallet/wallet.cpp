@@ -2271,9 +2271,28 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 // vouts to the payees
                 BOOST_FOREACH (const CRecipient& recipient, vecSend)
                 {
-                    CTxOut txout(recipient.nAmount, recipient.scriptPubKey);
+					// SYSCOIN pay to alias
+					CRecipient myrecipient = recipient;
+					if(!sysTx)
+					{
+						CTxDestination payDest;
+						if (ExtractDestination(recipient.scriptPubKey, payDest)) 
+						{
+							scriptChange = GetScriptForDestination(payDest);
+							CSyscoinAddress address = CSyscoinAddress(payDest);
+							address = CSyscoinAddress(address.ToString());
+							if(address.isAlias)
+							{
+								CScript scriptPubKey;
+								scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
+								scriptPubKey += recipient.scriptPubKey;
+								myrecipient = {scriptPubKey, recipient.nAmount, recipient.fSubtractFeeFromAmount};
+							}
+						}
+					}
+                    CTxOut txout(myrecipient.nAmount, myrecipient.scriptPubKey);
 
-                    if (recipient.fSubtractFeeFromAmount)
+                    if (myrecipient.fSubtractFeeFromAmount)
                     {
                         txout.nValue -= nFeeRet / nSubtractFeeFromAmount; // Subtract fee equally from each selected recipient
 
@@ -2286,7 +2305,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 
                     if (txout.IsDust(::minRelayTxFee))
                     {
-                        if (recipient.fSubtractFeeFromAmount && nFeeRet > 0)
+                        if (myrecipient.fSubtractFeeFromAmount && nFeeRet > 0)
                         {
                             if (txout.nValue < 0)
                                 strFailReason = _("The transaction amount is too small to pay the fee");
@@ -2317,7 +2336,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 				vector<pair<const CWalletTx*, unsigned int> > vecCoins(
 					setCoins.begin(), setCoins.end());
 				if(wtxInAlias != NULL)
-					vecCoins.insert(vecCoins.end(), make_pair(wtxInAlias, nTxOutAlias));
+					vecCoins.push_front(make_pair(wtxInAlias, nTxOutAlias));
 				// SYSCOIN
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, vecCoins)
                 {

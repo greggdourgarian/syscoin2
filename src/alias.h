@@ -29,6 +29,35 @@ static const unsigned int SYSCOIN_FORK1 = 50000;
 
 
 bool IsSys21Fork(const uint64_t& nHeight);
+class CAliasPayment {
+public:
+    uint256 txHash;
+    uint64_t nHeight;
+	CAliasPayment() {
+        SetNull();
+    }
+
+    inline friend bool operator==(const CAliasPayment &a, const CAliasPayment &b) {
+        return (
+		a.txHash == b.txHash
+        && a.nHeight == b.nHeight
+        );
+    }
+
+    inline CAliasPayment operator=(const CAliasPayment &b) {
+		txHash = b.txHash;
+        nHeight = b.nHeight;
+        return *this;
+    }
+
+    inline friend bool operator!=(const CAliasPayment &a, const CAliasPayment &b) {
+        return !(a == b);
+    }
+
+    inline void SetNull() { txHash.SetNull(); nHeight = 0;}
+    inline bool IsNull() const { return (txHash.IsNull() && nHeight == 0); }
+
+};
 class CMultiSigAliasInfo {
 public:
 	std::vector<std::string> vchAliases;
@@ -205,18 +234,32 @@ public:
 		}
 		return true;
 	}
+	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos)
+	{
+		if(!Write(make_pair(std::string("namep"), name), vtxPaymentPos))
+			return false;
+	}
 
 	bool EraseAlias(const std::vector<unsigned char>& name) {
 	    return Erase(make_pair(std::string("namei"), name));
 	}
+	bool EraseAliasPayment(const std::vector<unsigned char>& name) {
+	    return Erase(make_pair(std::string("namep"), name));
+	}
 	bool ReadAlias(const std::vector<unsigned char>& name, std::vector<CAliasIndex>& vtxPos) {
 		return Read(make_pair(std::string("namei"), name), vtxPos);
+	}
+	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos) {
+		return Read(make_pair(std::string("namep"), name), vtxPos);
 	}
 	bool ReadAddress(const std::vector<unsigned char>& address, std::vector<unsigned char>& name) {
 		return Read(make_pair(std::string("namea"), address), name);
 	}
 	bool ExistsAlias(const std::vector<unsigned char>& name) {
 	    return Exists(make_pair(std::string("namei"), name));
+	}
+	bool ExistsAliasPayment(const std::vector<unsigned char>& name) {
+	    return Exists(make_pair(std::string("namep"), name));
 	}
 	bool ExistsAddress(const std::vector<unsigned char>& address) {
 	    return Exists(make_pair(std::string("namea"), address));
