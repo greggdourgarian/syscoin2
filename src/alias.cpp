@@ -1778,7 +1778,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
 		}
-		strPassword = SecureString(strCipherText.c_str());
+		strPassword = strCipherText;
 	}
 	vector<unsigned char> vchRandAlias = vchFromString(GenerateSyscoinGuid());
     // build alias
@@ -1959,7 +1959,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
 		}
-		strPassword = SecureString(strCipherText.c_str());
+		strPassword = strCipherText.c_str();
 	}
 	CPubKey currentKey(vchPubKeyByte);
 	CMultiSigAliasInfo multiSigInfo;
