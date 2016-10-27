@@ -410,9 +410,9 @@ BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	AliasNew("node1", "node1alias", "password", "node1aliasdata");
-	AliasNew("node2", "node2alias", "password", "node2aliasdata");
-	AliasNew("node3", "node3alias", "password", "node2aliasdata");
+	AliasNew("node1", "node1alias", "password1", "node1aliasdata");
+	AliasNew("node2", "node2alias", "password2", "node2aliasdata");
+	AliasNew("node3", "node3alias", "password3", "node2aliasdata");
 
 	string certguid  = CertNew("node1", "node1alias", "title", "data");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certguid));
