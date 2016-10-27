@@ -1689,7 +1689,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	const SecureString &strPassword = params[1].get_str().c_str();
+	const string &strPassword = params[1].get_str().c_str();
 	string strPublicValue = params[2].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 
@@ -1724,7 +1724,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
 	vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-    if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
+	SecureString password = strPassword.c_str();
+    if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 	CKey key;
 	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
@@ -1878,9 +1879,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		vchPubKey = vchFromString(params[4].get_str());
 		boost::algorithm::unhex(vchPubKey.begin(), vchPubKey.end(), std::back_inserter(vchPubKeyByte));
 	}
-	SecureString strPassword;
+	string strPassword;
 	if(params.size() >= 6 && params[5].get_str().size() > 0 && vchPubKeyByte.empty())
-		strPassword = params[5].get_str().c_str();
+		strPassword = params[5].get_str();
 
 	string strAcceptCertTransfers = "Yes";
 	if(params.size() >= 7)
@@ -1911,11 +1912,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CPubKey pubKey(theAlias.vchPubKey);	
 	if(!strPassword.empty())
 	{
+		SecureString password = strPassword.c_str();
 		CCrypter crypt;
 		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
 		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-		if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
+		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
