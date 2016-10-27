@@ -29,41 +29,6 @@ static const unsigned int SYSCOIN_FORK1 = 50000;
 
 
 bool IsSys21Fork(const uint64_t& nHeight);
-class CAliasPayment {
-public:
-    uint256 txHash;
-    uint64_t nHeight;
-	CAliasPayment() {
-        SetNull();
-    }
-
-	ADD_SERIALIZE_METHODS;
-    template <typename Stream, typename Operation>
-    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-		READWRITE(txHash);
-		READWRITE(VARINT(nHeight));
-	}
-	inline friend bool operator==(const CAliasPayment &a, const CAliasPayment &b) {
-        return (
-		a.txHash == b.txHash
-        && a.nHeight == b.nHeight
-        );
-    }
-
-    inline CAliasPayment operator=(const CAliasPayment &b) {
-		txHash = b.txHash;
-        nHeight = b.nHeight;
-        return *this;
-    }
-
-    inline friend bool operator!=(const CAliasPayment &a, const CAliasPayment &b) {
-        return !(a == b);
-    }
-
-    inline void SetNull() { txHash.SetNull(); nHeight = 0;}
-    inline bool IsNull() const { return (txHash.IsNull() && nHeight == 0); }
-
-};
 class CMultiSigAliasInfo {
 public:
 	std::vector<std::string> vchAliases;
@@ -240,7 +205,7 @@ public:
 		}
 		return true;
 	}
-	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos)
+	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<uint256>& vtxPaymentPos)
 	{
 		if(!Write(make_pair(std::string("namep"), name), vtxPaymentPos))
 			return false;
@@ -255,7 +220,7 @@ public:
 	bool ReadAlias(const std::vector<unsigned char>& name, std::vector<CAliasIndex>& vtxPos) {
 		return Read(make_pair(std::string("namei"), name), vtxPos);
 	}
-	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos) {
+	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<uint256>& vtxPaymentPos) {
 		return Read(make_pair(std::string("namep"), name), vtxPaymentPos);
 	}
 	bool ReadAddress(const std::vector<unsigned char>& address, std::vector<unsigned char>& name) {
