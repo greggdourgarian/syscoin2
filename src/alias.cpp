@@ -1662,11 +1662,9 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoin
 
 	LOCK(cs_main);
 	CAmount nAmount = 0;
-	std::vector<CAliasPayment>& vtxPaymentPos;
-
+	std::vector<CAliasPayment> vtxPaymentPos;
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 	{
-		errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Payment transaction already exists for this alias");
 		return;
 	}
 	CCoinsViewCache view(pcoinsTip);
@@ -2598,7 +2596,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
         nMinDepth = params[1].get_int();
 
 	CAmount nAmount = 0;
-	std::vector<CAliasPayment>& vtxPaymentPos;
+	vector<CAliasPayment> vtxPaymentPos;
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 	{
