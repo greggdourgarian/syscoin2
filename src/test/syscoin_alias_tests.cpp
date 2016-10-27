@@ -643,14 +643,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
 	MilliSleep(2500);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasexpire2 password somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew aliasexpire2 passwordnew somedata"));
 	const UniValue &array1 = r.get_array();
 	string aliasexpire2pubkey = array1[1].get_str();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
 	MilliSleep(2500);
 
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew aliasexpire2node2 password somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew aliasexpire2node2 passwordnew somedata"));
 	const UniValue &array2 = r.get_array();
 	string aliasexpire2node2pubkey = array2[1].get_str();	
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -725,7 +725,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
-	BOOST_CHECK_EQUAL(aliasexpirenode2pubkey, AliasNew("node2", "aliasexpirenode2", "password", "somedata"));
+	BOOST_CHECK_EQUAL(aliasexpirenode2pubkey, AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata 0"));
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 
