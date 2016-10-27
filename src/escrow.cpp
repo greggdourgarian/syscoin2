@@ -3284,12 +3284,12 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		if (vchNameUniq.size() > 0 && vchNameUniq != vchEscrow)
 			continue;
 		vector<CEscrow> vtxPos;
-		CEscrow escrow;
 		bool escrowRelease = false;
 		bool escrowRefund = false;
 	    vector<CEscrow> vtxEscrowPos;
         if (!pescrowdb->ReadEscrow(vchEscrow, vtxEscrowPos) || vtxEscrowPos.empty())
             continue;
+		const CEscrow &escrow = vtxEscrowPos.back();
 		if(escrow.op == OP_ESCROW_COMPLETE)
 		{
 			for(unsigned int i = vtxEscrowPos.size() - 1; i >= 0;i--)
