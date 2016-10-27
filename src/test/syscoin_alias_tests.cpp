@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	// steal alias after expiry and original node try to recreate or update should fail
 	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
 	GenerateBlocks(110);
-	AliasNew("node2", "aliasexpirebuyback", "password", "somedata", "data");
+	AliasNew("node2", "aliasexpirebuyback", "passwordnew", "somedata", "data");
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback password data"), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data"), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate aliasexpirebuyback changedata1 pvtdata"), runtime_error);
