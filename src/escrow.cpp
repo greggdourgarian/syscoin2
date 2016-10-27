@@ -3040,7 +3040,6 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
 		  throw runtime_error("failed to read from escrow DB");
 	CEscrow ca = vtxPos.back();
-	CTransaction tx;
 	if (!GetSyscoinTransaction(ca.nHeight, ca.txHash, tx, Params().GetConsensus()))
 		 throw runtime_error("failed to read escrow transaction");
     vector<vector<unsigned char> > vvch;
@@ -3133,6 +3132,24 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	{
 		expired = 1;
 	}  
+	bool escrowRelease = false;
+	bool escrowRefund = false;
+	if(ca.op == OP_ESCROW_COMPLETE)
+	{
+		for(unsigned int i = vtxEscrowPos.size() - 1; i >= 0;i--)
+		{
+			if(vtxEscrowPos[i].op == OP_ESCROW_RELEASE)
+			{
+				escrowRelease = true;
+				break;
+			}
+			else if(vtxEscrowPos[i].op == OP_ESCROW_REFUND)
+			{
+				escrowRefund = true;
+				break;
+			}
+		}
+	}
 	string status = "unknown";
 	if(ca.op == OP_ESCROW_ACTIVATE)
 		status = "in escrow";
