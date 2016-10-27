@@ -250,7 +250,7 @@ public:
 		return Read(make_pair(std::string("namei"), name), vtxPos);
 	}
 	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos) {
-		return Read(make_pair(std::string("namep"), name), vtxPos);
+		return Read(make_pair(std::string("namep"), name), vtxPaymentPos);
 	}
 	bool ReadAddress(const std::vector<unsigned char>& address, std::vector<unsigned char>& name) {
 		return Read(make_pair(std::string("namea"), address), name);
