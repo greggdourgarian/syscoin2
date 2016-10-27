@@ -1789,7 +1789,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchPublicValue = vchPublicValue;
 	newAlias.vchPrivateValue = vchPrivateValue;
 	newAlias.nRenewal = nRenewal;
-	newAlias.vchPassword = strPassword;
+	newAlias.vchPassword = vchFromString(strPassword);
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
@@ -1879,7 +1879,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		boost::algorithm::unhex(vchPubKey.begin(), vchPubKey.end(), std::back_inserter(vchPubKeyByte));
 	}
 	SecureString strPassword;
-	if(params.size() >= 6 && && params[5].get_str().size() > 0 && vchPubKeyByte.empty())
+	if(params.size() >= 6 && params[5].get_str().size() > 0 && vchPubKeyByte.empty())
 		strPassword = params[5].get_str().c_str();
 
 	string strAcceptCertTransfers = "Yes";
@@ -1991,8 +1991,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPublicValue = vchPublicValue;
 	if(copyAlias.vchPrivateValue != vchPrivateValue)
 		theAlias.vchPrivateValue = vchPrivateValue;
-	if(copyAlias.vchPassword != strPassword)
-		theAlias.vchPassword = strPassword;
+	if(copyAlias.vchPassword != vchFromString(strPassword))
+		theAlias.vchPassword = vchFromString(strPassword);
 
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
