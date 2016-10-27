@@ -37,7 +37,7 @@ CCertDB *pcertdb = NULL;
 CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, bool syscoinMultiSigTx=false, const CoinControl* coinControl=NULL);
+extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
 bool GetPreviousInput(const COutPoint * outpoint, int &op, vector<vector<unsigned char> > &vvchArgs)
 {
 	if(!pwalletMain || !outpoint)
@@ -1659,7 +1659,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	return CSyscoinSecret(key).ToString();
 
 }
-void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoinAddress& addressFrom, const CScript& scriptPubKeyTo, vector<CRecipient> &vecSend, CoinControl& coinControl){
+void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoinAddress& addressFrom, const CScript& scriptPubKeyTo, vector<CRecipient> &vecSend, CCoinControl& coinControl){
 
 	LOCK(cs_main);
 	CAmount nAmount = 0;
@@ -1882,7 +1882,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
-	CoinControl coinControl;
+	CCoinControl coinControl;
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true))
 	{
 		coinControl.fAllowOtherInputs = true;
@@ -2093,7 +2093,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient); 
 	vecSend.push_back(recipient);
-	CoinControl coinControl;
+	CCoinControl coinControl;
 	if(!strPassword.empty())
 	{
 		coinControl.fAllowOtherInputs = true;

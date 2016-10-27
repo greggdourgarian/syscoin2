@@ -387,7 +387,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 // SYSCOIN: Send service transactions
-void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxAliasIn=NULL, bool syscoinMultiSigTx=false, const CoinControl* coinControl=NULL)
+void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxAliasIn=NULL, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL)
 {
     CAmount curBalance = pwalletMain->GetBalance();
 
