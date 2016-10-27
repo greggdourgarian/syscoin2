@@ -104,8 +104,7 @@ bool COffer::UnserializeFromData(const vector<unsigned char> &vchData, const vec
 
 		const vector<unsigned char> &vchOfferData = Serialize();
 		uint256 calculatedHash = Hash(vchOfferData.begin(), vchOfferData.end());
-		vector<unsigned char> vchRand = CScriptNum(calculatedHash.GetCheapHash()).getvch();
-		vector<unsigned char> vchRandOffer = vchFromValue(HexStr(vchRand));
+		vector<unsigned char> vchRandOffer= vchFromValue(calculatedHash.GetHex());
 		if(vchRandOffer != vchHash)
 		{
 			SetNull();
@@ -1566,8 +1565,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = newOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	CPubKey currentOfferKey(alias.vchPubKey);
 	scriptPubKeyOrig= GetScriptForDestination(currentOfferKey.GetID());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACTIVATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
@@ -1706,8 +1705,8 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = newOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	CPubKey aliasKey(alias.vchPubKey);
 	scriptPubKeyOrig = GetScriptForDestination(aliasKey.GetID());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACTIVATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
@@ -1844,8 +1843,8 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
@@ -1954,8 +1953,8 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
@@ -2061,8 +2060,8 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
@@ -2312,8 +2311,8 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 
@@ -2504,8 +2503,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 
     CScript scriptPayment, scriptPubKeyCommission, scriptPubKeyOrig, scriptPubLinkKeyOrig, scriptPaymentCommission;
 	currentKey = CPubKey(theAlias.vchPubKey);
@@ -2854,8 +2853,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashOffer = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 
 	vector<CRecipient> vecSend;
 	CRecipient recipientAlias, recipient;

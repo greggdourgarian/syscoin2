@@ -65,8 +65,7 @@ bool CMessage::UnserializeFromData(const vector<unsigned char> &vchData, const v
     }
 	const vector<unsigned char> &vchMsgData = Serialize();
 	uint256 calculatedHash = Hash(vchMsgData.begin(), vchMsgData.end());
-	vector<unsigned char> vchRand = CScriptNum(calculatedHash.GetCheapHash()).getvch();
-	vector<unsigned char> vchRandMsg = vchFromValue(HexStr(vchRand));
+	vector<unsigned char> vchRandMsg= vchFromValue(calculatedHash.GetHex());
 	if(vchRandMsg != vchHash)
 	{
 		SetNull();
@@ -487,8 +486,8 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = newMessage.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashMessage = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashMessage = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_MESSAGE_ACTIVATE) << vchMessage << vchHashMessage << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 

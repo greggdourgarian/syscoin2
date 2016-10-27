@@ -84,8 +84,7 @@ bool CEscrow::UnserializeFromData(const vector<unsigned char> &vchData, const ve
 
 		const vector<unsigned char> &vchEscrowData = Serialize();
 		uint256 calculatedHash = Hash(vchEscrowData.begin(), vchEscrowData.end());
-		vector<unsigned char> vchRand = CScriptNum(calculatedHash.GetCheapHash()).getvch();
-		vector<unsigned char> vchRandEscrow = vchFromValue(HexStr(vchRand));
+		vector<unsigned char> vchRandEscrow= vchFromValue(calculatedHash.GetHex());
 		if(vchRandEscrow != vchHash)
 		{
 			SetNull();
@@ -1253,8 +1252,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	}
 	const vector<unsigned char> &data = newEscrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashEscrow = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
 	scriptPubKeyBuyer << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
 	scriptPubKeySeller << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow  << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
 	scriptPubKeyArbiter << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
@@ -1597,8 +1596,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = escrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashEscrow = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
 
     CScript scriptPubKeyOrigSeller, scriptPubKeySeller, scriptPubKeyOrigArbiter, scriptPubKeyArbiter;
 	scriptPubKeySeller= GetScriptForDestination(sellerKey.GetID());
@@ -2050,8 +2049,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = escrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashEscrow = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
     scriptPubKeyBuyer << CScript::EncodeOP_N(OP_ESCROW_RELEASE) << vchEscrow << vchFromString("1") << vchHashEscrow << OP_2DROP << OP_2DROP;
     scriptPubKeyBuyer += GetScriptForDestination(buyerKey.GetID());
     scriptPubKeySeller << CScript::EncodeOP_N(OP_ESCROW_RELEASE) << vchEscrow << vchFromString("1") << vchHashEscrow << OP_2DROP << OP_2DROP;
@@ -2347,8 +2346,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = escrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashEscrow = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
 
     CScript scriptPubKeyOrigBuyer, scriptPubKeyBuyer, scriptPubKeyOrigArbiter, scriptPubKeyArbiter;
 	scriptPubKeyBuyer= GetScriptForDestination(buyerKey.GetID());
@@ -2734,8 +2733,8 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = escrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashEscrow = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
     scriptPubKeyBuyer << CScript::EncodeOP_N(OP_ESCROW_REFUND) << vchEscrow << vchFromString("1") << vchHashEscrow << OP_2DROP << OP_2DROP;
     scriptPubKeyBuyer += GetScriptForDestination(buyerKey.GetID());
     scriptPubKeySeller << CScript::EncodeOP_N(OP_ESCROW_REFUND) << vchEscrow << vchFromString("1") << vchHashEscrow << OP_2DROP << OP_2DROP;
@@ -2941,8 +2940,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	const vector<unsigned char> &data = escrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashEscrow = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
 	CScript scriptPubKeyBuyer, scriptPubKeySeller,scriptPubKeyArbiter, scriptPubKeyBuyerDestination, scriptPubKeySellerDestination, scriptPubKeyArbiterDestination;
 	scriptPubKeyBuyerDestination= GetScriptForDestination(buyerKey.GetID());
 	scriptPubKeySellerDestination= GetScriptForDestination(sellerKey.GetID());

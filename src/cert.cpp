@@ -95,8 +95,7 @@ bool CCert::UnserializeFromData(const vector<unsigned char> &vchData, const vect
 
 		const vector<unsigned char> &vchCertData = Serialize();
 		uint256 calculatedHash = Hash(vchCertData.begin(), vchCertData.end());
-		vector<unsigned char> vchRand = CScriptNum(calculatedHash.GetCheapHash()).getvch();
-		vector<unsigned char> vchRandCert = vchFromValue(HexStr(vchRand));
+		vector<unsigned char> vchRandCert= vchFromValue(calculatedHash.GetHex());
 		if(vchRandCert != vchHash)
 		{
 			SetNull();
@@ -694,8 +693,8 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = newCert.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashCert = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashCert = vchFromValue(hash.GetHex());
 
     scriptPubKey << CScript::EncodeOP_N(OP_CERT_ACTIVATE) << vchCert << vchHashCert << OP_2DROP << OP_DROP;
     scriptPubKey += scriptPubKeyOrig;
@@ -879,8 +878,8 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theCert.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashCert = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashCert = vchFromValue(hash.GetHex());
     scriptPubKey << CScript::EncodeOP_N(OP_CERT_UPDATE) << vchCert << vchHashCert << OP_2DROP << OP_DROP;
     scriptPubKey += scriptPubKeyOrig;
 
@@ -1023,8 +1022,8 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theCert.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashCert = vchFromValue(HexStr(vchHash));
+ 	
+    vector<unsigned char> vchHashCert = vchFromValue(hash.GetHex());
     scriptPubKey << CScript::EncodeOP_N(OP_CERT_TRANSFER) << vchCert << vchHashCert << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
     // send the cert pay txn
