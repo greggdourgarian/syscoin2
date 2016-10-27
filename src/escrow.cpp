@@ -3273,7 +3273,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		int expired = 0;
 		int expires_in = 0;
 		int expired_block = 0;
-		CTransaction tx;
 		vector<vector<unsigned char> > vvch;
 		int op, nOut;
 		if (!DecodeEscrowTx(tx, op, nOut, vvch))
