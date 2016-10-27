@@ -1773,7 +1773,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!strPassword.empty())
 	{
 		string strCipherText;
-		if(!EncryptMessage(vchPubKey, strPassword, strCipherText))
+		if(!EncryptMessage(vchPubKey, vchFromString(strPassword), strCipherText))
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
 		}
@@ -1953,7 +1953,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		string strCipherText;
 		
 		// encrypt using new key
-		if(!EncryptMessage(vchPubKeyByte, strPassword, strCipherText))
+		if(!EncryptMessage(vchPubKeyByte, vchFromString(strPassword), strCipherText))
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
 		}
@@ -1965,7 +1965,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
-		pubkeys.push_back(pubkey);
+		pubkeys.push_back(pubKey);
 		for(int i =0;i<aliasNames.size();i++)
 		{
 			CAliasIndex multiSigAlias;
