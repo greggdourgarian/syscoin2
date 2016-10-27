@@ -1180,8 +1180,7 @@ bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, cons
 
 		const vector<unsigned char> &vchAliasData = Serialize();
 		uint256 calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
-		vector<unsigned char> vchRand = CScriptNum(calculatedHash.GetCheapHash()).getvch();
-		vector<unsigned char> vchRandAlias = vchFromValue(HexStr(vchRand));
+		vector<unsigned char> vchRandAlias = vchFromValue(calculatedHash.GetHash());
 		if(vchRandAlias != vchHash)
 		{
 			SetNull();
@@ -1548,8 +1547,7 @@ void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& data
 {
 	// add hash to data output (must match hash in inputs check with the tx scriptpubkey hash)
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashRand = vchFromValue(HexStr(vchHash));
+    vector<unsigned char> vchHashRand = vchFromValue(hash.GetHex());
 	scriptPubKey << vchHashRand;
 	CAmount minFee = AmountFromValue(0.02);
 	CRecipient recp = {scriptPubKey, minFee, false};
@@ -1702,18 +1700,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
-	// if renewing an alias you already had and its yours, just use the old pubkey
-	CAliasIndex theAlias;
-	CTransaction aliastx;
-	if(GetTxOfAlias(vchAlias, theAlias, aliastx, true) && IsSyscoinTxMine(aliastx, "alias"))
-	{
-		defaultKey = CPubKey(theAlias.vchPubKey);
-	}
-	else
-	{
-		if (!pwalletMain->AddKeyPubKey(key, defaultKey))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not add new key to wallet. Perhaps it already exists"));
-	}
+	pwalletMain->AddKeyPubKey(key, defaultKey);			
 
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
@@ -1769,8 +1756,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	const vector<unsigned char> &data = newAlias.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashAlias = vchFromValue(HexStr(vchHash));
+    vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 
 	CScript scriptPubKey;
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_ACTIVATE) << vchAlias << vchRandAlias << vchHashAlias << OP_2DROP << OP_2DROP;
@@ -1933,8 +1919,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	const vector<unsigned char> &data = theAlias.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	vector<unsigned char> vchHash = CScriptNum(hash.GetCheapHash()).getvch();
-    vector<unsigned char> vchHashAlias = vchFromValue(HexStr(vchHash));
+    vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 
 	CScript scriptPubKey;
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << copyAlias.vchAlias << copyAlias.vchGUID << vchHashAlias << OP_2DROP << OP_2DROP;
