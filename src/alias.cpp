@@ -2708,6 +2708,11 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			nHeight = txPos2.nHeight;
 			oName.push_back(Pair("name", name));
 			oName.push_back(Pair("type", opName));
+			oName.push_back(Pair("txid", tx.GetHash().GetHex()));
+			oName.push_back(Pair("lastupdate_height", nHeight));
+			CSyscoinAddress address;
+			txPos2.GetAddress(&address);
+			oName.push_back(Pair("address", address.ToString()));
 			if(IsAliasOp(op))
 			{
 				oName.push_back(Pair("value", stringFromVch(txPos2.vchPublicValue)));
@@ -2720,11 +2725,9 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 				oName.push_back(Pair("privatevalue", strPrivateValue));
 
 
-				oName.push_back(Pair("txid", tx.GetHash().GetHex()));
-				CSyscoinAddress address;
-				txPos2.GetAddress(&address);
-				oName.push_back(Pair("address", address.ToString()));
-				oName.push_back(Pair("lastupdate_height", nHeight));
+				
+				
+				
 				float ratingAsBuyer = 0;
 				if(txPos2.nRatingCountAsBuyer > 0)
 					ratingAsBuyer = roundf(txPos2.nRatingAsBuyer/(float)txPos2.nRatingCountAsBuyer);
