@@ -1701,7 +1701,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
 	pwalletMain->AddKeyPubKey(key, defaultKey);			
-	if(pwalletMain->HaveKey(defaultKey.GetID())
+	if(!pwalletMain->HaveKey(defaultKey.GetID())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Choose a different password"));
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
