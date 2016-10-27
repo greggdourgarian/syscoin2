@@ -2088,7 +2088,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		coinControl.fAllowOtherInputs = true;
 		CSyscoinAddress addressFrom;
-		oldAlias.GetAddress(&addressFrom);
+		theAlias.GetAddress(&addressFrom);
 		TransferAliasBalances(vchAlias, addressFrom, scriptPubKeyOrig, vecSend, coinControl);
 	}
 	CScript scriptData;
