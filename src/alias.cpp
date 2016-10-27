@@ -1694,14 +1694,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 	CKey key;
 	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 	CPubKey defaultKey = key.GetPubKey();
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
 	pwalletMain->AddKeyPubKey(key, defaultKey);			
-	if(!pwalletMain->HaveKey(defaultKey.GetID())
+	if(!pwalletMain->HaveKey(defaultKey.GetID()))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Choose a different password"));
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
