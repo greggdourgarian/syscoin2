@@ -1678,24 +1678,20 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoin
     {
 		if (!GetSyscoinTransaction(vtxPaymentPos[i].nHeight, vtxPaymentPos[i].txHash, tx, Params().GetConsensus()))
 			continue;
-		if (!view->GetCoins(vtxPaymentPos[i].txHash, coins))
+		if (!view.GetCoins(vtxPaymentPos[i].txHash, coins))
 			continue;
         if (tx.IsCoinBase() || !CheckFinalTx(tx))
             continue;
 
-		unsigned int nMinDepth = 1;
         for (unsigned int j = 0; j < tx.vout.size(); j++)
 		{
-			if(!coins->IsAvailable(j))
+			if(!coins.IsAvailable(j))
 				continue;
 			if (!ExtractDestination(tx.vout[j].scriptPubKey, payDest)) 
 				continue;
 			destaddy = CSyscoinAddress(payDest);
             if (destaddy.ToString() == addressFrom.ToString())
-			{
-				if (tx.GetDepthInMainChain() < nMinDepth)
-					throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5501 - " + _("Please try again after payments to your alias have confirmed"));
-				           
+			{  
 				nAmount += tx.vout[j].nValue;
 				uint256 txhash = tx.GetHash();
 				COutPoint outpt(txhash, j);
@@ -2601,7 +2597,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 	{
-		return;
+		return ValueFromAmount(nAmount);
 	}
 	CCoinsViewCache view(pcoinsTip);
 	CCoins coins;
@@ -2611,7 +2607,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     {
 		if (!GetSyscoinTransaction(vtxPaymentPos[i].nHeight, vtxPaymentPos[i].txHash, tx, Params().GetConsensus()))
 			continue;
-		if (!view->GetCoins(vtxPaymentPos[i].txHash, coins))
+		if (!view.GetCoins(vtxPaymentPos[i].txHash, coins))
 			continue;
         if (tx.IsCoinBase() || !CheckFinalTx(tx))
             continue;
@@ -2619,9 +2615,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		unsigned int nMinDepth = 1;
         for (unsigned int j = 0; j < tx.vout.size(); j++)
 		{
-			if(!coins->IsAvailable(j))
-				continue;
-			if (wtx.GetDepthInMainChain() < nMinDepth)
+			if(!coins.IsAvailable(j))
 				continue;
 			nAmount += tx.vout[j].nValue;	
 		}
