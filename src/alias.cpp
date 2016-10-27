@@ -21,6 +21,7 @@
 #include "core_io.h"
 #include "policy/policy.h"
 #include "utiltime.h"
+#include "coincontrol.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
 #include <boost/xpressive/xpressive_dynamic.hpp>
@@ -1673,7 +1674,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoin
 	CSyscoinAddress destaddy;
 	CTransaction tx;
 	// get all alias inputs and transfer them to the new alias destination
-    for (unsigned int i = 0;i<vtxPaymentPos.size();i++))
+    for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
 		if (!GetSyscoinTransaction(vtxPaymentPos[i].nHeight, vtxPaymentPos[i].txHash, tx, Params().GetConsensus()))
 			continue;
@@ -2606,7 +2607,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 	CCoins coins;
 	CTransaction tx;
 	// get all alias inputs and transfer them to the new alias destination
-    for (unsigned int i = 0;i<vtxPaymentPos.size();i++))
+    for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
 		if (!GetSyscoinTransaction(vtxPaymentPos[i].nHeight, vtxPaymentPos[i].txHash, tx, Params().GetConsensus()))
 			continue;
