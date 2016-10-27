@@ -1883,7 +1883,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
 	CCoinControl coinControl;
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true))
+	// if renewing your own alias, transfer balances
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
 		coinControl.fAllowOtherInputs = true;
 		CPubKey oldKey(oldAlias.vchPubKey);
@@ -1902,7 +1903,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	vecSend.push_back(fee);
 	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, false, &coinControl);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, &coinControl);
 	UniValue res(UniValue::VARR);
 	res.push_back(wtx.GetHash().GetHex());
 	res.push_back(HexStr(vchPubKey));
