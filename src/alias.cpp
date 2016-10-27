@@ -1588,6 +1588,9 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
 	vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
+	if(strPassword.empty())
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Password cannot be empty"));
+
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 1, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
@@ -1701,7 +1704,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
 	if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Choose a different password"));
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliasNames.size() > 0)

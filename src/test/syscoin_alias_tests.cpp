@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	
-	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
+	AliasNew("node1", "aliasexpirebuyback", "passwordnew1", "somedata", "data");
 	// can't renew aliases that aren't expired
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data"), runtime_error);
 	GenerateBlocks(110);
@@ -154,16 +154,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "On"), false);
 	
 	// renew alias and now its searchable
-	AliasNew("node1", "aliasexpirebuyback", "password", "somedata1", "data1");
+	AliasNew("node1", "aliasexpirebuyback", "passwordnew2", "somedata1", "data1");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "On"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "On"), true);
 
 	GenerateBlocks(110);
 	// try to renew alias again second time
-	AliasNew("node1", "aliasexpirebuyback", "password", "somedata2", "data2");
+	AliasNew("node1", "aliasexpirebuyback", "passwordnew3", "somedata2", "data2");
 	// run the test with node3 offline to test pruning with renewing alias
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback1 password data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback1 passwordnew4 data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback1", "On"), false);
@@ -180,13 +180,13 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 
 	// run the test with node3 offline to test pruning with renewing alias twice
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 password data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 passwordnew5 data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	// renew second time
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 password data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback2 passwordnew6 data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
@@ -201,21 +201,21 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasinfo aliasexpirebuyback2"), runtime_error);
 
 	// steal alias after expiry and original node try to recreate or update should fail
-	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
+	AliasNew("node1", "aliasexpirebuyback", "passwordnew7", "somedata", "data");
 	GenerateBlocks(110);
-	AliasNew("node2", "aliasexpirebuyback", "passwordnew", "somedata", "data");
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback password data"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data"), runtime_error);
+	AliasNew("node2", "aliasexpirebuyback", "passwordnew8", "somedata", "data");
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew aliasexpirebuyback passwordnew9 data"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback passwordnew10 data"), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate aliasexpirebuyback changedata1 pvtdata"), runtime_error);
 
 	// this time steal the alias and try to recreate at the same time
 	GenerateBlocks(110);
-	AliasNew("node1", "aliasexpirebuyback", "password", "somedata", "data");
+	AliasNew("node1", "aliasexpirebuyback", "passwordnew11", "somedata", "data");
 	GenerateBlocks(110);
-	AliasNew("node2", "aliasexpirebuyback", "passwordnew", "somedata", "data");
+	AliasNew("node2", "aliasexpirebuyback", "passwordnew12", "somedata", "data");
 	GenerateBlocks(5,"node2");
 	MilliSleep(2500);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback password data2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew aliasexpirebuyback passwordnew13 data2"), runtime_error);
 	MilliSleep(2500);
 	GenerateBlocks(5);
 }
