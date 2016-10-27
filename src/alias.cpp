@@ -20,7 +20,6 @@
 #include "chainparams.h"
 #include "core_io.h"
 #include "policy/policy.h"
-#include "keystore.h"
 #include "utiltime.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
@@ -1702,7 +1701,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!defaultKey.IsFullyValid())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
 	pwalletMain->AddKeyPubKey(key, defaultKey);			
-	if(!HaveKey(defaultKey.GetID())
+	if(pwalletMain->HaveKey(defaultKey.GetID())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Choose a different password"));
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
