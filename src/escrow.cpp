@@ -3040,6 +3040,13 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
 		  throw runtime_error("failed to read from escrow DB");
 	CEscrow ca = vtxPos.back();
+	CTransaction tx;
+	if (!GetSyscoinTransaction(ca.nHeight, ca.txHash, tx, Params().GetConsensus()))
+		 throw runtime_error("failed to read escrow transaction");
+    vector<vector<unsigned char> > vvch;
+    int op, nOut;
+    if (!DecodeEscrowTx(tx, op, nOut, vvch) )
+        throw runtime_error("could not decode escrow transcation"); 
 	CTransaction offertx;
 	COffer offer;
 	vector<COffer> offerVtxPos;
@@ -3126,7 +3133,23 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	{
 		expired = 1;
 	}  
+	string status = "unknown";
+	if(ca.op == OP_ESCROW_ACTIVATE)
+		status = "in escrow";
+	else if(ca.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
+		status = "escrow released";
+	else if(ca.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
+		status = "escrow release complete";
+	else if(ca.op == OP_ESCROW_COMPLETE && escrowRelease)
+		status = "escrow release complete";
+	else if(ca.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
+		status = "escrow refunded";
+	else if(ca.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
+		status = "escrow refund complete";
+	else if(ca.op == OP_ESCROW_COMPLETE && escrowRefund)
+		status = "escrow refund complete";
 	oEscrow.push_back(Pair("expired", expired));
+	oEscrow.push_back(Pair("status", status));
 	UniValue oBuyerFeedBack(UniValue::VARR);
 	for(unsigned int i =0;i<buyerFeedBacks.size();i++)
 	{
@@ -3234,7 +3257,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		int expires_in = 0;
 		int expired_block = 0;
 		CTransaction tx;
-
 		vector<vector<unsigned char> > vvch;
 		int op, nOut;
 		if (!DecodeEscrowTx(tx, op, nOut, vvch))
@@ -3615,7 +3637,6 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 		if (!GetSyscoinTransaction(nHeight, txEscrow.txHash, tx, Params().GetConsensus())) {
 			continue;
 		}
-        // decode txn, skip non-alias txns
         vector<vector<unsigned char> > vvch;
         int op, nOut;
         if (!DecodeEscrowTx(tx, op, nOut, vvch) 
