@@ -2363,10 +2363,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                         //  post-backup change.
 
                         // Reserve a new key pair from key pool
-                        CPubKey vchPubKey;
-                        bool ret;
-                        ret = reservekey.GetReservedKey(vchPubKey);
-                        assert(ret); // should never fail, as we just unlocked
 						// SYSCOIN pay to input destination as change
 						CTxDestination payDest;
 						if (ExtractDestination(vecCoins[0].first->vout[vecCoins[0].second].scriptPubKey, payDest)) 
@@ -2378,7 +2374,13 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 								scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 						}
 						else
+						{
+							CPubKey vchPubKey;
+							bool ret;
+							ret = reservekey.GetReservedKey(vchPubKey);
+							assert(ret); // should never fail, as we just unlocked
 							scriptChange = GetScriptForDestination(vchPubKey.GetID());
+						}
                     }
 
                     CTxOut newTxOut(nChange, scriptChange);

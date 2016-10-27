@@ -880,6 +880,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias private value too big");
 			return error(errorMessage.c_str());
 		}
+		if(theAlias.vchPassword.size() > MAX_GUID_LENGTH)
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias password too long");
+			return error(errorMessage.c_str());
+		}
 		if(theAlias.nHeight > nHeight)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5008 - " + _("Bad alias height");
@@ -978,6 +983,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchPublicValue = dbAlias.vchPublicValue;	
 					if(theAlias.vchPrivateValue.empty())
 						theAlias.vchPrivateValue = dbAlias.vchPrivateValue;	
+					if(theAlias.vchPassword.empty())
+						theAlias.vchPassword = dbAlias.vchPassword;
 					// user can't update safety level or rating after creation
 					theAlias.safetyLevel = dbAlias.safetyLevel;
 					theAlias.nRatingAsBuyer = dbAlias.nRatingAsBuyer;
@@ -1027,6 +1034,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				// if transfer
 				if(dbAlias.vchPubKey != theAlias.vchPubKey)
 				{
+					theAlias.vchPassword.clear();
 					update = false;
 					CPubKey xferKey  = CPubKey(theAlias.vchPubKey);	
 					CSyscoinAddress myAddress = CSyscoinAddress(xferKey.GetID());
@@ -1591,7 +1599,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	if(strPassword.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Password cannot be empty"));
 
-    if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 1, 0))
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
 	CKey key;
@@ -1605,6 +1613,26 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 
 	return CSyscoinSecret(key).ToString();
 
+}
+void TransferAliasBalances(const CScript& scriptPubKeyFrom, const CScript& scriptPubKeyOrig, vector<CRecipient> &vecSend){
+    for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); ++it)
+    {
+        const CWalletTx& wtx = (*it).second;
+        if (wtx.IsCoinBase() || !CheckFinalTx(wtx))
+            continue;
+
+		unsigned int nMinDepth = 1;
+        for (unsigned int j = 0; j < wtx.vout.size(); j++)
+		{
+            if (wtx.vout[j].scriptPubKey == scriptPubKeyFrom && !pwalletMain->IsSpent(wtx.GetHash(), j))
+                if (wtx.GetDepthInMainChain() >= nMinDepth)
+				{
+						//CRecipient recipient = {scriptPubKeyPayment, nTotalValue, false};
+						//vecSend.push_back(recipient);
+				}
+                    //nAmount += wtx.vout[j].nValue;
+		}
+    }
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 3 > params.size() || 9 < params.size())
@@ -1742,6 +1770,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		}
 		vchPrivateValue = vchFromString(strCipherText);
 	}
+	if(!strPassword.empty())
+	{
+		string strCipherText;
+		if(!EncryptMessage(vchPubKey, strPassword, strCipherText))
+		{
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
+		}
+		strPassword = SecureString(strCipherText.c_str());
+	}
 	vector<unsigned char> vchRandAlias = vchFromString(GenerateSyscoinGuid());
     // build alias
     CAliasIndex newAlias;
@@ -1752,6 +1789,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchPublicValue = vchPublicValue;
 	newAlias.vchPrivateValue = vchPrivateValue;
 	newAlias.nRenewal = nRenewal;
+	newAlias.vchPassword = strPassword;
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
@@ -1769,7 +1807,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
 	vecSend.push_back(recipient);
-	
+	CAliasIndex oldAlias;
+	CTransaction oldTx;
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true))
+	{
+		CPubKey oldKey(oldAlias.vchPubKey);
+		scriptPubKeyFrom = GetScriptForDestination(oldKey.GetID());
+		TransferAliasBalances(scriptPubKeyFrom, scriptPubKeyOrig, vecSend);
+	}
+
 	CScript scriptData;
 	
 	scriptData << OP_RETURN << data;
@@ -1788,13 +1834,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 > params.size() || 9 < params.size())
+	if (fHelp || 2 > params.size() || 10 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
+		"aliasupdate <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public value> alias public profile data, 1023 chars max.\n"
 						"<private value> alias private profile data, 1023 chars max. Will be private and readable by owner only.\n"				
+						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text. Leave empty to leave current password unchanged.\n"
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<toalias_pubkey> receiver syscoin alias pub key, if transferring alias.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
@@ -1823,7 +1870,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	string strSafeSearch = "Yes";
 	if(params.size() >= 4)
 	{
-		strSafeSearch = params[3].get_str();
+		strSafeSearch = params[5].get_str();
 	}
 	string strPubKey;
     if (params.size() >= 5 && params[4].get_str().size() > 0) {
@@ -1831,21 +1878,25 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		vchPubKey = vchFromString(params[4].get_str());
 		boost::algorithm::unhex(vchPubKey.begin(), vchPubKey.end(), std::back_inserter(vchPubKeyByte));
 	}
+	SecureString strPassword;
+	if(params.size() >= 6 && && params[5].get_str().size() > 0 && vchPubKeyByte.empty())
+		strPassword = params[5].get_str().c_str();
+
 	string strAcceptCertTransfers = "Yes";
-	if(params.size() >= 6)
-	{
-		strAcceptCertTransfers = params[5].get_str();
-	}
 	if(params.size() >= 7)
 	{
-		nRenewal = boost::lexical_cast<int>(params[6].get_str());
+		strAcceptCertTransfers = params[6].get_str();
+	}
+	if(params.size() >= 8)
+	{
+		nRenewal = boost::lexical_cast<int>(params[7].get_str());
 	}
     int nMultiSig = 1;
-	if(params.size() >= 8)
-		nMultiSig = boost::lexical_cast<int>(params[7].get_str());
-    UniValue aliasNames;
 	if(params.size() >= 9)
-		aliasNames = params[8].get_array();
+		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
+    UniValue aliasNames;
+	if(params.size() >= 10)
+		aliasNames = params[9].get_array();
 	EnsureWalletIsUnlocked();
 	CTransaction tx;
 	CAliasIndex theAlias;
@@ -1858,6 +1909,25 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5505 - " + _("This alias is not in your wallet"));
 
 	CPubKey pubKey(theAlias.vchPubKey);	
+	if(!strPassword.empty())
+	{
+		CCrypter crypt;
+		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
+		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
+		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
+		if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
+		CKey key;
+		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+		CPubKey defaultKey = key.GetPubKey();
+		if(!defaultKey.IsFullyValid())
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
+		
+		if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
+		pubKey = defaultKey;
+	}
+	
 	CSyscoinAddress aliasAddress(pubKey.GetID());
 	CKeyID keyID;
 	if (!aliasAddress.GetKeyID(keyID))
@@ -1865,7 +1935,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CKey vchSecret;
 	if(vchPubKeyByte.empty())
 	{
-		vchPubKeyByte = theAlias.vchPubKey;
+		vchPubKeyByte = vector<unsigned char>(pubKey.begin(), pubKey.end());
 	}
 	if(!vchPrivateValue.empty())
 	{
@@ -1878,13 +1948,23 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		}
 		vchPrivateValue = vchFromString(strCipherText);
 	}
+	if(!strPassword.empty())
+	{
+		string strCipherText;
+		
+		// encrypt using new key
+		if(!EncryptMessage(vchPubKeyByte, strPassword, strCipherText))
+		{
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
+		}
+		strPassword = SecureString(strCipherText.c_str());
+	}
 	CPubKey currentKey(vchPubKeyByte);
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliasNames.size() > 0)
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
-		CPubKey pubkey(theAlias.vchPubKey);
 		pubkeys.push_back(pubkey);
 		for(int i =0;i<aliasNames.size();i++)
 		{
@@ -1911,6 +1991,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPublicValue = vchPublicValue;
 	if(copyAlias.vchPrivateValue != vchPrivateValue)
 		theAlias.vchPrivateValue = vchPrivateValue;
+	if(copyAlias.vchPassword != strPassword)
+		theAlias.vchPassword = strPassword;
 
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
@@ -1932,6 +2014,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient); 
 	vecSend.push_back(recipient);
+	if(!strPassword.empty())
+	{
+		CPubKey oldKey(copyAlias.vchPubKey);
+		scriptPubKeyFrom = GetScriptForDestination(oldKey.GetID());
+		TransferAliasBalances(scriptPubKeyFrom, scriptPubKeyOrig, vecSend);
+	}
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;

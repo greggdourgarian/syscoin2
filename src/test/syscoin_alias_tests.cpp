@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	GenerateBlocks(1);
 	AliasNew("node1", "jagupdate", "password", "data");
 	// update an alias that isn't yours
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate jagupdate password test"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate jagupdate test"), runtime_error);
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
 	// shouldnt update data, just uses prev data because it hasnt changed
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
