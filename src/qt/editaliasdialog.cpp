@@ -278,7 +278,7 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(ui->privateEdit->toPlainText().toStdString());
 			params.push_back(ui->safeSearchEdit->currentText().toStdString());	
 			params.push_back("");
-			params.push_back(ui->passwordEdit->currentText().toStdString());	
+			params.push_back(ui->passwordEdit->text().toStdString());	
 			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 			params.push_back(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString().toStdString());
 			if(ui->multisigList->count() > 0)
@@ -344,7 +344,7 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(ui->privateEdit->toPlainText().toStdString());
 			params.push_back(ui->safeSearchEdit->currentText().toStdString());
 			params.push_back(ui->transferEdit->text().toStdString());
-			params.push_back(ui->passwordEdit->currentText().toStdString());	
+			params.push_back(ui->passwordEdit->text().toStdString());	
 			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 			params.push_back(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString().toStdString());
 			try {
