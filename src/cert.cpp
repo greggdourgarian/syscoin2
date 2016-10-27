@@ -981,7 +981,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2514 - " + _("This alias is not in your wallet"));
-	if(!IsSyscoinTxMine(wtxAliasIn, "alias"))
+	if(!IsSyscoinTxMine(*wtxAliasIn, "alias"))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 4587 - " + _("You must own this alias to complete the transaction"));	
 
 	CPubKey fromKey = CPubKey(fromAlias.vchPubKey);
