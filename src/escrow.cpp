@@ -3136,14 +3136,14 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	bool escrowRefund = false;
 	if(ca.op == OP_ESCROW_COMPLETE)
 	{
-		for(unsigned int i = vtxEscrowPos.size() - 1; i >= 0;i--)
+		for(unsigned int i = vtxPos.size() - 1; i >= 0;i--)
 		{
-			if(vtxEscrowPos[i].op == OP_ESCROW_RELEASE)
+			if(vtxPos[i].op == OP_ESCROW_RELEASE)
 			{
 				escrowRelease = true;
 				break;
 			}
-			else if(vtxEscrowPos[i].op == OP_ESCROW_REFUND)
+			else if(vtxPos[i].op == OP_ESCROW_REFUND)
 			{
 				escrowRefund = true;
 				break;
