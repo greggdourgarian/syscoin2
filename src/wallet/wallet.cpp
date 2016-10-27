@@ -2278,7 +2278,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						CTxDestination payDest;
 						if (ExtractDestination(recipient.scriptPubKey, payDest)) 
 						{
-							scriptChange = GetScriptForDestination(payDest);
 							CSyscoinAddress address = CSyscoinAddress(payDest);
 							address = CSyscoinAddress(address.ToString());
 							if(address.isAlias)
@@ -2336,7 +2335,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 				vector<pair<const CWalletTx*, unsigned int> > vecCoins(
 					setCoins.begin(), setCoins.end());
 				if(wtxInAlias != NULL)
-					vecCoins.push_front(make_pair(wtxInAlias, nTxOutAlias));
+					vecCoins.insert(vecCoins.begin(), make_pair(wtxInAlias, nTxOutAlias));
 				// SYSCOIN
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, vecCoins)
                 {
