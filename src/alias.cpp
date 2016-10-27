@@ -1588,7 +1588,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	CPubKey aliasPubKey(theAlias.vchPubKey);
 	CCrypter crypt;
 	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-	vector<unsigned char> vchAliasHash = CScriptNum(hashAliasNum.GetHash()).getvch();
+	vector<unsigned char> vchAliasHash = CScriptNum(hashAliasNum.GetCheapHash()).getvch();
 	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 1, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
@@ -1693,7 +1693,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	CCrypter crypt;
 	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-	vector<unsigned char> vchAliasHash = CScriptNum(hashAliasNum.GetHash()).getvch();
+	vector<unsigned char> vchAliasHash = CScriptNum(hashAliasNum.GetCheapHash()).getvch();
 	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
     if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
