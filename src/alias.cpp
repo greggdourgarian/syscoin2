@@ -1689,7 +1689,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	const string &strPassword = params[1].get_str().c_str();
+	string strPassword = params[1].get_str().c_str();
 	string strPublicValue = params[2].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 
@@ -1813,7 +1813,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true))
 	{
 		CPubKey oldKey(oldAlias.vchPubKey);
-		scriptPubKeyFrom = GetScriptForDestination(oldKey.GetID());
+		const CScript &scriptPubKeyFrom = GetScriptForDestination(oldKey.GetID());
 		TransferAliasBalances(scriptPubKeyFrom, scriptPubKeyOrig, vecSend);
 	}
 
@@ -2019,7 +2019,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(!strPassword.empty())
 	{
 		CPubKey oldKey(copyAlias.vchPubKey);
-		scriptPubKeyFrom = GetScriptForDestination(oldKey.GetID());
+		const CScript &scriptPubKeyFrom = GetScriptForDestination(oldKey.GetID());
 		TransferAliasBalances(scriptPubKeyFrom, scriptPubKeyOrig, vecSend);
 	}
 	CScript scriptData;
