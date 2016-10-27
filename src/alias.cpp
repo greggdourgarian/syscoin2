@@ -1180,7 +1180,7 @@ bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, cons
 
 		const vector<unsigned char> &vchAliasData = Serialize();
 		uint256 calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
-		vector<unsigned char> vchRandAlias = vchFromValue(calculatedHash.GetHash());
+		vector<unsigned char> vchRandAlias = vchFromValue(calculatedHash.GetHex());
 		if(vchRandAlias != vchHash)
 		{
 			SetNull();
