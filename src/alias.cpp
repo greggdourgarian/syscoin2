@@ -1483,7 +1483,7 @@ bool GetAliasOfTx(const CTransaction& tx, vector<unsigned char>& name) {
 	int op;
 	int nOut;
 
-	bool good = DecodeAliasTx(tx, op, nOut, vvchArgs);
+	bool good = DecodeAliasTx(tx, op, nOut, vvchArgs, false) || DecodeAliasTx(tx, op, nOut, vvchArgs, true);
 	if (!good)
 		return error("GetAliasOfTx() : could not decode a syscoin tx");
 
@@ -1509,12 +1509,12 @@ bool DecodeAndParseAliasTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch)
 {
 	CAliasIndex alias;
-	bool decode = DecodeAliasTx(tx, op, nOut, vvch);
+	bool decode = DecodeAliasTx(tx, op, nOut, vvch, false) || DecodeAliasTx(tx, op, nOut, vvch, true);
 	bool parse = alias.UnserializeFromTx(tx);
 	return decode && parse;
 }
 bool DecodeAliasTx(const CTransaction& tx, int& op, int& nOut,
-		vector<vector<unsigned char> >& vvch) {
+		vector<vector<unsigned char> >& vvch, bool payment) {
 	bool found = false;
 
 
@@ -1522,7 +1522,7 @@ bool DecodeAliasTx(const CTransaction& tx, int& op, int& nOut,
 	for (unsigned int i = 0; i < tx.vout.size(); i++) {
 		const CTxOut& out = tx.vout[i];
 		vector<vector<unsigned char> > vvchRead;
-		if (DecodeAliasScript(out.scriptPubKey, op, vvchRead)) {
+		if (DecodeAliasScript(out.scriptPubKey, op, vvchRead) && ((op == OP_ALIAS_PAYMENT && payment) || (op != OP_ALIAS_PAYMENT && !payment))) {
 			nOut = i;
 			found = true;
 			vvch = vvchRead;
@@ -2762,6 +2762,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			}
             // decode txn, skip non-alias txns
             vector<vector<unsigned char> > vvch;
+			vector<unsigned char> vchName;
             int op, nOut;
 			string opName;
 			if(DecodeOfferTx(tx, op, nOut, vvch) )
@@ -2772,8 +2773,8 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 				opName = escrowFromOp(op);
 			else if(DecodeCertTx(tx, op, nOut, vvch) )
 				opName = certFromOp(op);
-            else if (DecodeAliasTx(tx, op, nOut, vvch) )
-				opName = aliasFromOp(op);
+			else if(GetAliasOfTx(tx, vchName);
+				opName = stringFromVch(vchName);
 			else
 				continue;
 			int expired = 0;
