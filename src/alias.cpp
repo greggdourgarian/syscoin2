@@ -774,7 +774,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	if (fDebug)
 		LogPrintf("*** ALIAS %d %d %s %s\n", nHeight, chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(), fJustCheck ? "JUSTCHECK" : "BLOCK");
 	const COutPoint *prevOutput = NULL;
-	CCoins *prevCoins;
+	const CCoins *prevCoins;
 	int prevOp = 0;
 	vector<vector<unsigned char> > vvchPrevArgs;
 	// Make sure alias outputs are not spent by a regular transaction, or the alias would be lost

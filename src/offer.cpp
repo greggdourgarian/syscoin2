@@ -463,7 +463,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			fJustCheck ? "JUSTCHECK" : "BLOCK", " VVCH SIZE: ", vvchArgs.size());
 	bool foundAlias = false;
 	const COutPoint *prevOutput = NULL;
-	CCoins *prevCoins;
+	const CCoins *prevCoins;
 	int prevAliasOp = 0;
 	vector<vector<unsigned char> > vvchPrevAliasArgs;
 	// unserialize msg from txn, check for valid

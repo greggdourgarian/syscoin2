@@ -300,7 +300,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 	if (tx.IsCoinBase())
 		return true;
 	const COutPoint *prevOutput = NULL;
-	CCoins *prevCoins;
+	const CCoins *prevCoins;
 	int prevAliasOp = 0;
 	bool foundAlias = false;
 	if (fDebug)

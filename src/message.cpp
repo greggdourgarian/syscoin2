@@ -252,7 +252,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(),
 			fJustCheck ? "JUSTCHECK" : "BLOCK");
     const COutPoint *prevOutput = NULL;
-    CCoins *prevCoins;
+    const CCoins *prevCoins;
 
 	int prevAliasOp = 0;
 	if (tx.nVersion != SYSCOIN_TX_VERSION)

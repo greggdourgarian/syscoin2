@@ -358,7 +358,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			fJustCheck ? "JUSTCHECK" : "BLOCK");
 	bool foundAlias = false;
     const COutPoint *prevOutput = NULL;
-    CCoins *prevCoins;
+    const CCoins *prevCoins;
 
 	int prevAliasOp = 0;
     // Make sure cert outputs are not spent by a regular transaction, or the cert would be lost
