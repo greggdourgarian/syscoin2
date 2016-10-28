@@ -693,14 +693,6 @@ void CoinControlDialog::updateView()
         CAmount nSum = 0;
         int nChildren = 0;
         BOOST_FOREACH(const COutput& out, coins.second) {
-			// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
-			if(out.tx->nVersion == GetSyscoinTxVersion())
-			{
-				int op;
-				vector<vector<unsigned char> > vvchArgs;
-				if (out.tx->vout.size() >= out.i && IsSyscoinScript(out.tx->vout[out.i].scriptPubKey, op, vvchArgs))
-					continue;
-			}
             nSum += out.tx->vout[out.i].nValue;
             nChildren++;
 

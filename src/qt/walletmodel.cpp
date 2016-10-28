@@ -786,7 +786,15 @@ void WalletModel::listCoins(std::map<QString, std::vector<COutput> >& mapCoins) 
             if (!wallet->mapWallet.count(cout.tx->vin[0].prevout.hash)) break;
             cout = COutput(&wallet->mapWallet[cout.tx->vin[0].prevout.hash], cout.tx->vin[0].prevout.n, 0, true, true);
         }
-
+		// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
+		if(out.tx->nVersion == GetSyscoinTxVersion())
+		{
+			int op;
+			vector<vector<unsigned char> > vvchArgs;
+			// any sys tx thats not an alias payment shouldnt show up in listCoins (used by coin control)
+			if (out.tx->vout.size() >= out.i && IsSyscoinScript(out.tx->vout[out.i].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
+				continue;
+		}
         CTxDestination address;
 		// SYSCOIN
         if(/*!out.fSpendable || */!ExtractDestination(cout.tx->vout[cout.i].scriptPubKey, address))
