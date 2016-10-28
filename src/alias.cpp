@@ -1652,15 +1652,22 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	return CSyscoinSecret(key).ToString();
 
 }
-void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoinAddress& addressFrom, const CScript& scriptPubKeyTo, vector<CRecipient> &vecSend, CCoinControl& coinControl){
+void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript& scriptPubKeyTo, vector<CRecipient> &vecSend, CCoinControl& coinControl){
 
 	LOCK(cs_main);
 	CAmount nAmount = 0;
 	std::vector<uint256> vtxPaymentPos;
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
-	{
 		return;
-	}
+	
+	CAliasIndex theAlias;
+	CTransaction aliasTx;
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
+		return;
+
+	CSyscoinAddress addressFrom;
+	theAlias.GetAddress(&addressFrom);
+
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
 	CTxDestination payDest;
@@ -1691,7 +1698,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoin
 		CScript scriptPubKey;
 		scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
 		scriptPubKey += scriptPubKeyTo;
-		CRecipient recipient = {scriptPubKeyTo, nAmount, false};
+		CRecipient recipient = {scriptPubKey, nAmount, false};
 		vecSend.push_back(recipient);
 	}
 }
@@ -1875,10 +1882,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	// if renewing your own alias, transfer balances
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
+		coinControl.fAllowWatchOnly = true;
 		coinControl.fAllowOtherInputs = true;
-		CSyscoinAddress addressFrom;
-		oldAlias.GetAddress(&addressFrom);
-		TransferAliasBalances(vchAlias, addressFrom, scriptPubKeyOrig, vecSend, coinControl);
+		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
 
 	CScript scriptData;
@@ -2086,10 +2092,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	if(!strPassword.empty())
 	{
+		coinControl.fAllowWatchOnly = true;
 		coinControl.fAllowOtherInputs = true;
-		CSyscoinAddress addressFrom;
-		theAlias.GetAddress(&addressFrom);
-		TransferAliasBalances(vchAlias, addressFrom, scriptPubKeyOrig, vecSend, coinControl);
+		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
