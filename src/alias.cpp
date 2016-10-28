@@ -1890,7 +1890,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	vecSend.push_back(fee);
 	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, &coinControl);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	res.push_back(wtx.GetHash().GetHex());
 	res.push_back(HexStr(vchPubKey));
@@ -2101,7 +2101,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	
 	
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	if(copyAlias.multiSigInfo.vchAliases.size() > 0)
 	{
