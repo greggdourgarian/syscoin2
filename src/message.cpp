@@ -252,7 +252,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(),
 			fJustCheck ? "JUSTCHECK" : "BLOCK");
     const COutPoint *prevOutput = NULL;
-    CCoins prevCoins;
+    CCoins *prevCoins;
 
 	int prevAliasOp = 0;
 	if (tx.nVersion != SYSCOIN_TX_VERSION)
@@ -300,9 +300,10 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			if(!prevOutput)
 				continue;
 			// ensure inputs are unspent when doing consensus check to add to block
-			if(!inputs.GetCoins(prevOutput->hash, prevCoins))
+			prevCoins = input.AccessCoins(prevOutput->hash);
+			if(prevCoins == NULL)
 				continue;
-			if(prevCoins.vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins.vout[prevOutput->n].scriptPubKey, pop, vvch))
+			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch))
 				continue;
 			if (IsAliasOp(pop))
 			{

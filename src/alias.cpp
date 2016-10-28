@@ -774,7 +774,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	if (fDebug)
 		LogPrintf("*** ALIAS %d %d %s %s\n", nHeight, chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(), fJustCheck ? "JUSTCHECK" : "BLOCK");
 	const COutPoint *prevOutput = NULL;
-	CCoins prevCoins;
+	CCoins *prevCoins;
 	int prevOp = 0;
 	vector<vector<unsigned char> > vvchPrevArgs;
 	// Make sure alias outputs are not spent by a regular transaction, or the alias would be lost
@@ -861,9 +861,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(!prevOutput)
 					continue;
 				// ensure inputs are unspent when doing consensus check to add to block
-				if(!inputs.GetCoins(prevOutput->hash, prevCoins))
+				prevCoins = input.AccessCoins(prevOutput->hash);
+				if(prevCoins == NULL)
 					continue;
-				if(prevCoins.vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins.vout[prevOutput->n].scriptPubKey, pop, vvch))
+				if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch))
 					continue;
 
 				if (IsAliasOp(pop)) {
@@ -1661,24 +1662,25 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoin
 		return;
 	}
 	CCoinsViewCache view(pcoinsTip);
-	CCoins coins;
+	CCoins *coins;
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
 	// get all alias inputs and transfer them to the new alias destination
     for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
-		if (!view.GetCoins(vtxPaymentPos[i], coins))
+		coins = view.AccessCoins(vtxPaymentPos[i]);
+		if(coins == NULL)
 			continue;
-        for (unsigned int j = 0; j < coins.vout.size(); j++)
+        for (unsigned int j = 0; j < coins->vout.size(); j++)
 		{
-			if(!coins.IsAvailable(j))
+			if(!coins->IsAvailable(j))
 				continue;
-			if (!ExtractDestination(coins.vout[j].scriptPubKey, payDest)) 
+			if (!ExtractDestination(coins->vout[j].scriptPubKey, payDest)) 
 				continue;
 			destaddy = CSyscoinAddress(payDest);
             if (destaddy.ToString() == addressFrom.ToString())
 			{  
-				nAmount += coins.vout[j].nValue;
+				nAmount += coins->vout[j].nValue;
 				COutPoint outpt(vtxPaymentPos[i], j);
 				coinControl.Select(outpt);
 			}	
@@ -2594,24 +2596,25 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		return ValueFromAmount(nAmount);
 	
 	CCoinsViewCache view(pcoinsTip);
-	CCoins coins;
+	CCoins *coins;
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
 	// get all alias inputs and transfer them to the new alias destination
     for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
-		if (!view.GetCoins(vtxPaymentPos[i], coins))
+		coins = view.AccessCoins(vtxPaymentPos[i]);
+		if(coins == NULL)
 			continue;
-        for (unsigned int j = 0; j < coins.vout.size(); j++)
+        for (unsigned int j = 0; j < coins->vout.size(); j++)
 		{
-			if(!coins.IsAvailable(j))
+			if(!coins->IsAvailable(j))
 				continue;
-			if (!ExtractDestination(coins.vout[j].scriptPubKey, payDest)) 
+			if (!ExtractDestination(coins->vout[j].scriptPubKey, payDest)) 
 				continue;
 			destaddy = CSyscoinAddress(payDest);
             if (destaddy.ToString() == addressFrom.ToString())
 			{  
-				nAmount += coins.vout[j].nValue;
+				nAmount += coins->vout[j].nValue;
 			}		
 		}
     }

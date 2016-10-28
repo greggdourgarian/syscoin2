@@ -300,7 +300,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 	if (tx.IsCoinBase())
 		return true;
 	const COutPoint *prevOutput = NULL;
-	CCoins prevCoins;
+	CCoins *prevCoins;
 	int prevAliasOp = 0;
 	bool foundAlias = false;
 	if (fDebug)
@@ -355,9 +355,10 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			if(!prevOutput)
 				continue;
 			// ensure inputs are unspent when doing consensus check to add to block
-			if(!inputs.GetCoins(prevOutput->hash, prevCoins))
+			prevCoins = input.AccessCoins(prevOutput->hash);
+			if(prevCoins == NULL)
 				continue;
-			if(prevCoins.vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins.vout[prevOutput->n].scriptPubKey, pop, vvch))
+			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch))
 				continue;
 			if(foundAlias)
 				break;

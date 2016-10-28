@@ -358,7 +358,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			fJustCheck ? "JUSTCHECK" : "BLOCK");
 	bool foundAlias = false;
     const COutPoint *prevOutput = NULL;
-    CCoins prevCoins;
+    CCoins *prevCoins;
 
 	int prevAliasOp = 0;
     // Make sure cert outputs are not spent by a regular transaction, or the cert would be lost
@@ -403,9 +403,10 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			if(!prevOutput)
 				continue;
 			// ensure inputs are unspent when doing consensus check to add to block
-			if(!inputs.GetCoins(prevOutput->hash, prevCoins))
+			prevCoins = input.AccessCoins(prevOutput->hash);
+			if(prevCoins == NULL)
 				continue;
-			if(prevCoins.vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins.vout[prevOutput->n].scriptPubKey, pop, vvch))
+			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch))
 				continue;
 			if(foundAlias)
 				break;
