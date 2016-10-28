@@ -2286,11 +2286,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
 							scriptPubKey += GetScriptForDestination(payDest);
 							myrecipient = {scriptPubKey, myrecipient.nAmount, myrecipient.fSubtractFeeFromAmount};
-							if(!sysTx)
-							{
-								txNew.nVersion = GetSyscoinTxVersion();
-								sysTx = true;
-							}
+							txNew.nVersion = GetSyscoinTxVersion();				
 						}
 					}
                     CTxOut txout(myrecipient.nAmount, myrecipient.scriptPubKey);
