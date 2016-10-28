@@ -2276,16 +2276,16 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 					if(!sysTx)
 					{
 						CTxDestination payDest;
-						if (!ExtractDestination(recipient.scriptPubKey, payDest)) 
+						if (!ExtractDestination(myrecipient.scriptPubKey, payDest)) 
 							continue;
 						CSyscoinAddress address = CSyscoinAddress(payDest);
 						address = CSyscoinAddress(address.ToString());
 						if(address.isAlias)
 						{
 							CScript scriptPubKey;
-							scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << vchFromString("") << OP_2DROP << OP_DROP;
+							scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
 							scriptPubKey += GetScriptForDestination(payDest);
-							myrecipient = {scriptPubKey, recipient.nAmount, recipient.fSubtractFeeFromAmount};
+							myrecipient = {scriptPubKey, myrecipient.nAmount, myrecipient.fSubtractFeeFromAmount};
 							if(!sysTx)
 							{
 								txNew.nVersion = GetSyscoinTxVersion();

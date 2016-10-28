@@ -826,7 +826,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return error(errorMessage.c_str());
 			}
 		}
-		else if(vvchArgs.size() != 2)
+		else if(vvchArgs.size() != 1)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5002 - " + _("Alias arguments incorrect size");
 			return error(errorMessage.c_str());
