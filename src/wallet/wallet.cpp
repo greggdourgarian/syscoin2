@@ -2284,7 +2284,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							{
 								CScript scriptPubKey;
 								scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
-								scriptPubKey += recipient.scriptPubKey;
+								scriptPubKey += GetScriptForDestination(payDest.GetID());
 								myrecipient = {scriptPubKey, recipient.nAmount, recipient.fSubtractFeeFromAmount};
 							}
 						}

@@ -796,7 +796,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		theAlias.SetNull();
 	}
 	// we need to check for cert update specially because an alias update without data is sent along with offers linked with the alias
-	if (theAlias.IsNull() && (op != OP_ALIAS_UPDATE || op != OP_ALIAS_PAYMENT))
+	if (theAlias.IsNull() && op == OP_ALIAS_ACTIVATE)
 	{
 		if(fDebug)
 			LogPrintf("CheckAliasInputs(): Null alias, skipping...\n");	
@@ -912,11 +912,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 		switch (op) {
 			case OP_ALIAS_PAYMENT:
-				if(theAlias.vchAlias != vvchArgs[0])
-				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5011 - " + _("Guid in payment output doesn't match guid in tx");
-					return error(errorMessage.c_str());
-				}
 				break;
 			case OP_ALIAS_ACTIVATE:
 				// Check GUID
@@ -1689,11 +1684,14 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CSyscoin
 			}	
 		}
     }
-	CScript scriptPubKey;
-	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
-	scriptPubKey += scriptPubKeyTo;
-	CRecipient recipient = {scriptPubKeyTo, nAmount, false};
-	vecSend.push_back(recipient);
+	if(nAmount > 0)
+	{
+		CScript scriptPubKey;
+		scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
+		scriptPubKey += scriptPubKeyTo;
+		CRecipient recipient = {scriptPubKeyTo, nAmount, false};
+		vecSend.push_back(recipient);
+	}
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 3 > params.size() || 9 < params.size())
