@@ -1108,7 +1108,8 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
 	bool found = false;
    if(DecodeOfferTx(tx, op, nOut, vvch)
 	|| DecodeCertTx(tx, op, nOut, vvch)
-	|| DecodeAliasTx(tx, op, nOut, vvch)
+	|| DecodeAliasTx(tx, op, nOut, vvch, false)
+	|| DecodeAliasTx(tx, op, nOut, vvch, true)
 	|| DecodeMessageTx(tx, op, nOut, vvch)
 	|| DecodeEscrowTx(tx, op, nOut, vvch)) 
    {
@@ -1167,7 +1168,11 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 			{
 				good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
 			}
-			if(DecodeAliasTx(tx, op, nOut, vvchArgs))
+			if(DecodeAliasTx(tx, op, nOut, vvchArgs, false))
+			{
+				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
+			}
+			if(DecodeAliasTx(tx, op, nOut, vvchArgs, true))
 			{
 				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
 			}
@@ -1206,7 +1211,11 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 		{	
 			bool good = true;
 			// always do alias first as its dependency to others
-			if(DecodeAliasTx(tx, op, nOut, vvchArgs))
+			if(DecodeAliasTx(tx, op, nOut, vvchArgs,false))
+			{
+				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+			}
+			if(DecodeAliasTx(tx, op, nOut, vvchArgs, true))
 			{
 				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
 			}
@@ -1888,8 +1897,12 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 		return 2.5*COIN;
 	if(nHeight == 1)
 	{
-		// SYSCOIN snapshot for old chain based on block 880440 + 15 mill dev fund
-		return 459200578 * COIN + 15000000 * COIN;
+		/*std::string chain = ChainNameFromCommandLine();
+		if (chain == CBaseChainParams::MAIN || chain == CBaseChainParams::REGTEST)
+		{*/
+			// SYSCOIN snapshot for old chain based on block 880440 + 15 mill dev fund
+			return 459200578 * COIN + 15000000 * COIN;
+		//}
 	}
 	CAmount nSubsidy = 0;
     if(nHeight <= 525601)
@@ -2452,26 +2465,31 @@ bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, 
 
 	
 	vector<CAliasIndex> vtxPos;
+	vector<uint256> vtxPaymentPos;
 	if(!paliasdb)
 		return false;
+	paliasdb->ReadAliasPayment(vvchArgs[0], vtxPaymentPos);
 	paliasdb->ReadAlias(vvchArgs[0], vtxPos);
 	if(vtxPos.empty())
 		return true;
 	CAliasIndex foundAlias = vtxPos.back();
 	while (!vtxPos.empty() && vtxPos.back().txHash == tx.GetHash())	
 		vtxPos.pop_back();
-	
+	while (!vtxPaymentPos.empty() && vtxPaymentPos.back() == tx.GetHash())	
+		vtxPaymentPos.pop_back();	
+
 	CPubKey PubKey(foundAlias.vchPubKey);
 	CSyscoinAddress address(PubKey.GetID());
 	CSyscoinAddress multisigAddress;
 	foundAlias.GetAddress(&multisigAddress);
 	if(!paliasdb->WriteAlias(vvchArgs[0], vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos))
 		return error("DisconnectBlock() : failed to write to alias DB");
+	if(!paliasdb->WriteAliasPayment(vvchArgs[0], vtxPaymentPos))
+		return error("DisconnectBlock() : failed to write payment to alias DB");
 
 
 	return true;
 }
-
 bool DisconnectOffer(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs ) {
 	string opName = offerFromOp(op);
 	if(fDebug)
