@@ -1977,7 +1977,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, int nConfMine, int
 		{
 			int op;
 			vector<vector<unsigned char> > vvchArgs;
-			if (pcoin->vout.size() >= i && IsSyscoinScript(pcoin->vout[i].scriptPubKey, op, vvchArgs))
+			if (pcoin->vout.size() >= i && IsSyscoinScript(pcoin->vout[i].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
 				continue;
 		}
         pair<CAmount,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin, i));
