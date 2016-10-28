@@ -2773,7 +2773,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 				opName = escrowFromOp(op);
 			else if(DecodeCertTx(tx, op, nOut, vvch) )
 				opName = certFromOp(op);
-			else if(GetAliasOfTx(tx, vchName);
+			else if(GetAliasOfTx(tx, vchName))
 				opName = stringFromVch(vchName);
 			else
 				continue;
