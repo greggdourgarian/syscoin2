@@ -524,7 +524,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(!prevOutput)
 				continue;
 			// ensure inputs are unspent when doing consensus check to add to block
-			prevCoins = input.AccessCoins(prevOutput->hash);
+			prevCoins = inputs.AccessCoins(prevOutput->hash);
 			if(prevCoins == NULL)
 				continue;
 			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch))
