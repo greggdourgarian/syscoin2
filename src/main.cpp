@@ -1165,9 +1165,9 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 			{
 				if(!good)
 					break;
-				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, nOut, vvchArgs) && good)
+				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs) && good)
 				{
-					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
+					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
 					foundalias = true;
 				}
 			}
@@ -1219,9 +1219,9 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 			{
 				if(!good)
 					break;
-				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, nOut, vvchArgs) && good)
+				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs) && good)
 				{
-					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
 					foundalias = true;
 				}
 			}
