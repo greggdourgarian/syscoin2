@@ -1543,7 +1543,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 	arrayCreateParams.push_back(createTxInputsArray);
 	arrayCreateParams.push_back(createAddressUniValue);
-	arrayCreateParams.push_back(null);
+	arrayCreateParams.push_back(NullUniValue);
 	// if external blockchain then we dont set the alias payments scriptpubkey
 	arrayCreateParams.push_back(escrow.escrowInputTx.empty()? "true": "false");
 	UniValue resCreate;
@@ -2296,7 +2296,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	}	
 	arrayCreateParams.push_back(createTxInputsArray);
 	arrayCreateParams.push_back(createAddressUniValue);
-	arrayCreateParams.push_back(null);
+	arrayCreateParams.push_back(NullUniValue);
 	// if external blockchain then we dont set the alias payments scriptpubkey
 	arrayCreateParams.push_back(escrow.escrowInputTx.empty()? "true": "false");
 	UniValue resCreate;
