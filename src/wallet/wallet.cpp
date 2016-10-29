@@ -2388,7 +2388,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						// SYSCOIN pay to input destination as change
 						CTxDestination payDest;
 						// the last input is always the one that gets the change since it wasn't fully spent
-						if (ExtractDestination(vecCoins[vecSend.size()-1].first->vout[vecCoins[vecSend.size()-1].second].scriptPubKey, payDest)) 
+						int nLastIndex = vecSend.size()-1;
+						if(nLastIndex < 0)
+							nLastIndex = 0;
+						if (ExtractDestination(vecCoins[nLastIndex].first->vout[vecCoins[nLastIndex].second].scriptPubKey, payDest)) 
 						{
 							scriptChange = GetScriptForDestination(payDest);
 							address = CSyscoinAddress(payDest);
