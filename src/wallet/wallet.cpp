@@ -2387,10 +2387,11 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                         // Reserve a new key pair from key pool
 						// SYSCOIN pay to input destination as change
 						CTxDestination payDest;
-						if (ExtractDestination(vecCoins[0].first->vout[vecCoins[0].second].scriptPubKey, payDest)) 
+						CSyscoinAddress address;
+						if (ExtractDestination(vecCoins.end().first->vout[vecCoins.end().second].scriptPubKey, payDest)) 
 						{
 							scriptChange = GetScriptForDestination(payDest);
-							CSyscoinAddress address = CSyscoinAddress(payDest);
+							address = CSyscoinAddress(payDest);
 							address = CSyscoinAddress(address.ToString());
 							if(!address.vchRedeemScript.empty())
 								scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
@@ -2404,25 +2405,16 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							scriptChange = GetScriptForDestination(vchPubKey.GetID());
 						}
                     }
-					// SYSCOIN change as a alias payment
-					if(!sysTx)
+					// SYSCOIN change as a alias payment				
+					if(address.isAlias)
 					{
-						CTxDestination payDest;
-						if (!ExtractDestination(scriptChange, payDest)) 
-							continue;
-						CSyscoinAddress address = CSyscoinAddress(payDest);
-						address = CSyscoinAddress(address.ToString());
-						if(!address.vchRedeemScript.empty())
-							scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
-						if(address.isAlias)
-						{
-							CScript scriptChangeOrig;
-							scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
-							scriptChangeOrig += scriptChange;
-							scriptChange = scriptChangeOrig;
-							txNew.nVersion = GetSyscoinTxVersion();				
-						}
+						CScript scriptChangeOrig;
+						scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
+						scriptChangeOrig += scriptChange;
+						scriptChange = scriptChangeOrig;
+						txNew.nVersion = GetSyscoinTxVersion();				
 					}
+					
                     CTxOut newTxOut(nChange, scriptChange);
 
                     // We do not move dust-change to fees, because the sender would end up paying more than requested.
