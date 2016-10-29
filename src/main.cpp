@@ -1160,7 +1160,6 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 		if(tx.nVersion == SYSCOIN_TX_VERSION)
 		{
 			bool good = true;
-			bool foundalias = false;
 			for(unsigned int j = 0;j<tx.vout.size();j++)
 			{
 				if(!good)
@@ -1168,10 +1167,9 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs) && good)
 				{
 					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
-					foundalias = true;
 				}
 			}
-			if(!foundalias && DecodeCertTx(tx, op, nOut, vvchArgs))
+			if(DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
 			}
@@ -1213,7 +1211,6 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 		if(tx.nVersion == GetSyscoinTxVersion())
 		{	
 			bool good = true;
-			bool foundalias = false;
 			// always do alias first as its dependency to others
 			for(unsigned int j = 0;j<tx.vout.size();j++)
 			{
@@ -1222,10 +1219,9 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs) && good)
 				{
 					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
-					foundalias = true;
 				}
 			}
-			if(!foundalias && DecodeCertTx(tx, op, nOut, vvchArgs))
+			if(DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);			
 			}
@@ -1889,8 +1885,8 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 		return 2.5*COIN;
 	if(nHeight == 1)
 	{
-		/*std::string chain = ChainNameFromCommandLine();
-		if (chain == CBaseChainParams::MAIN || chain == CBaseChainParams::REGTEST)
+		std::string chain = ChainNameFromCommandLine();
+		/*if (chain == CBaseChainParams::MAIN || chain == CBaseChainParams::REGTEST)
 		{*/
 			// SYSCOIN snapshot for old chain based on block 880440 + 15 mill dev fund
 			return 459200578 * COIN + 15000000 * COIN;
