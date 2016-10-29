@@ -338,7 +338,8 @@ UniValue verifytxoutproof(const UniValue& params, bool fHelp)
 
 UniValue createrawtransaction(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() < 2 || params.size() > 3)
+	// SYSCOIN 4 params
+    if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
             "createrawtransaction [{\"txid\":\"id\",\"vout\":n},...] {\"address\":amount,\"data\":\"hex\",...} ( locktime )\n"
             "\nCreate a transaction spending the given inputs and creating new outputs.\n"
@@ -365,7 +366,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             "    }\n"
             "3. locktime                (numeric, optional, default=0) Raw locktime. Non-0 value also locktime-activates inputs\n"
 			// SYSCOIN
-			"4. syscointx          (boolean, optional, default=true) Syscoin transaction flag. Boolean value which will set the transaction version to syscoin if alias payments were found. Set to false if creating extern blockchain transaction.\n"
+			"4. syscointx          (string, optional, default=true) Syscoin transaction flag. String value which will set the transaction version to syscoin if alias payments were found, set to 'true'. Set to 'false' if creating extern blockchain transaction.\n"
             "\nResult:\n"
             "\"transaction\"            (string) hex string of the transaction\n"
 
@@ -394,7 +395,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
 	// SYSCOIN
 	bool bSyscoinBlockchainTx = true;
     if (params.size() > 3 && !params[3].isNull()) {
-        bSyscoinBlockchainTx = params[3].get_bool();
+		bSyscoinBlockchainTx = params[3].get_str() == "true"? true: false;
     }
     for (unsigned int idx = 0; idx < inputs.size(); idx++) {
         const UniValue& input = inputs[idx];
