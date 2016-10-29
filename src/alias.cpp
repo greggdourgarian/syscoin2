@@ -2593,7 +2593,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 	vector<uint256> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
 		return ValueFromAmount(nAmount);
 
 	CSyscoinAddress addressFrom;

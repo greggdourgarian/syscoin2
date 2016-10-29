@@ -57,14 +57,23 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 	AliasNew("node2", "sendnode2", "password", "changeddata2");
 	UniValue r;
 	// get balance of node2 first to know we sent right amount oater
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "getinfo"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode2"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress sendnode2 1.335"), runtime_error);
 	GenerateBlocks(1);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "getinfo"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode2"));
 	balanceBefore += 1.335*COIN;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	// after expiry can't send money to it anymore
+	GenerateBlocks(101);	
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress sendnode2 1.335"), runtime_error);
+	GenerateBlocks(1);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode2"));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+
+
 }
 BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 {
@@ -95,6 +104,35 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	// xfer an alias to another alias is prohibited
 	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate jagnode2 changedata1 pvtdata Yes " + strPubKey1), runtime_error);
 	
+}
+BOOST_AUTO_TEST_CASE (generate_aliasbalance)
+{
+	// create alias and check balance is 0 on all nodes
+	// send money to alias and check balance is updated
+	// edit password and see balance is same
+}
+BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
+{
+	// send money to alias and check balance
+	// transfer alias to someone else and balance should be 0
+	// send money to alias and balance updates
+	// edit and balance should remain the same
+	// transfer again and balance is 0 again
+}
+BOOST_AUTO_TEST_CASE (generate_multisigalias)
+{
+	// create 2 of 2
+	// create 1 of 2
+	// create 2 of 3
+
+	// try to edit the multisigs
+	// pay to multisig
+}
+BOOST_AUTO_TEST_CASE (generate_aliasauthentication)
+{
+}
+BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
+{
 }
 BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
 {
