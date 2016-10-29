@@ -2283,9 +2283,12 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						address = CSyscoinAddress(address.ToString());
 						if(address.isAlias)
 						{
+							myrecipient.scriptPubKey = GetScriptForDestination(payDest);
+							if(!address.vchRedeemScript.empty())
+								myrecipient.scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 							CScript scriptPubKey;
 							scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
-							scriptPubKey += GetScriptForDestination(payDest);
+							scriptPubKey += myrecipient.scriptPubKey;
 							myrecipient = {scriptPubKey, myrecipient.nAmount, myrecipient.fSubtractFeeFromAmount};
 							txNew.nVersion = GetSyscoinTxVersion();				
 						}
@@ -2401,7 +2404,25 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							scriptChange = GetScriptForDestination(vchPubKey.GetID());
 						}
                     }
-
+					// SYSCOIN change as a alias payment
+					if(!sysTx)
+					{
+						CTxDestination payDest;
+						if (!ExtractDestination(scriptChange, payDest)) 
+							continue;
+						CSyscoinAddress address = CSyscoinAddress(payDest);
+						address = CSyscoinAddress(address.ToString());
+						if(!address.vchRedeemScript.empty())
+							scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
+						if(address.isAlias)
+						{
+							CScript scriptChangeOrig;
+							scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
+							scriptChangeOrig += scriptChange;
+							scriptChange = scriptChangeOrig;
+							txNew.nVersion = GetSyscoinTxVersion();				
+						}
+					}
                     CTxOut newTxOut(nChange, scriptChange);
 
                     // We do not move dust-change to fees, because the sender would end up paying more than requested.
