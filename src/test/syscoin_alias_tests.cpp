@@ -126,13 +126,33 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// create 2 of 3
 
 	// try to edit the multisigs
-	// pay to multisig
+	// pay to multisig and check balance
+	// remove multisig and update as normal
 }
 BOOST_AUTO_TEST_CASE (generate_aliasauthentication)
 {
+	// create alias with some password and try to get authentication key
+	// update the password and try again
+
+	// try to edit alias with authentication key from wallet that doesnt own that alias
+}
+BOOST_AUTO_TEST_CASE (generate_aliasauthenticationmultisig)
+{
+	// create 2 of 3 alias with some password and try to get authentication key
+	// update the password and try again
+
+	// try to edit alias with authentication key from wallet that doesnt own that alias
+	// pass that tx to another alias and verify it got signed and pushed to network
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
 {
+	// create 2 of 3 alias
+	// send money to alias and check balance
+	// transfer alias to non multisig  and balance should be 0
+	// send money to alias and balance updates
+	// edit and balance should remain the same
+	// transfer again and balance is 0 again
+
 }
 BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
 {
