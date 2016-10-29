@@ -209,6 +209,7 @@ public:
 	{
 		if(!Write(make_pair(std::string("namep"), name), vtxPaymentPos))
 			return false;
+		return true;
 	}
 
 	bool EraseAlias(const std::vector<unsigned char>& name) {
