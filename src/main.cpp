@@ -1160,6 +1160,7 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 		if(tx.nVersion == SYSCOIN_TX_VERSION)
 		{
 			bool good = true;
+			bool foundalias = false;
 			for(unsigned int j = 0;j<tx.vout.size();j++)
 			{
 				if(!good)
@@ -1167,9 +1168,10 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, nOut, vvchArgs) && good)
 				{
 					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
+					foundalias = true;
 				}
 			}
-			if(DecodeCertTx(tx, op, nOut, vvchArgs))
+			if(!foundalias && DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
 			}
@@ -1211,6 +1213,7 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 		if(tx.nVersion == GetSyscoinTxVersion())
 		{	
 			bool good = true;
+			bool foundalias = false;
 			// always do alias first as its dependency to others
 			for(unsigned int j = 0;j<tx.vout.size();j++)
 			{
@@ -1219,9 +1222,10 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, nOut, vvchArgs) && good)
 				{
 					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+					foundalias = true;
 				}
 			}
-			if(DecodeCertTx(tx, op, nOut, vvchArgs))
+			if(!foundalias && DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);			
 			}
