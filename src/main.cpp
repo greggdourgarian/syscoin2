@@ -1166,7 +1166,7 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 					break;
 				if(DecodeAliasScript(tx.vout[i].scriptPubKey, op, nOut, vvchArgs) && good)
 				{
-					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
 				}
 			}
 			if(DecodeCertTx(tx, op, nOut, vvchArgs))
