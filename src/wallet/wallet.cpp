@@ -2362,13 +2362,13 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     // TODO: pass in scriptChange instead of reservekey so
                     // change transaction isn't always pay-to-syscoin-address
                     CScript scriptChange;
-
+					CSyscoinAddress address;
                     // coin control: send change to custom address
 					// SYSCOIN
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
 					{
                         scriptChange = GetScriptForDestination(coinControl->destChange);
-						CSyscoinAddress address = CSyscoinAddress(coinControl->destChange);
+						address = CSyscoinAddress(coinControl->destChange);
 						address = CSyscoinAddress(address.ToString());
 						if(!address.vchRedeemScript.empty())
 							scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
@@ -2387,7 +2387,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                         // Reserve a new key pair from key pool
 						// SYSCOIN pay to input destination as change
 						CTxDestination payDest;
-						CSyscoinAddress address;
 						// the last input is always the one that gets the change since it wasn't fully spent
 						if (ExtractDestination(vecCoins[vecSend.size()-1].first->vout[vecCoins[vecSend.size()-1].second].scriptPubKey, payDest)) 
 						{
