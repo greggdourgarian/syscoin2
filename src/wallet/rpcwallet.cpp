@@ -416,7 +416,7 @@ void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fS
 	CCoinsViewCache inputs(pcoinsTip);
 	for(unsigned int j = 0;j<wtxNew.vout.size();j++)
 	{
-		if(DecodeAliasScript(wtxNew.vout[j].scriptPubKey, op, vvchArgs))
+		if(DecodeAliasScript(wtxNew.vout[j].scriptPubKey, op, vvch))
 		{
 			CheckAliasInputs(wtxNew, op, j, vvch, inputs, fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
 			if(!errorMessage.empty())
