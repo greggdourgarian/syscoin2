@@ -414,23 +414,17 @@ void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fS
 	bool fJustCheck = true;
 	string errorMessage="";
 	CCoinsViewCache inputs(pcoinsTip);
-	if(DecodeAliasTx(wtxNew, op, nOut, vvch, false))
+	for(unsigned int j = 0;j<wtxNew.vout.size();j++)
 	{
-		CheckAliasInputs(wtxNew, op, nOut, vvch, inputs, fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
-		if(!errorMessage.empty())
-			throw runtime_error(errorMessage.c_str());
-		CheckAliasInputs(wtxNew,  op, nOut, vvch, inputs, !fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
-		if(!errorMessage.empty())
-			throw runtime_error(errorMessage.c_str());
-	}
-	if(DecodeAliasTx(wtxNew, op, nOut, vvch, true))
-	{
-		CheckAliasInputs(wtxNew, op, nOut, vvch, inputs, fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
-		if(!errorMessage.empty())
-			throw runtime_error(errorMessage.c_str());
-		CheckAliasInputs(wtxNew,  op, nOut, vvch, inputs, !fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
-		if(!errorMessage.empty())
-			throw runtime_error(errorMessage.c_str());
+		if(DecodeAliasScript(wtxNew.vout[i].scriptPubKey, op, nOut, vvchArgs))
+		{
+			CheckAliasInputs(wtxNew, op, nOut, vvch, inputs, fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
+			if(!errorMessage.empty())
+				throw runtime_error(errorMessage.c_str());
+			CheckAliasInputs(wtxNew,  op, nOut, vvch, inputs, !fJustCheck, chainActive.Tip()->nHeight+1, errorMessage, NULL, true);
+			if(!errorMessage.empty())
+				throw runtime_error(errorMessage.c_str());
+		}
 	}
 	if(DecodeCertTx(wtxNew, op, nOut, vvch))
 	{

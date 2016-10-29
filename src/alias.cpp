@@ -1758,6 +1758,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
 	string strPassword = params[1].get_str().c_str();
+	if(strPassword.size() < 4)
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5500 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
 	string strPublicValue = params[2].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 

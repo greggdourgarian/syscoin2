@@ -1160,29 +1160,30 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 		if(tx.nVersion == SYSCOIN_TX_VERSION)
 		{
 			bool good = true;
+			for(unsigned int j = 0;j<tx.vout.size();j++)
+			{
+				if(!good)
+					break;
+				if(DecodeAliasScript(tx.vout[i].scriptPubKey, op, nOut, vvchArgs) && good)
+				{
+					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+				}
+			}
 			if(DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
 			}
-			if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
+			else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
 			}
-			if(DecodeAliasTx(tx, op, nOut, vvchArgs, false))
-			{
-				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
-			}
-			if(DecodeAliasTx(tx, op, nOut, vvchArgs, true))
-			{
-				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
-			}
-			if(DecodeOfferTx(tx, op, nOut, vvchArgs))
-			{	
-				good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
-			}
-			if(DecodeMessageTx(tx, op, nOut, vvchArgs))
+			else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+			}
+			else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
+			{	
+				good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
 			}
 			if(fDebug && !errorMessage.empty())
 				LogPrintf("%s\n", errorMessage.c_str());
@@ -1211,50 +1212,37 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 		{	
 			bool good = true;
 			// always do alias first as its dependency to others
-			if(DecodeAliasTx(tx, op, nOut, vvchArgs,false))
+			for(unsigned int j = 0;j<tx.vout.size();j++)
 			{
-				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
-			}
-			if(DecodeAliasTx(tx, op, nOut, vvchArgs, true))
-			{
-				good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+				if(!good)
+					break;
+				if(DecodeAliasScript(tx.vout[i].scriptPubKey, op, nOut, vvchArgs) && good)
+				{
+					good = CheckAliasInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+				}
 			}
 			if(DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);			
 			}
-			if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
+			else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckEscrowInputs(tx,  op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
 			}
-			if(DecodeMessageTx(tx, op, nOut, vvchArgs))
+			else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
 			}
-			if(fDebug && !errorMessage.empty())
-				LogPrintf("%s\n", errorMessage.c_str());
-			if(!good)
-			{
-				return false;
-			}	
-		}
-	}
-	for (unsigned int i = 0; i < block.vtx.size(); i++)
-    {
-        const CTransaction &tx = block.vtx[i];
-		if(tx.nVersion == GetSyscoinTxVersion())
-		{		
-			bool good = true;
-			if(DecodeOfferTx(tx, op, nOut, vvchArgs))
+			else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-			}	
+			}
 			if(fDebug && !errorMessage.empty())
 				LogPrintf("%s\n", errorMessage.c_str());
 			if(!good)
 			{
 				return false;
-			}
+			}	
 		}
 	}
 	return true;
@@ -1897,12 +1885,12 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 		return 2.5*COIN;
 	if(nHeight == 1)
 	{
-		/*std::string chain = ChainNameFromCommandLine();
+		std::string chain = ChainNameFromCommandLine();
 		if (chain == CBaseChainParams::MAIN || chain == CBaseChainParams::REGTEST)
-		{*/
+		{
 			// SYSCOIN snapshot for old chain based on block 880440 + 15 mill dev fund
 			return 459200578 * COIN + 15000000 * COIN;
-		//}
+		}
 	}
 	CAmount nSubsidy = 0;
     if(nHeight <= 525601)
