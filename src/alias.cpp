@@ -1122,6 +1122,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		else if(op == OP_ALIAS_PAYMENT)
 		{
+			// if alias is expired, return silently, dont add payments to db
+			if(vtxPos.empty())
+				return true;
 			const uint256 &txHash = tx.GetHash();
 			vector<uint256> vtxPaymentPos;
 			if(paliasdb->ExistsAliasPayment(vchAlias))
