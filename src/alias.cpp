@@ -2005,6 +2005,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 		CPubKey defaultKey = key.GetPubKey();
+		if(defaultKey != pubKey)
+			break;
 		if(!defaultKey.IsFullyValid())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
 		
@@ -2022,6 +2024,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		vchPubKeyByte = vector<unsigned char>(pubKey.begin(), pubKey.end());
 	}
+	pubKey = CPubKey(vchPubKeyByte);	
 	if(!vchPrivateValue.empty())
 	{
 		string strCipherText;
@@ -2044,7 +2047,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		}
 		strPassword = strCipherText.c_str();
 	}
-	CPubKey currentKey(vchPubKeyByte);
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliasNames.size() > 0)
 	{
@@ -2067,7 +2069,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		multiSigInfo.vchRedeemScript = vchRedeemScript;
 	}		
 	else
-		scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
+		scriptPubKeyOrig = GetScriptForDestination(pubKey.GetID());
 
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
