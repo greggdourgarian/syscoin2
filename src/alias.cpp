@@ -980,7 +980,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					return true;
 				}
 			}
-			else
+			else if(op == OP_ALIAS_UPDATE)
 			{
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Failed to read from alias DB");
 				return true;
@@ -1138,6 +1138,12 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Failed to write payment to alias DB");
 				return error(errorMessage.c_str());
 			}
+			if(fDebug)
+				LogPrintf(
+					"CONNECTED ALIAS: name=%s  op=%s  hash=%s  height=%d\n",
+					stringFromVch(vchAlias).c_str(),
+					aliasFromOp(op).c_str(),
+					tx.GetHash().ToString().c_str(), nHeight);
 			return true;
 		}
 		theAlias.nHeight = nHeight;
@@ -1791,11 +1797,10 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
 
 	CCrypter crypt;
-	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-	vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
-	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-	SecureString password = strPassword.c_str();
-    if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
+	vector<unsigned char> vchPassword = vchFromString(strPassword);
+	vchPassword.resize(WALLET_CRYPTO_SALT_SIZE);
+	SecureString alias = stringFromVch(vchAlias).c_str();
+    if(!crypt.SetKeyFromPassphrase(alias, vchPassword, 25000, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 	CKey key;
 	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
@@ -1987,12 +1992,11 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CPubKey pubKey(theAlias.vchPubKey);	
 	if(!strPassword.empty())
 	{
-		SecureString password = strPassword.c_str();
 		CCrypter crypt;
-		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
-		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
+		vector<unsigned char> vchPassword = vchFromString(strPassword);
+		vchPassword.resize(WALLET_CRYPTO_SALT_SIZE);
+		SecureString alias = stringFromVch(vchAlias).c_str();
+		if(!crypt.SetKeyFromPassphrase(alias, vchPassword, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
