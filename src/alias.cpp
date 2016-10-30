@@ -985,6 +985,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Failed to read from alias DB");
 				return true;
 			}
+			else if(op == OP_ALIAS_PAYMENT)
+				return true;
 		}
 		
 		if(op == OP_ALIAS_UPDATE)
@@ -1122,9 +1124,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		else if(op == OP_ALIAS_PAYMENT)
 		{
-			// if alias is expired, return silently, dont add payments to db
-			if(isExpired)
-				return true;
 			const uint256 &txHash = tx.GetHash();
 			vector<uint256> vtxPaymentPos;
 			if(paliasdb->ExistsAliasPayment(vchAlias))
