@@ -84,7 +84,7 @@ public:
 			if(type == OutMessage)
 				strMethod = string("messagesentlist");
 			else if(type == InMessage)
-				strMethod = string("messagelist");
+				strMethod = string("messagereceivelist");
 	        UniValue params(UniValue::VARR); 
 			params.push_back(settings.value("defaultAlias", "").toString().toStdString());
 			UniValue result ;
