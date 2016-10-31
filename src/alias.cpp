@@ -844,8 +844,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			for (unsigned int i = 0; i < tx.vout.size(); i++) {
 				int tmpOp;
 				vector<vector<unsigned char> > vvchRead;
-				if (DecodeAliasScript(tx.vout[i].scriptPubKey, tmpOp, vvchRead) && vvchRead[0] == vvchArgs[0]) {
-					if(found && tmpOp != OP_ALIAS_PAYMENT)
+				if (DecodeAliasScript(tx.vout[i].scriptPubKey, tmpOp, vvchRead) && vvchRead[0] == vvchArgs[0] && tmpOp != OP_ALIAS_PAYMENT) {
+					if(found)
 					{
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Too many alias outputs found in a transaction, only 1 allowed");
 						return error(errorMessage.c_str());
