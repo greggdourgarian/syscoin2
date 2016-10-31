@@ -254,34 +254,28 @@ CSyscoinAddress::CSyscoinAddress(const std::string& strAddress) {
 	// try to resolve alias address from alias name
 	if (!IsValid())
 	{
-		try 
+	
+		std::string strAliasAddress;
+		if(GetAddressFromAlias(strAddress, strAliasAddress, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
 		{
-			std::string strAliasAddress;
-			GetAddressFromAlias(strAddress, strAliasAddress, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey);
 			SetString(strAliasAddress);
 			aliasName = strAddress;
 			isAlias = true;
 		}
-		catch(...)
-		{
-		}
+
 	}
 	// try to resolve alias name from alias address
 	else
 	{
-		try 
+		
+		std::string strAliasAddress;
+		std::string strAlias;
+		if(GetAliasFromAddress(strAliasAddress, strAlias, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
 		{
-			std::string strAliasAddress = strAddress;
-			std::string strAlias;
-			GetAliasFromAddress(strAliasAddress, strAlias, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey);
-			if(strAliasAddress != strAddress)
-				SetString(strAliasAddress);
+			SetString(strAliasAddress);
 			aliasName = strAlias;
 			isAlias = true;
-		}
-		catch(...)
-		{
-		}
+		}	
 	}
 			
 }
@@ -291,34 +285,26 @@ CSyscoinAddress::CSyscoinAddress(const char* pszAddress) {
 	// try to resolve alias address
 	if (!IsValid())
 	{
-		try 
+		
+		std::string strAliasAddress;
+		if(GetAddressFromAlias(std::string(pszAddress), strAliasAddress, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
 		{
-			std::string strAliasAddress;
-			GetAddressFromAlias(std::string(pszAddress), strAliasAddress, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey);
 			SetString(strAliasAddress);
 			aliasName = std::string(pszAddress);
 			isAlias = true;
-			
-		}
-		catch(...)
-		{
-		}
+		}			
 	}
 	else
 	{
-		try 
+		
+		std::string strAliasAddress;
+		std::string strAlias;
+		if(GetAliasFromAddress(strAliasAddress, strAlias, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
 		{
-			std::string strAliasAddress = std::string(pszAddress);
-			std::string strAlias;
-			GetAliasFromAddress(strAliasAddress, strAlias, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey);
-			if(strAliasAddress != std::string(pszAddress))
-				SetString(strAliasAddress);
+			SetString(strAliasAddress);
 			aliasName = strAlias;
 			isAlias = true;
-		}
-		catch(...)
-		{
-		}
+		}	
 	}
 }
 // SYSCOIN support old sys
