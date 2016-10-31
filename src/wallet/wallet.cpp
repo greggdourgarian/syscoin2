@@ -2275,24 +2275,24 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 					// SYSCOIN pay to alias
 					CRecipient myrecipient = recipient;
 					CTxDestination payDest;
-					if (myrecipient.scriptPubKey.empty() || myrecipient.scriptPubKey[0] != OP_RETURN) {
-						if (!ExtractDestination(myrecipient.scriptPubKey, payDest)) 
-							continue;
-						
-						CSyscoinAddress address = CSyscoinAddress(payDest);
-						address = CSyscoinAddress(address.ToString());
-						int op;
-						vector<vector<unsigned char> > vvchArgs;
-						if(address.isAlias && !IsSyscoinScript(myrecipient.scriptPubKey, op, vvchArgs))
+					int op;
+					vector<vector<unsigned char> > vvchArgs;
+					if ((myrecipient.scriptPubKey.empty() || myrecipient.scriptPubKey[0] != OP_RETURN) && !IsSyscoinScript(myrecipient.scriptPubKey, op, vvchArgs)) {
+						if (ExtractDestination(myrecipient.scriptPubKey, payDest)) 
 						{
-							myrecipient.scriptPubKey = GetScriptForDestination(payDest);
-							if(!address.vchRedeemScript.empty())
-								myrecipient.scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
-							CScript scriptPubKey;
-							scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
-							scriptPubKey += myrecipient.scriptPubKey;
-							myrecipient = {scriptPubKey, myrecipient.nAmount, myrecipient.fSubtractFeeFromAmount};
-							txNew.nVersion = GetSyscoinTxVersion();				
+							CSyscoinAddress address = CSyscoinAddress(payDest);
+							address = CSyscoinAddress(address.ToString());
+							if(address.isAlias)
+							{
+								myrecipient.scriptPubKey = GetScriptForDestination(payDest);
+								if(!address.vchRedeemScript.empty())
+									myrecipient.scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
+								CScript scriptPubKey;
+								scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
+								scriptPubKey += myrecipient.scriptPubKey;
+								myrecipient = {scriptPubKey, myrecipient.nAmount, myrecipient.fSubtractFeeFromAmount};
+								txNew.nVersion = GetSyscoinTxVersion();				
+							}
 						}
 					}
 					
