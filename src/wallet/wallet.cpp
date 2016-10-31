@@ -2277,7 +2277,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 					CTxDestination payDest;
 					int op;
 					vector<vector<unsigned char> > vvchArgs;
-					if ((myrecipient.scriptPubKey.empty() || myrecipient.scriptPubKey[0] != OP_RETURN) && !IsSyscoinScript(myrecipient.scriptPubKey, op, vvchArgs)) {
+					if (!myrecipient.scriptPubKey.IsUnspendable() && !IsSyscoinScript(myrecipient.scriptPubKey, op, vvchArgs)) {
 						if (ExtractDestination(myrecipient.scriptPubKey, payDest)) 
 						{
 							CSyscoinAddress address = CSyscoinAddress(payDest);
