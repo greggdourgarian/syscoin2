@@ -303,12 +303,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             setAddress.insert(rcp.address);
             ++nAddresses;
 
-		
-			CSyscoinAddress address = CSyscoinAddress(rcp.address.toStdString());
-            CScript scriptPubKey = GetScriptForDestination(address.Get());
-			// SYSCOIN
-			if(!address.vchRedeemScript.empty())
-				scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
+            CScript scriptPubKey = GetScriptForDestination(CSyscoinAddress(rcp.address.toStdString()).Get());
             CRecipient recipient = {scriptPubKey, rcp.amount, rcp.fSubtractFeeFromAmount};
             vecSend.push_back(recipient);
 

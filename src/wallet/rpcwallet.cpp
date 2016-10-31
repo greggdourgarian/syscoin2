@@ -467,8 +467,7 @@ void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fS
     if (!syscoinMultiSigTx && !pwalletMain->CommitTransaction(wtxNew, reservekey, g_connman.get()))
         throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin input (alias, certificate, offer, escrow) you are trying to use for this transaction is invalid or not confirmed yet! Please wait a block and try again..."));
 }
-// SYSCOIN
-static void SendMoney(const CScript &scriptPubKey, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew)
+static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew)
 {
     CAmount curBalance = pwalletMain->GetBalance();
 
@@ -482,9 +481,8 @@ static void SendMoney(const CScript &scriptPubKey, CAmount nValue, bool fSubtrac
     if (pwalletMain->GetBroadcastTransactions() && !g_connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
 
-	// SYSCOIN
     // Parse Syscoin address
-    //CScript scriptPubKey = GetScriptForDestination(address);
+    CScript scriptPubKey = GetScriptForDestination(address);
 
     // Create and send the transaction
     CReserveKey reservekey(pwalletMain);
@@ -555,11 +553,7 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
         fSubtractFeeFromAmount = params[4].get_bool();
 
     EnsureWalletIsUnlocked();
-	// SYSCOIN
-	CScript scriptPubKey =  GetScriptForDestination(address.Get());
-	if(!address.vchRedeemScript.empty())
-		scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
-    SendMoney(scriptPubKey, nAmount, fSubtractFeeFromAmount, wtx);
+    SendMoney(address.Get(), nAmount, fSubtractFeeFromAmount, wtx);
 
     return wtx.GetHash().GetHex();
 }
@@ -985,11 +979,7 @@ UniValue sendfrom(const UniValue& params, bool fHelp)
     if (nAmount > nBalance)
         throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Account has insufficient funds");
 
-	// SYSCOIN
-	CScript scriptPubKey =  GetScriptForDestination(address.Get());
-	if(!address.vchRedeemScript.empty())
-		scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
-    SendMoney(scriptPubKey, nAmount, false, wtx);
+    SendMoney(address.Get(), nAmount, false, wtx);
 
     return wtx.GetHash().GetHex();
 }
@@ -1071,10 +1061,7 @@ UniValue sendmany(const UniValue& params, bool fHelp)
             throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+name_);
         setAddress.insert(address);
 		
-		// SYSCOIN
         CScript scriptPubKey = GetScriptForDestination(address.Get());
-		if(!address.vchRedeemScript.empty())
-			scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
         CAmount nAmount = AmountFromValue(sendTo[name_]);
         if (nAmount <= 0)
             throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
