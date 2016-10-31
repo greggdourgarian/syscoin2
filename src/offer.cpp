@@ -2145,7 +2145,6 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
     }
     return oRes;
 }
-
 UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() < 6 || params.size() > 15)
 		throw runtime_error(
