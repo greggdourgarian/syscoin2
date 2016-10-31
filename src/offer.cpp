@@ -2186,7 +2186,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	string paymentOptions = "SYS";
 	if(params.size() >= 15 && !params[14].get_str().empty() && params[14].get_str() != "NONE")
 	{
-		paymentOptions = params[14.get_str();
+		paymentOptions = params[14].get_str();
 	}
 	if(!ValidatePaymentOptionsString(paymentOptions)) 
 	{
@@ -3466,9 +3466,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 				expired = 1;
 			}  
 			expires_in = expired_block - chainActive.Tip()->nHeight;
-	
-			vector<CAliasIndex> vtxAliasPos;
-			paliasdb->ReadAlias(theOfferA.vchAlias, vtxAliasPos);
+
 			oOffer.push_back(Pair("alias", stringFromVch(theOfferA.vchAlias)));
 			float rating = 0;
 			if(!vtxAliasPos.empty() && vtxAliasPos.back().nRatingCountAsSeller > 0)
