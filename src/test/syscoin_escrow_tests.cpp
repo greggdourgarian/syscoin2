@@ -255,16 +255,16 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	EscrowRelease("node1", "buyer", guid);
 	// update the EUR peg twice before claiming escrow
 	string data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":269.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"precision\\\":2}]}";
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg " + data));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg sysrates.peg " + data));
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":218.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"precision\\\":2}]}";
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg " + data));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg sysrates.peg " + data));
 	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate buyeralias33 data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate selleralias33 data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "aliasupdate arbiteralias333 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg buyeralias33 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg selleralias33 data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node3", "aliasupdate sysrates.peg arbiteralias333 data"));
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", false, "nocert", false, "location");
@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	EscrowClaimRelease("node2", guid);
 	// restore EUR peg
 	data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":2695.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"precision\\\":2}]}";
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg " + data));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg sysrates.peg " + data));
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
@@ -297,13 +297,13 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
 	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate buyeraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate sysrates.peg selleraliasprune " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(1000);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
@@ -318,27 +318,27 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 	// ensure you can still update because escrow hasn't been completed yet
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate buyeraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowrelease " + guid1 + " buyer"));
 	MilliSleep(1000);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate sysrates.peg selleraliasprune " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 35"));
 	MilliSleep(2500);
 	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate buyeraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate sysrates.peg selleraliasprune " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
@@ -347,8 +347,8 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(2500);
 	// ensure you can still update because escrow hasn't been completed yet
 	// this should claim the release and complete the escrow because buyer calls it
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate buyeraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
@@ -357,14 +357,14 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "escrowcompleterelease " + guid1 + " " + retArray[0].get_str()));
 	MilliSleep(1000);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate sysrates.peg selleraliasprune " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 30"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate buyeraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(1000);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
@@ -378,11 +378,11 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate buyeraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate sysrates.peg selleraliasprune " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 2"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 3"));	

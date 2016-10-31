@@ -27,8 +27,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     ui(new Ui::EditOfferDialog), mapper(0), mode(mode), model(0)
 {
     ui->setupUi(this);
-
-	ui->aliasPegDisclaimer->setText(tr("<font color='blue'>Choose an alias which has peg information to allow exchange of currencies into SYS amounts based on the pegged values. Consumers will pay amounts based on this peg, the alias must be managed effectively or you may end up selling your offers for unexpected amounts.</font>"));
+	ui->aliasPegEdit->setEnabled(false);
 	ui->privateDisclaimer->setText(tr("<font color='blue'>Choose if you would like the offer to be private or publicly listed on the marketplace.</font>"));
 	ui->offerLabel->setVisible(true);
 	ui->offerEdit->setVisible(true);
@@ -67,8 +66,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     case NewOffer:
 		ui->offerLabel->setVisible(false);
 		ui->offerEdit->setVisible(false);
-		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
-		ui->aliasPegEdit->setText(defaultPegAlias);
 		defaultOfferAlias = settings.value("defaultAlias", "").toString();
 		aliasIndex = ui->aliasEdit->findText(defaultOfferAlias);
 		if(aliasIndex >= 0)
@@ -98,8 +95,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     case NewCertOffer:
 		ui->aliasEdit->setEnabled(false);
 		ui->offerLabel->setVisible(false);
-		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
-		ui->aliasPegEdit->setText(defaultPegAlias);
 		on_aliasPegEdit_editingFinished();
 		ui->offerEdit->setVisible(false);
         setWindowTitle(tr("New Offer(Certificate)"));
@@ -634,7 +629,6 @@ bool EditOfferDialog::saveCurrentRow()
 				return false;
 		}
 		strMethod = string("offernew");
-		params.push_back(ui->aliasPegEdit->text().toStdString());
 		params.push_back(ui->aliasEdit->currentText().toStdString());
 		if(ui->categoryEdit->currentIndex() >= 0)
 			params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
@@ -726,7 +720,6 @@ bool EditOfferDialog::saveCurrentRow()
         if(mapper->submit())
         {
 			strMethod = string("offerupdate");
-			params.push_back(ui->aliasPegEdit->text().toStdString());
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->offerEdit->text().toStdString());
 			if(ui->categoryEdit->currentIndex() >= 0)

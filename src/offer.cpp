@@ -597,11 +597,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1012 - " + _("Offer curreny too long");
 			return error(errorMessage.c_str());
 		}
-		if(theOffer.vchAliasPeg.size() > MAX_GUID_LENGTH)
-		{
-			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1013 - " + _("Offer alias peg too long");
-			return error(errorMessage.c_str());
-		}
 		if(theOffer.vchGeoLocation.size() > MAX_NAME_LENGTH)
 		{
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1014 - " + _("Offer geolocation too long");
@@ -842,8 +837,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theOffer.sDescription = dbOffer.sDescription;
 					if(serializedOffer.vchGeoLocation.empty())
 						theOffer.vchGeoLocation = dbOffer.vchGeoLocation;
-					if(serializedOffer.vchAliasPeg.empty())
-						theOffer.vchAliasPeg = dbOffer.vchAliasPeg;
 					if(serializedOffer.sCurrencyCode.empty())
 						theOffer.sCurrencyCode = dbOffer.sCurrencyCode;
 					if(serializedOffer.paymentOptions <= 0)
@@ -922,7 +915,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 			}
 			// check for valid alias peg
-			if(getCurrencyToSYSFromAlias(theOffer.vchAliasPeg, theOffer.sCurrencyCode, nRate, theOffer.nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
+			if(getCurrencyToSYSFromAlias(alias.vchAliasPeg, theOffer.sCurrencyCode, nRate, theOffer.nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1065 - " + _("Could not find currency in the peg alias");
 				return true;
@@ -1006,7 +999,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theOffer.sCurrencyCode = linkOffer.sCurrencyCode;
 					theOffer.vchCert = linkOffer.vchCert;
 					theOffer.SetPrice(linkOffer.nPrice);
-					theOffer.vchAliasPeg = linkOffer.vchAliasPeg;
 					theOffer.sCategory = linkOffer.sCategory;
 					theOffer.sTitle = linkOffer.sTitle;
 					theOffer.safeSearch = linkOffer.safeSearch;
@@ -1027,7 +1019,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			else
 			{
 				// check for valid alias peg
-				if(getCurrencyToSYSFromAlias(theOffer.vchAliasPeg, theOffer.sCurrencyCode, nRate, theOffer.nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
+				if(getCurrencyToSYSFromAlias(alias.vchAliasPeg, theOffer.sCurrencyCode, nRate, theOffer.nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1079 - " + _("Could not find currency in the peg alias");
 					return true;
@@ -1402,7 +1394,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			{
 				theOffer.nQty = linkOffer.nQty;	
 				theOffer.vchCert = linkOffer.vchCert;
-				theOffer.vchAliasPeg = linkOffer.vchAliasPeg;
 				theOffer.paymentOptions = linkOffer.paymentOptions;				
 				theOffer.SetPrice(linkOffer.nPrice);					
 			}
@@ -1432,10 +1423,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 }
 
 UniValue offernew(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 8 || params.size() > 14)
+	if (fHelp || params.size() < 7 || params.size() > 13)
 		throw runtime_error(
-		"offernew <aliaspeg> <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [exclusive resell=1] [paymentOptions=1] [geolocation=''] [safe search=Yes] [private='0']\n"
-						"<aliaspeg> Alias peg you wish to use, leave empty to use sysrates.peg.\n"	
+		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [exclusive resell=1] [paymentOptions=1] [geolocation=''] [safe search=Yes] [private='0']\n"
 						"<alias> An alias you own.\n"
 						"<category> category, 255 chars max.\n"
 						"<title> title, 255 chars max.\n"
@@ -1453,8 +1443,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	// gather inputs
 	float fPrice;
 	bool bExclusiveResell = true;
-	vector<unsigned char> vchAliasPeg = vchFromValue(params[0]);
-	vector<unsigned char> vchAlias = vchFromValue(params[1]);
+	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 
 	CTransaction aliastx;
 	CAliasIndex alias;
@@ -1468,41 +1457,41 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1502 - " + _("This alias is not in your wallet"));
 
-	vector<unsigned char> vchCat = vchFromValue(params[2]);
-	vector<unsigned char> vchTitle = vchFromValue(params[3]);
-	vector<unsigned char> vchCurrency = vchFromValue(params[7]);
+	vector<unsigned char> vchCat = vchFromValue(params[1]);
+	vector<unsigned char> vchTitle = vchFromValue(params[2]);
+	vector<unsigned char> vchCurrency = vchFromValue(params[6]);
 	vector<unsigned char> vchDesc;
 	vector<unsigned char> vchCert;
 
 	int nQty;
 
 	try {
-		nQty =  boost::lexical_cast<int>(params[4].get_str());
+		nQty =  boost::lexical_cast<int>(params[3].get_str());
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1503 - " + _("Invalid quantity value, must be less than 4294967296 and greater than or equal to -1"));
 	}
-	fPrice = boost::lexical_cast<float>(params[5].get_str());
-	vchDesc = vchFromValue(params[6]);
+	fPrice = boost::lexical_cast<float>(params[4].get_str());
+	vchDesc = vchFromValue(params[5]);
 	CScript scriptPubKeyOrig;
 	CScript scriptPubKey;
-	if(params.size() >= 9)
+	if(params.size() >= 8)
 	{
 		
-		vchCert = vchFromValue(params[8]);
+		vchCert = vchFromValue(params[7]);
 		if(vchCert == vchFromString("nocert"))
 			vchCert.clear();
 	}
 
-	if(params.size() >= 10)
+	if(params.size() >= 9)
 	{
-		bExclusiveResell = boost::lexical_cast<int>(params[9].get_str()) == 1? true: false;
+		bExclusiveResell = boost::lexical_cast<int>(params[8].get_str()) == 1? true: false;
 	}
 	
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(params.size() >= 11 && !params[10].get_str().empty() && params[10].get_str() != "NONE")
+	if(params.size() >= 10 && !params[9].get_str().empty() && params[9].get_str() != "NONE")
 	{
-		paymentOptions = params[10].get_str();
+		paymentOptions = params[9].get_str();
 	}	
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOptions)) 
@@ -1515,20 +1504,20 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 
 	string strGeoLocation = "";
-	if(params.size() >= 12)
+	if(params.size() >= 11)
 	{
-		strGeoLocation = params[11].get_str();
+		strGeoLocation = params[10].get_str();
 	}
 	string strSafeSearch = "Yes";
-	if(params.size() >= 13)
+	if(params.size() >= 12)
 	{
-		strSafeSearch = params[12].get_str();
+		strSafeSearch = params[11].get_str();
 	}
 	bool bPrivate = false;
-	if (params.size() >= 14) bPrivate = boost::lexical_cast<int>(params[13].get_str()) == 1? true: false;
+	if (params.size() >= 13) bPrivate = boost::lexical_cast<int>(params[12].get_str()) == 1? true: false;
 
 	int precision = 2;
-	CAmount nPricePerUnit = convertCurrencyCodeToSyscoin(vchAliasPeg, vchCurrency, fPrice, chainActive.Tip()->nHeight, precision);
+	CAmount nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, vchCurrency, fPrice, chainActive.Tip()->nHeight, precision);
 	if(nPricePerUnit == 0)
 	{
 		string err = "SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1504 - " + _("Could not find currency in the peg alias");
@@ -1559,7 +1548,6 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	newOffer.sCurrencyCode = vchCurrency;
 	newOffer.bPrivate = bPrivate;
 	newOffer.paymentOptions = paymentOptionsMask;
-	newOffer.vchAliasPeg = vchAliasPeg;
 	newOffer.safetyLevel = 0;
 	newOffer.safeSearch = strSafeSearch == "Yes"? true: false;
 	newOffer.vchGeoLocation = vchFromString(strGeoLocation);
@@ -1589,7 +1577,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	
@@ -1733,7 +1721,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	
@@ -1865,7 +1853,7 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	
@@ -1975,7 +1963,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	
@@ -2082,7 +2070,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	
@@ -2159,17 +2147,16 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 }
 
 UniValue offerupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 7 || params.size() > 16)
+	if (fHelp || params.size() < 6 || params.size() > 15)
 		throw runtime_error(
-		"offerupdate <aliaspeg> <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private='0'] [cert. guid=''] [exclusive resell='1'] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
+		"offerupdate <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private='0'] [cert. guid=''] [exclusive resell='1'] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
 						"Perform an update on an offer you control.\n"
 						+ HelpRequiringPassphrase());
 	// gather & validate inputs
-	vector<unsigned char> vchAliasPeg = vchFromValue(params[0]);
-	vector<unsigned char> vchAlias = vchFromValue(params[1]);
-	vector<unsigned char> vchOffer = vchFromValue(params[2]);
-	vector<unsigned char> vchCat = vchFromValue(params[3]);
-	vector<unsigned char> vchTitle = vchFromValue(params[4]);
+	vector<unsigned char> vchAlias = vchFromValue(params[0]);
+	vector<unsigned char> vchOffer = vchFromValue(params[1]);
+	vector<unsigned char> vchCat = vchFromValue(params[2]);
+	vector<unsigned char> vchTitle = vchFromValue(params[3]);
 	vector<unsigned char> vchDesc;
 	vector<unsigned char> vchCert;
 	vector<unsigned char> vchGeoLocation;
@@ -2179,28 +2166,28 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	int nQty;
 	float fPrice;
 	int nCommission = 0;
-	if (params.size() >= 8) vchDesc = vchFromValue(params[7]);
-	if (params.size() >= 9) sCurrencyCode = vchFromValue(params[8]);
-	if (params.size() >= 10) bPrivate = boost::lexical_cast<int>(params[9].get_str()) == 1? true: false;
-	if (params.size() >= 11) vchCert = vchFromValue(params[10]);
+	if (params.size() >= 7) vchDesc = vchFromValue(params[6]);
+	if (params.size() >= 8) sCurrencyCode = vchFromValue(params[7]);
+	if (params.size() >= 9) bPrivate = boost::lexical_cast<int>(params[8].get_str()) == 1? true: false;
+	if (params.size() >= 10) vchCert = vchFromValue(params[9]);
 	if(vchCert == vchFromString("nocert"))
 		vchCert.clear();
-	if (params.size() >= 12) bExclusiveResell = boost::lexical_cast<int>(params[11].get_str()) == 1? true: false;
-	if (params.size() >= 13) vchGeoLocation = vchFromValue(params[12]);
+	if (params.size() >= 11) bExclusiveResell = boost::lexical_cast<int>(params[10].get_str()) == 1? true: false;
+	if (params.size() >= 12) vchGeoLocation = vchFromValue(params[11]);
 	string strSafeSearch = "Yes";
-	if(params.size() >= 14)
+	if(params.size() >= 13)
 	{
-		strSafeSearch = params[13].get_str();
+		strSafeSearch = params[12].get_str();
 	}
-	if(params.size() >= 15 && !params[14].get_str().empty() && params[14].get_str() != "NONE")
+	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
 	{
-		nCommission = boost::lexical_cast<int>(params[14].get_str());
+		nCommission = boost::lexical_cast<int>(params[13].get_str());
 	}
 
 	string paymentOptions = "SYS";
-	if(params.size() >= 16 && !params[15].get_str().empty() && params[15].get_str() != "NONE")
+	if(params.size() >= 15 && !params[14].get_str().empty() && params[14].get_str() != "NONE")
 	{
-		paymentOptions = params[15].get_str();
+		paymentOptions = params[14.get_str();
 	}
 	if(!ValidatePaymentOptionsString(paymentOptions)) 
 	{
@@ -2210,8 +2197,8 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 
 	try {
-		nQty = boost::lexical_cast<int>(params[5].get_str());
-		fPrice = boost::lexical_cast<float>(params[6].get_str());
+		nQty = boost::lexical_cast<int>(params[4].get_str());
+		fPrice = boost::lexical_cast<float>(params[5].get_str());
 
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1526 - " + _("Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1"));
@@ -2272,10 +2259,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	{
 		if(offerCopy.vchCert != vchCert)
 			theOffer.vchCert = vchCert;		
-		if(vchAliasPeg.empty())
-			vchAliasPeg = offerCopy.vchAliasPeg;
-		if(offerCopy.vchAliasPeg != vchAliasPeg)
-			theOffer.vchAliasPeg = vchAliasPeg;
 		int precision = 2;
 		nPricePerUnit = convertCurrencyCodeToSyscoin(vchAliasPeg, sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);
 		if(nPricePerUnit == 0)
@@ -2286,24 +2269,24 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		if(GetTxOfOffer( offerCopy.vchLinkOffer, linkOffer, linktx, true))
 			nAvailableQty = linkOffer.nQty;
 	}
-
-	if(params.size() >= 15 && params[14].get_str() != "NONE")
-		theOffer.paymentOptions = paymentOptionsMask;
-	if(params.size() >= 16 && params[15].get_str() != "NONE")
+	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
 		theOffer.nCommission = nCommission;
+	if(params.size() >= 15 && !params[14].get_str().empty() && params[14].get_str() != "NONE")
+		theOffer.paymentOptions = paymentOptionsMask;
+
 	theOffer.vchAlias = alias.vchAlias;
 	if(!vchAlias.empty() && vchAlias != alias.vchAlias)
 		theOffer.vchLinkAlias = vchAlias;
 	theOffer.safeSearch = strSafeSearch == "Yes"? true: false;
 	theOffer.nQty = nQty;
-	if (params.size() >= 10)
+	if (params.size() >= 9)
 		theOffer.bPrivate = bPrivate;
 	unsigned int memPoolQty = QtyOfPendingAcceptsInMempool(vchOffer);
 	if(nAvailableQty != -1 && (nAvailableQty-memPoolQty) < 0)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Not enough remaining quantity to fulfill this update"));
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.SetPrice(nPricePerUnit);
-	if(params.size() >= 12 && params[11].get_str().size() > 0)
+	if(params.size() >= 11 && params[10].get_str().size() > 0)
 		theOffer.linkWhitelist.bExclusiveResell = bExclusiveResell;
 	else
 		theOffer.linkWhitelist.bExclusiveResell = offerCopy.linkWhitelist.bExclusiveResell;
@@ -2334,7 +2317,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	
@@ -2563,7 +2546,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, buyerAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
 	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
@@ -2801,7 +2784,6 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		foundSellerKey = false;
 	}
 	
-	
 	theOffer.ClearOffer();
 	theOffer.accept = theOfferAccept;
 	theOffer.accept.vchBuyerAlias = vchLinkAlias;
@@ -2872,7 +2854,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
 	
@@ -2990,7 +2972,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	
 	
 	int precision = 2;
-	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theOffer.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), nHeight, precision);
+	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(alias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), nHeight, precision);
 	oOffer.push_back(Pair("sysprice", theOffer.GetPrice()));
 	oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real()))); 
 	
@@ -3022,7 +3004,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 		paymentOptions = linkOffer.paymentOptions;
 	oOffer.push_back(Pair("paymentoptions", paymentOptions));
 	oOffer.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
-	oOffer.push_back(Pair("alias_peg", stringFromVch(theOffer.vchAliasPeg)));
+	oOffer.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 	oOffer.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 	oOffer.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
 	CSyscoinAddress address;
@@ -3190,7 +3172,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));		
 
 			int precision = 2;
-			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theOffer.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
+			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
 			CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
 			oOfferAccept.push_back(Pair("systotal", sysTotal));
 			oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));
@@ -3342,7 +3324,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
             oName.push_back(Pair("category", stringFromVch(theOffer.sCategory)));
             oName.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 			int precision = 2;
-			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theOffer.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), theOffer.nHeight, precision);
+			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), theOffer.nHeight, precision);
 			oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() ))); 	
 
 			oName.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode) ) );
@@ -3362,7 +3344,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			oName.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
 			
 			
-			oName.push_back(Pair("alias_peg", stringFromVch(theOffer.vchAliasPeg)));
+			oName.push_back(Pair("alias_peg", stringFromVch(theAlias.vchAliasPeg)));
 			oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
 			bool safeSearch = theOffer.safeSearch || alias.safeSearch || linkOffer.safeSearch || linkAlias.safeSearch;
 			oName.push_back(Pair("safesearch", safeSearch? "Yes" : "No"));
@@ -3427,6 +3409,12 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 				linkOffer.nHeight = txPos2.nHeight;	
 				linkOffer.GetOfferFromList(vtxLinkPos);
 			}
+			vector<CAliasIndex> vtxAliasPos;
+			if(!paliasdb->ReadAlias(txPos2.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
+				continue;
+			CAliasIndex theAlias;
+			theAlias.nHeight = txPos2.nHeight;	
+			theAlias.GetAliasFromList(vtxAliasPos);
 			txHash = txPos2.txHash;
 			CTransaction tx;
 			if (!GetSyscoinTransaction(txPos2.nHeight, txHash, tx, Params().GetConsensus())) {
@@ -3459,7 +3447,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
             oOffer.push_back(Pair("category", stringFromVch(theOfferA.sCategory)));
             oOffer.push_back(Pair("description", stringFromVch(theOfferA.sDescription)));
 			int precision = 2;
-			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theOfferA.vchAliasPeg, theOfferA.sCurrencyCode, theOfferA.GetPrice(), theOfferA.nHeight, precision);
+			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOfferA.sCurrencyCode, theOfferA.GetPrice(), theOfferA.nHeight, precision);
 			oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() ))); 	
 
 			oOffer.push_back(Pair("currency", stringFromVch(theOfferA.sCurrencyCode) ) );
@@ -3543,7 +3531,9 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		if (!pofferdb->ReadOffer(vchFromString(offer), vtxPos) || vtxPos.empty())
 			continue;
 
-		paliasdb->ReadAlias(txOffer.vchAlias, vtxAliasPos);
+		if(!paliasdb->ReadAlias(txOffer.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
+			continue;
+
 		int expired = 0;
 		int expires_in = 0;
 		int expired_block = 0;		
@@ -3558,7 +3548,7 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		oOffer.push_back(Pair("description", stringFromVch(txOffer.sDescription)));
         oOffer.push_back(Pair("category", stringFromVch(txOffer.sCategory)));
 		int precision = 2;
-		CAmount nPricePerUnit = convertSyscoinToCurrencyCode(txOffer.vchAliasPeg, txOffer.sCurrencyCode, txOffer.GetPrice(), nHeight, precision);
+		CAmount nPricePerUnit = convertSyscoinToCurrencyCode(vtxAliasPos.back().vchAliasPeg, txOffer.sCurrencyCode, txOffer.GetPrice(), nHeight, precision);
 		oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() ))); 
 		oOffer.push_back(Pair("currency", stringFromVch(txOffer.sCurrencyCode)));
 		oOffer.push_back(Pair("commission", strprintf("%d", txOffer.nCommission)));
@@ -3568,7 +3558,7 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		else
 			oOffer.push_back(Pair("quantity", strprintf("%d", nQty)));
 		oOffer.push_back(Pair("exclusive_resell", txOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
-		oOffer.push_back(Pair("alias_peg", stringFromVch(txOffer.vchAliasPeg)));
+		oOffer.push_back(Pair("alias_peg", stringFromVch(vtxAliasPos.back().vchAliasPeg)));
 		oOffer.push_back(Pair("offers_sold", (int)txOffer.nSold));
 		expired_block = nHeight + GetOfferExpirationDepth();  
 		expires_in = expired_block - chainActive.Tip()->nHeight;
@@ -3674,13 +3664,6 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 		aliasValue = stringFromVch(offer.vchAlias);
 
 	entry.push_back(Pair("alias", aliasValue));
-
-	string aliasPegValue = noDifferentStr;
-	if(!offer.vchAliasPeg.empty() && offer.vchAliasPeg != dbOffer.vchAliasPeg)
-		aliasPegValue = stringFromVch(offer.vchAliasPeg);
-
-	entry.push_back(Pair("aliaspeg", aliasPegValue));
-
 
 	string linkOfferValue = noDifferentStr;
 	if(!offer.vchLinkOffer.empty() && offer.vchLinkOffer != dbOffer.vchLinkOffer)

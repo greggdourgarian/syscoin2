@@ -806,11 +806,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	{
 		if(!vchData.empty())
 		{
-			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey);
+			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, theAlias.vchAliasPeg, nHeight);
 			if(!theAlias.IsNull())
 			{
 				if(theAlias.nRenewal > 1)
-					fee += 0.02*COIN*theAlias.nRenewal*theAlias.nRenewal;
+					fee *= theAlias.nRenewal*theAlias.nRenewal;
 			}
 			if (fee > tx.vout[nDataOut].nValue) 
 			{
@@ -893,6 +893,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		if(theAlias.vchPrivateValue.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias private value too big");
+			return error(errorMessage.c_str());
+		}
+		if(theAlias.vchAliasPeg.size() > MAX_GUID_LENGTH)
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1013 - " + _("Alias peg too long");
 			return error(errorMessage.c_str());
 		}
 		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_VALUE_LENGTH)
@@ -1582,34 +1587,46 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	CRecipient recp = {scriptPubKey, 0, false};
 	recipient = recp;
 	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
-	recipient.nAmount = txout.GetDustThreshold(::minRelayTxFee);
+    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
+	recipient.nAmount = fee;
 }
-void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& data, CRecipient& recipient)
+void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
 {
+	int precision = 0;
+	CAmount nFee = 0;
 	// add hash to data output (must match hash in inputs check with the tx scriptpubkey hash)
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashRand = vchFromValue(hash.GetHex());
 	scriptPubKey << vchHashRand;
-	CAmount minFee = AmountFromValue(0.02);
-	CRecipient recp = {scriptPubKey, minFee, false};
+	CRecipient recp = {scriptPubKey, 0, false};
 	recipient = recp;
 	CTxOut txout(0,	recipient.scriptPubKey);
-    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
-	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
-	// minimum of 0.02 COIN fees for data
-	recipient.nAmount = fee > minFee? fee: minFee;
+	size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
+	if(nFeePerByte <= 0)
+		nFee = 3*minRelayTxFee.GetFee(nSize);
+	else
+		nFee = nFeePerByte * nSize;
+
+	recipient.nAmount = nFee;
 }
-CAmount GetDataFee(const CScript& scriptPubKey)
+CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64& nHeight)
 {
+	int precision = 0;
+	CAmount nFee = 0;
 	CRecipient recipient;
-	CAmount minFee = AmountFromValue(0.02);
-	CRecipient recp = {scriptPubKey, minFee, false};
+	CRecipient recp = {scriptPubKey, 0, false};
 	recipient = recp;
 	CTxOut txout(0,	recipient.scriptPubKey);
     size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
-	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
-	// minimum of 0.02 COIN fees for data
-	recipient.nAmount = fee > minFee? fee: minFee;
+	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
+	if(nFeePerByte <= 0)
+		nFee = 3*minRelayTxFee.GetFee(nSize);
+	else
+		nFee = nFeePerByte * nSize;
+	
+	recipient.nAmount = nFee;
 	return recipient.nAmount;
 }
 UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
@@ -1695,9 +1712,9 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 	}
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
-	if (fHelp || 3 > params.size() || 9 < params.size())
+	if (fHelp || 4 > params.size() || 10 < params.size())
 		throw runtime_error(
-		"aliasnew <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.\n"
 						"<public value> alias public profile data, 1023 chars max.\n"
@@ -1713,9 +1730,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 						"     ]\n"						
 						
 						+ HelpRequiringPassphrase());
-
-	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
-	string strName = params[0].get_str();
+	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
+	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
+	string strName = params[1].get_str();
 	/*Above pattern makes sure domain name matches the following criteria :
 
 	The domain name should be a-z | 0-9 and hyphen(-)
@@ -1749,53 +1766,56 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	string strPassword = params[1].get_str().c_str();
-	if(strPassword.size() < 4)
+	string strPassword = params[2].get_str().c_str();
+	if(strPassword.size() < 4 && strPassword.size() > 0)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5500 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
-	string strPublicValue = params[2].get_str();
+	string strPublicValue = params[3].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 
-	string strPrivateValue = params.size()>=4?params[3].get_str():"";
+	string strPrivateValue = params.size()>=5?params[4].get_str():"";
 	string strSafeSearch = "Yes";
 	string strAcceptCertTransfers = "Yes";
 	int nRenewal = 1;
-	if(params.size() >= 5)
-	{
-		strSafeSearch = params[4].get_str();
-	}
 	if(params.size() >= 6)
 	{
-		strAcceptCertTransfers = params[5].get_str();
+		strSafeSearch = params[5].get_str();
 	}
 	if(params.size() >= 7)
-		nRenewal = boost::lexical_cast<int>(params[6].get_str());
-    int nMultiSig = 1;
+	{
+		strAcceptCertTransfers = params[6].get_str();
+	}
 	if(params.size() >= 8)
-		nMultiSig = boost::lexical_cast<int>(params[7].get_str());
-    UniValue aliasNames;
+		nRenewal = boost::lexical_cast<int>(params[7].get_str());
+    int nMultiSig = 1;
 	if(params.size() >= 9)
-		aliasNames = params[8].get_array();
+		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
+    UniValue aliasNames;
+	if(params.size() >= 10)
+		aliasNames = params[9].get_array();
 	
 	vchPrivateValue = vchFromString(strPrivateValue);
 
 	CWalletTx wtx;
 
 	EnsureWalletIsUnlocked();
-
-	CCrypter crypt;
-	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-	vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
-	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-	SecureString password = strPassword.c_str();
-    if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
-	CKey key;
-	key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
-	CPubKey defaultKey = key.GetPubKey();
-	if(!defaultKey.IsFullyValid())
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
-	if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
+	CPubKey defaultKey = pwalletMain->GenerateNewKey();
+	if(!strPassword.empty())
+	{
+		CCrypter crypt;
+		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
+		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
+		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
+		SecureString password = strPassword.c_str();
+		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
+		CKey key;
+		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+		defaultKey = key.GetPubKey();
+		if(!defaultKey.IsFullyValid())
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
+		if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
+	}
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliasNames.size() > 0)
@@ -1846,6 +1866,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     // build alias
     CAliasIndex newAlias;
 	newAlias.vchGUID = vchRandAlias;
+	newAlias.vchAliasPeg = vchAliasPeg;
 	newAlias.vchAlias = vchAlias;
 	newAlias.nHeight = chainActive.Tip()->nHeight;
 	newAlias.vchPubKey = vchPubKey;
@@ -1885,10 +1906,10 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
-		fee.nAmount += 0.02*COIN*nRenewal*nRenewal;
+		fee.nAmount *= nRenewal*nRenewal;
 	
 	vecSend.push_back(fee);
 	// send the tranasction
@@ -1899,9 +1920,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 > params.size() || 10 < params.size())
+	if (fHelp || 3 > params.size() || 11 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
+		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public value> alias public profile data, 1023 chars max.\n"
@@ -1918,13 +1939,13 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"       ,...\n"
 						"     ]\n"							
 						+ HelpRequiringPassphrase());
-
-	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
+	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
+	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	string strPublicValue = params[1].get_str();
+	string strPublicValue = params[3].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
-	string strPrivateValue = params.size()>=3 && params[2].get_str().size() > 0?params[2].get_str():"";
+	string strPrivateValue = params.size()>=4 && params[3].get_str().size() > 0?params[3].get_str():"";
 	vchPrivateValue = vchFromString(strPrivateValue);
 	vector<unsigned char> vchPubKeyByte;
 	int nRenewal = 1;
@@ -1933,35 +1954,38 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CScript scriptPubKeyOrig;
 
 	string strSafeSearch = "Yes";
-	if(params.size() >= 4)
+	if(params.size() >= 5)
 	{
-		strSafeSearch = params[3].get_str();
+		strSafeSearch = params[4].get_str();
 	}
 	string strPubKey;
-    if (params.size() >= 5 && params[4].get_str().size() > 0) {
+    if (params.size() >= 6 && params[5].get_str().size() > 0) {
 		vector<unsigned char> vchPubKey;
-		vchPubKey = vchFromString(params[4].get_str());
+		vchPubKey = vchFromString(params[5].get_str());
 		boost::algorithm::unhex(vchPubKey.begin(), vchPubKey.end(), std::back_inserter(vchPubKeyByte));
 	}
 	string strPassword;
-	if(params.size() >= 6 && params[5].get_str().size() > 0 && vchPubKeyByte.empty())
-		strPassword = params[5].get_str();
+	if(params.size() >= 7 && params[6].get_str().size() > 0 && vchPubKeyByte.empty())
+		strPassword = params[6].get_str();
+
+	if(strPassword.size() < 4 && strPassword.size() > 0)
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5500 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
 
 	string strAcceptCertTransfers = "Yes";
-	if(params.size() >= 7)
-	{
-		strAcceptCertTransfers = params[6].get_str();
-	}
 	if(params.size() >= 8)
 	{
-		nRenewal = boost::lexical_cast<int>(params[7].get_str());
+		strAcceptCertTransfers = params[7].get_str();
+	}
+	if(params.size() >= 9)
+	{
+		nRenewal = boost::lexical_cast<int>(params[8].get_str());
 	}
     int nMultiSig = 1;
-	if(params.size() >= 9)
-		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
-    UniValue aliasNames;
 	if(params.size() >= 10)
-		aliasNames = params[9].get_array();
+		nMultiSig = boost::lexical_cast<int>(params[9].get_str());
+    UniValue aliasNames;
+	if(params.size() >= 11)
+		aliasNames = params[10].get_array();
 	EnsureWalletIsUnlocked();
 	CTransaction tx;
 	CAliasIndex theAlias;
@@ -2066,6 +2090,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(copyAlias.vchPassword != vchFromString(strPassword))
 		theAlias.vchPassword = vchFromString(strPassword);
 
+	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nRenewal = nRenewal;
@@ -2096,10 +2121,10 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, data, fee);
+	CreateFeeRecipient(scriptData, vchAliasPeg, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
-		fee.nAmount +=  0.02*COIN*nRenewal*nRenewal;
+		fee.nAmount *=  nRenewal*nRenewal;
 	
 	vecSend.push_back(fee);
 	
@@ -2207,6 +2232,12 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 	entry.push_back(Pair("txtype", opName));
 	entry.push_back(Pair("name", stringFromVch(alias.vchAlias)));
+
+	string aliasPegValue = noDifferentStr;
+	if(!alias.vchAliasPeg.empty() && alias.vchAliasPeg != dbAlias.vchAliasPeg)
+		aliasPegValue = stringFromVch(offer.vchAliasPeg);
+
+	entry.push_back(Pair("aliaspeg", aliasPegValue));
 
 	string publicValue = noDifferentStr;
 	if(!alias.vchPublicValue .empty() && alias.vchPublicValue != dbAlias.vchPublicValue)
