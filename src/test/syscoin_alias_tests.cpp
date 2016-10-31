@@ -65,11 +65,12 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 	balanceBefore += 1.335*COIN;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
-	// after expiry can't send money to it anymore
+	// after expiry can still send money to it
 	GenerateBlocks(101);	
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress sendnode2 1.335"), runtime_error);
 	GenerateBlocks(1);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode2"));
+	balanceBefore += 1.335*COIN;
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
