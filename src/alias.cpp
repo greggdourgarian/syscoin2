@@ -1591,7 +1591,7 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
 	recipient.nAmount = fee;
 }
-void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
+void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
 {
 	int precision = 0;
 	CAmount nFee = 0;
@@ -1611,7 +1611,7 @@ void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchA
 
 	recipient.nAmount = nFee;
 }
-CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64& nHeight)
+CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight)
 {
 	int precision = 0;
 	CAmount nFee = 0;
@@ -2121,7 +2121,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, vchAliasPeg, data, fee);
+	CreateFeeRecipient(scriptData, vchAliasPeg,  chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
 		fee.nAmount *=  nRenewal*nRenewal;
