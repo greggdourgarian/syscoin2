@@ -1430,7 +1430,7 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	return true;
 }
 
-bool GetAliasFromAddress(std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
+bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
 
 	const vector<unsigned char> &vchAddress = vchFromValue(strAddress);
 	if (paliasdb && !paliasdb->ExistsAddress(vchAddress))
