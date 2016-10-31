@@ -2275,7 +2275,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 					// SYSCOIN pay to alias
 					CRecipient myrecipient = recipient;
 					CTxDestination payDest;
-					if (myrecipient.scriptPubKey.size() >= 1 && myrecipient.scriptPubKey[0] != OP_RETURN) {
+					if (myrecipient.scriptPubKey.empty() || myrecipient.scriptPubKey[0] != OP_RETURN) {
 						if (!ExtractDestination(myrecipient.scriptPubKey, payDest)) 
 							continue;
 						
