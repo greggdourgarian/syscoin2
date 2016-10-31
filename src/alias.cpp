@@ -2235,7 +2235,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 	string aliasPegValue = noDifferentStr;
 	if(!alias.vchAliasPeg.empty() && alias.vchAliasPeg != dbAlias.vchAliasPeg)
-		aliasPegValue = stringFromVch(offer.vchAliasPeg);
+		aliasPegValue = stringFromVch(alias.vchAliasPeg);
 
 	entry.push_back(Pair("aliaspeg", aliasPegValue));
 
