@@ -1703,10 +1703,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
-		CScript scriptPubKey;
-		scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
-		scriptPubKey += scriptPubKeyTo;
-		CRecipient recipient = {scriptPubKey, nAmount, false};
+		CRecipient recipient = {scriptPubKeyTo, nAmount, false};
 		vecSend.push_back(recipient);
 	}
 }
