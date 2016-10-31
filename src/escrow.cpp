@@ -1775,17 +1775,17 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	
 	CAmount nExpectedCommissionAmount = nCommission*escrow.nQty;
 	CAmount nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty; 
-	float fEscrowFee = getEscrowFee(selleralias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
+	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 	CAmount nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-	int nFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString("SYS"),  vtxPos.front().nAcceptHeight,precision);
+	int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  vtxPos.front().nAcceptHeight,precision);
 	CAmount nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
 	// if we can't get it in this blockchain, try full raw tx decode (bitcoin input raw tx)
 	if (!escrow.escrowInputTx.empty())
 	{
-		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString("BTC"), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
-		nExpectedAmount = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString("BTC"), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty; 
-		nEscrowFee = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString("BTC"), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
-		int nBTCFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString("BTC"),  vtxPos.front().nAcceptHeight, precision);
+		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString("BTC"), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
+		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString("BTC"), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty; 
+		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString("BTC"), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
+		int nBTCFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("BTC"),  vtxPos.front().nAcceptHeight, precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nBTCFeePerByte*400);
 		if (!DecodeHexTx(fundingTx, escrow.escrowInputTx))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4536 - " + _("Could not decode raw escrow funding transaction"));
