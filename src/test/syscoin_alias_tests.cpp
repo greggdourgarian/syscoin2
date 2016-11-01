@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	string newAddress =  find_value(r.get_obj(), "address").get_str();
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "newpassword"); 
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK(balanceBefore < balanceAfter);
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	// ensure the new password actually changes the address
 	BOOST_CHECK(oldAddress != newAddress);
 }

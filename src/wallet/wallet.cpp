@@ -2412,7 +2412,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						}
                     }
 					// SYSCOIN change as a alias payment				
-					if(address.isAlias)
+					if(address.isAlias && vecCoins.size() > 1)
 					{
 						CScript scriptChangeOrig;
 						scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
