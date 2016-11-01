@@ -959,14 +959,14 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));
 	string selleralias = find_value(r.get_obj(), "alias").get_str();
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	
-	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + selleralias));
-	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
-
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
 	int nQtyToAccept = atoi(qty.c_str());
 	CAmount nTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
 	string sTargetQty = boost::to_string(nCurrentQty - nQtyToAccept);
+
+	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + selleralias));
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+
 
 	string offeracceptstr = "offeraccept " + aliasname + " " + offerguid + " " + qty + " " + pay_message;
 
