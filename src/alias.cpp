@@ -2183,11 +2183,11 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	for (unsigned int i = 0; i < rawTx.vout.size(); i++) {
 		int tmpOp;
 		vector<vector<unsigned char> > tmpvvch;	
-		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch))
+		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT)
 		{
 			foundSys = true;
 		}
-		else if(!IsSyscoinDataOutput(rawTx.vout[i]) && !IsSyscoinScript(rawTx.vout[i].scriptPubKey, tmpOp, tmpvvch))
+		else if(!IsSyscoinDataOutput(rawTx.vout[i]) && (!IsSyscoinScript(rawTx.vout[i].scriptPubKey, tmpOp, tmpvvch) || tmpOp == OP_ALIAS_PAYMENT))
 		{
 			if(!pwalletMain->IsMine(rawTx.vout[i]))
 				sendCoin = true;
