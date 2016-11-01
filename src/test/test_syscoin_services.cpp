@@ -331,7 +331,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 		const UniValue &resultArray = pkr.get_array();
 		pubkey = resultArray[0].get_str();		
 	}
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate " + aliasname + " " + pubdata + " " + privdata + " Yes " + pubkey));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " Yes " + pubkey));
 	GenerateBlocks(10, tonode);
 	GenerateBlocks(10, node);	
 	// check its not mine anymore

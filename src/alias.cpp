@@ -1732,7 +1732,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
-	string strName = params[1].get_str();
+	string strName = stringFromVch(vchAlias);
 	/*Above pattern makes sure domain name matches the following criteria :
 
 	The domain name should be a-z | 0-9 and hyphen(-)
