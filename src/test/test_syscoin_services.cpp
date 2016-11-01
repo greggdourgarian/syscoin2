@@ -322,6 +322,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata, const string& privdata, string pubkey)
 {
 	UniValue r;
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	if(pubkey.size() <= 0)
 	{
 		UniValue pkr = CallRPC(tonode, "generatepublickey");
@@ -335,12 +337,16 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	GenerateBlocks(10, tonode);
 	GenerateBlocks(10, node);	
 	// check its not mine anymore
-	r = CallRPC(node, "aliasinfo " + aliasname);
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
 	// check xferred right person and data changed
-	r = CallRPC(tonode, "aliasinfo " + aliasname);
+	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "aliasinfo " + aliasname));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
@@ -359,13 +365,18 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		otherNode1 = "node1";
 		otherNode2 = "node2";
 	}
-
 	UniValue r;
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+
+	
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch));
 	// ensure mempool blocks second tx until it confirms
 	BOOST_CHECK_THROW(CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch), runtime_error);
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
+	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
@@ -373,6 +384,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "safesearch").get_str() == safesearch);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);	
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
@@ -380,6 +393,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);	
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
