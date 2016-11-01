@@ -1469,7 +1469,7 @@ int IndexOfAliasOutput(const CTransaction& tx) {
 	for (unsigned int i = 0; i < tx.vout.size(); i++) {
 		const CTxOut& out = tx.vout[i];
 		// find an output you own
-		if (pwalletMain->IsMine(out) && DecodeAliasScript(out.scriptPubKey, op, vvch)) {
+		if (pwalletMain->IsMine(out) && DecodeAliasScript(out.scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT) {
 			return i;
 		}
 	}
