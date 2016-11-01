@@ -2257,7 +2257,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	string strPassword = "";
 	if(!alias.vchPassword.empty())
 		strPassword = _("Encrypted for alias owner");
-	string strDecrypted = "";
+	strDecrypted = "";
 	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
 		strPassword = strDecrypted;		
 
