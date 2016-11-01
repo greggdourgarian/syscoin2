@@ -79,6 +79,8 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 		ui->multisigList->setEnabled(false);
 		ui->addButton->setEnabled(false);
 		ui->deleteButton->setEnabled(false);
+		ui->passwordDisclaimer->setEnabled(false);
+		ui->passwordEdit->setVisible(false);
 		ui->tabWidget->setCurrentIndex(1);
         break;
     }
