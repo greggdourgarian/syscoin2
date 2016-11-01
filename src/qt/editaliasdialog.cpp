@@ -41,12 +41,13 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->multisigTitle->setText(tr("<font color='blue'>Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the <b>Sign Multisig Tx</b> button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.</font>"));
 	ui->reqSigsEdit->setValidator( new QIntValidator(0, 50, this) );
 	connect(ui->reqSigsEdit, SIGNAL(textChanged(QString)), this, SLOT(reqSigsChanged()));
+	QString defaultPegAlias;
 	QSettings settings;
 	switch(mode)
     {
 	case NewAlias:
 		setWindowTitle(tr("New Alias"));
-		QString defaultPegAlias = settings.value("defaultPegAlias", "").toString();
+		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
 		ui->aliasPegEdit->setText(defaultPegAlias);
         break;
     case EditDataAlias:
