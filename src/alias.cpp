@@ -1707,7 +1707,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
-		CRecipient recipient = {scriptPubKeyTo, nAmount, false};
+		CRecipient recipient = {scriptPubKeyTo, nAmount, true};
 		vecSend.push_back(recipient);
 	}
 }
