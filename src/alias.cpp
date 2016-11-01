@@ -967,7 +967,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	}
 	
 	if (!fJustCheck ) {
-		bool update = false;
 		bool isExpired = false;
 		CAliasIndex dbAlias;
 		CTransaction aliasTx;
@@ -1059,7 +1058,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(dbAlias.vchPubKey != theAlias.vchPubKey)
 				{
 					theAlias.vchPassword.clear();
-					update = false;
 					CPubKey xferKey  = CPubKey(theAlias.vchPubKey);	
 					CSyscoinAddress myAddress = CSyscoinAddress(xferKey.GetID());
 					// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
@@ -1164,7 +1162,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			return error(errorMessage.c_str());
 		}
 
-		if(!dontaddtodb && update && vchAlias == vchFromString("sysban"))
+		if(!dontaddtodb && vchAlias == vchFromString("sysban"))
 		{
 			updateBans(theAlias.vchPublicValue);
 		}		
@@ -2255,7 +2253,21 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	if(!alias.vchPrivateValue.empty() && alias.vchPrivateValue != dbAlias.vchPrivateValue)
 		privateValue = strPrivateValue;
 
-	entry.push_back(Pair("privatevalue", strPrivateValue));
+	entry.push_back(Pair("privatevalue", privateValue));
+
+	string strPassword = "";
+	if(!alias.vchPassword.empty())
+		strPassword = _("Encrypted for alias owner");
+	string strDecrypted = "";
+	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
+		strPassword = strDecrypted;		
+
+	string password = noDifferentStr;
+	if(!alias.vchPassword.empty() && alias.vchPassword != dbAlias.vchPassword)
+		password = strPassword;
+
+	entry.push_back(Pair("password", password));
+
 
 	CSyscoinAddress address;
 	alias.GetAddress(&address);
@@ -2455,6 +2467,15 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
 				strPrivateValue = strDecrypted;		
 			oName.push_back(Pair("privatevalue", strPrivateValue));
+
+			string strPassword = "";
+			if(!alias.vchPassword.empty())
+				strPassword = _("Encrypted for alias owner");
+			strDecrypted = "";
+			if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
+				strPassword = strDecrypted;		
+			oName.push_back(Pair("password", strPassword));
+
 
 			oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
 			oName.push_back(Pair("acceptcerttransfers", alias.acceptCertTransfers ? "Yes" : "No"));
@@ -2697,6 +2718,14 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 			strPrivateValue = strDecrypted;		
 		oName.push_back(Pair("privatevalue", strPrivateValue));
 
+		string strPassword = "";
+		if(!alias.vchPassword.empty())
+			strPassword = _("Encrypted for alias owner");
+		strDecrypted = "";
+		if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
+			strPassword = strDecrypted;		
+		oName.push_back(Pair("password", strPassword));
+
 
 		oName.push_back(Pair("txid", alias.txHash.GetHex()));
 		CSyscoinAddress address;
@@ -2832,7 +2861,13 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 					strPrivateValue = strDecrypted;		
 				oName.push_back(Pair("privatevalue", strPrivateValue));
 
-
+				string strPassword = "";
+				if(!txPos2.vchPassword.empty())
+					strPassword = _("Encrypted for alias owner");
+				strDecrypted = "";
+				if(DecryptMessage(txPos2.vchPubKey, txPos2.vchPassword, strDecrypted))
+					strPassword = strDecrypted;		
+				oName.push_back(Pair("password", strPassword));
 				
 				
 				
@@ -2953,6 +2988,15 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 		if(DecryptMessage(txName.vchPubKey, alias.vchPrivateValue, strDecrypted))
 			strPrivateValue = strDecrypted;		
 		oName.push_back(Pair("privatevalue", strPrivateValue));
+
+		string strPassword = "";
+		if(!alias.vchPassword.empty())
+			strPassword = _("Encrypted for alias owner");
+		strDecrypted = "";
+		if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
+			strPassword = strDecrypted;		
+		oName.push_back(Pair("password", strPassword));
+				
 
 
         oName.push_back(Pair("lastupdate_height", nHeight));
