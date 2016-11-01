@@ -2446,6 +2446,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			// build the output UniValue
 			UniValue oName(UniValue::VOBJ);
 			oName.push_back(Pair("name", stringFromVch(vchAlias)));
+			oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 			oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
 			string strPrivateValue = "";
 			if(!alias.vchPrivateValue.empty())
@@ -2703,6 +2704,7 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		if(!address.IsValid())
 			throw runtime_error("Invalid alias address");
 		oName.push_back(Pair("address", address.ToString()));
+		oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 
 		UniValue balanceParams(UniValue::VARR);
 		balanceParams.push_back(stringFromVch(alias.vchAlias));
@@ -2820,6 +2822,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			oName.push_back(Pair("address", address.ToString()));
 			if(IsAliasOp(op))
 			{
+				oName.push_back(Pair("alias_peg", stringFromVch(txPos2.vchAliasPeg)));
 				oName.push_back(Pair("value", stringFromVch(txPos2.vchPublicValue)));
 				string strPrivateValue = "";
 				if(!txPos2.vchPrivateValue.empty())
@@ -2941,6 +2944,7 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 		int expired_block = 0;
 		UniValue oName(UniValue::VOBJ);
 		oName.push_back(Pair("name", stringFromVch(pairScan.first)));
+		oName.push_back(Pair("alias_peg", stringFromVch(txName.vchAliasPeg)));
 		oName.push_back(Pair("value", stringFromVch(txName.vchPublicValue)));
 		string strPrivateValue = "";
 		if(!alias.vchPrivateValue.empty())

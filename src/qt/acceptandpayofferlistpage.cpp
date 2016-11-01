@@ -365,7 +365,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 			offerOut.sTitle = vchFromString(find_value(offerObj, "title").get_str());
 			offerOut.sCategory = vchFromString(find_value(offerObj, "category").get_str());
 			offerOut.sCurrencyCode = vchFromString(find_value(offerObj, "currency").get_str());
-			string strAliasPeg = vchFromString(find_value(offerObj, "alias_peg").get_str());
+			string strAliasPeg = find_value(offerObj, "alias_peg").get_str();
 			const QString &strSold = QString::number(find_value(offerObj, "offers_sold").get_int());
 			const QString &strRating = QString::number(find_value(offerObj, "alias_rating").get_int());
 			if(find_value(offerObj, "quantity").get_str() == "unlimited")
