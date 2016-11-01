@@ -365,7 +365,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 			offerOut.sTitle = vchFromString(find_value(offerObj, "title").get_str());
 			offerOut.sCategory = vchFromString(find_value(offerObj, "category").get_str());
 			offerOut.sCurrencyCode = vchFromString(find_value(offerObj, "currency").get_str());
-			offerOut.vchAliasPeg = vchFromString(find_value(offerObj, "alias_peg").get_str());
+			strin strAliasPeg = vchFromString(find_value(offerObj, "alias_peg").get_str());
 			const QString &strSold = QString::number(find_value(offerObj, "offers_sold").get_int());
 			const QString &strRating = QString::number(find_value(offerObj, "alias_rating").get_int());
 			if(find_value(offerObj, "quantity").get_str() == "unlimited")
@@ -391,7 +391,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 				}
 
 			}
-			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strSold, strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress));
+			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strSold, strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
 			return true;
 		}
 		 
@@ -436,7 +436,7 @@ bool AcceptandPayOfferListPage::handlePaymentRequest(const SendCoinsRecipient *r
 	}
     return true;
 }
-void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString& strRand, const QString& strSold,  const QString& strRating, COffer &offer, QString price, QString address)
+void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString& strRand, const QString& strSold,  const QString& strRating, COffer &offer, QString price, QString address, QString aliasPeg)
 {
 	loadAliases();
     ui->offeridEdit->setText(strRand);
@@ -452,7 +452,7 @@ void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString&
 	ui->infoTitle->setText(QString::fromStdString(stringFromVch(offer.sTitle)));
 	ui->infoCategory->setText(QString::fromStdString(stringFromVch(offer.sCategory)));
 	ui->infoCurrency->setText(QString::fromStdString(stringFromVch(offer.sCurrencyCode)));
-	ui->aliasPegEdit->setText(QString::fromStdString(stringFromVch(offer.vchAliasPeg)));
+	ui->aliasPegEdit->setText(QString::fromStdString(stringFromVch(aliasPeg)));
 	ui->sellerRatingEdit->setText(tr("%1 Stars").arg(strRating));
 	ui->infoPrice->setText(price);
 	if(offer.nQty == -1)
