@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_EQUAL(balanceBefore, 0);
 
 	// send money to alias and check balance is updated
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress sendnode2 1.5"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
 	GenerateBlocks(1);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
