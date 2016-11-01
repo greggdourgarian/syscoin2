@@ -108,9 +108,33 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 {
-	// create alias and check balance is 0 on all nodes
+	printf("Running generate_aliasbalance...\n");
+	UniValue r;
+	// create alias and check balance is 0
+	AliasNew("node1", "jagnodebalance1", "password", "changeddata1");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
+	CAmount balance = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, 0);
+
 	// send money to alias and check balance is updated
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress sendnode2 1.5"), runtime_error);
+	GenerateBlocks(1);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
+	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	balance += 1.5*COIN;
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+
 	// edit password and see balance is same
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
+	string oldAddress = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg jagnodebalance1 changeddata1 privdata Yes /""/ newpassword"));
+	GenerateBlocks(5);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
+	string newAddress = AmountFromValue(find_value(r.get_obj(), "balance"));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	// ensure the new password actually changes the address
+	BOOST_CHECK(oldAddress != newAddress);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 {
