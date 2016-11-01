@@ -45,6 +45,8 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	QSettings settings;
 	switch(mode)
     {
+	case NewDataAlias:
+		break;
 	case NewAlias:
 		setWindowTitle(tr("New Alias"));
 		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
