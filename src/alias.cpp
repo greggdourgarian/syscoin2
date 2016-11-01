@@ -1956,7 +1956,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		strSafeSearch = params[4].get_str();
 	}
 	string strPubKey;
-    if (params.size() >= 6 && params[5].get_str().size() > 0) {
+    if (params.size() >= 6 && params[5].get_str().size() > 1) {
 		vector<unsigned char> vchPubKey;
 		vchPubKey = vchFromString(params[5].get_str());
 		boost::algorithm::unhex(vchPubKey.begin(), vchPubKey.end(), std::back_inserter(vchPubKeyByte));
