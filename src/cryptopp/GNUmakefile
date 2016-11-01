@@ -408,8 +408,10 @@ diff:
 	-svn diff -r 541 > cryptopp$(LIB_VER).diff
 
 # This recipe prepares the distro files
-TEXT_FILES := *.h *.cpp adhoc.cpp.proto License.txt Readme.txt Install.txt Filelist.txt config.recommend Doxyfile cryptest* cryptlib* dlltest* cryptdll* *.sln *.vcproj *.dsw *.dsp cryptopp.rc TestVectors/*.txt TestData/*.dat
-EXEC_FILES := GNUmakefile GNUmakefile-cross cryptest.sh rdrand-nasm.sh TestData/ TestVectors/
+TEXT_FILES := *.h *.cpp adhoc.cpp.proto License.txt Readme.txt Install.txt Filelist.txt config.recommend Doxyfile cryptest* cryptlib* dlltest* cryptdll* *.sln *.vcproj *.dsw *.dsp cryptopp.rc 
+EXEC_FILES := GNUmakefile GNUmakefile-cross cryptest.sh rdrand-nasm.sh 
+#TEXT_FILES += TestVectors/*.txt TestData/*.dat
+#EXEC_FILES += TestData/ TestVectors
 
 ifeq ($(wildcard Filelist.txt),Filelist.txt)
 DIST_FILES := $(shell cat Filelist.txt)
@@ -417,19 +419,54 @@ endif
 
 .PHONY: convert
 convert:
-	chmod 0700 TestVectors/ TestData/
-	chmod 0600 $(TEXT_FILES) *.zip
-	chmod 0700 $(EXEC_FILES)
+	#chmod 0600 $(TEXT_FILES) *.zip
+	#chmod 0700 $(EXEC_FILES)
 	chmod u+x *.cmd *.sh
-	unix2dos --keepdate --quiet $(TEXT_FILES) *.asm *.cmd
-	dos2unix --keepdate --quiet GNUmakefile GNUmakefile-cross *.S *.sh
+	-unix2dos --keepdate --quiet $(TEXT_FILES) *.asm *.cmd
+	-dos2unix --keepdate --quiet GNUmakefile GNUmakefile-cross *.S *.sh
 ifneq ($(IS_DARWIN),0)
 	xattr -c *
 endif
 
-.PHONY: zip dist
-zip dist: | distclean convert diff
+.PHONY: zip dist 
+zip dist: | distclean convert
 	zip -q -9 cryptopp$(LIB_VER).zip $(DIST_FILES)
+
+.PHONY: distdir
+distdir:
+	if test -d "$(distdir)"; then \
+ 	 	find "$(distdir)" -type d ! -perm -200 -exec chmod u+w {} ';' \
+       		     && rm -rf "$(distdir)" \
+       		     || { sleep 5 && rm -rf "$(distdir)"; }; \
+        else :; fi
+	test -d "$(distdir)" || mkdir "$(distdir)"
+	list='$(DIST_FILES)'; \
+	dist_files=`for file in $$list; do echo $$file; done;`;\
+	for file in $$dist_files; do \
+	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
+	  if test -d $$d/$$file; then \
+	    dir=`echo "/$$file" | sed -e 's,/[^/]*$$,,'`; \
+	    if test -d "$(distdir)/$$file"; then \
+	      find "$(distdir)/$$file" -type d ! -perm -700 -exec chmod u+rwx {} \;; \
+	    fi; \
+	    if test -d $(srcdir)/$$file && test $$d != $(srcdir); then \
+	      cp -fpR $(srcdir)/$$file "$(distdir)$$dir" || exit 1; \
+	      find "$(distdir)/$$file" -type d ! -perm -700 -exec chmod u+rwx {} \;; \
+	    fi; \
+	    cp -fpR $$d/$$file "$(distdir)$$dir" || exit 1; \
+	  else \
+	    test -f "$(distdir)/$$file" \
+	    || cp -p $$d/$$file "$(distdir)/$$file" \
+	    || exit 1; \
+	  fi; \
+	done
+	-test -n "$(am__skip_mode_fix)" \
+	|| find "$(distdir)" -type d ! -perm -755 \
+		-exec chmod u+rwx,go+rx {} \; -o \
+	  ! -type d ! -perm -444 -links 1 -exec chmod a+r {} \; -o \
+	  ! -type d ! -perm -400 -exec chmod a+r {} \; -o \
+	  ! -type d ! -perm -444 -exec $(install_sh) -c -m a+r {} {} \; \
+	|| chmod -R a+r "$(distdir)"
 
 .PHONY: bench benchmark benchmarks
 bench benchmark benchmarks: cryptest.exe
