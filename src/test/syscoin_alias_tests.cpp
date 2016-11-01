@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	// create alias and check balance is 0
 	AliasNew("node1", "jagnodebalance1", "password", "changeddata1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
-	CAmount balance = AmountFromValue(find_value(r.get_obj(), "balance"));
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, 0);
 
 	// send money to alias and check balance is updated
