@@ -9,6 +9,7 @@
 #include <QDataWidgetMapper>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QSettings>
 #include "rpc/server.h"
 using namespace std;
 
@@ -43,7 +44,6 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	QSettings settings;
 	switch(mode)
     {
-    case NewDataAlias:
 	case NewAlias:
 		setWindowTitle(tr("New Alias"));
 		QString defaultPegAlias = settings.value("defaultPegAlias", "").toString();
