@@ -1943,7 +1943,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	string strPublicValue = params[3].get_str();
+	string strPublicValue = params[2].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 	string strPrivateValue = params.size()>=4 && params[3].get_str().size() > 0?params[3].get_str():"";
 	vchPrivateValue = vchFromString(strPrivateValue);
