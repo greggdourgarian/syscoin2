@@ -967,6 +967,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	}
 	
 	if (!fJustCheck ) {
+		bool pwChange = false;
 		bool isExpired = false;
 		CAliasIndex dbAlias;
 		CTransaction aliasTx;
@@ -1007,6 +1008,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchPrivateValue = dbAlias.vchPrivateValue;	
 					if(theAlias.vchPassword.empty())
 						theAlias.vchPassword = dbAlias.vchPassword;
+					else
+						pwChange = true;
 					// user can't update safety level or rating after creation
 					theAlias.safetyLevel = dbAlias.safetyLevel;
 					theAlias.nRatingAsBuyer = dbAlias.nRatingAsBuyer;
@@ -1053,8 +1056,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						multisigAddress = CSyscoinAddress(innerID);					
 					}
 				}
-				// if transfer
-				if(dbAlias.vchPubKey != theAlias.vchPubKey)
+				// if transfer (and not changing password which changes key)
+				if(dbAlias.vchPubKey != theAlias.vchPubKey && !pwChange)
 				{
 					theAlias.vchPassword.clear();
 					CPubKey xferKey  = CPubKey(theAlias.vchPubKey);	
