@@ -338,7 +338,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	GenerateBlocks(10, node);	
 	// check its not mine anymore
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
-	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
