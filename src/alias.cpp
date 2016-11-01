@@ -997,7 +997,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		{
 			if(!vtxPos.empty())
 			{
-				update = true;
 				if(theAlias.IsNull())
 					theAlias = vtxPos.back();
 				else
