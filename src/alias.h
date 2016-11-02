@@ -29,6 +29,43 @@ static const unsigned int SYSCOIN_FORK1 = 50000;
 
 
 bool IsSys21Fork(const uint64_t& nHeight);
+class CAliasPayment {
+public:
+	
+	unsigned char nOut;
+	uint256 txHash;
+	CAliasPayment() {
+        SetNull();
+    }
+
+	ADD_SERIALIZE_METHODS;
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+		READWRITE(txHash);
+		READWRITE(VARINT(nOut));
+	}
+
+    inline friend bool operator==(const CAliasPayment &a, const CAliasPayment &b) {
+        return (
+		a.txHash == b.txHash
+        && a.nOut == b.nOut
+        );
+    }
+
+    inline CAliasPayment operator=(const CAliasPayment &b) {
+		txHash = b.txHash;
+        nOut = b.nOut;
+        return *this;
+    }
+
+    inline friend bool operator!=(const CAliasPayment &a, const CAliasPayment &b) {
+        return !(a == b);
+    }
+
+    inline void SetNull() { txHash.SetNull(); nOut = 0;}
+    inline bool IsNull() const { return (txHash.IsNull() && nOut == 0); }
+
+};
 class CMultiSigAliasInfo {
 public:
 	std::vector<std::string> vchAliases;
@@ -208,7 +245,7 @@ public:
 		}
 		return true;
 	}
-	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<uint256>& vtxPaymentPos)
+	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos)
 	{
 		if(!Write(make_pair(std::string("namep"), name), vtxPaymentPos))
 			return false;
@@ -224,7 +261,7 @@ public:
 	bool ReadAlias(const std::vector<unsigned char>& name, std::vector<CAliasIndex>& vtxPos) {
 		return Read(make_pair(std::string("namei"), name), vtxPos);
 	}
-	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<uint256>& vtxPaymentPos) {
+	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos) {
 		return Read(make_pair(std::string("namep"), name), vtxPaymentPos);
 	}
 	bool ReadAddress(const std::vector<unsigned char>& address, std::vector<unsigned char>& name) {
