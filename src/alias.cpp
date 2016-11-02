@@ -1898,8 +1898,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	// if renewing your own alias, transfer balances
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
-		coinControl.fAllowWatchOnly = true;
-		coinControl.fAllowOtherInputs = true;
+		coinControl.fAllowOtherInputs = false;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 		coinControlAmount = vecSend.back().nAmount;
 	}
@@ -2121,8 +2120,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CAmount coinControlAmount = 0;
 	if(!strPassword.empty())
 	{
-		coinControl.fAllowWatchOnly = true;
-		coinControl.fAllowOtherInputs = true;
+		coinControl.fAllowOtherInputs = false;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 		coinControlAmount = vecSend.back().nAmount;
 
