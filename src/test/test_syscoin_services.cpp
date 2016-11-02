@@ -407,7 +407,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "safesearch").get_str() == safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
-	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
+	if(newPassword != myPassword)
+		BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 	if(newPassword != myPassword)
@@ -419,7 +420,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "safesearch").get_str() == safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
-	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
+	if(newPassword != myPassword)
+		BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 
 }
