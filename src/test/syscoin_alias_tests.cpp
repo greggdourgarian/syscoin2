@@ -150,6 +150,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 {
 	printf("Running generate_aliasbalancewithtransfer...\n");
+	UniValue r;
 	AliasNew("node2", "jagnodebalance2", "password", "changeddata1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance2"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
