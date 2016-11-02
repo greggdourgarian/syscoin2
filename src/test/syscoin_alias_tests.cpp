@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 
 	// send money to alias and check balance is updated
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
-	GenerateBlocks(1);
+	GenerateBlocks(10);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	balanceBefore += 1.5*COIN;
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	string oldAddress = find_value(r.get_obj(), "address").get_str();
 	string updateStr = string("aliasupdate sysrates.peg jagnodebalance1 changeddata1 privdata Yes ") + string(" 0 ") + string(" newpassword");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", updateStr));
-	GenerateBlocks(5);
+	GenerateBlocks(10);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	string newAddress =  find_value(r.get_obj(), "address").get_str();
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "newpassword"); 
@@ -203,8 +203,8 @@ BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnonsafesearch"));
 
 	// reverse the rolls
-	AliasUpdate("node1", "jagsafesearch", "pubdata", "privdata", "No");
-	AliasUpdate("node1", "jagnonsafesearch", "pubdata", "privdata", "Yes");
+	AliasUpdate("node1", "jagsafesearch", "pubdata1", "privdata1", "No");
+	AliasUpdate("node1", "jagnonsafesearch", "pubdata2", "privdata2", "Yes");
 
 	// should include result in both safe search mode on and off
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "Off"), true);
