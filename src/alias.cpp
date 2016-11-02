@@ -1707,15 +1707,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
-		CAmount nTotal = 0;
-		for(unsigned int i =0;i<vecSend.size();i++)
-		{
-			nTotal += vecSend[i].nAmount;
-		}
-		CRecipient recipient ;
-		recipient.nAmount = nAmount;
-		CreateRecipient(scriptPubKeyTo, recipient);
-		recipient.nAmount =  nAmount-(recipient.nAmount*2)-nTotal;
+		CRecipient recipient  = {scriptPubKeyTo, nAmount, true};
 		vecSend.push_back(recipient);
 	}
 }
@@ -1913,16 +1905,18 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		fee.nAmount *= nRenewal*nRenewal;
 
 	vecSend.push_back(fee);
-
+	CAmount coinControlAmount = 0;
 	// if renewing your own alias, transfer balances
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
 		coinControl.fAllowOtherInputs = false;
+		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-
+		if(coinControl.HasSelected())
+			coinControlAmount = vecSend.back().nAmount;
 	}
 	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount , true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount + coinControlAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	res.push_back(wtx.GetHash().GetHex());
 	res.push_back(HexStr(vchPubKey));
@@ -2131,15 +2125,17 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		fee.nAmount *=  nRenewal*nRenewal;
 	
 	vecSend.push_back(fee);
-
+	CAmount coinControlAmount = 0;
 	if(!strPassword.empty())
 	{
 		coinControl.fAllowOtherInputs = false;
+		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-
+		if(coinControl.HasSelected())
+			coinControlAmount = vecSend.back().nAmount;
 	}
 	
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+coinControlAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	if(copyAlias.multiSigInfo.vchAliases.size() > 0)
 	{
