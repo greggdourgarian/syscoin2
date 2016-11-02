@@ -1812,7 +1812,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
 		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-		SecureString password = strPassword.c_str();
+		string pwStr = strPassword;
+		SecureString password = pwStr.c_str();
 		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 		CKey key;
@@ -2011,13 +2012,16 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 4587 - " + _("You must own this alias to complete the transaction"));	
 
 	CPubKey pubKey(theAlias.vchPubKey);	
+	
+	bool changePw = false;
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
 		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
 		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
-		SecureString password = strPassword.c_str();
+		string pwStr = strPassword;
+		SecureString password = pwStr.c_str();
 		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 		CKey key;
@@ -2060,7 +2064,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("Could not encrypt alias password"));
 		}
-		strPassword = strCipherText.c_str();
+		strPassword = strCipherText;
 	}
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliasNames.size() > 0)
