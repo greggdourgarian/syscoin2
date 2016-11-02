@@ -2013,7 +2013,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 	CPubKey pubKey(theAlias.vchPubKey);	
 	
-	bool changePw = false;
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
