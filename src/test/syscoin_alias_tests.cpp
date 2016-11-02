@@ -111,27 +111,27 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	printf("Running generate_aliasbalance...\n");
 	UniValue r;
 	// create alias and check balance is 0
-	AliasNew("node1", "jagnodebalance1", "password", "changeddata1");
+	AliasNew("node2", "jagnodebalance1", "password", "changeddata1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, 0);
 
 	// send money to alias and check balance is updated
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 1.6"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 1"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 2"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 3"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 4"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 5"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 2"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 9"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 11"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 10.45"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.6"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 3"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 4"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 5"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 9"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 11"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 10.45"), runtime_error);
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 10"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 10"), runtime_error);
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 20"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 20"), runtime_error);
 	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -142,9 +142,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	string oldAddress = find_value(r.get_obj(), "address").get_str();	
 	string updateStr = string("aliasupdate sysrates.peg jagnodebalance1 changeddata1 privdata Yes ") + string(" 0 ") + string(" newpassword");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", updateStr));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", updateStr));
 	GenerateBlocks(10);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
 	string newAddress =  find_value(r.get_obj(), "address").get_str();
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "newpassword"); 
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
