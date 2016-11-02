@@ -298,6 +298,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
+	if(!password.empty())
+		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + password));
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
@@ -305,6 +307,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
+	if(!password.empty())
+		BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password));
 	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
@@ -313,6 +317,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
+	if(!password.empty())
+		BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password));
 	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
@@ -327,6 +333,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	string oldPassword = find_value(r.get_obj(), "password").get_str();
 	if(pubkey.size() <= 0)
 	{
 		UniValue pkr = CallRPC(tonode, "generatepublickey");
@@ -342,6 +349,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	// check its not mine anymore
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
+	BOOST_CHECK_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
