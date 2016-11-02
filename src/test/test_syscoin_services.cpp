@@ -386,7 +386,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
 	if(myPassword.empty())
 		myPassword = oldPassword;
-	else
+	else if(!oldPassword.empty())
 		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword));
 	string address = find_value(r.get_obj(), "address").get_str();
 	
