@@ -1707,14 +1707,14 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
-		/*CAmount nTotal = 0;
+		CAmount nTotal = 0;
 		for(unsigned int i =0;i<vecSend.size();i++)
 		{
 			nTotal += vecSend[i].nAmount;
-		}*/
+		}
 		CRecipient recipient ;
 		CreateRecipient(scriptPubKey, recipient);
-		recipient.nAmount =  nAmount-recipient.nAmount;
+		recipient.nAmount =  nAmount-recipient.nAmount-nTotal;
 		vecSend.push_back(recipient);
 	}
 }
