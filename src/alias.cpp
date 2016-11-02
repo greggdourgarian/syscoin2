@@ -1707,7 +1707,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
-		CRecipient recipient = {scriptPubKeyTo, nAmount, false};
+		CRecipient recipient = {scriptPubKeyTo, nAmount-(nAmount/4), false};
 		vecSend.push_back(recipient);
 	}
 }
@@ -1913,12 +1913,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		fee.nAmount *= nRenewal*nRenewal;
 	if(coinControl.HasSelected())
 	{
-		coinControlAmount -= (recipient.nAmount + (fee.nAmount*2));
+		coinControlAmount -= (recipient.nAmount*2 + fee.nAmount);
 		vecSend.back().nAmount = coinControlAmount;
 	}
 	vecSend.push_back(fee);
 	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount + coinControlAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	res.push_back(wtx.GetHash().GetHex());
 	res.push_back(HexStr(vchPubKey));
