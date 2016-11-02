@@ -345,7 +345,7 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 
 	// linked offer with root and linked offer changing currencies
 
-	// directbtc
+	// external payments
 
 
 }

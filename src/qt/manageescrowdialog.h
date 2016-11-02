@@ -29,13 +29,13 @@ public:
 	bool isYourAlias(const QString &alias);
 	bool CompleteEscrowRefund();
 	bool CompleteEscrowRelease();
-	bool loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &btctxid, QString &redeemtxid);
+	bool loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &redeemtxid);
 	QString EscrowRoleTypeToString(const EscrowRoleType& escrowType);
 	EscrowRoleType findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &arbiter);
 	EscrowRoleType escrowRoleType;
 public Q_SLOTS:
 	void on_releaseButton_clicked();
-	void on_btcButton_clicked();
+	void on_extButton_clicked();
 	void on_refundButton_clicked();
 	void on_cancelButton_clicked();
 	void slotConfirmedFinished(QNetworkReply *);
@@ -45,7 +45,7 @@ private:
 	WalletModel* walletModel;
     Ui::ManageEscrowDialog *ui;
 	QString escrow;
-	QString m_btctxid;
+	QString m_exttxid;
 	QString m_redeemTxId;
 	QString m_rawTx;
 	QString refundWarningStr;

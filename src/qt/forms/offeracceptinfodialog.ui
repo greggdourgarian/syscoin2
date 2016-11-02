@@ -69,14 +69,14 @@
           <widget class="QLineEdit" name="paymentguidEdit"/>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="btctxidLabel">
+          <widget class="QLabel" name="exttxidLabel">
            <property name="text">
             <string>BTC TXID:</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="btctxidEdit"/>
+          <widget class="QLineEdit" name="exttxidEdit"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_4">

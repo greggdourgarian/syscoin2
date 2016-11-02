@@ -108,7 +108,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btcButton">
+      <widget class="QPushButton" name="extButton">
        <property name="toolTip">
         <string>Check Bitcoin payment for this offer</string>
        </property>

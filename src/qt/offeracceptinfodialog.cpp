@@ -36,8 +36,8 @@ OfferAcceptInfoDialog::OfferAcceptInfoDialog(const PlatformStyle *platformStyle,
 	ui->linkGUIDLabel->setVisible(false);
 	ui->commissionEdit->setVisible(false);
 	ui->commissionLabel->setVisible(false);
-	ui->btctxidEdit->setVisible(false);
-	ui->btctxidLabel->setVisible(false);
+	ui->exttxidEdit->setVisible(false);
+	ui->exttxidLabel->setVisible(false);
 	ui->certEdit->setVisible(false);
 	ui->certLabel->setVisible(false);
 	QString theme = GUIUtil::getThemeName();  
@@ -227,12 +227,12 @@ bool OfferAcceptInfoDialog::lookup()
 				ui->quantityEdit->setText(QString::fromStdString(find_value(acceptObj, "quantity").get_str()));
 				currencyStr = QString::fromStdString(find_value(acceptObj, "currency").get_str());
 		
-				QString btctxidStr = QString::fromStdString(find_value(acceptObj, "btctxid").get_str());
-				if(btctxidStr != "")
+				QString exttxidStr = QString::fromStdString(find_value(acceptObj, "exttxid").get_str());
+				if(exttxidStr != "")
 				{
-					ui->btctxidEdit->setVisible(true);
-					ui->btctxidLabel->setVisible(true);
-					ui->btctxidEdit->setText(btctxidStr);
+					ui->exttxidEdit->setVisible(true);
+					ui->exttxidLabel->setVisible(true);
+					ui->exttxidEdit->setText(exttxidStr);
 				}
 				
 				ui->priceEdit->setText(QString("%1 %2").arg(QString::fromStdString(find_value(acceptObj, "price").get_str())).arg(currencyStr));

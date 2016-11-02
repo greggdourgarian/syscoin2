@@ -139,7 +139,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="btctxidEdit"/>
+        <widget class="QLineEdit" name="exttxidEdit"/>
        </item>
       </layout>
      </item>

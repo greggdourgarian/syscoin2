@@ -45,7 +45,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 		ui->detailButton->setIcon(QIcon());
 		ui->copyOffer->setIcon(QIcon());
 		ui->refreshButton->setIcon(QIcon());
-		ui->btcButton->setIcon(QIcon());
+		ui->extButton->setIcon(QIcon());
 		ui->feedbackButton->setIcon(QIcon());
 
 	}
@@ -56,7 +56,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 		ui->detailButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/details"));
 		ui->copyOffer->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/editcopy"));
 		ui->refreshButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/refresh"));
-		ui->btcButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
+		ui->extButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
 		ui->feedbackButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/thumbsup"));
 		
 	}
@@ -92,7 +92,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 
 }
 	
-bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& btcTxId)
+bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId)
 {
 	
 	string strError;
@@ -112,7 +112,7 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 		    const UniValue& accept = offerAccepts[idx];				
 			const UniValue& acceptObj = accept.get_obj();
 			offerAcceptHash = QString::fromStdString(find_value(acceptObj, "id").get_str());
-			btcTxId = QString::fromStdString(find_value(acceptObj, "btctxid").get_str());		
+			extTxId = QString::fromStdString(find_value(acceptObj, "exttxid").get_str());		
 			const string &strPrice = find_value(acceptObj, "total").get_str();
 			price = QString::fromStdString(strPrice);
 			break;
@@ -173,8 +173,8 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 } 
 void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	if(reply->error() != QNetworkReply::NoError) {
-		ui->btcButton->setText(m_buttonText);
-		ui->btcButton->setEnabled(true);
+		ui->extButton->setText(m_buttonText);
+		ui->extButton->setEnabled(true);
         QMessageBox::critical(this, windowTitle(),
             tr("Error making request: ") + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
@@ -196,8 +196,8 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 		{
 			if(statusValue.get_str() != "success")
 			{
-				ui->btcButton->setText(m_buttonText);
-				ui->btcButton->setEnabled(true);
+				ui->extButton->setText(m_buttonText);
+				ui->extButton->setEnabled(true);
 				QMessageBox::critical(this, windowTitle(),
 					tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
 						QMessageBox::Ok, QMessageBox::Ok);
@@ -206,8 +206,8 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 		}
 		else
 		{
-			ui->btcButton->setText(m_buttonText);
-			ui->btcButton->setEnabled(true);
+			ui->extButton->setText(m_buttonText);
+			ui->extButton->setEnabled(true);
 			QMessageBox::critical(this, windowTitle(),
 				tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
 					QMessageBox::Ok, QMessageBox::Ok);
@@ -228,8 +228,8 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 			int confirmations = unconfirmedValue.get_int();
 			if(confirmations <= 1)
 			{
-				ui->btcButton->setText(m_buttonText);
-				ui->btcButton->setEnabled(true);
+				ui->extButton->setText(m_buttonText);
+				ui->extButton->setEnabled(true);
 				QMessageBox::critical(this, windowTitle(),
 					tr("Payment transaction found but it has not been confirmed by the Bitcoin blockchain yet! Please try again later."),
 						QMessageBox::Ok, QMessageBox::Ok);
@@ -255,10 +255,10 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 							valueAmount += paymentValue.get_real();
 							if(valueAmount >= dblPrice)
 							{
-								ui->btcButton->setText(m_buttonText);
-								ui->btcButton->setEnabled(true);
+								ui->extButton->setText(m_buttonText);
+								ui->extButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your Bitcoin wallet and seeing the funds in your account.").arg(m_strBTCTxId),
+									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your Bitcoin wallet and seeing the funds in your account.").arg(m_strExtTxId),
 									QMessageBox::Ok, QMessageBox::Ok);
 								return;
 							}
@@ -271,8 +271,8 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	}
 	else
 	{
-		ui->btcButton->setText(m_buttonText);
-		ui->btcButton->setEnabled(true);
+		ui->extButton->setText(m_buttonText);
+		ui->extButton->setEnabled(true);
 		QMessageBox::critical(this, windowTitle(),
 			tr("Cannot parse JSON response: ") + str,
 				QMessageBox::Ok, QMessageBox::Ok);
@@ -280,27 +280,27 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	}
 	
 	reply->deleteLater();
-	ui->btcButton->setText(m_buttonText);
-	ui->btcButton->setEnabled(true);
+	ui->extButton->setText(m_buttonText);
+	ui->extButton->setEnabled(true);
 	QMessageBox::warning(this, windowTitle(),
 		tr("Payment not found in the Bitcoin blockchain! Please try again later"),
 			QMessageBox::Ok, QMessageBox::Ok);	
 }
-void MyAcceptedOfferListPage::CheckPaymentInBTC(const QString &strBTCTxId, const QString& address, const QString& price)
+void MyAcceptedOfferListPage::CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price)
 {
 	dblPrice = price.toDouble();
-	m_buttonText = ui->btcButton->text();
-	ui->btcButton->setText(tr("Please Wait..."));
-	ui->btcButton->setEnabled(false);
+	m_buttonText = ui->extButton->text();
+	ui->extButton->setText(tr("Please Wait..."));
+	ui->extButton->setEnabled(false);
 	m_strAddress = address;
-	m_strBTCTxId = strBTCTxId;
+	m_strExtTxId = strExtTxId;
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + strBTCTxId);
+	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + strExtTxId);
 	QNetworkRequest request(url);
 	nam->get(request);
 }
-void MyAcceptedOfferListPage::on_btcButton_clicked()
+void MyAcceptedOfferListPage::on_extButton_clicked()
 {
  	if(!model)	
 		return;
@@ -311,26 +311,26 @@ void MyAcceptedOfferListPage::on_btcButton_clicked()
     {
         return;
     }
-	QString address, price, btcTxId;
+	QString address, price, extTxId;
 	QString offerid = selection.at(0).data(OfferAcceptTableModel::NameRole).toString();
 	QString acceptid = selection.at(0).data(OfferAcceptTableModel::GUIDRole).toString();
 	
-	if(!lookup(offerid, acceptid, address, price, btcTxId))
+	if(!lookup(offerid, acceptid, address, price, extTxId))
 	{
         QMessageBox::critical(this, windowTitle(),
         tr("Could not find this offer, please ensure the offer has been confirmed by the blockchain: ") + offerid,
             QMessageBox::Ok, QMessageBox::Ok);
         return;
 	}
-	if(btcTxId.isEmpty())
+	if(extTxId.isEmpty())
 	{
         QMessageBox::critical(this, windowTitle(),
-        tr("This payment was not done using Bitcoin, please select an offer that was accepted by paying with Bitcoins."),
+        tr("This payment was not done using another coin, please select an offer that was accepted by paying with another blockchain."),
             QMessageBox::Ok, QMessageBox::Ok);
         return;
 	}
 
-	CheckPaymentInBTC(btcTxId, address, price);
+	CheckPaymentInBTC(extTxId, address, price);
 
 
 }

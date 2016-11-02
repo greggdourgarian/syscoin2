@@ -88,7 +88,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btcButton">
+      <widget class="QPushButton" name="extButton">
        <property name="text">
         <string>Check BTC Payment</string>
        </property>

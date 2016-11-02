@@ -272,7 +272,7 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 								ui->confirmButton->setText(m_buttonText);
 								ui->confirmButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected.").arg(ui->btctxidEdit->text().trimmed()),
+									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected.").arg(ui->exttxidEdit->text().trimmed()),
 									QMessageBox::Ok, QMessageBox::Ok);
 								reply->deleteLater();
 								if(ui->checkBox->isChecked())
@@ -313,15 +313,15 @@ void OfferAcceptDialogBTC::CheckPaymentInBTC()
 	ui->confirmButton->setEnabled(false);
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this); 
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + ui->btctxidEdit->text().trimmed());
+	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + ui->exttxidEdit->text().trimmed());
 	QNetworkRequest request(url);
 	nam->get(request);
 }
 // send offeraccept with offer guid/qty as params and then send offerpay with wtxid (first param of response) as param, using RPC commands.
 void OfferAcceptDialogBTC::tryAcceptOffer()
 {
-	if (ui->btctxidEdit->text().trimmed().isEmpty()) {
-        ui->btctxidEdit->setText("");
+	if (ui->exttxidEdit->text().trimmed().isEmpty()) {
+        ui->exttxidEdit->setText("");
         QMessageBox::critical(this, windowTitle(),
         tr("Please enter a valid Bitcoin Transaction ID into the input box and try again"),
             QMessageBox::Ok, QMessageBox::Ok);
@@ -357,7 +357,7 @@ void OfferAcceptDialogBTC::acceptOffer(){
 		params.push_back(this->offer.toStdString());
 		params.push_back(this->quantity.toStdString());
 		params.push_back(this->notes.toStdString());
-		params.push_back(ui->btctxidEdit->text().trimmed().toStdString());
+		params.push_back(ui->exttxidEdit->text().trimmed().toStdString());
 
 	    try {
             result = tableRPC.execute(strMethod, params);

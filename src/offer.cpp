@@ -1109,12 +1109,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			
 			// if linked offer then get offer info from root offer history because the linked offer may not have history of changes (root offer can update linked offer without tx)	
 			myPriceOffer.GetOfferFromList(vtxPos);	
-			if(theOfferAccept.txBTCId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_BTC)
+			if(theOfferAccept.txExtId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_BTC)
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1089 - " + _("This offer must be paid with Bitcoins");
 				return true;
 			}
-			else if(!theOfferAccept.txBTCId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_SYS)
+			else if(!theOfferAccept.txExtId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_SYS)
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("This offer cannot be paid with Bitcoins");
 				return true;
@@ -1133,7 +1133,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1092 - " + _("Cannot sell an expired certificate");
 					return true;
 				}
-				else if(!theOfferAccept.txBTCId.IsNull())
+				else if(!theOfferAccept.txExtId.IsNull())
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1093 - " + _("Cannot purchase certificates with Bitcoins");
 					return true;
@@ -1191,8 +1191,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 
 
-			// check that user pays enough in syscoin if the currency of the offer is not directbtc purchase
-			if(theOfferAccept.txBTCId.IsNull())
+			// check that user pays enough in syscoin if the currency of the offer is not external purchase
+			if(theOfferAccept.txExtId.IsNull())
 			{
 				CAmount nPrice;
 				CAmount nCommission;
@@ -1333,14 +1333,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 			theOffer.nSold++;
 			theOffer.nQty = nQty;
-			if(!theOfferAccept.txBTCId.IsNull())
+			if(!theOfferAccept.txExtId.IsNull())
 			{
-				if(pofferdb->ExistsOfferTx(theOfferAccept.txBTCId) || pescrowdb->ExistsEscrowTx(theOfferAccept.txBTCId))
+				if(pofferdb->ExistsOfferTx(theOfferAccept.txExtId) || pescrowdb->ExistsEscrowTx(theOfferAccept.txExtId))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1118 - " + _("BTC Transaction ID specified was already used to pay for an offer");
 					return true;
 				}
-				if(!dontaddtodb && !pofferdb->WriteOfferTx(theOffer.vchOffer, theOfferAccept.txBTCId))
+				if(!dontaddtodb && !pofferdb->WriteOfferTx(theOffer.vchOffer, theOfferAccept.txExtId))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1119 - " + _("Failed to BTC Transaction ID to DB");		
 					return error(errorMessage.c_str());
@@ -2354,18 +2354,18 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 }
 UniValue offeraccept(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 > params.size() || params.size() > 5)
-		throw runtime_error("offeraccept <alias> <guid> [quantity] [message] [BTC TxId]\n"
+		throw runtime_error("offeraccept <alias> <guid> [quantity] [message] [Ext TxId]\n"
 				"Accept&Pay for a confirmed offer.\n"
 				"<alias> An alias of the buyer.\n"
 				"<guid> guidkey from offer.\n"
 				"<quantity> quantity to buy. Defaults to 1.\n"
 				"<message> payment message to seller, 1KB max.\n"
-				"<BTC TxId> If paid in Bitcoin, enter the Transaction ID here. Default is empty.\n"
+				"<Ext TxId> If paid in another coin, enter the Transaction ID here. Default is empty.\n"
 				+ HelpRequiringPassphrase());
 	CSyscoinAddress refundAddr;	
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchOffer = vchFromValue(params[1]);
-	vector<unsigned char> vchBTCTxId = vchFromValue(params.size()>=5?params[4]:"");
+	vector<unsigned char> vchExtTxId = vchFromValue(params.size()>=5?params[4]:"");
 
 	vector<unsigned char> vchMessage = vchFromValue(params.size()>=4?params[3]:"");
 	int64_t nHeight = chainActive.Tip()->nHeight;
@@ -2474,10 +2474,10 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	txAccept.vchMessage = vchPaymentMessage;
     CAmount nTotalValue = ( nPrice * nQty );
 	CAmount nTotalCommission = ( nCommission * nQty );
-	if(!vchBTCTxId.empty())
+	if(!vchExtTxId.empty())
 	{
-		uint256 txBTCId(uint256S(stringFromVch(vchBTCTxId)));
-		txAccept.txBTCId = txBTCId;
+		uint256 txExtId(uint256S(stringFromVch(vchExtTxId)));
+		txAccept.txExtId = txExtId;
 	}
 	COffer copyOffer = theOffer;
 	theOffer.ClearOffer();
@@ -2531,7 +2531,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	vecSend.push_back(aliasRecipient);
 	
 
-	if(vchBTCTxId.empty())
+	if(vchExtTxId.empty())
 	{
 		vecSend.push_back(paymentRecipient);
 		vecSend.push_back(acceptRecipient);
@@ -3157,10 +3157,10 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	
 			oOfferAccept.push_back(Pair("id", stringFromVch(theOffer.accept.vchAcceptRand)));
 			oOfferAccept.push_back(Pair("txid", theOffer.txHash.GetHex()));
-			string strBTCId = "";
-			if(!theOffer.accept.txBTCId.IsNull())
-				strBTCId = theOffer.accept.txBTCId.GetHex();
-			oOfferAccept.push_back(Pair("btctxid", strBTCId));
+			string strExtId = "";
+			if(!theOffer.accept.txExtId.IsNull())
+				strExtId = theOffer.accept.txExtId.GetHex();
+			oOfferAccept.push_back(Pair("exttxid", strExtId));
 			oOfferAccept.push_back(Pair("height", sHeight));
 			oOfferAccept.push_back(Pair("time", sTime));
 			oOfferAccept.push_back(Pair("quantity", strprintf("%d", theOffer.accept.nQty)));
@@ -3180,8 +3180,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 			oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
 			oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
-			if(!theOffer.accept.txBTCId.IsNull())
-				oOfferAccept.push_back(Pair("status","Paid (BTC)"));
+			if(!theOffer.accept.txExtId.IsNull())
+				oOfferAccept.push_back(Pair("status","Paid (External Coin)"));
 			else if(commissionPaid)
 				oOfferAccept.push_back(Pair("status","Paid (Commission)"));
 			else if(discountApplied)
