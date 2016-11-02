@@ -1913,7 +1913,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		fee.nAmount *= nRenewal*nRenewal;
 	if(coinControl.HasSelected())
 	{
-		coinControlAmount -= (recipient.nAmount + fee.nAmount);
+		coinControlAmount -= (recipient.nAmount + (fee.nAmount*2));
 		vecSend.back().nAmount = coinControlAmount;
 	}
 	vecSend.push_back(fee);
@@ -2134,7 +2134,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		fee.nAmount *=  nRenewal*nRenewal;
 	if(coinControl.HasSelected())
 	{
-		coinControlAmount -= (recipient.nAmount + fee.nAmount);
+		coinControlAmount -= (recipient.nAmount + (fee.nAmount*2));
 		vecSend.back().nAmount = coinControlAmount;
 	}	
 	vecSend.push_back(fee);
