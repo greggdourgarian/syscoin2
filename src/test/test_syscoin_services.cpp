@@ -372,7 +372,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	}
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
-	myPassword = password;
+	string myPassword = password;
 	if(myPassword.empty())
 		myPassword = find_value(r.get_obj(), "password").get_str();
 	string address = find_value(r.get_obj(), "address").get_str();
