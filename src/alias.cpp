@@ -1909,7 +1909,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	// if renewing your own alias, transfer balances
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
-		coinControl.fAllowOtherInputs = false;
+		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 		if(coinControl.HasSelected())
@@ -2128,7 +2128,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CAmount coinControlAmount = 0;
 	if(!strPassword.empty())
 	{
-		coinControl.fAllowOtherInputs = false;
+		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 		if(coinControl.HasSelected())
