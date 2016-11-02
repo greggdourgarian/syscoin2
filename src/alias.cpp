@@ -1894,12 +1894,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
 	CCoinControl coinControl;
+	CAmount coinControlAmount = 0;
 	// if renewing your own alias, transfer balances
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
 		coinControl.fAllowWatchOnly = true;
 		coinControl.fAllowOtherInputs = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
+		coinControlAmount = vecSend.back().nAmount;
 	}
 
 	CScript scriptData;
@@ -1911,10 +1913,13 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(nRenewal > 1)
 		fee.nAmount *= nRenewal*nRenewal;
 	if(coinControl.HasSelected())
-		vecSend.back().nAmount -= (recipient.nAmount + fee.nAmount);
+	{
+		coinControlAmount -= (recipient.nAmount + fee.nAmount);
+		vecSend.back().nAmount = coinControlAmount;
+	}
 	vecSend.push_back(fee);
 	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount + coinControlAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	res.push_back(wtx.GetHash().GetHex());
 	res.push_back(HexStr(vchPubKey));
