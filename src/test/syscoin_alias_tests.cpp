@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "newpassword"); 
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	// ensure the new password actually changes the address
-	BOOST_CHECK_EQUAL(oldAddress , newAddress);
+	BOOST_CHECK(oldAddress != newAddress);
 	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
