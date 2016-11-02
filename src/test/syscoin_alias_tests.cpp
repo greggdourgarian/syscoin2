@@ -157,12 +157,12 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 	BOOST_CHECK_EQUAL(balanceBefore, 0);
 
 	// send money to alias and check balance
-	string sendManyStr = "{\\\"jagnodebalance2\\\":0.1,\\\"jagnodebalance2\\\":0.2}";
-	BOOST_CHECK_THROW(CallRPC("node1", "sendmany \"\" " + sendManyStr), runtime_error);
+
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance2 9"), runtime_error);
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance2"));
-	balanceBefore += 0.3*COIN;
+	balanceBefore += 9*COIN;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
@@ -173,8 +173,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 	BOOST_CHECK_EQUAL(balanceAfterTransfer, 0);
 
 	// send money to alias and balance updates
-	sendManyStr = "{\\\"jagnodebalance2\\\":5.5,\\\"jagnodebalance2\\\":6.6}";
-	BOOST_CHECK_THROW(CallRPC("node1", "sendmany \"\" " + sendManyStr), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance2 12.1"), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo jagnodebalance2"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceAfter, 12.1*COIN);
