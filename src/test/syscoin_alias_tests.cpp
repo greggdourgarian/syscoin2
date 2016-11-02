@@ -117,21 +117,21 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_EQUAL(balanceBefore, 0);
 
 	// send money to alias and check balance is updated
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.6"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 2"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 3"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 4"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 5"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 2"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 9"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 11"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 10.45"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 1.6"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 1"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 3"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 4"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 5"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 9"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 11"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 10.45"), runtime_error);
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 10"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 10"), runtime_error);
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 20"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "sendtoaddress jagnodebalance1 20"), runtime_error);
 	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -170,6 +170,16 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// pay to multisig and check balance
 	// remove multisig and update as normal
 }
+BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
+{
+	// create 2 of 3 alias
+	// send money to alias and check balance
+	// transfer alias to non multisig  and balance should be 0
+	// send money to alias and balance updates
+	// edit and balance should remain the same
+	// transfer again and balance is 0 again
+
+}
 BOOST_AUTO_TEST_CASE (generate_aliasauthentication)
 {
 	// create alias with some password and try to get authentication key
@@ -184,16 +194,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasauthenticationmultisig)
 
 	// try to edit alias with authentication key from wallet that doesnt own that alias
 	// pass that tx to another alias and verify it got signed and pushed to network
-}
-BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
-{
-	// create 2 of 3 alias
-	// send money to alias and check balance
-	// transfer alias to non multisig  and balance should be 0
-	// send money to alias and balance updates
-	// edit and balance should remain the same
-	// transfer again and balance is 0 again
-
 }
 BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
 {
