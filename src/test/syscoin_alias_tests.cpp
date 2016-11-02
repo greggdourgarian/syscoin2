@@ -142,18 +142,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
 	// edit password and see balance is same
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
-	string oldAddress = find_value(r.get_obj(), "address").get_str();	
-	string updateStr = string("aliasupdate sysrates.peg jagnodebalance1 changeddata1 privdata Yes ") + string(" 0 ") + string(" newpassword");
-	BOOST_CHECK_NO_THROW(CallRPC("node2", updateStr));
-	GenerateBlocks(10, "node2");
-	r.clear();
+	AliasUpdate("node1", "jagsafesearch", "pubdata1", "privdata1", "No", "newpassword");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
-	string newAddress =  find_value(r.get_obj(), "address").get_str();
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "newpassword"); 
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	// ensure the new password actually changes the address
-	BOOST_CHECK(oldAddress != newAddress);
 	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)

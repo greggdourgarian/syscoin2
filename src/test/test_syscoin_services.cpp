@@ -356,7 +356,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 }
-void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch)
+void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch, string password)
 {
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -372,23 +372,25 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	}
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
-	string password = find_value(r.get_obj(), "password").get_str();
+	myPassword = password;
+	if(myPassword.empty())
+		myPassword = find_value(r.get_obj(), "password").get_str();
 	string address = find_value(r.get_obj(), "address").get_str();
 	
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
 	
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch + " 0 " + password));
 	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch), runtime_error);
+	BOOST_CHECK_THROW(CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch + " 0 " + password), runtime_error);
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
-	if(newPassword != password)
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), myPassword);
+	if(newPassword != myPassword)
 		BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
@@ -396,27 +398,30 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "safesearch").get_str() == safesearch);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
-	if(newPassword != password)
+	if(newPassword != myPassword)
 		BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);	
+	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "safesearch").get_str() == safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
-	if(newPassword != password)
+	if(newPassword != myPassword)
 		BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);	
+	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "safesearch").get_str() == safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+
 }
 bool AliasFilter(const string& node, const string& regex, const string& safesearch)
 {

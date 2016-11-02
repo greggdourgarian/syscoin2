@@ -2010,7 +2010,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 4587 - " + _("You must own this alias to complete the transaction"));	
 
 	CPubKey pubKey(theAlias.vchPubKey);	
-	CPubKey defaultKey;
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
@@ -2025,11 +2024,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		pubKey = key.GetPubKey();
 		
 		if(!pubKey.IsFullyValid())
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
-		
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));	
 		if(!pwalletMain->AddKeyPubKey(key, pubKey))	
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
-	
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));	
 	}
 	
 	CSyscoinAddress aliasAddress(pubKey.GetID());
