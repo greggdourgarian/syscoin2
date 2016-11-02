@@ -1713,7 +1713,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 			nTotal += vecSend[i].nAmount;
 		}
 		CRecipient recipient ;
-		CreateRecipient(scriptPubKey, recipient);
+		CreateRecipient(scriptPubKeyTo, recipient);
 		recipient.nAmount =  nAmount-recipient.nAmount-nTotal;
 		vecSend.push_back(recipient);
 	}
