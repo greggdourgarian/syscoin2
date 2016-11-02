@@ -1663,8 +1663,9 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 
 	if(aliasPubKey != defaultKey)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Password is incorrect"));
-
-	return CSyscoinSecret(key).ToString();
+	UniValue res(UniValue::OBJ);
+	res.push_back(CSyscoinSecret(key).ToString());
+	return res;
 
 }
 void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript& scriptPubKeyTo, vector<CRecipient> &vecSend, CCoinControl& coinControl){
