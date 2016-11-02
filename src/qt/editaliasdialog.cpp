@@ -75,12 +75,10 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 		ui->transferEdit->setVisible(true);
 		ui->transferLabel->setVisible(true);
 		ui->transferDisclaimer->setVisible(true);
-		ui->reqSigsEdit->setEnabled(false);
-		ui->multisigList->setEnabled(false);
 		ui->addButton->setEnabled(false);
 		ui->deleteButton->setEnabled(false);
-		ui->passwordDisclaimer->setEnabled(false);
-		ui->passwordEdit->setVisible(false);
+		ui->passwordDisclaimer->setVisible(false);
+		ui->passwordEdit->setEnabled(false);
 		ui->tabWidget->setCurrentIndex(1);
         break;
     }
