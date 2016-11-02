@@ -1652,7 +1652,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	if(strPassword.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Password cannot be empty"));
 
-    if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 25000, 0))
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 50000, 0))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 
 	CKey key;
@@ -2010,6 +2010,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 4587 - " + _("You must own this alias to complete the transaction"));	
 
 	CPubKey pubKey(theAlias.vchPubKey);	
+	CPubKey defaultKey;
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
@@ -2017,11 +2018,11 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
 		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
 		SecureString password = strPassword.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 25000, 0))
+		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 50000, 0))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
-		CPubKey defaultKey = key.GetPubKey();
+		defaultKey = key.GetPubKey();
 		
 		if(!defaultKey.IsFullyValid())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
