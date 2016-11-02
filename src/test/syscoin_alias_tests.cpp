@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
 	// edit password and see balance is same
-	AliasUpdate("node1", "jagnodebalance1", "pubdata1", "privdata1", "No", "newpassword");
+	AliasUpdate("node2", "jagnodebalance1", "pubdata1", "privdata1", "No", "newpassword");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
