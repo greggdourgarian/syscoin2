@@ -1902,14 +1902,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
 	CCoinControl coinControl;
-	CAmount coinControlAmount = 0;
-	// if renewing your own alias, transfer balances
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
-	{
-		coinControl.fAllowOtherInputs = false;
-		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-		coinControlAmount = vecSend.back().nAmount;
-	}
 
 	CScript scriptData;
 	
@@ -1919,14 +1911,19 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
 		fee.nAmount *= nRenewal*nRenewal;
-	if(coinControl.HasSelected())
-	{
-		coinControlAmount -= (recipient.nAmount*2 + fee.nAmount);
-		vecSend.back().nAmount = coinControlAmount;
-	}
+
 	vecSend.push_back(fee);
+	CAmount coinControlAmount = 0;
+	// if renewing your own alias, transfer balances
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
+	{
+		coinControl.fAllowOtherInputs = false;
+		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
+		if(coinControl.HasSelected())
+			coinControlAmount = vecSend.back().nAmount;
+	}
 	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount + coinControlAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	res.push_back(wtx.GetHash().GetHex());
 	res.push_back(HexStr(vchPubKey));
@@ -2125,14 +2122,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKey, recipient); 
 	vecSend.push_back(recipient);
 	CCoinControl coinControl;
-	CAmount coinControlAmount = 0;
-	if(!strPassword.empty())
-	{
-		coinControl.fAllowOtherInputs = false;
-		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-		coinControlAmount = vecSend.back().nAmount;
 
-	}
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
@@ -2140,14 +2130,16 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
 		fee.nAmount *=  nRenewal*nRenewal;
-	if(coinControl.HasSelected())
-	{
-		coinControlAmount -= (recipient.nAmount + (fee.nAmount*2));
-		vecSend.back().nAmount = coinControlAmount;
-	}	
+	
 	vecSend.push_back(fee);
-	
-	
+	CAmount coinControlAmount = 0;
+	if(!strPassword.empty())
+	{
+		coinControl.fAllowOtherInputs = false;
+		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
+		if(coinControl.HasSelected())
+			coinControlAmount = vecSend.back().nAmount;
+	}
 	
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+coinControlAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
