@@ -2022,15 +2022,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 		CPubKey defaultKey = key.GetPubKey();
-		if(defaultKey != pubKey)
-		{
-			if(!defaultKey.IsFullyValid())
-				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
-			
-			if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
-				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
-			pubKey = defaultKey;
-		}
+		
+		if(!defaultKey.IsFullyValid())
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Generated public key not fully valid"));
+		
+		if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Please choose a different password"));
+		pubKey = defaultKey;
+	
 	}
 	
 	CSyscoinAddress aliasAddress(pubKey.GetID());
