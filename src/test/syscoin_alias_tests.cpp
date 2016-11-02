@@ -147,6 +147,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	string updateStr = string("aliasupdate sysrates.peg jagnodebalance1 changeddata1 privdata Yes ") + string(" 0 ") + string(" newpassword");
 	BOOST_CHECK_NO_THROW(CallRPC("node2", updateStr));
 	GenerateBlocks(10, "node2");
+	r.clear();
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
 	string newAddress =  find_value(r.get_obj(), "address").get_str();
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "newpassword"); 
