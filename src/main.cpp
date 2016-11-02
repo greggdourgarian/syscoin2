@@ -1892,8 +1892,8 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 	if(nHeight == 1)
 	{
 		std::string chain = ChainNameFromCommandLine();
-		/*if (chain == CBaseChainParams::MAIN || chain == CBaseChainParams::REGTEST)
-		{*/
+		//if (chain == CBaseChainParams::MAIN || chain == CBaseChainParams::REGTEST)
+		//{
 			// SYSCOIN snapshot for old chain based on block 880440 + 15 mill dev fund
 			return 459200578 * COIN + 15000000 * COIN;
 		//}
@@ -2459,7 +2459,7 @@ bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, 
 
 	
 	vector<CAliasIndex> vtxPos;
-	vector<uint256> vtxPaymentPos;
+	vector<CAliasPayment> vtxPaymentPos;
 	if(!paliasdb)
 		return false;
 	paliasdb->ReadAliasPayment(vvchArgs[0], vtxPaymentPos);
@@ -2469,7 +2469,7 @@ bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, 
 	CAliasIndex foundAlias = vtxPos.back();
 	while (!vtxPos.empty() && vtxPos.back().txHash == tx.GetHash())	
 		vtxPos.pop_back();
-	while (!vtxPaymentPos.empty() && vtxPaymentPos.back() == tx.GetHash())	
+	while (!vtxPaymentPos.empty() && vtxPaymentPos.back().txHash == tx.GetHash())	
 		vtxPaymentPos.pop_back();	
 
 	CPubKey PubKey(foundAlias.vchPubKey);
