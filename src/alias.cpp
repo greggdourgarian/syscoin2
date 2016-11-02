@@ -1707,7 +1707,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
-		CRecipient recipient = {scriptPubKeyTo, nAmount, true};
+		CRecipient recipient = {scriptPubKeyTo, nAmount, false};
 		vecSend.push_back(recipient);
 	}
 }
@@ -1910,7 +1910,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
 		fee.nAmount *= nRenewal*nRenewal;
-	
+	if(coinControl.HasSelected())
+		vecSend.back().nAmount -= (recipient.nAmount + fee.nAmount);
 	vecSend.push_back(fee);
 	// send the tranasction
 	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
