@@ -93,13 +93,13 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	// xfer an alias that isn't yours
 	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 pvtdata Yes " + newPubkey), runtime_error);
 
-	// trasnfer alias and update it at the same time
+	// xfer alias and update it at the same time
 	AliasTransfer("node2", "jagnode2", "node3", "changeddata4", "pvtdata");
 
 	// update xferred alias
 	AliasUpdate("node2", "jagnode1", "changeddata5", "pvtdata1");
 
-	// retransfer alias
+	// rexfer alias
 	AliasTransfer("node2", "jagnode1", "node3", "changeddata5", "pvtdata2");
 
 	// xfer an alias to another alias is prohibited
@@ -149,11 +149,47 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 {
+	printf("Running generate_aliasbalancewithtransfer...\n");
+	AliasNew("node2", "jagnodebalance2", "password", "changeddata1");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance2"));
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, 0);
+
 	// send money to alias and check balance
+	string sendManyStr = "{\\\"jagnodebalance2\\\":0.1,\\\"jagnodebalance2\\\":0.2}";
+	BOOST_CHECK_THROW(CallRPC("node1", "sendmany " + sendManyStr), runtime_error);
+	GenerateBlocks(5);
+	GenerateBlocks(5, "node2");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance2"));
+	balanceBefore += 0.3*COIN;
+	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+
 	// transfer alias to someone else and balance should be 0
+	AliasTransfer("node2", "jagnodebalance2", "node3", "changeddata4", "pvtdata");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
+	CAmount balanceAfterTransfer = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceAfterTransfer, 0);
+
 	// send money to alias and balance updates
+	sendManyStr = "{\\\"jagnodebalance2\\\":5.5,\\\"jagnodebalance2\\\":6.6}";
+	BOOST_CHECK_THROW(CallRPC("node1", "sendmany " + sendManyStr), runtime_error);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo jagnodebalance2"));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceAfter, 12.1*COIN);
+
 	// edit and balance should remain the same
+	AliasUpdate("node3", "jagnodebalance2", "pubdata1", "privdata1", "No", "newpassword");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK(abs(12.1*COIN -  balanceAfter) < COIN);
+
 	// transfer again and balance is 0 again
+	AliasTransfer("node3", "jagnodebalance2", "node2", "changeddata4", "pvtdata");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceAfter, 0);
+
 }
 BOOST_AUTO_TEST_CASE (generate_multisigalias)
 {
