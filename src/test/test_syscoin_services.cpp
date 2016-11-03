@@ -1080,7 +1080,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + rootalias));
 	CAmount balanceOwnerAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	balanceOwnerBefore += nSellerTotal;
-	BOOST_CHECK(balanceOwnerBefore , balanceOwnerAfter);
+	BOOST_CHECK_EQUAL(balanceOwnerBefore , balanceOwnerAfter);
 	// now get the accept from the resellernode
 	const UniValue &acceptReSellerValue = FindOfferAcceptList(resellernode, selleralias, offerguid, acceptguid);
 	CAmount nCommission = find_value(acceptReSellerValue, "systotal").get_int64();
@@ -1088,7 +1088,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	BOOST_CHECK_NO_THROW(r = CallRPC(resellernode, "aliasinfo " + selleralias));
 	CAmount balanceResellerAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	balanceResellerBefore += nCommission;
-	BOOST_CHECK(balanceResellerBefore ,  balanceResellerAfter);
+	BOOST_CHECK_EQUAL(balanceResellerBefore ,  balanceResellerAfter);
 	nSellerTotal += nCommission;
 	BOOST_CHECK(find_value(acceptReSellerValue, "pay_message").get_str() != pay_message);
 	GenerateBlocks(5, "node1");
