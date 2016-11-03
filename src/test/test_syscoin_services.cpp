@@ -231,7 +231,7 @@ void GenerateBlocks(int nBlocks, const string& node)
 }
 void CreateSysRatesIfNotExist()
 {
-	string data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":2695.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,,\\\"fee\\\":75,\\\"escrowfee\\\":0.01,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"fee\\\":1000,\\\"escrowfee\\\":0.005,\\\"precision\\\":2}]}";
+	string data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":2695.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"fee\\\":75,\\\"escrowfee\\\":0.01,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"fee\\\":1000,\\\"escrowfee\\\":0.005,\\\"precision\\\":2}]}";
 	// should get runtime error if doesnt exist
 	try{
 		CallRPC("node1", "aliasupdate sysrates.peg sysrates.peg " + data);
