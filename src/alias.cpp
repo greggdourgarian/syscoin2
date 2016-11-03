@@ -55,7 +55,7 @@ bool GetPreviousInput(const COutPoint * outpoint, int &op, vector<vector<unsigne
 }
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
-	if(nHeight < 0 || nHeight >= chainActive.Height())
+	if(nHeight < 0 || nHeight > chainActive.Height())
 		return false;
 	CBlockIndex *pindexSlow = NULL; 
 	LOCK(cs_main);
