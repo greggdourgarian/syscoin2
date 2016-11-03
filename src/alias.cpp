@@ -1512,9 +1512,14 @@ bool DecodeAndParseAliasTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch)
 {
 	CAliasIndex alias;
-	bool decode = DecodeAliasTx(tx, op, nOut, vvch, false) || DecodeAliasTx(tx, op, nOut, vvch, true);
-	bool parse = alias.UnserializeFromTx(tx);
-	return decode && parse;
+	bool decode = DecodeAliasTx(tx, op, nOut, vvch, false);
+	if(decode)
+	{
+		bool parse = alias.UnserializeFromTx(tx);
+		return decode && parse;
+	}
+	decode = DecodeAliasTx(tx, op, nOut, vvch, true);
+	return decode;
 }
 bool DecodeAliasTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch, bool payment) {
