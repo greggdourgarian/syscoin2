@@ -1027,7 +1027,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + selleralias));
 	balanceBefore += nSellerTotal;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
 	return acceptguid;
 }
@@ -1330,17 +1330,42 @@ const UniValue FindOfferAcceptFeedback(const string& node, const string &alias, 
 		BOOST_CHECK(!ret.isNull());
 	return ret;
 }
-// not that this is for escrow dealing with non-linked offers
 void EscrowClaimRelease(const string& node, const string& guid)
 {
 	UniValue r;
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
+	CAmount nArbiterFee = find_value(r.get_obj(), "sysfee").get_int64()
+	string arbiteralias = find_value(r.get_obj(), "arbiter").get_str();
+	string selleralias = find_value(r.get_obj(), "seller").get_str();
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
+	string rootselleralias = find_value(r.get_obj(), "offerlink_seller").get_str();
+	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
+	CAmount nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
 	int nQtyOfferBefore = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
+	if(!rootselleralias.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + rootofferguid));
+		CAmount nRootTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
+		nCommissionTotal = nSellerTotal - nRootTotal;
+		nSellerTotal = nRootTotal;
+		
+	}
+
+	// get balances before
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + arbiteralias));
+	CAmount balanceArbiterBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + selleralias));
+	CAmount balanceSellerBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	CAmount balanceRootSellerBefore = 0;
+	if(!rootselleralias.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + rootselleralias));
+		balanceRootSellerBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	}
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowclaimrelease " + guid));
 	UniValue resArray = r.get_array();
@@ -1350,9 +1375,31 @@ void EscrowClaimRelease(const string& node, const string& guid)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	// release doesn't alter qty
+	// release deducts qty
 	BOOST_CHECK_EQUAL(nQtyOfferBefore-nQty, nQtyOfferAfter);
-	
+
+	// get balances after
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + arbiteralias));
+	CAmount balanceArbiterAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + selleralias));
+	CAmount balanceSellerAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	CAmount balanceRootSellerAfter = 0;
+	if(!rootselleralias.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + rootselleralias));
+		balanceRootSellerBefore += nSellerTotal;
+		balanceSellerBefore += nCommissionTotal;
+		balanceRootSellerAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	}
+	else
+	{
+		balanceSellerBefore += nSellerTotal;
+	}
+	balanceArbiterBefore += nArbiterFee;
+	BOOST_CHECK_EQUAL(balanceSellerBefore, balanceSellerAfter);
+	BOOST_CHECK_EQUAL(balanceRootSellerBefore, balanceRootSellerAfter);
+	BOOST_CHECK_EQUAL(balanceArbiterBefore, balanceArbiterAfter);
+
 }
 BasicSyscoinTestingSetup::BasicSyscoinTestingSetup()
 {
