@@ -75,8 +75,6 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 		ui->transferEdit->setVisible(true);
 		ui->transferLabel->setVisible(true);
 		ui->transferDisclaimer->setVisible(true);
-		ui->addButton->setEnabled(false);
-		ui->deleteButton->setEnabled(false);
 		ui->passwordDisclaimer->setVisible(false);
 		ui->passwordEdit->setEnabled(false);
 		ui->tabWidget->setCurrentIndex(1);
