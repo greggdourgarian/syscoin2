@@ -27,6 +27,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     ui(new Ui::EditOfferDialog), mapper(0), mode(mode), model(0)
 {
     ui->setupUi(this);
+	ui->aliasPegEdit->setEnabled(false);
 	ui->privateDisclaimer->setText(tr("<font color='blue'>Choose if you would like the offer to be private or publicly listed on the marketplace.</font>"));
 	ui->offerLabel->setVisible(true);
 	ui->offerEdit->setVisible(true);
@@ -65,10 +66,13 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     case NewOffer:
 		ui->offerLabel->setVisible(false);
 		ui->offerEdit->setVisible(false);
+		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
+		ui->aliasPegEdit->setText(defaultPegAlias);
 		defaultOfferAlias = settings.value("defaultAlias", "").toString();
 		aliasIndex = ui->aliasEdit->findText(defaultOfferAlias);
 		if(aliasIndex >= 0)
 			ui->aliasEdit->setCurrentIndex(aliasIndex);
+		
 		on_aliasPegEdit_editingFinished();
         setWindowTitle(tr("New Offer"));
         break;
@@ -77,7 +81,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 		 if(isLinkedOffer(strOffer))
 		 {
 			setWindowTitle(tr("Edit Linked Offer"));
-			ui->aliasPegEdit->setEnabled(false);
 			ui->priceEdit->setEnabled(false);
 			ui->qtyEdit->setEnabled(false);
 			ui->certEdit->setEnabled(false);
@@ -94,6 +97,8 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     case NewCertOffer:
 		ui->aliasEdit->setEnabled(false);
 		ui->offerLabel->setVisible(false);
+		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
+		ui->aliasPegEdit->setText(defaultPegAlias);
 		on_aliasPegEdit_editingFinished();
 		ui->offerEdit->setVisible(false);
         setWindowTitle(tr("New Offer(Certificate)"));
@@ -590,7 +595,6 @@ void EditOfferDialog::loadRow(int row)
 				ui->qtyEdit->setText(qtyStr);
 		}
 	}
-	ui->aliasPegEdit->setEnabled(false);
 }
 
 bool EditOfferDialog::saveCurrentRow()
