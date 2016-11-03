@@ -1719,10 +1719,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 		scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
 		scriptChangeOrig += scriptPubKeyTo;
 		
-		CRecipient recipient  = {scriptChangeOrig, nAmount, false};
-		CreateRecipient(scriptChangeOrig, recipient);
-		nFee += recipient.nAmount*2;
-		recipient.nAmount = nAmount-nFee;
+		CRecipient recipient  = {scriptChangeOrig, nAmount-(nFee*2), false};
 		vecSend.push_back(recipient);
 	}
 }
