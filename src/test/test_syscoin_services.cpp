@@ -1345,6 +1345,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	string rootselleralias = find_value(r.get_obj(), "offerlink_seller").get_str();
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
 	CAmount nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
+	CAmount nCommissionTotal = 0;
 	int nQtyOfferBefore = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	if(!rootselleralias.empty())
 	{
