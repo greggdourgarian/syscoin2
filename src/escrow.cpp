@@ -3290,7 +3290,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		// skip this escrow if it doesn't match the given filter value
 		if (vchNameUniq.size() > 0 && vchNameUniq != vchEscrow)
 			continue;
-		vector<CEscrow> vtxPos;
 		bool escrowRelease = false;
 		bool escrowRefund = false;
 	    vector<CEscrow> vtxEscrowPos;
