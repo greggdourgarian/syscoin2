@@ -1337,7 +1337,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string selleralias = find_value(r.get_obj(), "seller").get_str();
-	CAmount nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
+	CAmount nSellerTotal = find_value(r.get_obj(), "systotal").get_int64();
 	BOOST_CHECK(!selleralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
