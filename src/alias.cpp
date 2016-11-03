@@ -332,7 +332,7 @@ float getEscrowFee(const std::vector<unsigned char> &vchAliasPeg, const std::vec
 int getFeePerByte(const std::vector<unsigned char> &vchAliasPeg, const std::vector<unsigned char> &vchCurrencyCode, const unsigned int &nHeight, int &precision)
 {
 	double nRate;
-	int nFeePerByte =0;
+	int nFeePerByte = 25;
 	float fEscrowFee = 0.005;
 	vector<string> rateList;
 	try
