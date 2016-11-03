@@ -357,6 +357,16 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(ui->passwordEdit->text().toStdString());	
 			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 			params.push_back(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString().toStdString());
+			if(ui->multisigList->count() > 0)
+			{
+				params.push_back(ui->reqSigsEdit->text().toStdString());
+				for(int i = 0; i < ui->multisigList->count(); ++i)
+				{
+					QString str = ui->multisigList->item(i)->text();
+					arraySendParams.push_back(str.toStdString());
+				}
+				params.push_back(arraySendParams);
+			}
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)
