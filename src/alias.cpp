@@ -55,6 +55,8 @@ bool GetPreviousInput(const COutPoint * outpoint, int &op, vector<vector<unsigne
 }
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
+	if(nHeight < 0 || nHeight >= chainActive.size())
+		return false;
 	CBlockIndex *pindexSlow = NULL; 
 	LOCK(cs_main);
 	pindexSlow = chainActive[nHeight];
@@ -1518,8 +1520,7 @@ bool DecodeAndParseAliasTx(const CTransaction& tx, int& op, int& nOut,
 		bool parse = alias.UnserializeFromTx(tx);
 		return decode && parse;
 	}
-	decode = DecodeAliasTx(tx, op, nOut, vvch, true);
-	return decode;
+	return DecodeAliasTx(tx, op, nOut, vvch, true);
 }
 bool DecodeAliasTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch, bool payment) {
