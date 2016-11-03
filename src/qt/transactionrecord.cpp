@@ -140,7 +140,7 @@ static bool CreateSyscoinTransactions(const CWallet *wallet, const CWalletTx& wt
 	// we want to display the data carrying one and not the empty utxo	
 	// alias payment does not carry a data output, just alias payment scriptpubkey
 	if(!DecodeAndParseSyscoinTx(wtx, op, nOut, vvchArgs))
-		return parse;
+		return false;
 
 	TransactionRecord sub(hash, nTime);
 	if(!CreateSyscoinTransactionRecord(sub, op, vvchArgs, wtx, type))
