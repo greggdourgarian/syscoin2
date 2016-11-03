@@ -982,15 +982,17 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			else if(op == OP_ALIAS_PAYMENT && vtxPos.empty())
 				return true;
 		}
-
-		CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);			
-		if(theAlias.nRenewal > 1)
-			fee *= theAlias.nRenewal*theAlias.nRenewal;
-		
-		if (fee > tx.vout[nDataOut].nValue) 
+		if(!vchData.empty())
 		{
-			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5001 - " + _("Transaction does not pay enough fees");
-			return true;
+			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);			
+			if(theAlias.nRenewal > 1)
+				fee *= theAlias.nRenewal*theAlias.nRenewal;
+			
+			if (fee > tx.vout[nDataOut].nValue) 
+			{
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5001 - " + _("Transaction does not pay enough fees");
+				return true;
+			}
 		}
 				
 		if(op == OP_ALIAS_UPDATE)
