@@ -1587,7 +1587,7 @@ CScript RemoveAliasScriptPrefix(const CScript& scriptIn) {
 }
 void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 {
-	CRecipient recp = {scriptPubKey, 0, false};
+	CRecipient recp = {scriptPubKey, recipient.nAmount, false};
 	recipient = recp;
 	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
     size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
