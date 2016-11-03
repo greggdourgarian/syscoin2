@@ -1337,32 +1337,17 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string selleralias = find_value(r.get_obj(), "seller").get_str();
+	CAmount nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
 	BOOST_CHECK(!selleralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	string rootselleralias = find_value(r.get_obj(), "offerlink_seller").get_str();
-	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
-	CAmount nSellerTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
-	CAmount nCommissionTotal = 0;
 	int nQtyOfferBefore = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	if(!rootselleralias.empty())
-	{
-		BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + rootofferguid));
-		CAmount nRootTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQty;
-		nCommissionTotal = nSellerTotal - nRootTotal;
-		nSellerTotal = nRootTotal;	
-	}
 
 	// get balances before
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + selleralias));
 	CAmount balanceSellerBefore = AmountFromValue(find_value(a.get_obj(), "balance"));
-	CAmount balanceRootSellerBefore = 0;
-	if(!rootselleralias.empty())
-	{
-		BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + rootselleralias));
-		balanceRootSellerBefore = AmountFromValue(find_value(a.get_obj(), "balance"));
-	}
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowclaimrelease " + guid));
 	UniValue resArray = r.get_array();
@@ -1378,20 +1363,10 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	// get balances after
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + selleralias));
 	CAmount balanceSellerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
-	CAmount balanceRootSellerAfter = 0;
-	if(!rootselleralias.empty())
-	{
-		BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + rootselleralias));
-		balanceRootSellerBefore += nSellerTotal;
-		balanceSellerBefore += nCommissionTotal;
-		balanceRootSellerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
-	}
-	else
-	{
-		balanceSellerBefore += nSellerTotal;
-	}
-	BOOST_CHECK_EQUAL(balanceSellerBefore, balanceSellerAfter);
-	BOOST_CHECK_EQUAL(balanceRootSellerBefore, balanceRootSellerAfter);
+
+	balanceSellerBefore += nSellerTotal;
+	if(rootselleralias.empty())
+		BOOST_CHECK_EQUAL(balanceSellerBefore, balanceSellerAfter);
 
 }
 BasicSyscoinTestingSetup::BasicSyscoinTestingSetup()
