@@ -1196,10 +1196,9 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	UniValue r, a;
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
-	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string buyeralias = find_value(r.get_obj(), "buyer").get_str();
 	CAmount nBuyerTotal = find_value(r.get_obj(), "systotal").get_int64();
-	BOOST_CHECK(!selleralias.empty());
+	BOOST_CHECK(!buyeralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
