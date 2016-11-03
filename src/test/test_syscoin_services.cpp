@@ -1192,24 +1192,43 @@ void EscrowRefund(const string& node, const string& role, const string& guid)
 }
 void EscrowClaimRefund(const string& node, const string& guid)
 {
-	UniValue r;
+
+	UniValue r, a;
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
+	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
+	string buyeralias = find_value(r.get_obj(), "buyer").get_str();
+	CAmount nBuyerTotal = find_value(r.get_obj(), "systotal").get_int64();
+	BOOST_CHECK(!selleralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
+	string rootselleralias = find_value(r.get_obj(), "offerlink_seller").get_str();
 	int nQtyOfferBefore = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
+
+	// get balances before
+	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + buyeralias));
+	CAmount balanceBuyerBefore = AmountFromValue(find_value(a.get_obj(), "balance"));
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowclaimrefund " + guid));
 	UniValue resArray = r.get_array();
 	string strRawTx = resArray[0].get_str();
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowcompleterefund " + guid + " " + strRawTx));
-	GenerateBlocks(10, node);
-
+	GenerateBlocks(5, node);
+	GenerateBlocks(5, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// claim doesn't touch qty
 	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore);
+
+	// get balances after
+	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + buyeralias));
+	CAmount balanceBuyerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
+
+	balanceBuyerBefore += nBuyerTotal;
+	if(rootselleralias.empty())
+		BOOST_CHECK_EQUAL(balanceBuyerBefore, balanceBuyerAfter);
+
 }
 void OfferAddWhitelist(const string& node,const string& offerguid, const string& aliasname, const string& discount)
 {
