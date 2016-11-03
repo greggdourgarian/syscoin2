@@ -793,7 +793,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	vector<unsigned char> vchHash;
 	CSyscoinAddress multisigAddress;
 	int nDataOut;
-	if(op != OP_ALIAS_PAYMENT && GetSyscoinData(tx, vchData, vchHash, nDataOut) && !theAlias.UnserializeFromData(vchData, vchHash))
+
+	if(op == OP_ALIAS_PAYMENT || (GetSyscoinData(tx, vchData, vchHash, nDataOut) && !theAlias.UnserializeFromData(vchData, vchHash)))
 	{
 		theAlias.SetNull();
 	}
@@ -806,20 +807,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	}
 	if(fJustCheck)
 	{
-		if(!vchData.empty())
-		{
-			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, theAlias.vchAliasPeg, nHeight);
-			if(!theAlias.IsNull())
-			{
-				if(theAlias.nRenewal > 1)
-					fee *= theAlias.nRenewal*theAlias.nRenewal;
-			}
-			if (fee > tx.vout[nDataOut].nValue) 
-			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5001 - " + _("Transaction does not pay enough fees");
-				return error(errorMessage.c_str());
-			}
-		}
 		if(op != OP_ALIAS_PAYMENT)
 		{
 			if(vvchArgs.size() != 3)
@@ -995,7 +982,17 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			else if(op == OP_ALIAS_PAYMENT && vtxPos.empty())
 				return true;
 		}
+
+		CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);			
+		if(theAlias.nRenewal > 1)
+			fee *= theAlias.nRenewal*theAlias.nRenewal;
 		
+		if (fee > tx.vout[nDataOut].nValue) 
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5001 - " + _("Transaction does not pay enough fees");
+			return true;
+		}
+				
 		if(op == OP_ALIAS_UPDATE)
 		{
 			if(!vtxPos.empty())
