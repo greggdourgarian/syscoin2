@@ -1711,10 +1711,14 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
     }
 	if(nAmount > 0)
 	{
+		CAmount nFee = 0;
+		for(unsigned int i=0;i<vecSend.size();i++)
+			nFee += vecSend[i].nAmount;
+
 		CScript scriptChangeOrig;
 		scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
 		scriptChangeOrig += scriptPubKeyTo;
-		CRecipient recipient  = {scriptChangeOrig, nAmount, true};
+		CRecipient recipient  = {scriptChangeOrig, nAmount-(nFee*2), false};
 		vecSend.push_back(recipient);
 	}
 }
@@ -1899,16 +1903,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
 	vecSend.push_back(recipient);
-	CAliasIndex oldAlias;
-	CTransaction oldTx;
-	CCoinControl coinControl;
-	// if renewing your own alias, transfer balances
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
-	{
-		coinControl.fAllowOtherInputs = true;
-		coinControl.fAllowWatchOnly = true;
-		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-	}
 	CScript scriptData;
 	
 	scriptData << OP_RETURN << data;
@@ -1919,6 +1913,16 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		fee.nAmount *= nRenewal*nRenewal;
 
 	vecSend.push_back(fee);
+	CAliasIndex oldAlias;
+	CTransaction oldTx;
+	CCoinControl coinControl;
+	// if renewing your own alias, transfer balances
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
+	{
+		coinControl.fAllowOtherInputs = true;
+		coinControl.fAllowWatchOnly = true;
+		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
+	}
 
 	// send the tranasction
 	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
@@ -2117,13 +2121,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient); 
 	vecSend.push_back(recipient);
-	CCoinControl coinControl;
-	if(!strPassword.empty())
-	{
-		coinControl.fAllowOtherInputs = true;
-		coinControl.fAllowWatchOnly = true;
-		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-	}
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
@@ -2133,6 +2130,13 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		fee.nAmount *=  nRenewal*nRenewal;
 	
 	vecSend.push_back(fee);
+	CCoinControl coinControl;
+	if(!strPassword.empty())
+	{
+		coinControl.fAllowOtherInputs = true;
+		coinControl.fAllowWatchOnly = true;
+		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
+	}
 	
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);

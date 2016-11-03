@@ -27,7 +27,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     ui(new Ui::EditOfferDialog), mapper(0), mode(mode), model(0)
 {
     ui->setupUi(this);
-	ui->aliasPegEdit->setEnabled(false);
 	ui->privateDisclaimer->setText(tr("<font color='blue'>Choose if you would like the offer to be private or publicly listed on the marketplace.</font>"));
 	ui->offerLabel->setVisible(true);
 	ui->offerEdit->setVisible(true);
@@ -591,6 +590,7 @@ void EditOfferDialog::loadRow(int row)
 				ui->qtyEdit->setText(qtyStr);
 		}
 	}
+	ui->aliasPegEdit->setEnabled(false);
 }
 
 bool EditOfferDialog::saveCurrentRow()
