@@ -1336,7 +1336,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	CAmount nArbiterFee = find_value(r.get_obj(), "sysfee").get_int64()
+	CAmount nArbiterFee = find_value(r.get_obj(), "sysfee").get_int64();
 	string arbiteralias = find_value(r.get_obj(), "arbiter").get_str();
 	string selleralias = find_value(r.get_obj(), "seller").get_str();
 	string offer = find_value(r.get_obj(), "offer").get_str();
