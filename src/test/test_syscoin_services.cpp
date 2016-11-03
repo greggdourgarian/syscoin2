@@ -1336,10 +1336,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	CAmount nArbiterFee = find_value(r.get_obj(), "sysfee").get_int64();
-	string arbiteralias = find_value(r.get_obj(), "arbiter").get_str();
 	string selleralias = find_value(r.get_obj(), "seller").get_str();
-	BOOST_CHECK(!arbiteralias.empty());
 	BOOST_CHECK(!selleralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
 
@@ -1358,8 +1355,6 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	}
 
 	// get balances before
-	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + arbiteralias));
-	CAmount balanceArbiterBefore = AmountFromValue(find_value(a.get_obj(), "balance"));
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + selleralias));
 	CAmount balanceSellerBefore = AmountFromValue(find_value(a.get_obj(), "balance"));
 	CAmount balanceRootSellerBefore = 0;
@@ -1381,8 +1376,6 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	BOOST_CHECK_EQUAL(nQtyOfferBefore-nQty, nQtyOfferAfter);
 
 	// get balances after
-	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + arbiteralias));
-	CAmount balanceArbiterAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + selleralias));
 	CAmount balanceSellerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
 	CAmount balanceRootSellerAfter = 0;
@@ -1397,10 +1390,8 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	{
 		balanceSellerBefore += nSellerTotal;
 	}
-	balanceArbiterBefore += nArbiterFee;
 	BOOST_CHECK_EQUAL(balanceSellerBefore, balanceSellerAfter);
 	BOOST_CHECK_EQUAL(balanceRootSellerBefore, balanceRootSellerAfter);
-	BOOST_CHECK_EQUAL(balanceArbiterBefore, balanceArbiterAfter);
 
 }
 BasicSyscoinTestingSetup::BasicSyscoinTestingSetup()
