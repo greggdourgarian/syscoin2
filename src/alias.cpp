@@ -1670,7 +1670,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	if(aliasPubKey != defaultKey)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5504 - " + _("Password is incorrect"));
 	UniValue res(UniValue::VOBJ);
-	res.push_back(CSyscoinSecret(key).ToString());
+	res.push_back(Pair("privatekey", CSyscoinSecret(key).ToString()));
 	return res;
 
 }
