@@ -195,11 +195,12 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 }
 BOOST_AUTO_TEST_CASE (generate_multisigalias)
 {
+	printf("Running generate_multisigalias...\n");
 	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1");
 	AliasNew("node2", "jagnodemultisig2", "password", "changeddata1");
 	AliasNew("node3", "jagnodemultisig3", "password", "changeddata1");
 	// create 2 of 2
-	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", "[{\\\"alias\\\":\\\"jagnodemultisig1\\\"}]");
+	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", "\"[{\\\"alias\\\":\\\"jagnodemultisig1\\\"}]\"");
 	//AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", "[{\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"}]");
 	// create 1 of 2
 	// create 2 of 3
@@ -210,6 +211,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
 {
+	printf("Running generate_aliasbalancewithtransfermultisig...\n");
 	// create 2 of 3 alias
 	// send money to alias and check balance
 	// transfer alias to non multisig  and balance should be 0
@@ -223,7 +225,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasauthentication)
 	// create alias with some password and try to get authentication key
 	// update the password and try again
 
-	// try to edit alias with authentication key from wallet that doesnt own that alias
+	// edit alias with authentication key from wallet that doesnt own that alias
 }
 BOOST_AUTO_TEST_CASE (generate_aliasauthenticationmultisig)
 {
