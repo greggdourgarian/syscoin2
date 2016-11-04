@@ -276,7 +276,7 @@ void CertBan(const string& node, const string& cert, int severity)
 	CallRPC(node, "aliasupdate sysrates.peg sysban " + data);
 	GenerateBlocks(5);
 }
-string AliasNew(const string& node, const string& aliasname, const string& password, const string& pubdata, string privdata, string safesearch)
+string AliasNew(const string& node, const string& aliasname, const string& password, const string& pubdata, string privdata, string safesearch, string numreq, string multisig)
 {
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -291,7 +291,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		otherNode2 = "node2";
 	}
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + password + " " + pubdata + " " + privdata + " " + safesearch));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + password + " " + pubdata + " " + privdata + " " + safesearch + " Yes 1 " + numreq  + " " + multisig));
 	string pubkey;
 	const UniValue &resultArray = r.get_array();
 	pubkey = resultArray[1].get_str();

@@ -195,11 +195,15 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 }
 BOOST_AUTO_TEST_CASE (generate_multisigalias)
 {
+	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1");
+	AliasNew("node2", "jagnodemultisig2", "password", "changeddata1");
+	AliasNew("node3", "jagnodemultisig3", "password", "changeddata1");
 	// create 2 of 2
+	AliasNew("node1", "multisigtwooftwo", "password", "changeddata1", "privdata", "Yes", "2", "[{\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"}]");
 	// create 1 of 2
 	// create 2 of 3
 
-	// try to edit the multisigs
+	// change the multisigs pw
 	// pay to multisig and check balance
 	// remove multisig and update as normal
 }
@@ -225,7 +229,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasauthenticationmultisig)
 	// create 2 of 3 alias with some password and try to get authentication key
 	// update the password and try again
 
-	// try to edit alias with authentication key from wallet that doesnt own that alias
+	// edit alias with authentication key from wallet that doesnt own that alias
 	// pass that tx to another alias and verify it got signed and pushed to network
 }
 BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
