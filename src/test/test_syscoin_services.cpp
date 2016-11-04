@@ -1225,9 +1225,13 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + buyeralias));
 	CAmount balanceBuyerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
 
-	balanceBuyerBefore += nBuyerTotal + nEscrowFee;
+	balanceBuyerBefore += nBuyerTotal;
 	if(rootselleralias.empty())
+	{
+		if(balanceBuyerBefore != balanceBuyerAfter)
+			balanceBuyerBefore += nEscrowFee;	
 		BOOST_CHECK_EQUAL(balanceBuyerBefore, balanceBuyerAfter);
+	}
 
 }
 void OfferAddWhitelist(const string& node,const string& offerguid, const string& aliasname, const string& discount)
