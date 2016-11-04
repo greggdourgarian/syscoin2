@@ -389,6 +389,8 @@ QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
         return tr("Alias Payment Received");
     case TransactionRecord::AliasTransfer:
         return tr("Alias Transferred");
+    case TransactionRecord::AliasUpdate:
+        return tr("Alias Updated");
     case TransactionRecord::AliasRecv:
         return tr("Alias Received");
     case TransactionRecord::OfferActivate:
@@ -464,6 +466,7 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
 	// SYSCOIN
 	case TransactionRecord::AliasActivate:
 	case TransactionRecord::AliasPaymentSent:
+	case TransactionRecord::AliasUpdate:
     case TransactionRecord::AliasTransfer:
     case TransactionRecord::OfferUpdate:
     case TransactionRecord::OfferActivate:
