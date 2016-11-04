@@ -1197,6 +1197,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	string buyeralias = find_value(r.get_obj(), "buyer").get_str();
+	CAmount nEscrowFee = find_value(r.get_obj(), "sysfee").get_int64();
 	CAmount nBuyerTotal = find_value(r.get_obj(), "systotal").get_int64();
 	BOOST_CHECK(!buyeralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
@@ -1224,7 +1225,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + buyeralias));
 	CAmount balanceBuyerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
 
-	balanceBuyerBefore += nBuyerTotal;
+	balanceBuyerBefore += nBuyerTotal + nEscrowFee;
 	if(rootselleralias.empty())
 		BOOST_CHECK_EQUAL(balanceBuyerBefore, balanceBuyerAfter);
 
