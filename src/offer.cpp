@@ -1304,31 +1304,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			theOfferAccept.vchAcceptRand = vvchArgs[1];
 			theOffer.accept = theOfferAccept;
 
-			// decrease qty + increase # sold
+			// increase # sold
 			if(theOfferAccept.nQty <= 0)
 				theOfferAccept.nQty = 1;
 			vector<COffer> myLinkVtxPos;
-			int nQty = theOffer.nQty;
-			// if this is a linked offer we must update the linked offer qty
-			if (!linkOffer.IsNull())
-			{
-				linkOffer = offerVtxPos.back();
-				nQty = linkOffer.nQty;
-			}
-			if(nQty != -1)
-			{
-				if(theOfferAccept.nQty > nQty)
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Not enough quantity left in this offer for this purchase");
-					return true;
-				}
-				nQty -= theOfferAccept.nQty;
-			}
 			if (!linkOffer.IsNull())
 			{
 				linkOffer.nHeight = nHeight;
 				linkOffer.txHash = tx.GetHash();
-				linkOffer.nQty = nQty;
 				linkOffer.nSold++;
 				linkOffer.accept = theOfferAccept;
 				linkOffer.PutToOfferList(offerVtxPos);
@@ -1339,7 +1322,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 			}
 			theOffer.nSold++;
-			theOffer.nQty = nQty;
 			if(!theOfferAccept.txExtId.IsNull())
 			{
 				if(pofferdb->ExistsOfferTx(theOfferAccept.txExtId) || pescrowdb->ExistsEscrowTx(theOfferAccept.txExtId))
@@ -2287,9 +2269,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	theOffer.nQty = nQty;
 	if (params.size() >= 9)
 		theOffer.bPrivate = bPrivate;
-	unsigned int memPoolQty = QtyOfPendingAcceptsInMempool(vchOffer);
-	if(nAvailableQty != -1 && (nAvailableQty-memPoolQty) < 0)
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Not enough remaining quantity to fulfill this update"));
+
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.SetPrice(nPricePerUnit);
 	if(params.size() >= 11 && params[10].get_str().size() > 0)
@@ -2460,11 +2440,6 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 		scriptPubKeyAliasOrig = CScript(buyerAlias.multiSigInfo.vchRedeemScript.begin(), buyerAlias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAlias.vchAlias  << buyerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyAliasOrig;
-
-	unsigned int memPoolQty = QtyOfPendingAcceptsInMempool(vchOffer);
-	if(nAvailableQty != -1 && nAvailableQty < (nQty+memPoolQty))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1538 - " + _("Not enough remaining quantity to fulfill this order"));
-
 
 	string strCipherText = "";
 

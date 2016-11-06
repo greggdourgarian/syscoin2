@@ -242,39 +242,6 @@ void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut
 		scriptPubKeyOut = RemoveMessageScriptPrefix(scriptPubKeyIn);
 }
 
-unsigned int QtyOfPendingAcceptsInMempool(const vector<unsigned char>& vchToFind)
-{
-	LOCK(mempool.cs);
-	unsigned int nQty = 0;
-	for (CTxMemPool::indexed_transaction_set::iterator mi = mempool.mapTx.begin();
-             mi != mempool.mapTx.end(); ++mi)
-        {
-        const CTransaction& tx = mi->GetTx();
-		if (tx.IsCoinBase() || !CheckFinalTx(tx))
-			continue;
-		vector<vector<unsigned char> > vvch;
-		int op, nOut;
-		
-		if(DecodeOfferTx(tx, op, nOut, vvch)) {
-			if(op == OP_OFFER_ACCEPT)
-			{
-				if(vvch.size() >= 1 && vvch[0] == vchToFind)
-				{
-					COffer theOffer(tx);
-					COfferAccept theOfferAccept = theOffer.accept;
-					if (theOffer.IsNull() || theOfferAccept.IsNull())
-						continue;
-					if(theOfferAccept.vchAcceptRand == vvch[1])
-					{
-						nQty += theOfferAccept.nQty;
-					}
-				}
-			}
-		}		
-	}
-	return nQty;
-
-}
 // how much is 1.1 BTC in syscoin? 1 BTC = 110000 SYS for example, nPrice would be 1.1, sysPrice would be 110000
 CAmount convertCurrencyCodeToSyscoin(const vector<unsigned char> &vchAliasPeg, const vector<unsigned char> &vchCurrencyCode, const double &nPrice, const unsigned int &nHeight, int &precision)
 {

@@ -325,7 +325,6 @@ CAmount convertCurrencyCodeToSyscoin(const std::vector<unsigned char> &vchAliasP
 int getFeePerByte(const std::vector<unsigned char> &vchAliasPeg, const std::vector<unsigned char> &vchCurrencyCode, const unsigned int &nHeight, int &precision);
 float getEscrowFee(const std::vector<unsigned char> &vchAliasPeg, const std::vector<unsigned char> &vchCurrencyCode, const unsigned int &nHeight, int &precision);
 CAmount convertSyscoinToCurrencyCode(const std::vector<unsigned char> &vchAliasPeg, const std::vector<unsigned char> &vchCurrencyCode, const CAmount &nPrice, const unsigned int &nHeight, int &precision);
-unsigned int QtyOfPendingAcceptsInMempool(const std::vector<unsigned char>& vchToFind);
 std::string getCurrencyToSYSFromAlias(const std::vector<unsigned char> &vchAliasPeg, const std::vector<unsigned char> &vchCurrency, double &nFee, const unsigned int &nHeightToFind, std::vector<std::string>& rateList, int &precision, int &nFeePerByte, float &fEscrowFee);
 std::string aliasFromOp(int op);
 std::string GenerateSyscoinGuid();

@@ -994,7 +994,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
 	int nQtyToAccept = atoi(qty.c_str());
 	CAmount nTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
-	string sTargetQty = boost::to_string(nCurrentQty - nQtyToAccept);
+	string sTargetQty = boost::to_string(nCurrentQty);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + selleralias));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -1044,7 +1044,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
 	int nQtyToAccept = atoi(qty.c_str());
 	CAmount nTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
-	string sTargetQty = boost::to_string(nCurrentQty - nQtyToAccept);
+	string sTargetQty = boost::to_string(nCurrentQty);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + rootalias));
 	CAmount balanceOwnerBefore = AmountFromValue(find_value(r.get_obj(), "balance"));

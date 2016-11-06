@@ -20,7 +20,6 @@ class OfferAcceptDialogBTC : public QDialog
 public:
     explicit OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString strPrice, QString sellerAlias, QString address, QWidget *parent=0);
     ~OfferAcceptDialogBTC();
-	void CheckPaymentInBTC();
     bool getPaymentStatus();
 	void SetupQRCode(const QString&price);
 private:
@@ -53,7 +52,6 @@ private Q_SLOTS:
     void acceptOffer();
 	void acceptEscrow();
 	void openBTCWallet();
-	void slotConfirmedFinished(QNetworkReply *);
 	
 };
 

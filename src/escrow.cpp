@@ -1179,9 +1179,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		selleralias = theLinkedAlias;
 		nAvailableQty = linkedOffer.nQty;
 	}
-	unsigned int memPoolQty = QtyOfPendingAcceptsInMempool(vchOffer);
-	if(nAvailableQty != -1 && nAvailableQty < (nQty+memPoolQty))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4514 - " + _("Not enough remaining quantity to fulfill this escrow"));
 
 	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the buyer alias to complete this transaction"));
