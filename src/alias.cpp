@@ -1276,17 +1276,18 @@ const vector<unsigned char> CAliasIndex::Serialize() {
     return vchData;
 
 }
-void CAliasIndex::GetAddress(CSyscoinAddress* address)
+void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOption)
 {
 	if(!address)
 		return;
 	CPubKey aliasPubKey(vchPubKey);
-	address[0] = CSyscoinAddress(aliasPubKey.GetID());
+	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
+	address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
 	if(multiSigInfo.vchAliases.size() > 0)
 	{
 		CScript inner = CScript(multiSigInfo.vchRedeemScript.begin(), multiSigInfo.vchRedeemScript.end());
 		CScriptID innerID(inner);
-		address[0] = CSyscoinAddress(innerID);
+		address[0] = CSyscoinAddress(innerID, myAddressType);
 	}
 }
 bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const string& strRegexp, bool safeSearch, 
@@ -1361,7 +1362,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 
 int GetAliasExpirationDepth() {
 	#ifdef ENABLE_DEBUGRPC
-    return 1440;
+    return 100;
   #else
     return 525600;
   #endif
@@ -2558,10 +2559,8 @@ UniValue aliasaffiliates(const UniValue& params, bool fHelp) {
 	{
 		uint256 hash;
 		CTransaction tx;
-		int pending = 0;
 		uint64_t nHeight;
 		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet) {
-			pending = 0;
 			// get txn hash, read txn index
 			hash = item.second.GetHash();
 			const CWalletTx &wtx = item.second;
@@ -2648,10 +2647,6 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
        );
 	LOCK(cs_main);
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-    // Minimum confirmations
-    int nMinDepth = 1;
-    if (params.size() > 1)
-        nMinDepth = params[1].get_int();
 
 	CAmount nAmount = 0;
 	vector<CAliasPayment> vtxPaymentPos;

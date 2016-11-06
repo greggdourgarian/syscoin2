@@ -92,7 +92,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 
 }
 	
-bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId)
+bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId, QString& paymentOption)
 {
 	
 	string strError;
@@ -112,7 +112,8 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 		    const UniValue& accept = offerAccepts[idx];				
 			const UniValue& acceptObj = accept.get_obj();
 			offerAcceptHash = QString::fromStdString(find_value(acceptObj, "id").get_str());
-			extTxId = QString::fromStdString(find_value(acceptObj, "exttxid").get_str());		
+			extTxId = QString::fromStdString(find_value(acceptObj, "exttxid").get_str());	
+			paymentOption = QString::fromStdString(find_value(acceptObj, "paymentoption_display").get_str());	
 			const string &strPrice = find_value(acceptObj, "total").get_str();
 			price = QString::fromStdString(strPrice);
 			break;
@@ -182,7 +183,6 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	}
 	double valueAmount = 0;
 	unsigned int time;
-	int height;
 		
 	QByteArray bytes = reply->readAll();
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
@@ -314,8 +314,8 @@ void MyAcceptedOfferListPage::on_extButton_clicked()
 	QString address, price, extTxId;
 	QString offerid = selection.at(0).data(OfferAcceptTableModel::NameRole).toString();
 	QString acceptid = selection.at(0).data(OfferAcceptTableModel::GUIDRole).toString();
-	
-	if(!lookup(offerid, acceptid, address, price, extTxId))
+	QString paymentOption;
+	if(!lookup(offerid, acceptid, address, price, extTxId, paymentOption))
 	{
         QMessageBox::critical(this, windowTitle(),
         tr("Could not find this offer, please ensure the offer has been confirmed by the blockchain: ") + offerid,
@@ -329,8 +329,8 @@ void MyAcceptedOfferListPage::on_extButton_clicked()
             QMessageBox::Ok, QMessageBox::Ok);
         return;
 	}
-
-	CheckPaymentInBTC(extTxId, address, price);
+	if(paymentOption == QString("BTC"))
+		CheckPaymentInBTC(extTxId, address, price);
 
 
 }

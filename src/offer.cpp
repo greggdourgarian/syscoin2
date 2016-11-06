@@ -64,7 +64,7 @@ uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString
 		}
 		else if(!strs[i].compare("BTC")) {
 			retval |= PAYMENTOPTION_BTC;
-		}		
+		}
 		else if(!strs[i].compare("ZEC")) {
 			retval |= PAYMENTOPTION_ZEC;
 		}
@@ -79,7 +79,7 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
 
 int GetOfferExpirationDepth() {
 	#ifdef ENABLE_DEBUGRPC
-    return 1440;
+    return 100;
   #else
     return 525600;
   #endif
@@ -158,7 +158,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
             	vector<unsigned char> vchOffer = key.second;
                 vector<COffer> vtxPos;
 				pcursor->GetValue(vtxPos);
-				
+
 				if (vtxPos.empty()){
 					pcursor->Next();
 					continue;
@@ -169,7 +169,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 				{
 					pcursor->Next();
 					continue;
-				} 
+				}
 				CAliasIndex linkAlias;
 				if( !txPos.vchLinkOffer.empty())
 				{
@@ -206,7 +206,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 					{
 						pcursor->Next();
 						continue;
-					}	
+					}
 				}
 				// dont return sold out offers
 				if(nQty <= 0 && nQty != -1)
@@ -307,14 +307,14 @@ int IndexOfOfferOutput(const CTransaction& tx) {
 	return -1;
 }
 
-bool GetTxOfOffer(const vector<unsigned char> &vchOffer, 
+bool GetTxOfOffer(const vector<unsigned char> &vchOffer,
 				  COffer& txPos, CTransaction& tx, bool skipExpiresCheck) {
 	vector<COffer> vtxPos;
 	if (!pofferdb->ReadOffer(vchOffer, vtxPos) || vtxPos.empty())
 		return false;
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
-	
+
 	if (!skipExpiresCheck && (nHeight + GetOfferExpirationDepth()
 			< chainActive.Tip()->nHeight)) {
 		string offer = stringFromVch(vchOffer);
@@ -328,14 +328,14 @@ bool GetTxOfOffer(const vector<unsigned char> &vchOffer,
 
 	return true;
 }
-bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer, 
+bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer,
 				  COffer& txPos, CTransaction& tx, vector<COffer> &vtxPos, bool skipExpiresCheck) {
 	if (!pofferdb->ReadOffer(vchOffer, vtxPos) || vtxPos.empty())
 		return false;
-	
+
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
-	
+
 	if (!skipExpiresCheck && (nHeight + GetOfferExpirationDepth()
 			< chainActive.Tip()->nHeight)) {
 		string offer = stringFromVch(vchOffer);
@@ -439,7 +439,7 @@ CScript RemoveOfferScriptPrefix(const CScript& scriptIn) {
 	int op;
 	vector<vector<unsigned char> > vvch;
 	CScript::const_iterator pc = scriptIn.begin();
-	
+
 	if (!DecodeOfferScript(scriptIn, op, vvch, pc))
 	{
 		throw runtime_error(
@@ -450,7 +450,7 @@ CScript RemoveOfferScriptPrefix(const CScript& scriptIn) {
 }
 
 bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, const CBlock* block, bool dontaddtodb) {
-		
+
 	if(!IsSys21Fork(nHeight))
 		return true;
 	if (tx.IsCoinBase())
@@ -458,8 +458,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	if (fDebug)
 		LogPrintf("*** OFFER %d %d %s %s %s %s %s %d\n", nHeight,
 			chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(),
-			op==OP_OFFER_ACCEPT ? "OFFERACCEPT: ": "", 
-			op==OP_OFFER_ACCEPT && vvchArgs.size() > 1? stringFromVch(vvchArgs[1]).c_str(): "", 
+			op==OP_OFFER_ACCEPT ? "OFFERACCEPT: ": "",
+			op==OP_OFFER_ACCEPT && vvchArgs.size() > 1? stringFromVch(vvchArgs[1]).c_str(): "",
 			fJustCheck ? "JUSTCHECK" : "BLOCK", " VVCH SIZE: ", vvchArgs.size());
 	bool foundAlias = false;
 	const COutPoint *prevOutput = NULL;
@@ -478,13 +478,13 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		return true;
 	}
 	// Make sure offer outputs are not spent by a regular transaction, or the offer would be lost
-	if (tx.nVersion != SYSCOIN_TX_VERSION) 
+	if (tx.nVersion != SYSCOIN_TX_VERSION)
 	{
 		errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1001 - " + _("Non-Syscoin transaction found");
 		return true;
 	}
 	if(fJustCheck)
-	{		
+	{
 		if(op != OP_OFFER_ACCEPT && vvchArgs.size() != 2)
 		{
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1003 - " + _("Offer arguments incorrect size");
@@ -514,7 +514,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 			}
 		}
-			
+
 
 		// Strict check - bug disallowed
 		for (unsigned int i = 0; i < tx.vin.size(); i++) {
@@ -532,12 +532,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 			if (!foundAlias && IsAliasOp(pop))
 			{
-				foundAlias = true; 
+				foundAlias = true;
 				prevAliasOp = pop;
 				vvchPrevAliasArgs = vvch;
 			}
 		}
-	
+
 	}
 
 
@@ -548,7 +548,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	COffer myPriceOffer;
 	COffer myOffer;
 	CTransaction linkedTx;
-	uint64_t heightToCheckAgainst;
 	COfferLinkWhitelistEntry entry;
 	CCert theCert;
 	CAliasIndex theAlias, alias, linkAlias;
@@ -563,7 +562,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	double nRate;
 	float fEscrowFee;
 	string retError = "";
-	// just check is for the memory pool inclusion, here we can stop bad transactions from entering before we get to include them in a block	
+	// just check is for the memory pool inclusion, here we can stop bad transactions from entering before we get to include them in a block
 	if(fJustCheck)
 	{
 		if (vvchArgs.empty() || vvchArgs[0].size() > MAX_GUID_LENGTH)
@@ -752,6 +751,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				break;
 			}
+			else
+			{
+                if(!ValidatePaymentOptionsMask(theOfferAccept.nPaymentOption))
+                {
+                    errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1018 - " + _("Invalid payment option");
+                    return error(errorMessage.c_str());
+                }
+			}
 
 			if (theOfferAccept.IsNull())
 			{
@@ -791,7 +798,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			return error(errorMessage.c_str());
 		}
 	}
-	
+
 
 	if (!fJustCheck ) {
 		COffer serializedOffer;
@@ -800,12 +807,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			serializedOffer = theOffer;
 			CTransaction offerTx;
 			// load the offer data from the DB
-		
-			if(!GetTxAndVtxOfOffer(vvchArgs[0], theOffer, offerTx, vtxPos))	
-			{		
+
+			if(!GetTxAndVtxOfOffer(vvchArgs[0], theOffer, offerTx, vtxPos))
+			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1054 - " + _("Failed to read from offer DB");
-				return true;				
-			}						
+				return true;
+			}
 		}
 		// If update, we make the serialized offer the master
 		// but first we assign fields from the DB since
@@ -841,7 +848,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theOffer.sCurrencyCode = dbOffer.sCurrencyCode;
 					if(serializedOffer.paymentOptions <= 0)
 						theOffer.paymentOptions = dbOffer.paymentOptions;
-									
+
 					// user can't update safety level after creation
 					theOffer.safetyLevel = dbOffer.safetyLevel;
 					if(!theOffer.vchCert.empty())
@@ -856,7 +863,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1056 - " + _("Cannot update this offer because the certificate alias does not match the offer alias");
 							theOffer.vchAlias = dbOffer.vchAlias;
-						}		
+						}
 					}
 					if(!theOffer.vchLinkOffer.empty())
 					{
@@ -871,7 +878,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							if(theOffer.nCommission <= -entry.nDiscountPct)
 							{
 								errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1058 - " + _("This resold offer must be of higher price than the original offer including any discount");
-								theOffer.vchLinkOffer.clear();	
+								theOffer.vchLinkOffer.clear();
 							}
 						}
 						// make sure alias exists in the root offer affiliate list if root offer is in exclusive mode
@@ -879,11 +886,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1059 - " + _("Cannot find this alias in the parent offer affiliate list");
 							theOffer.vchLinkOffer.clear();
-						}	
+						}
 						if (!linkOffer.vchLinkOffer.empty())
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1060 - " + _("Cannot link to an offer that is already linked to another offer");
-							theOffer.vchLinkOffer.clear();	
+							theOffer.vchLinkOffer.clear();
 						}
 						else if(linkOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkOffer.sCategory), "wanted"))
 						{
@@ -946,11 +953,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1069 - " + _("Cannot create this offer because the certificate alias does not match the offer alias");
 					return true;
-				}		
+				}
 			}
 			// if this is a linked offer activate, then add alias to the whitelist
 			if(!theOffer.vchLinkOffer.empty())
-			{	
+			{
 				CTransaction txLinkedOffer;
 				if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, txLinkedOffer, offerVtxPos))
 				{
@@ -962,7 +969,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if(theOffer.nCommission <= -entry.nDiscountPct)
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1071 - " + _("This resold offer must be of higher price than the original offer including any discount");
-						theOffer.vchLinkOffer.clear();	
+						theOffer.vchLinkOffer.clear();
 					}
 				}
 				// make sure alias exists in the root offer affiliate list if root offer is in exclusive mode
@@ -970,11 +977,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1072 - " + _("Cannot find this alias in the parent offer affiliate list");
 					theOffer.vchLinkOffer.clear();
-				}	
+				}
 				if (!linkOffer.vchLinkOffer.empty())
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1074 - " + _("Cannot link to an offer that is already linked to another offer");
-					theOffer.vchLinkOffer.clear();	
+					theOffer.vchLinkOffer.clear();
 				}
 				else if(linkOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkOffer.sCategory), "wanted"))
 				{
@@ -984,12 +991,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				else if(!theOffer.vchCert.empty() && theCert.vchAlias != linkOffer.vchAlias)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1076 -" + _("Cannot create this offer because the certificate alias does not match the offer alias");
-					theOffer.vchLinkOffer.clear();	
+					theOffer.vchLinkOffer.clear();
 				}
 				else if(linkOffer.linkWhitelist.entries.size() > 20)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1076 -" + _("Too many affiliates for this offer");
-					theOffer.vchLinkOffer.clear();	
+					theOffer.vchLinkOffer.clear();
 				}
 				else if(!theOffer.vchLinkOffer.empty())
 				{
@@ -1005,16 +1012,16 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theOffer.paymentOptions = linkOffer.paymentOptions;
 					COfferLinkWhitelistEntry addEntry;
 					addEntry.aliasLinkVchRand = theOffer.vchAlias;
-					linkOffer.linkWhitelist.PutWhitelistEntry(addEntry);	
+					linkOffer.linkWhitelist.PutWhitelistEntry(addEntry);
 					linkOffer.PutToOfferList(offerVtxPos);
 					// write parent offer
-			
+
 					if (!dontaddtodb && !pofferdb->WriteOffer(theOffer.vchLinkOffer, offerVtxPos))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1077 - " + _("Failed to write to offer link to DB");
 						return error(errorMessage.c_str());
 					}
-				}				
+				}
 			}
 			else
 			{
@@ -1038,9 +1045,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyeralias, buyeraliasTx))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1080 - " + _("Cannot find buyer alias. It may be expired");
-				return true;	
+				return true;
 			}
-					
+
 			if(!theOfferAccept.feedback.empty())
 			{
 				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
@@ -1075,7 +1082,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1085 - " + _("Cannot leave feedback for linked offers");
 					return true;
 				}
-				int numBuyerRatings, numSellerRatings, feedbackBuyerCount, numArbiterRatings, feedbackSellerCount, feedbackArbiterCount;				
+				int numBuyerRatings, numSellerRatings, feedbackBuyerCount, numArbiterRatings, feedbackSellerCount, feedbackArbiterCount;
 				FindFeedback(offerAccept.feedback, numBuyerRatings, numSellerRatings, numArbiterRatings,feedbackBuyerCount, feedbackSellerCount, feedbackArbiterCount);
 				// has this user already rated? if so set desired rating to 0
 				if(theOfferAccept.feedback[0].nFeedbackUserFrom == FEEDBACKBUYER && numBuyerRatings > 0)
@@ -1095,9 +1102,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				theOfferAccept.feedback[0].txHash = tx.GetHash();
 				theOfferAccept.feedback[0].nHeight = nHeight;
 				if(!dontaddtodb)
-					HandleAcceptFeedback(theOfferAccept.feedback[0], acceptOffer, vtxPos);	
+					HandleAcceptFeedback(theOfferAccept.feedback[0], acceptOffer, vtxPos);
 				return true;
-			
+
 			}
 			if (GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
 			{
@@ -1106,9 +1113,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 
 			myPriceOffer.nHeight = theOfferAccept.nAcceptHeight;
-			
-			// if linked offer then get offer info from root offer history because the linked offer may not have history of changes (root offer can update linked offer without tx)	
-			myPriceOffer.GetOfferFromList(vtxPos);	
+
+			// if linked offer then get offer info from root offer history because the linked offer may not have history of changes (root offer can update linked offer without tx)
+			myPriceOffer.GetOfferFromList(vtxPos);
 			if(theOfferAccept.txExtId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_BTC)
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1089 - " + _("This offer must be paid with Bitcoins");
@@ -1151,7 +1158,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1095 - " + _("Offer payment message cannot be empty");
 				return true;
-			}	
+			}
 			if(!myPriceOffer.vchLinkOffer.empty())
 			{
 				if(!GetTxAndVtxOfOffer( myPriceOffer.vchLinkOffer, linkOffer, linkedTx, offerVtxPos))
@@ -1160,7 +1167,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					return true;
 				}
 				linkOffer.nHeight = theOfferAccept.nAcceptHeight;
-				linkOffer.GetOfferFromList(offerVtxPos);				
+				linkOffer.GetOfferFromList(offerVtxPos);
 				if(!GetTxOfAlias(linkOffer.vchAlias, linkAlias, aliasLinkTx))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1097 - " + _("Cannot find alias for this linked offer. It may be expired");
@@ -1176,14 +1183,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1099 - " + _("Cannot purchase a wanted offer");
 					return true;
 				}
-				
+
 				linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, entry);
 				if(entry.IsNull())
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1102 - " + _("Linked offer alias does not exist on the root offer affiliate list");
 					return true;
 				}
-			}	
+			}
 			if(myPriceOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(myPriceOffer.sCategory), "wanted"))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1103 - " + _("Cannot purchase a wanted offer");
@@ -1199,18 +1206,18 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				// try to get the whitelist entry here from the sellers whitelist, apply the discount with GetPrice()
 				if(myPriceOffer.vchLinkOffer.empty())
 				{
-					myPriceOffer.linkWhitelist.GetLinkEntryByHash(theOfferAccept.vchBuyerAlias, entry);	
+					myPriceOffer.linkWhitelist.GetLinkEntryByHash(theOfferAccept.vchBuyerAlias, entry);
 					nPrice = myPriceOffer.GetPrice(entry);
 					nCommission = 0;
 				}
-				else 
+				else
 				{
 					linkOffer.linkWhitelist.GetLinkEntryByHash(myPriceOffer.vchAlias, entry);
 					nPrice = linkOffer.GetPrice(entry);
 					nCommission = myPriceOffer.GetPrice() - nPrice;
 				}
 
-	
+
 				if(nPrice != theOfferAccept.nPrice)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1107 - " + _("Offer payment does not specify the correct payment amount");
@@ -1234,18 +1241,18 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return true;
 					}
 					CSyscoinAddress destaddy;
-					if (!ExtractDestination(tx.vout[nOutPayment].scriptPubKey, payDest)) 
+					if (!ExtractDestination(tx.vout[nOutPayment].scriptPubKey, payDest))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1110 - " + _("Could not extract payment destination from scriptPubKey");
 						return true;
-					}	
+					}
 					destaddy = CSyscoinAddress(payDest);
 					CSyscoinAddress commissionaddy;
-					if (!ExtractDestination(tx.vout[nOutCommission].scriptPubKey, commissionDest)) 
+					if (!ExtractDestination(tx.vout[nOutCommission].scriptPubKey, commissionDest))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1111 - " + _("Could not extract commission destination from scriptPubKey");
 						return true;
-					}		
+					}
 					commissionaddy = CSyscoinAddress(commissionDest);
 					CSyscoinAddress aliaslinkaddy;
 					linkAlias.GetAddress(&aliaslinkaddy);
@@ -1262,14 +1269,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return true;
 					}
 				}
-				else 
+				else
 				{
 					CSyscoinAddress destaddy;
-					if (!ExtractDestination(tx.vout[nOutPayment].scriptPubKey, payDest)) 
+					if (!ExtractDestination(tx.vout[nOutPayment].scriptPubKey, payDest))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1114 - " + _("Could not extract payment destination from scriptPubKey");
 						return true;
-					}	
+					}
 					destaddy = CSyscoinAddress(payDest);
 					CSyscoinAddress aliasaddy;
 					alias.GetAddress(&aliasaddy);
@@ -1277,15 +1284,15 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1115 - " + _("Payment destination does not match merchant address");
 						return true;
-					}				
+					}
 				}
-			}	
+			}
 			// check that the script for the offer update is sent to the correct destination
-			if (!ExtractDestination(tx.vout[nOut].scriptPubKey, dest)) 
+			if (!ExtractDestination(tx.vout[nOut].scriptPubKey, dest))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1116 - " + _("Cannot extract destination from output script");
 				return true;
-			}	
+			}
 			CPubKey pubKey(alias.vchPubKey);
 			CSyscoinAddress aliasaddy(pubKey.GetID());
 			aliasDest = aliasaddy.Get();
@@ -1342,13 +1349,13 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				if(!dontaddtodb && !pofferdb->WriteOfferTx(theOffer.vchOffer, theOfferAccept.txExtId))
 				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1119 - " + _("Failed to BTC Transaction ID to DB");		
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1119 - " + _("Failed to BTC Transaction ID to DB");
 					return error(errorMessage.c_str());
 				}
 			}
-			
+
 		}
-		
+
 
 		if(op == OP_OFFER_UPDATE)
 		{
@@ -1362,7 +1369,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				{
 					if(theOffer.linkWhitelist.entries.empty())
 					{
-						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1120 - " + _("Whitelist is already empty");					
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1120 - " + _("Whitelist is already empty");
 					}
 					else
 						theOffer.linkWhitelist.SetNull();
@@ -1383,7 +1390,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						}
 						else
 						{
-							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1121 - " + _("Cannot find the alias you are trying to offer affiliate list. It may be expired");					
+							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1121 - " + _("Cannot find the alias you are trying to offer affiliate list. It may be expired");
 						}
 					}
 				}
@@ -1392,20 +1399,20 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			// if this offer is linked to a parent update it with parent information
 			if(!theOffer.vchLinkOffer.empty())
 			{
-				theOffer.nQty = linkOffer.nQty;	
+				theOffer.nQty = linkOffer.nQty;
 				theOffer.vchCert = linkOffer.vchCert;
-				theOffer.paymentOptions = linkOffer.paymentOptions;				
-				theOffer.SetPrice(linkOffer.nPrice);					
+				theOffer.paymentOptions = linkOffer.paymentOptions;
+				theOffer.SetPrice(linkOffer.nPrice);
 			}
 		}
 		theOffer.nHeight = nHeight;
 		theOffer.txHash = tx.GetHash();
 		theOffer.PutToOfferList(vtxPos);
 		// write offer
-	
+
 		if (!dontaddtodb && !pofferdb->WriteOffer(vvchArgs[0], vtxPos))
 		{
-			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1123 - " + _("Failed to write to offer DB");		
+			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1123 - " + _("Failed to write to offer DB");
 			return error(errorMessage.c_str());
 		}
 
@@ -1416,7 +1423,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				stringFromVch(vvchArgs[0]).c_str(),
 				stringFromVch(theOffer.sTitle).c_str(),
 				theOffer.nQty,
-				tx.GetHash().ToString().c_str(), 
+				tx.GetHash().ToString().c_str(),
 				nHeight);
 	}
 	return true;
@@ -1425,7 +1432,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 UniValue offernew(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() < 7 || params.size() > 13)
 		throw runtime_error(
-		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [exclusive resell=1] [paymentOptions=1] [geolocation=''] [safe search=Yes] [private='0']\n"
+		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [exclusive resell=1] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='0']\n"
 						"<alias> An alias you own.\n"
 						"<category> category, 255 chars max.\n"
 						"<title> title, 255 chars max.\n"
@@ -1438,7 +1445,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						"<paymentOptions> 'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'.\n"
 						"<geolocation> set to your geolocation. Defaults to empty. \n"
 						"<safe search> set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).\n"
-						"<private> set to 1 if this offer should be private not be searchable. Defaults to 0.\n"						
+						"<private> set to 1 if this offer should be private not be searchable. Defaults to 0.\n"
 						+ HelpRequiringPassphrase());
 	// gather inputs
 	float fPrice;
@@ -1476,7 +1483,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	CScript scriptPubKey;
 	if(params.size() >= 8)
 	{
-		
+
 		vchCert = vchFromValue(params[7]);
 		if(vchCert == vchFromString("nocert"))
 			vchCert.clear();
@@ -1486,19 +1493,19 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	{
 		bExclusiveResell = boost::lexical_cast<int>(params[8].get_str()) == 1? true: false;
 	}
-	
+
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
 	if(params.size() >= 10 && !params[9].get_str().empty() && params[9].get_str() != "NONE")
 	{
 		paymentOptions = params[9].get_str();
-	}	
+	}
 	// payment options - validate payment options string
-	if(!ValidatePaymentOptionsString(paymentOptions)) 
+	if(!ValidatePaymentOptionsString(paymentOptions))
 	{
 		// TODO change error number to something unique
 		string err = "SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1504 - " + _("Could not validate the payment options value");
-		throw runtime_error(err.c_str());		
+		throw runtime_error(err.c_str());
 	}
 	// payment options - and convert payment options string to a bitmask for the txn
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
@@ -1554,7 +1561,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = newOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	CPubKey currentOfferKey(alias.vchPubKey);
 	scriptPubKeyOrig= GetScriptForDestination(currentOfferKey.GetID());
@@ -1564,8 +1571,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	if(alias.multiSigInfo.vchAliases.size() > 0)
 		scriptPubKeyOrig = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << alias.vchAlias << alias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
-	scriptPubKeyAlias += scriptPubKeyOrig;				
-			
+	scriptPubKeyAlias += scriptPubKeyOrig;
+
 	vector<CRecipient> vecSend;
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
@@ -1579,9 +1586,9 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, alias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
@@ -1667,7 +1674,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	else
 	{
 		vchDesc = linkOffer.sDescription;
-	}	
+	}
 
 	CScript scriptPubKeyOrig;
 	CScript scriptPubKey;
@@ -1679,7 +1686,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	// generate rand identifier
 	vector<unsigned char> vchOffer = vchFromString(GenerateSyscoinGuid());
 	EnsureWalletIsUnlocked();
-	
+
 	// build offer
 	COffer newOffer;
 	newOffer.vchOffer = vchOffer;
@@ -1694,7 +1701,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = newOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	CPubKey aliasKey(alias.vchPubKey);
 	scriptPubKeyOrig = GetScriptForDestination(aliasKey.GetID());
@@ -1723,9 +1730,9 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, alias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
@@ -1771,14 +1778,14 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 		"Add to the affiliate list of your offer(controls who can resell).\n"
 						"<offer guid> offer guid that you are adding to\n"
 						"<alias guid> alias guid representing an alias that you want to add to the affiliate list\n"
-						"<discount percentage> percentage of discount given to affiliate for this offer. 0 to 99.\n"						
+						"<discount percentage> percentage of discount given to affiliate for this offer. 0 to 99.\n"
 						+ HelpRequiringPassphrase());
 
 	// gather & validate inputs
 	vector<unsigned char> vchOffer = vchFromValue(params[0]);
 	vector<unsigned char> vchAlias =  vchFromValue(params[1]);
 	int nDiscountPctInteger = 0;
-	
+
 	if(params.size() >= 3)
 		nDiscountPctInteger = boost::lexical_cast<int>(params[2].get_str());
 
@@ -1829,10 +1836,10 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	theOffer.linkWhitelist.PutWhitelistEntry(entry);
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 
-	
+
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
@@ -1855,9 +1862,9 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
@@ -1942,7 +1949,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
@@ -1965,9 +1972,9 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
@@ -2025,7 +2032,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	CAliasIndex theAlias;
 	if (!GetTxOfAlias(theOffer.vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1522 - " + _("Could not find an alias with this guid"));
-	
+
 	if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1523 - " + _("This alias is not yours"));
 	}
@@ -2049,7 +2056,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
@@ -2072,9 +2079,9 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
@@ -2133,15 +2140,15 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 			uint64_t nHeight = theAlias.nHeight;
 			if (!GetSyscoinTransaction(nHeight, txAlias.GetHash(), txAlias, Params().GetConsensus()))
 				continue;
-			
+
             if(nHeight + (theAlias.nRenewal*GetAliasExpirationDepth()) - chainActive.Tip()->nHeight > 0)
 			{
 				expires_in = nHeight + (theAlias.nRenewal*GetAliasExpirationDepth()) - chainActive.Tip()->nHeight;
-			}  
+			}
 			oList.push_back(Pair("expiresin",expires_in));
 			oList.push_back(Pair("offer_discount_percentage", strprintf("%d%%", entry.nDiscountPct)));
 			oRes.push_back(oList);
-		}  
+		}
     }
     return oRes;
 }
@@ -2188,7 +2195,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	{
 		paymentOptions = params[14].get_str();
 	}
-	if(!ValidatePaymentOptionsString(paymentOptions)) 
+	if(!ValidatePaymentOptionsString(paymentOptions))
 	{
 		//TODO change the errcode to something unique
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1527 - " + _("Could not validate payment options string"));
@@ -2218,7 +2225,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	COffer theOffer, linkOffer;
 	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1527 - " + _("Could not find an offer with this guid"));
-	
+
 	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1528 - " + _("Could not find an alias with this name"));
 
@@ -2251,13 +2258,13 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		sCurrencyCode = offerCopy.sCurrencyCode;
 	if(offerCopy.sCurrencyCode != sCurrencyCode)
 		theOffer.sCurrencyCode = sCurrencyCode;
-	
+
 	// linked offers can't change these settings, they are overrided by parent info
 	int nAvailableQty = offerCopy.nQty;
 	if(offerCopy.vchLinkOffer.empty())
 	{
 		if(offerCopy.vchCert != vchCert)
-			theOffer.vchCert = vchCert;		
+			theOffer.vchCert = vchCert;
 		int precision = 2;
 		nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);
 		if(nPricePerUnit == 0)
@@ -2294,7 +2301,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
@@ -2318,9 +2325,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, alias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
@@ -2353,16 +2360,17 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue offeraccept(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 > params.size() || params.size() > 5)
-		throw runtime_error("offeraccept <alias> <guid> [quantity] [message] [Ext TxId]\n"
+	if (fHelp || 1 > params.size() || params.size() > 6)
+		throw runtime_error("offeraccept <alias> <guid> [quantity] [message] [Ext TxId] [payment option=SYS]\n"
 				"Accept&Pay for a confirmed offer.\n"
 				"<alias> An alias of the buyer.\n"
 				"<guid> guidkey from offer.\n"
 				"<quantity> quantity to buy. Defaults to 1.\n"
 				"<message> payment message to seller, 1KB max.\n"
 				"<Ext TxId> If paid in another coin, enter the Transaction ID here. Default is empty.\n"
+				"<paymentOption> If Ext TxId is defined, specify a valid payment option used to make payment. Default is SYS.\n"
 				+ HelpRequiringPassphrase());
-	CSyscoinAddress refundAddr;	
+	CSyscoinAddress refundAddr;
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchOffer = vchFromValue(params[1]);
 	vector<unsigned char> vchExtTxId = vchFromValue(params.size()>=5?params[4]:"");
@@ -2377,7 +2385,21 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1534 - " + _("Quantity must be less than 4294967296"));
 		}
 	}
-
+	// payment options - get payment options string if specified otherwise default to SYS
+	string paymentOptions = "SYS";
+	if(params.size() >= 6 && !params[5].get_str().empty() && params[5].get_str() != "NONE")
+	{
+		paymentOptions = params[5].get_str();
+	}
+	// payment options - validate payment options string
+	if(!ValidatePaymentOptionsString(paymentOptions))
+	{
+		// TODO change error number to something unique
+		string err = "SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1504 - " + _("Could not validate the payment options value");
+		throw runtime_error(err.c_str());
+	}
+		// payment options - and convert payment options string to a bitmask for the txn
+	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 	// this is a syscoin txn
 	CWalletTx wtx;
 	CScript scriptPubKeyAliasOrig;
@@ -2401,14 +2423,14 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CTransaction linkedTx;
 	vector<COffer> vtxLinkPos;
 	GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkedTx, vtxLinkPos, true);
-				
+
 	CTransaction aliastx,buyeraliastx;
 	CAliasIndex theAlias,tmpAlias;
 	bool isExpired = false;
 	vector<CAliasIndex> aliasVtxPos;
 	if(!GetTxAndVtxOfAlias(theOffer.vchAlias, theAlias, aliastx, aliasVtxPos, isExpired, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1536 - " + _("Could not find the alias associated with this offer"));
-	
+
 	CAliasIndex buyerAlias;
 	if (!GetTxOfAlias(vchAlias, buyerAlias, buyeraliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1537 - " + _("Could not find buyer alias with this name"));
@@ -2424,14 +2446,14 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 		nPrice = theOffer.GetPrice(foundEntry);
 		nCommission = 0;
 	}
-	else 
+	else
 	{
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nPrice = linkOffer.GetPrice(foundEntry);
 		nCommission = theOffer.GetPrice() - nPrice;
 		nAvailableQty = linkOffer.nQty;
 	}
-	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());		
+	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
 	CPubKey currentKey(buyerAlias.vchPubKey);
 	scriptPubKeyAliasOrig = GetScriptForDestination(currentKey.GetID());
 	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2445,7 +2467,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 
 
 	string strCipherText = "";
-	
+
 	CAliasIndex theLinkedAlias;
 	if(!theOffer.vchLinkOffer.empty())
 	{
@@ -2454,7 +2476,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 
 		// encrypt to root offer owner if this is a linked offer you are accepting
 		if(!EncryptMessage(theLinkedAlias.vchPubKey, vchMessage, strCipherText))
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1540 - " + _("Could not encrypt message to seller"));	
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1540 - " + _("Could not encrypt message to seller"));
 	}
 	else
 	{
@@ -2462,7 +2484,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 		if(!EncryptMessage(theAlias.vchPubKey, vchMessage, strCipherText))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1541 - " + _("Could not encrypt message to seller"));
 	}
-	
+
 	vector<unsigned char> vchPaymentMessage = vchFromString(strCipherText);
 	COfferAccept txAccept;
 	txAccept.vchAcceptRand = vchAccept;
@@ -2472,6 +2494,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	txAccept.nAcceptHeight = nHeight;
 	txAccept.vchBuyerAlias = vchAlias;
 	txAccept.vchMessage = vchPaymentMessage;
+	txAccept.nPaymentOption = paymentOptionsMask;
     CAmount nTotalValue = ( nPrice * nQty );
 	CAmount nTotalCommission = ( nCommission * nQty );
 	if(!vchExtTxId.empty())
@@ -2486,7 +2509,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 
     CScript scriptPayment, scriptPubKeyCommission, scriptPubKeyOrig, scriptPubLinkKeyOrig, scriptPaymentCommission;
@@ -2529,7 +2552,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
 	vecSend.push_back(aliasRecipient);
-	
+
 
 	if(vchExtTxId.empty())
 	{
@@ -2547,9 +2570,9 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, buyerAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-	
+
 	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
-	
+
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2604,7 +2627,7 @@ void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, vector<COffe
 			const vector<unsigned char> &vchAlias = vchFromString(address.aliasName);
 			if (paliasdb->ReadAlias(vchAlias, vtxPos) && !vtxPos.empty())
 			{
-				
+
 				CAliasIndex alias = vtxPos.back();
 				if(feedback.nFeedbackUserTo == FEEDBACKBUYER)
 				{
@@ -2615,7 +2638,7 @@ void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, vector<COffe
 				{
 					alias.nRatingCountAsSeller++;
 					alias.nRatingAsSeller += feedback.nRating;
-				}					
+				}
 				else if(feedback.nFeedbackUserTo == FEEDBACKARBITER)
 				{
 					alias.nRatingCountAsArbiter++;
@@ -2626,9 +2649,9 @@ void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, vector<COffe
 				alias.GetAddress(&multisigAddress);
 				paliasdb->WriteAlias(vchAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos);
 			}
-		}		
+		}
 	}
-	offer.accept.feedback.push_back(feedback);	
+	offer.accept.feedback.push_back(feedback);
 	offer.PutToOfferList(vtxPos);
 	pofferdb->WriteOffer(offer.vchOffer, vtxPos);
 }
@@ -2636,7 +2659,7 @@ void FindFeedback(const vector<CFeedback> &feedback, int &numBuyerRatings, int &
 {
 	feedbackSellerCount = feedbackBuyerCount = feedbackArbiterCount = numBuyerRatings = numSellerRatings = numArbiterRatings = 0;
 	for(unsigned int i =0;i<feedback.size();i++)
-	{	
+	{
 		if(!feedback[i].IsNull())
 		{
 			if(feedback[i].nFeedbackUserFrom == FEEDBACKBUYER)
@@ -2683,7 +2706,7 @@ void GetFeedback(vector<CFeedback> &feedBackSorted, int &avgRating, const Feedba
 	avgRating = (int)roundf(nRating);
 	if(feedBackSorted.size() > 0)
 		sort(feedBackSorted.begin(), feedBackSorted.end(), feedbacksort());
-	
+
 }
 
 UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
@@ -2705,8 +2728,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1543 - " + _("Invalid rating value"));
 	}
-	
-	
+
+
     // this is a syscoin transaction
     CWalletTx wtx;
 
@@ -2730,7 +2753,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, tmpOffer, theOfferAccept, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find this offer purchase"));
 
-	
+
 	CAliasIndex buyerAlias, sellerAlias;
 	CTransaction buyeraliastx, selleraliastx;
 
@@ -2782,7 +2805,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	{
 		foundSellerKey = false;
 	}
-	
+
 	theOffer.ClearOffer();
 	theOffer.accept = theOfferAccept;
 	theOffer.accept.vchBuyerAlias = vchLinkAlias;
@@ -2835,7 +2858,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 	const vector<unsigned char> &data = theOffer.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
- 	
+
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 
 	vector<CRecipient> vecSend;
@@ -2849,16 +2872,16 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 	vecSend.push_back(recipient);
 	vecSend.push_back(recipientAlias);
-	
+
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
-	
-	
-	
+
+
+
 	SendMoneySyscoin(vecSend, recipient.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2914,7 +2937,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("offer has been banned");
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
 		throw runtime_error("offer owner has been banned");
-	
+
 	CTransaction linkTx;
 	COffer linkOffer;
 	vector<COffer> myLinkedVtxPos;
@@ -2932,13 +2955,13 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 		if(linkAlias.safetyLevel >= SAFETY_LEVEL2)
 			throw runtime_error("root offer owner has been banned");
 	}
-	
+
 	uint64_t nHeight;
 	int expired;
 	int expires_in;
 	int expired_block;
 
-	expired = 0;	
+	expired = 0;
 	expires_in = 0;
 	expired_block = 0;
     nHeight = vtxPos.back().nHeight;
@@ -2952,7 +2975,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
     if(expired_block < chainActive.Tip()->nHeight)
 	{
 		expired = 1;
-	}  
+	}
 	expires_in = expired_block - chainActive.Tip()->nHeight;
 	oOffer.push_back(Pair("expires_in", expires_in));
 	oOffer.push_back(Pair("expired_block", expired_block));
@@ -2968,13 +2991,13 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	else
 		oOffer.push_back(Pair("quantity", strprintf("%d", nQty)));
 	oOffer.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode)));
-	
-	
+
+
 	int precision = 2;
 	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(alias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), nHeight, precision);
 	oOffer.push_back(Pair("sysprice", theOffer.GetPrice()));
-	oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real()))); 
-	
+	oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
+
 	oOffer.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")  ? "true" : "false"));
 	if(!theOffer.vchLinkOffer.empty()) {
 		oOffer.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
@@ -3019,7 +3042,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	oOffer.push_back(Pair("alias_rating_count",(int)alias.nRatingCountAsSeller));
 	oOffer.push_back(Pair("geolocation", stringFromVch(theOffer.vchGeoLocation)));
 	oOffer.push_back(Pair("offers_sold", (int)theOffer.nSold));
-	
+
 	return oOffer;
 
 }
@@ -3055,7 +3078,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     uint256 blockHash;
     uint256 hash;
 	UniValue aoOfferAccepts(UniValue::VARR);
-    uint64_t nHeight;
 	for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 		const CAliasIndex& theAlias = *it;
 		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
@@ -3070,9 +3092,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		if (vNamesI.find(vvch[0]) != vNamesI.end())
 			continue;
 		vNamesI[vvch[0]] = offerTmp.nHeight;
-		int expired = 0;
-		int expires_in = 0;
-		int expired_block = 0;  
+
 		for(int i=vtxOfferPos.size()-1;i>=0;i--) {
 			const COffer &theOffer = vtxOfferPos[i];
 			if(theOffer.accept.IsNull())
@@ -3082,11 +3102,11 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			// skip any feedback transactions
 			if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTxTmp, Params().GetConsensus()))
 				continue;
-			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch) 
+			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
         		|| (op != OP_OFFER_ACCEPT))
 				continue;
 
-			int nHeight = theOffer.accept.nAcceptHeight;	
+			int nHeight = theOffer.accept.nAcceptHeight;
 			bool commissionPaid = false;
 			bool discountApplied = false;
 			// need to show 3 different possible prices:
@@ -3098,7 +3118,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			// for merchant (discounted) #3
 			// for buyer (full price) #1
 
-			
+
 			CAmount priceAtTimeOfAccept = theOffer.GetPrice();
 			if(theOffer.vchLinkOffer.empty())
 			{
@@ -3119,7 +3139,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			}
 			// linked offer
 			else
-			{	
+			{
 				GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
 				linkOffer.nHeight = nHeight;
 				linkOffer.GetOfferFromList(vtxLinkPos);
@@ -3153,29 +3173,31 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 
 			GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, theOffer.accept.feedback);
 			GetFeedback(sellerFeedBacks, avgSellerRating, FEEDBACKSELLER, theOffer.accept.feedback);
-			
-	
+
+
 			oOfferAccept.push_back(Pair("id", stringFromVch(theOffer.accept.vchAcceptRand)));
 			oOfferAccept.push_back(Pair("txid", theOffer.txHash.GetHex()));
 			string strExtId = "";
 			if(!theOffer.accept.txExtId.IsNull())
 				strExtId = theOffer.accept.txExtId.GetHex();
 			oOfferAccept.push_back(Pair("exttxid", strExtId));
+            oOfferAccept.push_back(Pair("paymentoption", (int)theOffer.accept.nPaymentOption));
+            oOfferAccept.push_back(Pair("paymentoption_display", GetPaymentOptionsString(theOffer.accept.nPaymentOption)));
 			oOfferAccept.push_back(Pair("height", sHeight));
 			oOfferAccept.push_back(Pair("time", sTime));
 			oOfferAccept.push_back(Pair("quantity", strprintf("%d", theOffer.accept.nQty)));
 			oOfferAccept.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode)));
 			if(theOffer.GetPrice() > 0)
-				oOfferAccept.push_back(Pair("offer_discount_percentage", strprintf("%.2f%%", 100.0f - 100.0f*((float)theOffer.accept.nPrice/(float)theOffer.nPrice))));		
+				oOfferAccept.push_back(Pair("offer_discount_percentage", strprintf("%.2f%%", 100.0f - 100.0f*((float)theOffer.accept.nPrice/(float)theOffer.nPrice))));
 			else
-				oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));		
+				oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));
 
 			int precision = 2;
 			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
 			CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
 			oOfferAccept.push_back(Pair("systotal", sysTotal));
 			oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));
-			oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real()))); 	
+			oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
 			oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
 			oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 			oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
@@ -3197,7 +3219,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				if (pindex) {
 					sFeedbackTime = strprintf("%llu", pindex->nTime);
 				}
-				
+
 				oFeedback.push_back(Pair("txid", buyerFeedBacks[j].txHash.GetHex()));
 				oFeedback.push_back(Pair("time", sFeedbackTime));
 				oFeedback.push_back(Pair("rating", buyerFeedBacks[j].nRating));
@@ -3231,7 +3253,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			if(ratingCount == 0)
 				ratingCount = 1;
 			float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
-			oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));	
+			oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
 			string strMessage = string("");
 			if(!DecryptMessage(alias.vchPubKey, theOffer.accept.vchMessage, strMessage))
 				strMessage = _("Encrypted for owner of offer");
@@ -3274,23 +3296,23 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			continue;
 		int expired = 0;
 		int expires_in = 0;
-		int expired_block = 0;  
+		int expired_block = 0;
 
             // decode txn, skip non-alias txns
             vector<vector<unsigned char> > vvch;
             int op, nOut;
-            if (!DecodeOfferTx(tx, op, nOut, vvch) 
+            if (!DecodeOfferTx(tx, op, nOut, vvch)
             	|| (op == OP_OFFER_ACCEPT))
                 continue;
 
             // get the txn name
             const vector<unsigned char> &vchOffer = vvch[0];
 			if (vNamesI.find(vchOffer) != vNamesI.end())
-				continue;	
+				continue;
 			// skip this offer if it doesn't match the given filter value
 			if (vchNameUniq.size() > 0 && vchNameUniq != vchOffer)
 				continue;
-	
+
 			vector<COffer> vtxOfferPos;
 			if (!pofferdb->ReadOffer(vchOffer, vtxOfferPos) || vtxOfferPos.empty())
 				continue;
@@ -3324,7 +3346,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
             oName.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 			int precision = 2;
 			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), theOffer.nHeight, precision);
-			oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() ))); 	
+			oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 
 			oName.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode) ) );
 			oName.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
@@ -3341,8 +3363,8 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			oName.push_back(Pair("paymentoptions", paymentOptions));
 			oName.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
 			oName.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
-			
-			
+
+
 			oName.push_back(Pair("alias_peg", stringFromVch(theAlias.vchAliasPeg)));
 			oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
 			bool safeSearch = theOffer.safeSearch || alias.safeSearch || linkOffer.safeSearch || linkAlias.safeSearch;
@@ -3357,9 +3379,9 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
             if(expired_block < chainActive.Tip()->nHeight)
 			{
 				expired = 1;
-			}  
+			}
 			expires_in = expired_block - chainActive.Tip()->nHeight;
-			
+
 			oName.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
 			float rating = 0;
 			if(alias.nRatingCountAsSeller > 0)
@@ -3370,11 +3392,11 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			oName.push_back(Pair("expires_on", expired_block));
 			oName.push_back(Pair("expired", expired));
 			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-		
+
             vNamesI[vchOffer] = nHeight;
             vNamesO[vchOffer] = oName;
 	}
-	
+
 
     BOOST_FOREACH(const PAIRTYPE(vector<unsigned char>, UniValue)& item, vNamesO)
         oRes.push_back(item.second);
@@ -3405,14 +3427,14 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 				CTransaction linkTx;
 				if(!GetTxAndVtxOfOffer( txPos2.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true))
 					continue;
-				linkOffer.nHeight = txPos2.nHeight;	
+				linkOffer.nHeight = txPos2.nHeight;
 				linkOffer.GetOfferFromList(vtxLinkPos);
 			}
 			vector<CAliasIndex> vtxAliasPos;
 			if(!paliasdb->ReadAlias(txPos2.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 				continue;
 			CAliasIndex theAlias;
-			theAlias.nHeight = txPos2.nHeight;	
+			theAlias.nHeight = txPos2.nHeight;
 			theAlias.GetAliasFromList(vtxAliasPos);
 			txHash = txPos2.txHash;
 			CTransaction tx;
@@ -3423,7 +3445,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
             // decode txn, skip non-alias txns
             vector<vector<unsigned char> > vvch;
             int op, nOut;
-            if (!DecodeOfferTx(tx, op, nOut, vvch) 
+            if (!DecodeOfferTx(tx, op, nOut, vvch)
             	|| !IsOfferOp(op) )
                 continue;
 
@@ -3447,7 +3469,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
             oOffer.push_back(Pair("description", stringFromVch(theOfferA.sDescription)));
 			int precision = 2;
 			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOfferA.sCurrencyCode, theOfferA.GetPrice(), theOfferA.nHeight, precision);
-			oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() ))); 	
+			oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 
 			oOffer.push_back(Pair("currency", stringFromVch(theOfferA.sCurrencyCode) ) );
 			oOffer.push_back(Pair("commission", strprintf("%d", theOfferA.nCommission)));
@@ -3464,7 +3486,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
             if(expired_block < chainActive.Tip()->nHeight)
 			{
 				expired = 1;
-			}  
+			}
 			expires_in = expired_block - chainActive.Tip()->nHeight;
 
 			oOffer.push_back(Pair("alias", stringFromVch(theOfferA.vchAlias)));
@@ -3514,11 +3536,11 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 
 	UniValue oRes(UniValue::VARR);
 
-	
+
 	vector<pair<vector<unsigned char>, COffer> > offerScan;
 	if (!pofferdb->ScanOffers(vchOffer, strRegexp, safeSearch, strCategory, 25, offerScan))
 		throw runtime_error("scan failed");
-	
+
 	pair<vector<unsigned char>, COffer> pairScan;
 	BOOST_FOREACH(pairScan, offerScan) {
 		COffer txOffer = pairScan.second;
@@ -3531,9 +3553,8 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		if(!paliasdb->ReadAlias(txOffer.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 			continue;
 
-		int expired = 0;
 		int expires_in = 0;
-		int expired_block = 0;		
+		int expired_block = 0;
 		int nHeight = txOffer.nHeight;
 		UniValue oOffer(UniValue::VOBJ);
 		oOffer.push_back(Pair("offer", offer));
@@ -3546,7 +3567,7 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
         oOffer.push_back(Pair("category", stringFromVch(txOffer.sCategory)));
 		int precision = 2;
 		CAmount nPricePerUnit = convertSyscoinToCurrencyCode(vtxAliasPos.back().vchAliasPeg, txOffer.sCurrencyCode, txOffer.GetPrice(), nHeight, precision);
-		oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() ))); 
+		oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 		oOffer.push_back(Pair("currency", stringFromVch(txOffer.sCurrencyCode)));
 		oOffer.push_back(Pair("commission", strprintf("%d", txOffer.nCommission)));
 		int nQty = txOffer.nQty;
@@ -3557,7 +3578,7 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		oOffer.push_back(Pair("exclusive_resell", txOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
 		oOffer.push_back(Pair("alias_peg", stringFromVch(vtxAliasPos.back().vchAliasPeg)));
 		oOffer.push_back(Pair("offers_sold", (int)txOffer.nSold));
-		expired_block = nHeight + GetOfferExpirationDepth();  
+		expired_block = nHeight + GetOfferExpirationDepth();
 		expires_in = expired_block - chainActive.Tip()->nHeight;
 		oOffer.push_back(Pair("private", txOffer.bPrivate ? "Yes" : "No"));
 		oOffer.push_back(Pair("alias", stringFromVch(txOffer.vchAlias)));
@@ -3591,7 +3612,7 @@ bool GetAcceptByHash(std::vector<COffer> &offerList, COfferAccept &ca, COffer &o
     }
 	return false;
 }
-std::string GetPaymentOptionsString(unsigned int paymentOptions)
+std::string GetPaymentOptionsString(const uint32_t paymentOptions)
 {
 	vector<std::string> currencies;
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_SYS)) {
@@ -3605,6 +3626,14 @@ std::string GetPaymentOptionsString(unsigned int paymentOptions)
 	}
 	return boost::algorithm::join(currencies, "+");
 }
+CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOption)
+{
+	CChainParams::AddressType myAddressType = CChainParams::ADDRESS_SYS;
+	if(paymentOption == PAYMENTOPTION_ZEC)
+		myAddressType = CChainParams::ADDRESS_ZEC;
+	return myAddressType;
+}
+
 void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry)
 {
 	string opName = offerFromOp(op);
@@ -3641,7 +3670,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 			whitelistValue = _("Whitelist was cleared");
 		else
 			whitelistValue = _("Whitelist entries were added or removed");
-	
+
 		entry.push_back(Pair("whitelist", whitelistValue));
 		return;
 	}
@@ -3670,7 +3699,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 
 	string commissionValue = noDifferentStr;
 	if(offer.nCommission  != 0 && offer.nCommission != dbOffer.nCommission)
-		commissionValue =  boost::lexical_cast<string>(offer.nCommission); 
+		commissionValue =  boost::lexical_cast<string>(offer.nCommission);
 	entry.push_back(Pair("commission", commissionValue));
 
 	string exclusiveResellValue = noDifferentStr;
@@ -3697,7 +3726,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 		geolocationValue = stringFromVch(offer.vchGeoLocation);
 
 	entry.push_back(Pair("geolocation", geolocationValue ));
-	
+
 
 	string descriptionValue = noDifferentStr;
 	if(!offer.sDescription.empty() && offer.sDescription != dbOffer.sDescription)
@@ -3707,7 +3736,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 
 	string qtyValue = noDifferentStr;
 	if(offer.nQty != dbOffer.nQty)
-		qtyValue =  boost::lexical_cast<string>(offer.nQty); 
+		qtyValue =  boost::lexical_cast<string>(offer.nQty);
 	entry.push_back(Pair("quantity", qtyValue));
 
 	string currencyValue = noDifferentStr;
@@ -3715,12 +3744,12 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 		currencyValue = stringFromVch(offer.sCurrencyCode);
 	entry.push_back(Pair("currency", currencyValue));
 
-	
+
 	string priceValue = noDifferentStr;
 	if(offer.GetPrice() != dbOffer.GetPrice())
 		priceValue = boost::lexical_cast<string>(offer.GetPrice());
 	entry.push_back(Pair("price", priceValue));
-	
+
 
 	string safeSearchValue = noDifferentStr;
 	if(offer.safeSearch != dbOffer.safeSearch)

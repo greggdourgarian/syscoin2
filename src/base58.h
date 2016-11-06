@@ -112,15 +112,15 @@ public:
 	std::vector<unsigned char> vchRedeemScript;
 	std::vector<unsigned char> vchPubKey;
 
-    bool Set(const CKeyID &id, bool oldSys = false);
-    bool Set(const CScriptID &id);
-    bool Set(const CTxDestination &dest, bool oldSys = false);
+    bool Set(const CKeyID &id, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
+    bool Set(const CScriptID &id, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
+    bool Set(const CTxDestination &dest, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
     bool IsValid() const;
     bool IsValid(const CChainParams &params) const;
 
 	// SYSCOIN aliases as addresses
     CSyscoinAddress();
-	CSyscoinAddress(const CTxDestination &dest, bool oldSys = false);
+	CSyscoinAddress(const CTxDestination &dest, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
     CSyscoinAddress(const std::string& strAddress);
     CSyscoinAddress(const char* pszAddress);
 

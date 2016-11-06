@@ -196,7 +196,7 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
         string currentAddress = address.ToString();
 		// SYSCOIN v1 addy compatibility
 		CSyscoinAddress v1addr;
-		v1addr.Set(dest, true);
+		v1addr.Set(dest, CChainParams::ADDRESS_OLDSYS);
 		string addressStr = params[0].get_str();
 		if(addressStr[0] == 'S')
 			ret.push_back(Pair("address", v1addr.ToString()));
@@ -335,11 +335,14 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
 	// SYSCOIN v1 addy by default
     CTxDestination dest = address.Get();
 	CSyscoinAddress v1addr;
-	v1addr.Set(dest, true);
+	v1addr.Set(dest, CChainParams::ADDRESS_OLDSYS);
 	CSyscoinAddress v2addr;
 	v2addr.Set(dest);
+	CSyscoinAddress zaddr;
+	zaddr.Set(dest, CChainParams::ADDRESS_ZEC);
     result.push_back(Pair("address", v1addr.ToString()));
 	result.push_back(Pair("v2address", v2addr.ToString()));
+    result.push_back(Pair("zec_address", zaddr.ToString()));
     result.push_back(Pair("redeemScript", HexStr(inner.begin(), inner.end())));
 
     return result;

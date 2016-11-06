@@ -24,7 +24,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
     ui(new Ui::OfferAcceptDialog), platformStyle(platformStyle), aliaspeg(aliaspeg), qstrPrice(qstrPrice), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), currency(currencyCode), seller(sellerAlias), address(address)
 {
     ui->setupUi(this);
-	QString theme = GUIUtil::getThemeName();  
+	QString theme = GUIUtil::getThemeName();
 	if (!platformStyle->getImagesOnButtons())
 	{
 		ui->acceptButton->setIcon(QIcon());
@@ -39,19 +39,20 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 		ui->cancelButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/quit"));
 	}
 	ui->aboutShade->setPixmap(QPixmap(":/images/" + theme + "/about_horizontal"));
-	int btcprecision, sysprecision;
+	int sysprecision;
 	double dblPrice = qstrPrice.toDouble();
 	string strCurrencyCode = currencyCode.toStdString();
 	string strAliasPeg = aliaspeg.toStdString();
 	ui->acceptBtcButton->setEnabled(false);
 	ui->acceptBtcButton->setVisible(false);
 	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(strAliasPeg), vchFromString(strCurrencyCode), dblPrice, chainActive.Tip()->nHeight, sysprecision);
-	CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("BTC"), sysPrice, chainActive.Tip()->nHeight, btcprecision);
-	strBTCPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
 	strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()*quantity.toUInt()));
 	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant.</font>"));
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_BTC))
 	{
+        int btcprecision;
+        CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("BTC"), sysPrice, chainActive.Tip()->nHeight, btcprecision);
+		strBTCPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
 		ui->acceptBtcButton->setEnabled(true);
 		ui->acceptBtcButton->setVisible(true);
 		if(paymentOptions == PAYMENTOPTION_BTC)
@@ -65,7 +66,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	{
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
 	}
-		
+
 	connect(ui->checkBox,SIGNAL(clicked(bool)),SLOT(onEscrowCheckBoxChanged(bool)));
 	this->offerPaid = false;
 	connect(ui->acceptButton, SIGNAL(clicked()), this, SLOT(acceptPayment()));
@@ -115,7 +116,7 @@ void OfferAcceptDialog::acceptBTCPayment()
 		{
 			OfferAcceptDialog::accept();
 		}
-	}	
+	}
 }
 void OfferAcceptDialog::acceptPayment()
 {
@@ -154,7 +155,7 @@ void OfferAcceptDialog::acceptOffer()
 		params.push_back(this->offer.toStdString());
 		params.push_back(this->quantity.toStdString());
 		params.push_back(this->notes.toStdString());
-		
+
 
 	    try {
             result = tableRPC.execute(strMethod, params);
@@ -206,8 +207,8 @@ void OfferAcceptDialog::acceptOffer()
 				QMessageBox::Ok, QMessageBox::Ok);
 			return;
 		}
-	
-   
+
+
 
 }
 void OfferAcceptDialog::acceptEscrow()
@@ -291,8 +292,8 @@ void OfferAcceptDialog::acceptEscrow()
 				QMessageBox::Ok, QMessageBox::Ok);
 			return;
 		}
-	
-   
+
+
 
 }
 bool OfferAcceptDialog::getPaymentStatus()

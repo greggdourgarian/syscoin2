@@ -4,6 +4,7 @@
 #include "rpc/server.h"
 #include "dbwrapper.h"
 #include "feedback.h"
+#include "chainparams.h"
 
 class CWalletTx;
 class CTransaction;
@@ -31,7 +32,7 @@ CScript RemoveOfferScriptPrefix(const CScript& scriptIn);
 bool ValidatePaymentOptionsMask(const uint32_t paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
 uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString);
-bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption); 
+bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption);
 extern bool IsSys21Fork(const uint64_t& nHeight);
 class COfferAccept {
 public:
@@ -40,7 +41,8 @@ public:
 	unsigned int nQty;
 	CAmount nPrice;
 	uint256 txExtId;
-	std::vector<unsigned char> vchBuyerAlias;	
+	uint32_t nPaymentOption;
+	std::vector<unsigned char> vchBuyerAlias;
 	std::vector<unsigned char> vchMessage;
 	std::vector<CFeedback> feedback;
 	COfferAccept() {
@@ -53,10 +55,11 @@ public:
 		READWRITE(vchAcceptRand);
 		READWRITE(VARINT(nAcceptHeight));
         READWRITE(VARINT(nQty));
+        READWRITE(VARINT(nPaymentOption));
     	READWRITE(nPrice);
-		READWRITE(vchBuyerAlias);	
-		READWRITE(txExtId);	
-		READWRITE(feedback);	
+		READWRITE(vchBuyerAlias);
+		READWRITE(txExtId);
+		READWRITE(feedback);
 		READWRITE(vchMessage);
 	}
 
@@ -64,6 +67,7 @@ public:
         return (
 		a.vchAcceptRand == b.vchAcceptRand
 		&& a.nAcceptHeight == b.nAcceptHeight
+		&& a.nPaymentOption == b.nPaymentOption
         && a.nQty == b.nQty
         && a.nPrice == b.nPrice
 		&& a.vchBuyerAlias == b.vchBuyerAlias
@@ -77,6 +81,7 @@ public:
 		vchAcceptRand = b.vchAcceptRand;
 		nAcceptHeight = b.nAcceptHeight;
         nQty = b.nQty;
+        nPaymentOption = b.nPaymentOption;
         nPrice = b.nPrice;
 		vchBuyerAlias = b.vchBuyerAlias;
 		txExtId = b.txExtId;
@@ -89,8 +94,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { vchMessage.clear(); feedback.clear(); vchAcceptRand.clear(); nAcceptHeight = nPrice = nQty = 0; txExtId.SetNull(); vchBuyerAlias.clear();}
-    inline bool IsNull() const { return (vchMessage.empty() && feedback.empty() && vchAcceptRand.empty() && nAcceptHeight == 0 && nPrice == 0 && nQty == 0 && txExtId.IsNull() && vchBuyerAlias.empty()); }
+    inline void SetNull() { vchMessage.clear(); feedback.clear(); vchAcceptRand.clear(); nAcceptHeight = nPaymentOption = nPrice = nQty = 0; txExtId.SetNull(); vchBuyerAlias.clear();}
+    inline bool IsNull() const { return (vchMessage.empty() && feedback.empty() && vchAcceptRand.empty() && nAcceptHeight == 0 && nPrice == 0 && nPaymentOption == 0 && nQty == 0 && txExtId.IsNull() && vchBuyerAlias.empty()); }
 
 };
 class COfferLinkWhitelistEntry {
@@ -124,7 +129,7 @@ public:
     inline friend bool operator!=(const COfferLinkWhitelistEntry &a, const COfferLinkWhitelistEntry &b) {
         return !(a == b);
     }
-    
+
     inline void SetNull() { aliasLinkVchRand.clear(); nDiscountPct = 0;}
     inline bool IsNull() const { return (aliasLinkVchRand.empty() && nDiscountPct == 0); }
 
@@ -161,7 +166,7 @@ public:
     		}
     	}
     	return false;
-    }	
+    }
     inline void PutWhitelistEntry(const COfferLinkWhitelistEntry &theEntry) {
     	for(unsigned int i=0;i<entries.size();i++) {
     		COfferLinkWhitelistEntry entry = entries[i];
@@ -189,7 +194,7 @@ public:
     inline friend bool operator!=(const COfferLinkWhitelist &a, const COfferLinkWhitelist &b) {
         return !(a == b);
     }
-    
+
     inline void SetNull() { entries.clear(); bExclusiveResell = true;}
     inline bool IsNull() const { return (entries.empty() && bExclusiveResell);}
 
@@ -219,7 +224,7 @@ public:
 	unsigned int nSold;
 	std::vector<unsigned char> vchGeoLocation;
 	bool safeSearch;
-	COffer() { 
+	COffer() {
         SetNull();
     }
 
@@ -268,14 +273,14 @@ public:
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
-	
-				
+
+
 	}
 	inline CAmount GetPrice(const COfferLinkWhitelistEntry& entry=COfferLinkWhitelistEntry()) const{
 		COfferLinkWhitelistEntry  myentry;
 		CAmount price = nPrice;
 		linkWhitelist.GetLinkEntryByHash(entry.aliasLinkVchRand, myentry);
-		
+
 		char nDiscount = myentry.nDiscountPct;
 		if(myentry.nDiscountPct > 99)
 			nDiscount = 0;
@@ -327,10 +332,10 @@ public:
     inline friend bool operator==(const COffer &a, const COffer &b) {
         return (
          a.sCategory==b.sCategory
-        && a.sTitle == b.sTitle 
-        && a.sDescription == b.sDescription 
-        && a.nPrice == b.nPrice 
-        && a.nQty == b.nQty 
+        && a.sTitle == b.sTitle
+        && a.sDescription == b.sDescription
+        && a.nPrice == b.nPrice
+        && a.nQty == b.nQty
 		&& a.nSold == b.nSold
         && a.txHash == b.txHash
         && a.nHeight == b.nHeight
@@ -380,7 +385,7 @@ public:
     inline friend bool operator!=(const COffer &a, const COffer &b) {
         return !(a == b);
     }
-    
+
     inline void SetNull() { vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
     inline bool IsNull() const { return (vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
 
@@ -426,7 +431,8 @@ bool GetAcceptByHash(std::vector<COffer> &offerList,  COfferAccept &ca,  COffer 
 bool GetTxOfOfferAccept(const std::vector<unsigned char> &vchOffer, const std::vector<unsigned char> &vchOfferAccept,
 		COffer &theOffer, COfferAccept &theOfferAccept, CTransaction& tx, bool skipExpiresCheck=false);
 bool GetTxOfOffer(const std::vector<unsigned char> &vchOffer, COffer& txPos, CTransaction& tx, bool skipExpiresCheck=false);
-bool GetTxAndVtxOfOffer(const std::vector<unsigned char> &vchOffer, 
+bool GetTxAndVtxOfOffer(const std::vector<unsigned char> &vchOffer,
 				  COffer& txPos, CTransaction& tx, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
-std::string GetPaymentOptionsString(unsigned int paymentOptions);
+std::string GetPaymentOptionsString(const uint32_t paymentOptions);
+CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOptions);
 #endif // OFFER_H

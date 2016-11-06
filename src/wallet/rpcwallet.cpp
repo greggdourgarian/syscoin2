@@ -151,7 +151,7 @@ UniValue getnewaddress(const UniValue& params, bool fHelp)
     pwalletMain->SetAddressBook(keyID, strAccount, "receive");
 
 	// SYSCOIN to send v1 address by default
-    return CSyscoinAddress(keyID, true).ToString();
+    return CSyscoinAddress(keyID, CChainParams::ADDRESS_OLDSYS).ToString();
 }
 // SYSCOIN
 UniValue getv2address(const UniValue& params, bool fHelp)
@@ -1328,7 +1328,7 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
 			// SYSCOIN v1 addy by default
 			CTxDestination dest = address.Get();
 			CSyscoinAddress v1addr;
-			v1addr.Set(dest, true);
+			v1addr.Set(dest, CChainParams::ADDRESS_OLDSYS);
             UniValue obj(UniValue::VOBJ);
             if(fIsWatchonly)
                 obj.push_back(Pair("involvesWatchonly", true));
@@ -1450,7 +1450,7 @@ static void MaybePushAddress(UniValue & entry, const CTxDestination &dest)
 {
 	// SYSCOIN address is v1 address by default for backward compatibility, v2 address is new scheme
     CSyscoinAddress addr;
-    if (addr.Set(dest, true))
+    if (addr.Set(dest, CChainParams::ADDRESS_OLDSYS))
         entry.push_back(Pair("address", addr.ToString()));
     if (addr.Set(dest))
         entry.push_back(Pair("v2address", addr.ToString()));
@@ -2561,7 +2561,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
         if (fValidAddress) {
 			// SYSCOIN v1 addy by default
 			CSyscoinAddress v1addr;
-			v1addr.Set(address, true);
+			v1addr.Set(address, CChainParams::ADDRESS_OLDSYS);
             entry.push_back(Pair("address", v1addr.ToString()));
 			entry.push_back(Pair("v2address", CSyscoinAddress(address).ToString()));
             if (pwalletMain->mapAddressBook.count(address))

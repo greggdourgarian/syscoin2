@@ -36,7 +36,7 @@ public:
     void setOptionsModel(ClientModel* clientmodel, OptionsModel *optionsModel);
     const QString &getReturnValue() const { return returnValue; }
 	void showEvent ( QShowEvent * event );
-	bool lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId);
+	bool lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId, QString& paymentOption);
 	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
 public Q_SLOTS:
     void done(int retval);

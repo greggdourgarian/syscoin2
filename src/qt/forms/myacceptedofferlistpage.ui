@@ -110,10 +110,10 @@
      <item>
       <widget class="QPushButton" name="extButton">
        <property name="toolTip">
-        <string>Check Bitcoin payment for this offer</string>
+        <string>Check payment for this offer from an external blockchain</string>
        </property>
        <property name="text">
-        <string>Check BTC Payment</string>
+        <string>Check External Payment</string>
        </property>
       </widget>
      </item>

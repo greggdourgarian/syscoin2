@@ -29,7 +29,7 @@ public:
 	bool isYourAlias(const QString &alias);
 	bool CompleteEscrowRefund();
 	bool CompleteEscrowRelease();
-	bool loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &redeemtxid);
+	bool loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid);
 	QString EscrowRoleTypeToString(const EscrowRoleType& escrowType);
 	EscrowRoleType findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &arbiter);
 	EscrowRoleType escrowRoleType;
@@ -51,6 +51,7 @@ private:
 	QString refundWarningStr;
 	QString releaseWarningStr;
 	QString m_buttontext;
+    QString m_paymentOption;
 };
 
 #endif // MANAGEESCROWDIALOG_H

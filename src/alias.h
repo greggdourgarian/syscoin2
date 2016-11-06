@@ -135,7 +135,7 @@ public:
         SetNull();
         UnserializeFromTx(tx);
     }
-	void GetAddress(CSyscoinAddress* address);
+	void GetAddress(CSyscoinAddress* address, const uint32_t nPaymentOption=1);
 	void ClearAlias()
 	{
 		vchPublicValue.clear();

@@ -15,7 +15,6 @@
 #endif
 using namespace std;
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSettings>
 extern CRPCTable tableRPC;
@@ -37,7 +36,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	ui->secondaryFeedback->setVisible(false);
 	ui->extButton->setVisible(false);
 	ui->extButton->setEnabled(false);
-	if(!loadEscrow(escrow, buyer, seller, arbiter, status, offertitle, total, m_exttxid, m_redeemTxId))
+	if(!loadEscrow(escrow, buyer, seller, arbiter, status, offertitle, total, m_exttxid, m_paymentOption, m_redeemTxId))
 	{
 		ui->manageInfo2->setText(tr("Cannot find this escrow on the network, please try again later."));
 		ui->releaseButton->setEnabled(false);
@@ -202,7 +201,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		ui->releaseButton->setEnabled(false);
 	}
 }
-bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &redeemtxid)
+bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid)
 {
 	QSettings settings;
 	string strMethod = string("escrowinfo");
@@ -246,6 +245,9 @@ bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QStri
 			const UniValue& exttxid_value = find_value(o, "exttxid");
 			if (exttxid_value.type() == UniValue::VSTR)
 				exttxid = QString::fromStdString(exttxid_value.get_str());
+			const UniValue& paymentOption_Value = find_value(o, "paymentoption_display");
+			if (paymentOption_Value.type() == UniValue::VSTR)
+				paymentOption = QString::fromStdString(paymentOption_Value.get_str());
 			const UniValue& redeemtxid_value = find_value(o, "redeem_txid");
 			if (redeemtxid_value.type() == UniValue::VSTR)
 				redeemtxid = QString::fromStdString(redeemtxid_value.get_str());
@@ -279,7 +281,8 @@ void ManageEscrowDialog::on_cancelButton_clicked()
 }
 void ManageEscrowDialog::on_extButton_clicked()
 {
-    CheckPaymentInBTC();
+	if(m_paymentOption == QString("BTC"))
+    	CheckPaymentInBTC();
 }
 
 ManageEscrowDialog::~ManageEscrowDialog()
@@ -541,9 +544,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		reply->deleteLater();
 		return;
 	}
-	double valueAmount = 0;
 	unsigned int time;
-	int height;
 			
 	QByteArray bytes = reply->readAll();
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
@@ -577,10 +578,13 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		UniValue dataObj1 = find_value(outerObj, "data").get_obj();
 		UniValue dataObj = find_value(dataObj1, "tx").get_obj();
 		UniValue timeValue = find_value(dataObj, "time");
-		if (timeValue.isNum())
-			time = timeValue.get_int();
 		QDateTime timestamp;
-		timestamp.setTime_t(time);
+		if (timeValue.isNum())
+		{
+			time = timeValue.get_int();
+			timestamp.setTime_t(time);
+		}
+		
 
 		UniValue unconfirmedValue = find_value(dataObj, "confirmations");
 		if (unconfirmedValue.isNum())
@@ -669,7 +673,8 @@ void ManageEscrowDialog::on_releaseButton_clicked()
 				ui->releaseButton->setText(tr("Please Wait..."));
 				ui->releaseButton->setEnabled(false);
 				m_redeemTxId = QString::fromStdString(retarray[1].get_str());
-				SendRawTxBTC();
+				if(m_paymentOption == QString("BTC"))
+					SendRawTxBTC();
 			}
 			else
 			{
@@ -755,7 +760,8 @@ void ManageEscrowDialog::on_refundButton_clicked()
 				ui->refundButton->setText(tr("Please Wait..."));
 				ui->refundButton->setEnabled(false);
 				m_redeemTxId = QString::fromStdString(retarray[1].get_str());
-				SendRawTxBTC();		
+				if(m_paymentOption == QString("BTC"))
+					SendRawTxBTC();		
 			}
 			else
 			{
@@ -821,7 +827,6 @@ bool ManageEscrowDialog::isYourAlias(const QString &alias)
     UniValue params(UniValue::VARR); 
 	UniValue result ;
 	string name_str;
-	int expired = 0;
 	params.push_back(alias.toStdString());	
 	try {
 		result = tableRPC.execute(strMethod, params);

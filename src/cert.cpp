@@ -69,7 +69,7 @@ bool IsCertOp(int op) {
 // Use for validation purposes and pass the chain height.
 int GetCertExpirationDepth() {
 	#ifdef ENABLE_DEBUGRPC
-    return 1440;
+    return 100;
   #else
     return 525600;
   #endif
@@ -371,7 +371,6 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 	// unserialize cert from txn, check for valid
 	CCert theCert;
 	vector<unsigned char> vchData;
-	bool found = false;
 	vector<unsigned char> vchHash;
 	int nDataOut;
 	if(!GetSyscoinData(tx, vchData, vchHash, nDataOut) || !theCert.UnserializeFromData(vchData, vchHash))
@@ -1233,7 +1232,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
         oName.push_back(Pair("title", stringFromVch(cert.vchTitle)));
 		
 		string strData = stringFromVch(cert.vchData);
-		bool isExpired = false;
 		string strDecrypted = "";
 		if(cert.bPrivate)
 		{
