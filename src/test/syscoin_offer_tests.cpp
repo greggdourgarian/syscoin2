@@ -377,7 +377,7 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 0 message"), runtime_error);
 
 	// perform an accept on more items than available, qty doesnt update so its valid
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 100 message"), runtime_error);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 100 message"));
 }
 BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 {
