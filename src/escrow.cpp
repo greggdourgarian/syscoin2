@@ -414,10 +414,21 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 		}
 		switch (op) {
 			case OP_ESCROW_ACTIVATE:
-				if(!IsAliasOp(prevAliasOp) || theEscrow.vchBuyerAlias != vvchPrevAliasArgs[0] )
+				if (theEscrow.bPaymentAck)
 				{
-					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4024 - " + _("Alias input mismatch");
-					return error(errorMessage.c_str());
+					if(!IsAliasOp(prevAliasOp) || theEscrow.vchSellerAlias != vvchPrevAliasArgs[0] )
+					{
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4024 - " + _("Alias input mismatch");
+						return error(errorMessage.c_str());
+					}
+				}
+				else
+				{
+					if(!IsAliasOp(prevAliasOp) || theEscrow.vchBuyerAlias != vvchPrevAliasArgs[0] )
+					{
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4024 - " + _("Alias input mismatch");
+						return error(errorMessage.c_str());
+					}
 				}
 				if(theEscrow.op != OP_ESCROW_ACTIVATE)
 				{
@@ -434,11 +445,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4012 - " + _("Not enough information to process BTC escrow payment");
 					return error(errorMessage.c_str());
 				}
-                if(!ValidatePaymentOptionsMask(theEscrow.nPaymentOption))
-                {
-                    errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 1018 - " + _("Invalid payment option");
-                    return error(errorMessage.c_str());
-                }
+				if(!ValidatePaymentOptionsMask(theEscrow.nPaymentOption))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 1018 - " + _("Invalid payment option");
+					return error(errorMessage.c_str());
+				}
 				if(!theEscrow.feedback.empty())
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4013 - " + _("Cannot leave feedback in escrow activation");
@@ -551,25 +562,28 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
     if (!fJustCheck ) {
 		if(op == OP_ESCROW_ACTIVATE)
 		{
-			if(!GetTxOfAlias(theEscrow.vchBuyerAlias, alias, aliasTx))
+			if (!theEscrow.bPaymentAck)
 			{
-				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Cannot find buyer alias. It may be expired");
-				return true;
+				if(!GetTxOfAlias(theEscrow.vchBuyerAlias, alias, aliasTx))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Cannot find buyer alias. It may be expired");
+					return true;
+				}
+				if(!GetTxOfAlias(theEscrow.vchArbiterAlias, alias, aliasTx))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find arbiter alias. It may be expired");
+					return true;
+				}
 			}
 			if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Cannot find seller alias. It may be expired");
 				return true;
 			}
-			if(!GetTxOfAlias(theEscrow.vchArbiterAlias, alias, aliasTx))
-			{
-				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find arbiter alias. It may be expired");
-				return true;
-			}
 		}
 		vector<CEscrow> vtxPos;
 		// make sure escrow settings don't change (besides rawTx) outside of activation
-		if(op != OP_ESCROW_ACTIVATE)
+		if(op != OP_ESCROW_ACTIVATE || theEscrow.bPaymentAck)
 		{
 			// save serialized escrow for later use
 			CEscrow serializedEscrow = theEscrow;
@@ -577,6 +591,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			if(!GetTxAndVtxOfEscrow(vvchArgs[0], theEscrow, escrowTx, vtxPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Failed to read from escrow DB");
+				return true;
+			}
+			if(serializedEscrow.bPaymentAck && theEscrow.bPaymentAck)
+			{
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Escrow already acknowledged");
 				return true;
 			}
 			// make sure we have found this escrow in db
@@ -589,9 +608,55 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				}
 
 				// these are the only settings allowed to change outside of activate
-				if(!serializedEscrow.rawTx.empty())
+				if(!serializedEscrow.rawTx.empty() && op != OP_ESCROW_ACTIVATE)
 					theEscrow.rawTx = serializedEscrow.rawTx;
 				escrowOp = serializedEscrow.op;
+				if(op == OP_ESCROW_ACTIVATE && theEscrow.bPaymentAck)
+				{
+					theEscrow.bPaymentAck = true;
+					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
+					{
+						int nQty = dbOffer.nQty;
+						COffer myLinkOffer;
+						// if this is a linked offer we must update the linked offer qty
+						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
+							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
+							{
+								myLinkOffer = myLinkVtxPos.back();
+								nQty = myLinkOffer.nQty;
+							}
+						}
+						if(nQty != -1)
+						{
+
+							nQty -= theEscrow.nQty;
+							if(nQty <= 0)
+								nQty = 0;
+							if (!myLinkOffer.IsNull())
+							{
+								myLinkOffer.nQty = nQty;
+								myLinkOffer.nSold++;
+								myLinkOffer.PutToOfferList(myLinkVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
+									return true;
+								}
+							}
+							else
+							{
+								dbOffer.nQty = nQty;
+								dbOffer.nSold++;
+								dbOffer.PutToOfferList(myVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
+									return true;
+								}
+							}
+						}
+					}
+				}
 				if(op == OP_ESCROW_REFUND && vvchArgs[1] == vchFromString("0"))
 				{
 					if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
@@ -689,49 +754,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4056 - " + _("Only seller can claim an escrow release");
 						serializedEscrow = theEscrow;
-					}
-
-					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
-					{
-						int nQty = dbOffer.nQty;
-						COffer myLinkOffer;
-						// if this is a linked offer we must update the linked offer qty
-						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
-							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
-							{
-								myLinkOffer = myLinkVtxPos.back();
-								nQty = myLinkOffer.nQty;
-							}
-						}
-						if(nQty != -1)
-						{
-
-							nQty -= theEscrow.nQty;
-							if(nQty <= 0)
-								nQty = 0;
-							if (!myLinkOffer.IsNull())
-							{
-								myLinkOffer.nQty = nQty;
-								myLinkOffer.nSold++;
-								myLinkOffer.PutToOfferList(myLinkVtxPos);
-								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
-								{
-									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
-									return true;
-								}
-							}
-							else
-							{
-								dbOffer.nQty = nQty;
-								dbOffer.nSold++;
-								dbOffer.PutToOfferList(myVtxPos);
-								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
-								{
-									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
-									return true;
-								}
-							}
-						}
 					}
 				}
 				else if(op == OP_ESCROW_COMPLETE)
@@ -887,7 +909,8 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 		}
 
         // set the escrow's txn-dependent values
-		theEscrow.op = escrowOp;
+		if(!serializedEscrow.bPackmentAck)
+			theEscrow.op = escrowOp;
 		theEscrow.txHash = tx.GetHash();
 		theEscrow.nHeight = nHeight;
 		PutToEscrowList(vtxPos, theEscrow);
@@ -3182,6 +3205,8 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 		status = "escrow refund complete";
 	else if(ca.op == OP_ESCROW_COMPLETE && escrowRefund)
 		status = "escrow refund complete";
+	if(escrow.bPaymentAck)
+		status += " (Acknowledged)"
 	oEscrow.push_back(Pair("expired", expired));
 	oEscrow.push_back(Pair("status", status));
 	UniValue oBuyerFeedBack(UniValue::VARR);

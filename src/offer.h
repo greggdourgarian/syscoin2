@@ -45,6 +45,7 @@ public:
 	std::vector<unsigned char> vchBuyerAlias;
 	std::vector<unsigned char> vchMessage;
 	std::vector<CFeedback> feedback;
+	bool bPaymentAck;
 	COfferAccept() {
         SetNull();
     }
@@ -61,6 +62,7 @@ public:
 		READWRITE(txExtId);
 		READWRITE(feedback);
 		READWRITE(vchMessage);
+		READWRITE(bPaymentAck);
 	}
 
     inline friend bool operator==(const COfferAccept &a, const COfferAccept &b) {
@@ -74,6 +76,7 @@ public:
 		&& a.txExtId == b.txExtId
 		&& a.feedback == b.feedback
 		&& a.vchMessage == b.vchMessage
+		&& a.bPaymentAck == b.bPaymentAck
         );
     }
 
@@ -87,6 +90,7 @@ public:
 		txExtId = b.txExtId;
 		feedback = b.feedback;
 		vchMessage = b.vchMessage;
+		bPaymentAck = b.bPaymentAck;
         return *this;
     }
 
@@ -94,8 +98,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { vchMessage.clear(); feedback.clear(); vchAcceptRand.clear(); nAcceptHeight = nPaymentOption = nPrice = nQty = 0; txExtId.SetNull(); vchBuyerAlias.clear();}
-    inline bool IsNull() const { return (vchMessage.empty() && feedback.empty() && vchAcceptRand.empty() && nAcceptHeight == 0 && nPrice == 0 && nPaymentOption == 0 && nQty == 0 && txExtId.IsNull() && vchBuyerAlias.empty()); }
+    inline void SetNull() { bPaymentAck = false; vchMessage.clear(); feedback.clear(); vchAcceptRand.clear(); nAcceptHeight = nPaymentOption = nPrice = nQty = 0; txExtId.SetNull(); vchBuyerAlias.clear();}
+    inline bool IsNull() const { return (bPaymentAck && vchMessage.empty() && feedback.empty() && vchAcceptRand.empty() && nAcceptHeight == 0 && nPrice == 0 && nPaymentOption == 0 && nQty == 0 && txExtId.IsNull() && vchBuyerAlias.empty()); }
 
 };
 class COfferLinkWhitelistEntry {

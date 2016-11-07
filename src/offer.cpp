@@ -1047,7 +1047,38 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1080 - " + _("Cannot find buyer alias. It may be expired");
 				return true;
 			}
+			if(theOfferAccept.bPaymentAck)
+			{
+				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1081 - " + _("Could not find offer accept from mempool or disk");
+					return true;
+				}
+				vector<COffer> myLinkVtxPos;
+				int nQty = theOffer.nQty;
+				if(nQty != -1)
+				{
+					if(theOfferAccept.nQty > nQty)
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Not enough quantity left in this offer for this purchase");
+						return true;
+					}
+					nQty -= theOfferAccept.nQty;
+				}
+				
+				theOffer.nSold++;
+				theOffer.nQty = nQty;
+				theOffer.txHash = tx.GetHash();
+				theOffer.PutToOfferList(vtxPos);
+				// write offer
 
+				if (!dontaddtodb && !pofferdb->WriteOffer(vvchArgs[0], vtxPos))
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1123 - " + _("Failed to write to offer DB");
+					return error(errorMessage.c_str());
+				}
+				return true;
+			}
 			if(!theOfferAccept.feedback.empty())
 			{
 				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
@@ -1302,26 +1333,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return true;
 			}
 			theOfferAccept.vchAcceptRand = vvchArgs[1];
-			theOffer.accept = theOfferAccept;
-
-			// increase # sold
+			// decrease qty + increase # sold
 			if(theOfferAccept.nQty <= 0)
 				theOfferAccept.nQty = 1;
-			vector<COffer> myLinkVtxPos;
-			if (!linkOffer.IsNull())
-			{
-				linkOffer.nHeight = nHeight;
-				linkOffer.txHash = tx.GetHash();
-				linkOffer.nSold++;
-				linkOffer.accept = theOfferAccept;
-				linkOffer.PutToOfferList(offerVtxPos);
-				if (!dontaddtodb && !pofferdb->WriteOffer(myPriceOffer.vchLinkOffer, offerVtxPos))
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
-					return true;
-				}
-			}
-			theOffer.nSold++;
+			theOffer.accept = theOfferAccept;
+
 			if(!theOfferAccept.txExtId.IsNull())
 			{
 				if(pofferdb->ExistsOfferTx(theOfferAccept.txExtId) || pescrowdb->ExistsEscrowTx(theOfferAccept.txExtId))
@@ -3177,14 +3193,16 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 			oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
 			oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
+			string statusStr = "Paid";
 			if(!theOffer.accept.txExtId.IsNull())
-				oOfferAccept.push_back(Pair("status","Paid (External Coin)"));
+				statusStr = "Paid with external coin";
 			else if(commissionPaid)
-				oOfferAccept.push_back(Pair("status","Paid (Commission)"));
+				statusStr = "Paid commission";
 			else if(discountApplied)
-				oOfferAccept.push_back(Pair("status","Paid (Discount Applied)"));
-			else
-				oOfferAccept.push_back(Pair("status","Paid"));
+				statusStr = "Paid with discount applied";
+			if(theOffer.accept.bPaymentAck)
+				statusStr += " (Acknowledged)"
+			oOfferAccept.push_back(Pair("status",statusStr));
 			UniValue oBuyerFeedBack(UniValue::VARR);
 			for(unsigned int j =0;j<buyerFeedBacks.size();j++)
 			{
