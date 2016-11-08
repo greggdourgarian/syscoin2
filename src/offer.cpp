@@ -1104,7 +1104,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						nHeight);
 				return true;
 			}
-			if(!theOfferAccept.feedback.empty())
+			else if(!theOfferAccept.feedback.empty())
 			{
 				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
 				{
@@ -3244,8 +3244,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		if (!DecodeOfferTx(tx, op, nOut, vvch))
 			continue;
 		// skip any payment ack's
-		offerTmp = COffer(tx);
-		if(offerTmp.accept.bPaymentAck)
+		COffer offerAck(tx);
+		if(offerAck.accept.bPaymentAck)
 			continue;
 		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 			continue;
