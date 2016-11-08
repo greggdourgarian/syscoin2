@@ -379,7 +379,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 	string retError = "";
 	CTransaction txOffer;
 	int escrowOp = OP_ESCROW_ACTIVATE;
-	bool bPackmentAck = false;
+	bool bPaymentAck = false;
 	COffer dbOffer;
 	if(fJustCheck)
 	{
@@ -620,7 +620,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						return true;
 					}
 					theEscrow.bPaymentAck = true;
-					bPackmentAck = true;
+					bPaymentAck = true;
 					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
 					{
 						int nQty = dbOffer.nQty;
@@ -918,7 +918,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 		}
 
         // set the escrow's txn-dependent values
-		if(!bPackmentAck)
+		if(!bPaymentAck)
 			theEscrow.op = escrowOp;
 		theEscrow.txHash = tx.GetHash();
 		theEscrow.nHeight = nHeight;
@@ -1653,6 +1653,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	escrow.op = OP_ESCROW_RELEASE;
 	escrow.rawTx = ParseHex(hex_str);
 	escrow.nHeight = chainActive.Tip()->nHeight;
+	escrow.bPaymentAck = false;
 	escrow.vchLinkAlias = vchLinkAlias;
 
 	const vector<unsigned char> &data = escrow.Serialize();
@@ -2312,6 +2313,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 	escrow.ClearEscrow();
 	escrow.op = OP_ESCROW_COMPLETE;
+	escrow.bPaymentAck = false;
 	escrow.nHeight = chainActive.Tip()->nHeight;
 	escrow.vchLinkAlias = vchLinkAlias;
 	escrow.redeemTxId = myRawTx.GetHash();
@@ -2612,6 +2614,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 
 	escrow.ClearEscrow();
 	escrow.op = OP_ESCROW_REFUND;
+	escrow.bPaymentAck = false;
 	escrow.rawTx = ParseHex(hex_str);
 	escrow.nHeight = chainActive.Tip()->nHeight;
 	escrow.vchLinkAlias = vchLinkAlias;
@@ -2990,6 +2993,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
 	escrow.ClearEscrow();
 	escrow.op = OP_ESCROW_COMPLETE;
+	escrow.bPaymentAck = false;
 	escrow.nHeight = chainActive.Tip()->nHeight;
 	escrow.vchLinkAlias = vchLinkAlias;
 	escrow.redeemTxId = myRawTx.GetHash();
@@ -3152,6 +3156,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 
 	escrow.ClearEscrow();
 	escrow.op = OP_ESCROW_COMPLETE;
+	escrow.bPaymentAck = false;
 	escrow.nHeight = chainActive.Tip()->nHeight;
 	escrow.vchLinkAlias = vchLinkAlias;
 	// buyer
