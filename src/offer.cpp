@@ -2967,11 +2967,6 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find an offer with this guid"));
-	if(!theOffer.vchLinkOffer.empty())
-	{
-		if (!GetTxOfOffer( theOffer.vchLinkOffer, theOffer, tx, true))
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find a linked offer with this guid"));
-	}
 
 	COffer tmpOffer;
 	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, tmpOffer, theOfferAccept, tx, true))
