@@ -59,6 +59,7 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
     QAction *copyOfferAction = new QAction(tr("&Copy Offer ID"), this);
 	QAction *detailsAction = new QAction(tr("&Details"), this);
 	QAction *manageAction = new QAction(tr("Manage Escrow"), this);
+	QAction *ackAction = new QAction(tr("Acknowledge Payment"), this);
 
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));
     // Build context menu
@@ -68,12 +69,14 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
 	contextMenu->addSeparator();
 	contextMenu->addAction(detailsAction);
 	contextMenu->addAction(manageAction);
+	contextMenu->addAction(ackAction);
 
     // Connect signals for context menu actions
     connect(copyEscrowAction, SIGNAL(triggered()), this, SLOT(on_copyEscrow_clicked()));
     connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
 	connect(detailsAction, SIGNAL(triggered()), this, SLOT(on_detailButton_clicked()));
 	connect(manageAction, SIGNAL(triggered()), this, SLOT(on_manageButton_clicked()));
+	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
    
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
 

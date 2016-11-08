@@ -73,6 +73,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	QAction *detailsAction = new QAction(tr("&Details"), this);
 	QAction *messageAction = new QAction(tr("&Message Buyer"), this);
 	QAction *feedbackAction = new QAction(tr("&Leave Feedback For Buyer"), this);
+	QAction *ackAction = new QAction(tr("&Acknowledge Payment"), this);
 
     // Build context menu
     contextMenu = new QMenu();
@@ -82,12 +83,14 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	contextMenu->addAction(detailsAction);
 	contextMenu->addAction(messageAction);
 	contextMenu->addAction(feedbackAction);
+	contextMenu->addAction(ackAction);
     // Connect signals for context menu actions
     connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
     connect(copyOfferValueAction, SIGNAL(triggered()), this, SLOT(onCopyOfferValueAction()));
 	connect(detailsAction, SIGNAL(triggered()), this, SLOT(on_detailButton_clicked()));
 	connect(messageAction, SIGNAL(triggered()), this, SLOT(on_messageButton_clicked()));
 	connect(feedbackAction, SIGNAL(triggered()), this, SLOT(on_feedbackButton_clicked()));
+	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
 
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
 
