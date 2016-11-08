@@ -3230,7 +3230,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 
     UniValue oRes(UniValue::VARR);
     map< vector<unsigned char>, int > vNamesI;
-    map< vector<unsigned char>, UniValue > vNamesO;
+	map< vector<unsigned char>, int > vNamesA;
 
 	CTransaction tx, offerTx, acceptTx, aliasTx, linkTx, linkAliasTx, offerTxTmp;
 	COffer theOffer, offerTmp, linkOffer;
@@ -3248,10 +3248,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		vector<vector<unsigned char> > vvch;
 		int op, nOut;
 		if (!DecodeOfferTx(tx, op, nOut, vvch))
-			continue;
-		// skip any payment ack's
-		COffer offerAck(tx);
-		if(offerAck.accept.bPaymentAck)
 			continue;
 		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 			continue;
@@ -3277,11 +3273,14 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
         		|| (op != OP_OFFER_ACCEPT))
 				continue;
-			COffer theOfferAck(offerTxTmp);
-			// skip acks
-			if(theOfferAck.accept.bPaymentAck)
+			// get unique accepts
+			if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
 				continue;
+
+			
 			int nHeight = theOffer.accept.nAcceptHeight;
+			vNamesA[theOffer.accept.vchAcceptRand] = nHeight;
+
 			bool commissionPaid = false;
 			bool discountApplied = false;
 			// need to show 3 different possible prices:
