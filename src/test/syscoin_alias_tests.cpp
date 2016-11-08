@@ -199,9 +199,9 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	AliasNew("node2", "jagnodemultisig2", "password", "changeddata1");
 	AliasNew("node3", "jagnodemultisig3", "password", "changeddata1");
 	// create 2 of 2
-	UniValue v(UniValue::VARR);
-	v.push_back("jagnodemultisig2");
-	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", v.write());
+	//UniValue v(UniValue::VARR);
+	//v.push_back("jagnodemultisig2");
+	//AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", v.write());
 	//AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", "[{\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"}]");
 	// create 1 of 2
 	// create 2 of 3
