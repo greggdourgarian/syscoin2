@@ -1064,7 +1064,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
-	
+	printf("FindOfferAcceptList\n");
 	const UniValue &acceptSellerValue = FindOfferAcceptList(ownernode, rootalias, rootofferguid, acceptguid);
 	
 	int discount = atoi(find_value(acceptSellerValue, "offer_discount_percentage").get_str().c_str());
@@ -1087,6 +1087,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	balanceOwnerBefore += nSellerTotal;
 	BOOST_CHECK_EQUAL(balanceOwnerBefore , balanceOwnerAfter);
 	// now get the accept from the resellernode
+	printf("FindOfferAcceptList1\n");
 	const UniValue &acceptReSellerValue = FindOfferAcceptList(resellernode, selleralias, offerguid, acceptguid);
 	CAmount nCommission = find_value(acceptReSellerValue, "systotal").get_int64();
 
