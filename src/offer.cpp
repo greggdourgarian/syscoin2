@@ -3277,9 +3277,9 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
         		|| (op != OP_OFFER_ACCEPT))
 				continue;
-			offerAck = COffer(offerTxTmp);
+			COffer theOfferAck(offerTxTmp);
 			// skip acks
-			if(offerAck.accept.bPaymentAck)
+			if(theOfferAck.accept.bPaymentAck)
 				continue;
 			int nHeight = theOffer.accept.nAcceptHeight;
 			bool commissionPaid = false;
