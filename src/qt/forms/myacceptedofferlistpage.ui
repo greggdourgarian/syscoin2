@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>784</width>
+    <width>805</width>
     <height>380</height>
    </rect>
   </property>
@@ -115,12 +115,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btcButton">
+      <widget class="QPushButton" name="extButton">
        <property name="toolTip">
-        <string>Check Bitcoin payment for this offer</string>
+        <string>Check payment for this offer from an external chain</string>
        </property>
        <property name="text">
-        <string>Check BTC Payment</string>
+        <string>Check External Payment</string>
        </property>
       </widget>
      </item>
