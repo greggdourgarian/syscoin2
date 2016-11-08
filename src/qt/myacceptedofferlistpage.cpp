@@ -193,7 +193,8 @@ void MyAcceptedOfferListPage::on_ackButton_clicked()
          QMessageBox::Cancel);
     if(retval == QMessageBox::Yes)
     {
-		strMethod = string("offeracceptacknowledge");
+		UniValue params(UniValue::VARR);
+		string strMethod = string("offeracceptacknowledge");
 		params.push_back(offerid.toStdString());
 		params.push_back(acceptid.toStdString());
 

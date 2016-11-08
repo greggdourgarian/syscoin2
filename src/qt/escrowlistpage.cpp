@@ -145,7 +145,8 @@ void EscrowListPage::on_ackButton_clicked()
          QMessageBox::Cancel);
     if(retval == QMessageBox::Yes)
     {
-		strMethod = string("escrowacknowledge");
+		UniValue params(UniValue::VARR);
+		string strMethod = string("escrowacknowledge");
 		params.push_back(escrow.toStdString());
 
 		try {
