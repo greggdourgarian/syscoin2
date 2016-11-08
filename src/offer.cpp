@@ -3263,6 +3263,9 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			const COffer &theOffer = vtxOfferPos[i];
 			if(theOffer.accept.IsNull())
 				continue;
+			// get unique accepts
+			if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
+				continue;
 			if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 				continue;
 
@@ -3272,9 +3275,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 
 			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
         		|| (op != OP_OFFER_ACCEPT))
-				continue;
-			// get unique accepts
-			if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
 				continue;
 
 			
