@@ -3639,6 +3639,13 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 			COffer theOfferA = txPos2;
 			oOffer.push_back(Pair("offer", offer));
 			string opName = offerFromOp(op);
+			COffer offer(tx);
+			if(offer.accept.bPaymentAck)
+				opName += "("+_("acknowledged")+")";
+			else if(!offer.accept.feedback.empty())
+				opName += "("+_("feedback")+")";
+
+			
 			oOffer.push_back(Pair("offertype", opName));
 			vector<unsigned char> vchCert;
 			if(!theOfferA.vchCert.empty())

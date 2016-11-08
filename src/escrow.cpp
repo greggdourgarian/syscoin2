@@ -3830,6 +3830,11 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 			nHeight = txPos2.nHeight;
 			oEscrow.push_back(Pair("escrow", escrow));
 			string opName = escrowFromOp(op);
+			CEscrow escrow(tx);
+			if(escrow.bPaymentAck)
+				opName += "("+_("acknowledged")+")";
+			else if(!escrow.feedback.empty())
+				opName += "("+_("feedback")+")";
 			oEscrow.push_back(Pair("escrowtype", opName));
 
 			oEscrow.push_back(Pair("txid", tx.GetHash().GetHex()));

@@ -2805,18 +2805,23 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			if(DecodeOfferTx(tx, op, nOut, vvch) )
 			{
 				opName = offerFromOp(op);
-				COffer offerAck(tx);
-				if(offerAck.accept.bPaymentAck)
-					opName += _(" (Acknowledged)");
+				COffer offer(tx);
+				if(offer.accept.bPaymentAck)
+					opName += "("+_("acknowledged")+")";
+				else if(!offer.accept.feedback.empty())
+					opName += "("+_("feedback")+")";
+
 			}
 			else if(DecodeMessageTx(tx, op, nOut, vvch) )
 				opName = messageFromOp(op);
 			else if(DecodeEscrowTx(tx, op, nOut, vvch) )
 			{
 				opName = escrowFromOp(op);
-				CEscrow escrowAck(tx);
-				if(escrowAck.bPaymentAck)
-					opName += _(" (Acknowledged)");
+				CEscrow escrow(tx);
+				if(escrow.bPaymentAck)
+					opName += "("+_("acknowledged")+")";
+				else if(!escrow.feedback.empty())
+					opName += "("+_("feedback")+")";
 			}
 			else if(DecodeCertTx(tx, op, nOut, vvch) )
 				opName = certFromOp(op);
