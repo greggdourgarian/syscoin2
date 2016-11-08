@@ -1370,7 +1370,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(theOfferAccept.nQty <= 0)
 				theOfferAccept.nQty = 1;
 			theOffer.accept = theOfferAccept;
-			vector<COffer> myLinkVtxPos;
 			if (!linkOffer.IsNull())
 			{
 				linkOffer.nHeight = nHeight;
