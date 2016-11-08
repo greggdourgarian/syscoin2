@@ -575,11 +575,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find arbiter alias. It may be expired");
 					return true;
 				}
-			}
-			if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
-			{
-				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Cannot find seller alias. It may be expired");
-				return true;
+				if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Cannot find seller alias. It may be expired");
+					return true;
+				}
 			}
 		}
 		vector<CEscrow> vtxPos;
