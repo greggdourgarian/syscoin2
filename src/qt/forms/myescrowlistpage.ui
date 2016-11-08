@@ -114,6 +114,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="ackButton">
+       <property name="text">
+        <string>Acknowledge Payment</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="buyerMessageButton">
        <property name="toolTip">
         <string>Send message to buyer</string>

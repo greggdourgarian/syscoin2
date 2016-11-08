@@ -417,7 +417,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			case OP_ESCROW_ACTIVATE:
 				if (theEscrow.bPaymentAck)
 				{
-					if(!IsAliasOp(prevAliasOp) || theEscrow.vchSellerAlias != vvchPrevAliasArgs[0] )
+					if(!IsAliasOp(prevAliasOp) || theEscrow.vchLinkAlias != vvchPrevAliasArgs[0] )
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4024 - " + _("Alias input mismatch");
 						return error(errorMessage.c_str());
@@ -614,6 +614,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				escrowOp = serializedEscrow.op;
 				if(op == OP_ESCROW_ACTIVATE && serializedEscrow.bPaymentAck)
 				{
+					if(serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias)
+					{
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4045 - " + _("Only seller can acknowledge an escrow payment");
+						return true;
+					}
 					theEscrow.bPaymentAck = true;
 					bPackmentAck = true;
 					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
@@ -1865,7 +1870,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	escrow.ClearEscrow();
 	escrow.bPaymentAck = true;
 	escrow.nHeight = chainActive.Tip()->nHeight;
-	escrow.vchBuyerAlias = sellerAlias.vchAlias;
+	escrow.vchLinkAlias = sellerAlias.vchAlias;
 
 	const vector<unsigned char> &data = escrow.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
