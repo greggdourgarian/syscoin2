@@ -16,6 +16,7 @@
 using namespace std;
 // SYSCOIN
 #include "offer.h"
+#include "escrow.h"
 extern int GetSyscoinTxVersion();
 extern bool IsSyscoinDataOutput(const CTxOut& out);
 extern bool IsSyscoinTxMine(const CTransaction& tx, const string &type);
