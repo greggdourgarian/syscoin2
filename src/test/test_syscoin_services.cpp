@@ -1046,6 +1046,8 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	string rootalias = find_value(r.get_obj(), "offerlink_seller").get_str();
 	string rootofferguid = find_value(r.get_obj(), "offerlink_guid").get_str();
+	BOOST_CHECK(!rootalias.empty());
+	BOOST_CHECK(!rootofferguid.empty());
 	int nQtyToAccept = atoi(qty.c_str());
 	CAmount nTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
 	string sTargetQty = boost::to_string(nCurrentQty);
@@ -1064,7 +1066,6 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
-	printf("FindOfferAcceptList\n");
 	const UniValue &acceptSellerValue = FindOfferAcceptList(ownernode, rootalias, rootofferguid, acceptguid);
 	
 	int discount = atoi(find_value(acceptSellerValue, "offer_discount_percentage").get_str().c_str());
@@ -1087,7 +1088,6 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	balanceOwnerBefore += nSellerTotal;
 	BOOST_CHECK_EQUAL(balanceOwnerBefore , balanceOwnerAfter);
 	// now get the accept from the resellernode
-	printf("FindOfferAcceptList1\n");
 	const UniValue &acceptReSellerValue = FindOfferAcceptList(resellernode, selleralias, offerguid, acceptguid);
 	CAmount nCommission = find_value(acceptReSellerValue, "systotal").get_int64();
 
