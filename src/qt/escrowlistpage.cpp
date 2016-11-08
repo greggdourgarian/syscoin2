@@ -129,7 +129,61 @@ void EscrowListPage::setOptionsModel(OptionsModel *optionsModel)
 }
 void EscrowListPage::on_ackButton_clicked()
 {
-    
+ 	if(!model)	
+		return;
+	if(!ui->tableView->selectionModel())
+        return;
+    QModelIndexList selection = ui->tableView->selectionModel()->selectedRows();
+    if(selection.isEmpty())
+    {
+        return;
+    }
+	QString escrow = selection.at(0).data(EscrowTableModel::EscrowRole).toString();
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Escrow Acknowledgement"),
+         tr("Warning: By acknowledging this payment the offer quantity related to this escrow will be adjusted by the amount requested by the buyer. If you are shipping an item to the buyer please communicate a tracking number to the buyer via a syscoin message.") + "<br><br>" + tr("Are you sure you wish to acknowledge this payment?"),
+         QMessageBox::Yes|QMessageBox::Cancel,
+         QMessageBox::Cancel);
+    if(retval == QMessageBox::Yes)
+    {
+		strMethod = string("escrowacknowledge");
+		params.push_back(escrow.toStdString());
+
+		try {
+			UniValue result = tableRPC.execute(strMethod, params);
+			const UniValue& resArray = result.get_array();
+			if(resArray.size() > 1)
+			{
+				const UniValue& complete_value = resArray[1];
+				bool bComplete = false;
+				if (complete_value.isStr())
+					bComplete = complete_value.get_str() == "true";
+				if(!bComplete)
+				{
+					string hex_str = resArray[0].get_str();
+					GUIUtil::setClipboard(QString::fromStdString(hex_str));
+					QMessageBox::information(this, windowTitle(),
+						tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
+							QMessageBox::Ok, QMessageBox::Ok);
+					return true;
+				}
+			}
+		}
+		catch (UniValue& objError)
+		{
+			string strError = find_value(objError, "message").get_str();
+			QMessageBox::critical(this, windowTitle(),
+			tr("Error acknowledging escrow payment: \"%1\"").arg(QString::fromStdString(strError)),
+				QMessageBox::Ok, QMessageBox::Ok);
+			break;
+		}
+		catch(std::exception& e)
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("General exception acknowledging escrow payment"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			break;
+		}
+	}    
 }
 void EscrowListPage::on_copyEscrow_clicked()
 {
