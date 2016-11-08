@@ -4142,7 +4142,7 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 
 	CTransaction escrowtx;
 	CEscrow dbEscrow;
-	GetTxEscrow(escrow.vchEscrow, dbEscrow, escrowtx);
+	GetTxOfEscrow(escrow.vchEscrow, dbEscrow, escrowtx);
 
 
 	string noDifferentStr = _("<No Difference Detected>");
