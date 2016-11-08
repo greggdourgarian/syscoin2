@@ -1370,7 +1370,19 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(theOfferAccept.nQty <= 0)
 				theOfferAccept.nQty = 1;
 			theOffer.accept = theOfferAccept;
-
+			vector<COffer> myLinkVtxPos;
+			if (!linkOffer.IsNull())
+			{
+				linkOffer.nHeight = nHeight;
+				linkOffer.txHash = tx.GetHash();
+				linkOffer.accept = theOfferAccept;
+				linkOffer.PutToOfferList(offerVtxPos);
+				if (!dontaddtodb && !pofferdb->WriteOffer(myPriceOffer.vchLinkOffer, offerVtxPos))
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
+					return true;
+				}
+			}
 			if(!theOfferAccept.txExtId.IsNull())
 			{
 				if(pofferdb->ExistsOfferTx(theOfferAccept.txExtId) || pescrowdb->ExistsEscrowTx(theOfferAccept.txExtId))
