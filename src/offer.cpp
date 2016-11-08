@@ -3253,9 +3253,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		COffer offerAck(tx);
 		if(offerAck.accept.bPaymentAck)
 			continue;
-		// skip feedbacks
-		if(!offerAck.accept.feedback.empty())
-			continue;
 		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 			continue;
 
@@ -3283,9 +3280,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			offerAck = COffer(offerTxTmp);
 			// skip acks
 			if(offerAck.accept.bPaymentAck)
-				continue;
-			// skip feedbacks
-			if(!offerAck.accept.feedback.empty())
 				continue;
 			int nHeight = theOffer.accept.nAcceptHeight;
 			bool commissionPaid = false;
