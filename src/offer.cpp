@@ -3237,28 +3237,20 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchOffer;
     uint256 blockHash;
     uint256 hash;
-printf("offeracceptlist\n");
+
 	UniValue aoOfferAccepts(UniValue::VARR);
 	for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 		const CAliasIndex& theAlias = *it;
-printf("1\n");
 		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 			continue;
-printf("2\n");
 		vector<vector<unsigned char> > vvch;
 		int op, nOut;
 		if (!DecodeOfferTx(tx, op, nOut, vvch))
 			continue;
-printf("3\n");
 		// skip any payment ack's
 		offerTmp = COffer(tx);
 		if(offerTmp.accept.bPaymentAck)
-{
-printf("packmentack\n");
 			continue;
-}printf("4\n");
-
-
 		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 			continue;
 

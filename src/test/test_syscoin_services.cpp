@@ -1061,9 +1061,9 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	const UniValue &arr = r.get_array();
 	string acceptguid = arr[1].get_str();
 
-	GenerateBlocks(4, "node1");
-	GenerateBlocks(4, "node2");
-	GenerateBlocks(4, "node3");
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
+	GenerateBlocks(5, "node3");
 	
 	const UniValue &acceptSellerValue = FindOfferAcceptList(ownernode, rootalias, rootofferguid, acceptguid);
 	
@@ -1096,9 +1096,9 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	BOOST_CHECK_EQUAL(balanceResellerBefore ,  balanceResellerAfter);
 	nSellerTotal += nCommission;
 	BOOST_CHECK(find_value(acceptReSellerValue, "pay_message").get_str() != pay_message);
-	GenerateBlocks(3, "node1");
-	GenerateBlocks(3, "node2");
-	GenerateBlocks(3, "node3");
+	GenerateBlocks(2, "node1");
+	GenerateBlocks(2, "node2");
+	GenerateBlocks(2, "node3");
 
 	BOOST_CHECK(find_value(acceptSellerValue, "ismine").get_str() == "true");
 	BOOST_CHECK(find_value(acceptReSellerValue, "ismine").get_str() == "true");
