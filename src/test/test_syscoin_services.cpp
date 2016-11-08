@@ -1172,7 +1172,7 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	BOOST_CHECK_NO_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid));
 	BOOST_CHECK_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid), runtime_error);
 	GenerateBlocks(5, sellernode);
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC(sellernode, "offerinfo " + offerguid));
 	nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	BOOST_CHECK_EQUAL(nQtyAfter, nQtyBefore-nQty);
 	return guid;
