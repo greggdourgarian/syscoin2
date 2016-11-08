@@ -197,7 +197,6 @@ void MyEscrowListPage::on_ackButton_clicked()
 					QMessageBox::information(this, windowTitle(),
 						tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
 							QMessageBox::Ok, QMessageBox::Ok);
-					return true;
 				}
 			}
 		}
@@ -207,14 +206,12 @@ void MyEscrowListPage::on_ackButton_clicked()
 			QMessageBox::critical(this, windowTitle(),
 			tr("Error acknowledging escrow payment: \"%1\"").arg(QString::fromStdString(strError)),
 				QMessageBox::Ok, QMessageBox::Ok);
-			break;
 		}
 		catch(std::exception& e)
 		{
 			QMessageBox::critical(this, windowTitle(),
 				tr("General exception acknowledging escrow payment"),
 				QMessageBox::Ok, QMessageBox::Ok);
-			break;
 		}
 	}     
 }
