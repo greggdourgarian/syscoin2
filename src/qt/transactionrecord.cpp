@@ -25,6 +25,7 @@ enum {RECV=0, SEND=1};
 static bool CreateSyscoinTransactionRecord(TransactionRecord& sub, int op, const vector<vector<unsigned char> > &vvchArgs, const CWalletTx &wtx, int type)
 {
 	COffer offer;
+	CEscrow escrow;
 	switch(op)
 	{
 	case OP_ALIAS_ACTIVATE:
@@ -57,6 +58,10 @@ static bool CreateSyscoinTransactionRecord(TransactionRecord& sub, int op, const
 			else if(type == RECV)
 				sub.type = TransactionRecord::OfferAcceptFeedbackRecv;
 		}
+		else if(offer.accept.bPaymentAck)
+		{
+			sub.type = TransactionRecord::OfferAcceptAcknowledge;
+		}
 		else
 		{
 			if(type == SEND)
@@ -80,7 +85,10 @@ static bool CreateSyscoinTransactionRecord(TransactionRecord& sub, int op, const
 			sub.type = TransactionRecord::CertRecv;
 		break;
 	case OP_ESCROW_ACTIVATE:
-		if(type == SEND || type == RECV)
+		escrow = CEscrow(wtx);
+		if(escrow.bPaymentAck)
+			sub.type = TransactionRecord::EscrowAcknowledge;
+		else
 			sub.type = TransactionRecord::EscrowActivate;
 		break;
 	case OP_ESCROW_RELEASE:

@@ -3253,6 +3253,9 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		COffer offerAck(tx);
 		if(offerAck.accept.bPaymentAck)
 			continue;
+		// skip feedbacks
+		if(!offerAck.accept.feedback.empty())
+			continue;
 		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 			continue;
 
@@ -3267,7 +3270,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			const COffer &theOffer = vtxOfferPos[i];
 			if(theOffer.accept.IsNull())
 				continue;
-
 			if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 				continue;
 
@@ -3903,6 +3905,11 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 
 	entry.push_back(Pair("paymentoptions", paymentOptionsValue));
 
+	string ackValue = noDifferentStr;
+	if(offer.accept.bPaymentAck != dbOffer.accept.bPaymentAck)
+		ackValue = offer.accept.bPaymentAck? "true": "false";
+
+	entry.push_back(Pair("paymentacknowledge", ackValue));
 
 	string categoryValue = noDifferentStr;
 	if(!offer.sCategory.empty() && offer.sCategory != dbOffer.sCategory)

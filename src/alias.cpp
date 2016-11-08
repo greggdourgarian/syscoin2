@@ -2803,11 +2803,21 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
             int op, nOut;
 			string opName;
 			if(DecodeOfferTx(tx, op, nOut, vvch) )
+			{
 				opName = offerFromOp(op);
+				COffer offerAck(tx);
+				if(offerAck.accept.bPaymentAck)
+					opName += _(" (Acknowledged)");
+			}
 			else if(DecodeMessageTx(tx, op, nOut, vvch) )
 				opName = messageFromOp(op);
 			else if(DecodeEscrowTx(tx, op, nOut, vvch) )
+			{
 				opName = escrowFromOp(op);
+				CEscrow escrowAck(tx);
+				if(escrowAck.bPaymentAck)
+					opName += _(" (Acknowledged)");
+			}
 			else if(DecodeCertTx(tx, op, nOut, vvch) )
 				opName = certFromOp(op);
 			else if(GetAliasOfTx(tx, vchName))

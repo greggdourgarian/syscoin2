@@ -399,6 +399,8 @@ QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
         return tr("Offer Updated");
     case TransactionRecord::OfferAccept:
         return tr("Offer Accepted");
+    case TransactionRecord::OfferAcceptAcknowledge:
+        return tr("Offer Accept Acknowledged");
     case TransactionRecord::OfferAcceptRecv:
         return tr("Offer Accept Received");
     case TransactionRecord::OfferAcceptFeedback:
@@ -413,8 +415,10 @@ QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
         return tr("Cert. Transferred");
     case TransactionRecord::CertRecv:
         return tr("Cert. Received");
-   case TransactionRecord::EscrowActivate:
+	case TransactionRecord::EscrowActivate:
         return tr("Escrow Activated");
+	case TransactionRecord::EscrowAcknowledge:
+        return tr("Escrow Acknowledged");
     case TransactionRecord::EscrowRelease:
         return tr("Escrow Released");
     case TransactionRecord::EscrowReleaseRecv:
@@ -471,10 +475,12 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
     case TransactionRecord::OfferUpdate:
     case TransactionRecord::OfferActivate:
     case TransactionRecord::OfferAccept:
+	case TransactionRecord::OfferAcceptAcknowledge:
 	case TransactionRecord::OfferAcceptFeedback:
     case TransactionRecord::CertActivate:
 	case TransactionRecord::CertTransfer:
     case TransactionRecord::EscrowActivate:
+	case TransactionRecord::EscrowAcknowledge:
     case TransactionRecord::EscrowRelease:
     case TransactionRecord::EscrowRefund:
 	case TransactionRecord::EscrowRefundComplete:
@@ -514,6 +520,7 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord *wtx, b
     case TransactionRecord::OfferActivate:
     case TransactionRecord::OfferUpdate:
     case TransactionRecord::OfferAccept:
+	case TransactionRecord::OfferAcceptAcknowledge:
 	case TransactionRecord::OfferAcceptRecv:
     case TransactionRecord::OfferAcceptFeedback:
 	case TransactionRecord::OfferAcceptFeedbackRecv:
@@ -522,6 +529,7 @@ QString TransactionTableModel::formatTxToAddress(const TransactionRecord *wtx, b
     case TransactionRecord::CertTransfer:
 	case TransactionRecord::CertRecv:
     case TransactionRecord::EscrowActivate:
+	case TransactionRecord::EscrowAcknowledge:
     case TransactionRecord::EscrowRelease:
 	case TransactionRecord::EscrowReleaseComplete:
     case TransactionRecord::EscrowRefund:

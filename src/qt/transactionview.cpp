@@ -102,6 +102,7 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     typeWidget->addItem(tr("Offer Activated"), TransactionFilterProxy::TYPE(TransactionRecord::OfferActivate));
     typeWidget->addItem(tr("Offer Updated"), TransactionFilterProxy::TYPE(TransactionRecord::OfferUpdate));
     typeWidget->addItem(tr("Offer Accepted"), TransactionFilterProxy::TYPE(TransactionRecord::OfferAccept));
+	typeWidget->addItem(tr("Offer Accept Acknowledged"), TransactionFilterProxy::TYPE(TransactionRecord::OfferAcceptAcknowledge));
 	typeWidget->addItem(tr("Offer Accept Received"), TransactionFilterProxy::TYPE(TransactionRecord::OfferAcceptRecv));
     typeWidget->addItem(tr("Offer Accept Feedback"), TransactionFilterProxy::TYPE(TransactionRecord::OfferAcceptFeedback));
 	typeWidget->addItem(tr("Offer Accept Feedback Received"), TransactionFilterProxy::TYPE(TransactionRecord::OfferAcceptFeedbackRecv));
@@ -112,6 +113,7 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
 	typeWidget->addItem(tr("Certificate Received"), TransactionFilterProxy::TYPE(TransactionRecord::CertRecv));
 
     typeWidget->addItem(tr("Escrow Activated"), TransactionFilterProxy::TYPE(TransactionRecord::EscrowActivate));
+	typeWidget->addItem(tr("Escrow Acknowledged"), TransactionFilterProxy::TYPE(TransactionRecord::EscrowAcknowledge));
     typeWidget->addItem(tr("Escrow Released"), TransactionFilterProxy::TYPE(TransactionRecord::EscrowRelease));
 	typeWidget->addItem(tr("Escrow Release Received"), TransactionFilterProxy::TYPE(TransactionRecord::EscrowReleaseRecv));
     typeWidget->addItem(tr("Escrow Refunded"), TransactionFilterProxy::TYPE(TransactionRecord::EscrowRefund));

@@ -89,6 +89,7 @@ public:
         OfferActivate,
         OfferUpdate,
         OfferAccept,
+		OfferAcceptAcknowledge,
 		OfferAcceptRecv,
       
         CertActivate,
@@ -97,6 +98,7 @@ public:
 		CertRecv,
 
         EscrowActivate,
+		EscrowAcknowledge,
         EscrowRelease,
 		EscrowReleaseRecv,
         EscrowRefund,
