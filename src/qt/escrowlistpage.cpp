@@ -42,6 +42,7 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
 		ui->searchEscrow->setIcon(QIcon());
 		ui->detailButton->setIcon(QIcon());
 		ui->manageButton->setIcon(QIcon());
+		ui->ackButton->setIcon(QIcon());
 	}
 	else
 	{
@@ -49,6 +50,7 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
 		ui->searchEscrow->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
 		ui->detailButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/details"));
 		ui->manageButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/escrow1"));
+		ui->ackButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/synced"));
 	}
     ui->labelExplanation->setText(tr("Search for Syscoin Escrows."));
 	
@@ -125,7 +127,10 @@ void EscrowListPage::setOptionsModel(OptionsModel *optionsModel)
 {
     this->optionsModel = optionsModel;
 }
-
+void EscrowListPage::on_ackButton_clicked()
+{
+    
+}
 void EscrowListPage::on_copyEscrow_clicked()
 {
    

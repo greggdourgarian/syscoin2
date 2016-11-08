@@ -40,7 +40,6 @@ public:
 	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
 public Q_SLOTS:
     void done(int retval);
-
 private:
 	const PlatformStyle *platformStyle;
 	ClientModel* clientModel;
@@ -71,6 +70,7 @@ private Q_SLOTS:
     void contextualMenu(const QPoint &point);
     void selectNewOffer(const QModelIndex &parent, int begin, int /*end*/);
 	void on_detailButton_clicked();
+	void on_ackButton_clicked();
 
 };
 

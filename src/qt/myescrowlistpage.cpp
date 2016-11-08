@@ -43,6 +43,7 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
 		ui->copyEscrow->setIcon(QIcon());
 		ui->refreshButton->setIcon(QIcon());
 		ui->detailButton->setIcon(QIcon());
+		ui->ackButton->setIcon(QIcon());
 
 	}
 	else
@@ -55,6 +56,7 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
 		ui->copyEscrow->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/editcopy"));
 		ui->refreshButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/refresh"));
 		ui->detailButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/details"));
+		ui->ackButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/synced"));
 		
 	}
 
@@ -157,6 +159,10 @@ void MyEscrowListPage::setOptionsModel(ClientModel* clientmodel, OptionsModel *o
 void MyEscrowListPage::on_copyEscrow_clicked()
 {
     GUIUtil::copyEntryData(ui->tableView, EscrowTableModel::Escrow);
+}
+void MyEscrowListPage::on_ackButton_clicked()
+{
+    
 }
 void MyEscrowListPage::on_copyOffer_clicked()
 {

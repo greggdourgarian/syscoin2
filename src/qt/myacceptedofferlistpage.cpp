@@ -47,6 +47,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 		ui->refreshButton->setIcon(QIcon());
 		ui->extButton->setIcon(QIcon());
 		ui->feedbackButton->setIcon(QIcon());
+		ui->ackButton->setIcon(QIcon());
 
 	}
 	else
@@ -58,6 +59,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 		ui->refreshButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/refresh"));
 		ui->extButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
 		ui->feedbackButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/thumbsup"));
+		ui->ackButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/synced"));
 		
 	}
 
@@ -172,6 +174,10 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 
 
 } 
+void MyAcceptedOfferListPage::on_ackButton_clicked()
+{
+    
+}
 void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	if(reply->error() != QNetworkReply::NoError) {
 		ui->extButton->setText(m_buttonText);

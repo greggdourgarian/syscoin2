@@ -65,6 +65,7 @@ private Q_SLOTS:
     void contextualMenu(const QPoint &point);
     /** New entry/entries were added to escrow table */
     void selectNewEscrow(const QModelIndex &parent, int begin, int /*end*/);
+	void on_ackButton_clicked();
 
 
 };
