@@ -4142,11 +4142,8 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 
 	CTransaction escrowtx;
 	CEscrow dbEscrow;
-	if(GetTxAndVtxOfEscrow(escrow.vchEscrow, dbEscrow, escrowtx, escrowVtxPos))
-	{
-		dbEscrow.nHeight = escrow.nHeight;
-		dbEscrow.GetEscrowFromList(escrowVtxPos);
-	}
+	GetTxEscrow(escrow.vchEscrow, dbEscrow, escrowtx);
+
 
 	string noDifferentStr = _("<No Difference Detected>");
 
@@ -4154,7 +4151,7 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 	entry.push_back(Pair("escrow", stringFromVch(escrow.vchEscrow)));
 
 	string ackValue = noDifferentStr;
-	if(escrow.bPaymentAck != dbEscrow.bPaymentAck)
+	if(escrow.bPaymentAck && escrow.bPaymentAck != dbEscrow.bPaymentAck)
 		ackValue = escrow.bPaymentAck? "true": "false";
 
 	entry.push_back(Pair("paymentacknowledge", ackValue));	

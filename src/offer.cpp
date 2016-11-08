@@ -3906,7 +3906,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 	entry.push_back(Pair("paymentoptions", paymentOptionsValue));
 
 	string ackValue = noDifferentStr;
-	if(offer.accept.bPaymentAck != dbOffer.accept.bPaymentAck)
+	if(offer.accept.bPaymentAck && offer.accept.bPaymentAck != dbOffer.accept.bPaymentAck)
 		ackValue = offer.accept.bPaymentAck? "true": "false";
 
 	entry.push_back(Pair("paymentacknowledge", ackValue));
