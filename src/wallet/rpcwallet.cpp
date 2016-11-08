@@ -2742,6 +2742,7 @@ extern UniValue offernew(const UniValue& params, bool fHelp);
 extern UniValue offerupdate(const UniValue& params, bool fHelp);
 extern UniValue offeraccept(const UniValue& params, bool fHelp);
 extern UniValue offeracceptfeedback(const UniValue& params, bool fHelp);
+extern UniValue offeracceptacknowledge(const UniValue& params, bool fHelp);
 extern UniValue offerlink(const UniValue& params, bool fHelp);
 extern UniValue offeraddwhitelist(const UniValue& params, bool fHelp);
 extern UniValue offerremovewhitelist(const UniValue& params, bool fHelp);
@@ -2773,6 +2774,7 @@ extern UniValue escrowlist(const UniValue& params, bool fHelp);
 extern UniValue escrowhistory(const UniValue& params, bool fHelp);
 extern UniValue escrowfilter(const UniValue& params, bool fHelp);
 extern UniValue escrowfeedback(const UniValue& params, bool fHelp);
+extern UniValue escrowacknowledge(const UniValue& params, bool fHelp);
 
 extern UniValue messagenew(const UniValue& params, bool fHelp);
 extern UniValue messageinfo(const UniValue& params, bool fHelp);
@@ -2849,6 +2851,7 @@ static const CRPCCommand commands[] =
     { "wallet", "offerupdate",          &offerupdate,          false },
     { "wallet", "offeraccept",          &offeraccept,          false },
 	{ "wallet", "offeracceptfeedback",  &offeracceptfeedback,  false },
+	{ "wallet", "offeracceptacknowledge",  &offeracceptacknowledge,false },
 	{ "wallet", "offerlink",		    &offerlink,            false },
 	{ "wallet", "offeraddwhitelist",    &offeraddwhitelist,	   false },
 	{ "wallet", "offerremovewhitelist",	&offerremovewhitelist, false },
@@ -2883,6 +2886,7 @@ static const CRPCCommand commands[] =
 	{ "wallet", "escrowhistory",     &escrowhistory, false },
 	{ "wallet", "escrowfilter",      &escrowfilter,  false },
 	{ "wallet", "escrowfeedback",      &escrowfeedback,  false },
+	{ "wallet", "escrowacknowledge",      &escrowacknowledge,  false },
 
 	// use the blockchain for encrypted messaging
 	{ "wallet", "messagenew",         &messagenew,     false },
