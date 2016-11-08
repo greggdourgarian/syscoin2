@@ -277,10 +277,14 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 		UniValue dataObj1 = find_value(outerObj, "data").get_obj();
 		UniValue dataObj = find_value(dataObj1, "tx").get_obj();
 		UniValue timeValue = find_value(dataObj, "time");
-		if (timeValue.isNum())
-			time = timeValue.get_int();
 		QDateTime timestamp;
-		timestamp.setTime_t(time);
+		if (timeValue.isNum())
+		{
+			time = timeValue.get_int();
+			timestamp.setTime_t(time);
+		}
+		
+		
 
 		UniValue unconfirmedValue = find_value(dataObj, "confirmations");
 		if (unconfirmedValue.isNum())
