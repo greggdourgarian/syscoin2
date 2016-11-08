@@ -1117,7 +1117,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	return acceptguid;
 }
 
-const string EscrowNew(const string& node, const string& buyeralias, const string& offerguid, const string& qty, const string& message, const string& arbiteralias, const string& selleralias)
+const string EscrowNew(const string& node, const string& sellernode, const string& buyeralias, const string& offerguid, const string& qty, const string& message, const string& arbiteralias, const string& selleralias)
 {
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -1168,10 +1168,9 @@ const string EscrowNew(const string& node, const string& buyeralias, const strin
 	BOOST_CHECK(find_value(r.get_obj(), "arbiter").get_str() == arbiteralias);
 	BOOST_CHECK(find_value(r.get_obj(), "seller").get_str() == selleralias);
 	
-	BOOST_CHECK_THROW(r = CallRPC(otherNode1, "escrowacknowledge " + guid), runtime_error);
-	BOOST_CHECK_THROW(r = CallRPC(otherNode2, "escrowacknowledge " + guid), runtime_error);
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowacknowledge " + guid));
 	BOOST_CHECK_THROW(r = CallRPC(node, "escrowacknowledge " + guid), runtime_error);
+	BOOST_CHECK_NO_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid));
+	BOOST_CHECK_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid), runtime_error);
 	GenerateBlocks(5, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
 	nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
