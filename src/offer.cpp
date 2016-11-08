@@ -3018,15 +3018,11 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	CRecipient recipientAlias, recipient, recipientBuyer;
 
 
-	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACCEPT) << theOffer.vchOffer << theOfferAccept.vchAcceptRand << vchFromString("0") << vchHashOffer << OP_2DROP <<  OP_2DROP << OP_DROP;
-	scriptPubKey += scriptPubKeyOrig;
 	scriptPubKeyBuyer << CScript::EncodeOP_N(OP_OFFER_ACCEPT) << theOffer.vchOffer << theOfferAccept.vchAcceptRand << vchFromString("0") << vchHashOffer << OP_2DROP <<  OP_2DROP << OP_DROP;
 	scriptPubKeyBuyer += scriptPubKeyBuyerOrig;
-	CreateRecipient(scriptPubKey, recipient);
 	CreateRecipient(scriptPubKeyBuyer, recipientBuyer);
 	CreateRecipient(scriptPubKeyAlias, recipientAlias);
 
-	vecSend.push_back(recipient);
 	vecSend.push_back(recipientBuyer);
 	vecSend.push_back(recipientAlias);
 
@@ -3039,7 +3035,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+recipientBuyer.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, sellerAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, sellerAlias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
 	{
