@@ -1832,7 +1832,6 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	// if we can't get it in this blockchain, try full raw tx decode (bitcoin input raw tx)
 	if (!escrow.escrowInputTx.empty())
 	{
-		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
 		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  vtxPos.front().nAcceptHeight, precision);
