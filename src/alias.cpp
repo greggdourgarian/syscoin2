@@ -2106,7 +2106,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
-	if(newAddress.ToString() != oldAddress)
+	if(newAddress.ToString() != oldAddress.ToString())
 	{
 		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
