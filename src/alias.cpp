@@ -2155,6 +2155,7 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	}
 	vector<unsigned char> vchData;
 	int nOut;
+	int op;
 	vector<unsigned char> vvch;
 	vector<unsigned char> vchHash;
 	GetSyscoinData(rawTx, vchData, vchHash, nOut);	
