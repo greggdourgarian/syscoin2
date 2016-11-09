@@ -1800,13 +1800,11 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4534 - " + _("Could not find an offer with this identifier"));
 	theOffer.nHeight = vtxPos.front().nAcceptHeight;
 	theOffer.GetOfferFromList(offerVtxPos);
-	CAmount nCommission;
 	if(theOffer.vchLinkOffer.empty())
 	{
 		// only apply whitelist discount if buyer had used his alias as input into the escrow
 		if(foundWhitelistAlias)
 			theOffer.linkWhitelist.GetLinkEntryByHash(buyerAlias.vchAlias, foundEntry);
-		nCommission = 0;
 	}
 	else
 	{
@@ -1825,7 +1823,6 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 		}
 
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
-		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
 	}
 	int precision = 2;
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
