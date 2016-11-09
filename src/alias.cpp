@@ -2160,7 +2160,7 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchHash;
 	GetSyscoinData(rawTx, vchData, vchHash, nOut);	
 	UniValue output(UniValue::VOBJ);
-	if(DecodeAndParseSyscoinTx(rawTx, op, nOut, vvch)
+	if(DecodeAndParseSyscoinTx(rawTx, op, nOut, vvch))
 		SysTxToJSON(op, vchData, vchHash, output);
 	
 	bool sendCoin = false;
