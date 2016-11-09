@@ -69,7 +69,7 @@ bool IsCertOp(int op) {
 // Use for validation purposes and pass the chain height.
 int GetCertExpirationDepth() {
 	#ifdef ENABLE_DEBUGRPC
-    return 100;
+    return 1440;
   #else
     return 525600;
   #endif

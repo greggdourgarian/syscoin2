@@ -1329,7 +1329,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 
 int GetAliasExpirationDepth() {
 	#ifdef ENABLE_DEBUGRPC
-    return 100;
+    return 1440;
   #else
     return 525600;
   #endif
