@@ -1945,7 +1945,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		strSafeSearch = params[4].get_str();
 	}
 	string strPubKey;
+	bool transferAlias = false;
     if (params.size() >= 6 && params[5].get_str().size() > 1) {
+		transferAlias = true;
 		vector<unsigned char> vchPubKey;
 		vchPubKey = vchFromString(params[5].get_str());
 		boost::algorithm::unhex(vchPubKey.begin(), vchPubKey.end(), std::back_inserter(vchPubKeyByte));
@@ -2106,7 +2108,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
-	if(newAddress.ToString() != oldAddress.ToString())
+	// for now dont transfer balances on an alias transfer (TODO add option to transfer balances)
+	if(!transferAlias && newAddress.ToString() != oldAddress.ToString())
 	{
 		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
