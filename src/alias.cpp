@@ -2165,7 +2165,7 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	for (unsigned int i = 0; i < rawTx.vout.size(); i++) {
 		int tmpOp;
 		vector<vector<unsigned char> > tmpvvch;	
-		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT)
+		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT && IsSyscoinDataOutput(rawTx.vout[i]))
 		{
 			foundSys = true;
 		}
