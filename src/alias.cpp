@@ -2819,8 +2819,9 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 				opName = messageFromOp(op);
 			else if(DecodeEscrowTx(tx, op, nOut, vvch) )
 			{
-				opName = escrowFromOp(op);
+				
 				CEscrow escrow(tx);
+				opName = escrowFromOp(escrow.op);
 				if(escrow.bPaymentAck)
 					opName += "("+_("acknowledged")+")";
 				else if(!escrow.feedback.empty())

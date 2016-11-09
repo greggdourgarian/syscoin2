@@ -3657,19 +3657,19 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		}
 
 		string status = "unknown";
-		if(op == OP_ESCROW_ACTIVATE)
+		if(escrow.op == OP_ESCROW_ACTIVATE)
 			status = "in escrow";
-		else if(op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
+		else if(escrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
 			status = "escrow released";
-		else if(op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
+		else if(escrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
 			status = "escrow release complete";
-		else if(op == OP_ESCROW_COMPLETE && escrowRelease)
+		else if(escrow.op == OP_ESCROW_COMPLETE && escrowRelease)
 			status = "escrow release complete";
-		else if(op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
+		else if(escrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
 			status = "escrow refunded";
-		else if(op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
+		else if(escrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
 			status = "escrow refund complete";
-		else if(op == OP_ESCROW_COMPLETE && escrowRefund)
+		else if(escrow.op == OP_ESCROW_COMPLETE && escrowRefund)
 			status = "escrow refund complete";
 		if(escrow.bPaymentAck)
 			status += " (acknowledged)";
@@ -3826,7 +3826,7 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
             uint64_t nHeight;
 			nHeight = txPos2.nHeight;
 			oEscrow.push_back(Pair("escrow", escrow));
-			string opName = escrowFromOp(op);
+			string opName = escrowFromOp(txPos2.op);
 			CEscrow escrow(tx);
 			if(escrow.bPaymentAck)
 				opName += "("+_("acknowledged")+")";
@@ -3884,19 +3884,19 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 
 			string status = "unknown";
 
-			if(op == OP_ESCROW_ACTIVATE)
+			if(txPos2.op == OP_ESCROW_ACTIVATE)
 				status = "in escrow";
-			else if(op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
+			else if(txPos2.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
 				status = "escrow released";
-			else if(op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
+			else if(txPos2.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
 				status = "escrow release complete";
-			else if(op == OP_ESCROW_COMPLETE && escrowRelease)
+			else if(txPos2.op == OP_ESCROW_COMPLETE && escrowRelease)
 				status = "escrow release complete";
-			else if(op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
+			else if(txPos2.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
 				status = "escrow refunded";
-			else if(op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
+			else if(txPos2.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
 				status = "escrow refund complete";
-			else if(op == OP_ESCROW_COMPLETE && escrowRefund)
+			else if(txPos2.op == OP_ESCROW_COMPLETE && escrowRefund)
 				status = "escrow refund complete";
 			if(txPos2.bPaymentAck)
 				status += " (acknowledged)";
@@ -4010,19 +4010,19 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 
 		string status = "unknown";
 
-		if(op == OP_ESCROW_ACTIVATE)
+		if(txEscrow.op == OP_ESCROW_ACTIVATE)
 			status = "in escrow";
-		else if(op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
+		else if(txEscrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
 			status = "escrow released";
-		else if(op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
+		else if(txEscrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
 			status = "escrow release complete";
-		else if(op == OP_ESCROW_COMPLETE && escrowRelease)
+		else if(txEscrow.op == OP_ESCROW_COMPLETE && escrowRelease)
 			status = "escrow release complete";
-		else if(op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
+		else if(txEscrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
 			status = "escrow refunded";
-		else if(op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
+		else if(txEscrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
 			status = "escrow refund complete";
-		else if(op == OP_ESCROW_COMPLETE && escrowRefund)
+		else if(txEscrow.op == OP_ESCROW_COMPLETE && escrowRefund)
 			status = "escrow refund complete";
 		if(txEscrow.bPaymentAck)
 			status += " (acknowledged)";
@@ -4137,7 +4137,7 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 }
 void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry)
 {
-	string opName = escrowFromOp(op);
+	
 	CEscrow escrow;
 	if(!escrow.UnserializeFromData(vchData, vchHash))
 		return;
@@ -4149,6 +4149,7 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 
 	string noDifferentStr = _("<No Difference Detected>");
 	CEscrow escrowop(escrowtx);
+	string opName = escrowFromOp(escrowop.op);
 	if(escrowop.bPaymentAck)
 		opName += "("+_("acknowledged")+")";
 	else if(!escrowop.feedback.empty())
