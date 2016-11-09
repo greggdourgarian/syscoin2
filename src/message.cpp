@@ -859,7 +859,7 @@ void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, co
 	string opName = messageFromOp(op);
 	CMessage message;
 	if(!message.UnserializeFromData(vchData, vchHash))
-		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3506 - " + _("Could not decoding syscoin transaction"));
+		return;
 
 	bool isExpired = false;
 	vector<CAliasIndex> aliasVtxPosFrom;

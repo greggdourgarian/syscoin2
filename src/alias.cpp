@@ -2165,7 +2165,7 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	for (unsigned int i = 0; i < rawTx.vout.size(); i++) {
 		int tmpOp;
 		vector<vector<unsigned char> > tmpvvch;	
-		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT && IsSyscoinDataOutput(rawTx.vout[i]))
+		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT)
 		{
 			foundSys = true;
 		}
@@ -2186,13 +2186,13 @@ void SysTxToJSON(const int op, const vector<unsigned char> &vchData, const vecto
 {
 	if(IsAliasOp(op))
 		AliasTxToJSON(op, vchData, vchHash, entry);
-	else if(IsCertOp(op))
+	if(IsCertOp(op))
 		CertTxToJSON(op, vchData, vchHash, entry);
-	else if(IsMessageOp(op))
+	if(IsMessageOp(op))
 		MessageTxToJSON(op,vchData, vchHash, entry);
-	else if(IsEscrowOp(op))
+	if(IsEscrowOp(op))
 		EscrowTxToJSON(op, vchData, vchHash, entry);
-	else if(IsOfferOp(op))
+	if(IsOfferOp(op))
 		OfferTxToJSON(op, vchData, vchHash, entry);
 }
 void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash, UniValue &entry)
@@ -2200,7 +2200,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	string opName = aliasFromOp(op);
 	CAliasIndex alias;
 	if(!alias.UnserializeFromData(vchData, vchHash))
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5514 - " + _("Could not decoding syscoin transaction"));
+		return
 	bool isExpired = false;
 	vector<CAliasIndex> aliasVtxPos;
 	CTransaction aliastx;

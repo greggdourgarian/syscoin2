@@ -3853,7 +3853,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 	string opName = offerFromOp(op);
 	COffer offer;
 	if(!offer.UnserializeFromData(vchData, vchHash))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1553 - " + _("Could not decode syscoin transaction"));
+		return;
 
 
 	bool isExpired = false;
@@ -3873,7 +3873,11 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 		dbAlias.GetAliasFromList(aliasVtxPos);
 	}
 	string noDifferentStr = _("<No Difference Detected>");
-
+	COffer offerop(offertx);
+	if(offerop.accept.bPaymentAck)
+		opName += "("+_("acknowledged")+")";
+	else if(!offerop.accept.feedback.empty())
+		opName += "("+_("feedback")+")";
 	entry.push_back(Pair("txtype", opName));
 	entry.push_back(Pair("offer", stringFromVch(offer.vchOffer)));
 
