@@ -2155,31 +2155,34 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	}
 	vector<unsigned char> vchData;
 	int nOut;
+	vector<unsigned char> vvch;
 	vector<unsigned char> vchHash;
 	GetSyscoinData(rawTx, vchData, vchHash, nOut);	
-	vector<vector<unsigned char> > vvch;
-	int op = -1;
-	bool foundSys = false;
-	bool sendCoin = false;
 	UniValue output(UniValue::VOBJ);
+	if((DecodeAndParseAliasTx(rawTx, op, nOut, vvch) && op != OP_ALIAS_PAYMENT) || 
+		DecodeAndParseOfferTx(rawTx, op, nOut, vvch) ||
+		DecodeAndParseEscrowTx(rawTx, op, nOut, vvch) ||
+		DecodeAndParseMessageTx(rawTx, op, nOut, vvch) ||
+		DecodeAndParseCertTx(rawTx, op, nOut, vvch))
+	{
+		SysTxToJSON(op, vchData, vchHash, output);
+	}
+	bool sendCoin = false;
 	for (unsigned int i = 0; i < rawTx.vout.size(); i++) {
 		int tmpOp;
 		vector<vector<unsigned char> > tmpvvch;	
-		if(!foundSys && IsSyscoinScript(rawTx.vout[i].scriptPubKey, op, vvch) && op != OP_ALIAS_PAYMENT)
-		{
-			foundSys = true;
-		}
-		else if(!IsSyscoinDataOutput(rawTx.vout[i]) && (!IsSyscoinScript(rawTx.vout[i].scriptPubKey, tmpOp, tmpvvch) || tmpOp == OP_ALIAS_PAYMENT))
+		if(!IsSyscoinDataOutput(rawTx.vout[i]) && (!IsSyscoinScript(rawTx.vout[i].scriptPubKey, tmpOp, tmpvvch) || tmpOp == OP_ALIAS_PAYMENT))
 		{
 			if(!pwalletMain->IsMine(rawTx.vout[i]))
+			{
 				sendCoin = true;
+				break;
+			}
 		}
 
 	}
 	if(sendCoin)
 		output.push_back(Pair("warning", _("Warning: This transaction sends coins to an address or alias you do not own")));
-	if(foundSys)
-		SysTxToJSON(op, vchData, vchHash, output);
 	return output;
 }
 void SysTxToJSON(const int op, const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash, UniValue &entry)

@@ -3786,6 +3786,11 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 			oOffer.push_back(Pair("quantity", "unlimited"));
 		else
 			oOffer.push_back(Pair("quantity", strprintf("%d", nQty)));
+		int paymentOptions = txOffer.paymentOptions;
+		if(!txOffer.vchLinkOffer.empty())
+			paymentOptions = linkOffer.paymentOptions;
+		oOffer.push_back(Pair("paymentoptions", paymentOptions));
+		oOffer.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
 		oOffer.push_back(Pair("exclusive_resell", txOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
 		oOffer.push_back(Pair("alias_peg", stringFromVch(vtxAliasPos.back().vchAliasPeg)));
 		int sold = txOffer.nSold;
