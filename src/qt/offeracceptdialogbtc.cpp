@@ -193,7 +193,136 @@ void OfferAcceptDialogBTC::onEscrowCheckBoxChanged(bool toggled)
 {
 	setupEscrowCheckboxState();
 }
-// send offeraccept with offer guid/qty as params and then send offerpay with txid (first param of response) as param, using RPC commands.
+void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
+	if(reply->error() != QNetworkReply::NoError) {
+		ui->confirmButton->setText(m_buttonText);
+		ui->confirmButton->setEnabled(true);
+        QMessageBox::critical(this, windowTitle(),
+            tr("Error making request: ") + reply->errorString(),
+                QMessageBox::Ok, QMessageBox::Ok);
+		reply->deleteLater();
+		return;
+	}
+	double valueAmount = 0;
+	unsigned int time;
+
+	QByteArray bytes = reply->readAll();
+	QString str = QString::fromUtf8(bytes.data(), bytes.size());
+	UniValue outerValue;
+	bool read = outerValue.read(str.toStdString());
+	if (read)
+	{
+		UniValue outerObj = outerValue.get_obj();
+		UniValue statusValue = find_value(outerObj, "status");
+		if (statusValue.isStr())
+		{
+			if(statusValue.get_str() != "success")
+			{
+				ui->confirmButton->setText(m_buttonText);
+				ui->confirmButton->setEnabled(true);
+				QMessageBox::critical(this, windowTitle(),
+					tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
+						QMessageBox::Ok, QMessageBox::Ok);
+				reply->deleteLater();
+				return;
+			}
+		}
+		else
+		{
+			ui->confirmButton->setText(m_buttonText);
+			ui->confirmButton->setEnabled(true);
+			QMessageBox::critical(this, windowTitle(),
+				tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
+					QMessageBox::Ok, QMessageBox::Ok);
+			reply->deleteLater();
+			return;
+		}
+
+
+		UniValue dataObj1 = find_value(outerObj, "data").get_obj();
+		UniValue dataObj = find_value(dataObj1, "tx").get_obj();
+		UniValue timeValue = find_value(dataObj, "time");
+		QDateTime timestamp;
+		if (timeValue.isNum())
+		{
+			time = timeValue.get_int();
+			timestamp.setTime_t(time);
+		}
+		
+		
+		UniValue hexValue = find_value(dataObj, "hex");
+		if (hexValue.isStr())
+			this->rawBTCTx = QString::fromStdString(hexValue.get_str());
+
+		UniValue outputsValue = find_value(dataObj, "vout");
+		if (outputsValue.isArray())
+		{
+			UniValue outputs = outputsValue.get_array();
+			for (unsigned int idx = 0; idx < outputs.size(); idx++) {
+				const UniValue& output = outputs[idx].get_obj();
+				UniValue paymentValue = find_value(output, "value");
+				UniValue scriptPubKeyObj = find_value(output, "scriptPubKey").get_obj();
+				UniValue addressesValue = find_value(scriptPubKeyObj, "addresses");
+				if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
+				{
+					UniValue addressValue = addressesValue.get_array()[0];
+					if((!ui->checkBox->isChecked() && addressValue.get_str() == address.toStdString())
+						|| (ui->checkBox->isChecked() && addressValue.get_str() == multisigaddress.toStdString()))
+					{
+						if(paymentValue.isNum())
+						{
+							valueAmount += paymentValue.get_real();
+							if(valueAmount >= dblPrice)
+							{
+								ui->confirmButton->setText(m_buttonText);
+								ui->confirmButton->setEnabled(true);
+								QMessageBox::information(this, windowTitle(),
+									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected.").arg(ui->exttxidEdit->text().trimmed()),
+									QMessageBox::Ok, QMessageBox::Ok);
+								reply->deleteLater();
+								if(ui->checkBox->isChecked())
+									acceptEscrow();
+								else
+									acceptOffer();
+								return;
+							}
+						}
+					}
+
+				}
+			}
+		}
+	}
+	else
+	{
+		ui->confirmButton->setText(m_buttonText);
+		ui->confirmButton->setEnabled(true);
+		QMessageBox::critical(this, windowTitle(),
+			tr("Cannot parse JSON response: ") + str,
+				QMessageBox::Ok, QMessageBox::Ok);
+		reply->deleteLater();
+		return;
+	}
+
+	reply->deleteLater();
+	ui->confirmButton->setText(m_buttonText);
+	ui->confirmButton->setEnabled(true);
+	QMessageBox::warning(this, windowTitle(),
+		tr("Payment not found in the Bitcoin blockchain! Please try again later"),
+			QMessageBox::Ok, QMessageBox::Ok);
+}
+void OfferAcceptDialogBTC::CheckPaymentInBTC()
+{
+	m_buttonText = ui->confirmButton->text();
+	ui->confirmButton->setText(tr("Please Wait..."));
+	ui->confirmButton->setEnabled(false);
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + ui->exttxidEdit->text().trimmed());
+	QNetworkRequest request(url);
+	nam->get(request);
+}
+// send offeraccept with offer guid/qty as params and then send offerpay with wtxid (first param of response) as param, using RPC commands.
 void OfferAcceptDialogBTC::tryAcceptOffer()
 {
 	if (ui->exttxidEdit->text().trimmed().isEmpty()) {
@@ -203,10 +332,7 @@ void OfferAcceptDialogBTC::tryAcceptOffer()
             QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
-	if(ui->checkBox->isChecked())
-		acceptEscrow();
-	else
-		acceptOffer();
+	CheckPaymentInBTC();
 }
 void OfferAcceptDialogBTC::acceptOffer(){
 		if(!walletModel) return;
