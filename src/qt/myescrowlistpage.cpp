@@ -89,13 +89,13 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
     connect(copyEscrowAction, SIGNAL(triggered()), this, SLOT(on_copyEscrow_clicked()));
 	connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
 	connect(manageAction, SIGNAL(triggered()), this, SLOT(on_manageButton_clicked()));
-	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_manageButton_clicked()));
+	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
 
 	connect(buyerMessageAction, SIGNAL(triggered()), this, SLOT(on_buyerMessageButton_clicked()));
 	connect(sellerMessageAction, SIGNAL(triggered()), this, SLOT(on_sellerMessageButton_clicked()));
 	connect(arbiterMessageAction, SIGNAL(triggered()), this, SLOT(on_arbiterMessageButton_clicked()));
 	connect(detailsAction, SIGNAL(triggered()), this, SLOT(on_detailButton_clicked()));
-	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
+	
 
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
 	connect(ui->completeCheck,SIGNAL(clicked(bool)),SLOT(onToggleShowComplete(bool)));
