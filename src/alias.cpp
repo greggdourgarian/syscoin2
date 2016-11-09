@@ -2200,7 +2200,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	string opName = aliasFromOp(op);
 	CAliasIndex alias;
 	if(!alias.UnserializeFromData(vchData, vchHash))
-		return
+		return;
 	bool isExpired = false;
 	vector<CAliasIndex> aliasVtxPos;
 	CTransaction aliastx;
