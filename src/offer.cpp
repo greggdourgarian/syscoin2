@@ -1180,14 +1180,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 			// if linked offer then get offer info from root offer history because the linked offer may not have history of changes (root offer can update linked offer without tx)
 			myPriceOffer.GetOfferFromList(vtxPos);
-			if(theOfferAccept.txExtId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_BTC)
+			if(!IsPaymentOptionInMask(myPriceOffer.paymentOptions, theOfferAccept.nPaymentOption))
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1089 - " + _("This offer must be paid with Bitcoins");
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1089 - " + _("User selected payment option not found in list of accepted offer payment options");
 				return true;
 			}
-			else if(!theOfferAccept.txExtId.IsNull() && myPriceOffer.paymentOptions == PAYMENTOPTION_SYS)
+			else if(!theOfferAccept.txExtId.IsNull() && (myPriceOffer.paymentOptions == PAYMENTOPTION_SYS || theOfferAccept.nPaymentOption == PAYMENTOPTION_SYS))
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("This offer cannot be paid with Bitcoins");
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("External chain payment cannot be made with this offer");
 				return true;
 			}
 			if(!GetTxOfAlias(myPriceOffer.vchAlias, alias, aliasTx))
