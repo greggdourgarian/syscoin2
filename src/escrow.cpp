@@ -430,11 +430,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4024 - " + _("Alias input mismatch");
 						return error(errorMessage.c_str());
 					}
-				}
-				if(theEscrow.op != OP_ESCROW_ACTIVATE)
-				{
-					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4010 - " + _("Invalid op, should be escrow activate");
-					return error(errorMessage.c_str());
+					if(theEscrow.op != OP_ESCROW_ACTIVATE)
+					{
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4010 - " + _("Invalid op, should be escrow activate");
+						return error(errorMessage.c_str());
+					}
 				}
 				if (theEscrow.vchEscrow != vvchArgs[0])
 				{
@@ -4124,9 +4124,9 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 			ratingCount++;
 		if(avgBuyerRating > 0)
 			ratingCount++;
+		oEscrow.push_back(Pair("avg_rating_count", (int)ratingCount));
 		if(ratingCount == 0)
 			ratingCount = 1;
-		oEscrow.push_back(Pair("avg_rating_count", (int)ratingCount));
 		float totalAvgRating = roundf((avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount);
 		oEscrow.push_back(Pair("avg_rating", (int)totalAvgRating));
         oRes.push_back(oEscrow);

@@ -2009,6 +2009,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	}
 	
 	CSyscoinAddress aliasAddress(pubKey.GetID());
+	string oldAddress = aliasAddress.ToString();
+	string newAddress = "";
 	CKeyID keyID;
 	if (!aliasAddress.GetKeyID(keyID))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5506 - " + _("Alias address does not refer to a key"));
@@ -2064,6 +2066,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	else
 		scriptPubKeyOrig = GetScriptForDestination(pubKey.GetID());
 
+	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
 	theAlias.nHeight = chainActive.Tip()->nHeight;
@@ -2105,7 +2108,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
-	if(!strPassword.empty())
+	if(newAddress.ToString() != oldAddress)
 	{
 		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
