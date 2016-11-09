@@ -3432,7 +3432,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	else if(ca.op == OP_ESCROW_COMPLETE && escrowRefund)
 		status = "escrow refund complete";
 	if(ca.bPaymentAck)
-		status += " (Acknowledged)";
+		status += " (acknowledged)";
 	oEscrow.push_back(Pair("expired", expired));
 	oEscrow.push_back(Pair("status", status));
 	UniValue oBuyerFeedBack(UniValue::VARR);
@@ -3672,7 +3672,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		else if(op == OP_ESCROW_COMPLETE && escrowRefund)
 			status = "escrow refund complete";
 		if(escrow.bPaymentAck)
-			status += " (Acknowledged)";
+			status += " (acknowledged)";
 
 		UniValue oBuyerFeedBack(UniValue::VARR);
 		for(unsigned int i =0;i<buyerFeedBacks.size();i++)
@@ -3899,7 +3899,7 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 			else if(op == OP_ESCROW_COMPLETE && escrowRefund)
 				status = "escrow refund complete";
 			if(txPos2.bPaymentAck)
-				status += " (Acknowledged)";
+				status += " (acknowledged)";
 			oEscrow.push_back(Pair("status", status));
 			oEscrow.push_back(Pair("expired", expired));
 			oEscrow.push_back(Pair("height", strprintf("%d", nHeight)));
@@ -4025,7 +4025,7 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 		else if(op == OP_ESCROW_COMPLETE && escrowRefund)
 			status = "escrow refund complete";
 		if(txEscrow.bPaymentAck)
-			status += " (Acknowledged)";
+			status += " (acknowledged)";
 
 		oEscrow.push_back(Pair("status", status));
 		int precision = 2;

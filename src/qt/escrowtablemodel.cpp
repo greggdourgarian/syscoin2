@@ -176,7 +176,7 @@ public:
 						const UniValue& expired_value = find_value(o, "expired");
 						if (expired_value.type() == UniValue::VNUM)
 							expired = expired_value.get_int();
-						if((expired == 1 || status_str == "complete" || status_str == "escrow refund complete") && !showComplete)
+						if((expired == 1 || status_str.find("complete") != std::string::npos ) && !showComplete)
 							continue;
 						unixTime = atoi(time_str.c_str());
 						dateTime.setTime_t(unixTime);

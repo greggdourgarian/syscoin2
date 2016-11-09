@@ -3401,7 +3401,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			else if(discountApplied)
 				statusStr = "Paid with discount applied";
 			if(theOffer.accept.bPaymentAck)
-				statusStr += " (Acknowledged)";
+				statusStr += " (acknowledged)";
 			oOfferAccept.push_back(Pair("status",statusStr));
 			UniValue oBuyerFeedBack(UniValue::VARR);
 			for(unsigned int j =0;j<buyerFeedBacks.size();j++)

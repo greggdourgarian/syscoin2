@@ -52,7 +52,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		ui->releaseButton->setEnabled(false);
 		ui->refundButton->setEnabled(false);
 	}
-	else if(status == "in escrow")
+	else if(status.indexOf("in escrow") == 0)
 	{
 		if(escrowRoleType == Buyer)
 		{
@@ -70,7 +70,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		}
 
 	}
-	else if(status == "escrow released")
+	else if(status.indexOf("escrow released") == 0)
 	{
 		if(m_exttxid.size() > 0)
 		{
@@ -96,7 +96,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 			ui->refundButton->setEnabled(false);
 		}
 	}
-	else if(status == "escrow refunded")
+	else if(status.indexOf("escrow refunded") == 0)
 	{
 		if(m_exttxid.size() > 0)
 		{
@@ -122,7 +122,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 			refundWarningStr = tr("Warning: Payment has already been refunded, are you sure you wish to re-refund payment back to the buyer?");	
 		}
 	}
-	else if(status == "escrow release complete")
+	else if(status.indexOf("escrow release complete") == 0)
 	{		
 		if(m_exttxid.size() > 0)
 		{
@@ -158,7 +158,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 			ui->secondaryLabel->setText("Choose a rating for the merchant (1-5) or leave at 0 for no rating. Below please give feedback to the merchant.");	
 		}
 	}
-	else if(status == "escrow refund complete")
+	else if(status.indexOf("escrow refund complete") == 0)
 	{	
 		
 		if(m_exttxid.size() > 0)
