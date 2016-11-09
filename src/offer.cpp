@@ -2601,10 +2601,10 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, buyerAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
-	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, buyerAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));

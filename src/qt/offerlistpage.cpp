@@ -544,6 +544,9 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 			const UniValue& geolocation_value = find_value(o, "geolocation");
 			if (geolocation_value.type() == UniValue::VSTR)
 				geolocation_str = geolocation_value.get_str();
+			const UniValue& paymentoptions_value = find_value(o, "paymentoptions_display");
+			if (paymentoptions_value.type() == UniValue::VSTR)
+				paymentoptions_str = paymentoptions_value.get_str();
 			if(expired == 1)
 			{
 				expired_str = "Expired";
