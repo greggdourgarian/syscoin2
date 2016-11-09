@@ -1987,7 +1987,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 4587 - " + _("You must own this alias to complete the transaction"));	
 
 	CPubKey pubKey(theAlias.vchPubKey);	
-	
+	CSyscoinAddress oldAddress(pubKey.GetID());
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
@@ -2009,8 +2009,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	}
 	
 	CSyscoinAddress aliasAddress(pubKey.GetID());
-	string oldAddress = aliasAddress.ToString();
-	string newAddress = "";
 	CKeyID keyID;
 	if (!aliasAddress.GetKeyID(keyID))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5506 - " + _("Alias address does not refer to a key"));
