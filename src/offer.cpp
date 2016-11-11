@@ -3368,6 +3368,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 
 			oOfferAccept.push_back(Pair("id", stringFromVch(theOffer.accept.vchAcceptRand)));
 			oOfferAccept.push_back(Pair("txid", theOffer.txHash.GetHex()));
+			oOfferAccept.push_back(Pair("title", stringFromVch(theOffer.sTitle)));
 			string strExtId = "";
 			if(!theOffer.accept.txExtId.IsNull())
 				strExtId = theOffer.accept.txExtId.GetHex();
