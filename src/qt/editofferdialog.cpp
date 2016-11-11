@@ -267,7 +267,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 		resetSafeSearch();
 		ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));	
 	}  
-	loadCerts();
+	loadCerts(alias);
 }
 void EditOfferDialog::certChanged(int index)
 {
@@ -356,11 +356,13 @@ void EditOfferDialog::loadCategories()
     ui->categoryEdit->setModel(model);
     ui->categoryEdit->setItemDelegate(new ComboBoxDelegate);
 }
-void EditOfferDialog::loadCerts()
+void EditOfferDialog::loadCerts(const QString &alias)
 {
+	ui->certEdit->clear();
+	ui->certEdit->addItem(tr("Select Certificate (optional)"));
 	string strMethod = string("certlist");
     UniValue params(UniValue::VARR); 
-	params.push_back(ui->aliasEdit->currentText().toStdString());
+	params.push_back(alias.toStdString());
 	UniValue result;
 	string name_str;
 	string title_str;
