@@ -161,7 +161,7 @@ void EditWhitelistOfferDialog::on_exclusiveButton_clicked()
 		params.push_back(offerDescription.toStdString());
 		params.push_back(offerCurrency.toStdString());
 		// keep it the same as what's in the database
-		params.push_back(offerPrivate.toStdString() == QString("Yes")? "1": "0");
+		params.push_back(offerPrivate.toStdString() == "Yes"? "1": "0");
 		params.push_back("");
 		if(tmpExclusiveWhitelist == QString("ON"))
 			params.push_back("0");
