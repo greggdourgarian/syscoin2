@@ -626,7 +626,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
     UniValue oRes(UniValue::VARR);
     vector<unsigned char> vchValue;
     vector<pair<vector<unsigned char>, CMessage> > messageScan;
-    if (!pescrowdb->ScanRecvMessages(vchNameUniq, name, 1000, messageScan))
+    if (!pmessagedb->ScanRecvMessages(vchNameUniq, name, 1000, messageScan))
         throw runtime_error("scan failed");
     pair<vector<unsigned char>, CMessage> pairScan;
     BOOST_FOREACH(pairScan, messageScan) {
