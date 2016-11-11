@@ -115,7 +115,7 @@ public:
     }
 
     bool ScanRecvMessages(
-            const std::vector<unsigned char>& vchMessage,const string& strRegexp,
+		const std::vector<unsigned char>& vchMessage,const std::string& strRegexp,
             unsigned int nMax,
             std::vector<std::pair<std::vector<unsigned char>, CMessage> >& MessageScan);
 
