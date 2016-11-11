@@ -3537,9 +3537,16 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		const CEscrow &escrow = pairScan.second;
 		const string &escrowStr = stringFromVch(pairScan.first);
 		vector<CEscrow> vtxEscrowPos;
-        int nHeight = txEscrow.nHeight;
+		CTransaction tx;
+		if (!GetSyscoinTransaction(escrow.nHeight, escrow.txHash, tx, Params().GetConsensus())) {
+			continue;
 		if (!pescrowdb->ReadEscrow(pairScan.first, vtxEscrowPos) || vtxEscrowPos.empty())
 			continue;
+        vector<vector<unsigned char> > vvch;
+        int op, nOut;
+        if (!DecodeEscrowTx(tx, op, nOut, vvch)
+        	|| !IsEscrowOp(op) )
+            continue;
 		int expired = 0;
 		int expired_block = 0;
 
