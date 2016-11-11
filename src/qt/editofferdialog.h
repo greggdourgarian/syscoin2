@@ -50,7 +50,7 @@ public Q_SLOTS:
 private:
 	bool isLinkedOffer(const QString& offerGUID);
     bool saveCurrentRow();
-	void loadCerts();
+	void loadCerts(const QString& alias);
 	void loadAliases();
 	void loadCategories();
     Ui::EditOfferDialog *ui;
