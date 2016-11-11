@@ -3526,7 +3526,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
         vchNameUniq = vchFromValue(params[1]);
 
     UniValue oRes(UniValue::VARR);
-    map< vector<unsigned char>, UniValue > vNamesO;
 
     vector<unsigned char> vchValue;
     vector<pair<vector<unsigned char>, CEscrow> > escrowScan;
@@ -3741,13 +3740,8 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		oName.push_back(Pair("status", status));
 		oName.push_back(Pair("expired", expired));
 		oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-
-		vNamesO[vchEscrow] = oName;
-
-
+		oRes.push_back(oName);
 	}
-    BOOST_FOREACH(const PAIRTYPE(vector<unsigned char>, UniValue)& item, vNamesO)
-        oRes.push_back(item.second);
     return oRes;
 }
 

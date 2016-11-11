@@ -114,8 +114,8 @@ public:
         return Exists(make_pair(std::string("messagei"), name));
     }
 
-    bool ScanMessages(
-            const std::vector<unsigned char>& vchMessage,
+    bool ScanRecvMessages(
+            const std::vector<unsigned char>& vchMessage,const string& strRegexp,
             unsigned int nMax,
             std::vector<std::pair<std::vector<unsigned char>, CMessage> >& MessageScan);
 

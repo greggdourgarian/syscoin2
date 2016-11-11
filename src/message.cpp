@@ -95,10 +95,10 @@ const vector<unsigned char> CMessage::Serialize() {
     return vchData;
 
 }
-//TODO implement
-bool CMessageDB::ScanMessages(const std::vector<unsigned char>& vchMessage, unsigned int nMax,
+bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const string& strRegexp,unsigned int nMax,
         std::vector<std::pair<std::vector<unsigned char>, CMessage> >& messageScan) {
-
+	string strSearchLower = strRegexp;
+	boost::algorithm::to_lower(strSearchLower);
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("messagei"), vchMessage));
@@ -116,6 +116,12 @@ bool CMessageDB::ScanMessages(const std::vector<unsigned char>& vchMessage, unsi
 				}
 				const CMessage &txPos = vtxPos.back();
   				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge)
+				{
+					pcursor->Next();
+					continue;
+				}
+				string toAliasLower = stringFromVch(txPos.vchAliasTo);
+				if (strRegexp != "" && strSearchLower != toAliasLower)
 				{
 					pcursor->Next();
 					continue;
@@ -618,12 +624,19 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
         vchNameUniq = vchFromValue(params[1]);
 
     UniValue oRes(UniValue::VARR);
-    CTransaction tx;
-
     vector<unsigned char> vchValue;
-    BOOST_FOREACH(const CAliasIndex &theAlias, vtxPos)
-    {
-		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+    vector<pair<vector<unsigned char>, CMessage> > messageScan;
+    if (!pescrowdb->ScanRecvMessages(vchNameUniq, name, 1000, messageScan))
+        throw runtime_error("scan failed");
+    pair<vector<unsigned char>, CMessage> pairScan;
+    BOOST_FOREACH(pairScan, messageScan) {
+		const CMessage &message = pairScan.second;
+		const string &messageStr = stringFromVch(pairScan.first);
+		vector<CMessage> vtxMessagePos;
+		CTransaction tx;
+		if (!GetSyscoinTransaction(message.nHeight, message.txHash, tx, Params().GetConsensus())) 
+			continue;
+		if (!pmessagedb->ReadMessage(pairScan.first, vtxMessagePos) || vtxMessagePos.empty())
 			continue;
 
 		// decode txn, skip non-alias txns
@@ -631,19 +644,10 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 		int op, nOut;
 		if (!DecodeMessageTx(tx, op, nOut, vvch) || !IsMessageOp(op))
 			continue;
-		vchMessage = vvch[0];
-		if (vchNameUniq.size() > 0 && vchNameUniq != vchMessage)
-			continue;
-		vector<CMessage> vtxMessagePos;
-		if (!pmessagedb->ReadMessage(vchMessage, vtxMessagePos) || vtxMessagePos.empty())
-			continue;
-		const CMessage& message = vtxMessagePos.back();
 
-		if(message.vchAliasTo != vchAlias)
-			continue;
         // build the output
         UniValue oName(UniValue::VOBJ);
-        oName.push_back(Pair("GUID", stringFromVch(vchMessage)));
+        oName.push_back(Pair("GUID", messageStr));
 
 		string sTime;
 		CBlockIndex *pindex = chainActive[message.nHeight];
