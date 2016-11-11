@@ -1146,7 +1146,7 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
     oCert.push_back(Pair("data", strData));
 	oCert.push_back(Pair("category", stringFromVch(ca.sCategory)));
 	oCert.push_back(Pair("private", ca.bPrivate? "Yes": "No"));
-	oCert.push_back(Pair("safesearch", ca.safeSearch || alias.safeSearch ? "Yes" : "No"));
+	oCert.push_back(Pair("safesearch", ca.safeSearch? "Yes" : "No"));
 	unsigned char safetyLevel = max(ca.safetyLevel, alias.safetyLevel );
 	oCert.push_back(Pair("safetylevel", safetyLevel));
 
@@ -1252,7 +1252,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			}
 		}
 		oName.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
-		oName.push_back(Pair("safesearch", cert.safeSearch || theAlias.safeSearch? "Yes" : "No"));
+		oName.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
 		unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
 		oName.push_back(Pair("safetylevel", safetyLevel));
 		oName.push_back(Pair("data", strData));

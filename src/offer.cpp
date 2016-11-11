@@ -842,6 +842,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theOffer.sTitle = dbOffer.sTitle;
 					if(serializedOffer.sDescription.empty())
 						theOffer.sDescription = dbOffer.sDescription;
+					if(serializedOffer.vchCert.empty())
+						theOffer.vchCert = dbOffer.vchCert;
 					if(serializedOffer.vchGeoLocation.empty())
 						theOffer.vchGeoLocation = dbOffer.vchGeoLocation;
 					if(serializedOffer.sCurrencyCode.empty())
@@ -3191,8 +3193,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	}
 	oOffer.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
 	oOffer.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
-	bool safeSearch = theOffer.safeSearch || alias.safeSearch || linkOffer.safeSearch || linkAlias.safeSearch;
-	oOffer.push_back(Pair("safesearch", safeSearch? "Yes" : "No"));
+	oOffer.push_back(Pair("safesearch", theOffer.safeSearch? "Yes" : "No"));
 	unsigned char safetyLevel = max(theOffer.safetyLevel, alias.safetyLevel );
 	safetyLevel = max(safetyLevel, linkOffer.safetyLevel );
 	safetyLevel = max(safetyLevel, linkAlias.safetyLevel );
@@ -3561,8 +3562,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 
 			oName.push_back(Pair("alias_peg", stringFromVch(theAlias.vchAliasPeg)));
 			oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
-			bool safeSearch = theOffer.safeSearch || alias.safeSearch || linkOffer.safeSearch || linkAlias.safeSearch;
-			oName.push_back(Pair("safesearch", safeSearch? "Yes" : "No"));
+			oName.push_back(Pair("safesearch", theOffer.safeSearch? "Yes" : "No"));
 			unsigned char safetyLevel = max(theOffer.safetyLevel, alias.safetyLevel );
 			safetyLevel = max(safetyLevel, linkOffer.safetyLevel );
 			safetyLevel = max(safetyLevel, linkAlias.safetyLevel );
