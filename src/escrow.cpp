@@ -3507,7 +3507,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 2 < params.size() || params.size() < 1)
         throw runtime_error("escrowlist <alias> [<escrow>]\n"
-                "list escrows that an alias owns");
+                "list escrows that an alias is involved in");
 	vector<unsigned char> vchEscrow;
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	string name = stringFromVch(vchAlias);
@@ -3526,35 +3526,26 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
         vchNameUniq = vchFromValue(params[1]);
 
     UniValue oRes(UniValue::VARR);
-    map< vector<unsigned char>, int > vNamesI;
     map< vector<unsigned char>, UniValue > vNamesO;
 
-    CTransaction tx;
-
     vector<unsigned char> vchValue;
-	for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-		const CAliasIndex& theAlias = *it;
-		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+    vector<pair<vector<unsigned char>, CEscrow> > escrowScan;
+    if (!pescrowdb->ScanEscrows(vchNameUniq, name, 1000, escrowScan))
+        throw runtime_error("scan failed");
+    pair<vector<unsigned char>, CEscrow> pairScan;
+    BOOST_FOREACH(pairScan, escrowScan) {
+		const CEscrow &escrow = pairScan.second;
+		const string &escrowStr = stringFromVch(pairScan.first);
+		vector<CEscrow> vtxEscrowPos;
+        int nHeight = txEscrow.nHeight;
+		if (!pescrowdb->ReadEscrow(pairScan.first, vtxEscrowPos) || vtxEscrowPos.empty())
 			continue;
-
 		int expired = 0;
 		int expired_block = 0;
-		vector<vector<unsigned char> > vvch;
-		int op, nOut;
-		if (!DecodeEscrowTx(tx, op, nOut, vvch))
-			continue;
-		vchEscrow = vvch[0];
-		if (vNamesI.find(vchEscrow) != vNamesI.end())
-			continue;
-		// skip this escrow if it doesn't match the given filter value
-		if (vchNameUniq.size() > 0 && vchNameUniq != vchEscrow)
-			continue;
+
 		bool escrowRelease = false;
 		bool escrowRefund = false;
-	    vector<CEscrow> vtxEscrowPos;
-        if (!pescrowdb->ReadEscrow(vchEscrow, vtxEscrowPos) || vtxEscrowPos.empty())
-            continue;
-		const CEscrow &escrow = vtxEscrowPos.back();
+
 		if(escrow.op == OP_ESCROW_COMPLETE)
 		{
 			for(unsigned int i = vtxEscrowPos.size() - 1; i >= 0;i--)
@@ -3593,7 +3584,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 
         // build the output
         UniValue oName(UniValue::VOBJ);
-        oName.push_back(Pair("escrow", stringFromVch(vchEscrow)));
+        oName.push_back(Pair("escrow", escrowStr));
 		string sTime;
 		CBlockIndex *pindex = chainActive[escrow.nHeight];
 		if (pindex) {
@@ -3744,7 +3735,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		oName.push_back(Pair("expired", expired));
 		oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
 
-		vNamesI[vchEscrow] = escrow.nHeight;
 		vNamesO[vchEscrow] = oName;
 
 

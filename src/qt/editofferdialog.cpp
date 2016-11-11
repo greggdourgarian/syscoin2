@@ -26,6 +26,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     QDialog(parent),
     ui(new Ui::EditOfferDialog), mapper(0), mode(mode), model(0)
 {
+	overrideSafeSearch = false;
     ui->setupUi(this);
 	ui->aliasPegEdit->setEnabled(false);
 	ui->privateDisclaimer->setText(tr("<font color='blue'>Choose if you would like the offer to be private or publicly listed on the marketplace.</font>"));
@@ -191,6 +192,7 @@ void EditOfferDialog::setOfferNotSafeBecauseOfAlias(const QString &alias)
 	ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText("No"));
 	ui->safeSearchEdit->setEnabled(false);
 	ui->safeSearchDisclaimer->setText(tr("<font color='red'><b>%1</b> is not safe to search so this setting can only be set to No").arg(alias));
+	overrideSafeSearch = true;
 }
 void EditOfferDialog::resetSafeSearch()
 {
@@ -563,7 +565,7 @@ void EditOfferDialog::loadRow(int row)
 			QString currencyStr = indexCurrency.data(OfferTableModel::CurrencyRole).toString();
 			ui->currencyEdit->setCurrentIndex(ui->currencyEdit->findText(currencyStr));
 		}
-		if(indexSafeSearch.isValid() && ui->safeSearchEdit->isEnabled())
+		if(indexSafeSearch.isValid() && !overrideSafeSearch)
 		{
 			QString safeSearchStr = indexSafeSearch.data(OfferTableModel::SafeSearchRole).toString();
 			ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText(safeSearchStr));

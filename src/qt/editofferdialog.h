@@ -61,6 +61,7 @@ private:
     QString offer;
 	QString cert;
 	QString commission;
+	bool overrideSafeSearch;
 };
 
 #endif // EDITOFFERDIALOG_H
