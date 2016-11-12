@@ -961,6 +961,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		{
 			if(!vtxPos.empty())
 			{
+				if(dbAlias.vchGUID != vvchArgs[1])
+				{
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("Cannot edit this alias, guid mismatch");
+					return true;
+				}
 				if(theAlias.IsNull())
 					theAlias = vtxPos.back();
 				else
