@@ -661,10 +661,8 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 		strSafeSearch = params[4].get_str();
 	}
     if (vchData.size() < 1)
-	{
         vchData = vchFromString(" ");
-		bPrivate = false;
-	}
+	
     // gather inputs
 	vector<unsigned char> vchCert = vchFromString(GenerateSyscoinGuid());
     // this is a syscoin transaction
