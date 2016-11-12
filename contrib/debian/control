@@ -1,9 +1,8 @@
 Source: syscoin
 Section: utils
 Priority: optional
-Maintainer: Jonas Smedegaard <dr@jones.dk>
-Uploaders: Micah Anderson <micah@debian.org>
-Build-Depends: debhelper,
+Maintainer: Willy Ko <willyk@syscoin.org>
+Build-Depends: debhelper (>=9),
  devscripts,
  automake,
  libtool,
@@ -22,8 +21,8 @@ Build-Depends: debhelper,
  libqrencode-dev,
  libprotobuf-dev, protobuf-compiler,
  python
-Standards-Version: 3.9.2
-Homepage: https://syscoincore.org/
+Standards-Version: 3.9.6
+Homepage: http://www.syscoin.org
 Vcs-Git: git://github.com/syscoin/syscoin.git
 Vcs-Browser: https://github.com/syscoin/syscoin2
 
