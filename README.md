@@ -2,6 +2,7 @@ Syscoin Core integration/staging tree
 =====================================
 
 [![Build Status](https://travis-ci.org/syscoin/syscoin.svg?branch=master)](https://travis-ci.org/syscoin/syscoin)
+[![Coverity Status](https://scan.coverity.com/projects/10611/badge.svg)](https://scan.coverity.com/projects/syscoin-syscoin2)
 
 https://syscoincore.org
 
@@ -78,4 +79,3 @@ Translations are periodically pulled from Transifex and merged into the git repo
 **Important**: We do not accept translation changes as GitHub pull requests because the next
 pull from Transifex would automatically overwrite them again.
 
-Translators should also subscribe to the [mailing list](https://groups.google.com/forum/#!forum/syscoin-translators).
