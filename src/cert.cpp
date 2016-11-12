@@ -521,10 +521,15 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			}
 			if(theCert.vchData.empty())
 				theCert.vchData = dbCert.vchData;
+			if(theCert.vchViewAlias.empty())
+				theCert.vchViewAlias = dbCert.vchViewAlias;
+			if(theCert.vchViewData.empty())
+				theCert.vchViewData = dbCert.vchViewData;
 			if(theCert.vchTitle.empty())
 				theCert.vchTitle = dbCert.vchTitle;
 			if(theCert.sCategory.empty())
 				theCert.sCategory = dbCert.sCategory;
+
 			// user can't update safety level after creation
 			theCert.safetyLevel = dbCert.safetyLevel;
 			theCert.vchCert = dbCert.vchCert;
@@ -605,23 +610,24 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 
 
 UniValue certnew(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() < 3 || params.size() > 6)
+    if (fHelp || params.size() < 3 || params.size() > 7)
         throw runtime_error(
-		"certnew <alias> <title> <data> [private=0] [safe search=Yes] [category=certificates]\n"
+		"certnew <alias> <title> <data> [private=0] [safe search=Yes] [category=certificates] [viewalias='']\n"
 						"<alias> An alias you own.\n"
                         "<title> title, 255 bytes max.\n"
                         "<data> data, 1KB max.\n"
 						"<private> set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.\n"
  						"<safe search> set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).\n"                     
 						"<category> category, 255 chars max. Defaults to certificates\n"
+						"<viewalias> Allow this alias to view certificate private data.\n"
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchTitle = vchFromString(params[1].get_str());
     vector<unsigned char> vchData = vchFromString(params[2].get_str());
 	vector<unsigned char> vchCat = vchFromString("certificates");
 	// check for alias existence in DB
-	CTransaction aliastx;
-	CAliasIndex theAlias;
+	CTransaction aliastx, viewaliastx;
+	CAliasIndex theAlias, viewAlias;
 	const CWalletTx *wtxAliasIn = NULL;
 	if (!GetTxOfAlias(vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2500 - " + _("failed to read alias from alias DB"));
@@ -636,6 +642,12 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 
 	if(params.size() >= 6)
 		vchCat = vchFromValue(params[5]);
+	vector<unsigned char> vchViewAlias;
+	if(params.size() >= 7)
+		vchViewAlias = vchFromValue(params[6]);
+
+	if(!GetTxOfAlias(vchViewAlias, viewAlias, viewaliastx, true))
+		vchViewAlias.clear();
 	bool bPrivate = false;
 
 	if(params.size() >= 4)
@@ -673,7 +685,18 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2503 - " + _("Could not encrypt certificate data"));
 		}
-		vchData = vchFromString(strCipherText);
+		vchData = vchFromString(strCipherText);		
+		string strCipherViewText = "";
+		if(!viewAlias.IsNull())
+		{
+			string strCipherViewText = "";
+			if(!EncryptMessage(viewAlias.vchPubKey, vchData, strCipherViewText))
+			{
+				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2509 - " + _("Could not encrypt certificate data"));
+			}
+			vchViewData = vchFromString(strCipherViewText);
+		}
+		
 	}
 
 	// calculate net
@@ -683,7 +706,11 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	newCert.sCategory = vchCat;
     newCert.vchTitle = vchTitle;
 	newCert.vchData = vchData;
-	newCert.vchViewAlias = vchAlias;
+	if(!viewAlias.IsNull())
+	{
+		newCert.vchViewAlias = vchViewAlias;
+		newCert.vchViewData = vchViewData;
+	}
 	newCert.nHeight = chainActive.Tip()->nHeight;
 	newCert.vchAlias = vchAlias;
 	newCert.bPrivate = bPrivate;
@@ -846,27 +873,27 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2509 - " + _("Could not encrypt certificate data"));
 		}
-		vector<unsigned char> vchPubKeyViewPrivate = theAlias.vchPubKey;
+		vchData = vchFromString(strCipherText);
 		string strCipherViewText = "";
 		if(!viewAlias.IsNull())
 		{
-			vchPubKeyViewPrivate = viewAlias.vchPubKey;
 			string strCipherViewText = "";
-			if(!EncryptMessage(vchPubKeyViewPrivate, vchData, strCipherViewText))
+			if(!EncryptMessage(viewAlias.vchPubKey, vchData, strCipherViewText))
 			{
 				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2509 - " + _("Could not encrypt certificate data"));
 			}
-		}
-		vchData = vchFromString(strCipherText);
-		vchViewData = vchFromString(strCipherViewText);
+			vchViewData = vchFromString(strCipherViewText);
+		}	
 	}
 
     if(copyCert.vchTitle != vchTitle)
 		theCert.vchTitle = vchTitle;
 	if(copyCert.vchData != vchData)
 		theCert.vchData = vchData;
-	theCert.vchViewData = vchViewData;
-	theCert.vchViewAlias = vchViewAlias;
+	if(copyCert.vchViewData != vchViewData)
+		theCert.vchViewData = vchViewData;
+	if(copyCert.vchViewAlias != vchViewAlias)
+		theCert.vchViewAlias = vchViewAlias;
 	if(copyCert.sCategory != vchCat)
 		theCert.sCategory = vchCat;
 	theCert.vchAlias = theAlias.vchAlias;
@@ -1133,7 +1160,7 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 			CAliasIndex aliasView;
 			CTransaction aliasviewtx;
 			if (!GetTxOfAlias(ca.vchViewAlias, aliasView, aliasviewtx, true))
-				throw runtime_error("failed to read xfer alias from alias DB");
+				throw runtime_error("failed to read view alias from alias DB");
 			if(DecryptMessage(aliasView.vchPubKey, ca.vchViewData, strDecrypted))
 				strData = strDecrypted;	
 		}

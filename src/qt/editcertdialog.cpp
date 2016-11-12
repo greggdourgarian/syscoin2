@@ -154,6 +154,43 @@ void EditCertDialog::loadCategories()
     ui->categoryEdit->setModel(model);
     ui->categoryEdit->setItemDelegate(new ComboBoxDelegate);
 }
+void EditCertDialog::loadCert()
+{
+	string strMethod = string("certinfo");
+    UniValue params(UniValue::VARR); 
+	params.push_back(ui->certEdit->text().toStdString());
+	UniValue result ;
+	string viewalias_str;
+	try {
+		result = tableRPC.execute(strMethod, params);
+
+		if (result.type() == UniValue::VOBJ)
+		{
+			viewalias_str = "";
+			const UniValue& viewalias_value = find_value(o, "viewalias");
+			if (viewalias_value.type() == UniValue::VSTR)
+				viewalias_str = viewalias_value.get_str();	
+
+			ui->viewAliasEdit->setText(QString::fromStdString(viewalias_str));
+
+		}
+
+	}
+	catch (UniValue& objError)
+	{
+		string strError = find_value(objError, "message").get_str();
+		QMessageBox::critical(this, windowTitle(),
+			tr("Could not get this certificate: %1").arg(QString::fromStdString(strError)),
+				QMessageBox::Ok, QMessageBox::Ok);
+	}
+	catch(std::exception& e)
+	{
+		QMessageBox::critical(this, windowTitle(),
+			tr("There was an exception trying to fetch certificate information: ") + QString::fromStdString(e.what()),
+				QMessageBox::Ok, QMessageBox::Ok);
+	}  
+}
+
 void EditCertDialog::aliasChanged(const QString& alias)
 {
 	string strMethod = string("aliasinfo");
@@ -346,6 +383,8 @@ void EditCertDialog::loadRow(int row, const QString &privatecert)
 	else
 		ui->privateBox->setCurrentIndex(1);
 
+	loadCert();
+
 }
 
 bool EditCertDialog::saveCurrentRow()
@@ -380,6 +419,7 @@ bool EditCertDialog::saveCurrentRow()
 			params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
 		else
 			params.push_back(ui->categoryEdit->currentText().toStdString());
+		params.push_back(ui->viewAliasEdit->text().toStdString());
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
 			if (result.type() != UniValue::VNULL)
