@@ -685,8 +685,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 		if(!EncryptMessage(theAlias.vchPubKey, vchData, strCipherText))
 		{
 			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2503 - " + _("Could not encrypt certificate data"));
-		}
-		vchData = vchFromString(strCipherText);		
+		}	
 		string strCipherViewText = "";
 		if(!viewAlias.IsNull())
 		{
@@ -697,7 +696,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 			}
 			vchViewData = vchFromString(strCipherViewText);
 		}
-		
+		vchData = vchFromString(strCipherText);	
 	}
 
 	// calculate net
@@ -874,7 +873,6 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2509 - " + _("Could not encrypt certificate data"));
 		}
-		vchData = vchFromString(strCipherText);
 		string strCipherViewText = "";
 		if(!viewAlias.IsNull())
 		{
@@ -885,6 +883,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 			}
 			vchViewData = vchFromString(strCipherViewText);
 		}	
+		vchData = vchFromString(strCipherText);
 	}
 
     if(copyCert.vchTitle != vchTitle)
