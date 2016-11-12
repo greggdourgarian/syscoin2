@@ -811,8 +811,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	const UniValue &resultArray = pkr.get_array();
 	string pubkey = resultArray[0].get_str();		
 
-	// should fail: alias transfer from expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 pvtdata Yes " + pubkey), runtime_error);
 	// should fail: alias transfer to another alias
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 pvtdata Yes " + aliasexpirenode2pubkey), runtime_error);
 
