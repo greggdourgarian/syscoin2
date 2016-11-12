@@ -167,7 +167,7 @@ void EditCertDialog::loadCert()
 		if (result.type() == UniValue::VOBJ)
 		{
 			viewalias_str = "";
-			const UniValue& viewalias_value = find_value(o, "viewalias");
+			const UniValue& viewalias_value = find_value(result.get_obj(), "viewalias");
 			if (viewalias_value.type() == UniValue::VSTR)
 				viewalias_str = viewalias_value.get_str();	
 
