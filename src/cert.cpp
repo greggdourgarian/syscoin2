@@ -642,6 +642,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 
 	if(params.size() >= 6)
 		vchCat = vchFromValue(params[5]);
+	vector<unsigned char> vchViewData;
 	vector<unsigned char> vchViewAlias;
 	if(params.size() >= 7)
 		vchViewAlias = vchFromValue(params[6]);
