@@ -1653,7 +1653,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 	
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
 		return;
 
 	CSyscoinAddress addressFrom;
