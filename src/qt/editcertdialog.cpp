@@ -172,9 +172,6 @@ void EditCertDialog::loadCert()
 				viewalias_str = viewalias_value.get_str();	
 
 			ui->viewAliasEdit->setText(QString::fromStdString(viewalias_str));
-
-			const UniValue& viewalias_value = find_value(result.get_obj(), "expired");
-
 		}
 
 	}
