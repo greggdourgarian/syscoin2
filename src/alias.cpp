@@ -94,7 +94,6 @@ bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
 	CEscrow escrow;
 	CCert cert;
 	nHeight = 0;
-	const string &chainName = ChainNameFromCommandLine();
 	if(alias.UnserializeFromData(vchData, vchHash))
 	{
 		if(alias.vchAlias == vchFromString("sysrates.peg") || alias.vchAlias == vchFromString("sysban") || alias.vchAlias == vchFromString("syscategory"))
@@ -143,7 +142,6 @@ bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
 		vector<CCert> vtxPos;
 		if (pcertdb->ReadCert(cert.vchCert, vtxPos) && !vtxPos.empty())
 		{
-			uint64_t nLastHeight = vtxPos.back().nHeight;
 			nHeight = vtxPos.back().nHeight + GetCertExpirationDepth();
 			return true;			
 		}
@@ -192,7 +190,6 @@ bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
 		vector<CMessage> vtxPos;
 		if (pmessagedb->ReadMessage(message.vchMessage, vtxPos) && !vtxPos.empty())
 		{
-			uint64_t nLastHeight = vtxPos.back().nHeight;
 			nHeight = vtxPos.back().nHeight + GetMessageExpirationDepth();
 			return true;		
 		}
@@ -1902,7 +1899,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, wtxIn,  oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, NULL,  oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	if(oldAlias.multiSigInfo.vchAliases.size() > 0)
 	{
