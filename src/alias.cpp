@@ -1786,6 +1786,13 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	EnsureWalletIsUnlocked();
 	CPubKey defaultKey = pwalletMain->GenerateNewKey();
+	CAliasIndex oldAlias;
+	CTransaction oldTx;
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true))
+	{
+		defaultKey = CPubKey(oldAlias.vchPubKey);	
+	}
+	CSyscoinAddress oldAddress(defaultKey.GetID());
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
@@ -1829,7 +1836,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	else
 		scriptPubKeyOrig = GetScriptForDestination(defaultKey.GetID());
 
-	
+	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
 
 	std::vector<unsigned char> vchPubKey(defaultKey.begin(), defaultKey.end());
 	if(vchPrivateValue.size() > 0)
@@ -1889,17 +1896,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		fee.nAmount *= nRenewal*nRenewal;
 
 	vecSend.push_back(fee);
-	CAliasIndex oldAlias;
-	CTransaction oldTx;
 	CCoinControl coinControl;
-	// if renewing your own alias, transfer balances
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
+	// if renewing your own alias and address changed, transfer balances
+	if(!oldAlias.IsNull() && newAddress.ToString() != oldAddress.ToString() && IsSyscoinTxMine(oldTx, "alias"))
 	{
 		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, NULL,  oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, wtxIn,  oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	if(oldAlias.multiSigInfo.vchAliases.size() > 0)
 	{
