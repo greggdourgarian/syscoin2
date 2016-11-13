@@ -262,8 +262,9 @@ bool EditAliasDialog::saveCurrentRow()
 
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
+			const UniValue &arr = result.get_array();
 			string strResult = arr[0].get_str();
-			offer = ui->nameEdit->toPlainText() + ui->aliasEdit->text();
+			alias = ui->nameEdit->toPlainText() + ui->aliasEdit->text();
 			const UniValue& resArray = result.get_array();
 			if(resArray.size() > 2)
 			{
