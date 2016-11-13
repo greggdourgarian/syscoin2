@@ -941,6 +941,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					return true;
 				}
 			}
+			else if(op == OP_ALIAS_UPDATE)
+			{
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Failed to read from alias DB");
+				return true;
+			}
 			else if(op == OP_ALIAS_PAYMENT && vtxPos.empty())
 				return true;
 		}
