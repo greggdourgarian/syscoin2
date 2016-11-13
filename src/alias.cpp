@@ -653,7 +653,7 @@ int GetSyscoinTxVersion()
 bool IsSyscoinTxMine(const CTransaction& tx, const string &type) {
 	if (tx.nVersion != SYSCOIN_TX_VERSION)
 		return false;
-	int op, nOut, myNout;
+	int myNout;
 	vector<vector<unsigned char> > vvch;
 	if ((type == "alias" || type == "any"))
 		myNout = IndexOfAliasOutput(tx);
