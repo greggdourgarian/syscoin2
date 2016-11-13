@@ -262,10 +262,24 @@ bool EditAliasDialog::saveCurrentRow()
 
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
-			if (result.type() != UniValue::VNULL)
+			string strResult = arr[0].get_str();
+			offer = ui->nameEdit->toPlainText() + ui->aliasEdit->text();
+			const UniValue& resArray = result.get_array();
+			if(resArray.size() > 2)
 			{
-				alias = ui->nameEdit->toPlainText() + ui->aliasEdit->text();
-					
+				const UniValue& complete_value = resArray[2];
+				bool bComplete = false;
+				if (complete_value.isStr())
+					bComplete = complete_value.get_str() == "true";
+				if(!bComplete)
+				{
+					string hex_str = resArray[0].get_str();
+					GUIUtil::setClipboard(QString::fromStdString(hex_str));
+					QMessageBox::information(this, windowTitle(),
+						tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
+							QMessageBox::Ok, QMessageBox::Ok);
+					return true;
+				}
 			}
 		}
 		catch (UniValue& objError)

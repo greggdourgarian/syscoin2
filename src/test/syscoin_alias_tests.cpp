@@ -146,6 +146,17 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
+	GenerateBlocks(105);
+	// ensure alias is expired
+	// and it should say its expired
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	// renew alias, should transfer balances
+	AliasNew("node2", "aliasexpirebuyback", "newpassword", "changeddata1");
+	// ensure balance is transferred on renewal
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 {

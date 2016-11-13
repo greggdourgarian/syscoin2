@@ -1902,12 +1902,40 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
-
-	// send the tranasction
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, true, wtx, NULL, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, wtxIn,  oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
-	res.push_back(wtx.GetHash().GetHex());
-	res.push_back(HexStr(vchPubKey));
+	if(oldAlias.multiSigInfo.vchAliases.size() > 0)
+	{
+		UniValue signParams(UniValue::VARR);
+		signParams.push_back(EncodeHexTx(wtx));
+		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
+		const UniValue& so = resSign.get_obj();
+		string hex_str = "";
+
+		const UniValue& hex_value = find_value(so, "hex");
+		if (hex_value.isStr())
+			hex_str = hex_value.get_str();
+		const UniValue& complete_value = find_value(so, "complete");
+		bool bComplete = false;
+		if (complete_value.isBool())
+			bComplete = complete_value.get_bool();
+		if(bComplete)
+		{
+			res.push_back(wtx.GetHash().GetHex());
+			res.push_back(HexStr(vchPubKey));
+		}
+		else
+		{
+			res.push_back(hex_str);
+			res.push_back(HexStr(vchPubKey));
+			res.push_back("false");
+		}
+	}
+	else
+	{
+		res.push_back(wtx.GetHash().GetHex());
+		res.push_back(HexStr(vchPubKey));
+	}
 	return res;
 }
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
