@@ -62,6 +62,7 @@ private:
 	QString cert;
 	QString commission;
 	bool overrideSafeSearch;
+	QString expiredStr;
 };
 
 #endif // EDITOFFERDIALOG_H

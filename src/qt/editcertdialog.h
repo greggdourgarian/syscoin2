@@ -53,6 +53,7 @@ private:
     CertTableModel *model;
 	WalletModel* walletModel;
     QString cert;
+	QString expiredStr;
 };
 
 #endif // EDITCERTDIALOG_H

@@ -53,6 +53,7 @@ private:
     AliasTableModel *model;
 	WalletModel* walletModel;
     QString alias;
+	QString expiredStr;
 };
 
 #endif // EDITALIASDIALOG_H

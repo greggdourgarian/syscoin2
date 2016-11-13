@@ -556,6 +556,11 @@ void EditOfferDialog::loadRow(int row)
 		QModelIndex indexQty = model->index(row, OfferTableModel::Qty, tmpIndex);
 		QModelIndex indexSafeSearch = model->index(row, OfferTableModel::SafeSearch, tmpIndex);
 		QModelIndex indexCategory = model->index(row, OfferTableModel::Category, tmpIndex);
+		QModelIndex indexExpired = model->index(row, OfferTableModel::Expired, tmpIndex);
+		if(indexExpired.isValid())
+		{
+			expiredStr = indexExpired.data(OfferTableModel::ExpiredRole).toString();
+		}
 		if(indexPrivate.isValid())
 		{
 			QString privateStr = indexPrivate.data(OfferTableModel::PrivateRole).toString();
@@ -611,6 +616,16 @@ bool EditOfferDialog::saveCurrentRow()
 			model->editStatus = OfferTableModel::WALLET_UNLOCK_FAILURE;
         return false;
     }
+	if(expiredStr == "Expired")
+	{
+        QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Offer Renewal"),
+                 tr("Warning: This offer is already expired!") + "<br><br>" + tr("Do you want to create a new one with the same information?"),
+                 QMessageBox::Yes|QMessageBox::Cancel,
+                 QMessageBox::Cancel);
+        if(retval == QMessageBox::Cancel)
+			return false;
+		mode = NewOffer;
+	}
 	QString defaultPegAlias;
 	QSettings settings;
 	UniValue params(UniValue::VARR);

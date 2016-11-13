@@ -173,6 +173,8 @@ void EditCertDialog::loadCert()
 
 			ui->viewAliasEdit->setText(QString::fromStdString(viewalias_str));
 
+			const UniValue& viewalias_value = find_value(result.get_obj(), "expired");
+
 		}
 
 	}
@@ -355,6 +357,11 @@ void EditCertDialog::loadRow(int row, const QString &privatecert)
 		QModelIndex indexAlias = model->index(row, CertTableModel::Alias, tmpIndex);
 		QModelIndex indexSafeSearch= model->index(row, CertTableModel::SafeSearch, tmpIndex);
 		QModelIndex indexCategory = model->index(row, CertTableModel::Category, tmpIndex);
+		QModelIndex indexExpired = model->index(row, CertTableModel::Expired, tmpIndex);
+		if(indexExpired.isValid())
+		{
+			expiredStr = indexExpired.data(CertTableModel::ExpiredRole).toString();
+		}
 		if(indexAlias.isValid())
 		{
 			QString aliasStr = indexAlias.data(CertTableModel::AliasRole).toString();
@@ -397,6 +404,16 @@ bool EditCertDialog::saveCurrentRow()
 		model->editStatus = CertTableModel::WALLET_UNLOCK_FAILURE;
         return false;
     }
+	if(expiredStr == "Expired")
+	{
+        QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Certificate Renewal"),
+                 tr("Warning: This certificate is already expired!") + "<br><br>" + tr("Do you want to create a new one with the same information?"),
+                 QMessageBox::Yes|QMessageBox::Cancel,
+                 QMessageBox::Cancel);
+        if(retval == QMessageBox::Cancel)
+			return false;
+		mode = NewCert;
+	}
 	UniValue params(UniValue::VARR);
 	string strMethod;
     switch(mode)

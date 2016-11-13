@@ -199,6 +199,11 @@ void EditAliasDialog::loadRow(int row)
 	if(model)
 	{
 		QModelIndex indexSafeSearch= model->index(row, AliasTableModel::SafeSearch, tmpIndex);
+		QModelIndex indexExpired = model->index(row, AliasTableModel::Expired, tmpIndex);
+		if(indexExpired.isValid())
+		{
+			expiredStr = indexExpired.data(AliasTableModel::ExpiredRole).toString();
+		}
 		if(indexSafeSearch.isValid())
 		{
 			QString safeSearchStr = indexSafeSearch.data(AliasTableModel::SafeSearchRole).toString();
@@ -220,6 +225,10 @@ bool EditAliasDialog::saveCurrentRow()
 		model->editStatus = AliasTableModel::WALLET_UNLOCK_FAILURE;
         return false;
     }
+	if(expiredStr == "Expired")
+	{
+		mode = NewAlias;
+	}
     switch(mode)
     {
     case NewDataAlias:
