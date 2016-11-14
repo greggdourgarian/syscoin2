@@ -298,7 +298,7 @@ CScript RemoveEscrowScriptPrefix(const CScript& scriptIn) {
 bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, const CAliasIndex &sellerAlias, const uint64_t nAcceptHeight, const COfferLinkWhitelistEntry &foundEntry, const bool &dontaddtodb, const CAmount &nCommission, const CSyscoinAddress& multisigaddress, string& errorMessage)
 {
 	CTransaction fundingTx;
-	if (!DecodeHexTx(fundingTx,HexStr(stringFromVch(theEscrow.rawTx))))
+	if (!DecodeHexTx(fundingTx,HexStr(theEscrow.rawTx))))
 	{
 		errorMessage = _("Could not find decode external transaction");
 		return true;
@@ -3252,7 +3252,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	if(ca.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 	{
 		CTransaction fundingTx;
-		if (DecodeHexTx(fundingTx,HexStr(stringFromVch(vtxPos.front().rawTx))))
+		if (DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
 		{
 			strExtId = fundingTx.GetHash().GetHex();
 		}
@@ -3510,7 +3510,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 		{
 			CTransaction fundingTx;
-			if (DecodeHexTx(fundingTx,HexStr(stringFromVch(vtxPos.front().rawTx))))
+			if (DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
 			{
 				strExtId = fundingTx.GetHash().GetHex();
 			}
@@ -3728,7 +3728,7 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 			if(txPos2.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 			{
 				CTransaction fundingTx;
-				if (DecodeHexTx(fundingTx,HexStr(stringFromVch(vtxPos.front().rawTx))))
+				if (DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
 				{
 					strExtId = fundingTx.GetHash().GetHex();
 				}
@@ -3913,7 +3913,7 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 		if(txEscrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 		{
 			CTransaction fundingTx;
-			if (DecodeHexTx(fundingTx,HexStr(stringFromVch(vtxPos.front().rawTx))))
+			if (DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
 			{
 				strExtId = fundingTx.GetHash().GetHex();
 			}
