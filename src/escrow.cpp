@@ -298,7 +298,7 @@ CScript RemoveEscrowScriptPrefix(const CScript& scriptIn) {
 bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, const CAliasIndex &sellerAlias, const uint64_t nAcceptHeight, const COfferLinkWhitelistEntry &foundEntry, const bool &dontaddtodb, const CAmount &nCommission, const CSyscoinAddress& multisigaddress, string& errorMessage)
 {
 	CTransaction fundingTx;
-	if (!DecodeHexTx(fundingTx,HexStr(theEscrow.rawTx))))
+	if (!DecodeHexTx(fundingTx,HexStr(theEscrow.rawTx)))
 	{
 		errorMessage = _("Could not find decode external transaction");
 		return true;
@@ -318,9 +318,9 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, c
 	int precision = 2;
 	string paymentOptionStr = GetPaymentOptionsString(theEscrow.nPaymentOption);
 
-	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, nAcceptHeight, precision)*escrow.nQty;
-	nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), nAcceptHeight, precision)*escrow.nQty;
-	nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, nAcceptHeight, precision);
+	CAmount nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, nAcceptHeight, precision)*theEscrow.nQty;
+	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), nAcceptHeight, precision)*theEscrow.nQty;
+	CAmount nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, nAcceptHeight, precision);
 	int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
 	CAmount nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);
 	unsigned int nOutMultiSig = 0;
@@ -335,10 +335,11 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, c
 	CAmount nAmount = fundingTx.vout[nOutMultiSig].nValue;
 	if(nAmount != nEscrowTotal)
 	{
-		errorMessage = _("Expected amount for external payment of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal));
+		errorMessage = _("Expected amount for external payment of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
 		return true;
 	}
 	CSyscoinAddress destaddy;
+	CTxDestination payDest;
 	if (!ExtractDestination(fundingTx.vout[nOutMultiSig].scriptPubKey, payDest))
 	{
 		errorMessage = _("Could not extract payment destination from external scriptPubKey");
@@ -352,7 +353,7 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, c
 	}
 	return true;
 }
-bool ValidatePayment(const CEscrow& theEscrow, const COffer& theOffer, const COffer& linkOffer, const CAliasIndex &buyerAlias,const CAliasIndex &sellerAlias, const CAliasIndex &arbiterAlias, const uint64_t nHeight, const uint64_t nAcceptHeight, const bool &dontaddtodb, string& errorMessage)
+bool ValidatePayment(const CTransaction &escrowTx, const CEscrow& theEscrow, const COffer& theOffer, const COffer& linkOffer, const CAliasIndex &buyerAlias,const CAliasIndex &sellerAlias, const CAliasIndex &arbiterAlias, const uint64_t nHeight, const uint64_t nAcceptHeight, const bool &dontaddtodb, string& errorMessage)
 {
 	UniValue arrayParams(UniValue::VARR);
 	UniValue arrayOfKeys(UniValue::VARR);
@@ -388,6 +389,7 @@ bool ValidatePayment(const CEscrow& theEscrow, const COffer& theOffer, const COf
 	}
 	else
 	{
+		int precision=2;
 		CAmount nExpectedCommissionAmount = nCommission*theEscrow.nQty;
 		CAmount nExpectedAmount = theOffer.GetPrice(foundEntry)*theEscrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, nAcceptHeight, precision);
@@ -406,10 +408,11 @@ bool ValidatePayment(const CEscrow& theEscrow, const COffer& theOffer, const COf
 		CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
 		if(nAmount != nEscrowTotal)
 		{
-			errorMessage = _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal));
+			errorMessage = _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
 			return true;
 		}
 		CSyscoinAddress destaddy;
+		CTxDestination payDest;
 		if (!ExtractDestination(escrowTx.vout[nOutMultiSig].scriptPubKey, payDest))
 		{
 			errorMessage = _("Could not extract payment destination from scriptPubKey");
@@ -1058,7 +1061,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			}
 			dbOffer.nHeight = theEscrow.nAcceptHeight;
 			dbOffer.GetOfferFromList(myVtxPos);
-			bool noError = ValidatePayment(theEscrow, dbOffer, myLinkOffer, buyerAlias, sellerAlias, arbiterAlias, nHeight, theEscrow.nAcceptHeight, dontaddtodb, errorMessage);
+			bool noError = ValidatePayment(tx, theEscrow, dbOffer, myLinkOffer, buyerAlias, sellerAlias, arbiterAlias, nHeight, theEscrow.nAcceptHeight, dontaddtodb, errorMessage);
 			if(!errorMessage.empty())
 			{
 				errorMessage =  "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4069 - " + errorMessage;
