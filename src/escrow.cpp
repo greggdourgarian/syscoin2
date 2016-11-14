@@ -1231,8 +1231,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 						"<arbiter alias> Alias of Arbiter.\n"
 						"<extTx> If paid in another coin enter raw external input transaction.\n"
 						"<paymentOption> If extTx is defined, specify a valid payment option used to make payment. Default is SYS.\n"
-						"<redeemScript> If paid in Bitcoin enter, enter redeemScript that generateescrowmultisig returns\n"
-						"<height> If paid in Bitcoin enter, enter height that generateescrowmultisig returns\n"
+						"<redeemScript> If paid in external chain, enter redeemScript that generateescrowmultisig returns\n"
+						"<height> If paid in extneral chain, enter height that generateescrowmultisig returns\n"
                         + HelpRequiringPassphrase());
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchOffer = vchFromValue(params[1]);
