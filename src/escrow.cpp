@@ -2069,7 +2069,36 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			resellerAlias.GetAddress(&resellerAddressPayment, escrow.nPaymentOption);
 		}
 	}
-
+	CAmount nCommission;
+	COfferLinkWhitelistEntry foundEntry;
+	if(theOffer.vchLinkOffer.empty())
+	{
+		theOffer.linkWhitelist.GetLinkEntryByHash(buyerAlias.vchAlias, foundEntry);
+		nCommission = 0;
+	}
+	else
+	{
+		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
+		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
+	}
+	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
+	if(!vtxPos.front().rawTx.empty())
+	{
+		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, nAcceptHeight, precision)*escrow.nQty;
+		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), nAcceptHeight, precision)*escrow.nQty;
+		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);
+	}
+	else
+	{
+		nExpectedCommissionAmount = nCommission*theEscrow.nQty;
+		nExpectedAmount = theOffer.GetPrice(foundEntry)*theEscrow.nQty;
+		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, nAcceptHeight, precision);
+		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
+	}
 	bool foundSellerPayment = false;
 	bool foundCommissionPayment = false;
 	bool foundFeePayment = false;
