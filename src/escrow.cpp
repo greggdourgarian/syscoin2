@@ -298,7 +298,7 @@ CScript RemoveEscrowScriptPrefix(const CScript& scriptIn) {
 bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, const CAliasIndex &sellerAlias, const uint64_t nAcceptHeight, const COfferLinkWhitelistEntry &foundEntry, const bool &dontaddtodb, const CAmount &nCommission, const CSyscoinAddress& multisigaddress, string& errorMessage)
 {
 	CTransaction fundingTx;
-	if (!DecodeHexTx(fundingTx,theEscrow.rawTx))
+	if (!DecodeHexTx(fundingTx,vchFromString(HexStr(theEscrow.rawTx))))
 	{
 		errorMessage = _("Could not find decode external transaction");
 		return true;
@@ -784,6 +784,42 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4046 - " + _("Only arbiter can refund an escrow after it has already been refunded");
 						serializedEscrow = theEscrow;
+					}
+					// refund qty
+					int nQty = dbOffer.nQty;
+					COffer myLinkOffer;
+					if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
+						if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
+						{
+							myLinkOffer = myLinkVtxPos.back();
+							nQty = myLinkOffer.nQty;
+						}
+					}
+					if(nQty != -1)
+					{
+						nQty += theEscrow.nQty;
+						if (!myLinkOffer.IsNull())
+						{
+							myLinkOffer.nQty = nQty;
+							myLinkOffer.nSold--;
+							myLinkOffer.PutToOfferList(myLinkVtxPos);
+							if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
+							{
+								errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
+								return true;
+							}
+						}
+						else
+						{
+							dbOffer.nQty = nQty;
+							dbOffer.nSold--;
+							dbOffer.PutToOfferList(myVtxPos);
+							if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
+							{
+								errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
+								return true;
+							}
+						}
 					}
 				}
 				else if(op == OP_ESCROW_REFUND && vvchArgs[1] == vchFromString("1"))
@@ -3216,7 +3252,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	if(ca.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 	{
 		CTransaction fundingTx;
-		if (DecodeHexTx(fundingTx,vtxPos.front().rawTx))
+		if (DecodeHexTx(fundingTx,vchFromString(HexStr(vtxPos.front().rawTx))))
 		{
 			strExtId = fundingTx.GetHash().GetHex();
 		}
@@ -3474,7 +3510,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 		{
 			CTransaction fundingTx;
-			if (DecodeHexTx(fundingTx,vtxPos.front().rawTx))
+			if (DecodeHexTx(fundingTx,vchFromString(HexStr(vtxPos.front().rawTx))))
 			{
 				strExtId = fundingTx.GetHash().GetHex();
 			}
@@ -3692,7 +3728,7 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 			if(txPos2.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 			{
 				CTransaction fundingTx;
-				if (DecodeHexTx(fundingTx,vtxPos.front().rawTx))
+				if (DecodeHexTx(fundingTx,vchFromString(HexStr(vtxPos.front().rawTx))))
 				{
 					strExtId = fundingTx.GetHash().GetHex();
 				}
@@ -3877,7 +3913,7 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 		if(txEscrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
 		{
 			CTransaction fundingTx;
-			if (DecodeHexTx(fundingTx,vtxPos.front().rawTx))
+			if (DecodeHexTx(fundingTx,vchFromString(HexStr(vtxPos.front().rawTx))))
 			{
 				strExtId = fundingTx.GetHash().GetHex();
 			}
