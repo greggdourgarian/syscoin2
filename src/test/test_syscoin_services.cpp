@@ -1142,8 +1142,7 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
 	CAmount offerprice = find_value(r.get_obj(), "sysprice").get_int64();
 	int nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	// escrow shouldn't deduct qty
-	BOOST_CHECK_EQUAL(nQtyAfter, nQtyBefore);
+	BOOST_CHECK_EQUAL(nQtyAfter, nQtyBefore-nQty);
 	CAmount nTotal = offerprice*nQty;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
@@ -1201,6 +1200,7 @@ void EscrowRefund(const string& node, const string& role, const string& guid)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	string offer = find_value(r.get_obj(), "offer").get_str();
+	int nQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferBefore = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
@@ -1211,7 +1211,7 @@ void EscrowRefund(const string& node, const string& role, const string& guid)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// refund adds qty
-	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore);
+	BOOST_CHECK_EQUAL(nQtyOfferAfter, nQtyOfferBefore+nQty);
 }
 void EscrowClaimRefund(const string& node, const string& guid)
 {
