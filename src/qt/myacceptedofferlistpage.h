@@ -72,7 +72,6 @@ private Q_SLOTS:
     void selectNewOffer(const QModelIndex &parent, int begin, int /*end*/);
 	void on_detailButton_clicked();
 	void on_ackButton_clicked();
-	void displayListTextChanged(const QString& alias);
 	void displayListChanged(const QString& alias);
 
 };
