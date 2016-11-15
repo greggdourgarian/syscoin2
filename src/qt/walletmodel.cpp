@@ -83,7 +83,52 @@ WalletModel::~WalletModel()
 {
     unsubscribeFromCoreSignals();
 }
+// SYSCOIN
+void appendListAliases(UniValue& defaultAliasArray)
+{
+	QSettings settings;
+	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+	if(defaultListAlias == QString("Any"))
+	{
+		string strMethod = string("aliaslist");
+		UniValue params(UniValue::VARR); 
+		UniValue result ;
+		string name_str;
+		
+		try {
+			result = tableRPC.execute(strMethod, params);
 
+			if (result.type() == UniValue::VARR)
+			{
+				name_str = "";
+				const UniValue &arr = result.get_array();
+				for (unsigned int idx = 0; idx < arr.size(); idx++) {
+					const UniValue& input = arr[idx];
+					if (input.type() != UniValue::VOBJ)
+						continue;
+					const UniValue& o = input.get_obj();
+					name_str = "";
+					const UniValue& name_value = find_value(o, "name");
+					if (name_value.type() == UniValue::VSTR)
+					{
+						name_str = name_value.get_str();
+						defaultAliasArray.push_back(name_str);
+					}
+				}
+			}
+		}
+		catch (UniValue& objError)
+		{
+		}
+		catch(std::exception& e)
+		{
+		}
+	}
+	else
+	{
+		defaultAliasArray.push_back(defaultListAlias.toStdString());
+	}
+}
 CAmount WalletModel::getBalance(const CCoinControl *coinControl) const
 {
     if (coinControl)

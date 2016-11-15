@@ -36,6 +36,8 @@ class COutput;
 class CPubKey;
 class CWallet;
 class uint256;
+// SYSCOIN
+class UniValue;
 
 QT_BEGIN_NAMESPACE
 class QTimer;
@@ -229,7 +231,6 @@ public:
     static bool isWalletEnabled();
 
     bool hdEnabled() const;
-
 private:
     CWallet *wallet;
     bool fHaveWatchOnly;
@@ -315,5 +316,6 @@ public Q_SLOTS:
 	void updateOffer();
 	void updateMessage();
 };
-
+// SYSCOIN
+extern void appendListAliases(UniValue& defaultAliasArray);
 #endif // SYSCOIN_QT_WALLETMODEL_H

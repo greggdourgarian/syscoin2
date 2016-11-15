@@ -94,10 +94,72 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
 
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
-
+	connect(ui->displayListAlias,SIGNAL(editTextChanged(const QString&)),this,SLOT(displayListTextChanged(const QString&)));
+	connect(ui->displayListAlias,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(displayListChanged(const QString&)));
+	loadAliasList();
 
 }
-	
+void MyAcceptedOfferListPage::loadAliasList()
+{
+	QSettings settings;
+	settings.setValue("defaultListAlias", QString("Any"));
+	UniValue aliasList(UniValue::VARR);
+	appendListAliases(aliasList);
+	for(unsigned int i = 0;i<aliasList.size();i++)
+	{
+		ui->displayListAlias->addItem(QString::fromStdString(aliasList[i].get_str()));
+	}
+}
+void MyAcceptedOfferListPage::displayListTextChanged(const QString& alias)
+{
+	if(alias != QString("Any"))
+	{
+		string strMethod = string("aliasinfo");
+		UniValue params(UniValue::VARR); 
+		params.push_back(alias.toStdString());
+		UniValue result ;
+		string name_str;
+		int expired = 0;
+		bool safeSearch;
+		int safetyLevel;
+		try {
+			result = tableRPC.execute(strMethod, params);
+
+			if (result.type() != UniValue::VOBJ)
+			{
+				QMessageBox::critical(this, windowTitle(),
+				tr("Could not find the selected alias to display"),
+					QMessageBox::Ok, QMessageBox::Ok);				
+			}
+			
+		}
+		catch (UniValue& objError)
+		{
+			QMessageBox::critical(this, windowTitle(),
+			tr("Could not find the selected alias to display"),
+				QMessageBox::Ok, QMessageBox::Ok);
+		}
+		catch(std::exception& e)
+		{
+			QMessageBox::critical(this, windowTitle(),
+			tr("Could not find the selected alias to display"),
+				QMessageBox::Ok, QMessageBox::Ok);
+		}  
+	}
+	QSettings settings;
+	settings.setValue("defaultListAlias", alias);
+			QMessageBox::critical(this, windowTitle(),
+			tr("default list txt changed"),
+				QMessageBox::Ok, QMessageBox::Ok);
+}
+void MyAcceptedOfferListPage::displayListChanged(const QString& alias)
+{
+	QSettings settings;
+	settings.setValue("defaultListAlias", alias);
+			QMessageBox::critical(this, windowTitle(),
+			tr("default list selection changed"),
+				QMessageBox::Ok, QMessageBox::Ok);
+}
 bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId, QString& paymentOption)
 {
 	
