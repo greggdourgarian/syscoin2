@@ -3239,7 +3239,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	map< vector<unsigned char>, int > vNamesA;
 	for(int i =0;i<aliases.size();i++)
 	{
-		string name = aliases[i];
+		string name = aliases[i].get_str();
 		vector<unsigned char> vchAlias = vchFromString(name);
 		vector<CAliasIndex> vtxPos;
 		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
