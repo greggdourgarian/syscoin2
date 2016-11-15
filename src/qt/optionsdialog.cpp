@@ -215,7 +215,6 @@ void OptionsDialog::setMapper()
 	// SYSCOIN
 	mapper->addMapping(ui->theme, OptionsModel::Theme);
 	mapper->addMapping(ui->defaultAlias, OptionsModel::DefaultAlias);
-	mapper->addMapping(ui->defaultListAlias, OptionsModel::DefaultListAlias);
 	mapper->addMapping(ui->safeSearch, OptionsModel::SafeSearch);
     mapper->addMapping(ui->lang, OptionsModel::Language);
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
