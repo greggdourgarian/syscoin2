@@ -65,8 +65,6 @@ bool IsCertOp(int op) {
         || op == OP_CERT_TRANSFER;
 }
 
-// Increase expiration to 36000 gradually starting at block 24000.
-// Use for validation purposes and pass the chain height.
 int GetCertExpirationDepth() {
 	#ifdef ENABLE_DEBUGRPC
     return 1440;

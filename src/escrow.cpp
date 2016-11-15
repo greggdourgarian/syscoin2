@@ -1518,7 +1518,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
-		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
@@ -1527,7 +1527,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), vtxPos.front().nAcceptHeight,precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
 	}
     CTransaction fundingTx;
@@ -1994,7 +1994,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
-		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
@@ -2003,7 +2003,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), vtxPos.front().nAcceptHeight,precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
 	}
     CTransaction fundingTx;
@@ -2418,7 +2418,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
-		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
@@ -2427,7 +2427,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), vtxPos.front().nAcceptHeight,precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
 	}
     CTransaction fundingTx;
@@ -2714,7 +2714,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
-		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
@@ -2723,7 +2723,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), vtxPos.front().nAcceptHeight,precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
 	}
     CTransaction fundingTx;
