@@ -27,7 +27,6 @@
 
 #include <boost/foreach.hpp>
 // SYSCOIN
-#include "syscoingui.h"
 #include "guiutil.h"
 #include "aliastablemodel.h"
 #include "messagetablemodel.h"
@@ -90,7 +89,7 @@ void appendListAliases(UniValue& defaultAliasArray)
 {
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-	if(defaultListAlias == tr("All"))
+	if(defaultListAlias == QT_TRANSLATE_NOOP("All"))
 	{
 		string strMethod = string("aliaslist");
 		UniValue params(UniValue::VARR); 
