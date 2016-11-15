@@ -698,7 +698,6 @@ static void appendListAliases(UniValue& defaultAliasArray)
 		UniValue params(UniValue::VARR); 
 		UniValue result ;
 		string name_str;
-		int expired = 0;
 		
 		try {
 			result = tableRPC.execute(strMethod, params);
@@ -722,7 +721,12 @@ static void appendListAliases(UniValue& defaultAliasArray)
 				}
 			}
 		}
- 
+		catch (UniValue& objError)
+		{
+		}
+		catch(std::exception& e)
+		{
+		}
 	}
 	else
 	{
