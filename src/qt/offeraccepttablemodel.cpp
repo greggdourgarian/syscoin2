@@ -9,8 +9,9 @@
 #include <QFont>
 #include <QSettings>
 #include "rpc/server.h"
+#include "syscoin.cpp"
 using namespace std;
-extern void appendListAliases(UniValue& defaultAliasArray);
+
 
 const QString OfferAcceptTableModel::Offer = "O";
 

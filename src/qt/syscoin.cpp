@@ -514,7 +514,7 @@ WId SyscoinApplication::getMainWinId() const
     return window->winId();
 }
 // SYSCOIN
-static void appendListAliases(UniValue& defaultAliasArray)
+void appendListAliases(UniValue& defaultAliasArray)
 {
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
