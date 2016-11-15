@@ -300,7 +300,7 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const bool &dontaddtodb, 
 	CTransaction fundingTx;
 	if (!DecodeHexTx(fundingTx,HexStr(theEscrow.rawTx)))
 	{
-		errorMessage = _("Could not find decode external transaction");
+		errorMessage = _("Could not decode external transaction");
 		return true;
 	}
 
@@ -944,14 +944,17 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4076 - " + _("Cannot find linked offer for this escrow");
 				return true;
 			}
-			bool noError = ValidateExternalPayment(theEscrow, dontaddtodb, errorMessage);
-			if(!errorMessage.empty())
+			if(!theEscrow.rawTx.empty())
 			{
-				errorMessage =  "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4069 - " + errorMessage;
-				if(!noError)
-					return error(errorMessage.c_str());
-				else
-					return true;
+				bool noError = ValidateExternalPayment(theEscrow, dontaddtodb, errorMessage);
+				if(!errorMessage.empty())
+				{
+					errorMessage =  "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4069 - " + errorMessage;
+					if(!noError)
+						return error(errorMessage.c_str());
+					else
+						return true;
+				}
 			}
 		}
 		
