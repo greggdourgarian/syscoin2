@@ -9,7 +9,6 @@
 #include <QFont>
 #include <QSettings>
 #include "rpc/server.h"
-#include "syscoin.cpp"
 using namespace std;
 
 

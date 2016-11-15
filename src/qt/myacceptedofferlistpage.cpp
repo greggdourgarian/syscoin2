@@ -17,7 +17,6 @@
 #include "rpc/server.h"
 #include "util.h"
 #include "utilmoneystr.h"
-#include "syscoin.cpp"
 using namespace std;
 
 extern CRPCTable tableRPC;
