@@ -110,15 +110,9 @@ void MyAcceptedOfferListPage::loadAliasList()
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
 		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
-		ui->displayListAlias->addItem(aliasName, aliasName);
-		if(aliasName == oldListAlias)
-		{
-			int index = ui->displayListAlias->findData(aliasName);
-			if ( index != -1 ) 						
-			    ui->displayListAlias->setCurrentIndex(index);
-		}
+		ui->displayListAlias->addItem(aliasName);
 	}
-	
+	ui->displayListAlias->setCurrentIndex(ui->displayListAlias->findText(oldListAlias));
 }
 void MyAcceptedOfferListPage::displayListChanged(const QString& alias)
 {
