@@ -774,38 +774,41 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						serializedEscrow = theEscrow;
 					}
 					// refund qty
-					int nQty = dbOffer.nQty;
-					COffer myLinkOffer;
-					if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
-						if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
-						{
-							myLinkOffer = myLinkVtxPos.back();
-							nQty = myLinkOffer.nQty;
-						}
-					}
-					if(nQty != -1)
+					if (GetTxAndVtxOfOffer( theEscrow.vchOffer, dbOffer, txOffer, myVtxPos))
 					{
-						nQty += theEscrow.nQty;
-						if (!myLinkOffer.IsNull())
-						{
-							myLinkOffer.nQty = nQty;
-							myLinkOffer.nSold--;
-							myLinkOffer.PutToOfferList(myLinkVtxPos);
-							if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
+						int nQty = dbOffer.nQty;
+						COffer myLinkOffer;
+						if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
+							if (pofferdb->ReadOffer(dbOffer.vchLinkOffer, myLinkVtxPos) && !myLinkVtxPos.empty())
 							{
-								errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
-								return true;
+								myLinkOffer = myLinkVtxPos.back();
+								nQty = myLinkOffer.nQty;
 							}
 						}
-						else
+						if(nQty != -1)
 						{
-							dbOffer.nQty = nQty;
-							dbOffer.nSold--;
-							dbOffer.PutToOfferList(myVtxPos);
-							if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
+							nQty += theEscrow.nQty;
+							if (!myLinkOffer.IsNull())
 							{
-								errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
-								return true;
+								myLinkOffer.nQty = nQty;
+								myLinkOffer.nSold--;
+								myLinkOffer.PutToOfferList(myLinkVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Failed to write to offer link to DB");
+									return true;
+								}
+							}
+							else
+							{
+								dbOffer.nQty = nQty;
+								dbOffer.nSold--;
+								dbOffer.PutToOfferList(myVtxPos);
+								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
+								{
+									errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4075 - " + _("Failed to write to offer to DB");
+									return true;
+								}
 							}
 						}
 					}
