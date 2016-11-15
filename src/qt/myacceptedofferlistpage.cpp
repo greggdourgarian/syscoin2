@@ -21,7 +21,6 @@
 using namespace std;
 
 extern CRPCTable tableRPC;
-extern void appendListAliases(UniValue& defaultAliasArray);
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>
