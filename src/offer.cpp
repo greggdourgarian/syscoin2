@@ -3230,7 +3230,14 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size() || params.size() < 1)
         throw runtime_error("offeracceptlist [\"alias\",...] [acceptguid='']\n"
                 "list offer purchases that an array of aliases own");
-	UniValue aliases = params[0].get_array();
+	UniValue aliases(UniValue::VARR);
+	if(params[0].isArray())
+		aliases = params[0].get_array();
+	else
+	{
+		string aliasName =  params[0].get_str();
+		aliases.push_back(aliasName);
+	}
 	vector<unsigned char> vchNameUniq;
 	if (params.size() >= 2)
 		vchNameUniq = vchFromValue(params[1]);
