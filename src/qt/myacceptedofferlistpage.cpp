@@ -20,7 +20,7 @@
 using namespace std;
 
 extern CRPCTable tableRPC;
-extern static void appendListAliases(UniValue& defaultAliasArray);
+extern void appendListAliases(UniValue& defaultAliasArray);
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>
