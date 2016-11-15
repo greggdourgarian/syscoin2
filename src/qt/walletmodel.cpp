@@ -34,6 +34,7 @@
 #include "certtablemodel.h"
 #include "offertablemodel.h"
 #include "offeraccepttablemodel.h"
+#include <QSettings>
 using namespace std;
 extern bool DecodeAndParseAliasTx(const CTransaction& tx, int& op, int& nOut, vector<vector<unsigned char> >& vvch);
 extern bool DecodeAndParseOfferTx(const CTransaction& tx, int& op, int& nOut, vector<vector<unsigned char> >& vvch);
