@@ -827,6 +827,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				}
 				else if(op == OP_ESCROW_RELEASE && vvchArgs[1] == vchFromString("0"))
 				{
+					CAliasIndex alias;
 					if(!GetTxOfAlias(theEscrow.vchBuyerAlias, alias, aliasTx))
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Cannot find buyer alias. It may be expired");
@@ -1721,12 +1722,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4530 - " + _("Could not create escrow transaction: Invalid response from createrawtransaction"));
 	string createEscrowSpendingTx = resCreate.get_str();
 
-    CTransaction fundingTx;
-	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
-	unsigned int nOutMultiSig = 0;
+
 	// Buyer/Arbiter signs it
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
@@ -2584,12 +2580,6 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	if (!resCreate.isStr())
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4563 - " + _("Could not create escrow transaction: Invalid response from createrawtransaction"));
 	string createEscrowSpendingTx = resCreate.get_str();
-    CTransaction fundingTx;
-	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
-	unsigned int nOutMultiSig = 0;
 	// Buyer/Arbiter signs it
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
@@ -3631,10 +3621,10 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		oName.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* escrow.nQty)).get_real() )));
 		oName.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 		string strExtId = "";
-		if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxPos.front().rawTx.empty())
+		if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxEscrowPos.front().rawTx.empty())
 		{
 			CTransaction fundingTx;
-			if (DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+			if (DecodeHexTx(fundingTx,HexStr(vtxEscrowPos.front().rawTx)))
 			{
 				strExtId = fundingTx.GetHash().GetHex();
 			}
