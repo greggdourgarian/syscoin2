@@ -112,7 +112,7 @@ void MyAcceptedOfferListPage::loadAliasList()
 		ui->displayListAlias->addItem(QString::fromStdString(aliasName));
 		if(aliasName == oldListAlias.toStdString())
 		{
-			int index = ui->displayListAlias->findText(aliasName);
+			int index = ui->displayListAlias->findText(QString::fromStdString(aliasName));
 			if ( index != -1 ) 						
 			    ui->displayListAlias->setCurrentIndex(index);
 		}
