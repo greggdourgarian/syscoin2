@@ -109,7 +109,14 @@ void MyAcceptedOfferListPage::loadAliasList()
 	settings.setValue("defaultListAlias", oldListAlias);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
-		ui->displayListAlias->addItem(QString::fromStdString(aliasList[i].get_str()));
+		const string& aliasName = aliasList[i].get_str();
+		ui->displayListAlias->addItem(QString::fromStdString(aliasName));
+		if(aliasName == oldListAlias.toStdString())
+		{
+			int index = ui->displayListAlias->findText(aliasName);
+			if ( index != -1 ) 						
+			    ui->displayListAlias->setCurrentIndex(index);
+		}
 	}
 	
 }
@@ -122,9 +129,6 @@ void MyAcceptedOfferListPage::displayListTextChanged(const QString& alias)
 		params.push_back(alias.toStdString());
 		UniValue result ;
 		string name_str;
-		int expired = 0;
-		bool safeSearch;
-		int safetyLevel;
 		try {
 			result = tableRPC.execute(strMethod, params);
 
