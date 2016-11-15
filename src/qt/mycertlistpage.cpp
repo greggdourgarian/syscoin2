@@ -49,7 +49,7 @@ MyCertListPage::MyCertListPage(const PlatformStyle *platformStyle, QWidget *pare
 		
 	}
 
-    ui->labelExplanation->setText(tr("These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active."));
+    ui->labelExplanation->setText(tr("These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right. You can edit the dropdown to enter any valid alias aswell."));
 	
 	
     // Context menu actions

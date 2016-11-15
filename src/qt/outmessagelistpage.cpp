@@ -44,7 +44,7 @@ OutMessageListPage::OutMessageListPage(const PlatformStyle *platformStyle, QWidg
 		
 	}
 
-    ui->labelExplanation->setText(tr("These are Syscoin messages you sent out."));
+    ui->labelExplanation->setText(tr("These are Syscoin messages you have sent. You can choose which aliases to view related messages using the dropdown to the right. You can edit the dropdown to enter any valid alias aswell."));
 	
     // Context menu actions
     QAction *copyGuidAction = new QAction(ui->copyMessage->text(), this);
