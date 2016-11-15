@@ -27,7 +27,7 @@
 
 #include <boost/foreach.hpp>
 // SYSCOIN
-#include "util.h"
+#include "syscoingui.h"
 #include "guiutil.h"
 #include "aliastablemodel.h"
 #include "messagetablemodel.h"
