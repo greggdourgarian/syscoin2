@@ -99,9 +99,11 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 }
 void MyAcceptedOfferListPage::loadAliasList()
 {
+	ui->displayListAlias->clear();
+	ui->displayListAlias->addItem(tr("All"));
 	QSettings settings;
 	QString oldListAlias = settings.value("defaultListAlias", "").toString();
-	settings.setValue("defaultListAlias", QString("All"));
+	settings.setValue("defaultListAlias", tr("All"));
 	UniValue aliasList(UniValue::VARR);
 	appendListAliases(aliasList);
 	settings.setValue("defaultListAlias", oldListAlias);

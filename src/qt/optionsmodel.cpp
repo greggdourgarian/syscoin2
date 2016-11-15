@@ -151,7 +151,7 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("defaultPegAlias"))
         settings.setValue("defaultPegAlias", "sysrates.peg");
     if (!settings.contains("defaultListAlias"))
-        settings.setValue("defaultListAlias", "All");
+        settings.setValue("defaultListAlias", tr("All"));
     if (!settings.contains("safesearch"))
         settings.setValue("safesearch", "Yes");
     if (!settings.contains("language"))
