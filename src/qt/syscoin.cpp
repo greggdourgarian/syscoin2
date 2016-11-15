@@ -690,7 +690,7 @@ int main(int argc, char *argv[])
 }
 static void appendListAliases(UniValue& defaultAliasArray)
 {
-
+	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
 	if(defaultListAlias == QString("Any"))
 	{
@@ -728,6 +728,5 @@ static void appendListAliases(UniValue& defaultAliasArray)
 	{
 		defaultAliasArray.push_back(defaultListAlias.toStdString());
 	}
-
 }
 #endif // SYSCOIN_QT_TEST
