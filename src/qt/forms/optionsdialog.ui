@@ -693,20 +693,6 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5_Pref">
-         <item>
-          <widget class="QLabel" name="labelDefaultBuyOffer">
-           <property name="text">
-            <string>Default Alias When Purchasing Offers:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="defaultBuyOfferAlias"/>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6_Pref">
          <item>
           <widget class="QLabel" name="labelSafeSearch">

@@ -80,7 +80,9 @@ Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
 // Declare meta types used for QMetaObject::invokeMethod
 Q_DECLARE_METATYPE(bool*)
 Q_DECLARE_METATYPE(CAmount)
-
+// SYSCOIN
+using namespace std;
+extern CRPCTable tableRPC;
 static void InitMessage(const std::string &message)
 {
     LogPrintf("init message: %s\n", message);
@@ -685,5 +687,47 @@ int main(int argc, char *argv[])
         app.handleRunawayException(QString::fromStdString(strMiscWarning));
     }
     return app.getReturnValue();
+}
+static void appendListAliases(UniValue& defaultAliasArray)
+{
+
+	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+	if(defaultListAlias == QString("Any"))
+	{
+		string strMethod = string("aliaslist");
+		UniValue params(UniValue::VARR); 
+		UniValue result ;
+		string name_str;
+		int expired = 0;
+		
+		try {
+			result = tableRPC.execute(strMethod, params);
+
+			if (result.type() == UniValue::VARR)
+			{
+				name_str = "";
+				const UniValue &arr = result.get_array();
+				for (unsigned int idx = 0; idx < arr.size(); idx++) {
+					const UniValue& input = arr[idx];
+					if (input.type() != UniValue::VOBJ)
+						continue;
+					const UniValue& o = input.get_obj();
+					name_str = "";
+					const UniValue& name_value = find_value(o, "name");
+					if (name_value.type() == UniValue::VSTR)
+					{
+						name_str = name_value.get_str();
+						defaultAliasArray.push_back(name_str);
+					}
+				}
+			}
+		}
+ 
+	}
+	else
+	{
+		defaultAliasArray.push_back(defaultListAlias.toStdString());
+	}
+
 }
 #endif // SYSCOIN_QT_TEST

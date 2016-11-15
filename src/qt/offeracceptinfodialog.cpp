@@ -197,10 +197,11 @@ bool OfferAcceptInfoDialog::lookup()
 			tr("There was an exception trying to locate this offer, please ensure offer has been confirmed by the blockchain: ") + QString::fromStdString(e.what()),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
-
+	UniValue listAliases(UniValue::VARR);
+	listAliases.push_back(sellerStr.toStdString());
 	strMethod = string("offeracceptlist");
 	UniValue params1(UniValue::VARR);
-	params1.push_back(sellerStr.toStdString());
+	params1.push_back(listAliases);
 	params1.push_back(offerAcceptGUID.toStdString());
 	UniValue offerAcceptsValue;
 

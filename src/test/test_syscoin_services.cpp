@@ -1305,7 +1305,9 @@ void OfferClearWhitelist(const string& node, const string& offer)
 const UniValue FindOfferAcceptList(const string& node, const string& alias, const string& offerguid, const string& acceptguid, bool nocheck)
 {
 	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias + " " + acceptguid));
+	UniValue v(UniValue::VARR);
+	v.push_back(alias);
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + v.write() + " " + acceptguid));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)
@@ -1327,7 +1329,9 @@ const UniValue FindOfferAcceptList(const string& node, const string& alias, cons
 const UniValue FindOfferAcceptFeedback(const string& node, const string &alias, const string& offerguid, const string& acceptguid,const string& accepttxid, bool nocheck)
 {
 	UniValue r, ret;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + alias));
+	UniValue v(UniValue::VARR);
+	v.push_back(alias);
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + v.write()));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)

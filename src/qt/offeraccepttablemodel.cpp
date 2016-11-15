@@ -10,7 +10,7 @@
 #include <QSettings>
 #include "rpc/server.h"
 using namespace std;
-
+extern static void appendListAliases(UniValue& defaultAliasArray);
 
 const QString OfferAcceptTableModel::Offer = "O";
 
@@ -72,11 +72,12 @@ public:
     {
         cachedOfferTable.clear();
         {
+			UniValue listAliases(UniValue::VARR);
+			appendListAliases(listAliases);
 			string strMethod = string("offeracceptlist");
 	        UniValue params(UniValue::VARR); 
 			QSettings settings;
-			string alias_str = settings.value("defaultAlias", "").toString().toStdString();
-			params.push_back(alias_str);
+			params.push_back(listAliases);
 			UniValue result ;
 			string name_str;
 			string value_str;

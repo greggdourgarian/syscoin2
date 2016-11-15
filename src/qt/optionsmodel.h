@@ -44,7 +44,7 @@ public:
 		Theme,                  // QString
 		DefaultAlias,			// QString
 		DefaultPegAlias,		// QString
-		DefaultBuyOfferAlias,	// QString
+		DefaultListAlias,		// QString
 		SafeSearch,				// QString
         Language,               // QString
         CoinControlFeatures,    // bool

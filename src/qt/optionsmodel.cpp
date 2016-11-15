@@ -150,8 +150,8 @@ void OptionsModel::Init(bool resetSettings)
         settings.setValue("defaultAlias", "");
     if (!settings.contains("defaultPegAlias"))
         settings.setValue("defaultPegAlias", "sysrates.peg");
-    if (!settings.contains("defaultBuyOfferAlias"))
-        settings.setValue("defaultBuyOfferAlias", "");
+    if (!settings.contains("defaultListAlias"))
+        settings.setValue("defaultListAlias", "All");
     if (!settings.contains("safesearch"))
         settings.setValue("safesearch", "Yes");
     if (!settings.contains("language"))
@@ -265,8 +265,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("defaultAlias");   
         case DefaultPegAlias:
             return settings.value("defaultPegAlias");
-        case DefaultBuyOfferAlias:
-            return settings.value("defaultBuyOfferAlias");
+        case DefaultListAlias:
+            return settings.value("defaultListAlias");
        case SafeSearch:
             return settings.value("safesearch");
         default:
@@ -415,9 +415,9 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 					settings.setValue("defaultPegAlias", value);
             }
             break;
-        case DefaultBuyOfferAlias:
-            if (settings.value("defaultBuyOfferAlias") != value) {
-				settings.setValue("defaultBuyOfferAlias", value);
+        case DefaultListAlias:
+            if (settings.value("defaultListAlias") != value) {
+				settings.setValue("defaultListAlias", value);
             }
             break;
         case SafeSearch:

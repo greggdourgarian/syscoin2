@@ -3228,233 +3228,234 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("offeracceptlist <alias> [acceptguid='']\n"
-                "list offer purchases that an alias owns.");
-	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string name = stringFromVch(vchAlias);
-	vector<CAliasIndex> vtxPos;
-	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-		throw runtime_error("failed to read from alias DB");
-	const CAliasIndex &alias = vtxPos.back();
-	CTransaction aliastx;
-	uint256 txHash;
-	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-	{
-		throw runtime_error("failed to read alias transaction");
-	}
-    vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
-        vchNameUniq = vchFromValue(params[1]);
-
-    UniValue oRes(UniValue::VARR);
-    map< vector<unsigned char>, int > vNamesI;
-	map< vector<unsigned char>, int > vNamesA;
-
-	CTransaction tx, offerTx, acceptTx, aliasTx, linkTx, linkAliasTx, offerTxTmp;
-	COffer theOffer, offerTmp, linkOffer;
-	CAliasIndex linkAlias;
-	vector<COffer> vtxOfferPos, vtxAcceptPos, vtxLinkPos, vtxAliasLinkPos;
-    vector<unsigned char> vchOffer;
-    uint256 blockHash;
-    uint256 hash;
-
+        throw runtime_error("offeracceptlist [\"alias\",...] [acceptguid='']\n"
+                "list offer purchases that an array of aliases own");
+	UniValue aliases = params[0].get_array();
+	vector<unsigned char> vchNameUniq;
+	if (params.size() >= 2)
+		vchNameUniq = vchFromValue(params[1]);
 	UniValue aoOfferAccepts(UniValue::VARR);
-	for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-		const CAliasIndex& theAlias = *it;
-		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+	map< vector<unsigned char>, int > vNamesI;
+	map< vector<unsigned char>, int > vNamesA;
+	for(int i =0;i<aliases.size();i++)
+	{
+		string name = aliases[i];
+		vector<unsigned char> vchAlias = vchFromString(name);
+		vector<CAliasIndex> vtxPos;
+		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 			continue;
-		vector<vector<unsigned char> > vvch;
-		int op, nOut;
-		if (!DecodeOfferTx(tx, op, nOut, vvch))
+		const CAliasIndex &alias = vtxPos.back();
+		CTransaction aliastx;
+		uint256 txHash;
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
-		if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
-			continue;
+		
+		CTransaction tx, offerTx, acceptTx, aliasTx, linkTx, linkAliasTx, offerTxTmp;
+		COffer theOffer, offerTmp, linkOffer;
+		CAliasIndex linkAlias;
+		vector<COffer> vtxOfferPos, vtxAcceptPos, vtxLinkPos, vtxAliasLinkPos;
+		vector<unsigned char> vchOffer;
+		uint256 blockHash;
+		uint256 hash;
 
-		// get unique offers
-		if (vNamesI.find(vvch[0]) != vNamesI.end())
-			continue;
-
-		vNamesI[vvch[0]] = offerTmp.nHeight;
-		// this is needed because offer accepts dont use seller alias as input (they use buyers obviously) and we dont them in our alias history but they exist in our offer history
-		for(int i=vtxOfferPos.size()-1;i>=0;i--) {
-
-			const COffer &theOffer = vtxOfferPos[i];
-			if(theOffer.accept.IsNull())
+		
+		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+			const CAliasIndex& theAlias = *it;
+			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 				continue;
-			// get unique accepts
-			if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
+			vector<vector<unsigned char> > vvch;
+			int op, nOut;
+			if (!DecodeOfferTx(tx, op, nOut, vvch))
 				continue;
-			if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
-				continue;
-
-			// skip any feedback transactions
-			if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTxTmp, Params().GetConsensus()))
+			if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
 				continue;
 
-			if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
-        		|| (op != OP_OFFER_ACCEPT))
+			// get unique offers
+			if (vNamesI.find(vvch[0]) != vNamesI.end())
 				continue;
 
-			
-			int nHeight = theOffer.accept.nAcceptHeight;
-			vNamesA[theOffer.accept.vchAcceptRand] = nHeight;
+			vNamesI[vvch[0]] = offerTmp.nHeight;
+			// this is needed because offer accepts dont use seller alias as input (they use buyers obviously) and we dont them in our alias history but they exist in our offer history
+			for(int i=vtxOfferPos.size()-1;i>=0;i--) {
 
-			bool commissionPaid = false;
-			bool discountApplied = false;
-			// need to show 3 different possible prices:
-			// LINKED OFFERS:
-			// for buyer (full price) #1
-			// for affiliate (commission + discount) #2
-			// for merchant (discounted) #3
-			// NON-LINKED OFFERS;
-			// for merchant (discounted) #3
-			// for buyer (full price) #1
+				const COffer &theOffer = vtxOfferPos[i];
+				if(theOffer.accept.IsNull())
+					continue;
+				// get unique accepts
+				if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
+					continue;
+
+				// skip any feedback transactions
+				if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTxTmp, Params().GetConsensus()))
+					continue;
+
+				if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
+        			|| (op != OP_OFFER_ACCEPT))
+					continue;
+
+				
+				int nHeight = theOffer.accept.nAcceptHeight;
+				vNamesA[theOffer.accept.vchAcceptRand] = nHeight;
+
+				bool commissionPaid = false;
+				bool discountApplied = false;
+				// need to show 3 different possible prices:
+				// LINKED OFFERS:
+				// for buyer (full price) #1
+				// for affiliate (commission + discount) #2
+				// for merchant (discounted) #3
+				// NON-LINKED OFFERS;
+				// for merchant (discounted) #3
+				// for buyer (full price) #1
 
 
-			CAmount priceAtTimeOfAccept = theOffer.GetPrice();
-			if(theOffer.vchLinkOffer.empty())
-			{
-				// NON-LINKED merchant
-				if(vchAlias == theOffer.vchAlias)
+				CAmount priceAtTimeOfAccept = theOffer.GetPrice();
+				if(theOffer.vchLinkOffer.empty())
 				{
-					priceAtTimeOfAccept = theOffer.accept.nPrice;
-					if(theOffer.GetPrice() != priceAtTimeOfAccept)
-						discountApplied = true;
+					// NON-LINKED merchant
+					if(vchAlias == theOffer.vchAlias)
+					{
+						priceAtTimeOfAccept = theOffer.accept.nPrice;
+						if(theOffer.GetPrice() != priceAtTimeOfAccept)
+							discountApplied = true;
+					}
+					// NON-LINKED buyer
+					else if(vchAlias == theOffer.accept.vchBuyerAlias)
+					{
+						priceAtTimeOfAccept = theOffer.GetPrice();
+						commissionPaid = false;
+						discountApplied = false;
+					}
 				}
-				// NON-LINKED buyer
-				else if(vchAlias == theOffer.accept.vchBuyerAlias)
+				// linked offer
+				else
 				{
-					priceAtTimeOfAccept = theOffer.GetPrice();
-					commissionPaid = false;
-					discountApplied = false;
+					GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
+					linkOffer.nHeight = nHeight;
+					linkOffer.GetOfferFromList(vtxLinkPos);
+					// You are the merchant
+					if(vchAlias == linkOffer.vchAlias)
+					{
+						commissionPaid = false;
+						priceAtTimeOfAccept = theOffer.accept.nPrice;
+						if(linkOffer.GetPrice() != priceAtTimeOfAccept)
+							discountApplied = true;
+					}
+					// You are the affiliate
+					else if(vchAlias == theOffer.vchAlias)
+					{
+						// full price with commission - discounted merchant price = commission + discount
+						priceAtTimeOfAccept = theOffer.GetPrice() -  theOffer.accept.nPrice;
+						commissionPaid = true;
+						discountApplied = false;
+					}
 				}
-			}
-			// linked offer
-			else
-			{
-				GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
-				linkOffer.nHeight = nHeight;
-				linkOffer.GetOfferFromList(vtxLinkPos);
-				// You are the merchant
-				if(vchAlias == linkOffer.vchAlias)
-				{
-					commissionPaid = false;
-					priceAtTimeOfAccept = theOffer.accept.nPrice;
-					if(linkOffer.GetPrice() != priceAtTimeOfAccept)
-						discountApplied = true;
-				}
-				// You are the affiliate
-				else if(vchAlias == theOffer.vchAlias)
-				{
-					// full price with commission - discounted merchant price = commission + discount
-					priceAtTimeOfAccept = theOffer.GetPrice() -  theOffer.accept.nPrice;
-					commissionPaid = true;
-					discountApplied = false;
-				}
-			}
-			UniValue oOfferAccept(UniValue::VOBJ);
-			string sHeight = strprintf("%llu", theOffer.nHeight);
-			oOfferAccept.push_back(Pair("offer", stringFromVch(theOffer.vchOffer)));
-			string sTime;
-			CBlockIndex *pindex = chainActive[theOffer.nHeight];
-			if (pindex) {
-				sTime = strprintf("%llu", pindex->nTime);
-			}
-			int avgBuyerRating, avgSellerRating;
-			vector<CFeedback> buyerFeedBacks, sellerFeedBacks;
-
-			GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, theOffer.accept.feedback);
-			GetFeedback(sellerFeedBacks, avgSellerRating, FEEDBACKSELLER, theOffer.accept.feedback);
-
-
-			oOfferAccept.push_back(Pair("id", stringFromVch(theOffer.accept.vchAcceptRand)));
-			oOfferAccept.push_back(Pair("txid", theOffer.txHash.GetHex()));
-			oOfferAccept.push_back(Pair("title", stringFromVch(theOffer.sTitle)));
-			string strExtId = "";
-			if(!theOffer.accept.txExtId.IsNull())
-				strExtId = theOffer.accept.txExtId.GetHex();
-			oOfferAccept.push_back(Pair("exttxid", strExtId));
-            oOfferAccept.push_back(Pair("paymentoption", (int)theOffer.accept.nPaymentOption));
-            oOfferAccept.push_back(Pair("paymentoption_display", GetPaymentOptionsString(theOffer.accept.nPaymentOption)));
-			oOfferAccept.push_back(Pair("height", sHeight));
-			oOfferAccept.push_back(Pair("time", sTime));
-			oOfferAccept.push_back(Pair("quantity", strprintf("%d", theOffer.accept.nQty)));
-			oOfferAccept.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode)));
-			if(theOffer.GetPrice() > 0)
-				oOfferAccept.push_back(Pair("offer_discount_percentage", strprintf("%.2f%%", 100.0f - 100.0f*((float)theOffer.accept.nPrice/(float)theOffer.nPrice))));
-			else
-				oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));
-
-			int precision = 2;
-			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
-			CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
-			oOfferAccept.push_back(Pair("systotal", sysTotal));
-			oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));
-			oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
-			oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
-			oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
-			oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-			oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
-			string statusStr = "Paid";
-			if(!theOffer.accept.txExtId.IsNull())
-				statusStr = "Paid with external coin";
-			else if(commissionPaid)
-				statusStr = "Paid commission";
-			else if(discountApplied)
-				statusStr = "Paid with discount applied";
-			if(theOffer.accept.bPaymentAck)
-				statusStr += " (acknowledged)";
-			oOfferAccept.push_back(Pair("status",statusStr));
-			UniValue oBuyerFeedBack(UniValue::VARR);
-			for(unsigned int j =0;j<buyerFeedBacks.size();j++)
-			{
-				UniValue oFeedback(UniValue::VOBJ);
-				string sFeedbackTime;
-				CBlockIndex *pindex = chainActive[buyerFeedBacks[j].nHeight];
+				UniValue oOfferAccept(UniValue::VOBJ);
+				string sHeight = strprintf("%llu", theOffer.nHeight);
+				oOfferAccept.push_back(Pair("offer", stringFromVch(theOffer.vchOffer)));
+				string sTime;
+				CBlockIndex *pindex = chainActive[theOffer.nHeight];
 				if (pindex) {
-					sFeedbackTime = strprintf("%llu", pindex->nTime);
+					sTime = strprintf("%llu", pindex->nTime);
 				}
+				int avgBuyerRating, avgSellerRating;
+				vector<CFeedback> buyerFeedBacks, sellerFeedBacks;
 
-				oFeedback.push_back(Pair("txid", buyerFeedBacks[j].txHash.GetHex()));
-				oFeedback.push_back(Pair("time", sFeedbackTime));
-				oFeedback.push_back(Pair("rating", buyerFeedBacks[j].nRating));
-				oFeedback.push_back(Pair("feedbackuser", buyerFeedBacks[j].nFeedbackUserFrom));
-				oFeedback.push_back(Pair("feedback", stringFromVch(buyerFeedBacks[j].vchFeedback)));
-				oBuyerFeedBack.push_back(oFeedback);
-			}
-			oOfferAccept.push_back(Pair("buyer_feedback", oBuyerFeedBack));
-			UniValue oSellerFeedBack(UniValue::VARR);
-			for(unsigned int j =0;j<sellerFeedBacks.size();j++)
-			{
-				UniValue oFeedback(UniValue::VOBJ);
-				string sFeedbackTime;
-				CBlockIndex *pindex = chainActive[sellerFeedBacks[j].nHeight];
-				if (pindex) {
-					sFeedbackTime = strprintf("%llu", pindex->nTime);
+				GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, theOffer.accept.feedback);
+				GetFeedback(sellerFeedBacks, avgSellerRating, FEEDBACKSELLER, theOffer.accept.feedback);
+
+
+				oOfferAccept.push_back(Pair("id", stringFromVch(theOffer.accept.vchAcceptRand)));
+				oOfferAccept.push_back(Pair("txid", theOffer.txHash.GetHex()));
+				oOfferAccept.push_back(Pair("title", stringFromVch(theOffer.sTitle)));
+				string strExtId = "";
+				if(!theOffer.accept.txExtId.IsNull())
+					strExtId = theOffer.accept.txExtId.GetHex();
+				oOfferAccept.push_back(Pair("exttxid", strExtId));
+				oOfferAccept.push_back(Pair("paymentoption", (int)theOffer.accept.nPaymentOption));
+				oOfferAccept.push_back(Pair("paymentoption_display", GetPaymentOptionsString(theOffer.accept.nPaymentOption)));
+				oOfferAccept.push_back(Pair("height", sHeight));
+				oOfferAccept.push_back(Pair("time", sTime));
+				oOfferAccept.push_back(Pair("quantity", strprintf("%d", theOffer.accept.nQty)));
+				oOfferAccept.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode)));
+				if(theOffer.GetPrice() > 0)
+					oOfferAccept.push_back(Pair("offer_discount_percentage", strprintf("%.2f%%", 100.0f - 100.0f*((float)theOffer.accept.nPrice/(float)theOffer.nPrice))));
+				else
+					oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));
+
+				int precision = 2;
+				CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
+				CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
+				oOfferAccept.push_back(Pair("systotal", sysTotal));
+				oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));
+				oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
+				oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
+				oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
+				oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
+				oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
+				string statusStr = "Paid";
+				if(!theOffer.accept.txExtId.IsNull())
+					statusStr = "Paid with external coin";
+				else if(commissionPaid)
+					statusStr = "Paid commission";
+				else if(discountApplied)
+					statusStr = "Paid with discount applied";
+				if(theOffer.accept.bPaymentAck)
+					statusStr += " (acknowledged)";
+				oOfferAccept.push_back(Pair("status",statusStr));
+				UniValue oBuyerFeedBack(UniValue::VARR);
+				for(unsigned int j =0;j<buyerFeedBacks.size();j++)
+				{
+					UniValue oFeedback(UniValue::VOBJ);
+					string sFeedbackTime;
+					CBlockIndex *pindex = chainActive[buyerFeedBacks[j].nHeight];
+					if (pindex) {
+						sFeedbackTime = strprintf("%llu", pindex->nTime);
+					}
+
+					oFeedback.push_back(Pair("txid", buyerFeedBacks[j].txHash.GetHex()));
+					oFeedback.push_back(Pair("time", sFeedbackTime));
+					oFeedback.push_back(Pair("rating", buyerFeedBacks[j].nRating));
+					oFeedback.push_back(Pair("feedbackuser", buyerFeedBacks[j].nFeedbackUserFrom));
+					oFeedback.push_back(Pair("feedback", stringFromVch(buyerFeedBacks[j].vchFeedback)));
+					oBuyerFeedBack.push_back(oFeedback);
 				}
-				oFeedback.push_back(Pair("txid", sellerFeedBacks[j].txHash.GetHex()));
-				oFeedback.push_back(Pair("time", sFeedbackTime));
-				oFeedback.push_back(Pair("rating", sellerFeedBacks[j].nRating));
-				oFeedback.push_back(Pair("feedbackuser", sellerFeedBacks[j].nFeedbackUserFrom));
-				oFeedback.push_back(Pair("feedback", stringFromVch(sellerFeedBacks[j].vchFeedback)));
-				oSellerFeedBack.push_back(oFeedback);
-			}
-			oOfferAccept.push_back(Pair("seller_feedback", oSellerFeedBack));
-			unsigned int ratingCount = 0;
-			if(avgSellerRating > 0)
-				ratingCount++;
-			if(avgBuyerRating > 0)
-				ratingCount++;
-			if(ratingCount == 0)
-				ratingCount = 1;
-			float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
-			oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
-			string strMessage = string("");
-			if(!DecryptMessage(alias.vchPubKey, theOffer.accept.vchMessage, strMessage))
-				strMessage = _("Encrypted for owner of offer");
-			oOfferAccept.push_back(Pair("pay_message", strMessage));
-			aoOfferAccepts.push_back(oOfferAccept);
+				oOfferAccept.push_back(Pair("buyer_feedback", oBuyerFeedBack));
+				UniValue oSellerFeedBack(UniValue::VARR);
+				for(unsigned int j =0;j<sellerFeedBacks.size();j++)
+				{
+					UniValue oFeedback(UniValue::VOBJ);
+					string sFeedbackTime;
+					CBlockIndex *pindex = chainActive[sellerFeedBacks[j].nHeight];
+					if (pindex) {
+						sFeedbackTime = strprintf("%llu", pindex->nTime);
+					}
+					oFeedback.push_back(Pair("txid", sellerFeedBacks[j].txHash.GetHex()));
+					oFeedback.push_back(Pair("time", sFeedbackTime));
+					oFeedback.push_back(Pair("rating", sellerFeedBacks[j].nRating));
+					oFeedback.push_back(Pair("feedbackuser", sellerFeedBacks[j].nFeedbackUserFrom));
+					oFeedback.push_back(Pair("feedback", stringFromVch(sellerFeedBacks[j].vchFeedback)));
+					oSellerFeedBack.push_back(oFeedback);
+				}
+				oOfferAccept.push_back(Pair("seller_feedback", oSellerFeedBack));
+				unsigned int ratingCount = 0;
+				if(avgSellerRating > 0)
+					ratingCount++;
+				if(avgBuyerRating > 0)
+					ratingCount++;
+				if(ratingCount == 0)
+					ratingCount = 1;
+				float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
+				oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
+				string strMessage = string("");
+				if(!DecryptMessage(alias.vchPubKey, theOffer.accept.vchMessage, strMessage))
+					strMessage = _("Encrypted for owner of offer");
+				oOfferAccept.push_back(Pair("pay_message", strMessage));
+				aoOfferAccepts.push_back(oOfferAccept);
 
+			}
 		}
 	}
     return aoOfferAccepts;

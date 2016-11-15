@@ -20,7 +20,7 @@
 using namespace std;
 
 extern CRPCTable tableRPC;
-
+extern static void appendListAliases(UniValue& defaultAliasArray);
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>
@@ -29,6 +29,7 @@ extern CRPCTable tableRPC;
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSettings>
+
 MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformStyle, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MyAcceptedOfferListPage),
@@ -102,9 +103,11 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 	
 	string strError;
 	string strMethod = string("offeracceptlist");
+	UniValue listAliases(UniValue::VARR);
+	appendListAliases(listAliases);
 	UniValue params(UniValue::VARR);
 	QSettings settings;
-	params.push_back(settings.value("defaultAlias", "").toString().toStdString());
+	params.push_back(listAliases);
 	UniValue offerAcceptsValue;
 	QString offerAcceptHash;
 	params.push_back(acceptid.toStdString());
