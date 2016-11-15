@@ -1307,7 +1307,7 @@ const UniValue FindOfferAcceptList(const string& node, const string& alias, cons
 	UniValue r, ret;
 	UniValue v(UniValue::VARR);
 	v.push_back(alias);
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + v.write() + " " + acceptguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist \"" + v.write() + "\" " + acceptguid));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)
@@ -1331,7 +1331,7 @@ const UniValue FindOfferAcceptFeedback(const string& node, const string &alias, 
 	UniValue r, ret;
 	UniValue v(UniValue::VARR);
 	v.push_back(alias);
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist " + v.write()));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offeracceptlist \"" + v.write() + "\""));
 	BOOST_CHECK(r.type() == UniValue::VARR);
 	const UniValue &arrayValue = r.get_array();
 	for(int i=0;i<arrayValue.size();i++)
