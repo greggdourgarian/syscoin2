@@ -143,7 +143,7 @@ public:
 						if (seller_value.type() == UniValue::VSTR)
 							seller_str = seller_value.get_str();
 
-						if((FindAliasInList(buyer_str) && type == Accept) || (FindAliasInList(seller_str) && type == MyAccept))
+						if((FindAliasInList(listAliases, buyer_str) && type == Accept) || (FindAliasInList(listAliases, seller_str) && type == MyAccept))
 							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(seller_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
 					}
 				}
