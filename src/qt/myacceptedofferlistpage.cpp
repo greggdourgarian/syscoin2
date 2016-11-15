@@ -108,11 +108,11 @@ void MyAcceptedOfferListPage::loadAliasList()
 	settings.setValue("defaultListAlias", oldListAlias);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
-		const string& aliasName = aliasList[i].get_str();
-		ui->displayListAlias->addItem(QString::fromStdString(aliasName));
-		if(aliasName == oldListAlias.toStdString())
+		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
+		ui->displayListAlias->addItem(aliasName);
+		if(aliasName == oldListAlias)
 		{
-			int index = ui->displayListAlias->findText(QString::fromStdString(aliasName));
+			int index = ui->displayListAlias->findText(aliasName);
 			if ( index != -1 ) 						
 			    ui->displayListAlias->setCurrentIndex(index);
 		}
