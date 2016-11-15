@@ -143,7 +143,7 @@ void EscrowListPage::on_ackButton_clicked()
     }
 	QString escrow = selection.at(0).data(EscrowTableModel::EscrowRole).toString();
     QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Escrow Acknowledgement"),
-         tr("Warning: By acknowledging this payment the offer quantity related to this escrow will be adjusted by the amount requested by the buyer. If you are shipping an item to the buyer please communicate a tracking number to the buyer via a syscoin message.") + "<br><br>" + tr("Are you sure you wish to acknowledge this payment?"),
+         tr("Warning: You are about to acknowledge this payment from the buyer. If you are shipping an item to the buyer please communicate a tracking number to the buyer via a syscoin message.") + "<br><br>" + tr("Are you sure you wish to acknowledge this payment?"),
          QMessageBox::Yes|QMessageBox::Cancel,
          QMessageBox::Cancel);
     if(retval == QMessageBox::Yes)
