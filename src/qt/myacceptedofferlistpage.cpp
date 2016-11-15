@@ -113,7 +113,7 @@ void MyAcceptedOfferListPage::loadAliasList()
 		ui->displayListAlias->addItem(aliasName);
 		if(aliasName == oldListAlias)
 		{
-			int index = ui->displayListAlias->findText(aliasName);
+			int index = ui->displayListAlias->findData(aliasName);
 			if ( index != -1 ) 						
 			    ui->displayListAlias->setCurrentIndex(index);
 		}
