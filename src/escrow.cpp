@@ -295,7 +295,7 @@ CScript RemoveEscrowScriptPrefix(const CScript& scriptIn) {
 
     return CScript(pc, scriptIn.end());
 }
-bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, const CAliasIndex &sellerAlias, const uint64_t nAcceptHeight, const COfferLinkWhitelistEntry &foundEntry, const bool &dontaddtodb, const CAmount &nCommission, const CSyscoinAddress& multisigaddress, string& errorMessage)
+bool ValidateExternalPayment(const CEscrow& theEscrow, const bool &dontaddtodb, string& errorMessage)
 {
 	CTransaction fundingTx;
 	if (!DecodeHexTx(fundingTx,HexStr(theEscrow.rawTx)))
@@ -314,100 +314,6 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const COffer& theOffer, c
 	{
 		errorMessage = _("Failed to External Transaction ID to DB");
 		return false;
-	}
-	int precision = 2;
-	string paymentOptionStr = GetPaymentOptionsString(theEscrow.nPaymentOption);
-
-	CAmount nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, nAcceptHeight, precision)*theEscrow.nQty;
-	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), nAcceptHeight, precision)*theEscrow.nQty;
-	CAmount nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, nAcceptHeight, precision);
-	int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
-	CAmount nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);
-	unsigned int nOutMultiSig = 0;
-	CAmount nAmount = fundingTx.vout[nOutMultiSig].nValue;
-	if(nAmount != nEscrowTotal)
-	{
-		errorMessage = _("Expected amount for external payment of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
-		return true;
-	}
-	CSyscoinAddress destaddy;
-	CTxDestination payDest;
-	if (!ExtractDestination(fundingTx.vout[nOutMultiSig].scriptPubKey, payDest))
-	{
-		errorMessage = _("Could not extract payment destination from external scriptPubKey");
-		return true;
-	}
-	destaddy = CSyscoinAddress(payDest, PaymentOptionToAddressType(theEscrow.nPaymentOption));
-	if(destaddy.ToString() != multisigaddress.ToString())
-	{
-		errorMessage = _("External escrow payment to invalid address");
-		return true;
-	}
-	return true;
-}
-bool ValidatePayment(const CTransaction &escrowTx, const CEscrow& theEscrow, const COffer& theOffer, const COffer& linkOffer, const CAliasIndex &buyerAlias,const CAliasIndex &sellerAlias, const CAliasIndex &arbiterAlias, const uint64_t nHeight, const uint64_t nAcceptHeight, const bool &dontaddtodb, string& errorMessage)
-{
-	UniValue arrayParams(UniValue::VARR);
-	UniValue arrayOfKeys(UniValue::VARR);
-
-	// standard 2 of 3 multisig
-	arrayParams.push_back(2);
-	arrayOfKeys.push_back(HexStr(arbiterAlias.vchPubKey));
-	arrayOfKeys.push_back(HexStr(sellerAlias.vchPubKey));
-	arrayOfKeys.push_back(HexStr(buyerAlias.vchPubKey));
-	arrayParams.push_back(arrayOfKeys);
-	CScript inner = _createmultisig_redeemScript(arrayParams);
-	CScriptID innerID(inner);
-	CSyscoinAddress multisigaddress(innerID, PaymentOptionToAddressType(theEscrow.nPaymentOption));
-	CAmount nCommission;
-	COfferLinkWhitelistEntry foundEntry;
-	if(theOffer.vchLinkOffer.empty())
-	{
-		theOffer.linkWhitelist.GetLinkEntryByHash(buyerAlias.vchAlias, foundEntry);
-		nCommission = 0;
-	}
-	else
-	{
-		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
-		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
-	}
-	if(!theEscrow.rawTx.empty())
-	{
-		bool noError = ValidateExternalPayment(theEscrow, theOffer, sellerAlias, nAcceptHeight, foundEntry, dontaddtodb, nCommission, multisigaddress, errorMessage);
-		if(!noError)
-			return false;
-		else
-			return true;
-	}
-	else
-	{
-		int precision=2;
-		CAmount nExpectedCommissionAmount = nCommission*theEscrow.nQty;
-		CAmount nExpectedAmount = theOffer.GetPrice(foundEntry)*theEscrow.nQty;
-		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, nAcceptHeight, precision);
-		CAmount nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
-		CAmount nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
-		unsigned int nOutMultiSig = 0;
-		CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
-		if(nAmount != nEscrowTotal)
-		{
-			errorMessage = _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
-			return true;
-		}
-		CSyscoinAddress destaddy;
-		CTxDestination payDest;
-		if (!ExtractDestination(escrowTx.vout[nOutMultiSig].scriptPubKey, payDest))
-		{
-			errorMessage = _("Could not extract payment destination from scriptPubKey");
-			return true;
-		}
-		destaddy = CSyscoinAddress(payDest, PaymentOptionToAddressType(theEscrow.nPaymentOption));
-		if(destaddy.ToString() != multisigaddress.ToString())
-		{
-			errorMessage = _("Escrow payment to invalid address");
-			return true;
-		}
 	}
 	return true;
 }
@@ -1042,14 +948,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4076 - " + _("Cannot find linked offer for this escrow");
 				return true;
 			}
-			if(!myLinkOffer.IsNull())
-			{
-				myLinkOffer.nHeight = theEscrow.nAcceptHeight;
-				myLinkOffer.GetOfferFromList(myLinkVtxPos);
-			}
-			dbOffer.nHeight = theEscrow.nAcceptHeight;
-			dbOffer.GetOfferFromList(myVtxPos);
-			bool noError = ValidatePayment(tx, theEscrow, dbOffer, myLinkOffer, buyerAlias, sellerAlias, arbiterAlias, nHeight, theEscrow.nAcceptHeight, dontaddtodb, errorMessage);
+			bool noError = ValidateExternalPayment(theEscrow, dontaddtodb, errorMessage);
 			if(!errorMessage.empty())
 			{
 				errorMessage =  "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4069 - " + errorMessage;
@@ -1615,7 +1514,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
 	}
-	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee;
+	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int precision = 2;
 	if(!vtxPos.front().rawTx.empty())
 	{
@@ -1623,6 +1522,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
 	{
@@ -1630,6 +1531,27 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
+	}
+    CTransaction fundingTx;
+	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
+	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
+	unsigned int nOutMultiSig = 0;
+	for(unsigned int i=0;i<fundingTx.vout.size();i++)
+	{
+		if(fundingTx.vout[i].nValue == nEscrowTotal)
+		{
+			nOutMultiSig = i;
+			break;
+		}
+	}
+	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	if(nAmount != nEscrowTotal)
+	{
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
 	}
 	vector<unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
@@ -1663,12 +1585,6 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		theAlias = buyerAlias;
 	}
 
-    CTransaction fundingTx;
-	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
-	unsigned int nOutMultiSig = 0;
 	// create a raw tx that sends escrow amount to seller and collateral to buyer
     // inputs buyer txHash
 	UniValue arrayCreateParams(UniValue::VARR);
@@ -2074,14 +1990,16 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
 	}
+	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int precision = 2;
-	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee;
 	if(!vtxPos.front().rawTx.empty())
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
 	{
@@ -2089,6 +2007,27 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
+	}
+    CTransaction fundingTx;
+	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
+	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
+	unsigned int nOutMultiSig = 0;
+	for(unsigned int i=0;i<fundingTx.vout.size();i++)
+	{
+		if(fundingTx.vout[i].nValue == nEscrowTotal)
+		{
+			nOutMultiSig = i;
+			break;
+		}
+	}
+	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	if(nAmount != nEscrowTotal)
+	{
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
 	}
 	bool foundSellerPayment = false;
 	bool foundCommissionPayment = false;
@@ -2480,7 +2419,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
 	}
-	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee;
+	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int precision = 2;
 	if(!vtxPos.front().rawTx.empty())
 	{
@@ -2488,6 +2427,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
 	{
@@ -2495,6 +2436,27 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
+	}
+    CTransaction fundingTx;
+	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
+	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
+	unsigned int nOutMultiSig = 0;
+	for(unsigned int i=0;i<fundingTx.vout.size();i++)
+	{
+		if(fundingTx.vout[i].nValue == nEscrowTotal)
+		{
+			nOutMultiSig = i;
+			break;
+		}
+	}
+	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	if(nAmount != nEscrowTotal)
+	{
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
 	}
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
@@ -2758,7 +2720,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
 	}
-	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee;
+	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int precision = 2;
 	if(!vtxPos.front().rawTx.empty())
 	{
@@ -2766,6 +2728,8 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 		nEscrowFee = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, vtxPos.front().nAcceptHeight, precision);
+		int nExtFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr),  nAcceptHeight, precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nExtFeePerByte*400);	
 	}
 	else
 	{
@@ -2773,6 +2737,27 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, theOffer.sCurrencyCode, vtxPos.front().nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
+		int nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"),  nAcceptHeight,precision);
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
+	}
+    CTransaction fundingTx;
+	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
+	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
+	unsigned int nOutMultiSig = 0;
+	for(unsigned int i=0;i<fundingTx.vout.size();i++)
+	{
+		if(fundingTx.vout[i].nValue == nEscrowTotal)
+		{
+			nOutMultiSig = i;
+			break;
+		}
+	}
+	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	if(nAmount != nEscrowTotal)
+	{
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
 	}
 
 	// decode rawTx and check it pays enough and it pays to buyer appropriately
