@@ -88,7 +88,7 @@ void appendListAliases(UniValue& defaultAliasArray)
 {
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-	if(defaultListAlias == QString("Any"))
+	if(defaultListAlias == QString("All"))
 	{
 		string strMethod = string("aliaslist");
 		UniValue params(UniValue::VARR); 

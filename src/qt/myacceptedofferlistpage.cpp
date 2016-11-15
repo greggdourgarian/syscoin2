@@ -102,17 +102,20 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 void MyAcceptedOfferListPage::loadAliasList()
 {
 	QSettings settings;
-	settings.setValue("defaultListAlias", QString("Any"));
+	QString oldListAlias = settings.value("defaultListAlias", "").toString();
+	settings.setValue("defaultListAlias", QString("All"));
 	UniValue aliasList(UniValue::VARR);
 	appendListAliases(aliasList);
+	settings.setValue("defaultListAlias", oldListAlias);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
 		ui->displayListAlias->addItem(QString::fromStdString(aliasList[i].get_str()));
 	}
+	
 }
 void MyAcceptedOfferListPage::displayListTextChanged(const QString& alias)
 {
-	if(alias != QString("Any"))
+	if(alias != QString("All"))
 	{
 		string strMethod = string("aliasinfo");
 		UniValue params(UniValue::VARR); 
