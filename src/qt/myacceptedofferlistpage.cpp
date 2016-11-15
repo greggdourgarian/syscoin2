@@ -191,7 +191,7 @@ void MyAcceptedOfferListPage::on_ackButton_clicked()
 	QString offerid = selection.at(0).data(OfferAcceptTableModel::NameRole).toString();
 	QString acceptid = selection.at(0).data(OfferAcceptTableModel::GUIDRole).toString();
     QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Payment Acknowledgement"),
-         tr("Warning: You are about to acknowledge this payment from the buyer. If you are shipping an item to the buyer please communicate a tracking number to the buyer via a syscoin message.") + "<br><br>" + tr("Are you sure you wish to acknowledge this payment?"),
+         tr("Warning: You are about to acknowledge this payment from the buyer. If you are shipping an item, please communicate a tracking number to the buyer via a Syscoin message.") + "<br><br>" + tr("Are you sure you wish to acknowledge this payment?"),
          QMessageBox::Yes|QMessageBox::Cancel,
          QMessageBox::Cancel);
     if(retval == QMessageBox::Yes)
