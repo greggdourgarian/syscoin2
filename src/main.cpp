@@ -1159,41 +1159,50 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 	{
 		if(tx.nVersion == SYSCOIN_TX_VERSION)
 		{
-			bool good = true;
-			for(unsigned int j = 0;j<tx.vout.size();j++)
+			int retries = 0;
+			while(true)
 			{
+				bool good = true;
+				for(unsigned int j = 0;j<tx.vout.size();j++)
+				{
+					if(!good)
+						break;
+					if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
+					{
+						good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
+					}
+				}
+				if(good)
+				{
+					if(DecodeCertTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
+					}
+					else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+					}
+					else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+					}
+					else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
+					{	
+						good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
+					}
+				}
 				if(!good)
+				{
+					retries++;
+					if(retries >= 5)
+					{
+						if(fDebug && !errorMessage.empty())
+							LogPrintf("%s\n", errorMessage.c_str());
+						return false;
+					}
+				}
+				else
 					break;
-				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
-				{
-					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
-				}
-			}
-			if(good)
-			{
-				if(DecodeCertTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
-				}
-				else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
-				}
-				else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
-				}
-				else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
-				{	
-					good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
-				}
-			}
-			if(fDebug && !errorMessage.empty())
-				LogPrintf("%s\n", errorMessage.c_str());
-			// remove tx's that don't pass our check
-			if(!good)
-			{
-				return false;
 			}
 		}
 	}
@@ -1213,41 +1222,52 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
         const CTransaction &tx = block.vtx[i];
 		if(tx.nVersion == GetSyscoinTxVersion())
 		{	
-			bool good = true;
-			// always do alias first as its dependency to others
-			for(unsigned int j = 0;j<tx.vout.size();j++)
+			
+			int retries = 0;
+			while(true)
 			{
+				bool good = true;
+				// always do alias first as its dependency to others
+				for(unsigned int j = 0;j<tx.vout.size();j++)
+				{
+					if(!good)
+						break;
+					if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
+					{
+						good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
+					}
+				}
+				if(good)
+				{
+					if(DecodeCertTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);			
+					}
+					else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckEscrowInputs(tx,  op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
+					}
+					else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
+					}
+					else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
+					{
+						good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
+					}
+				}
 				if(!good)
+				{
+					retries++;
+					if(retries >= 5)
+					{
+						if(fDebug && !errorMessage.empty())
+							LogPrintf("%s\n", errorMessage.c_str());
+						return false;
+					}
+				}
+				else
 					break;
-				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
-				{
-					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
-				}
-			}
-			if(good)
-			{
-				if(DecodeCertTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);			
-				}
-				else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckEscrowInputs(tx,  op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-				}
-				else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-				}
-				else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-				}
-			}
-			if(fDebug && !errorMessage.empty())
-				LogPrintf("%s\n", errorMessage.c_str());
-			if(!good)
-			{
-				return false;
 			}	
 		}
 	}

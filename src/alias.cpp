@@ -757,18 +757,23 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	vector<unsigned char> vchHash;
 	CSyscoinAddress multisigAddress;
 	int nDataOut;
-
-	if(op == OP_ALIAS_PAYMENT || (GetSyscoinData(tx, vchData, vchHash, nDataOut) && !theAlias.UnserializeFromData(vchData, vchHash)))
+	if(op != OP_ALIAS_PAYMENT)
 	{
+		bool bData = GetSyscoinData(tx, vchData, vchHash, nDataOut);
+		if(bData && !theAlias.UnserializeFromData(vchData, vchHash))
+		{
+			theAlias.SetNull();
+		}
+		// we need to check for cert update specially because an alias update without data is sent along with offers linked with the alias
+		else if (!bData)
+		{
+			if(fDebug)
+				LogPrintf("CheckAliasInputs(): Null alias, skipping...\n");	
+			return true;
+		}
+	}
+	else
 		theAlias.SetNull();
-	}
-	// we need to check for cert update specially because an alias update without data is sent along with offers linked with the alias
-	if (theAlias.IsNull() && op == OP_ALIAS_ACTIVATE)
-	{
-		if(fDebug)
-			LogPrintf("CheckAliasInputs(): Null alias, skipping...\n");	
-		return true;
-	}
 	if(fJustCheck)
 	{
 		if(op != OP_ALIAS_PAYMENT)

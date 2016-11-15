@@ -342,16 +342,12 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 	vector<unsigned char> vchData;
 	vector<unsigned char> vchHash;
 	int nDataOut;
-	if(GetSyscoinData(tx, vchData, vchHash, nDataOut) && !theEscrow.UnserializeFromData(vchData, vchHash))
+	if(!GetSyscoinData(tx, vchData, vchHash, nDataOut) || !theEscrow.UnserializeFromData(vchData, vchHash))
 	{
-		theEscrow.SetNull();
-	}
-	if(theEscrow.IsNull())
-	{
-		if(fDebug)
-			LogPrintf("SYSCOIN_ESCROW_CONSENSUS_ERROR: Null escrow, skipping...\n");
+		errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR ERRCODE: 4001 - " + _("Cannot unserialize data inside of this transaction relating to an escrow");
 		return true;
 	}
+
 	vector<vector<unsigned char> > vvchPrevAliasArgs;
 	if(fJustCheck)
 	{
@@ -1548,7 +1544,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 			break;
 		}
 	}
-	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	CAmount nAmount = fundingTx.vout[nOutMultiSig].nValue;
 	if(nAmount != nEscrowTotal)
 	{
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
@@ -2024,7 +2020,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			break;
 		}
 	}
-	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	CAmount nAmount = fundingTx.vout[nOutMultiSig].nValue;
 	if(nAmount != nEscrowTotal)
 	{
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
@@ -2453,7 +2449,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 			break;
 		}
 	}
-	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	CAmount nAmount = fundingTx.vout[nOutMultiSig].nValue;
 	if(nAmount != nEscrowTotal)
 	{
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
@@ -2754,7 +2750,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 			break;
 		}
 	}
-	CAmount nAmount = escrowTx.vout[nOutMultiSig].nValue;
+	CAmount nAmount = fundingTx.vout[nOutMultiSig].nValue;
 	if(nAmount != nEscrowTotal)
 	{
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("Expected amount of escrow does not match what is held in escrow. Expected amount: ") +  boost::lexical_cast<string>(nEscrowTotal);
@@ -2835,12 +2831,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	}
 	if(!foundRefundPayment)
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Expected refund amount not found"));
-    CTransaction fundingTx;
-	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4525 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4581 - " + _("Could not decode external payment transaction"));
-	unsigned int nOutMultiSig = 0;
+
     // Buyer signs it
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
