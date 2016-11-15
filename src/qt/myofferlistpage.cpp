@@ -50,7 +50,7 @@ MyOfferListPage::MyOfferListPage(const PlatformStyle *platformStyle, QWidget *pa
 		
 	}
 
-    ui->labelExplanation->setText(tr("These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right. You can edit the dropdown to enter any valid alias aswell."));
+    ui->labelExplanation->setText(tr("These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right."));
 	
 	
     // Context menu actions

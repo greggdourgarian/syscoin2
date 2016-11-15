@@ -55,7 +55,7 @@ AcceptedOfferListPage::AcceptedOfferListPage(const PlatformStyle *platformStyle,
 #endif
 
 
-    ui->labelExplanation->setText(tr("These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right. You can edit the dropdown to enter any valid alias aswell."));
+    ui->labelExplanation->setText(tr("These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right."));
 	
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));
     // Context menu actions

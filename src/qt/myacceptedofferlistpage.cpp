@@ -64,7 +64,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	}
 
 
-    ui->labelExplanation->setText(tr("These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right. You can edit the dropdown to enter any valid alias aswell."));
+    ui->labelExplanation->setText(tr("These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right."));
 	
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));	
     // Context menu actions
@@ -93,7 +93,6 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
 
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
-	connect(ui->displayListAlias,SIGNAL(editTextChanged(const QString&)),this,SLOT(displayListTextChanged(const QString&)));
 	connect(ui->displayListAlias,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(displayListChanged(const QString&)));
 	loadAliasList();
 
@@ -119,52 +118,10 @@ void MyAcceptedOfferListPage::loadAliasList()
 	}
 	
 }
-void MyAcceptedOfferListPage::displayListTextChanged(const QString& alias)
-{
-	if(alias != QString("All"))
-	{
-		string strMethod = string("aliasinfo");
-		UniValue params(UniValue::VARR); 
-		params.push_back(alias.toStdString());
-		UniValue result ;
-		string name_str;
-		try {
-			result = tableRPC.execute(strMethod, params);
-
-			if (result.type() != UniValue::VOBJ)
-			{
-				QMessageBox::critical(this, windowTitle(),
-				tr("Could not find the selected alias to display"),
-					QMessageBox::Ok, QMessageBox::Ok);				
-			}
-			
-		}
-		catch (UniValue& objError)
-		{
-			QMessageBox::critical(this, windowTitle(),
-			tr("Could not find the selected alias to display"),
-				QMessageBox::Ok, QMessageBox::Ok);
-		}
-		catch(std::exception& e)
-		{
-			QMessageBox::critical(this, windowTitle(),
-			tr("Could not find the selected alias to display"),
-				QMessageBox::Ok, QMessageBox::Ok);
-		}  
-	}
-	QSettings settings;
-	settings.setValue("defaultListAlias", alias);
-			QMessageBox::critical(this, windowTitle(),
-			tr("default list txt changed"),
-				QMessageBox::Ok, QMessageBox::Ok);
-}
 void MyAcceptedOfferListPage::displayListChanged(const QString& alias)
 {
 	QSettings settings;
 	settings.setValue("defaultListAlias", alias);
-			QMessageBox::critical(this, windowTitle(),
-			tr("default list selection changed"),
-				QMessageBox::Ok, QMessageBox::Ok);
 }
 bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId, QString& paymentOption)
 {
@@ -599,6 +556,7 @@ void MyAcceptedOfferListPage::on_refreshButton_clicked()
 {
     if(!model)
         return;
+	loadAliasList();
     model->refreshOfferTable();
 }
 

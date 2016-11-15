@@ -43,7 +43,7 @@ InMessageListPage::InMessageListPage(const PlatformStyle *platformStyle, QWidget
 		
 	}
 
-    ui->labelExplanation->setText(tr("These are Syscoin messages you have received. You can choose which aliases to view related messages using the dropdown to the right. You can edit the dropdown to enter any valid alias aswell."));
+    ui->labelExplanation->setText(tr("These are Syscoin messages you have received. You can choose which aliases to view related messages using the dropdown to the right."));
 	
     // Context menu actions
     QAction *copyGuidAction = new QAction(ui->copyMessage->text(), this);
