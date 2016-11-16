@@ -220,7 +220,7 @@ UniValue getzaddress(const UniValue& params, bool fHelp)
 		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
     
 	CPubKey pubkey(sysAddress.vchPubKey);
-    return CSyscoinAddress(pubkey.GetID(), ADDRESS_ZEC).ToString();
+    return CSyscoinAddress(pubkey.GetID(), CChainParams::ADDRESS_ZEC).ToString();
 }
 CSyscoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 {
