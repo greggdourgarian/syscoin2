@@ -58,33 +58,35 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	{
         int zecprecision;
         CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), sysPrice, chainActive.Tip()->nHeight, zecprecision);
-		if(zecPrice == 0)
-			break;
-		strZECPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
-		ui->acceptZecButton->setEnabled(true);
-		ui->acceptZecButton->setVisible(true);
-		if(paymentOptions == PAYMENTOPTION_ZEC)
-			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5</b>").arg(quantity).arg(title).arg(sellerAlias).arg(strZECPrice).arg("ZEC"));
-		else if(strCurrencyCode == "ZEC")
-			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
-		else
-			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS / %7 ZEC)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice).arg(strZECPrice));
+		if(zecPrice > 0)
+		{
+			strZECPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
+			ui->acceptZecButton->setEnabled(true);
+			ui->acceptZecButton->setVisible(true);
+			if(paymentOptions == PAYMENTOPTION_ZEC)
+				ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5</b>").arg(quantity).arg(title).arg(sellerAlias).arg(strZECPrice).arg("ZEC"));
+			else if(strCurrencyCode == "ZEC")
+				ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
+			else
+				ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS / %7 ZEC)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice).arg(strZECPrice));
+		}
 	}
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_BTC))
 	{
         int btcprecision;
         CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("BTC"), sysPrice, chainActive.Tip()->nHeight, btcprecision);
-		if(btcPrice == 0)
-			break;	
-		strBTCPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
-		ui->acceptBtcButton->setEnabled(true);
-		ui->acceptBtcButton->setVisible(true);
-		if(paymentOptions == PAYMENTOPTION_BTC)
-			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5</b>").arg(quantity).arg(title).arg(sellerAlias).arg(strBTCPrice).arg("BTC"));
-		else if(strCurrencyCode == "BTC")
-			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
-		else
-			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS / %7 BTC)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice).arg(strBTCPrice));
+		if(btcPrice > 0)
+		{
+			strBTCPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
+			ui->acceptBtcButton->setEnabled(true);
+			ui->acceptBtcButton->setVisible(true);
+			if(paymentOptions == PAYMENTOPTION_BTC)
+				ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5</b>").arg(quantity).arg(title).arg(sellerAlias).arg(strBTCPrice).arg("BTC"));
+			else if(strCurrencyCode == "BTC")
+				ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
+			else
+				ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS / %7 BTC)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice).arg(strBTCPrice));
+		}
 	}
 
 	
