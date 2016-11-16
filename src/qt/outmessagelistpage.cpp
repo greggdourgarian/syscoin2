@@ -13,6 +13,7 @@
 #include <QClipboard>
 #include <QMessageBox>
 #include <QKeyEvent>
+#include <QSettings>
 #include <QMenu>
 
 using namespace std;

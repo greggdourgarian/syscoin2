@@ -18,6 +18,7 @@
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>
+#include <QSettings>
 #include <QMenu>
 #include "rpc/server.h"
 #include "stardelegate.h"

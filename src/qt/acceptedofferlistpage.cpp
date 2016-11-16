@@ -17,6 +17,7 @@
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>
+#include <QSettings>
 #include <QMenu>
 AcceptedOfferListPage::AcceptedOfferListPage(const PlatformStyle *platformStyle, QWidget *parent) :
     QDialog(parent),
