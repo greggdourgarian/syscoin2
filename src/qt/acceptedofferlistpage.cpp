@@ -81,10 +81,36 @@ AcceptedOfferListPage::AcceptedOfferListPage(const PlatformStyle *platformStyle,
 	connect(feedbackAction, SIGNAL(triggered()), this, SLOT(on_feedbackButton_clicked()));
 
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
-
+	connect(ui->displayListAlias,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(displayListChanged(const QString&)));
+	loadAliasList();
 
 }
-
+void AcceptedOfferListPage::loadAliasList()
+{
+	QSettings settings;
+	QString oldListAlias = settings.value("defaultListAlias", "").toString();
+	ui->displayListAlias->clear();
+	ui->displayListAlias->addItem(tr("All"));
+	
+	
+	UniValue aliasList(UniValue::VARR);
+	appendListAliases(aliasList, true);
+	for(unsigned int i = 0;i<aliasList.size();i++)
+	{
+		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
+		ui->displayListAlias->addItem(aliasName);
+	}
+	int currentIndex = ui->displayListAlias->findText(oldListAlias);
+	if(currentIndex >= 0)
+		ui->displayListAlias->setCurrentIndex(currentIndex);
+	settings.setValue("defaultListAlias", oldListAlias);
+}
+void AcceptedOfferListPage::displayListChanged(const QString& alias)
+{
+	QSettings settings;
+	settings.setValue("defaultListAlias", alias);
+	settings.sync();
+}
 AcceptedOfferListPage::~AcceptedOfferListPage()
 {
     delete ui;
@@ -204,6 +230,7 @@ void AcceptedOfferListPage::on_refreshButton_clicked()
 {
     if(!model)
         return;
+	loadAliasList();
     model->refreshOfferTable();
 }
 

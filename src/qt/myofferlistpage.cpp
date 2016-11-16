@@ -81,8 +81,36 @@ MyOfferListPage::MyOfferListPage(const PlatformStyle *platformStyle, QWidget *pa
 
 
 	offerWhitelistTableModel = 0;
-}
+	connect(ui->displayListAlias,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(displayListChanged(const QString&)));
+	loadAliasList();
 
+}
+void MyOfferListPage::loadAliasList()
+{
+	QSettings settings;
+	QString oldListAlias = settings.value("defaultListAlias", "").toString();
+	ui->displayListAlias->clear();
+	ui->displayListAlias->addItem(tr("All"));
+	
+	
+	UniValue aliasList(UniValue::VARR);
+	appendListAliases(aliasList, true);
+	for(unsigned int i = 0;i<aliasList.size();i++)
+	{
+		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
+		ui->displayListAlias->addItem(aliasName);
+	}
+	int currentIndex = ui->displayListAlias->findText(oldListAlias);
+	if(currentIndex >= 0)
+		ui->displayListAlias->setCurrentIndex(currentIndex);
+	settings.setValue("defaultListAlias", oldListAlias);
+}
+void MyOfferListPage::displayListChanged(const QString& alias)
+{
+	QSettings settings;
+	settings.setValue("defaultListAlias", alias);
+	settings.sync();
+}
 MyOfferListPage::~MyOfferListPage()
 {
     delete ui;
@@ -236,6 +264,7 @@ void MyOfferListPage::on_refreshButton_clicked()
 {
     if(!model)
         return;
+	loadAliasList();
     model->refreshOfferTable();
 }
 void MyOfferListPage::on_newOffer_clicked()

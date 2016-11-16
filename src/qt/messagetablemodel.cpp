@@ -76,7 +76,6 @@ public:
 
     void refreshMessageTable(MessageModelType type)
     {
-		QSettings settings;
         cachedMessageTable.clear();
         {
 			string strMethod;
@@ -85,8 +84,10 @@ public:
 				strMethod = string("messagesentlist");
 			else if(type == InMessage)
 				strMethod = string("messagereceivelist");
+			UniValue listAliases(UniValue::VARR);
+			appendListAliases(listAliases);
 	        UniValue params(UniValue::VARR); 
-			params.push_back(settings.value("defaultAlias", "").toString().toStdString());
+			params.push_back(listAliases);
 			UniValue result ;
 			string guid_str;
 			string time_str;
