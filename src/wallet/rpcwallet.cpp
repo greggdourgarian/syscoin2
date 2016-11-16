@@ -170,8 +170,8 @@ UniValue getv2address(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "\"syscoinaddress\"    (string) The new syscoin address\n"
             "\nExamples:\n"
-            + HelpExampleCli("getnewaddress", "")
-            + HelpExampleRpc("getnewaddress", "")
+            + HelpExampleCli("getv2address", "")
+            + HelpExampleRpc("getv2address", "")
         );
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
@@ -194,7 +194,34 @@ UniValue getv2address(const UniValue& params, bool fHelp)
 
     return CSyscoinAddress(keyID).ToString();
 }
+UniValue getzaddress(const UniValue& params, bool fHelp)
+{
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+    
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "getzaddress ( \"address\" )\n"
+			"\nReturns a new ZCash address for receiving payments in ZCash transaparent tokens.\n"
+            "so payments received with the address will be credited to 'account'.\n"
+            "\nArguments:\n"
+            "1. \"address\"        (string) Syscoin alias or address to convert to ZCash address.\n"
+            "\nResult:\n"
+            "\"zaddress\"    (string) The new zcash address\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getzaddress", "\"myalias\"")
+            + HelpExampleRpc("getzaddress", "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ\")
+        );
 
+    string strAddress = params[0].get_str();
+    CSyscoinAddress sysAddress(strAddress);
+
+	if(!sysAddress.isAlias)
+		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
+    
+	CPubKey pubkey(sysAddress.vchPubKey);
+    return CSyscoinAddress(pubkey.GetID(), ADDRESS_ZEC).ToString();
+}
 CSyscoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 {
     CPubKey pubKey;
@@ -2830,8 +2857,9 @@ static const CRPCCommand commands[] =
     { "wallet",             "walletpassphrasechange",   &walletpassphrasechange,   true  },
     { "wallet",             "walletpassphrase",         &walletpassphrase,         true  },
     { "wallet",             "removeprunedfunds",        &removeprunedfunds,        true  },
-	// SYSCOIN support old/new sys
+	// SYSCOIN support old/new sys and zec
 	{ "wallet",             "getv2address",           &getv2address,          true  },
+	{ "wallet",             "getzaddress",            &getzaddress,           true  },
 	// SYSCOIN rpc functions
 	{ "wallet", "aliasnew",          &aliasnew,          false },
 	{ "wallet", "aliasauthenticate", &aliasauthenticate,          false },
