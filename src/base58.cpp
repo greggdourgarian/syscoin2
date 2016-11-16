@@ -170,6 +170,11 @@ bool CBase58Data::SetString(const char* psz, unsigned int nVersionBytes)
 {
     std::vector<unsigned char> vchTemp;
     bool rc58 = DecodeBase58Check(psz, vchTemp);
+    if ((!rc58) || (vchTemp.size() < nVersionBytes)) {
+        vchData.clear();
+        vchVersion.clear();
+        return false;
+    }
 	// SYSCOIN
 	std::vector<unsigned char> vchVersionTemp;
 	vchVersionTemp.assign(vchTemp.begin(), vchTemp.begin() + 2);
@@ -178,11 +183,6 @@ bool CBase58Data::SetString(const char* psz, unsigned int nVersionBytes)
 		nVersionBytes = 2;
 	
 
-    if ((!rc58) || (vchTemp.size() < nVersionBytes)) {
-        vchData.clear();
-        vchVersion.clear();
-        return false;
-    }
     vchVersion.assign(vchTemp.begin(), vchTemp.begin() + nVersionBytes);
     vchData.resize(vchTemp.size() - nVersionBytes);
     if (!vchData.empty())
