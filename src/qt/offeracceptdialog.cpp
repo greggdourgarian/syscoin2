@@ -56,7 +56,6 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_ZEC))
 	{
-		extPayment = true;
         int zecprecision;
         CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), sysPrice, chainActive.Tip()->nHeight, zecprecision);
 		strZECPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
@@ -71,7 +70,6 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	}
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_BTC))
 	{
-		extPayment = true;
         int btcprecision;
         CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("BTC"), sysPrice, chainActive.Tip()->nHeight, btcprecision);
 		strBTCPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
