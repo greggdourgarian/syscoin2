@@ -3484,7 +3484,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 		vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
-	map< vector<unsigned char>, int > vNamesA;
+	map< vector<unsigned char>, int > vNamesO;
 	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 	{
 		string name = aliases[aliasIndex].get_str();
