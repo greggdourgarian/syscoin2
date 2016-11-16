@@ -322,7 +322,7 @@ bool CSyscoinAddress::Set(const CKeyID& id, CChainParams::AddressType sysVer)
 
 bool CSyscoinAddress::Set(const CScriptID& id, CChainParams::AddressType sysVer)
 {
-    if(sysVer == CChainParams::ADDRESS_SYS)
+    if(sysVer == CChainParams::ADDRESS_SYS || sysVer == CChainParams::ADDRESS_OLDSYS)
         SetData(Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS), &id, 20);
     else if(sysVer == CChainParams::ADDRESS_ZEC)
         SetData(Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS_ZEC), &id, 20);
@@ -346,7 +346,8 @@ bool CSyscoinAddress::IsValid(const CChainParams& params) const
     bool fKnownVersion = vchVersion == params.Base58Prefix(CChainParams::PUBKEY_ADDRESS)     ||
 						 vchVersion == params.Base58Prefix(CChainParams::PUBKEY_ADDRESS_SYS) ||
                          vchVersion == params.Base58Prefix(CChainParams::PUBKEY_ADDRESS_ZEC) ||
-                         vchVersion == params.Base58Prefix(CChainParams::SCRIPT_ADDRESS);
+                         vchVersion == params.Base58Prefix(CChainParams::SCRIPT_ADDRESS)     ||
+						 vchVersion == params.Base58Prefix(CChainParams::SCRIPT_ADDRESS_ZEC);
     return fCorrectSize && fKnownVersion;
 }
 
