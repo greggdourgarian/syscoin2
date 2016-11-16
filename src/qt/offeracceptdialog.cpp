@@ -70,7 +70,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	else if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_ZEC))
 	{
         int zecprecision;
-        CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), sysPrice, chainActive.Tip()->nHeight, btcprecision);
+        CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), sysPrice, chainActive.Tip()->nHeight, zecprecision);
 		strZECPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
 		ui->acceptZecButton->setEnabled(true);
 		ui->acceptZecButton->setVisible(true);
