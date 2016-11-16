@@ -49,6 +49,7 @@ public:
 	void updateCaption();
 	void OpenPayDialog();
 	void OpenBTCPayDialog();
+	void OpenZECPayDialog();
 	void RefreshImage();
 	void loadAliases();
 	void setModel(WalletModel* model);
