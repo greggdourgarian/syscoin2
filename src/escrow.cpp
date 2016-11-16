@@ -3452,238 +3452,248 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 
 UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("escrowlist <alias> [<escrow>]\n"
-                "list escrows that an alias is involved in");
+        throw runtime_error("escrowlist [\"alias\",...] [<escrow>]\n"
+                "list escrows that an array of aliases are involved in");
 	vector<unsigned char> vchEscrow;
-	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string name = stringFromVch(vchAlias);
-	vector<CAliasIndex> vtxPos;
-	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-		throw runtime_error("failed to read from alias DB");
-	const CAliasIndex &alias = vtxPos.back();
-	CTransaction aliastx;
-	uint256 txHash;
-	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+	UniValue aliases(UniValue::VARR);
+	if(params[0].isArray())
+		aliases = params[0].get_array();
+	else
 	{
-		throw runtime_error("failed to read alias transaction");
+		string aliasName =  params[0].get_str();
+		aliases.push_back(aliasName);
 	}
-    vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
-        vchNameUniq = vchFromValue(params[1]);
-
-    UniValue oRes(UniValue::VARR);
-
-    vector<unsigned char> vchValue;
-    vector<pair<vector<unsigned char>, CEscrow> > escrowScan;
-    if (!pescrowdb->ScanEscrows(vchNameUniq, name, 1000, escrowScan))
-        throw runtime_error("scan failed");
-    pair<vector<unsigned char>, CEscrow> pairScan;
-    BOOST_FOREACH(pairScan, escrowScan) {
-		const CEscrow &escrow = pairScan.second;
-		const string &escrowStr = stringFromVch(pairScan.first);
-		vector<CEscrow> vtxEscrowPos;
-		CTransaction tx;
-		if (!GetSyscoinTransaction(escrow.nHeight, escrow.txHash, tx, Params().GetConsensus())) 
-			continue;
-		if (!pescrowdb->ReadEscrow(pairScan.first, vtxEscrowPos) || vtxEscrowPos.empty())
-			continue;
-        vector<vector<unsigned char> > vvch;
-        int op, nOut;
-        if (!DecodeEscrowTx(tx, op, nOut, vvch)
-        	|| !IsEscrowOp(op) )
-            continue;
-		int expired = 0;
-		int expired_block = 0;
-
-		bool escrowRelease = false;
-		bool escrowRefund = false;
-
-		if(escrow.op == OP_ESCROW_COMPLETE)
+	vector<unsigned char> vchNameUniq;
+	if (params.size() >= 2)
+		vchNameUniq = vchFromValue(params[1]);
+	UniValue oRes(UniValue::VARR);
+	for(int i =0;i<aliases.size();i++)
+	{
+		string name = aliases[i].get_str();
+		vector<unsigned char> vchAlias = vchFromString(name);
+		vector<CAliasIndex> vtxPos;
+		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+			throw runtime_error("failed to read from alias DB");
+		const CAliasIndex &alias = vtxPos.back();
+		CTransaction aliastx;
+		uint256 txHash;
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 		{
-			for(unsigned int i = vtxEscrowPos.size() - 1; i >= 0;i--)
+			throw runtime_error("failed to read alias transaction");
+		}
+
+		vector<unsigned char> vchValue;
+		vector<pair<vector<unsigned char>, CEscrow> > escrowScan;
+		if (!pescrowdb->ScanEscrows(vchNameUniq, name, 1000, escrowScan))
+			throw runtime_error("scan failed");
+		pair<vector<unsigned char>, CEscrow> pairScan;
+		BOOST_FOREACH(pairScan, escrowScan) {
+			const CEscrow &escrow = pairScan.second;
+			const string &escrowStr = stringFromVch(pairScan.first);
+			vector<CEscrow> vtxEscrowPos;
+			CTransaction tx;
+			if (!GetSyscoinTransaction(escrow.nHeight, escrow.txHash, tx, Params().GetConsensus())) 
+				continue;
+			if (!pescrowdb->ReadEscrow(pairScan.first, vtxEscrowPos) || vtxEscrowPos.empty())
+				continue;
+			vector<vector<unsigned char> > vvch;
+			int op, nOut;
+			if (!DecodeEscrowTx(tx, op, nOut, vvch)
+        		|| !IsEscrowOp(op) )
+				continue;
+			int expired = 0;
+			int expired_block = 0;
+
+			bool escrowRelease = false;
+			bool escrowRefund = false;
+
+			if(escrow.op == OP_ESCROW_COMPLETE)
 			{
-				if(vtxEscrowPos[i].op == OP_ESCROW_RELEASE)
+				for(unsigned int i = vtxEscrowPos.size() - 1; i >= 0;i--)
 				{
-					escrowRelease = true;
-					break;
-				}
-				else if(vtxEscrowPos[i].op == OP_ESCROW_REFUND)
-				{
-					escrowRefund = true;
-					break;
+					if(vtxEscrowPos[i].op == OP_ESCROW_RELEASE)
+					{
+						escrowRelease = true;
+						break;
+					}
+					else if(vtxEscrowPos[i].op == OP_ESCROW_REFUND)
+					{
+						escrowRefund = true;
+						break;
+					}
 				}
 			}
-		}
-		CAliasIndex theSellerAlias;
-		CTransaction aliassellertx;
-		bool issellerExpired = false;
-		vector<CAliasIndex> aliasVtxPos;
-		if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, theSellerAlias, aliassellertx, aliasVtxPos, issellerExpired, true))
-		{
-			theSellerAlias.nHeight = vtxPos.front().nHeight;
-			theSellerAlias.GetAliasFromList(aliasVtxPos);
-		}
-		int nHeight;
-		COffer offer;
-		CTransaction offertx;
-		vector<COffer> offerVtxPos;
-		GetTxAndVtxOfOffer(escrow.vchOffer, offer, offertx, offerVtxPos, true);
-
-		nHeight = vtxEscrowPos.front().nAcceptHeight;
-		offer.nHeight = nHeight;
-		offer.GetOfferFromList(offerVtxPos);
-
-
-        // build the output
-        UniValue oName(UniValue::VOBJ);
-        oName.push_back(Pair("escrow", escrowStr));
-		string sTime;
-		CBlockIndex *pindex = chainActive[escrow.nHeight];
-		if (pindex) {
-			sTime = strprintf("%llu", pindex->nTime);
-		}
-		int avgBuyerRating, avgSellerRating, avgArbiterRating;
-		vector<CFeedback> buyerFeedBacks, sellerFeedBacks, arbiterFeedBacks;
-		GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, escrow.feedback);
-		GetFeedback(sellerFeedBacks, avgSellerRating, FEEDBACKSELLER, escrow.feedback);
-		GetFeedback(arbiterFeedBacks, avgArbiterRating, FEEDBACKARBITER, escrow.feedback);
-
-
-
-		oName.push_back(Pair("time", sTime));
-		oName.push_back(Pair("seller", stringFromVch(escrow.vchSellerAlias)));
-		oName.push_back(Pair("arbiter", stringFromVch(escrow.vchArbiterAlias)));
-		oName.push_back(Pair("buyer", stringFromVch(escrow.vchBuyerAlias)));
-		oName.push_back(Pair("offer", stringFromVch(escrow.vchOffer)));
-		oName.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
-		int precision = 2;
-		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, nHeight, precision);
-		int64_t nEscrowFee = GetEscrowArbiterFee(offer.GetPrice() * escrow.nQty, fEscrowFee);
-		CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(), nHeight, precision);
-		CAmount nFee = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, nEscrowFee, nHeight, precision);
-
-		int extprecision;
-		int nExtFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString(GetPaymentOptionsString(escrow.nPaymentOption)), nHeight, extprecision);
-		nFee += (nExtFeePerByte*400);
-		oName.push_back(Pair("sysrelayfee",strprintf("%ld", (nExtFeePerByte*400))));
-		oName.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nExtFeePerByte*400).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
-	
-		oName.push_back(Pair("sysfee", nEscrowFee));
-		oName.push_back(Pair("systotal", (offer.GetPrice() * escrow.nQty)));
-		oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
-		oName.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
-		oName.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* escrow.nQty)).get_real() )));
-		oName.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
-		string strExtId = "";
-		if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxEscrowPos.front().rawTx.empty())
-		{
-			CTransaction fundingTx;
-			if (DecodeHexTx(fundingTx,HexStr(vtxEscrowPos.front().rawTx)))
+			CAliasIndex theSellerAlias;
+			CTransaction aliassellertx;
+			bool issellerExpired = false;
+			vector<CAliasIndex> aliasVtxPos;
+			if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, theSellerAlias, aliassellertx, aliasVtxPos, issellerExpired, true))
 			{
-				strExtId = fundingTx.GetHash().GetHex();
+				theSellerAlias.nHeight = vtxPos.front().nHeight;
+				theSellerAlias.GetAliasFromList(aliasVtxPos);
 			}
-		}
-		oName.push_back(Pair("exttxid", strExtId));
-        oName.push_back(Pair("paymentoption", (int)escrow.nPaymentOption));
-        oName.push_back(Pair("paymentoption_display", GetPaymentOptionsString(escrow.nPaymentOption)));
-		string strRedeemTxId = "";
-		if(!escrow.redeemTxId.IsNull())
-			strRedeemTxId = escrow.redeemTxId.GetHex();
-		oName.push_back(Pair("redeem_txid", strRedeemTxId));
-		expired_block = escrow.nHeight + GetEscrowExpirationDepth();
-        if(expired_block < chainActive.Tip()->nHeight && escrow.op == OP_ESCROW_COMPLETE)
-		{
-			expired = 1;
-		}
+			int nHeight;
+			COffer offer;
+			CTransaction offertx;
+			vector<COffer> offerVtxPos;
+			GetTxAndVtxOfOffer(escrow.vchOffer, offer, offertx, offerVtxPos, true);
 
-		string status = "unknown";
-		if(escrow.op == OP_ESCROW_ACTIVATE)
-			status = "in escrow";
-		else if(escrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
-			status = "escrow released";
-		else if(escrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
-			status = "escrow release complete";
-		else if(escrow.op == OP_ESCROW_COMPLETE && escrowRelease)
-			status = "escrow release complete";
-		else if(escrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
-			status = "escrow refunded";
-		else if(escrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
-			status = "escrow refund complete";
-		else if(escrow.op == OP_ESCROW_COMPLETE && escrowRefund)
-			status = "escrow refund complete";
-		if(escrow.bPaymentAck)
-			status += " (acknowledged)";
+			nHeight = vtxEscrowPos.front().nAcceptHeight;
+			offer.nHeight = nHeight;
+			offer.GetOfferFromList(offerVtxPos);
 
-		UniValue oBuyerFeedBack(UniValue::VARR);
-		for(unsigned int i =0;i<buyerFeedBacks.size();i++)
-		{
-			UniValue oFeedback(UniValue::VOBJ);
-			string sFeedbackTime;
-			CBlockIndex *pindex = chainActive[buyerFeedBacks[i].nHeight];
+
+			// build the output
+			UniValue oName(UniValue::VOBJ);
+			oName.push_back(Pair("escrow", escrowStr));
+			string sTime;
+			CBlockIndex *pindex = chainActive[escrow.nHeight];
 			if (pindex) {
-				sFeedbackTime = strprintf("%llu", pindex->nTime);
+				sTime = strprintf("%llu", pindex->nTime);
 			}
-			oFeedback.push_back(Pair("txid", buyerFeedBacks[i].txHash.GetHex()));
-			oFeedback.push_back(Pair("time", sFeedbackTime));
-			oFeedback.push_back(Pair("rating", buyerFeedBacks[i].nRating));
-			oFeedback.push_back(Pair("feedbackuser", buyerFeedBacks[i].nFeedbackUserFrom));
-			oFeedback.push_back(Pair("feedback", stringFromVch(buyerFeedBacks[i].vchFeedback)));
-			oBuyerFeedBack.push_back(oFeedback);
-		}
-		oName.push_back(Pair("buyer_feedback", oBuyerFeedBack));
-		oName.push_back(Pair("avg_buyer_rating", avgBuyerRating));
-		UniValue oSellerFeedBack(UniValue::VARR);
-		for(unsigned int i =0;i<sellerFeedBacks.size();i++)
-		{
-			UniValue oFeedback(UniValue::VOBJ);
-			string sFeedbackTime;
-			CBlockIndex *pindex = chainActive[sellerFeedBacks[i].nHeight];
-			if (pindex) {
-				sFeedbackTime = strprintf("%llu", pindex->nTime);
+			int avgBuyerRating, avgSellerRating, avgArbiterRating;
+			vector<CFeedback> buyerFeedBacks, sellerFeedBacks, arbiterFeedBacks;
+			GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, escrow.feedback);
+			GetFeedback(sellerFeedBacks, avgSellerRating, FEEDBACKSELLER, escrow.feedback);
+			GetFeedback(arbiterFeedBacks, avgArbiterRating, FEEDBACKARBITER, escrow.feedback);
+
+
+
+			oName.push_back(Pair("time", sTime));
+			oName.push_back(Pair("seller", stringFromVch(escrow.vchSellerAlias)));
+			oName.push_back(Pair("arbiter", stringFromVch(escrow.vchArbiterAlias)));
+			oName.push_back(Pair("buyer", stringFromVch(escrow.vchBuyerAlias)));
+			oName.push_back(Pair("offer", stringFromVch(escrow.vchOffer)));
+			oName.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
+			int precision = 2;
+			float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, nHeight, precision);
+			int64_t nEscrowFee = GetEscrowArbiterFee(offer.GetPrice() * escrow.nQty, fEscrowFee);
+			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(), nHeight, precision);
+			CAmount nFee = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, nEscrowFee, nHeight, precision);
+
+			int extprecision;
+			int nExtFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString(GetPaymentOptionsString(escrow.nPaymentOption)), nHeight, extprecision);
+			nFee += (nExtFeePerByte*400);
+			oName.push_back(Pair("sysrelayfee",strprintf("%ld", (nExtFeePerByte*400))));
+			oName.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nExtFeePerByte*400).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
+		
+			oName.push_back(Pair("sysfee", nEscrowFee));
+			oName.push_back(Pair("systotal", (offer.GetPrice() * escrow.nQty)));
+			oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+			oName.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
+			oName.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* escrow.nQty)).get_real() )));
+			oName.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
+			string strExtId = "";
+			if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !vtxEscrowPos.front().rawTx.empty())
+			{
+				CTransaction fundingTx;
+				if (DecodeHexTx(fundingTx,HexStr(vtxEscrowPos.front().rawTx)))
+				{
+					strExtId = fundingTx.GetHash().GetHex();
+				}
 			}
-			oFeedback.push_back(Pair("txid", sellerFeedBacks[i].txHash.GetHex()));
-			oFeedback.push_back(Pair("time", sFeedbackTime));
-			oFeedback.push_back(Pair("rating", sellerFeedBacks[i].nRating));
-			oFeedback.push_back(Pair("feedbackuser", sellerFeedBacks[i].nFeedbackUserFrom));
-			oFeedback.push_back(Pair("feedback", stringFromVch(sellerFeedBacks[i].vchFeedback)));
-			oSellerFeedBack.push_back(oFeedback);
-		}
-		oName.push_back(Pair("seller_feedback", oSellerFeedBack));
-		oName.push_back(Pair("avg_seller_rating", avgSellerRating));
-		UniValue oArbiterFeedBack(UniValue::VARR);
-		for(unsigned int i =0;i<arbiterFeedBacks.size();i++)
-		{
-			UniValue oFeedback(UniValue::VOBJ);
-			string sFeedbackTime;
-			CBlockIndex *pindex = chainActive[arbiterFeedBacks[i].nHeight];
-			if (pindex) {
-				sFeedbackTime = strprintf("%llu", pindex->nTime);
+			oName.push_back(Pair("exttxid", strExtId));
+			oName.push_back(Pair("paymentoption", (int)escrow.nPaymentOption));
+			oName.push_back(Pair("paymentoption_display", GetPaymentOptionsString(escrow.nPaymentOption)));
+			string strRedeemTxId = "";
+			if(!escrow.redeemTxId.IsNull())
+				strRedeemTxId = escrow.redeemTxId.GetHex();
+			oName.push_back(Pair("redeem_txid", strRedeemTxId));
+			expired_block = escrow.nHeight + GetEscrowExpirationDepth();
+			if(expired_block < chainActive.Tip()->nHeight && escrow.op == OP_ESCROW_COMPLETE)
+			{
+				expired = 1;
 			}
-			oFeedback.push_back(Pair("txid", arbiterFeedBacks[i].txHash.GetHex()));
-			oFeedback.push_back(Pair("time", sFeedbackTime));
-			oFeedback.push_back(Pair("rating", arbiterFeedBacks[i].nRating));
-			oFeedback.push_back(Pair("feedbackuser", arbiterFeedBacks[i].nFeedbackUserFrom));
-			oFeedback.push_back(Pair("feedback", stringFromVch(arbiterFeedBacks[i].vchFeedback)));
-			oArbiterFeedBack.push_back(oFeedback);
+
+			string status = "unknown";
+			if(escrow.op == OP_ESCROW_ACTIVATE)
+				status = "in escrow";
+			else if(escrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("0"))
+				status = "escrow released";
+			else if(escrow.op == OP_ESCROW_RELEASE && vvch[1] == vchFromString("1"))
+				status = "escrow release complete";
+			else if(escrow.op == OP_ESCROW_COMPLETE && escrowRelease)
+				status = "escrow release complete";
+			else if(escrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("0"))
+				status = "escrow refunded";
+			else if(escrow.op == OP_ESCROW_REFUND && vvch[1] == vchFromString("1"))
+				status = "escrow refund complete";
+			else if(escrow.op == OP_ESCROW_COMPLETE && escrowRefund)
+				status = "escrow refund complete";
+			if(escrow.bPaymentAck)
+				status += " (acknowledged)";
+
+			UniValue oBuyerFeedBack(UniValue::VARR);
+			for(unsigned int i =0;i<buyerFeedBacks.size();i++)
+			{
+				UniValue oFeedback(UniValue::VOBJ);
+				string sFeedbackTime;
+				CBlockIndex *pindex = chainActive[buyerFeedBacks[i].nHeight];
+				if (pindex) {
+					sFeedbackTime = strprintf("%llu", pindex->nTime);
+				}
+				oFeedback.push_back(Pair("txid", buyerFeedBacks[i].txHash.GetHex()));
+				oFeedback.push_back(Pair("time", sFeedbackTime));
+				oFeedback.push_back(Pair("rating", buyerFeedBacks[i].nRating));
+				oFeedback.push_back(Pair("feedbackuser", buyerFeedBacks[i].nFeedbackUserFrom));
+				oFeedback.push_back(Pair("feedback", stringFromVch(buyerFeedBacks[i].vchFeedback)));
+				oBuyerFeedBack.push_back(oFeedback);
+			}
+			oName.push_back(Pair("buyer_feedback", oBuyerFeedBack));
+			oName.push_back(Pair("avg_buyer_rating", avgBuyerRating));
+			UniValue oSellerFeedBack(UniValue::VARR);
+			for(unsigned int i =0;i<sellerFeedBacks.size();i++)
+			{
+				UniValue oFeedback(UniValue::VOBJ);
+				string sFeedbackTime;
+				CBlockIndex *pindex = chainActive[sellerFeedBacks[i].nHeight];
+				if (pindex) {
+					sFeedbackTime = strprintf("%llu", pindex->nTime);
+				}
+				oFeedback.push_back(Pair("txid", sellerFeedBacks[i].txHash.GetHex()));
+				oFeedback.push_back(Pair("time", sFeedbackTime));
+				oFeedback.push_back(Pair("rating", sellerFeedBacks[i].nRating));
+				oFeedback.push_back(Pair("feedbackuser", sellerFeedBacks[i].nFeedbackUserFrom));
+				oFeedback.push_back(Pair("feedback", stringFromVch(sellerFeedBacks[i].vchFeedback)));
+				oSellerFeedBack.push_back(oFeedback);
+			}
+			oName.push_back(Pair("seller_feedback", oSellerFeedBack));
+			oName.push_back(Pair("avg_seller_rating", avgSellerRating));
+			UniValue oArbiterFeedBack(UniValue::VARR);
+			for(unsigned int i =0;i<arbiterFeedBacks.size();i++)
+			{
+				UniValue oFeedback(UniValue::VOBJ);
+				string sFeedbackTime;
+				CBlockIndex *pindex = chainActive[arbiterFeedBacks[i].nHeight];
+				if (pindex) {
+					sFeedbackTime = strprintf("%llu", pindex->nTime);
+				}
+				oFeedback.push_back(Pair("txid", arbiterFeedBacks[i].txHash.GetHex()));
+				oFeedback.push_back(Pair("time", sFeedbackTime));
+				oFeedback.push_back(Pair("rating", arbiterFeedBacks[i].nRating));
+				oFeedback.push_back(Pair("feedbackuser", arbiterFeedBacks[i].nFeedbackUserFrom));
+				oFeedback.push_back(Pair("feedback", stringFromVch(arbiterFeedBacks[i].vchFeedback)));
+				oArbiterFeedBack.push_back(oFeedback);
+			}
+			oName.push_back(Pair("arbiter_feedback", oArbiterFeedBack));
+			oName.push_back(Pair("avg_arbiter_rating", avgArbiterRating));
+			unsigned int ratingCount = 0;
+			if(avgArbiterRating > 0)
+				ratingCount++;
+			if(avgSellerRating > 0)
+				ratingCount++;
+			if(avgBuyerRating > 0)
+				ratingCount++;
+			oName.push_back(Pair("avg_rating_count", (int)ratingCount));
+			if(ratingCount == 0)
+				ratingCount = 1;
+			float totalAvgRating = roundf((avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount);
+			oName.push_back(Pair("avg_rating", (int)totalAvgRating));
+			oName.push_back(Pair("status", status));
+			oName.push_back(Pair("expired", expired));
+			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
+			oRes.push_back(oName);
 		}
-		oName.push_back(Pair("arbiter_feedback", oArbiterFeedBack));
-		oName.push_back(Pair("avg_arbiter_rating", avgArbiterRating));
-		unsigned int ratingCount = 0;
-		if(avgArbiterRating > 0)
-			ratingCount++;
-		if(avgSellerRating > 0)
-			ratingCount++;
-		if(avgBuyerRating > 0)
-			ratingCount++;
-		oName.push_back(Pair("avg_rating_count", (int)ratingCount));
-		if(ratingCount == 0)
-			ratingCount = 1;
-		float totalAvgRating = roundf((avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount);
-		oName.push_back(Pair("avg_rating", (int)totalAvgRating));
-		oName.push_back(Pair("status", status));
-		oName.push_back(Pair("expired", expired));
-		oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-		oRes.push_back(oName);
 	}
     return oRes;
 }

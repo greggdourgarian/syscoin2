@@ -1193,109 +1193,120 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 
 UniValue certlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("certlist <alias> [<cert>]\n"
-                "list certificates that an alias owns");
+        throw runtime_error("certlist [\"alias\",...] [<cert>]\n"
+                "list certificates that an array of aliases own);
 	vector<unsigned char> vchCert;
-	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string name = stringFromVch(vchAlias);
-	vector<CAliasIndex> vtxPos;
-	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-		throw runtime_error("failed to read from alias DB");
-	const CAliasIndex &alias = vtxPos.back();
-	CTransaction aliastx;
-	uint256 txHash;
-	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+	UniValue aliases(UniValue::VARR);
+	if(params[0].isArray())
+		aliases = params[0].get_array();
+	else
 	{
-		throw runtime_error("failed to read alias transaction");
+		string aliasName =  params[0].get_str();
+		aliases.push_back(aliasName);
 	}
-    vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
-        vchNameUniq = vchFromValue(params[1]);
+	vector<unsigned char> vchNameUniq;
+	if (params.size() >= 2)
+		vchNameUniq = vchFromValue(params[1]);
+	UniValue oRes(UniValue::VARR);
+	map< vector<unsigned char>, int > vNamesI;
+	map< vector<unsigned char>, int > vNamesA;
+	for(int i =0;i<aliases.size();i++)
+	{
+		string name = aliases[i].get_str();
+		vector<unsigned char> vchAlias = vchFromString(name);
 
-    UniValue oRes(UniValue::VARR);
-    map< vector<unsigned char>, int > vNamesI;
-    map< vector<unsigned char>, UniValue > vNamesO;
-
-    CTransaction tx;
-    uint64_t nHeight;
-	for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-		const CAliasIndex& theAlias = *it;
-		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
-			continue;
-		
-		int expired = 0;
-		int expires_in = 0;
-		int expired_block = 0;  
-
-		// decode txn, skip non-cert txns
-		vector<vector<unsigned char> > vvch;
-		int op, nOut;
-		if (!DecodeCertTx(tx, op, nOut, vvch))
-			continue;
-
-		vchCert = vvch[0];
-		if (vNamesI.find(vchCert) != vNamesI.end())
-			continue;		
-		// skip this cert if it doesn't match the given filter value
-		if (vchNameUniq.size() > 0 && vchNameUniq != vchCert)
-			continue;
-			
-		vector<CCert> vtxCertPos;
-		if (!pcertdb->ReadCert(vchCert, vtxCertPos) || vtxCertPos.empty())
-			continue;
-		const CCert &cert = vtxCertPos.back();
-		if(cert.vchAlias != vchAlias)
-			continue;		
-		nHeight = cert.nHeight;
-
-		
-        // build the output object
-		UniValue oName(UniValue::VOBJ);
-        oName.push_back(Pair("cert", stringFromVch(vchCert)));
-        oName.push_back(Pair("title", stringFromVch(cert.vchTitle)));
-		
-		string strData = stringFromVch(cert.vchData);
-		string strDecrypted = "";
-		if(cert.bPrivate)
+		vector<CAliasIndex> vtxPos;
+		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+			throw runtime_error("failed to read from alias DB");
+		const CAliasIndex &alias = vtxPos.back();
+		CTransaction aliastx;
+		uint256 txHash;
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 		{
-			strData = _("Encrypted for owner of certificate private data");
-			if(!cert.vchViewData.empty() && !cert.vchViewAlias.empty())	
-			{
-				CAliasIndex aliasView;
-				CTransaction aliasviewtx;
-				if (!GetTxOfAlias(cert.vchViewAlias, aliasView, aliasviewtx, true))
-					throw runtime_error("failed to read xfer alias from alias DB");
-				if(DecryptMessage(aliasView.vchPubKey, cert.vchViewData, strDecrypted))
-					strData = strDecrypted;	
-			}
-			if(!cert.vchData.empty() && strDecrypted == "")
-			{
-				if(DecryptMessage(theAlias.vchPubKey, cert.vchData, strDecrypted))
-					strData = strDecrypted;		
-			}
+			throw runtime_error("failed to read alias transaction");
 		}
-		oName.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
-		oName.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
-		unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
-		oName.push_back(Pair("safetylevel", safetyLevel));
-		oName.push_back(Pair("data", strData));
-		oName.push_back(Pair("category", stringFromVch(cert.sCategory)));
-		oName.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
-		oName.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
-		oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-		expired_block = nHeight + GetCertExpirationDepth();
-        if(expired_block < chainActive.Tip()->nHeight)
-		{
-			expired = 1;
-		}  
-		expires_in = expired_block - chainActive.Tip()->nHeight;
-		oName.push_back(Pair("expires_in", expires_in));
-		oName.push_back(Pair("expires_on", expired_block));
-		oName.push_back(Pair("expired", expired));
- 
-		vNamesI[vchCert] = nHeight;
-		vNamesO[vchCert] = oName;	
-    
+
+		CTransaction tx;
+		uint64_t nHeight;
+		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+			const CAliasIndex& theAlias = *it;
+			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+				continue;
+			
+			int expired = 0;
+			int expires_in = 0;
+			int expired_block = 0;  
+
+			// decode txn, skip non-cert txns
+			vector<vector<unsigned char> > vvch;
+			int op, nOut;
+			if (!DecodeCertTx(tx, op, nOut, vvch))
+				continue;
+
+			vchCert = vvch[0];
+			if (vNamesI.find(vchCert) != vNamesI.end())
+				continue;		
+			// skip this cert if it doesn't match the given filter value
+			if (vchNameUniq.size() > 0 && vchNameUniq != vchCert)
+				continue;
+				
+			vector<CCert> vtxCertPos;
+			if (!pcertdb->ReadCert(vchCert, vtxCertPos) || vtxCertPos.empty())
+				continue;
+			const CCert &cert = vtxCertPos.back();
+			if(cert.vchAlias != vchAlias)
+				continue;		
+			nHeight = cert.nHeight;
+
+			
+			// build the output object
+			UniValue oName(UniValue::VOBJ);
+			oName.push_back(Pair("cert", stringFromVch(vchCert)));
+			oName.push_back(Pair("title", stringFromVch(cert.vchTitle)));
+			
+			string strData = stringFromVch(cert.vchData);
+			string strDecrypted = "";
+			if(cert.bPrivate)
+			{
+				strData = _("Encrypted for owner of certificate private data");
+				if(!cert.vchViewData.empty() && !cert.vchViewAlias.empty())	
+				{
+					CAliasIndex aliasView;
+					CTransaction aliasviewtx;
+					if (!GetTxOfAlias(cert.vchViewAlias, aliasView, aliasviewtx, true))
+						throw runtime_error("failed to read xfer alias from alias DB");
+					if(DecryptMessage(aliasView.vchPubKey, cert.vchViewData, strDecrypted))
+						strData = strDecrypted;	
+				}
+				if(!cert.vchData.empty() && strDecrypted == "")
+				{
+					if(DecryptMessage(theAlias.vchPubKey, cert.vchData, strDecrypted))
+						strData = strDecrypted;		
+				}
+			}
+			oName.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
+			oName.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
+			unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
+			oName.push_back(Pair("safetylevel", safetyLevel));
+			oName.push_back(Pair("data", strData));
+			oName.push_back(Pair("category", stringFromVch(cert.sCategory)));
+			oName.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
+			oName.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
+			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
+			expired_block = nHeight + GetCertExpirationDepth();
+			if(expired_block < chainActive.Tip()->nHeight)
+			{
+				expired = 1;
+			}  
+			expires_in = expired_block - chainActive.Tip()->nHeight;
+			oName.push_back(Pair("expires_in", expires_in));
+			oName.push_back(Pair("expires_on", expired_block));
+			oName.push_back(Pair("expired", expired));
+	 
+			vNamesI[vchCert] = nHeight;
+			vNamesO[vchCert] = oName;	
+	    
+		}
 	}
     BOOST_FOREACH(const PAIRTYPE(vector<unsigned char>, UniValue)& item, vNamesO)
         oRes.push_back(item.second);

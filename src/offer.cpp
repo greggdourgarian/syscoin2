@@ -3469,137 +3469,149 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 }
 UniValue offerlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size() || params.size() < 1)
-        throw runtime_error("offerlist <alias> [<offer>]\n"
-                "list offers that an alias owns");
-
-    vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string name = stringFromVch(vchAlias);
-	vector<CAliasIndex> vtxPos;
-	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-		throw runtime_error("failed to read from alias DB");
-	const CAliasIndex &alias = vtxPos.back();
-	CTransaction aliastx;
-	uint256 txHash;
-	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+        throw runtime_error("offerlist [\"alias\",...] [<offer>]\n"
+                "list offers that an array of aliases own");
+	UniValue aliases(UniValue::VARR);
+	if(params[0].isArray())
+		aliases = params[0].get_array();
+	else
 	{
-		throw runtime_error("failed to read alias transaction");
+		string aliasName =  params[0].get_str();
+		aliases.push_back(aliasName);
 	}
-    vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
-        vchNameUniq = vchFromValue(params[1]);
+	vector<unsigned char> vchNameUniq;
+	if (params.size() >= 2)
+		vchNameUniq = vchFromValue(params[1]);
+	UniValue oRes(UniValue::VARR);
+	map< vector<unsigned char>, int > vNamesI;
+	map< vector<unsigned char>, int > vNamesA;
+	for(int i =0;i<aliases.size();i++)
+	{
+		string name = aliases[i].get_str();
+		vector<unsigned char> vchAlias = vchFromString(name);
 
-    UniValue oRes(UniValue::VARR);
-    map< vector<unsigned char>, int > vNamesI;
-    map< vector<unsigned char>, UniValue > vNamesO;
-    CTransaction tx;
-    uint64_t nHeight;
-	for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-		const CAliasIndex& theAlias = *it;
-		if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
-			continue;
-		int expired = 0;
-		int expires_in = 0;
-		int expired_block = 0;
 
-            // decode txn, skip non-alias txns
-            vector<vector<unsigned char> > vvch;
-            int op, nOut;
-            if (!DecodeOfferTx(tx, op, nOut, vvch)
-            	|| (op == OP_OFFER_ACCEPT))
-                continue;
+		vector<CAliasIndex> vtxPos;
+		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+			throw runtime_error("failed to read from alias DB");
+		const CAliasIndex &alias = vtxPos.back();
+		CTransaction aliastx;
+		uint256 txHash;
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+		{
+			throw runtime_error("failed to read alias transaction");
+		}
 
-            // get the txn name
-            const vector<unsigned char> &vchOffer = vvch[0];
-			if (vNamesI.find(vchOffer) != vNamesI.end())
+		CTransaction tx;
+		uint64_t nHeight;
+		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+			const CAliasIndex& theAlias = *it;
+			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 				continue;
-			// skip this offer if it doesn't match the given filter value
-			if (vchNameUniq.size() > 0 && vchNameUniq != vchOffer)
-				continue;
+			int expired = 0;
+			int expires_in = 0;
+			int expired_block = 0;
 
-			vector<COffer> vtxOfferPos;
-			if (!pofferdb->ReadOffer(vchOffer, vtxOfferPos) || vtxOfferPos.empty())
-				continue;
-
-			const COffer &theOffer = vtxOfferPos.back();
-			COffer linkOffer;
-			CAliasIndex linkAlias;
-			vector<COffer> myLinkedOfferVtxPos;
-			vector<CAliasIndex> myLinkedAliasVtxPos;
-			if( !theOffer.vchLinkOffer.empty())
-			{
-				if (!pofferdb->ReadOffer(theOffer.vchLinkOffer, myLinkedOfferVtxPos) || myLinkedOfferVtxPos.empty())
+				// decode txn, skip non-alias txns
+				vector<vector<unsigned char> > vvch;
+				int op, nOut;
+				if (!DecodeOfferTx(tx, op, nOut, vvch)
+            		|| (op == OP_OFFER_ACCEPT))
 					continue;
 
-				linkOffer = myLinkedOfferVtxPos.back();
-				if (!paliasdb->ReadAlias(linkOffer.vchAlias, myLinkedAliasVtxPos) || myLinkedAliasVtxPos.empty())
+				// get the txn name
+				const vector<unsigned char> &vchOffer = vvch[0];
+				if (vNamesI.find(vchOffer) != vNamesI.end())
 					continue;
-				linkAlias = myLinkedAliasVtxPos.back();
-			}
+				// skip this offer if it doesn't match the given filter value
+				if (vchNameUniq.size() > 0 && vchNameUniq != vchOffer)
+					continue;
 
-			nHeight = theOffer.nHeight;
-            // build the output UniValue
-            UniValue oName(UniValue::VOBJ);
-            oName.push_back(Pair("offer", stringFromVch(vchOffer)));
-			vector<unsigned char> vchCert;
-			if(!theOffer.vchCert.empty())
-				vchCert = theOffer.vchCert;
-			oName.push_back(Pair("cert", stringFromVch(vchCert)));
-            oName.push_back(Pair("title", stringFromVch(theOffer.sTitle)));
-            oName.push_back(Pair("category", stringFromVch(theOffer.sCategory)));
-            oName.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
-			int precision = 2;
-			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), theOffer.nHeight, precision);
-			oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+				vector<COffer> vtxOfferPos;
+				if (!pofferdb->ReadOffer(vchOffer, vtxOfferPos) || vtxOfferPos.empty())
+					continue;
 
-			oName.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode) ) );
-			oName.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
-			int nQty = theOffer.nQty;
-			if(!theOffer.vchLinkOffer.empty())
-				nQty = linkOffer.nQty;
-			if(nQty == -1)
-				oName.push_back(Pair("quantity", "unlimited"));
-			else
-				oName.push_back(Pair("quantity", strprintf("%d", nQty)));
-			int paymentOptions = theOffer.paymentOptions;
-			if(!theOffer.vchLinkOffer.empty())
-				paymentOptions = linkOffer.paymentOptions;
-			oName.push_back(Pair("paymentoptions", paymentOptions));
-			oName.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
-			oName.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
+				const COffer &theOffer = vtxOfferPos.back();
+				COffer linkOffer;
+				CAliasIndex linkAlias;
+				vector<COffer> myLinkedOfferVtxPos;
+				vector<CAliasIndex> myLinkedAliasVtxPos;
+				if( !theOffer.vchLinkOffer.empty())
+				{
+					if (!pofferdb->ReadOffer(theOffer.vchLinkOffer, myLinkedOfferVtxPos) || myLinkedOfferVtxPos.empty())
+						continue;
+
+					linkOffer = myLinkedOfferVtxPos.back();
+					if (!paliasdb->ReadAlias(linkOffer.vchAlias, myLinkedAliasVtxPos) || myLinkedAliasVtxPos.empty())
+						continue;
+					linkAlias = myLinkedAliasVtxPos.back();
+				}
+
+				nHeight = theOffer.nHeight;
+				// build the output UniValue
+				UniValue oName(UniValue::VOBJ);
+				oName.push_back(Pair("offer", stringFromVch(vchOffer)));
+				vector<unsigned char> vchCert;
+				if(!theOffer.vchCert.empty())
+					vchCert = theOffer.vchCert;
+				oName.push_back(Pair("cert", stringFromVch(vchCert)));
+				oName.push_back(Pair("title", stringFromVch(theOffer.sTitle)));
+				oName.push_back(Pair("category", stringFromVch(theOffer.sCategory)));
+				oName.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
+				int precision = 2;
+				CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), theOffer.nHeight, precision);
+				oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+
+				oName.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode) ) );
+				oName.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
+				int nQty = theOffer.nQty;
+				if(!theOffer.vchLinkOffer.empty())
+					nQty = linkOffer.nQty;
+				if(nQty == -1)
+					oName.push_back(Pair("quantity", "unlimited"));
+				else
+					oName.push_back(Pair("quantity", strprintf("%d", nQty)));
+				int paymentOptions = theOffer.paymentOptions;
+				if(!theOffer.vchLinkOffer.empty())
+					paymentOptions = linkOffer.paymentOptions;
+				oName.push_back(Pair("paymentoptions", paymentOptions));
+				oName.push_back(Pair("paymentoptions_display", GetPaymentOptionsString(paymentOptions)));
+				oName.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
 
 
-			oName.push_back(Pair("alias_peg", stringFromVch(theAlias.vchAliasPeg)));
-			oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
-			oName.push_back(Pair("safesearch", theOffer.safeSearch? "Yes" : "No"));
-			unsigned char safetyLevel = max(theOffer.safetyLevel, alias.safetyLevel );
-			safetyLevel = max(safetyLevel, linkOffer.safetyLevel );
-			safetyLevel = max(safetyLevel, linkAlias.safetyLevel );
-			oName.push_back(Pair("safetylevel", safetyLevel));
-			oName.push_back(Pair("geolocation", stringFromVch(theOffer.vchGeoLocation)));
-			int sold = theOffer.nSold;
-			if(!theOffer.vchLinkOffer.empty())
-				sold = linkOffer.nSold;
-			oName.push_back(Pair("offers_sold", sold));
-			expired_block = nHeight + GetOfferExpirationDepth();
-            if(expired_block < chainActive.Tip()->nHeight)
-			{
-				expired = 1;
-			}
-			expires_in = expired_block - chainActive.Tip()->nHeight;
+				oName.push_back(Pair("alias_peg", stringFromVch(theAlias.vchAliasPeg)));
+				oName.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
+				oName.push_back(Pair("safesearch", theOffer.safeSearch? "Yes" : "No"));
+				unsigned char safetyLevel = max(theOffer.safetyLevel, alias.safetyLevel );
+				safetyLevel = max(safetyLevel, linkOffer.safetyLevel );
+				safetyLevel = max(safetyLevel, linkAlias.safetyLevel );
+				oName.push_back(Pair("safetylevel", safetyLevel));
+				oName.push_back(Pair("geolocation", stringFromVch(theOffer.vchGeoLocation)));
+				int sold = theOffer.nSold;
+				if(!theOffer.vchLinkOffer.empty())
+					sold = linkOffer.nSold;
+				oName.push_back(Pair("offers_sold", sold));
+				expired_block = nHeight + GetOfferExpirationDepth();
+				if(expired_block < chainActive.Tip()->nHeight)
+				{
+					expired = 1;
+				}
+				expires_in = expired_block - chainActive.Tip()->nHeight;
 
-			oName.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
-			float rating = 0;
-			if(alias.nRatingCountAsSeller > 0)
-				rating = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
-			oName.push_back(Pair("alias_rating",(int)rating));
-			oName.push_back(Pair("alias_rating_count",(int)alias.nRatingCountAsSeller));
-			oName.push_back(Pair("expires_in", expires_in));
-			oName.push_back(Pair("expires_on", expired_block));
-			oName.push_back(Pair("expired", expired));
-			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
+				oName.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
+				float rating = 0;
+				if(alias.nRatingCountAsSeller > 0)
+					rating = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
+				oName.push_back(Pair("alias_rating",(int)rating));
+				oName.push_back(Pair("alias_rating_count",(int)alias.nRatingCountAsSeller));
+				oName.push_back(Pair("expires_in", expires_in));
+				oName.push_back(Pair("expires_on", expired_block));
+				oName.push_back(Pair("expired", expired));
+				oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
 
-            vNamesI[vchOffer] = nHeight;
-            vNamesO[vchOffer] = oName;
+				vNamesI[vchOffer] = nHeight;
+				vNamesO[vchOffer] = oName;
+		}
 	}
 
 
