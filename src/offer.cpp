@@ -502,7 +502,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(vvchArgs.size() <= 3 || vchHash != vvchArgs[3])
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1005 - " + _("Hash provided doesn't match the calculated hash of the data");
-					return error(errorMessage.c_str());
+					return true;
 				}
 			}
 			else
@@ -510,7 +510,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(vvchArgs.size() <= 1 || vchHash != vvchArgs[1])
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1006 - " + _("Hash provided doesn't match the calculated hash of the data");
-					return error(errorMessage.c_str());
+					return true;
 				}
 			}
 		}

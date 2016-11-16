@@ -290,7 +290,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			if(vvchArgs.size() <= 1 || vchHash != vvchArgs[1])
 			{
 				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3003 - " + _("Hash provided doesn't match the calculated hash of the data");
-				return error(errorMessage.c_str());
+				return true;
 			}
 		}
 		

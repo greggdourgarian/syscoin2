@@ -361,7 +361,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			if(vvchArgs.size() <= 2 || vchHash != vvchArgs[2])
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4003 - " + _("Hash provided doesn't match the calculated hash of the data");
-				return error(errorMessage.c_str());
+				return true;
 			}
 		}
 

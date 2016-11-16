@@ -389,7 +389,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 		if(vvchArgs.size() <= 1 || vchHash != vvchArgs[1])
 		{
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2004 - " + _("Hash provided doesn't match the calculated hash of the data");
-			return error(errorMessage.c_str());
+			return true;
 		}
 			
 		// Strict check - bug disallowed
