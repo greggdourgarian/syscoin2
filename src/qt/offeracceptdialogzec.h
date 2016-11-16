@@ -23,6 +23,7 @@ public:
 	void CheckPaymentInZEC();
     bool getPaymentStatus();
 	void SetupQRCode(const QString&price);
+	void convertAddress(QString& address);
 private:
 	void setupEscrowCheckboxState();
 	WalletModel* walletModel;

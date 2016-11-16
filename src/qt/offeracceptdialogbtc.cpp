@@ -171,7 +171,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		}
 		else
 		{
-			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
+			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
 			return;
 		}
 		qstrPrice = QString::number(total);

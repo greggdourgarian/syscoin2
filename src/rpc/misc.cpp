@@ -339,7 +339,7 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
 	CSyscoinAddress zaddr;
 	zaddr.Set(dest, CChainParams::ADDRESS_ZEC);
     result.push_back(Pair("address", v2addr.ToString()));
-    result.push_back(Pair("zec_address", zaddr.ToString()));
+    result.push_back(Pair("zaddress", zaddr.ToString()));
     result.push_back(Pair("redeemScript", HexStr(inner.begin(), inner.end())));
 
     return result;

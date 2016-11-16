@@ -65,7 +65,9 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	connect(ui->checkBox,SIGNAL(clicked(bool)),SLOT(onEscrowCheckBoxChanged(bool)));
 	connect(ui->confirmButton, SIGNAL(clicked()), this, SLOT(tryAcceptOffer()));
 	connect(ui->openZecWalletButton, SIGNAL(clicked()), this, SLOT(openZECWallet()));
+	convertAddress(address);
 	setupEscrowCheckboxState();
+	
 }
 void OfferAcceptDialogZEC::SetupQRCode(const QString& price)
 {
@@ -171,7 +173,7 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		}
 		else
 		{
-			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
+			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
 			return;
 		}
 		qstrPrice = QString::number(total);
@@ -188,6 +190,30 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 
 	}
 	SetupQRCode(qstrPrice);
+}
+void OfferAcceptDialogZEC::convertAddress(QString& address)
+{
+	UniValue params(UniValue::VARR);
+	params.push_back(address.toStdString());
+	UniValue resCreate;
+	try
+	{
+		resCreate = tableRPC.execute("getzaddress", params);
+		address = QString::fromStdString(resCreate.get_str());
+	}
+	catch (UniValue& objError)
+	{
+		QMessageBox::critical(this, windowTitle(),
+			tr("Failed to generate ZCash address, please close this screen and try again"),
+				QMessageBox::Ok, QMessageBox::Ok);
+	}
+	catch(std::exception& e)
+	{
+		QMessageBox::critical(this, windowTitle(),
+			tr("There was an exception trying to generate ZCash address, please close this screen and try again: ") + QString::fromStdString(e.what()),
+				QMessageBox::Ok, QMessageBox::Ok);
+	}
+
 }
 void OfferAcceptDialogZEC::onEscrowCheckBoxChanged(bool toggled)
 {
