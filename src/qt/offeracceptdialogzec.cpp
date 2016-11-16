@@ -515,7 +515,7 @@ void OfferAcceptDialogZEC::openZECWallet()
 {
 	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
 	SendCoinsRecipient info;
-	info.address = this->multisigaddress.empty()? this->address: this->multisigaddress;
+	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->address;
 	info.label = this->sellerAlias;
 	info.message = message;
 	ParseMoney(this->qstrPrice.toStdString(), info.amount);
