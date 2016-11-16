@@ -65,7 +65,6 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	connect(ui->checkBox,SIGNAL(clicked(bool)),SLOT(onEscrowCheckBoxChanged(bool)));
 	connect(ui->confirmButton, SIGNAL(clicked()), this, SLOT(tryAcceptOffer()));
 	connect(ui->openZecWalletButton, SIGNAL(clicked()), this, SLOT(openZECWallet()));
-	convertAddress(address);
 	setupEscrowCheckboxState();
 	
 }
@@ -75,7 +74,7 @@ void OfferAcceptDialogZEC::SetupQRCode(const QString& price)
 #ifdef USE_QRCODE
 	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
 	SendCoinsRecipient info;
-	info.address = this->address;
+	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->zaddress;
 	info.label = this->sellerAlias;
 	info.message = message;
 	ParseMoney(price.toStdString(), info.amount);
@@ -183,23 +182,24 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 	}
 	else
 	{
+		convertAddress();
 		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
 		ui->escrowEdit->setEnabled(true);
 		qstrPrice = QString::fromStdString(strprintf("%f", dblPrice));
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(address));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(this->zaddress));
 
 	}
 	SetupQRCode(qstrPrice);
 }
-void OfferAcceptDialogZEC::convertAddress(QString& address)
+void OfferAcceptDialogZEC::convertAddress()
 {
 	UniValue params(UniValue::VARR);
-	params.push_back(address.toStdString());
+	params.push_back(this->address.toStdString());
 	UniValue resCreate;
 	try
 	{
 		resCreate = tableRPC.execute("getzaddress", params);
-		address = QString::fromStdString(resCreate.get_str());
+		this->zaddress = QString::fromStdString(resCreate.get_str());
 	}
 	catch (UniValue& objError)
 	{
@@ -292,7 +292,7 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 				if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
 				{
 					UniValue addressValue = addressesValue.get_array()[0];
-					if((!ui->checkBox->isChecked() && addressValue.get_str() == address.toStdString())
+					if((!ui->checkBox->isChecked() && addressValue.get_str() == zaddress.toStdString())
 						|| (ui->checkBox->isChecked() && addressValue.get_str() == multisigaddress.toStdString()))
 					{
 						if(paymentValue.isNum())
@@ -541,7 +541,7 @@ void OfferAcceptDialogZEC::openZECWallet()
 {
 	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
 	SendCoinsRecipient info;
-	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->address;
+	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->zaddress;
 	info.label = this->sellerAlias;
 	info.message = message;
 	ParseMoney(this->qstrPrice.toStdString(), info.amount);

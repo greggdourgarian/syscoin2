@@ -23,7 +23,7 @@ public:
 	void CheckPaymentInZEC();
     bool getPaymentStatus();
 	void SetupQRCode(const QString&price);
-	void convertAddress(QString& address);
+	void convertAddress();
 private:
 	void setupEscrowCheckboxState();
 	WalletModel* walletModel;
@@ -38,6 +38,7 @@ private:
 	QString acceptGuid;
 	QString sellerAlias;
 	QString address;
+	QString zaddress;
 	QString multisigaddress;
 	QString alias;
 	QString rawZECTx;

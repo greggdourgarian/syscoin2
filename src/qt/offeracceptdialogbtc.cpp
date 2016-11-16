@@ -73,7 +73,7 @@ void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
 #ifdef USE_QRCODE
 	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
 	SendCoinsRecipient info;
-	info.address = this->address;
+	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->zaddress;
 	info.label = this->sellerAlias;
 	info.message = message;
 	ParseMoney(price.toStdString(), info.amount);
