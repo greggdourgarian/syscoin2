@@ -21,7 +21,7 @@ Build-Depends: debhelper (>=9),
  libqrencode-dev,
  libprotobuf-dev, protobuf-compiler,
  python
-Standards-Version: 3.9.6
+Standards-Version: 3.9.7
 Homepage: http://www.syscoin.org
 Vcs-Git: git://github.com/syscoin/syscoin.git
 Vcs-Browser: https://github.com/syscoin/syscoin2
