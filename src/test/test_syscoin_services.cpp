@@ -992,7 +992,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	int nQtyToAccept = atoi(qty.c_str());
 	CAmount nTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
-	string sTargetQty = boost::to_string(nCurrentQty);
+	string sTargetQty = boost::to_string(nCurrentQty-nQtyToAccept);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + selleralias));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -1031,8 +1031,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	GenerateBlocks(5, ownernode);
 	BOOST_CHECK_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + offerguid + " " +  acceptguid), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "offerinfo " + offerguid));
-	int nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	BOOST_CHECK_EQUAL(nQtyAfter, nCurrentQty-nQtyToAccept);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "quantity").get_str(),sTargetQty);
 	return acceptguid;
 }
 const string LinkOfferAccept(const string& ownernode, const string& buyernode, const string& aliasname, const string& offerguid, const string& qty, const string& pay_message, const string& resellernode) {
@@ -1050,7 +1049,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	BOOST_CHECK(!rootofferguid.empty());
 	int nQtyToAccept = atoi(qty.c_str());
 	CAmount nTotal = find_value(r.get_obj(), "sysprice").get_int64()*nQtyToAccept;
-	string sTargetQty = boost::to_string(nCurrentQty);
+	string sTargetQty = boost::to_string(nCurrentQty-nQtyToAccept);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + rootalias));
 	CAmount balanceOwnerBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -1112,8 +1111,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	GenerateBlocks(4,ownernode);
 	BOOST_CHECK_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + rootofferguid + " " +  acceptguid), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "offerinfo " + offerguid));
-	int nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
-	BOOST_CHECK_EQUAL(nQtyAfter, nCurrentQty-nQtyToAccept);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "quantity").get_str(),sTargetQty);
 	return acceptguid;
 }
 

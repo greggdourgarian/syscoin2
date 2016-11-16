@@ -1071,19 +1071,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Offer payment already acknowledged");
 					return true;
 				}
-
-				int nQty = theOffer.nQty;
-				if(nQty != -1)
-				{
-					if(offerAccept.nQty > nQty)
-					{
-						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Not enough quantity left in this offer for this purchase");
-						return true;
-					}
-					nQty -= offerAccept.nQty;
-				}
-				theOffer.nSold++;
-				theOffer.nQty = nQty;
 				theOffer.txHash = tx.GetHash();
 				theOffer.accept = offerAccept;
 				theOffer.accept.bPaymentAck = true;
@@ -1280,7 +1267,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return true;
 			}
 
-
 			// check that user pays enough in syscoin if the currency of the offer is not external purchase
 			if(theOfferAccept.txExtId.IsNull())
 			{
@@ -1387,11 +1373,31 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			theOfferAccept.vchAcceptRand = vvchArgs[1];
 			// decrease qty + increase # sold
 			if(theOfferAccept.nQty <= 0)
-				theOfferAccept.nQty = 1;
+ 				theOfferAccept.nQty = 1;
+			int nQty = theOffer.nQty;
+			// if this is a linked offer we must update the linked offer qty
+			if (!linkOffer.IsNull())
+			{
+				linkOffer = offerVtxPos.back();
+				nQty = linkOffer.nQty;
+			}
+			if(nQty != -1)
+			{
+				if(theOfferAccept.nQty > nQty)
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Not enough quantity left in this offer for this purchase");
+					return true;
+				}
+				nQty -= theOfferAccept.nQty;
+			}
+ 			theOffer.nSold++;
+			theOffer.nQty = nQty;
 			theOffer.accept = theOfferAccept;
 			if (!linkOffer.IsNull())
 			{
 				linkOffer.nHeight = nHeight;
+				linkOffer.nQty = nQty;
+				linkOffer.nSold++;
 				linkOffer.txHash = tx.GetHash();
 				linkOffer.accept = theOfferAccept;
 				linkOffer.PutToOfferList(offerVtxPos);

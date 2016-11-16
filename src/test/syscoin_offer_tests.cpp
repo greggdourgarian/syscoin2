@@ -376,14 +376,10 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 	// perform an accept on zero quantity
 	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 0 message"), runtime_error);
 
-	// perform an accept on more items than available, qty doesnt update so its valid
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 100 message"));
-	const UniValue &arr = r.get_array();
-	acceptguid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	// payment ack won't work as it tries to adjust qty
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offeracceptacknowledge " + offerguid + " " + acceptguid), runtime_error);
+	// perform an accept on more items than available
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 100 message"), runtime_error);
+
+
 }
 BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 {
