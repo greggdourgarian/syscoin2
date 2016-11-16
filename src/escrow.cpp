@@ -1049,13 +1049,13 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 	}
 	vector<unsigned char> vchArbiter = vchFromValue(params[3]);
 	// payment options - get payment options string if specified otherwise default to SYS
-	string paymentOptions = "SYS";
+	string paymentOption = "SYS";
 	if(params.size() >= 5 && !params[4].get_str().empty() && params[4].get_str() != "NONE")
 	{
-		paymentOptions = params[4].get_str();
+		paymentOption = params[4].get_str();
 	}
 	// payment options - validate payment options string
-	if(!ValidatePaymentOptionsString(paymentOptions))
+	if(!ValidatePaymentOptionsString(paymentOption))
 	{
 		string err = "SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 1504 - " + _("Could not validate the payment options value");
 		throw runtime_error(err.c_str());
@@ -1132,12 +1132,12 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4507 - " + _("Could not create escrow transaction: Invalid response from createescrow"));
 
 	int precision = 2;
-	float fEscrowFee = getEscrowFee(selleralias.vchAliasPeg, vchFromString(paymentOptions), chainActive.Tip()->nHeight, precision);
+	float fEscrowFee = getEscrowFee(selleralias.vchAliasPeg, vchFromString(paymentOption), chainActive.Tip()->nHeight, precision);
 	CAmount nTotal = theOffer.GetPrice(foundEntry)*nQty;
 	CAmount nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);
-	CAmount nExtFee = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOptions), nEscrowFee, chainActive.Tip()->nHeight, precision);
-	CAmount nExtTotal = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOptions), theOffer.GetPrice(foundEntry), chainActive.Tip()->nHeight, precision)*nQty;
-	int nExtFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString(paymentOptions), chainActive.Tip()->nHeight, precision);
+	CAmount nExtFee = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOption), nEscrowFee, chainActive.Tip()->nHeight, precision);
+	CAmount nExtTotal = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOption), theOffer.GetPrice(foundEntry), chainActive.Tip()->nHeight, precision)*nQty;
+	int nExtFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString(paymentOption), chainActive.Tip()->nHeight, precision);
 	// multisig spend is about 400 bytes
 	nExtTotal += nExtFee + (nExtFeePerByte*400);
 	resCreate.push_back(Pair("total", ValueFromAmount(nExtTotal)));
