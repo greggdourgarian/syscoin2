@@ -85,11 +85,11 @@ WalletModel::~WalletModel()
     unsubscribeFromCoreSignals();
 }
 // SYSCOIN
-void appendListAliases(UniValue& defaultAliasArray)
+void appendListAliases(UniValue& defaultAliasArray, bool allAliases)
 {
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-	if(defaultListAlias == QObject::tr("All"))
+	if(allAliases || defaultListAlias == QObject::tr("All"))
 	{
 		string strMethod = string("aliaslist");
 		UniValue params(UniValue::VARR); 

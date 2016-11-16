@@ -103,16 +103,16 @@ void MyAcceptedOfferListPage::loadAliasList()
 	ui->displayListAlias->addItem(tr("All"));
 	QSettings settings;
 	QString oldListAlias = settings.value("defaultListAlias", "").toString();
-	settings.setValue("defaultListAlias", tr("All"));
 	UniValue aliasList(UniValue::VARR);
-	appendListAliases(aliasList);
-	settings.setValue("defaultListAlias", oldListAlias);
+	appendListAliases(aliasList, true);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
 		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
 		ui->displayListAlias->addItem(aliasName);
 	}
-	ui->displayListAlias->setCurrentIndex(ui->displayListAlias->findText(oldListAlias));
+	int currentIndex = ui->displayListAlias->findText(oldListAlias);
+	if(currentIndex >= 0)
+		ui->displayListAlias->setCurrentIndex(currentIndex);
 }
 void MyAcceptedOfferListPage::displayListChanged(const QString& alias)
 {
