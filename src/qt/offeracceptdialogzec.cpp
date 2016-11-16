@@ -1,5 +1,5 @@
-#include "offeracceptdialogbtc.h"
-#include "ui_offeracceptdialogbtc.h"
+#include "offeracceptdialogzec.h"
+#include "ui_offeracceptdialogzec.h"
 #include "init.h"
 #include "util.h"
 #include "offerpaydialog.h"
@@ -33,41 +33,41 @@ using namespace std;
 #include <QNetworkRequest>
 #include <QNetworkReply>
 extern CRPCTable tableRPC;
-OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString qstrPrice, QString sellerAlias, QString address, QWidget *parent) :
+OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString qstrPrice, QString sellerAlias, QString address, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), qstrPrice(qstrPrice), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
+    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), qstrPrice(qstrPrice), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
-	ui->aboutShadeBTC->setPixmap(QPixmap(":/images/" + theme + "/about_btc"));
+	ui->aboutShadeZEC->setPixmap(QPixmap(":/images/" + theme + "/about_zec"));
 	dblPrice = qstrPrice.toDouble()*quantity.toUInt();
 	qstrPrice = QString::fromStdString(strprintf("%f", dblPrice));
 	string strCurrencyCode = currencyCode.toStdString();
-	ui->bitcoinInstructionLabel->setText(tr("After paying for this item, please enter the Bitcoin Transaction ID and click on the confirm button below."));
+	ui->zcashInstructionLabel->setText(tr("After paying for this item, please enter the ZCash Transaction ID and click on the confirm button below."));
 
 	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
 	ui->escrowDisclaimer->setVisible(true);
 	if (!platformStyle->getImagesOnButtons())
 	{
 		ui->confirmButton->setIcon(QIcon());
-		ui->openBtcWalletButton->setIcon(QIcon());
+		ui->openZecWalletButton->setIcon(QIcon());
 		ui->cancelButton->setIcon(QIcon());
 
 	}
 	else
 	{
 		ui->confirmButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/transaction_confirmed"));
-		ui->openBtcWalletButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"));
+		ui->openZecWalletButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"));
 		ui->cancelButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/quit"));
 	}
 	this->offerPaid = false;
 	connect(ui->checkBox,SIGNAL(clicked(bool)),SLOT(onEscrowCheckBoxChanged(bool)));
 	connect(ui->confirmButton, SIGNAL(clicked()), this, SLOT(tryAcceptOffer()));
-	connect(ui->openBtcWalletButton, SIGNAL(clicked()), this, SLOT(openBTCWallet()));
+	connect(ui->openZecWalletButton, SIGNAL(clicked()), this, SLOT(openZECWallet()));
 	setupEscrowCheckboxState();
 }
-void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
+void OfferAcceptDialogZEC::SetupQRCode(const QString& price)
 {
 
 #ifdef USE_QRCODE
@@ -77,7 +77,7 @@ void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
 	info.label = this->sellerAlias;
 	info.message = message;
 	ParseMoney(price.toStdString(), info.amount);
-	QString uri = GUIUtil::formatBitcoinURI(info);
+	QString uri = GUIUtil::formatZCashURI(info);
 
 	ui->lblQRCode->setText("");
     if(!uri.isEmpty())
@@ -110,15 +110,15 @@ void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
     }
 #endif
 }
-void OfferAcceptDialogBTC::on_cancelButton_clicked()
+void OfferAcceptDialogZEC::on_cancelButton_clicked()
 {
     reject();
 }
-OfferAcceptDialogBTC::~OfferAcceptDialogBTC()
+OfferAcceptDialogZEC::~OfferAcceptDialogZEC()
 {
     delete ui;
 }
-void OfferAcceptDialogBTC::setupEscrowCheckboxState()
+void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 {
 	double total = 0;
 	if(ui->checkBox->isChecked())
@@ -130,7 +130,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		params.push_back(this->offer.toStdString());
 		params.push_back(this->quantity.toStdString());
 		params.push_back(ui->escrowEdit->text().trimmed().toStdString());
-		params.push_back("BTC");
+		params.push_back("ZEC");
 		UniValue resCreate;
 		try
 		{
@@ -148,7 +148,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 
 		const UniValue &o = resCreate.get_obj();
 		const UniValue& redeemScript_value = find_value(o, "redeemScript");
-		const UniValue& address_value = find_value(o, "address");
+		const UniValue& address_value = find_value(o, "zaddress");
 		const UniValue& height_value = find_value(o, "height");
 		const UniValue& total_value = find_value(o, "total");
 		if(total_value.isNum())
@@ -175,8 +175,8 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 			return;
 		}
 		qstrPrice = QString::number(total);
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(multisigaddress));
-		ui->escrowDisclaimer->setText(tr("<font color='green'>Escrow created successfully! Please fund using BTC address <b>%1</b></font>").arg(multisigaddress));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(multisigaddress));
+		ui->escrowDisclaimer->setText(tr("<font color='green'>Escrow created successfully! Please fund using ZCash address <b>%1</b></font>").arg(multisigaddress));
 
 	}
 	else
@@ -184,16 +184,16 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
 		ui->escrowEdit->setEnabled(true);
 		qstrPrice = QString::fromStdString(strprintf("%f", dblPrice));
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees upon payment in your BTC wallet for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(address));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(address));
 
 	}
 	SetupQRCode(qstrPrice);
 }
-void OfferAcceptDialogBTC::onEscrowCheckBoxChanged(bool toggled)
+void OfferAcceptDialogZEC::onEscrowCheckBoxChanged(bool toggled)
 {
 	setupEscrowCheckboxState();
 }
-void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
+void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 	if(reply->error() != QNetworkReply::NoError) {
 		ui->confirmButton->setText(m_buttonText);
 		ui->confirmButton->setEnabled(true);
@@ -252,7 +252,7 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 		
 		UniValue hexValue = find_value(dataObj, "hex");
 		if (hexValue.isStr())
-			this->rawBTCTx = QString::fromStdString(hexValue.get_str());
+			this->rawZECTx = QString::fromStdString(hexValue.get_str());
 
 		UniValue outputsValue = find_value(dataObj, "vout");
 		if (outputsValue.isArray())
@@ -277,7 +277,7 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 								ui->confirmButton->setText(m_buttonText);
 								ui->confirmButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected.").arg(ui->exttxidEdit->text().trimmed()),
+									tr("Transaction ID %1 was found in the ZCash blockchain! Full payment has been detected.").arg(ui->exttxidEdit->text().trimmed()),
 									QMessageBox::Ok, QMessageBox::Ok);
 								reply->deleteLater();
 								if(ui->checkBox->isChecked())
@@ -308,33 +308,38 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 	ui->confirmButton->setText(m_buttonText);
 	ui->confirmButton->setEnabled(true);
 	QMessageBox::warning(this, windowTitle(),
-		tr("Payment not found in the Bitcoin blockchain! Please try again later"),
+		tr("Payment not found in the ZCash blockchain! Please try again later"),
 			QMessageBox::Ok, QMessageBox::Ok);
 }
-void OfferAcceptDialogBTC::CheckPaymentInBTC()
+void OfferAcceptDialogZEC::CheckPaymentInZEC()
 {
 	m_buttonText = ui->confirmButton->text();
 	ui->confirmButton->setText(tr("Please Wait..."));
 	ui->confirmButton->setEnabled(false);
-	QNetworkAccessManager *nam = new QNetworkAccessManager(this);
+	/*QNetworkAccessManager *nam = new QNetworkAccessManager(this);
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
 	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + ui->exttxidEdit->text().trimmed());
 	QNetworkRequest request(url);
-	nam->get(request);
+	nam->get(request);*/
+    QMessageBox::critical(this, windowTitle(),
+        tr("Payments with ZCash are not supported yet. Please contact the Syscoin Development team for an update on when payments will go online."),
+            QMessageBox::Ok, QMessageBox::Ok);
+	ui->confirmButton->setText(m_buttonText);
+	ui->confirmButton->setEnabled(true);
 }
 // send offeraccept with offer guid/qty as params and then send offerpay with wtxid (first param of response) as param, using RPC commands.
-void OfferAcceptDialogBTC::tryAcceptOffer()
+void OfferAcceptDialogZEC::tryAcceptOffer()
 {
 	if (ui->exttxidEdit->text().trimmed().isEmpty()) {
         ui->exttxidEdit->setText("");
         QMessageBox::critical(this, windowTitle(),
-        tr("Please enter a valid Bitcoin Transaction ID into the input box and try again"),
+        tr("Please enter a valid ZCash Transaction ID into the input box and try again"),
             QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
-	CheckPaymentInBTC();
+	CheckPaymentInZEC();
 }
-void OfferAcceptDialogBTC::acceptOffer(){
+void OfferAcceptDialogZEC::acceptOffer(){
 		if(!walletModel) return;
 		WalletModel::UnlockContext ctx(walletModel->requestUnlock());
 		if(!ctx.isValid())
@@ -363,7 +368,7 @@ void OfferAcceptDialogBTC::acceptOffer(){
 		params.push_back(this->quantity.toStdString());
 		params.push_back(this->notes.toStdString());
 		params.push_back(ui->exttxidEdit->text().trimmed().toStdString());
-		params.push_back("BTC");
+		params.push_back("ZEC");
 
 
 	    try {
@@ -392,10 +397,10 @@ void OfferAcceptDialogBTC::acceptOffer(){
 				QString offerAcceptTXID = QString::fromStdString(strResult);
 				if(offerAcceptTXID != QString(""))
 				{
-					OfferPayDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "BTC", this);
+					OfferPayDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "ZEC", this);
 					dlg.exec();
 					this->offerPaid = true;
-					OfferAcceptDialogBTC::accept();
+					OfferAcceptDialogZEC::accept();
 					return;
 
 				}
@@ -417,7 +422,7 @@ void OfferAcceptDialogBTC::acceptOffer(){
 			return;
 		}
 }
-void OfferAcceptDialogBTC::acceptEscrow()
+void OfferAcceptDialogZEC::acceptEscrow()
 {
 		if(!walletModel) return;
 		WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -447,8 +452,8 @@ void OfferAcceptDialogBTC::acceptEscrow()
 		params.push_back(this->quantity.toStdString());
 		params.push_back(this->notes.toStdString());
 		params.push_back(ui->escrowEdit->text().toStdString());
-		params.push_back(this->rawBTCTx.trimmed().toStdString());
-		params.push_back("BTC");
+		params.push_back(this->rawZECTx.trimmed().toStdString());
+		params.push_back("ZEC");
 		params.push_back(m_redeemScript.toStdString());
 		params.push_back(QString::number(m_height).toStdString());
 
@@ -478,10 +483,10 @@ void OfferAcceptDialogBTC::acceptEscrow()
 				QString escrowTXID = QString::fromStdString(strResult);
 				if(escrowTXID != QString(""))
 				{
-					OfferEscrowDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "BTC", this);
+					OfferEscrowDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "ZEC", this);
 					dlg.exec();
 					this->offerPaid = true;
-					OfferAcceptDialogBTC::accept();
+					OfferAcceptDialogZEC::accept();
 					return;
 
 				}
@@ -506,7 +511,7 @@ void OfferAcceptDialogBTC::acceptEscrow()
 
 
 }
-void OfferAcceptDialogBTC::openBTCWallet()
+void OfferAcceptDialogZEC::openZECWallet()
 {
 	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
 	SendCoinsRecipient info;
@@ -514,10 +519,10 @@ void OfferAcceptDialogBTC::openBTCWallet()
 	info.label = this->sellerAlias;
 	info.message = message;
 	ParseMoney(this->qstrPrice.toStdString(), info.amount);
-	QString uri = GUIUtil::formatBitcoinURI(info);
+	QString uri = GUIUtil::formatZCashURI(info);
 	QDesktopServices::openUrl(QUrl(uri, QUrl::TolerantMode));
 }
-bool OfferAcceptDialogBTC::getPaymentStatus()
+bool OfferAcceptDialogZEC::getPaymentStatus()
 {
 	return this->offerPaid;
 }

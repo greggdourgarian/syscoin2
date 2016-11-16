@@ -215,6 +215,7 @@
     <file alias="about">res/images/shade/shade_about.png</file>
     <file alias="about_horizontal">res/images/shade/shade_logo_horizontal_big.png</file>
     <file alias="about_btc">res/images/shade/shade_aboutbtc.png</file>
+    <file alias="about_zec">res/images/shade/shade_aboutzec.png</file>
     <file alias="escrow">res/images/shade/shade_escrow.png</file>
     <file alias="overview">res/images/shade/shade_overview.png</file>
     <file alias="splash">res/images/shade/shade_splash.png</file>
@@ -233,6 +234,7 @@
     <file alias="about">res/images/solid/solid_about.png</file>
     <file alias="about_horizontal">res/images/solid/solid_logo_horizontal_big.png</file>
     <file alias="about_btc">res/images/solid/solid_aboutbtc.png</file>
+    <file alias="about_zec">res/images/solid/solid_aboutzec.png</file>
     <file alias="escrow">res/images/solid/solid_escrow.png</file>
     <file alias="overview">res/images/solid/solid_overview.png</file>
     <file alias="splash">res/images/solid/solid_splash.png</file>
@@ -251,6 +253,7 @@
     <file alias="about">res/images/white/white_about.png</file>
     <file alias="about_horizontal">res/images/white/white_logo_horizontal_big.png</file>
     <file alias="about_btc">res/images/white/white_aboutbtc.png</file>
+    <file alias="about_zec">res/images/white/white_aboutzec.png</file>
     <file alias="escrow">res/images/white/white_escrow.png</file>
     <file alias="overview">res/images/white/white_overview.png</file>
     <file alias="splash">res/images/white/white_splash.png</file>

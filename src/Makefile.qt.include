@@ -135,6 +135,7 @@ QT_FORMS_UI = \
   qt/forms/offerescrowdialog.ui \
   qt/forms/offeracceptdialog.ui \
   qt/forms/offeracceptdialogbtc.ui \
+  qt/forms/offeracceptdialogzec.ui \
   qt/forms/editcertdialog.ui \
   qt/forms/certlistpage.ui
   
@@ -223,6 +224,7 @@ QT_MOC_CPP = \
   qt/moc_offerescrowdialog.cpp \
   qt/moc_offeracceptdialog.cpp \
   qt/moc_offeracceptdialogbtc.cpp \
+  qt/moc_offeracceptdialogzec.cpp \
   qt/moc_acceptandpayofferlistpage.cpp \
   qt/moc_certtablemodel.cpp \
   qt/moc_editcertdialog.cpp \
@@ -345,6 +347,7 @@ SYSCOIN_QT_H = \
   qt/offerescrowdialog.h \
   qt/offeracceptdialog.h \
   qt/offeracceptdialogbtc.h \
+  qt/offeracceptdialogzec.h \
   qt/acceptandpayofferlistpage.h \
   qt/certtablemodel.h \
   qt/editcertdialog.h \
@@ -655,6 +658,7 @@ SYSCOIN_QT_CPP += \
   qt/offerescrowdialog.cpp \
   qt/offeracceptdialog.cpp \
   qt/offeracceptdialogbtc.cpp \
+  qt/offeracceptdialogzec.cpp \
   qt/acceptandpayofferlistpage.cpp \
   qt/certtablemodel.cpp \
   qt/editcertdialog.cpp \
@@ -669,6 +673,7 @@ endif
 RES_IMAGES = \
   qt/res/images/shade/shade_about.png \
   qt/res/images/shade/shade_aboutbtc.png \
+  qt/res/images/shade/shade_aboutzec.png \
   qt/res/images/shade/shade_escrow.png \
   qt/res/images/shade/shade_overview.png \
   qt/res/images/shade/shade_splash.png \
@@ -685,6 +690,7 @@ RES_IMAGES = \
   qt/res/images/shade/shade_imageplaceholder.png \
   qt/res/images/solid/solid_about.png \
   qt/res/images/solid/solid_aboutbtc.png \
+  qt/res/images/solid/solid_aboutzec.png \
   qt/res/images/solid/solid_escrow.png \
   qt/res/images/solid/solid_overview.png \
   qt/res/images/solid/solid_splash.png \
@@ -701,6 +707,7 @@ RES_IMAGES = \
   qt/res/images/solid/solid_imageplaceholder.png \
   qt/res/images/white/white_about.png \
   qt/res/images/white/white_aboutbtc.png \
+  qt/res/images/white/white_aboutzec.png \
   qt/res/images/white/white_escrow.png \
   qt/res/images/white/white_overview.png \
   qt/res/images/white/white_splash.png \

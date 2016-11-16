@@ -50,6 +50,7 @@ namespace GUIUtil
     QString formatSyscoinURI(const SendCoinsRecipient &info);
 	// SYSCOIN
 	QString formatBitcoinURI(const SendCoinsRecipient &info);
+	QString formatZCashURI(const SendCoinsRecipient &info);
     // Returns true if given address+amount meets "dust" definition
     bool isDust(const QString& address, const CAmount& amount);
 

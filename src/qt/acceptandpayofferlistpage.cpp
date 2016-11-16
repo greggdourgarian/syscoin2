@@ -4,6 +4,7 @@
 #include "util.h"
 #include "offeracceptdialog.h"
 #include "offeracceptdialogbtc.h"
+#include "offeracceptdialogzec.h"
 #include "offer.h"
 
 #include "syscoingui.h"
@@ -44,7 +45,6 @@ AcceptandPayOfferListPage::AcceptandPayOfferListPage(const PlatformStyle *platfo
 	{
 		ui->lookupButton->setIcon(QIcon());
 		ui->acceptButton->setIcon(QIcon());
-		ui->imageButton->setIcon(QIcon());
 	}
 	else
 	{
@@ -305,6 +305,17 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 	}
 	updateCaption();
 }
+void AcceptandPayOfferListPage::OpenZECPayDialog()
+{
+	if(!walletModel)
+		return;
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, this);
+	if(dlg.exec())
+	{
+		this->offerPaid = dlg.getPaymentStatus();
+	}
+	updateCaption();
+}
 // send offeraccept with offer guid/qty as params and then send offerpay with wtxid (first param of response) as param, using RPC commands.
 void AcceptandPayOfferListPage::acceptOffer()
 {
@@ -334,6 +345,8 @@ void AcceptandPayOfferListPage::acceptOffer()
 	ui->labelExplanation->setText(tr("Waiting for confirmation on the purchase of this offer"));
 	if(paymentOptions == PAYMENTOPTION_BTC)
 		OpenBTCPayDialog();
+	else if(paymentOptions == PAYMENTOPTION_ZEC)
+		OpenZECPayDialog();
 	else
 		OpenPayDialog();
 }

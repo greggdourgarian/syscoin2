@@ -5,6 +5,7 @@
 #include "offerpaydialog.h"
 #include "platformstyle.h"
 #include "offeracceptdialogbtc.h"
+#include "offeracceptdialogzec.h"
 #include "offerescrowdialog.h"
 #include "offer.h"
 #include "alias.h"
@@ -29,6 +30,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	{
 		ui->acceptButton->setIcon(QIcon());
 		ui->acceptBtcButton->setIcon(QIcon());
+		ui->acceptZecButton->setIcon(QIcon());
 		ui->cancelButton->setIcon(QIcon());
 
 	}
@@ -36,6 +38,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	{
 		ui->acceptButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"));
 		ui->acceptBtcButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"));
+		ui->acceptZecButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"));
 		ui->cancelButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/quit"));
 	}
 	ui->aboutShade->setPixmap(QPixmap(":/images/" + theme + "/about_horizontal"));
@@ -45,6 +48,8 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	string strAliasPeg = aliaspeg.toStdString();
 	ui->acceptBtcButton->setEnabled(false);
 	ui->acceptBtcButton->setVisible(false);
+	ui->acceptZecButton->setEnabled(false);
+	ui->acceptZecButton->setVisible(false);
 	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(strAliasPeg), vchFromString(strCurrencyCode), dblPrice, chainActive.Tip()->nHeight, sysprecision);
 	strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()*quantity.toUInt()));
 	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant.</font>"));
@@ -62,6 +67,20 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 		else
 			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS / %7 BTC)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice).arg(strBTCPrice));
 	}
+	else if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_ZEC))
+	{
+        int zecprecision;
+        CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), sysPrice, chainActive.Tip()->nHeight, btcprecision);
+		strZECPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
+		ui->acceptZecButton->setEnabled(true);
+		ui->acceptZecButton->setVisible(true);
+		if(paymentOptions == PAYMENTOPTION_ZEC)
+			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5</b>").arg(quantity).arg(title).arg(sellerAlias).arg(strBTCPrice).arg("ZEC"));
+		else if(strCurrencyCode == "ZEC")
+			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
+		else
+			ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS / %7 ZEC)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice).arg(strZECPrice));
+	}
 	else
 	{
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strSYSPrice));
@@ -71,6 +90,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	this->offerPaid = false;
 	connect(ui->acceptButton, SIGNAL(clicked()), this, SLOT(acceptPayment()));
 	connect(ui->acceptBtcButton, SIGNAL(clicked()), this, SLOT(acceptBTCPayment()));
+	connect(ui->acceptZecButton, SIGNAL(clicked()), this, SLOT(acceptZECPayment()));
 	setupEscrowCheckboxState();
 
 }
@@ -102,7 +122,20 @@ void OfferAcceptDialog::onEscrowCheckBoxChanged(bool toggled)
 	setupEscrowCheckboxState();
 	ui->cancelButton->setDefault(false);
 	ui->acceptButton->setDefault(true);
-	ui->acceptBtcButton->setDefault(true);
+}
+void OfferAcceptDialog::acceptZECPayment()
+{
+	if(!walletModel)
+		return;
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, this->alias, this->offer, this->quantity, this->notes, this->title, this->currency, this->strZECPrice, this->seller, this->address, this);
+	if(dlg.exec())
+	{
+		this->offerPaid = dlg.getPaymentStatus();
+		if(this->offerPaid)
+		{
+			OfferAcceptDialog::accept();
+		}
+	}
 }
 void OfferAcceptDialog::acceptBTCPayment()
 {

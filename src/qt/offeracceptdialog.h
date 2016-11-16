@@ -28,6 +28,7 @@ private:
 	QString qstrPrice;
 	QString strSYSPrice;
 	QString strBTCPrice;
+	QString strZECPrice;
 	QString title;
 	QString currency;
 	QString seller;
@@ -43,6 +44,7 @@ private Q_SLOTS:
     void acceptOffer();
 	void acceptEscrow();
 	void acceptBTCPayment();
+	void acceptZECPayment();
 };
 
 #endif // OFFERACCEPTDIALOG_H

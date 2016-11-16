@@ -30,6 +30,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="acceptZecButton">
+       <property name="text">
+        <string>Pay With ZEC</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="acceptBtcButton">
        <property name="toolTip">
         <string>Pay with Bitcoin</string>
