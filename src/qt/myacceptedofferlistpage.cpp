@@ -117,7 +117,7 @@ void MyAcceptedOfferListPage::loadAliasList()
 void MyAcceptedOfferListPage::displayListChanged(const QString& alias)
 {
 	QSettings settings;
-	settings.setValue("defaultListAlias", ui->displayListAlias->currentText());
+	settings.setValue("defaultListAlias", alias);
 }
 bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId, QString& paymentOption)
 {

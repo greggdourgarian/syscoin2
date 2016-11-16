@@ -265,8 +265,6 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("defaultAlias");   
         case DefaultPegAlias:
             return settings.value("defaultPegAlias");
-        case DefaultListAlias:
-            return settings.value("defaultListAlias");
        case SafeSearch:
             return settings.value("safesearch");
         default:
@@ -405,7 +403,6 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             if (settings.value("defaultAlias") != value) {
                 settings.setValue("defaultAlias", value);
             }
-            break; 
             break;
         case DefaultPegAlias:
             if (settings.value("defaultPegAlias") != value) {
@@ -413,11 +410,6 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 					settings.setValue("defaultPegAlias", "sysrates.peg");
 				else
 					settings.setValue("defaultPegAlias", value);
-            }
-            break;
-        case DefaultListAlias:
-            if (settings.value("defaultListAlias") != value) {
-				settings.setValue("defaultListAlias", value);
             }
             break;
         case SafeSearch:
