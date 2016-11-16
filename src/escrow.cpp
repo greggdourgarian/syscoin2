@@ -3467,9 +3467,9 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 	if (params.size() >= 2)
 		vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
-	for(int i =0;i<aliases.size();i++)
+	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 	{
-		string name = aliases[i].get_str();
+		string name = aliases[aliasIndex].get_str();
 		vector<unsigned char> vchAlias = vchFromString(name);
 		vector<CAliasIndex> vtxPos;
 		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())

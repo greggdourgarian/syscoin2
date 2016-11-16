@@ -1210,9 +1210,9 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, int > vNamesA;
-	for(int i =0;i<aliases.size();i++)
+	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 	{
-		string name = aliases[i].get_str();
+		string name = aliases[aliasIndex].get_str();
 		vector<unsigned char> vchAlias = vchFromString(name);
 
 		vector<CAliasIndex> vtxPos;
