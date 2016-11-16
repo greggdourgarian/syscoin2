@@ -1194,7 +1194,7 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 UniValue certlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size() || params.size() < 1)
         throw runtime_error("certlist [\"alias\",...] [<cert>]\n"
-                "list certificates that an array of aliases own";
+                "list certificates that an array of aliases own");
 	vector<unsigned char> vchCert;
 	UniValue aliases(UniValue::VARR);
 	if(params[0].isArray())
