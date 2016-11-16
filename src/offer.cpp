@@ -3180,7 +3180,10 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	int precision = 2;
 	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(alias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), nHeight, precision);
 	oOffer.push_back(Pair("sysprice", theOffer.GetPrice()));
-	oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
+	if(nPricePerUnit == 0)
+		oOffer.push_back(Pair("price", "0"));
+	else
+		oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
 
 	oOffer.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")  ? "true" : "false"));
 	if(!theOffer.vchLinkOffer.empty()) {
@@ -3403,8 +3406,16 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
 				oOfferAccept.push_back(Pair("systotal", sysTotal));
 				oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));
-				oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
-				oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
+				if(nPricePerUnit == 0)
+				{
+					oOfferAccept.push_back(Pair("price", "0"));
+					oOfferAccept.push_back(Pair("total", "0"));
+				}
+				else
+				{
+					oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
+					oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
+				}
 				oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 				oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
 				oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
@@ -3566,7 +3577,10 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				oName.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 				int precision = 2;
 				CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, theOffer.GetPrice(), theOffer.nHeight, precision);
-				oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+				if(nPricePerUnit == 0)
+					oName.push_back(Pair("price", "0"));
+				else
+					oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 
 				oName.push_back(Pair("currency", stringFromVch(theOffer.sCurrencyCode) ) );
 				oName.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
@@ -3699,7 +3713,10 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
             oOffer.push_back(Pair("description", stringFromVch(theOfferA.sDescription)));
 			int precision = 2;
 			CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOfferA.sCurrencyCode, theOfferA.GetPrice(), theOfferA.nHeight, precision);
-			oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+			if(nPricePerUnit == 0)
+				oOffer.push_back(Pair("price", "0"));
+			else
+				oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 
 			oOffer.push_back(Pair("currency", stringFromVch(theOfferA.sCurrencyCode) ) );
 			oOffer.push_back(Pair("commission", strprintf("%d", theOfferA.nCommission)));
@@ -3803,7 +3820,10 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
         oOffer.push_back(Pair("category", stringFromVch(txOffer.sCategory)));
 		int precision = 2;
 		CAmount nPricePerUnit = convertSyscoinToCurrencyCode(vtxAliasPos.back().vchAliasPeg, txOffer.sCurrencyCode, txOffer.GetPrice(), nHeight, precision);
-		oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+		if(nPricePerUnit == 0)
+			oOffer.push_back(Pair("price", "0"));
+		else
+			oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 		oOffer.push_back(Pair("currency", stringFromVch(txOffer.sCurrencyCode)));
 		oOffer.push_back(Pair("commission", strprintf("%d", txOffer.nCommission)));
 		int nQty = txOffer.nQty;

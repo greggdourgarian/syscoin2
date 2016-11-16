@@ -3309,7 +3309,10 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
 	oEscrow.push_back(Pair("systotal", (offer.GetPrice() * ca.nQty)));
-	oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+	if(nPricePerUnit == 0)
+		oEscrow.push_back(Pair("price", "0"));
+	else
+		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
 
 	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* ca.nQty)).get_real() )));
@@ -3579,7 +3582,10 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		
 			oName.push_back(Pair("sysfee", nEscrowFee));
 			oName.push_back(Pair("systotal", (offer.GetPrice() * escrow.nQty)));
-			oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+			if(nPricePerUnit == 0)
+				oName.push_back(Pair("price", "0"));
+			else
+				oName.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 			oName.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
 			oName.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* escrow.nQty)).get_real() )));
 			oName.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
@@ -3798,7 +3804,10 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 		
 			oEscrow.push_back(Pair("sysfee", nEscrowFee));
 			oEscrow.push_back(Pair("systotal", (offer.GetPrice() * txPos2.nQty)));
-			oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+			if(nPricePerUnit == 0)
+				oEscrow.push_back(Pair("price", "0"));
+			else
+				oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 			oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
 			oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* txPos2.nQty)).get_real() )));
 			oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
@@ -3983,7 +3992,10 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 	
 		oEscrow.push_back(Pair("sysfee", nEscrowFee));
 		oEscrow.push_back(Pair("systotal", (offer.GetPrice() * txEscrow.nQty)));
-		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+		if(nPricePerUnit == 0)
+			oEscrow.push_back(Pair("price", "0"));
+		else
+			oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
 		oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
 		oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* txEscrow.nQty)).get_real() )));
 		oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
