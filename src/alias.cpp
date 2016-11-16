@@ -243,7 +243,7 @@ void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut
 CAmount convertCurrencyCodeToSyscoin(const vector<unsigned char> &vchAliasPeg, const vector<unsigned char> &vchCurrencyCode, const double &nPrice, const unsigned int &nHeight, int &precision)
 {
 	CAmount sysPrice = 0;
-	double nRate;
+	double nRate = 1;
 	float fEscrowFee = 0.005;
 	int nFeePerByte;
 	vector<string> rateList;
@@ -317,7 +317,7 @@ int getFeePerByte(const std::vector<unsigned char> &vchAliasPeg, const std::vect
 CAmount convertSyscoinToCurrencyCode(const vector<unsigned char> &vchAliasPeg, const vector<unsigned char> &vchCurrencyCode, const CAmount &nPrice, const unsigned int &nHeight, int &precision)
 {
 	CAmount currencyPrice = 0;
-	double nRate;
+	double nRate = 1;
 	int nFeePerByte;
 	float fEscrowFee = 0.005;
 	vector<string> rateList;
