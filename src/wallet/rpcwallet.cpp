@@ -210,7 +210,7 @@ UniValue getzaddress(const UniValue& params, bool fHelp)
             "\"zaddress\"    (string) The new zcash address\n"
             "\nExamples:\n"
             + HelpExampleCli("getzaddress", "\"myalias\"")
-            + HelpExampleRpc("getzaddress", "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ\")
+            + HelpExampleRpc("getzaddress", "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ\"")
         );
 
     string strAddress = params[0].get_str();
