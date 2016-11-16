@@ -170,6 +170,14 @@ bool CBase58Data::SetString(const char* psz, unsigned int nVersionBytes)
 {
     std::vector<unsigned char> vchTemp;
     bool rc58 = DecodeBase58Check(psz, vchTemp);
+	// SYSCOIN
+	std::vector<unsigned char> vchVersionTemp;
+	vchVersionTemp.assign(vchTemp.begin(), vchTemp.begin() + 2);
+	if(vchVersionTemp == Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS_ZEC) ||
+		vchVersionTemp == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS_ZEC))
+		nVersionBytes = 2;
+	
+
     if ((!rc58) || (vchTemp.size() < nVersionBytes)) {
         vchData.clear();
         vchVersion.clear();
