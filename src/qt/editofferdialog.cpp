@@ -47,7 +47,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 	ui->privateEdit->addItem(tr("Yes"));
 	ui->currencyEdit->addItem(QString("USD"));
 
-	ui->geolocationDisclaimer->setText(tr("<font color='blue'>If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information.</font>)"));
+	ui->geolocationDisclaimer->setText(tr("<font color='blue'>If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information.</font>"));
 	ui->currencyDisclaimer->setText(tr("<font color='blue'>You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected.</font>"));
 	ui->paymentOptionsDisclaimer->setText(tr("<font color='blue'>Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: <b>SYS+BTC+ZEC</b>. For SYS and ZEC: <b>SYS+ZEC</b>. Please note that in order spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.</font>"));
 	cert = strCert;
