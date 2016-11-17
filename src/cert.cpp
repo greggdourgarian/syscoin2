@@ -1281,7 +1281,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 				}
 				if(!cert.vchData.empty() && strDecrypted == "")
 				{
-					if(DecryptMessage(theAlias.vchPubKey, cert.vchData, strDecrypted))
+					if(DecryptMessage(alias.vchPubKey, cert.vchData, strDecrypted))
 						strData = strDecrypted;		
 				}
 			}
