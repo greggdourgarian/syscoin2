@@ -2807,7 +2807,6 @@ extern UniValue messagenew(const UniValue& params, bool fHelp);
 extern UniValue messageinfo(const UniValue& params, bool fHelp);
 extern UniValue messagereceivelist(const UniValue& params, bool fHelp);
 extern UniValue messagesentlist(const UniValue& params, bool fHelp);
-extern UniValue messagehistory(const UniValue& params, bool fHelp);
 static const CRPCCommand commands[] =
 { //  category              name                        actor (function)           okSafeMode
     //  --------------------- ------------------------    -----------------------    ----------
@@ -2921,7 +2920,6 @@ static const CRPCCommand commands[] =
 	{ "wallet", "messagereceivelist",              &messagereceivelist,          false },
 	{ "wallet", "messagesentlist",              &messagesentlist,          false },
 	{ "wallet", "messageinfo",              &messageinfo,          false },
-	{ "wallet", "messagehistory",     &messagehistory, false },
 };
 
 void RegisterWalletRPCCommands(CRPCTable &t)

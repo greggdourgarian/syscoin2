@@ -121,7 +121,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 				if(keyWordArray.size() > 0)
 				{
 					string toAliasLower = stringFromVch(txPos.vchAliasTo);
-					if (std::find(keyWordArray.begin(), keyWordArray.end(), toAliasLower)) != keyWordArray.end())
+					if (std::find(keyWordArray.begin(), keyWordArray.end(), toAliasLower) != keyWordArray.end())
 					{
 						pcursor->Next();
 						continue;
@@ -804,86 +804,6 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	}
     return oRes;
 }
-UniValue messagehistory(const UniValue& params, bool fHelp) {
-    if (fHelp || 1 != params.size())
-        throw runtime_error("messagehistory <message>\n"
-                "List all stored values of a message.\n");
-
-    UniValue oRes(UniValue::VARR);
-    vector<unsigned char> vchMessage = vchFromValue(params[0]);
-    string message = stringFromVch(vchMessage);
-
-    {
-        vector<CMessage> vtxPos;
-        if (!pmessagedb->ReadMessage(vchMessage, vtxPos) || vtxPos.empty())
-            throw runtime_error("failed to read from message DB");
-
-        CMessage txPos2;
-        uint256 txHash;
-        uint256 blockHash;
-        BOOST_FOREACH(txPos2, vtxPos) {
-            txHash = txPos2.txHash;
-			CTransaction tx;
-			if (!GetSyscoinTransaction(txPos2.nHeight, txHash, tx, Params().GetConsensus())) {
-				error("could not read txpos");
-				continue;
-			}
-            // decode txn, skip non-alias txns
-            vector<vector<unsigned char> > vvch;
-            int op, nOut;
-            if (!DecodeMessageTx(tx, op, nOut, vvch) 
-            	|| !IsMessageOp(op) )
-                continue;
-            UniValue oMessage(UniValue::VOBJ);
-            vector<unsigned char> vchValue;
-            uint64_t nHeight;
-            nHeight = txPos2.nHeight;
-            oMessage.push_back(Pair("GUID", message));
-			string opName = messageFromOp(op);
-			oMessage.push_back(Pair("messagetype", opName));
-			string sTime;
-			CBlockIndex *pindex = chainActive[nHeight];
-			if (pindex) {
-				sTime = strprintf("%llu", pindex->nTime);
-			}
-			oMessage.push_back(Pair("time", sTime));
-
-			CAliasIndex aliasFrom, aliasTo;
-			CTransaction aliastx;
-			bool isExpired = false;
-			vector<CAliasIndex> aliasVtxPos;
-			if(GetTxAndVtxOfAlias(txPos2.vchAliasFrom, aliasFrom, aliastx, aliasVtxPos, isExpired, true))
-			{
-				aliasFrom.nHeight = txPos2.nHeight;
-				aliasFrom.GetAliasFromList(aliasVtxPos);
-			}
-			aliasVtxPos.clear();
-			if(GetTxAndVtxOfAlias(txPos2.vchAliasTo, aliasTo, aliastx, aliasVtxPos, isExpired, true))
-			{
-				aliasTo.nHeight = txPos2.nHeight;
-				aliasTo.GetAliasFromList(aliasVtxPos);
-			}
-			oMessage.push_back(Pair("from", stringFromVch(txPos2.vchAliasFrom)));
-			oMessage.push_back(Pair("to", stringFromVch(txPos2.vchAliasTo)));
-
-
-			oMessage.push_back(Pair("subject", stringFromVch(txPos2.vchSubject)));
-			string strDecrypted = "";
-			string strData = _("Encrypted for recipient of message");
-			if(DecryptMessage(aliasTo.vchPubKey, txPos2.vchMessageTo, strDecrypted))
-				strData = strDecrypted;
-			else if(DecryptMessage(aliasFrom.vchPubKey, txPos2.vchMessageFrom, strDecrypted))
-				strData = strDecrypted;
-
-			oMessage.push_back(Pair("message", strData));
-            oRes.push_back(oMessage);
-		}
-	}
-    return oRes;
-}
-
-
-
 
 void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry)
 {
