@@ -50,7 +50,7 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	{
         QMessageBox::critical(this, windowTitle(),
             tr("Could not find BTC currency in the rates peg for this offer")
-                QMessageBox::Ok, QMessageBox::Ok);
+                ,QMessageBox::Ok, QMessageBox::Ok);
 		reject();
 		return;
 	}

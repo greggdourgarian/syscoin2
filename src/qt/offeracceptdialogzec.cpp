@@ -50,7 +50,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	{
         QMessageBox::critical(this, windowTitle(),
             tr("Could not find ZEC currency in the rates peg for this offer")
-                QMessageBox::Ok, QMessageBox::Ok);
+                ,QMessageBox::Ok, QMessageBox::Ok);
 		reject();
 		return;
 	}

@@ -55,7 +55,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	{
         QMessageBox::critical(this, windowTitle(),
 			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(QString::fromStdString(strCurrencyCode))
-                QMessageBox::Ok, QMessageBox::Ok);
+                ,QMessageBox::Ok, QMessageBox::Ok);
 		reject();
 		return;
 	}
