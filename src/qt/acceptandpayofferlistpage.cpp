@@ -297,7 +297,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 {
 	if(!walletModel)
 		return;
-	int sysprecision = 8;
+	int sysprecision = 0;
 	double dblPrice = ui->infoPrice->text().toDouble();
 	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(ui->infoCurrency->text().toStdString()), dblPrice, chainActive.Tip()->nHeight, sysprecision);
 	if(sysPrice == 0)
@@ -307,7 +307,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
                 ,QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	
-	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
+	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
 	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, this);
 	if(dlg.exec())
 	{
@@ -320,7 +320,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 	if(!walletModel)
 		return;
 
-	int sysprecision = 8;
+	int sysprecision = 0;
 	double dblPrice = ui->infoPrice->text().toDouble();
 	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(ui->infoCurrency->text().toStdString()), dblPrice, chainActive.Tip()->nHeight, sysprecision);
 	if(sysPrice == 0)
@@ -330,7 +330,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
                 ,QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	
-	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
+	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
 	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, this);
 	
 	if(dlg.exec())

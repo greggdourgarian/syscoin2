@@ -42,7 +42,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 		ui->cancelButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/quit"));
 	}
 	ui->aboutShade->setPixmap(QPixmap(":/images/" + theme + "/about_horizontal"));
-	int sysprecision = 8;
+	int sysprecision = 0;
 	double dblPrice = qstrPrice.toDouble();
 	string strCurrencyCode = currencyCode.toStdString();
 	string strAliasPeg = aliaspeg.toStdString();
@@ -59,7 +59,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 		reject();
 		return;
 	}
-	strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
+	strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
 	QString strTotalSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()*quantity.toUInt()));
 	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant.</font>"));
 	ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strTotalSYSPrice));
