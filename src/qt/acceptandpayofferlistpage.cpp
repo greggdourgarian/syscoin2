@@ -1,6 +1,7 @@
 #include "acceptandpayofferlistpage.h"
 #include "ui_acceptandpayofferlistpage.h"
 #include "init.h"
+#include "main.h"
 #include "util.h"
 #include "offeracceptdialog.h"
 #include "offeracceptdialogbtc.h"
@@ -303,7 +304,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 	{
         QMessageBox::critical(this, windowTitle(),
 			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(ui->infoCurrency->text())
-                QMessageBox::Ok, QMessageBox::Ok);
+                ,QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
@@ -326,7 +327,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 	{
         QMessageBox::critical(this, windowTitle(),
 			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(ui->infoCurrency->text())
-                QMessageBox::Ok, QMessageBox::Ok);
+                ,QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
