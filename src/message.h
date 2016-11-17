@@ -120,5 +120,5 @@ public:
 };
 
 bool GetTxOfMessage(const std::vector<unsigned char> &vchMessage, CTransaction& tx);
-
+void BuildMessageJson(const CMessage& message, UniValue& oName);
 #endif // MESSAGE_H

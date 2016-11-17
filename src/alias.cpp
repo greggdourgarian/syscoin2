@@ -3073,3 +3073,7 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 
 	return oRes;
 }
+bool isNameOfObj(const std::string& s, const UniValue& obj)
+{ 
+	return boost::iequals(obj.get_str(), s);
+}

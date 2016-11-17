@@ -95,8 +95,6 @@ const vector<unsigned char> CMessage::Serialize() {
 }
 bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<UniValue>& keyWordArray,unsigned int nMax,
         std::vector<CMessage> & messageScan) {
-	string strSearchLower = strRegexp;
-	boost::algorithm::to_lower(strSearchLower);
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("messagei"), vchMessage));
@@ -633,9 +631,6 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
         vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
 
-	vector<unsigned char> vchNameUniq;
-	if (params.size() == 2)
-		vchNameUniq = vchFromValue(params[1]);
 
 	vector<CMessage > messageScan;
 	if(aliases.size() > 0)
@@ -647,8 +642,6 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	{
 		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
 		{
-			// get txn hash, read txn index
-			hash = item.second.GetHash();
 			const CWalletTx &wtx = item.second;        // skip non-syscoin txns
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
@@ -671,7 +664,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 }
 void BuildMessageJson(const CMessage& message, UniValue& oName)
 {
-	oName.push_back(Pair("GUID", messageStr));
+	oName.push_back(Pair("GUID", stringFromVch(message.vchMessage)));
 	string sTime;
 	CBlockIndex *pindex = chainActive[message.nHeight];
 	if (pindex) {
@@ -758,11 +751,10 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 				int op, nOut;
 				if (!DecodeMessageTx(tx, op, nOut, vvch) || !IsMessageOp(op))
 					continue;
-				vchMessage = vvch[0];
-				if (vchNameUniq.size() > 0 && vchNameUniq != vchMessage)
+				if (vchNameUniq.size() > 0 && vchNameUniq != vvch[0])
 					continue;
 				vector<CMessage> vtxMessagePos;
-				if (!pmessagedb->ReadMessage(vchMessage, vtxMessagePos) || vtxMessagePos.empty())
+				if (!pmessagedb->ReadMessage(vvch[0], vtxMessagePos) || vtxMessagePos.empty())
 					continue;
 				const CMessage& message = vtxMessagePos.back();
 				if(message.vchAliasFrom != vchAlias)
@@ -776,8 +768,6 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	{
 		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
 		{
-			// get txn hash, read txn index
-			hash = item.second.GetHash();
 			const CWalletTx &wtx = item.second;        // skip non-syscoin txns
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;

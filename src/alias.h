@@ -27,8 +27,6 @@ static const unsigned int SAFETY_LEVEL1 = 1;
 static const unsigned int SAFETY_LEVEL2 = 2;
 static const unsigned int SYSCOIN_FORK1 = 50000;
 
-bool isNameOfObj(const std::string& s, const UniValue& obj)
-{ return obj.get_str() == s; }
 bool IsSys21Fork(const uint64_t& nHeight);
 class CAliasPayment {
 public:
@@ -345,4 +343,5 @@ bool GetPreviousInput(const COutPoint * outpoint, int &op, std::vector<std::vect
 void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index);
 void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
+bool isNameOfObj(const std::string& s, const UniValue& obj);
 #endif // ALIAS_H
