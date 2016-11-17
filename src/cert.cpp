@@ -1125,69 +1125,23 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 
 	if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
 		throw runtime_error("failed to read from cert DB");
-	CCert ca = vtxPos.back();
-	if(ca.safetyLevel >= SAFETY_LEVEL2)
+	CCert cert = vtxPos.back();
+	if(cert.safetyLevel >= SAFETY_LEVEL2)
 		throw runtime_error("cert has been banned");
-	if (!GetSyscoinTransaction(ca.nHeight, ca.txHash, tx, Params().GetConsensus()))
+	if (!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
 		throw runtime_error("failed to read transaction from disk");   
 
 
 	// check that the seller isn't banned level 2
 	CAliasIndex alias;
 	CTransaction aliastx;
-	if (!GetTxOfAlias(ca.vchAlias, alias, aliastx, true))
+	if (!GetTxOfAlias(cert.vchAlias, alias, aliastx, true))
 		throw runtime_error("failed to read xfer alias from alias DB");
 	
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
 		throw runtime_error("cert owner has been banned");
 
-    string sHeight = strprintf("%llu", ca.nHeight);
-    oCert.push_back(Pair("cert", stringFromVch(vchCert)));
-    oCert.push_back(Pair("txid", ca.txHash.GetHex()));
-    oCert.push_back(Pair("height", sHeight));
-    oCert.push_back(Pair("title", stringFromVch(ca.vchTitle)));
-	string strData = stringFromVch(ca.vchData);
-	string strDecrypted = "";
-	if(ca.bPrivate)
-	{
-		strData = _("Encrypted for owner of certificate private data");
-		if(!ca.vchViewData.empty() && !ca.vchViewAlias.empty())	
-		{
-			CAliasIndex aliasView;
-			CTransaction aliasviewtx;
-			if (!GetTxOfAlias(ca.vchViewAlias, aliasView, aliasviewtx, true))
-				throw runtime_error("failed to read view alias from alias DB");
-			if(DecryptMessage(aliasView.vchPubKey, ca.vchViewData, strDecrypted))
-				strData = strDecrypted;	
-		}
-		if(!ca.vchData.empty() && strDecrypted == "")
-		{
-			if(DecryptMessage(alias.vchPubKey, ca.vchData, strDecrypted))
-				strData = strDecrypted;		
-		}
-	}
-    oCert.push_back(Pair("data", strData));
-	oCert.push_back(Pair("category", stringFromVch(ca.sCategory)));
-	oCert.push_back(Pair("private", ca.bPrivate? "Yes": "No"));
-	oCert.push_back(Pair("safesearch", ca.safeSearch? "Yes" : "No"));
-	unsigned char safetyLevel = max(ca.safetyLevel, alias.safetyLevel );
-	oCert.push_back(Pair("safetylevel", safetyLevel));
-
-    oCert.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-
-    uint64_t nHeight;
-	nHeight = ca.nHeight;
-	oCert.push_back(Pair("alias", stringFromVch(ca.vchAlias)));
-	oCert.push_back(Pair("viewalias", stringFromVch(ca.vchViewAlias)));
-	expired_block = nHeight + GetCertExpirationDepth();
-    if(expired_block < chainActive.Tip()->nHeight)
-	{
-		expired = 1;
-	}  
-	expires_in = expired_block - chainActive.Tip()->nHeight;
-	oCert.push_back(Pair("expires_in", expires_in));
-	oCert.push_back(Pair("expires_on", expired_block));
-	oCert.push_back(Pair("expired", expired));
+	BuildCertJson(cert, alias, aliastx, oCert);
     return oCert;
 }
 
@@ -1262,50 +1216,12 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			
 			// build the output object
 			UniValue oName(UniValue::VOBJ);
-			oName.push_back(Pair("cert", stringFromVch(vchCert)));
-			oName.push_back(Pair("title", stringFromVch(cert.vchTitle)));
-			
-			string strData = stringFromVch(cert.vchData);
-			string strDecrypted = "";
-			if(cert.bPrivate)
+
+			if(BuildCertJson(cert, alias, aliastx, oName))
 			{
-				strData = _("Encrypted for owner of certificate private data");
-				if(!cert.vchViewData.empty() && !cert.vchViewAlias.empty())	
-				{
-					CAliasIndex aliasView;
-					CTransaction aliasviewtx;
-					if (!GetTxOfAlias(cert.vchViewAlias, aliasView, aliasviewtx, true))
-						throw runtime_error("failed to read xfer alias from alias DB");
-					if(DecryptMessage(aliasView.vchPubKey, cert.vchViewData, strDecrypted))
-						strData = strDecrypted;	
-				}
-				if(!cert.vchData.empty() && strDecrypted == "")
-				{
-					if(DecryptMessage(alias.vchPubKey, cert.vchData, strDecrypted))
-						strData = strDecrypted;		
-				}
+				vNamesI[vchCert] = nHeight;
+				vNamesO[vchCert] = oName;
 			}
-			oName.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
-			oName.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
-			unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
-			oName.push_back(Pair("safetylevel", safetyLevel));
-			oName.push_back(Pair("data", strData));
-			oName.push_back(Pair("category", stringFromVch(cert.sCategory)));
-			oName.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
-			oName.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
-			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-			expired_block = nHeight + GetCertExpirationDepth();
-			if(expired_block < chainActive.Tip()->nHeight)
-			{
-				expired = 1;
-			}  
-			expires_in = expired_block - chainActive.Tip()->nHeight;
-			oName.push_back(Pair("expires_in", expires_in));
-			oName.push_back(Pair("expires_on", expired_block));
-			oName.push_back(Pair("expired", expired));
-	 
-			vNamesI[vchCert] = nHeight;
-			vNamesO[vchCert] = oName;	
 	    
 		}
 	}
@@ -1313,7 +1229,57 @@ UniValue certlist(const UniValue& params, bool fHelp) {
         oRes.push_back(item.second);
     return oRes;
 }
+bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName)
+{
+	string sHeight = strprintf("%llu", cert.nHeight);
+    oCert.push_back(Pair("cert", stringFromVch(vchCert)));
+    oCert.push_back(Pair("txid", cert.txHash.GetHex()));
+    oCert.push_back(Pair("height", sHeight));
+    oCert.push_back(Pair("title", stringFromVch(cert.vchTitle)));
+	string strData = stringFromVch(cert.vchData);
+	string strDecrypted = "";
+	if(cert.bPrivate)
+	{
+		strData = _("Encrypted for owner of certificate private data");
+		if(!cert.vchViewData.empty() && !cert.vchViewAlias.empty())	
+		{
+			CAliasIndex aliasView;
+			CTransaction aliasviewtx;
+			if (!GetTxOfAlias(cert.vchViewAlias, aliasView, aliasviewtx, true))
+				return false;
+			if(DecryptMessage(aliasView.vchPubKey, cert.vchViewData, strDecrypted))
+				strData = strDecrypted;	
+		}
+		if(!cert.vchData.empty() && strDecrypted == "")
+		{
+			if(DecryptMessage(alias.vchPubKey, cert.vchData, strDecrypted))
+				strData = strDecrypted;		
+		}
+	}
+    oCert.push_back(Pair("data", strData));
+	oCert.push_back(Pair("category", stringFromVch(cert.sCategory)));
+	oCert.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
+	oCert.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
+	unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
+	oCert.push_back(Pair("safetylevel", safetyLevel));
 
+    oCert.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
+
+    uint64_t nHeight;
+	nHeight = cert.nHeight;
+	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
+	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
+	expired_block = nHeight + GetCertExpirationDepth();
+    if(expired_block < chainActive.Tip()->nHeight)
+	{
+		expired = 1;
+	}  
+	expires_in = expired_block - chainActive.Tip()->nHeight;
+	oCert.push_back(Pair("expires_in", expires_in));
+	oCert.push_back(Pair("expires_on", expired_block));
+	oCert.push_back(Pair("expired", expired));
+	return true;
+}
 
 UniValue certhistory(const UniValue& params, bool fHelp) {
     if (fHelp || 1 != params.size())
@@ -1322,86 +1288,49 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
 
     UniValue oRes(UniValue::VARR);
     vector<unsigned char> vchCert = vchFromValue(params[0]);
+ 
+    vector<CCert> vtxPos;
+    if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
+        throw runtime_error("failed to read from cert DB");
+
+	vector<CAliasIndex> vtxAliasPos;
+	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxPos) || vtxAliasPos.empty())
+		throw runtime_error("failed to read from alias DB");
 	
-    string cert = stringFromVch(vchCert);
+	const CAliasIndex &alias = vtxAliasPos.back();
+	CTransaction aliastx;
+	uint256 txHash;
+	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+	{
+		throw runtime_error("failed to read alias transaction");
+	}
 
-    {
-        vector<CCert> vtxPos;
-        if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
-            throw runtime_error("failed to read from cert DB");
+    CCert txPos2;
+	CTransaction aliastx;
+	uint256 txHash;
+	CTransaction tx;
+	vector<vector<unsigned char> > vvch;
+	int op, nOut;
+    BOOST_FOREACH(txPos2, vtxPos) {
+		vector<CAliasIndex> vtxAliasPos;
+		if(!paliasdb->ReadAlias(txPos2.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
+			continue;
+		if (!GetSyscoinTransaction(txPos2.nHeight, txPos2.txHash, tx, Params().GetConsensus())) {
+			continue;
+		}
+		if (!DecodeCertTx(tx, op, nOut, vvch) )
+			continue;
 
-        CCert txPos2;
-        uint256 txHash;
-        BOOST_FOREACH(txPos2, vtxPos) {
-			CTransaction tx;
-            txHash = txPos2.txHash;
-			if (!GetSyscoinTransaction(txPos2.nHeight, txHash, tx, Params().GetConsensus())) {
-				error("could not read txpos");
-				continue;
-			}
-            // decode txn, skip non-alias txns
-            vector<vector<unsigned char> > vvch;
-            int op, nOut;
-            if (!DecodeCertTx(tx, op, nOut, vvch) 
-            	|| !IsCertOp(op) )
-                continue;
-			int expired = 0;
-			int expires_in = 0;
-			int expired_block = 0;
-            UniValue oCert(UniValue::VOBJ);
-            vector<unsigned char> vchValue;
-            uint64_t nHeight;
-			nHeight = txPos2.nHeight;
-            oCert.push_back(Pair("cert", cert));
-			string opName = certFromOp(op);
-			oCert.push_back(Pair("certtype", opName));
-			string strDecrypted = "";
-			string strData = "";
-			CTransaction aliastx;
-			CAliasIndex theAlias;
-			bool isExpired = false;
-			vector<CAliasIndex> aliasVtxPos;
-			if(GetTxAndVtxOfAlias(txPos2.vchAlias, theAlias, aliastx, aliasVtxPos, isExpired, true))
-			{
-				theAlias.nHeight = txPos2.nHeight;
-				theAlias.GetAliasFromList(aliasVtxPos);
-			}
-			if(txPos2.bPrivate)
-			{
-				strData = _("Encrypted for owner of certificate private data");
-				if(!txPos2.vchViewData.empty() && !txPos2.vchViewAlias.empty())	
-				{
-					CAliasIndex aliasView;
-					CTransaction aliasviewtx;
-					if (!GetTxOfAlias(txPos2.vchViewAlias, aliasView, aliasviewtx, true))
-						throw runtime_error("failed to read xfer alias from alias DB");
-					if(DecryptMessage(aliasView.vchPubKey, txPos2.vchViewData, strDecrypted))
-						strData = strDecrypted;	
-				}
-				if(!txPos2.vchData.empty() && strDecrypted == "")
-				{
-					if(DecryptMessage(theAlias.vchPubKey, txPos2.vchData, strDecrypted))
-						strData = strDecrypted;		
-				}
-			}
-			oCert.push_back(Pair("private", txPos2.bPrivate? "Yes": "No"));
-			oCert.push_back(Pair("data", strData));
-			oCert.push_back(Pair("category", stringFromVch(txPos2.sCategory)));
-            oCert.push_back(Pair("txid", tx.GetHash().GetHex()));
-			oCert.push_back(Pair("alias", stringFromVch(txPos2.vchAlias)));
-			oCert.push_back(Pair("viewalias", stringFromVch(txPos2.vchViewAlias)));
-			expired_block = nHeight + GetCertExpirationDepth();
-            if(expired_block < chainActive.Tip()->nHeight)
-			{
-				expired = 1;
-			}  
-			expires_in = expired_block - chainActive.Tip()->nHeight;
-			oCert.push_back(Pair("expires_in", expires_in));
-			oCert.push_back(Pair("expires_on", expired_block));
-			oCert.push_back(Pair("expired", expired));
-            oRes.push_back(oCert);
-        }
+		alias.nHeight = txPos2.nHeight;
+		alias.GetAliasFromList(vtxAliasPos);
+
+		UniValue oOffer(UniValue::VOBJ);
+		string opName = certFromOp(op);
+		oCert.push_back(Pair("certtype", opName));
+		if(BuildCertJson(txPos2, alias, aliastx, oCert))
+			oRes.push_back(oCert);
     }
+    
     return oRes;
 }
 UniValue certfilter(const UniValue& params, bool fHelp) {
@@ -1442,64 +1371,17 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
     if (!pcertdb->ScanCerts(vchCert, strRegexp, safeSearch, strCategory, 25, certScan))
         throw runtime_error("scan failed");
 	BOOST_FOREACH(const CCert &txCert, certScan) {
-		const string &cert = stringFromVch(txCert.vchCert);
-
-       int nHeight = txCert.nHeight;
-
-		int expired = 0;
-		int expires_in = 0;
-		int expired_block = 0;
-        UniValue oCert(UniValue::VOBJ);
-        oCert.push_back(Pair("cert", cert));
-		vector<unsigned char> vchValue = txCert.vchTitle;
-        string value = stringFromVch(vchValue);
-        oCert.push_back(Pair("title", value));
-
-		string strData = stringFromVch(txCert.vchData);
-		string strDecrypted = "";
+		vector<CAliasIndex> vtxAliasPos;
+		if(!paliasdb->ReadAlias(txCert.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
+			continue;
+		const CAliasIndex& alias = vtxAliasPos.back();
 		CTransaction aliastx;
-		CAliasIndex theAlias;
-		bool isExpired = false;
-		vector<CAliasIndex> aliasVtxPos;
-		if(GetTxAndVtxOfAlias(txCert.vchAlias, theAlias, aliastx, aliasVtxPos, isExpired, true))
-		{
-			theAlias.nHeight = txCert.nHeight;
-			theAlias.GetAliasFromList(aliasVtxPos);
-		}
-		if(txCert.bPrivate)
-		{
-			strData = _("Encrypted for owner of certificate private data");
-			if(!txCert.vchViewData.empty() && !txCert.vchViewAlias.empty())	
-			{
-				CAliasIndex aliasView;
-				CTransaction aliasviewtx;
-				if (!GetTxOfAlias(txCert.vchViewAlias, aliasView, aliasviewtx, true))
-					throw runtime_error("failed to read xfer alias from alias DB");
-				if(DecryptMessage(aliasView.vchPubKey, txCert.vchViewData, strDecrypted))
-					strData = strDecrypted;	
-			}
-			if(!txCert.vchData.empty() && strDecrypted == "")
-			{
-				if(DecryptMessage(theAlias.vchPubKey, txCert.vchData, strDecrypted))
-					strData = strDecrypted;		
-			}
-		}
-
-		oCert.push_back(Pair("data", strData));
-		oCert.push_back(Pair("category", stringFromVch(txCert.sCategory)));
-		oCert.push_back(Pair("private", txCert.bPrivate? "Yes": "No"));
-		expired_block = nHeight + GetCertExpirationDepth();
-        if(expired_block < chainActive.Tip()->nHeight)
-		{
-			expired = 1;
-		}  
-		expires_in = expired_block - chainActive.Tip()->nHeight;
-		oCert.push_back(Pair("expires_in", expires_in));
-		oCert.push_back(Pair("expires_on", expired_block));
-		oCert.push_back(Pair("expired", expired));
-		oCert.push_back(Pair("alias", stringFromVch(txCert.vchAlias)));
-		oCert.push_back(Pair("viewalias", stringFromVch(txCert.vchViewAlias)));
-        oRes.push_back(oCert);
+		uint256 txHash;
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			continue;
+		
+		if(BuildCertJson(txCert, alias, aliastx, oCert))
+			oRes.push_back(oCert);
 	}
 
 

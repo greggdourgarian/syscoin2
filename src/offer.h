@@ -425,7 +425,7 @@ public:
     bool ScanOffers(
 		const std::vector<unsigned char>& vchOffer,const std::string &strRegExp, bool safeSearch,const std::string& strCategory,
             unsigned int nMax,
-            std::vector<std::pair<std::vector<unsigned char>, COffer> >& offerScan);
+            std::vector<COffer>& offerScan);
 
 };
 void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, std::vector<COffer> &vtxPos);
@@ -439,4 +439,6 @@ bool GetTxAndVtxOfOffer(const std::vector<unsigned char> &vchOffer,
 				  COffer& txPos, CTransaction& tx, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
 std::string GetPaymentOptionsString(const uint32_t paymentOptions);
 CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOptions);
+bool BuildOfferAcceptJson(const COffer& theOffer, const CTransaction &aliastx, UniValue& oOfferAccept);
+bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer);
 #endif // OFFER_H

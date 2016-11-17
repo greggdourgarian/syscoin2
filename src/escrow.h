@@ -167,11 +167,7 @@ public:
     bool ScanEscrows(
 		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp,
             unsigned int nMax,
-            std::vector<std::pair<std::vector<unsigned char>, CEscrow> >& escrowScan);
-   bool ScanEscrowFeedbacks(
-		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp,
-            unsigned int nMax,
-            std::vector<std::pair<std::vector<unsigned char>, CEscrow> >& escrowScan);
+            std::vector<std::pair<CEscrow, CEscrow> >& escrowScan);
 };
 
 bool GetTxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx);
