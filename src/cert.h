@@ -163,7 +163,7 @@ public:
     bool ScanCerts(
 		const std::vector<unsigned char>& vchCert, const std::string &strRegExp,  bool safeSearch, const std::string& strCategory,
             unsigned int nMax,
-            std::vector<std::pair<std::vector<unsigned char>, CCert> >& certScan);
+            std::vector<CCert>& certScan);
 
 };
 bool GetTxOfCert(const std::vector<unsigned char> &vchCert,

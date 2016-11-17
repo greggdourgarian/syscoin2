@@ -129,7 +129,7 @@ const vector<unsigned char> CCert::Serialize() {
 
 }
 bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string &strRegexp, bool safeSearch, const string& strCategory, unsigned int nMax,
-        std::vector<std::pair<std::vector<unsigned char>, CCert> >& certScan) {
+        std::vector<CCert>& certScan) {
     // regexp
     using namespace boost::xpressive;
     smatch certparts;
@@ -206,7 +206,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					pcursor->Next();
 					continue;
 				}
-				certScan.push_back(make_pair(vchCert, txPos));
+				certScan.push_back(txPos);
 			}
 			if (certScan.size() >= nMax)
 				break;
@@ -1228,12 +1228,10 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 
 		CTransaction tx;
 		uint64_t nHeight;
-		vector<pair<vector<unsigned char>, CCert> > certScan;
-		if (!pcertdb->ScanCerts(vchNameUniq, name, 1000, certScan))
+		vector<CCert> certScan;
+		if (!pcertdb->ScanCerts(vchNameUniq, name, alias.safeSearch, "", 1000, certScan))
 			throw runtime_error("scan failed");
-		pair<vector<unsigned char>, CCert> pairScan;
-		BOOST_FOREACH(pairScan, certScan) {
-			const CCert &cert = pairScan.second;
+		BOOST_FOREACH(const CCert &cert, certScan) {
 			if(!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
 				continue;
 			
@@ -1440,13 +1438,11 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
 
     UniValue oRes(UniValue::VARR);
     
-    vector<pair<vector<unsigned char>, CCert> > certScan;
+    vector<CCert> certScan;
     if (!pcertdb->ScanCerts(vchCert, strRegexp, safeSearch, strCategory, 25, certScan))
         throw runtime_error("scan failed");
-    pair<vector<unsigned char>, CCert> pairScan;
-	BOOST_FOREACH(pairScan, certScan) {
-		const CCert &txCert = pairScan.second;
-		const string &cert = stringFromVch(pairScan.first);
+	BOOST_FOREACH(const CCert &txCert, certScan) {
+		const string &cert = stringFromVch(txCert.vchCert);
 
        int nHeight = txCert.nHeight;
 
