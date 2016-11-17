@@ -623,7 +623,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 			aliasesValue = params[0].get_array();
 			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
 			{
-				string lowerStr = aliasesValue[aliasIndex].get_str());
+				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
 				aliases.push_back(lowerStr);
 			}
@@ -722,7 +722,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 			aliasesValue = params[0].get_array();
 			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
 			{
-				string lowerStr = aliasesValue[aliasIndex].get_str());
+				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
 				aliases.push_back(lowerStr);
 			}
