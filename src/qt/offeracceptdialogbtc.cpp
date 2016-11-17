@@ -33,16 +33,28 @@ using namespace std;
 #include <QNetworkRequest>
 #include <QNetworkReply>
 extern CRPCTable tableRPC;
-OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString qstrPrice, QString sellerAlias, QString address, QWidget *parent) :
+OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), qstrPrice(qstrPrice), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
+    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeBTC->setPixmap(QPixmap(":/images/" + theme + "/about_btc"));
-	dblPrice = qstrPrice.toDouble()*quantity.toUInt();
-	qstrPrice = QString::fromStdString(strprintf("%f", dblPrice));
+
+    int btcprecision;
+    CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("BTC"), AmountFromValue(sysPrice), chainActive.Tip()->nHeight, btcprecision);
+	if(btcPrice > 0)
+		qstrPrice = QString::fromStdString(strprintf("%.*f", btcprecision, ValueFromAmount(btcPrice).get_real()*quantity.toUInt()));
+	else
+	{
+        QMessageBox::critical(this, windowTitle(),
+            tr("Could not find BTC currency in the rates peg for this offer")
+                QMessageBox::Ok, QMessageBox::Ok);
+		reject();
+		return;
+	}
+
 	string strCurrencyCode = currencyCode.toStdString();
 	ui->bitcoinInstructionLabel->setText(tr("After paying for this item, please enter the Bitcoin Transaction ID and click on the confirm button below."));
 

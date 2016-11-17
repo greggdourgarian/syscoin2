@@ -265,23 +265,21 @@ AcceptandPayOfferListPage::~AcceptandPayOfferListPage()
 }
 void AcceptandPayOfferListPage::resetState()
 {
-		this->offerPaid = false;
-		this->URIHandled = false;
-		this->usedProfileInfo = false;
-		updateCaption();
+	this->offerPaid = false;
+	this->URIHandled = false;
+	this->usedProfileInfo = false;
+	updateCaption();
 }
 void AcceptandPayOfferListPage::updateCaption()
-{
-		
-		if(this->offerPaid)
-		{
-			ui->labelExplanation->setText(tr("<font color='green'>You have successfully paid for this offer!</font>"));
-		}
-		else
-		{
-			ui->labelExplanation->setText(tr("Purchase this offer, coins will be used from your balance to complete the transaction"));
-		}
-		
+{	
+	if(this->offerPaid)
+	{
+		ui->labelExplanation->setText(tr("<font color='green'>You have successfully paid for this offer!</font>"));
+	}
+	else
+	{
+		ui->labelExplanation->setText(tr("Purchase this offer, coins will be used from your balance to complete the transaction"));
+	}	
 }
 void AcceptandPayOfferListPage::OpenPayDialog()
 {
@@ -298,7 +296,18 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, this);
+	int sysprecision = 8;
+	double dblPrice = ui->infoPrice->text().toDouble();
+	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(ui->infoCurrency->text().toStdString()), dblPrice, chainActive.Tip()->nHeight, sysprecision);
+	if(sysPrice == 0)
+	{
+        QMessageBox::critical(this, windowTitle(),
+			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(ui->infoCurrency->text())
+                QMessageBox::Ok, QMessageBox::Ok);
+		return;
+	}	
+	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
+	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -309,7 +318,20 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, this);
+
+	int sysprecision = 8;
+	double dblPrice = ui->infoPrice->text().toDouble();
+	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(ui->infoCurrency->text().toStdString()), dblPrice, chainActive.Tip()->nHeight, sysprecision);
+	if(sysPrice == 0)
+	{
+        QMessageBox::critical(this, windowTitle(),
+			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(ui->infoCurrency->text())
+                QMessageBox::Ok, QMessageBox::Ok);
+		return;
+	}	
+	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()));
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, this);
+	
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();

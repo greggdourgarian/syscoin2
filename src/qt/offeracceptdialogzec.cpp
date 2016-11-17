@@ -33,16 +33,28 @@ using namespace std;
 #include <QNetworkRequest>
 #include <QNetworkReply>
 extern CRPCTable tableRPC;
-OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString qstrPrice, QString sellerAlias, QString address, QWidget *parent) :
+OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), qstrPrice(qstrPrice), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
+    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeZEC->setPixmap(QPixmap(":/images/" + theme + "/about_zec"));
-	dblPrice = qstrPrice.toDouble()*quantity.toUInt();
-	qstrPrice = QString::fromStdString(strprintf("%f", dblPrice));
+
+    int zecprecision;
+    CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), AmountFromValue(sysPrice), chainActive.Tip()->nHeight, zecprecision);
+	if(zecPrice > 0)
+		qstrPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
+	else
+	{
+        QMessageBox::critical(this, windowTitle(),
+            tr("Could not find ZEC currency in the rates peg for this offer")
+                QMessageBox::Ok, QMessageBox::Ok);
+		reject();
+		return;
+	}
+
 	string strCurrencyCode = currencyCode.toStdString();
 	ui->zcashInstructionLabel->setText(tr("After paying for this item, please enter the ZCash Transaction ID and click on the confirm button below."));
 
