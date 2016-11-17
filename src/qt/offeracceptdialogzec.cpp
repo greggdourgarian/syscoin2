@@ -45,7 +45,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
     int zecprecision;
     CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("ZEC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, zecprecision);
 	if(zecPrice > 0)
-		qstrPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
+		priceZec = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
 	else
 	{
         QMessageBox::critical(this, windowTitle(),
@@ -197,7 +197,7 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		convertAddress();
 		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
 		ui->escrowEdit->setEnabled(true);
-		qstrPrice = QString::fromStdString(strprintf("%f", dblPrice));
+		qstrPrice = priceZec;
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(this->zaddress));
 
 	}

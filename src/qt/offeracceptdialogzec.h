@@ -46,6 +46,7 @@ private:
 	double dblPrice;
 	bool offerPaid; 
 	QString m_redeemScript;	
+	QString priceZec;
 	qint64 m_height;
 
 private Q_SLOTS:
