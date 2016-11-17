@@ -121,7 +121,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 				if(keyWordArray.size() > 0)
 				{
 					string toAliasLower = stringFromVch(txPos.vchAliasTo);
-					vector<UniValue>::iterator it = std::find_if(keyWordArray.begin(), keyWordArray.end(), UniValueStringCompare(toAliasLower));
+					vector<UniValue>::iterator it = std::find_if(keyWordArray.begin(), keyWordArray.end(), std::bind2nd <UniValueStringCompare> (UniValueStringCompare(), toAliasLower));
 					if (it != keyWordArray.end())
 					{
 						pcursor->Next();
