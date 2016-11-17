@@ -43,7 +43,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	ui->aboutShadeZEC->setPixmap(QPixmap(":/images/" + theme + "/about_zec"));
 
     int zecprecision;
-    CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg), vchFromString("ZEC"), AmountFromValue(sysPrice), chainActive.Tip()->nHeight, zecprecision);
+    CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("ZEC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, zecprecision);
 	if(zecPrice > 0)
 		qstrPrice = QString::fromStdString(strprintf("%.*f", zecprecision, ValueFromAmount(zecPrice).get_real()*quantity.toUInt()));
 	else
