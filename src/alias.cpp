@@ -22,6 +22,7 @@
 #include "policy/policy.h"
 #include "utiltime.h"
 #include "coincontrol.h"
+#include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
 #include <boost/xpressive/xpressive_dynamic.hpp>
 #include <boost/foreach.hpp>

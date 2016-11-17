@@ -114,7 +114,7 @@ public:
         return Exists(make_pair(std::string("messagei"), name));
     }
 
-	bool ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const std::vector<UniValue>& keyWordArray,unsigned int nMax,
+	bool ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const std::vector<std::string>& keyWordArray,unsigned int nMax,
         std::vector<CMessage> & messageScan);
 
 };

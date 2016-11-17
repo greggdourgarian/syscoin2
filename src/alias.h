@@ -6,8 +6,7 @@
 #include "script/script.h"
 #include "serialize.h"
 #include "consensus/params.h"
-#include "sync.h"
-#include <boost/algorithm/string.hpp>    
+#include "sync.h" 
 class CWalletTx;
 class CTransaction;
 class CTxOut;
@@ -345,13 +344,4 @@ void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index);
 void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 bool isNameOfObj(const std::string& s, const UniValue& obj);
-struct UniValueStringCompare: public std::binary_function <UniValue, std::string, bool>
-{
-	bool operator() (const UniValue& lhs, const std::string& inputString) const
-	{
-		std::string lowerStr = lhs.get_str();
-		boost::algorithm::to_lower(lowerStr);
-		return (lowerStr == inputString);
-	}
-};
 #endif // ALIAS_H

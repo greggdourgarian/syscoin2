@@ -94,7 +94,7 @@ const vector<unsigned char> CMessage::Serialize() {
     return vchData;
 
 }
-bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<UniValue>& keyWordArray,unsigned int nMax,
+bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<string>& keyWordArray,unsigned int nMax,
         std::vector<CMessage> & messageScan) {
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
@@ -121,7 +121,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 				if(keyWordArray.size() > 0)
 				{
 					string toAliasLower = stringFromVch(txPos.vchAliasTo);
-					if (std::find_if(keyWordArray.begin(), keyWordArray.end(), std::bind2nd <UniValueStringCompare> (UniValueStringCompare(), toAliasLower)) != keyWordArray.end())
+					if (std::find(keyWordArray.begin(), keyWordArray.end(), toAliasLower)) != keyWordArray.end())
 					{
 						pcursor->Next();
 						continue;
@@ -614,11 +614,20 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size())
         throw runtime_error("messagereceivelist [\"alias\",...] [<message>]\n"
                 "list received messages that an array of aliases own");
-	UniValue aliases(UniValue::VARR);
+	UniValue aliasesValue(UniValue::VARR);
+	vector<string> aliases;
 	if(params.size() >= 1)
 	{
 		if(params[0].isArray())
-			aliases = params[0].get_array();
+		{
+			aliasesValue = params[0].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str());
+				boost::algorithm::to_lower(lowerStr);
+				aliases.push_back(lowerStr);
+			}
+		}
 		else
 		{
 			string aliasName =  params[0].get_str();
@@ -635,7 +644,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	vector<CMessage > messageScan;
 	if(aliases.size() > 0)
 	{
-		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases.getValues(), 1000, messageScan))
+		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases, 1000, messageScan))
 			throw runtime_error("scan failed");
 	}
 	else
@@ -704,11 +713,20 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size())
         throw runtime_error("messagesentlist [\"alias\",...] [<message>]\n"
                 "list sent messages that an array of aliases own");
-	UniValue aliases(UniValue::VARR);
+	UniValue aliasesValue(UniValue::VARR);
+	vector<string> aliases;
 	if(params.size() >= 1)
 	{
 		if(params[0].isArray())
-			aliases = params[0].get_array();
+		{
+			aliasesValue = params[0].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str());
+				boost::algorithm::to_lower(lowerStr);
+				aliases.push_back(lowerStr);
+			}
+		}
 		else
 		{
 			string aliasName =  params[0].get_str();
@@ -725,7 +743,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	{
 		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 		{
-			string name = aliases[aliasIndex].get_str();
+			string name = aliases[aliasIndex];
 			vector<unsigned char> vchAlias = vchFromString(name);
 			vector<CAliasIndex> vtxPos;
 			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
