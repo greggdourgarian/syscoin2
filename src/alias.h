@@ -344,4 +344,11 @@ void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index);
 void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 bool isNameOfObj(const std::string& s, const UniValue& obj);
+struct UniValueStringCompare: public std::binary_function <UniValue, std::string, bool>
+{
+	bool operator() (const UniValue& lhs, const std::string& inputString) const
+	{
+		return (lhs.get_str() == std::tolower(inputString));
+	}
+};
 #endif // ALIAS_H
