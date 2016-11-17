@@ -349,8 +349,8 @@ struct UniValueStringCompare: public std::binary_function <UniValue, std::string
 {
 	bool operator() (const UniValue& lhs, const std::string& inputString) const
 	{
-		const std::string& lowerStr = boost::algorithm::to_lower(lhs.get_str());
-		return (lowerStr == inputString);
+		std::string lowerStr = lhs.get_str();
+		return (boost::algorithm::to_lower(lowerStr) == inputString);
 	}
 };
 #endif // ALIAS_H
