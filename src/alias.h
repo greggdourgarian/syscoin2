@@ -7,6 +7,7 @@
 #include "serialize.h"
 #include "consensus/params.h"
 #include "sync.h"
+#include <boost/algorithm/string.hpp>    
 class CWalletTx;
 class CTransaction;
 class CTxOut;
@@ -348,7 +349,7 @@ struct UniValueStringCompare: public std::binary_function <UniValue, std::string
 {
 	bool operator() (const UniValue& lhs, const std::string& inputString) const
 	{
-		return (lhs.get_str() == std::tolower(inputString));
+		return (boost::algorithm::to_lower(lhs.get_str()) == inputString);
 	}
 };
 #endif // ALIAS_H
