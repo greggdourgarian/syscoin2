@@ -27,7 +27,8 @@ static const unsigned int SAFETY_LEVEL1 = 1;
 static const unsigned int SAFETY_LEVEL2 = 2;
 static const unsigned int SYSCOIN_FORK1 = 50000;
 
-
+bool isNameOfObj(const std::string& s, const UniValue& obj)
+{ return obj.get_str() == s; }
 bool IsSys21Fork(const uint64_t& nHeight);
 class CAliasPayment {
 public:

@@ -3248,7 +3248,6 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	vector<CEscrow> vtxPos;
 
     UniValue oEscrow(UniValue::VOBJ);
-    vector<unsigned char> vchValue;
 
 	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
 		  throw runtime_error("failed to read from escrow DB");
@@ -3485,7 +3484,6 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 			throw runtime_error("failed to read alias transaction");
 		}
 
-		vector<unsigned char> vchValue;
 		vector<pair<vector<unsigned char>, CEscrow> > escrowScan;
 		if (!pescrowdb->ScanEscrows(vchNameUniq, name, 1000, escrowScan))
 			throw runtime_error("scan failed");

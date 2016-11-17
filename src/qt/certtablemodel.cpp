@@ -73,9 +73,10 @@ public:
         {
 			string strMethod = string("certlist");
 	        UniValue params(UniValue::VARR); 
-			UniValue listAliases(UniValue::VARR);
-			appendListAliases(listAliases);
-			params.push_back(listAliases);
+			QSettings settings;
+			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+			if(defaultListAlias != tr("All"))
+				params.push_back(defaultListAlias.toStdString());
 			UniValue result;
 			string name_str;
 			string data_str;

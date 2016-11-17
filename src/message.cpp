@@ -93,8 +93,8 @@ const vector<unsigned char> CMessage::Serialize() {
     return vchData;
 
 }
-bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const string& strRegexp,unsigned int nMax,
-        std::vector<std::pair<std::vector<unsigned char>, CMessage> >& messageScan) {
+bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<UniValue>& keyWordArray,unsigned int nMax,
+        std::vector<CMessage> & messageScan) {
 	string strSearchLower = strRegexp;
 	boost::algorithm::to_lower(strSearchLower);
 	int nMaxAge  = GetMessageExpirationDepth();
@@ -105,7 +105,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 		pair<string, vector<unsigned char> > key;
         try {
             if (pcursor->GetKey(key) && key.first == "messagei") {
-                vector<unsigned char> vchMessage = key.second;
+                const vector<unsigned char> &vchMsg = key.second;
                 vector<CMessage> vtxPos;
                 pcursor->GetValue(vtxPos);
 				if (vtxPos.empty()){
@@ -118,13 +118,26 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 					pcursor->Next();
 					continue;
 				}
-				string toAliasLower = stringFromVch(txPos.vchAliasTo);
-				if (strRegexp != "" && strSearchLower != toAliasLower)
+
+				if(keyWordArray.size() > 0)
 				{
-					pcursor->Next();
-					continue;
+					string toAliasLower = stringFromVch(txPos.vchAliasTo);
+					const vector<UniValue>::iterator &it = find_if(keyWordArray.begin(), keyWordArray.end(), boost::bind(&isNameOfObj, toAliasLower, boost::placeholders::_1));
+					if (it != keyWordArray.end())
+					{
+						pcursor->Next();
+						continue;
+					}
 				}
-                messageScan.push_back(make_pair(vchMessage, txPos));
+				if(vchMessage.size() > 0)
+				{
+					if(vchMsg != vchMessage)
+					{
+						pcursor->Next();
+						continue;
+					}
+				}
+                messageScan.push_back(txPos);
             }
             if (messageScan.size() >= nMax)
                 break;
@@ -600,205 +613,187 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 }
 
 UniValue messagereceivelist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size() || params.size() < 1)
+    if (fHelp || 2 < params.size())
         throw runtime_error("messagereceivelist [\"alias\",...] [<message>]\n"
                 "list received messages that an array of aliases own");
-	vector<unsigned char> vchMessage;
 	UniValue aliases(UniValue::VARR);
-	if(params[0].isArray())
-		aliases = params[0].get_array();
-	else
+	if(params.size() >= 1)
 	{
-		string aliasName =  params[0].get_str();
-		aliases.push_back(aliasName);
+		if(params[0].isArray())
+			aliases = params[0].get_array();
+		else
+		{
+			string aliasName =  params[0].get_str();
+			if(aliasName != "")
+				aliases.push_back(aliasName);
+		}
 	}
 	vector<unsigned char> vchNameUniq;
     if (params.size() == 2)
         vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
 
-	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
+	vector<unsigned char> vchNameUniq;
+	if (params.size() == 2)
+		vchNameUniq = vchFromValue(params[1]);
+
+	vector<CMessage > messageScan;
+	if(aliases.size() > 0)
 	{
-		string name = aliases[aliasIndex].get_str();
-		vector<unsigned char> vchAlias = vchFromString(name);
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-			throw runtime_error("failed to read from alias DB");
-		const CAliasIndex &alias = vtxPos.back();
-		CTransaction aliastx;
-		uint256 txHash;
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-		{
-			throw runtime_error("failed to read alias transaction");
-		}
-		vector<unsigned char> vchNameUniq;
-		if (params.size() == 2)
-			vchNameUniq = vchFromValue(params[1]);
-
-		vector<unsigned char> vchValue;
-		vector<pair<vector<unsigned char>, CMessage> > messageScan;
-		if (!pmessagedb->ScanRecvMessages(vchNameUniq, name, 1000, messageScan))
+		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases.getValues(), 1000, messageScan))
 			throw runtime_error("scan failed");
-		pair<vector<unsigned char>, CMessage> pairScan;
-		BOOST_FOREACH(pairScan, messageScan) {
-			const CMessage &message = pairScan.second;
-			const string &messageStr = stringFromVch(pairScan.first);
-			vector<CMessage> vtxMessagePos;
-			CTransaction tx;
-			if (!GetSyscoinTransaction(message.nHeight, message.txHash, tx, Params().GetConsensus())) 
+	}
+	else
+	{
+		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
+		{
+			// get txn hash, read txn index
+			hash = item.second.GetHash();
+			const CWalletTx &wtx = item.second;        // skip non-syscoin txns
+			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
-			if (!pmessagedb->ReadMessage(pairScan.first, vtxMessagePos) || vtxMessagePos.empty())
+			if(!IsSyscoinTxMine(wtx, "message"))
 				continue;
-
-			// decode txn, skip non-alias txns
-			vector<vector<unsigned char> > vvch;
-			int op, nOut;
-			if (!DecodeMessageTx(tx, op, nOut, vvch) || !IsMessageOp(op))
-				continue;
-
-			// build the output
-			UniValue oName(UniValue::VOBJ);
-			oName.push_back(Pair("GUID", messageStr));
-
-			string sTime;
-			CBlockIndex *pindex = chainActive[message.nHeight];
-			if (pindex) {
-				sTime = strprintf("%llu", pindex->nTime);
-			}
-			string strAddress = "";
-			oName.push_back(Pair("time", sTime));
-			CAliasIndex aliasFrom, aliasTo;
-			CTransaction aliastx;
-			bool isExpired = false;
-			vector<CAliasIndex> aliasVtxPos;
-			if(GetTxAndVtxOfAlias(message.vchAliasFrom, aliasFrom, aliastx, aliasVtxPos, isExpired, true))
-			{
-				aliasFrom.nHeight = message.nHeight;
-				aliasFrom.GetAliasFromList(aliasVtxPos);
-			}
-			aliasVtxPos.clear();
-			if(GetTxAndVtxOfAlias(message.vchAliasTo, aliasTo, aliastx, aliasVtxPos, isExpired, true))
-			{
-				aliasTo.nHeight = message.nHeight;
-				aliasTo.GetAliasFromList(aliasVtxPos);
-			}
-			oName.push_back(Pair("from", stringFromVch(message.vchAliasFrom)));
-			oName.push_back(Pair("to", stringFromVch(message.vchAliasTo)));
-
-			oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
-			string strDecrypted = "";
-			string strData = _("Encrypted for recipient of message");
-			if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted))
-				strData = strDecrypted;
-			else if(DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
-				strData = strDecrypted;
-			oName.push_back(Pair("message", strData));
-			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-			oRes.push_back(oName);
+			CMessage message(wtx);
+			if(!message.IsNull())
+				messageScan.push_back(message);
 		}
 	}
+	BOOST_FOREACH(const CMessage &message, messageScan) {
+		// build the output
+		UniValue oName(UniValue::VOBJ);
+		BuildMessageJson(message, oName);
+		oRes.push_back(oName);
+	}
+	
 
     return oRes;
 }
+void BuildMessageJson(const CMessage& message, UniValue& oName)
+{
+	oName.push_back(Pair("GUID", messageStr));
+	string sTime;
+	CBlockIndex *pindex = chainActive[message.nHeight];
+	if (pindex) {
+		sTime = strprintf("%llu", pindex->nTime);
+	}
+	string strAddress = "";
+	oName.push_back(Pair("time", sTime));
+	CAliasIndex aliasFrom, aliasTo;
+	CTransaction aliastxtmp;
+	bool isExpired = false;
+	vector<CAliasIndex> aliasVtxPos;
+	if(GetTxAndVtxOfAlias(message.vchAliasFrom, aliasFrom, aliastxtmp, aliasVtxPos, isExpired, true))
+	{
+		aliasFrom.nHeight = message.nHeight;
+		aliasFrom.GetAliasFromList(aliasVtxPos);
+	}
+	aliasVtxPos.clear();
+	if(GetTxAndVtxOfAlias(message.vchAliasTo, aliasTo, aliastxtmp, aliasVtxPos, isExpired, true))
+	{
+		aliasTo.nHeight = message.nHeight;
+		aliasTo.GetAliasFromList(aliasVtxPos);
+	}
+	oName.push_back(Pair("from", stringFromVch(message.vchAliasFrom)));
+	oName.push_back(Pair("to", stringFromVch(message.vchAliasTo)));
 
+	oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
+	string strDecrypted = "";
+	string strData = _("Encrypted for recipient of message");
+	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted))
+		strData = strDecrypted;
+	else if(DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
+		strData = strDecrypted;
+	oName.push_back(Pair("message", strData));
+}
 
 UniValue messagesentlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size() || params.size() < 1)
+    if (fHelp || 2 < params.size())
         throw runtime_error("messagesentlist [\"alias\",...] [<message>]\n"
                 "list sent messages that an array of aliases own");
-	vector<unsigned char> vchMessage;
 	UniValue aliases(UniValue::VARR);
-	if(params[0].isArray())
-		aliases = params[0].get_array();
-	else
+	if(params.size() >= 1)
 	{
-		string aliasName =  params[0].get_str();
-		aliases.push_back(aliasName);
+		if(params[0].isArray())
+			aliases = params[0].get_array();
+		else
+		{
+			string aliasName =  params[0].get_str();
+			if(aliasName != "")
+				aliases.push_back(aliasName);
+		}
 	}
 	vector<unsigned char> vchNameUniq;
     if (params.size() == 2)
         vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
-	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
+	vector<CMessage > messageScan;
+	if(aliases.size() > 0)
 	{
-		string name = aliases[aliasIndex].get_str();
-		vector<unsigned char> vchAlias = vchFromString(name);
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-			throw runtime_error("failed to read from alias DB");
-		const CAliasIndex &alias = vtxPos.back();
-		CTransaction aliastx;
-		uint256 txHash;
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 		{
-			throw runtime_error("failed to read alias transaction");
-		}
-
-		CTransaction tx;
-
-		vector<unsigned char> vchValue;
-		BOOST_FOREACH(const CAliasIndex &theAlias, vtxPos)
-		{
-			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
-				continue;
-
-			// decode txn, skip non-alias txns
-			vector<vector<unsigned char> > vvch;
-			int op, nOut;
-			if (!DecodeMessageTx(tx, op, nOut, vvch) || !IsMessageOp(op))
-				continue;
-			vchMessage = vvch[0];
-			if (vchNameUniq.size() > 0 && vchNameUniq != vchMessage)
-				continue;
-			vector<CMessage> vtxMessagePos;
-			if (!pmessagedb->ReadMessage(vchMessage, vtxMessagePos) || vtxMessagePos.empty())
-				continue;
-			const CMessage& message = vtxMessagePos.back();
-
-			if(message.vchAliasFrom != vchAlias)
-				continue;
-			// build the output
-			UniValue oName(UniValue::VOBJ);
-			oName.push_back(Pair("GUID", stringFromVch(vchMessage)));
-
-			string sTime;
-			CBlockIndex *pindex = chainActive[message.nHeight];
-			if (pindex) {
-				sTime = strprintf("%llu", pindex->nTime);
-			}
-			string strAddress = "";
-			oName.push_back(Pair("time", sTime));
-			CAliasIndex aliasFrom, aliasTo;
+			string name = aliases[aliasIndex].get_str();
+			vector<unsigned char> vchAlias = vchFromString(name);
+			vector<CAliasIndex> vtxPos;
+			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+				throw runtime_error("failed to read from alias DB");
+			const CAliasIndex &alias = vtxPos.back();
 			CTransaction aliastx;
-			bool isExpired = false;
-			vector<CAliasIndex> aliasVtxPos;
-			if(GetTxAndVtxOfAlias(message.vchAliasFrom, aliasFrom, aliastx, aliasVtxPos, isExpired, true))
+			uint256 txHash;
+			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			{
-				aliasFrom.nHeight = message.nHeight;
-				aliasFrom.GetAliasFromList(aliasVtxPos);
+				throw runtime_error("failed to read alias transaction");
 			}
-			aliasVtxPos.clear();
-			if(GetTxAndVtxOfAlias(message.vchAliasTo, aliasTo, aliastx, aliasVtxPos, isExpired, true))
-			{
-				aliasTo.nHeight = message.nHeight;
-				aliasTo.GetAliasFromList(aliasVtxPos);
-			}
-			oName.push_back(Pair("from", stringFromVch(message.vchAliasFrom)));
-			oName.push_back(Pair("to", stringFromVch(message.vchAliasTo)));
 
-			oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
-			string strDecrypted = "";
-			string strData = _("Encrypted for recipient of message");
-			if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted))
-				strData = strDecrypted;
-			else if(DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
-				strData = strDecrypted;
-			oName.push_back(Pair("message", strData));
-			oName.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
-			oRes.push_back(oName);
+			CTransaction tx;
+
+			vector<unsigned char> vchValue;
+			BOOST_FOREACH(const CAliasIndex &theAlias, vtxPos)
+			{
+				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+					continue;
+
+				// decode txn, skip non-alias txns
+				vector<vector<unsigned char> > vvch;
+				int op, nOut;
+				if (!DecodeMessageTx(tx, op, nOut, vvch) || !IsMessageOp(op))
+					continue;
+				vchMessage = vvch[0];
+				if (vchNameUniq.size() > 0 && vchNameUniq != vchMessage)
+					continue;
+				vector<CMessage> vtxMessagePos;
+				if (!pmessagedb->ReadMessage(vchMessage, vtxMessagePos) || vtxMessagePos.empty())
+					continue;
+				const CMessage& message = vtxMessagePos.back();
+				if(message.vchAliasFrom != vchAlias)
+					continue;
+
+				messageScan.push_back(message);
+			}
 		}
 	}
-
+	else
+	{
+		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
+		{
+			// get txn hash, read txn index
+			hash = item.second.GetHash();
+			const CWalletTx &wtx = item.second;        // skip non-syscoin txns
+			if (wtx.nVersion != SYSCOIN_TX_VERSION)
+				continue;
+			if(IsSyscoinTxMine(wtx, "message"))
+				continue;
+			CMessage message(wtx);
+			if(!message.IsNull())
+				messageScan.push_back(message);
+		}
+	}
+	BOOST_FOREACH(const CMessage &message, messageScan) {
+		// build the output
+		UniValue oName(UniValue::VOBJ);
+		BuildMessageJson(message, oName);
+		oRes.push_back(oName);
+	}
     return oRes;
 }
 UniValue messagehistory(const UniValue& params, bool fHelp) {

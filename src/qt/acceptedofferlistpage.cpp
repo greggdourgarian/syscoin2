@@ -95,7 +95,7 @@ void AcceptedOfferListPage::loadAliasList()
 	
 	
 	UniValue aliasList(UniValue::VARR);
-	appendListAliases(aliasList, true);
+	appendListAliases(aliasList);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
 		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());

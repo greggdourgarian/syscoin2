@@ -106,7 +106,7 @@ void MyAcceptedOfferListPage::loadAliasList()
 	
 	
 	UniValue aliasList(UniValue::VARR);
-	appendListAliases(aliasList, true);
+	appendListAliases(aliasList);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
 		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
@@ -128,11 +128,10 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 	
 	string strError;
 	string strMethod = string("offeracceptlist");
-	UniValue listAliases(UniValue::VARR);
-	appendListAliases(listAliases);
-	UniValue params(UniValue::VARR);
 	QSettings settings;
-	params.push_back(listAliases);
+	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+	if(defaultListAlias != tr("All"))
+		params.push_back(defaultListAlias.toStdString());
 	UniValue offerAcceptsValue;
 	QString offerAcceptHash;
 	params.push_back(acceptid.toStdString());

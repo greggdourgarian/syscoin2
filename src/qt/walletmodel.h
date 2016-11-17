@@ -317,5 +317,5 @@ public Q_SLOTS:
 	void updateMessage();
 };
 // SYSCOIN
-extern void appendListAliases(UniValue& defaultAliasArray, bool allAliases=false);
+extern void appendListAliases(UniValue& defaultAliasArray);
 #endif // SYSCOIN_QT_WALLETMODEL_H

@@ -84,10 +84,10 @@ public:
 				strMethod = string("messagesentlist");
 			else if(type == InMessage)
 				strMethod = string("messagereceivelist");
-			UniValue listAliases(UniValue::VARR);
-			appendListAliases(listAliases);
-	        UniValue params(UniValue::VARR); 
-			params.push_back(listAliases);
+			QSettings settings;
+			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+			if(defaultListAlias != tr("All"))
+				params.push_back(defaultListAlias.toStdString());
 			UniValue result ;
 			string guid_str;
 			string time_str;

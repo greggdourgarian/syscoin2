@@ -78,11 +78,13 @@ public:
     {
         cachedOfferTable.clear();
         {
+			QSettings settings;
 			string strMethod = string("offerlist");
 	        UniValue params(UniValue::VARR); 
-			UniValue listAliases(UniValue::VARR);
-			appendListAliases(listAliases);
-			params.push_back(listAliases);
+			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+			if(defaultListAlias != tr("All"))
+				params.push_back(defaultListAlias.toStdString());
+			
 			UniValue result ;
 			string name_str;
 			string value_str;

@@ -1228,9 +1228,13 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 
 		CTransaction tx;
 		uint64_t nHeight;
-		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-			const CAliasIndex& theAlias = *it;
-			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+		vector<pair<vector<unsigned char>, CCert> > certScan;
+		if (!pcertdb->ScanCerts(vchNameUniq, name, 1000, certScan))
+			throw runtime_error("scan failed");
+		pair<vector<unsigned char>, CCert> pairScan;
+		BOOST_FOREACH(pairScan, certScan) {
+			const CCert &cert = pairScan.second;
+			if(!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
 				continue;
 			
 			int expired = 0;
@@ -1253,7 +1257,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			vector<CCert> vtxCertPos;
 			if (!pcertdb->ReadCert(vchCert, vtxCertPos) || vtxCertPos.empty())
 				continue;
-			const CCert &cert = vtxCertPos.back();
 			if(cert.vchAlias != vchAlias)
 				continue;		
 			nHeight = cert.nHeight;
