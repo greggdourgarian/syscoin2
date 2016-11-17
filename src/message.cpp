@@ -15,7 +15,7 @@
 #include <boost/foreach.hpp>
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
-#include <boost/bind/bind.hpp>
+#include <functional> 
 using namespace std;
 extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
 void PutToMessageList(std::vector<CMessage> &messageList, CMessage& index) {
@@ -121,7 +121,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 				if(keyWordArray.size() > 0)
 				{
 					string toAliasLower = stringFromVch(txPos.vchAliasTo);
-					const vector<UniValue>::iterator &it = find_if(keyWordArray.begin(), keyWordArray.end(), boost::bind(&isNameOfObj, toAliasLower, boost::placeholders::_1));
+					const vector<UniValue>::iterator &it = find_if(keyWordArray.begin(), keyWordArray.end(), std::bind(&isNameOfObj, toAliasLower, std::placeholders::_1));
 					if (it != keyWordArray.end())
 					{
 						pcursor->Next();
