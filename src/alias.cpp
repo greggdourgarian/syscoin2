@@ -1322,7 +1322,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 					pcursor->Next();
 					continue;
 				}
-                nameScan.push_back(make_pair(vchAlias, txPos));
+                nameScan.push_back(txPos);
             }
             if (nameScan.size() >= nMax)
                 break;
