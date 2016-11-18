@@ -150,13 +150,14 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 	int nMaxAge  = GetOfferExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("offeri"), vchOffer));
+	vector<COffer> vtxPos;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
 		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "offeri") {
-            	vector<unsigned char> vchOffer = key.second;
-                vector<COffer> vtxPos;
+            	const vector<unsigned char> &vchMyOffer = key.second;
+                
 				pcursor->GetValue(vtxPos);
 
 				if (vtxPos.empty()){
@@ -246,7 +247,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 				}
 
 				string title = stringFromVch(txPos.sTitle);
-				string offer = stringFromVch(vchOffer);
+				string offer = stringFromVch(vchMyOffer);
 				boost::algorithm::to_lower(title);
 				string description = stringFromVch(txPos.sDescription);
 				boost::algorithm::to_lower(description);

@@ -126,13 +126,14 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("escrowi"), vchEscrow));
+	vector<CEscrow> vtxPos;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
 		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "escrowi") {
-            	vector<unsigned char> vchEscrow = key.second;
-                vector<CEscrow> vtxPos;
+            	const vector<unsigned char> &vchMyEscrow = key.second;
+                
 				pcursor->GetValue(vtxPos);
 				if (vtxPos.empty()){
 					pcursor->Next();
@@ -144,7 +145,7 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 					pcursor->Next();
 					continue;
 				}
-				const string &escrow = stringFromVch(vchEscrow);
+				const string &escrow = stringFromVch(vchMyEscrow);
 				const string &offerstr = stringFromVch(txPos.vchOffer);
 
 				string buyerAliasLower = stringFromVch(txPos.vchBuyerAlias);

@@ -1266,7 +1266,7 @@ void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOpt
 }
 bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const string& strRegexp, bool safeSearch, 
 		unsigned int nMax,
-		vector<pair<vector<unsigned char>, CAliasIndex> >& nameScan) {
+		vector<CAliasIndex>& nameScan) {
 	int nMaxAge  = GetAliasExpirationDepth();
 
 	// regexp
@@ -1277,14 +1277,15 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 	sregex cregex = sregex::compile(strRegexpLower);
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("namei"), vchAlias));
+	vector<CAliasIndex> vtxPos;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
 		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "namei") {
-            	vector<unsigned char> vchAlias = key.second;
+            	const vector<unsigned char> &vchMyAlias = key.second;
 				
-                vector<CAliasIndex> vtxPos;
+                
 				pcursor->GetValue(vtxPos);
 				
 				if (vtxPos.empty()){
@@ -1315,7 +1316,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 					pcursor->Next();
 					continue;
 				}
-				string name = stringFromVch(vchAlias);
+				const string &name = stringFromVch(vchMyAlias);
 				if (strRegexp != "" && !regex_search(name, nameparts, cregex) && strRegexp != name)
 				{
 					pcursor->Next();
@@ -2998,26 +2999,22 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 	UniValue oRes(UniValue::VARR);
 
 	
-	vector<pair<vector<unsigned char>, CAliasIndex> > nameScan;
+	vector<CAliasIndex> nameScan;
 	boost::algorithm::to_lower(strName);
 	vchAlias = vchFromString(strName);
 	if (!paliasdb->ScanNames(vchAlias, strRegexp, safeSearch, 25, nameScan))
 		throw runtime_error("scan failed");
+	BOOST_FOREACH(const CAliasIndex &alias, nameScan) {
 
-	pair<vector<unsigned char>, CAliasIndex> pairScan;
-	BOOST_FOREACH(pairScan, nameScan) {
-		const CAliasIndex &alias = pairScan.second;
-
-		CAliasIndex txName = pairScan.second;
-		int nHeight = txName.nHeight;
+		int nHeight = alias.nHeight;
 
 		int expired = 0;
 		int expires_in = 0;
 		int expired_block = 0;
 		UniValue oName(UniValue::VOBJ);
-		oName.push_back(Pair("name", stringFromVch(pairScan.first)));
-		oName.push_back(Pair("alias_peg", stringFromVch(txName.vchAliasPeg)));
-		oName.push_back(Pair("value", stringFromVch(txName.vchPublicValue)));
+		oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
+		oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
+		oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
 		string strPrivateValue = "";
 		if(!alias.vchPrivateValue.empty())
 			strPrivateValue = _("Encrypted for alias owner");

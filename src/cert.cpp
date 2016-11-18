@@ -137,6 +137,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 	boost::algorithm::to_lower(strRegexpLower);
     sregex cregex = sregex::compile(strRegexpLower);
 	int nMaxAge  = GetCertExpirationDepth();
+	vector<CCert> vtxPos;
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("certi"), vchCert));
     while (pcursor->Valid()) {
@@ -144,8 +145,8 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "certi") {
-            	vector<unsigned char> vchCert = key.second;
-                vector<CCert> vtxPos;
+            	const vector<unsigned char> &vchMyCert = key.second;
+                
 				pcursor->GetValue(vtxPos);
 				if (vtxPos.empty()){
 					pcursor->Next();
@@ -198,7 +199,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					pcursor->Next();
 					continue;
 				}
-				const string &cert = stringFromVch(vchCert);
+				const string &cert = stringFromVch(vchMyCert);
 				string title = stringFromVch(txPos.vchTitle);
 				boost::algorithm::to_lower(title);
 				if (strRegexp != "" && !regex_search(title, certparts, cregex) && strRegexp != cert && strRegexpLower != stringFromVch(txPos.vchAlias))
@@ -1232,7 +1233,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert)
 {
 	string sHeight = strprintf("%llu", cert.nHeight);
-    oCert.push_back(Pair("cert", stringFromVch(vchCert)));
+    oCert.push_back(Pair("cert", stringFromVch(cert.vchCert)));
     oCert.push_back(Pair("txid", cert.txHash.GetHex()));
     oCert.push_back(Pair("height", sHeight));
     oCert.push_back(Pair("title", stringFromVch(cert.vchTitle)));
@@ -1369,16 +1370,16 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
     vector<CCert> certScan;
     if (!pcertdb->ScanCerts(vchCert, strRegexp, safeSearch, strCategory, 25, certScan))
         throw runtime_error("scan failed");
+	CTransaction aliastx;
+	uint256 txHash;
 	BOOST_FOREACH(const CCert &txCert, certScan) {
 		vector<CAliasIndex> vtxAliasPos;
 		if(!paliasdb->ReadAlias(txCert.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 			continue;
 		const CAliasIndex& alias = vtxAliasPos.back();
-		CTransaction aliastx;
-		uint256 txHash;
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
-		
+		UniValue oCert(UniValue::VOBJ);
 		if(BuildCertJson(txCert, alias, aliastx, oCert))
 			oRes.push_back(oCert);
 	}

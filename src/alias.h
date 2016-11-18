@@ -278,7 +278,7 @@ public:
     bool ScanNames(
 		const std::vector<unsigned char>& vchAlias, const std::string& strRegExp, bool safeSearch,
             unsigned int nMax,
-            std::vector<std::pair<std::vector<unsigned char>, CAliasIndex> >& nameScan);
+            std::vector<CAliasIndex>& nameScan);
 
 };
 
