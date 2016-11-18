@@ -3258,7 +3258,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow)
 {
 	vector<CEscrow> vtxPos;
-	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
+	if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
 		  return false;
 	CTransaction tx;
 	if (!GetSyscoinTransaction(escrow.nHeight, escrow.txHash, tx, Params().GetConsensus()))
@@ -3503,7 +3503,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		}
 
 		vector<pair<CEscrow, CEscrow> > escrowScan;
-		if (!pescrowdb->ScanEscrows(vchEscrow, strRegexp, 1000, escrowScan))
+		if (!pescrowdb->ScanEscrows(vchEscrow, "", 1000, escrowScan))
 			throw runtime_error("scan failed");
 		pair<CEscrow, CEscrow> pairScan;
 		BOOST_FOREACH(pairScan, escrowScan) {
