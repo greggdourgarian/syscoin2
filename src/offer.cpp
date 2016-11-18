@@ -3241,7 +3241,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	oOffer.push_back(Pair("offers_sold", sold));
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size() || params.size() < 1)
+    if (fHelp || 2 < params.size())
         throw runtime_error("offeracceptlist [\"alias\",...] [acceptguid='']\n"
                 "list offer purchases that an array of aliases own");
 	UniValue aliasesValue(UniValue::VARR);
