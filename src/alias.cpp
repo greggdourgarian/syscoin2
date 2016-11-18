@@ -2477,7 +2477,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 		if (vNamesI.find(vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, tx, oName))
+		if(BuildAliasJson(alias, tx, pending, oName))
 		{
 			vNamesI[vchAlias] = alias.nHeight;
 			vNamesO[vchAlias] = oName;	
@@ -2654,11 +2654,11 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("failed to read from alias DB");
 
 	UniValue oName(UniValue::VOBJ);
-	BuildAliasJson(alias, tx, oName);
+	BuildAliasJson(alias, tx, 0, oName);
 		
 	return oName;
 }
-bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName)
+bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName)
 {
 	CAliasIndex aliasTmp = alias;
 	uint64_t nHeight;
@@ -2735,6 +2735,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 	oName.push_back(Pair("expires_in", expires_in));
 	oName.push_back(Pair("expires_on", expired_block));
 	oName.push_back(Pair("expired", expired));
+	oName.push_back(Pair("pending", pending));
 	UniValue msInfo(UniValue::VOBJ);
 	msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
 	UniValue msAliases(UniValue::VARR);
@@ -2802,7 +2803,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			continue;
 		UniValue oName(UniValue::VOBJ);
 		oName.push_back(Pair("type", opName));
-		if(BuildAliasJson(txPos2, tx, oName))
+		if(BuildAliasJson(txPos2, tx, 0, oName))
 			oRes.push_back(oName);
 	}
 	
@@ -2866,7 +2867,7 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, aliastx, oName))
+		if(BuildAliasJson(alias, aliastx, 0, oName))
 			oRes.push_back(oName);
 	}
 

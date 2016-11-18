@@ -3374,19 +3374,19 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 }
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept)
 {
-	CTransaction offerTxTmp;
+	CTransaction offerTx;
 	COffer linkOffer;
 	CTransaction linkTx;
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
-	if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTxTmp, Params().GetConsensus()))
+	if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTx, Params().GetConsensus()))
 		return false;
-
-	if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
+	
+	if (!DecodeOfferTx(offerTx, op, nOut, vvch)
 		|| (op != OP_OFFER_ACCEPT))
 		return false;
 
-	
+	bool ismine = IsSyscoinTxMine(offerTx, "offer");
 	int nHeight = theOffer.accept.nAcceptHeight;
 
 	bool commissionPaid = false;
@@ -3424,6 +3424,8 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	{
 		vector<COffer> vtxLinkPos;
 		GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
+		if(!ismine)
+			ismine = IsSyscoinTxMine(linkTx, "offer");
 		linkOffer.nHeight = nHeight;
 		linkOffer.GetOfferFromList(vtxLinkPos);
 		// You are the merchant
@@ -3493,7 +3495,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	}
 	oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 	oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-	oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
+	oOfferAccept.push_back(Pair("ismine", ismine? "true" : "false"));
 	string statusStr = "Paid";
 	if(!theOffer.accept.txExtId.IsNull())
 		statusStr = "Paid with external coin";

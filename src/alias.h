@@ -343,5 +343,5 @@ bool GetPreviousInput(const COutPoint * outpoint, int &op, std::vector<std::vect
 void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index);
 void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
-bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName);
+bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName);
 #endif // ALIAS_H
