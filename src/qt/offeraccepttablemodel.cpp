@@ -161,15 +161,7 @@ public:
          }
         
     }
-	bool FindAliasInList(const UniValue& listArray, const string& aliasName)
-	{
-		for(unsigned int i = 0;i<listArray.size();i++)
-		{
-			if(listArray[i].get_str() == aliasName)
-				return true;
-		}
-		return false;
-	}
+
     void updateEntry(const QString &offer, const QString &guid, const QString &title, const QString &height,const QString &price, const QString &currency,const QString &qty,const QString &total, const QString &alias, const QString &status,  const QString &buyer, OfferAcceptModelType type, int statusi)
     {
 		if(!parent || parent->modelType != type)
