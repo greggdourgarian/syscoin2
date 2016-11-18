@@ -11,12 +11,7 @@
 #include <QDateTime>
 #include <QSettings>
 #include "rpc/server.h"
-#include "platformstyle.h"
-#include "optionsmodel.h"
-#include "walletmodel.h"
-#include "syscoingui.h"
-#include "guiutil.h"
-#include "util.h"
+#include "clientmodel.h"
 using namespace std;
 
 
