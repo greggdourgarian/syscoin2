@@ -3318,10 +3318,11 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
 	COffer offerTmp;
+	CAliasIndex aliasTmp;
 	BOOST_FOREACH(const CAliasIndex &alias, aliasScan) {
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
-		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
+		if (!paliasdb->ReadAlias(alias.vchAlias, vtxPos) || vtxPos.empty())
 			continue;				
 		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 			CAliasIndex theAlias = *it;
@@ -3349,10 +3350,11 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 					continue;
 				vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-				alias.nHeight = theOffer.accept.nAcceptHeight;
-				alias.GetAliasFromList(vtxPos);
+				aliasTmp = alias;
+				aliasTmp.nHeight = theOffer.accept.nAcceptHeight;
+				aliasTmp.GetAliasFromList(vtxPos);
 				UniValue oAccept(UniValue::VOBJ);
-				if(BuildOfferAcceptJson(theOffer, alias, aliastx, oAccept))
+				if(BuildOfferAcceptJson(theOffer, aliasTmp, aliastx, oAccept))
 					aoOfferAccepts.push_back(oAccept);	
 			}
 		}
