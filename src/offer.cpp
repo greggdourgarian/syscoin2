@@ -3272,7 +3272,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, int > vNamesA;
 	map< vector<unsigned char>, int > vNamesAlias;
-	vector<COffer> offerScan;
 	vector<CAliasIndex> aliasScan;
 	if(aliases.size() > 0)
 	{
@@ -3315,13 +3314,15 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	}
 	CTransaction tx, aliastx, offerTx;
 	vector<COffer> vtxOfferPos;
+	vector<CAliasIndex> vtxPos;
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
 	COffer offerTmp;
 	BOOST_FOREACH(const CAliasIndex &alias, aliasScan) {
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
-				
+		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
+			continue;				
 		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 			CAliasIndex theAlias = *it;
 			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
@@ -3348,26 +3349,15 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 					continue;
 				vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-				offerScan.push_back(theOffer);			
+				alias.nHeight = theOffer.accept.nAcceptHeight;
+				alias.GetAliasFromList(vtxPos);
+				UniValue oAccept(UniValue::VOBJ);
+				if(BuildOfferAcceptJson(theOffer, alias, aliastx, oAccept))
+					aoOfferAccepts.push_back(oAccept);	
 			}
 		}
 	}
 
-	CTransaction aliastx;
-	CAliasIndex alias ;
-	BOOST_FOREACH(const COffer &offer, offerScan) {
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
-			continue;
-		alias = vtxPos.back();
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
-		alias.nHeight = offer.accept.nAcceptHeight;
-		alias.GetAliasFromList(vtxPos);
-		UniValue oAccept(UniValue::VOBJ);
-		if(BuildOfferAcceptJson(offer, alias, aliastx, oAccept))
-			aoOfferAccepts.push_back(oAccept);
-	}
     return aoOfferAccepts;
 }
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept)
