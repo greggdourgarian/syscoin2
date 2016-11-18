@@ -2669,7 +2669,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 	oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
 
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
-		throw runtime_error("alias has been banned");
+		return false;
 	oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
 	string strPrivateValue = "";
 	if(!alias.vchPrivateValue.empty())
@@ -2692,7 +2692,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 	CSyscoinAddress address;
 	aliasTmp.GetAddress(&address);
 	if(!address.IsValid())
-		throw runtime_error("Invalid alias address");
+		return false;
 	oName.push_back(Pair("address", address.ToString()));
 	oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 
@@ -2724,7 +2724,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 	oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
     oName.push_back(Pair("lastupdate_height", nHeight));
 	expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
+	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{
 		if(expired_block < chainActive.Tip()->nHeight)
 		{
@@ -2745,6 +2745,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 	msInfo.push_back(Pair("reqsigners", msAliases));
 	msInfo.push_back(Pair("redeemscript", HexStr(alias.multiSigInfo.vchRedeemScript)));
 	oName.push_back(Pair("multisiginfo", msInfo));
+	return true;
 }
 /**
  * [aliashistory description]
