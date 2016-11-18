@@ -201,7 +201,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 				}
 				if(aliasArray.size() > 0)
 				{
-					if (std::find(aliasArray.begin(), aliasArray.end(), txPos.vchAlias) != aliasArray.end())
+					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAlias)) != aliasArray.end())
 					{
 						pcursor->Next();
 						continue;
