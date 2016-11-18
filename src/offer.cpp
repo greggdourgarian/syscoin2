@@ -3505,7 +3505,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	return true;
 }
 UniValue offerlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size() || params.size() < 1)
+    if (fHelp || 2 < params.size())
         throw runtime_error("offerlist [\"alias\",...] [<offer>]\n"
                 "list offers that an array of aliases own");
 	UniValue aliases(UniValue::VARR);

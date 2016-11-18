@@ -3471,7 +3471,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 }
 
 UniValue escrowlist(const UniValue& params, bool fHelp) {
-   if (fHelp || 2 < params.size() || params.size() < 1)
+   if (fHelp || 2 < params.size())
         throw runtime_error("escrowlist [\"alias\",...] [<escrow>]\n"
                 "list escrows that an array of aliases are involved in");
 	vector<unsigned char> vchEscrow;
