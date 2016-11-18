@@ -33,14 +33,15 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 	ui->privateBox->setVisible(true);
 	ui->transferLabel->setVisible(false);
 	ui->transferEdit->setVisible(false);
-	ui->privateBox->addItem(tr("Yes"));
-	ui->privateBox->addItem(tr("No"));
 	ui->transferDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient of this certificate</font>"));
     ui->transferDisclaimer->setVisible(false);
 	ui->viewAliasEdit->setVisible(true);
 	ui->viewAliasDisclaimer->setVisible(true);
 	ui->viewAliasDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient that you wish to allow reading your certificate data (only useful if certificate is private)</font>"));
-	
+	ui->viewOnlyDisclaimer->setText(tr("<font color='blue'>Select Yes if you do not want this certificate to be editable/transferable by the recipient</font>"));
+	ui->viewOnlyBox->setVisible(false);
+	ui->viewOnlyLabel->setVisible(false);
+	ui->viewOnlyDisclaimer->setVisible(false);
 	loadAliases();
 	loadCategories();
 	connect(ui->aliasEdit,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(aliasChanged(const QString&)));
@@ -79,6 +80,9 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 		ui->aliasEdit->setEnabled(false);
 		ui->viewAliasDisclaimer->setVisible(false);
 		ui->viewAliasEdit->setVisible(false);
+		ui->viewOnlyBox->setVisible(true);
+		ui->viewOnlyLabel->setVisible(true);
+		ui->viewOnlyDisclaimer->setVisible(true);
         break;
     }
     mapper = new QDataWidgetMapper(this);
@@ -539,6 +543,7 @@ bool EditCertDialog::saveCurrentRow()
 			strMethod = string("certtransfer");
 			params.push_back(ui->certEdit->text().toStdString());
 			params.push_back(ui->transferEdit->text().toStdString());
+			params.push_back(ui->viewOnlyBox->currentText() == QString("Yes")? "1": "0");
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)

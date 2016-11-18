@@ -91,7 +91,7 @@ void MyOfferListPage::loadAliasList()
 	QSettings settings;
 	QString oldListAlias = settings.value("defaultListAlias", "").toString();
 	ui->displayListAlias->clear();
-	ui->displayListAlias->addItem(tr("All"));
+	ui->displayListAlias->addItem(tr("Wallet"));
 	
 	
 	UniValue aliasList(UniValue::VARR);

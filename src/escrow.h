@@ -165,7 +165,7 @@ public:
         return Exists(make_pair(std::string("escrowt"), txid));
     }
     bool ScanEscrows(
-		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp,
+		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp, const std::vector<std::string>& aliasArray,
             unsigned int nMax,
             std::vector<std::pair<CEscrow, CEscrow> >& escrowScan);
 };

@@ -639,8 +639,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
     if (params.size() == 2)
         vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
-
-
+	map< vector<unsigned char>, int > vNamesI;
 	vector<CMessage > messageScan;
 	if(aliases.size() > 0)
 	{
@@ -651,14 +650,21 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	{
 		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
 		{
-			const CWalletTx &wtx = item.second;        // skip non-syscoin txns
+			const CWalletTx &wtx = item.second; 
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
 			if(!IsSyscoinTxMine(wtx, "message"))
 				continue;
 			CMessage message(wtx);
 			if(!message.IsNull())
+			{
+				if (vNamesI.find(message.vchMessage) != vNamesI.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
+					continue;
 				messageScan.push_back(message);
+				vNamesI[message.vchMessage] = message.nHeight;
+			}
 		}
 	}
 	BOOST_FOREACH(const CMessage &message, messageScan) {
@@ -738,7 +744,8 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
     if (params.size() == 2)
         vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
-	vector<CMessage > messageScan;
+	map< vector<unsigned char>, int > vNamesI;
+	vector<CMessage> messageScan;
 	if(aliases.size() > 0)
 	{
 		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
@@ -764,21 +771,16 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;
 
-				// decode txn, skip non-alias txns
-				vector<vector<unsigned char> > vvch;
-				int op, nOut;
-				if (!DecodeMessageTx(tx, op, nOut, vvch) || !IsMessageOp(op))
-					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != vvch[0])
-					continue;
-				vector<CMessage> vtxMessagePos;
-				if (!pmessagedb->ReadMessage(vvch[0], vtxMessagePos) || vtxMessagePos.empty())
-					continue;
-				const CMessage& message = vtxMessagePos.back();
-				if(message.vchAliasFrom != vchAlias)
-					continue;
-
-				messageScan.push_back(message);
+				CMessage message(wtx);
+				if(!message.IsNull() && message.vchAliasFrom == vchAlias)
+				{
+					if (vNamesI.find(message.vchMessage) != vNamesI.end())
+						continue;
+					if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
+						continue;
+					messageScan.push_back(message);
+					vNamesI[message.vchMessage] = message.nHeight;
+				}
 			}
 		}
 	}
@@ -793,7 +795,14 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 				continue;
 			CMessage message(wtx);
 			if(!message.IsNull())
+			{
+				if (vNamesI.find(message.vchMessage) != vNamesI.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
+					continue;
 				messageScan.push_back(message);
+				vNamesI[message.vchMessage] = message.nHeight;
+			}
 		}
 	}
 	BOOST_FOREACH(const CMessage &message, messageScan) {

@@ -42,9 +42,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 	ui->rootOfferLabel->setVisible(false);
 	ui->rootOfferEdit->setVisible(false);
 	ui->privateEdit->setEnabled(true);
-	ui->privateEdit->clear();
-	ui->privateEdit->addItem(tr("No"));
-	ui->privateEdit->addItem(tr("Yes"));
 	ui->currencyEdit->addItem(QString("USD"));
 
 	ui->geolocationDisclaimer->setText(tr("<font color='blue'>If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information.</font>"));

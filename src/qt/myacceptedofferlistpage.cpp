@@ -102,7 +102,7 @@ void MyAcceptedOfferListPage::loadAliasList()
 	QSettings settings;
 	QString oldListAlias = settings.value("defaultListAlias", "").toString();
 	ui->displayListAlias->clear();
-	ui->displayListAlias->addItem(tr("All"));
+	ui->displayListAlias->addItem(tr("Wallet"));
 	
 	
 	UniValue aliasList(UniValue::VARR);
@@ -130,7 +130,7 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 	string strMethod = string("offeracceptlist");
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-	if(defaultListAlias != tr("All"))
+	if(defaultListAlias != tr("Wallet"))
 		params.push_back(defaultListAlias.toStdString());
 	UniValue offerAcceptsValue;
 	QString offerAcceptHash;

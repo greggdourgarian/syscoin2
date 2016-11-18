@@ -41,6 +41,7 @@ public:
 	bool bPrivate;
 	unsigned char safetyLevel;
 	bool safeSearch;
+	bool bTransferViewOnly;
     CCert() {
         SetNull();
     }
@@ -68,6 +69,7 @@ public:
 		READWRITE(vchLinkAlias);
 		READWRITE(vchViewAlias);
 		READWRITE(bPrivate);
+		READWRITE(bTransferViewOnly);
 		READWRITE(vchCert);
 		READWRITE(VARINT(safetyLevel));
 		READWRITE(safeSearch);
@@ -85,6 +87,7 @@ public:
 		&& a.vchLinkAlias == b.vchLinkAlias
 		&& a.vchViewAlias == b.vchViewAlias
 		&& a.bPrivate == b.bPrivate
+		&& a.bTransferViewOnly == b.bTransferViewOnly
 		&& a.safetyLevel == b.safetyLevel
 		&& a.safeSearch == b.safeSearch
 		&& a.vchCert == b.vchCert
@@ -102,6 +105,7 @@ public:
 		vchLinkAlias = b.vchLinkAlias;
 		vchViewAlias = b.vchViewAlias;
 		bPrivate = b.bPrivate;
+		bTransferViewOnly = b.bTransferViewOnly;
 		safetyLevel = b.safetyLevel;
 		safeSearch = b.safeSearch;
 		vchCert = b.vchCert;
@@ -133,8 +137,8 @@ public:
         *this = myCert;
         return true;
     }
-    void SetNull() { vchViewAlias.clear(); vchLinkAlias.clear(); sCategory.clear(); vchCert.clear(); safetyLevel = 0; safeSearch = true; nHeight = 0; txHash.SetNull(); vchAlias.clear(); bPrivate = false; vchTitle.clear(); vchData.clear(); vchViewData.clear();}
-    bool IsNull() const { return (vchViewAlias.empty() && vchLinkAlias.empty() && sCategory.empty() && vchCert.empty() && safetyLevel == 0 && safeSearch && !bPrivate && txHash.IsNull() &&  nHeight == 0 && vchData.empty() && vchViewData.empty() && vchTitle.empty() && vchAlias.empty()); }
+    void SetNull() { bTransferViewOnly = false; vchViewAlias.clear(); vchLinkAlias.clear(); sCategory.clear(); vchCert.clear(); safetyLevel = 0; safeSearch = true; nHeight = 0; txHash.SetNull(); vchAlias.clear(); bPrivate = false; vchTitle.clear(); vchData.clear(); vchViewData.clear();}
+    bool IsNull() const { return (bTransferViewOnly == false && vchViewAlias.empty() && vchLinkAlias.empty() && sCategory.empty() && vchCert.empty() && safetyLevel == 0 && safeSearch && !bPrivate && txHash.IsNull() &&  nHeight == 0 && vchData.empty() && vchViewData.empty() && vchTitle.empty() && vchAlias.empty()); }
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
 	const std::vector<unsigned char> Serialize();
@@ -162,7 +166,7 @@ public:
     }
 
     bool ScanCerts(
-		const std::vector<unsigned char>& vchCert, const std::string &strRegExp,  bool safeSearch, const std::string& strCategory,
+		const std::vector<unsigned char>& vchCert, const std::string &strRegExp, const std::vector<std::string>& aliasArray, bool safeSearch, const std::string& strCategory,
             unsigned int nMax,
             std::vector<CCert>& certScan);
 

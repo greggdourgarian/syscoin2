@@ -128,7 +128,7 @@ const vector<unsigned char> CCert::Serialize() {
     return vchData;
 
 }
-bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string &strRegexp, bool safeSearch, const string& strCategory, unsigned int nMax,
+bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string &strRegexp, const vector<string>& aliasArray, bool safeSearch, const string& strCategory, unsigned int nMax,
         std::vector<CCert>& certScan) {
     // regexp
     using namespace boost::xpressive;
@@ -161,7 +161,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 
 				if(txPos.safetyLevel >= SAFETY_LEVEL1)
 				{
-					if(safeSearch)
+					if(aliasArray.empty() && safeSearch)
 					{
 						pcursor->Next();
 						continue;
@@ -172,7 +172,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 						continue;
 					}
 				}
-				if(!txPos.safeSearch && safeSearch)
+				if(aliasArray.empty() && !txPos.safeSearch && safeSearch)
 				{
 					pcursor->Next();
 					continue;
@@ -189,23 +189,34 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					pcursor->Next();
 					continue;
 				}
-				if(!theAlias.safeSearch && safeSearch)
+				if(aliasArray.empty() && !theAlias.safeSearch && safeSearch)
 				{
 					pcursor->Next();
 					continue;
 				}
-				if((safeSearch && theAlias.safetyLevel > txPos.safetyLevel) || (!safeSearch && theAlias.safetyLevel > SAFETY_LEVEL1))
+				if(aliasArray.empty() && ((safeSearch && theAlias.safetyLevel > txPos.safetyLevel) || (!safeSearch && theAlias.safetyLevel > SAFETY_LEVEL1)))
 				{
 					pcursor->Next();
 					continue;
 				}
-				const string &cert = stringFromVch(vchMyCert);
-				string title = stringFromVch(txPos.vchTitle);
-				boost::algorithm::to_lower(title);
-				if (strRegexp != "" && !regex_search(title, certparts, cregex) && strRegexp != cert && strRegexpLower != stringFromVch(txPos.vchAlias))
+				if(aliasArray.size() > 0)
 				{
-					pcursor->Next();
-					continue;
+					if (std::find(aliasArray.begin(), aliasArray.end(), txPos.vchAlias) != aliasArray.end())
+					{
+						pcursor->Next();
+						continue;
+					}
+				}
+				if(strRegexp != "")
+				{
+					const string &cert = stringFromVch(vchMyCert);
+					string title = stringFromVch(txPos.vchTitle);
+					boost::algorithm::to_lower(title);
+					if (!regex_search(title, certparts, cregex) && strRegexp != cert && strRegexpLower != stringFromVch(txPos.vchAlias))
+					{
+						pcursor->Next();
+						continue;
+					}
 				}
 				certScan.push_back(txPos);
 			}
@@ -558,10 +569,19 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 					}
 				}
 			}
+			else
+			{
+				theCert.bTransferViewOnly = dbCert.bTransferViewOnly;
+			}
 			theCert.vchLinkAlias.clear();
 			if(!GetTxOfAlias(theCert.vchAlias, alias, aliasTx))
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2029 - " + _("Cannot find alias for this certificate. It may be expired");	
+				theCert = dbCert;
+			}
+			if(dbCert.bTransferViewOnly)
+			{
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2028 - " + _("Cannot edit or transfer this certificate. It is view-only.");
 				theCert = dbCert;
 			}
 		}
@@ -962,17 +982,20 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 
 
 UniValue certtransfer(const UniValue& params, bool fHelp) {
- if (fHelp || params.size() != 2)
+ if (fHelp || params.size() < 2 || params.size() > 3)
         throw runtime_error(
-		"certtransfer <certkey> <alias>\n"
+		"certtransfer <certkey> <alias> [viewonly=0]\n"
                 "<certkey> certificate guidkey.\n"
 				"<alias> Alias to transfer this certificate to.\n"
+				"<viewonly> Transfer the certificate as view-only. Recipient cannot edit, transfer or sell this certificate in the future.\n"
                  + HelpRequiringPassphrase());
 
     // gather & validate inputs
+	bool bViewOnly = false;
 	vector<unsigned char> vchCert = vchFromValue(params[0]);
 	vector<unsigned char> vchAlias = vchFromValue(params[1]);
-
+	if(params.size() >= 3)
+		bViewOnly = params[2].get_str() == "1"? true: false;
 	// check for alias existence in DB
 	CTransaction tx;
 	CAliasIndex toAlias;
@@ -1041,6 +1064,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	theCert.bPrivate = copyCert.bPrivate;
 	theCert.safeSearch = copyCert.safeSearch;
 	theCert.safetyLevel = copyCert.safetyLevel;
+	theCert.bTransferViewOnly = bViewOnly;
 	if(copyCert.vchData != vchData)
 		theCert.vchData = vchData;
 
@@ -1150,84 +1174,75 @@ UniValue certlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size())
         throw runtime_error("certlist [\"alias\",...] [<cert>]\n"
                 "list certificates that an array of aliases own");
-	vector<unsigned char> vchCert;
-	UniValue aliases(UniValue::VARR);
-	if(params[0].isArray())
-		aliases = params[0].get_array();
-	else
+	UniValue aliasesValue(UniValue::VARR);
+	vector<string> aliases;
+	if(params.size() >= 1)
 	{
-		string aliasName =  params[0].get_str();
-		aliases.push_back(aliasName);
+		if(params[0].isArray())
+		{
+			aliasesValue = params[0].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str();
+				boost::algorithm::to_lower(lowerStr);
+				aliases.push_back(lowerStr);
+			}
+		}
+		else
+		{
+			string aliasName =  params[0].get_str();
+			if(aliasName != "")
+				aliases.push_back(aliasName);
+		}
 	}
 	vector<unsigned char> vchNameUniq;
-	if (params.size() >= 2)
-		vchNameUniq = vchFromValue(params[1]);
+    if (params.size() == 2)
+        vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
-	map< vector<unsigned char>, UniValue > vNamesO;
-	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
+	vector<CCert> certScan;
+	if(aliases.size() > 0)
 	{
-		string name = aliases[aliasIndex].get_str();
-		vector<unsigned char> vchAlias = vchFromString(name);
-
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-			throw runtime_error("failed to read from alias DB");
-		const CAliasIndex &alias = vtxPos.back();
-		CTransaction aliastx;
-		uint256 txHash;
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-		{
-			throw runtime_error("failed to read alias transaction");
-		}
-
-		CTransaction tx;
-		uint64_t nHeight;
-		vector<CCert> certScan;
-		if (!pcertdb->ScanCerts(vchNameUniq, name, alias.safeSearch, "", 1000, certScan))
+		if (!pcertdb->ScanCerts(vchNameUniq, "", aliases, true, "", 1000,certScan))
 			throw runtime_error("scan failed");
-		BOOST_FOREACH(const CCert &cert, certScan) {
-			if(!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
+	}
+	else
+	{
+		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
+		{
+			const CWalletTx &wtx = item.second;       
+			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
-			
-			int expired = 0;
-			int expires_in = 0;
-			int expired_block = 0;  
-
-			// decode txn, skip non-cert txns
-			vector<vector<unsigned char> > vvch;
-			int op, nOut;
-			if (!DecodeCertTx(tx, op, nOut, vvch))
-				continue;
-
-			vchCert = vvch[0];
-			if (vNamesI.find(vchCert) != vNamesI.end())
-				continue;		
-			// skip this cert if it doesn't match the given filter value
-			if (vchNameUniq.size() > 0 && vchNameUniq != vchCert)
-				continue;
-				
-			vector<CCert> vtxCertPos;
-			if (!pcertdb->ReadCert(vchCert, vtxCertPos) || vtxCertPos.empty())
-				continue;
-			if(cert.vchAlias != vchAlias)
-				continue;		
-			nHeight = cert.nHeight;
-
-			
-			// build the output object
-			UniValue oName(UniValue::VOBJ);
-
-			if(BuildCertJson(cert, alias, aliastx, oName))
+			CCert cert(wtx);
+			if(!cert.IsNull())
 			{
-				vNamesI[vchCert] = nHeight;
-				vNamesO[vchCert] = oName;
+				if (vNamesI.find(cert.vchCert) != vNamesI.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != cert.vchCert)
+					continue;
+				vector<CCert> vtxCertPos;
+				if (!pcertdb->ReadCert(cert.vchCert, vtxCertPos) || vtxCertPos.empty())
+					continue;
+				const CCert& theCert = vtxCertPos.back();
+				certScan.push_back(theCert);
+				vNamesI[cert.vchCert] = theCert.nHeight;
 			}
-	    
 		}
 	}
-    BOOST_FOREACH(const PAIRTYPE(vector<unsigned char>, UniValue)& item, vNamesO)
-        oRes.push_back(item.second);
+	CTransaction aliastx;
+	BOOST_FOREACH(const CCert& cert, certScan) {
+		vector<CAliasIndex> vtxPos;
+		if (!paliasdb->ReadAlias(cert.vchAlias, vtxPos) || vtxPos.empty())
+			continue;
+		const CAliasIndex &alias = vtxPos.back();
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			continue;
+		if(!IsSyscoinTxMine(aliastx, "alias"))
+			continue;
+		UniValue oCert(UniValue::VOBJ);
+		if(BuildCertJson(cert, alias, aliastx, oCert))
+			oRes.push_back(oCert);
+	}
     return oRes;
 }
 bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert)
@@ -1368,7 +1383,8 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
     UniValue oRes(UniValue::VARR);
     
     vector<CCert> certScan;
-    if (!pcertdb->ScanCerts(vchCert, strRegexp, safeSearch, strCategory, 25, certScan))
+	vector<string> aliases;
+    if (!pcertdb->ScanCerts(vchCert, strRegexp, aliases, safeSearch, strCategory, 25, certScan))
         throw runtime_error("scan failed");
 	CTransaction aliastx;
 	uint256 txHash;

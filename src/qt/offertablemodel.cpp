@@ -82,7 +82,7 @@ public:
 			string strMethod = string("offerlist");
 	        UniValue params(UniValue::VARR); 
 			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-			if(defaultListAlias != tr("All"))
+			if(defaultListAlias != tr("Wallet"))
 				params.push_back(defaultListAlias.toStdString());
 			
 			UniValue result ;

@@ -119,7 +119,7 @@ const vector<unsigned char> CEscrow::Serialize() {
     return vchData;
 
 }
-bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const string& strRegexp, unsigned int nMax,
+bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const string& strRegexp, const vector<string>& aliasArray, unsigned int nMax,
 							std::vector<std::pair<CEscrow, CEscrow> >& escrowScan) {
 	string strSearchLower = strRegexp;
 	boost::algorithm::to_lower(strSearchLower);
@@ -151,7 +151,16 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 				string buyerAliasLower = stringFromVch(txPos.vchBuyerAlias);
 				string sellerAliasLower = stringFromVch(txPos.vchSellerAlias);
 				string arbiterAliasLower = stringFromVch(txPos.vchArbiterAlias);
-
+				if(aliasArray.size() > 0)
+				{
+					if (std::find(aliasArray.begin(), aliasArray.end(), buyerAliasLower) != aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), sellerAliasLower) != aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), arbiterAliasLower) != aliasArray.end())
+					{
+						pcursor->Next();
+						continue;
+					}
+				}
 				if (strRegexp != "" && strRegexp != offerstr && strRegexp != escrow && strSearchLower != buyerAliasLower && strSearchLower != sellerAliasLower && strSearchLower != arbiterAliasLower)
 				{
 					pcursor->Next();
@@ -3474,43 +3483,68 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 2 < params.size())
         throw runtime_error("escrowlist [\"alias\",...] [<escrow>]\n"
                 "list escrows that an array of aliases are involved in");
-	vector<unsigned char> vchEscrow;
-	UniValue aliases(UniValue::VARR);
-	if(params[0].isArray())
-		aliases = params[0].get_array();
-	else
+
+	UniValue aliasesValue(UniValue::VARR);
+	vector<string> aliases;
+	if(params.size() >= 1)
 	{
-		string aliasName =  params[0].get_str();
-		aliases.push_back(aliasName);
+		if(params[0].isArray())
+		{
+			aliasesValue = params[0].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str();
+				boost::algorithm::to_lower(lowerStr);
+				aliases.push_back(lowerStr);
+			}
+		}
+		else
+		{
+			string aliasName =  params[0].get_str();
+			if(aliasName != "")
+				aliases.push_back(aliasName);
+		}
 	}
 	vector<unsigned char> vchNameUniq;
-	if (params.size() >= 2)
-		vchNameUniq = vchFromValue(params[1]);
+    if (params.size() == 2)
+        vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
-	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
+	map< vector<unsigned char>, int > vNamesI;
+	vector<pair<CEscrow, CEscrow> > escrowScan;
+	if(aliases.size() > 0)
 	{
-		string name = aliases[aliasIndex].get_str();
-		vector<unsigned char> vchAlias = vchFromString(name);
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-			throw runtime_error("failed to read from alias DB");
-		const CAliasIndex &alias = vtxPos.back();
-		CTransaction aliastx;
-		uint256 txHash;
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-		{
-			throw runtime_error("failed to read alias transaction");
-		}
-
-		vector<pair<CEscrow, CEscrow> > escrowScan;
-		if (!pescrowdb->ScanEscrows(vchEscrow, "", 1000, escrowScan))
+		if (!pescrowdb->ScanEscrows(vchNameUniq, "", aliases, 1000, messageScan))
 			throw runtime_error("scan failed");
-		pair<CEscrow, CEscrow> pairScan;
-		BOOST_FOREACH(pairScan, escrowScan) {
-			UniValue oEscrow(UniValue::VOBJ);
-			if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow))
-				oRes.push_back(oEscrow);
+	}
+	else
+	{
+		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
+		{
+			const CWalletTx &wtx = item.second;       
+			if (wtx.nVersion != SYSCOIN_TX_VERSION)
+				continue;
+			if(!IsSyscoinTxMine(wtx, "escrow"))
+				continue;
+			CEscrow escrow(wtx);
+			if(!escrow.IsNull())
+			{
+				if (vNamesI.find(escrow.vchEscrow) != vNamesI.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != escrow.vchEscrow)
+					continue;
+				vector<CEscrow> vtxEscrowPos;
+				if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxEscrowPos) || vtxEscrowPos.empty())
+					continue;
+				const CEscrow& theEscrow = vtxEscrowPos.back();
+				escrowScan.push_back(theEscrow, vtxEscrowPos.front());
+				vNamesI[escrow.vchEscrow] = theEscrow.nHeight;
+			}
 		}
+	}
+	BOOST_FOREACH(const vector<pair<CEscrow, CEscrow> > &pairScan, escrowScan) {
+		UniValue oEscrow(UniValue::VOBJ);
+		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow))
+			oRes.push_back(oEscrow);
 	}
     return oRes;
 }
@@ -3559,7 +3593,8 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 	UniValue oRes(UniValue::VARR);
 
 	vector<pair<CEscrow, CEscrow> > escrowScan;
-	if (!pescrowdb->ScanEscrows(vchEscrow, strRegexp, 1000, escrowScan))
+	vector<string> aliases;
+	if (!pescrowdb->ScanEscrows(vchEscrow, strRegexp, aliases, 1000, escrowScan))
 		throw runtime_error("scan failed");
 	pair<CEscrow, CEscrow> pairScan;
 	BOOST_FOREACH(pairScan, escrowScan) {

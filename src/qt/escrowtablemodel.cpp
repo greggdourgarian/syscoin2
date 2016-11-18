@@ -90,7 +90,7 @@ public:
 			string strMethod = string("escrowlist");
 			QSettings settings;
 			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-			if(defaultListAlias != tr("All"))
+			if(defaultListAlias != tr("Wallet"))
 				params.push_back(defaultListAlias.toStdString());
 			UniValue result ;
 			string name_str;
