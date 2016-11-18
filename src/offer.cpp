@@ -3677,7 +3677,6 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 	if (!pofferdb->ScanOffers(vchOffer, strRegexp, safeSearch, strCategory, 25, offerScan))
 		throw runtime_error("scan failed");
 	CTransaction aliastx;
-	uint256 txHash;
 	BOOST_FOREACH(const COffer &txOffer, offerScan) {
 		vector<CAliasIndex> vtxAliasPos;
 		if(!paliasdb->ReadAlias(txOffer.vchAlias, vtxAliasPos) || vtxAliasPos.empty())

@@ -157,13 +157,13 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 					pcursor->Next();
 					continue;
 				}
-                escrowScan.push_back(make_pair(vtxPos.front(), txPos))
+                escrowScan.push_back(make_pair(vtxPos.front(), txPos));
             }
             if (escrowScan.size() >= nMax)
                 break;
 
             pcursor->Next();
-        } catch (std::exception &e) {
+		} catch (std::exception &e) {
             return error("%s() : deserialize error", __PRETTY_FUNCTION__);
         }
     }
@@ -3252,11 +3252,14 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 
 	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
 		  throw runtime_error("failed to read from escrow DB");
-	BuildEscrowJson(vtxPos.back(), vtxPos.front());
+	BuildEscrowJson(vtxPos.back(), vtxPos.front(), oEscrow);
     return oEscrow;
 }
 bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow)
 {
+	vector<CEscrow> vtxPos;
+	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
+		  return false;
 	CTransaction tx;
 	if (!GetSyscoinTransaction(escrow.nHeight, escrow.txHash, tx, Params().GetConsensus()))
 		 return false;
@@ -3504,8 +3507,9 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 			throw runtime_error("scan failed");
 		pair<CEscrow, CEscrow> pairScan;
 		BOOST_FOREACH(pairScan, escrowScan) {
-			if(BuildEscrowJson(pairScan.first, pairScan.second))
-				oRes.push_back(oName);
+			UniValue oEscrow(UniValue::VOBJ);
+			if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow))
+				oRes.push_back(oEscrow);
 		}
 	}
     return oRes;
@@ -3525,7 +3529,8 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
 
     CEscrow txPos2;
     BOOST_FOREACH(txPos2, vtxPos) {
-        if(BuildEscrowJson(vtxPos.front(), txPos2))
+		UniValue oEscrow(UniValue::VOBJ);
+        if(BuildEscrowJson(vtxPos.front(), txPos2, oEscrow))
 			oRes.push_back(oEscrow);
     }
     return oRes;
@@ -3558,8 +3563,9 @@ UniValue escrowfilter(const UniValue& params, bool fHelp) {
 		throw runtime_error("scan failed");
 	pair<CEscrow, CEscrow> pairScan;
 	BOOST_FOREACH(pairScan, escrowScan) {
-		if(BuildEscrowJson(pairScan.first, pairScan.second))
-			oRes.push_back(oName);
+		UniValue oEscrow(UniValue::VOBJ);
+		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow))
+			oRes.push_back(oEscrow);
 	}
 
 	return oRes;

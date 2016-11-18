@@ -2423,133 +2423,68 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 	map<vector<unsigned char>, int> vNamesI;
 	map<vector<unsigned char>, UniValue> vNamesO;
 
-	{
-		uint256 hash;
-		CTransaction tx;
-		int pending = 0;
-		uint64_t nHeight;
-		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet) {
-			pending = 0;
-			// get txn hash, read txn index
-			hash = item.second.GetHash();
-			const CWalletTx &wtx = item.second;
-			// skip non-syscoin txns
-			if (wtx.nVersion != SYSCOIN_TX_VERSION)
-				continue;
+	uint256 hash;
+	CTransaction tx;
+	int pending = 0;
+	vector<vector<unsigned char> > vvch;
+	int op, nOut;
+	BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet) {
+		pending = 0;
+		// get txn hash, read txn index
+		hash = item.second.GetHash();
+		const CWalletTx &wtx = item.second;
+		// skip non-syscoin txns
+		if (wtx.nVersion != SYSCOIN_TX_VERSION)
+			continue;
 
-			// decode txn, skip non-alias txns
-			vector<vector<unsigned char> > vvch;
-			int op, nOut;
-			if (!DecodeAliasTx(wtx, op, nOut, vvch) || !IsAliasOp(op))
-				continue;
+		if (!DecodeAliasTx(wtx, op, nOut, vvch) || !IsAliasOp(op))
+			continue;
 
-			// get the txn alias name
-			if (!GetAliasOfTx(wtx, vchAlias))
-				continue;
+		// get the txn alias name
+		if (!GetAliasOfTx(wtx, vchAlias))
+			continue;
 
-			// skip this alias if it doesn't match the given filter value
-			if (vchNameUniq.size() > 0 && vchNameUniq != vchAlias)
+		// skip this alias if it doesn't match the given filter value
+		if (vchNameUniq.size() > 0 && vchNameUniq != vchAlias)
+			continue;
+		vector<CAliasIndex> vtxPos;
+		CAliasIndex alias;
+		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+		{
+			pending = 1;
+			alias = CAliasIndex(wtx);
+			if(!IsSyscoinTxMine(wtx, "alias"))
 				continue;
-			vector<CAliasIndex> vtxPos;
-			CAliasIndex alias;
-			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+		}
+		else
+		{
+			alias = vtxPos.back();
+			CTransaction tx;
+			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, tx, Params().GetConsensus()))
 			{
 				pending = 1;
-				alias = CAliasIndex(wtx);
 				if(!IsSyscoinTxMine(wtx, "alias"))
 					continue;
 			}
-			else
-			{
-				alias = vtxPos.back();
-				CTransaction tx;
-				if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, tx, Params().GetConsensus()))
-				{
-					pending = 1;
-					if(!IsSyscoinTxMine(wtx, "alias"))
-						continue;
-				}
-				else{
-					if (!DecodeAliasTx(tx, op, nOut, vvch) || !IsAliasOp(op))
-						continue;
-					if(!IsSyscoinTxMine(tx, "alias"))
-						continue;
-				}
+			else{
+				if (!DecodeAliasTx(tx, op, nOut, vvch) || !IsAliasOp(op))
+					continue;
+				if(!IsSyscoinTxMine(tx, "alias"))
+					continue;
 			}
-			nHeight = alias.nHeight;
-			// get last active name only
-			if (vNamesI.find(vchAlias) != vNamesI.end() && (nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
-				continue;	
-			int expired = 0;
-			int expires_in = 0;
-			int expired_block = 0;
-			// build the output UniValue
-			UniValue oName(UniValue::VOBJ);
-			oName.push_back(Pair("name", stringFromVch(vchAlias)));
-			oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
-			oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
-			string strPrivateValue = "";
-			if(!alias.vchPrivateValue.empty())
-				strPrivateValue = _("Encrypted for alias owner");
-			string strDecrypted = "";
-			if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
-				strPrivateValue = strDecrypted;		
-			oName.push_back(Pair("privatevalue", strPrivateValue));
-
-			string strPassword = "";
-			if(!alias.vchPassword.empty())
-				strPassword = _("Encrypted for alias owner");
-			strDecrypted = "";
-			if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
-				strPassword = strDecrypted;		
-			oName.push_back(Pair("password", strPassword));
-
-
-			oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
-			oName.push_back(Pair("acceptcerttransfers", alias.acceptCertTransfers ? "Yes" : "No"));
-			oName.push_back(Pair("safetylevel", alias.safetyLevel ));
-			float ratingAsBuyer = 0;
-			if(alias.nRatingCountAsBuyer > 0)
-				ratingAsBuyer = roundf(alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer);
-			float ratingAsSeller = 0;
-			if(alias.nRatingCountAsSeller > 0)
-				ratingAsSeller = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
-			float ratingAsArbiter = 0;
-			if(alias.nRatingCountAsArbiter > 0)
-				ratingAsArbiter = roundf(alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter);
-			oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
-			oName.push_back(Pair("buyer_ratingcount", (int)alias.nRatingCountAsBuyer));
-			oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
-			oName.push_back(Pair("seller_ratingcount", (int)alias.nRatingCountAsSeller));
-			oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
-			oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
-			expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-			if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
-			{
-				if(expired_block < chainActive.Tip()->nHeight)
-				{
-					expired = 1;
-				}
-			}
-			expires_in = expired_block - chainActive.Tip()->nHeight;
-			oName.push_back(Pair("expires_in", expires_in));
-			oName.push_back(Pair("expires_on", expired_block));
-			oName.push_back(Pair("expired", expired));
-			oName.push_back(Pair("pending", pending));
-			UniValue msInfo(UniValue::VOBJ);
-			msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
-			UniValue msAliases(UniValue::VARR);
-			for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
-			{
-				msAliases.push_back(alias.multiSigInfo.vchAliases[i]);
-			}
-			msInfo.push_back(Pair("reqsigners", msAliases));
-			oName.push_back(Pair("multisiginfo", msInfo));
-			vNamesI[vchAlias] = nHeight;
-			vNamesO[vchAlias] = oName;					
-
 		}
+		// get last active name only
+		if (vNamesI.find(vchAlias) != vNamesI.end() && (nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
+			continue;	
+		UniValue oName(UniValue::VOBJ);
+		if(BuildAliasJson(alias, tx, oName))
+		{
+			vNamesI[vchAlias] = nHeight;
+			vNamesO[vchAlias] = oName;	
+		}
+
 	}
+	
 
 	BOOST_FOREACH(const PAIRTYPE(vector<unsigned char>, UniValue)& item, vNamesO)
 		oRes.push_back(item.second);
@@ -2711,107 +2646,105 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 
 	CTransaction tx;
 	CAliasIndex alias;
-	UniValue oShowResult(UniValue::VOBJ);
 
-	{
-		// check for alias existence in DB
-		vector<CAliasIndex> vtxPos;
-		bool isExpired = false;
-		if (!GetTxAndVtxOfAlias(vchAlias, alias, tx, vtxPos, isExpired, true))
-			throw runtime_error("failed to read from alias DB");
-	
+	// check for alias existence in DB
+	vector<CAliasIndex> vtxPos;
+	bool isExpired = false;
+	if (!GetTxAndVtxOfAlias(vchAlias, alias, tx, vtxPos, isExpired, true))
+		throw runtime_error("failed to read from alias DB");
 
-		UniValue oName(UniValue::VOBJ);
-		uint64_t nHeight;
-		int expired = 0;
-		int expires_in = 0;
-		int expired_block = 0;
-		nHeight = alias.nHeight;
-		oName.push_back(Pair("name", stringFromVch(vchAlias)));
-
-		if(alias.safetyLevel >= SAFETY_LEVEL2)
-			throw runtime_error("alias has been banned");
-		oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
-		string strPrivateValue = "";
-		if(!alias.vchPrivateValue.empty())
-			strPrivateValue = _("Encrypted for alias owner");
-		string strDecrypted = "";
-		if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
-			strPrivateValue = strDecrypted;		
-		oName.push_back(Pair("privatevalue", strPrivateValue));
-
-		string strPassword = "";
-		if(!alias.vchPassword.empty())
-			strPassword = _("Encrypted for alias owner");
-		strDecrypted = "";
-		if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
-			strPassword = strDecrypted;		
-		oName.push_back(Pair("password", strPassword));
-
-
-		oName.push_back(Pair("txid", alias.txHash.GetHex()));
-		CSyscoinAddress address;
-		alias.GetAddress(&address);
-		if(!address.IsValid())
-			throw runtime_error("Invalid alias address");
-		oName.push_back(Pair("address", address.ToString()));
-		oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
-
-		UniValue balanceParams(UniValue::VARR);
-		balanceParams.push_back(stringFromVch(alias.vchAlias));
-		const UniValue &resBalance = tableRPC.execute("aliasbalance", balanceParams);
-		CAmount nAliasBalance = AmountFromValue(resBalance);
-		oName.push_back(Pair("balance", ValueFromAmount(nAliasBalance)));
-
-		bool fAliasMine = IsSyscoinTxMine(tx, "alias")? true:  false;
-		oName.push_back(Pair("ismine", fAliasMine));
-		oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
-		oName.push_back(Pair("acceptcerttransfers", alias.acceptCertTransfers ? "Yes" : "No"));
-		oName.push_back(Pair("safetylevel", alias.safetyLevel ));
-		float ratingAsBuyer = 0;
-		if(alias.nRatingCountAsBuyer > 0)
-			ratingAsBuyer = roundf(alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer);
-		float ratingAsSeller = 0;
-		if(alias.nRatingCountAsSeller > 0)
-			ratingAsSeller = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
-		float ratingAsArbiter = 0;
-		if(alias.nRatingCountAsArbiter > 0)
-			ratingAsArbiter = roundf(alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter);
-		oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
-		oName.push_back(Pair("buyer_ratingcount", (int)alias.nRatingCountAsBuyer));
-		oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
-		oName.push_back(Pair("seller_ratingcount", (int)alias.nRatingCountAsSeller));
-		oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
-		oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
-        oName.push_back(Pair("lastupdate_height", nHeight));
-		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-		if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
-		{
-			if(expired_block < chainActive.Tip()->nHeight)
-			{
-				expired = 1;
-			}  
-		}
-		expires_in = expired_block - chainActive.Tip()->nHeight;
-		oName.push_back(Pair("expires_in", expires_in));
-		oName.push_back(Pair("expires_on", expired_block));
-		oName.push_back(Pair("expired", expired));
-		UniValue msInfo(UniValue::VOBJ);
-		msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
-		UniValue msAliases(UniValue::VARR);
-		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
-		{
-			msAliases.push_back(alias.multiSigInfo.vchAliases[i]);
-		}
-		msInfo.push_back(Pair("reqsigners", msAliases));
-		msInfo.push_back(Pair("redeemscript", HexStr(alias.multiSigInfo.vchRedeemScript)));
-		oName.push_back(Pair("multisiginfo", msInfo));
+	UniValue oName(UniValue::VOBJ);
+	BuildAliasJson(alias, tx, oName);
 		
-		oShowResult = oName;
-	}
-	return oShowResult;
+	return oName;
 }
+bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName)
+{
+	uint64_t nHeight;
+	int expired = 0;
+	int expires_in = 0;
+	int expired_block = 0;
+	nHeight = alias.nHeight;
+	oName.push_back(Pair("name", stringFromVch(vchAlias)));
 
+	if(alias.safetyLevel >= SAFETY_LEVEL2)
+		throw runtime_error("alias has been banned");
+	oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
+	string strPrivateValue = "";
+	if(!alias.vchPrivateValue.empty())
+		strPrivateValue = _("Encrypted for alias owner");
+	string strDecrypted = "";
+	if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
+		strPrivateValue = strDecrypted;		
+	oName.push_back(Pair("privatevalue", strPrivateValue));
+
+	string strPassword = "";
+	if(!alias.vchPassword.empty())
+		strPassword = _("Encrypted for alias owner");
+	strDecrypted = "";
+	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
+		strPassword = strDecrypted;		
+	oName.push_back(Pair("password", strPassword));
+
+
+	oName.push_back(Pair("txid", alias.txHash.GetHex()));
+	CSyscoinAddress address;
+	alias.GetAddress(&address);
+	if(!address.IsValid())
+		throw runtime_error("Invalid alias address");
+	oName.push_back(Pair("address", address.ToString()));
+	oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
+
+	UniValue balanceParams(UniValue::VARR);
+	balanceParams.push_back(stringFromVch(alias.vchAlias));
+	const UniValue &resBalance = tableRPC.execute("aliasbalance", balanceParams);
+	CAmount nAliasBalance = AmountFromValue(resBalance);
+	oName.push_back(Pair("balance", ValueFromAmount(nAliasBalance)));
+
+	bool fAliasMine = IsSyscoinTxMine(aliastx, "alias")? true:  false;
+	oName.push_back(Pair("ismine", fAliasMine));
+	oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
+	oName.push_back(Pair("acceptcerttransfers", alias.acceptCertTransfers ? "Yes" : "No"));
+	oName.push_back(Pair("safetylevel", alias.safetyLevel ));
+	float ratingAsBuyer = 0;
+	if(alias.nRatingCountAsBuyer > 0)
+		ratingAsBuyer = roundf(alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer);
+	float ratingAsSeller = 0;
+	if(alias.nRatingCountAsSeller > 0)
+		ratingAsSeller = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
+	float ratingAsArbiter = 0;
+	if(alias.nRatingCountAsArbiter > 0)
+		ratingAsArbiter = roundf(alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter);
+	oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
+	oName.push_back(Pair("buyer_ratingcount", (int)alias.nRatingCountAsBuyer));
+	oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
+	oName.push_back(Pair("seller_ratingcount", (int)alias.nRatingCountAsSeller));
+	oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
+	oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
+    oName.push_back(Pair("lastupdate_height", nHeight));
+	expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
+	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
+	{
+		if(expired_block < chainActive.Tip()->nHeight)
+		{
+			expired = 1;
+		}  
+	}
+	expires_in = expired_block - chainActive.Tip()->nHeight;
+	oName.push_back(Pair("expires_in", expires_in));
+	oName.push_back(Pair("expires_on", expired_block));
+	oName.push_back(Pair("expired", expired));
+	UniValue msInfo(UniValue::VOBJ);
+	msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
+	UniValue msAliases(UniValue::VARR);
+	for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
+	{
+		msAliases.push_back(alias.multiSigInfo.vchAliases[i]);
+	}
+	msInfo.push_back(Pair("reqsigners", msAliases));
+	msInfo.push_back(Pair("redeemscript", HexStr(alias.multiSigInfo.vchRedeemScript)));
+	oName.push_back(Pair("multisiginfo", msInfo));
+}
 /**
  * [aliashistory description]
  * @param  params [description]
@@ -2824,131 +2757,53 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 				"List all stored values of an alias.\n");
 	UniValue oRes(UniValue::VARR);
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string name = stringFromVch(vchAlias);
+	
+	vector<CAliasIndex> vtxPos;
+	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+		throw runtime_error("failed to read from alias DB");
 
-	{
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-			throw runtime_error("failed to read from alias DB");
+	CAliasIndex txPos2;
+	CTransaction tx;
+    vector<vector<unsigned char> > vvch;
+    int op, nOut;
+	string opName;
+	BOOST_FOREACH(txPos2, vtxPos) {
+		if (!GetSyscoinTransaction(txPos2.nHeight, txPos2.txHash, tx, Params().GetConsensus()))
+			continue;
 
-		CAliasIndex txPos2;
-		uint256 txHash;
-		BOOST_FOREACH(txPos2, vtxPos) {
-			txHash = txPos2.txHash;
-			CTransaction tx;
-			if (!GetSyscoinTransaction(txPos2.nHeight, txHash, tx, Params().GetConsensus()))
-			{
-				error("could not read txpos");
-				continue;
-			}
-            // decode txn, skip non-alias txns
-            vector<vector<unsigned char> > vvch;
-			vector<unsigned char> vchName;
-            int op, nOut;
-			string opName;
-			if(DecodeOfferTx(tx, op, nOut, vvch) )
-			{
-				opName = offerFromOp(op);
-				COffer offer(tx);
-				if(offer.accept.bPaymentAck)
-					opName += "("+_("acknowledged")+")";
-				else if(!offer.accept.feedback.empty())
-					opName += "("+_("feedback")+")";
+		if(DecodeOfferTx(tx, op, nOut, vvch) )
+		{
+			opName = offerFromOp(op);
+			COffer offer(tx);
+			if(offer.accept.bPaymentAck)
+				opName += "("+_("acknowledged")+")";
+			else if(!offer.accept.feedback.empty())
+				opName += "("+_("feedback")+")";
 
-			}
-			else if(DecodeMessageTx(tx, op, nOut, vvch) )
-				opName = messageFromOp(op);
-			else if(DecodeEscrowTx(tx, op, nOut, vvch) )
-			{
-				
-				CEscrow escrow(tx);
-				opName = escrowFromOp(escrow.op);
-				if(escrow.bPaymentAck)
-					opName += "("+_("acknowledged")+")";
-				else if(!escrow.feedback.empty())
-					opName += "("+_("feedback")+")";
-			}
-			else if(DecodeCertTx(tx, op, nOut, vvch) )
-				opName = certFromOp(op);
-			else if(GetAliasOfTx(tx, vchName))
-				opName = stringFromVch(vchName);
-			else
-				continue;
-			int expired = 0;
-			int expires_in = 0;
-			int expired_block = 0;
-			UniValue oName(UniValue::VOBJ);
-			uint64_t nHeight;
-			nHeight = txPos2.nHeight;
-			oName.push_back(Pair("name", name));
-			oName.push_back(Pair("type", opName));
-			oName.push_back(Pair("txid", tx.GetHash().GetHex()));
-			oName.push_back(Pair("lastupdate_height", nHeight));
-			CSyscoinAddress address;
-			txPos2.GetAddress(&address);
-			oName.push_back(Pair("address", address.ToString()));
-			if(IsAliasOp(op))
-			{
-				oName.push_back(Pair("alias_peg", stringFromVch(txPos2.vchAliasPeg)));
-				oName.push_back(Pair("value", stringFromVch(txPos2.vchPublicValue)));
-				string strPrivateValue = "";
-				if(!txPos2.vchPrivateValue.empty())
-					strPrivateValue = _("Encrypted for alias owner");
-				string strDecrypted = "";
-				if(DecryptMessage(txPos2.vchPubKey, txPos2.vchPrivateValue, strDecrypted))
-					strPrivateValue = strDecrypted;		
-				oName.push_back(Pair("privatevalue", strPrivateValue));
-
-				string strPassword = "";
-				if(!txPos2.vchPassword.empty())
-					strPassword = _("Encrypted for alias owner");
-				strDecrypted = "";
-				if(DecryptMessage(txPos2.vchPubKey, txPos2.vchPassword, strDecrypted))
-					strPassword = strDecrypted;		
-				oName.push_back(Pair("password", strPassword));
-				
-				
-				
-				float ratingAsBuyer = 0;
-				if(txPos2.nRatingCountAsBuyer > 0)
-					ratingAsBuyer = roundf(txPos2.nRatingAsBuyer/(float)txPos2.nRatingCountAsBuyer);
-				float ratingAsSeller = 0;
-				if(txPos2.nRatingCountAsSeller > 0)
-					ratingAsSeller = roundf(txPos2.nRatingAsSeller/(float)txPos2.nRatingCountAsSeller);
-				float ratingAsArbiter = 0;
-				if(txPos2.nRatingCountAsArbiter > 0)
-					ratingAsArbiter = roundf(txPos2.nRatingAsArbiter/(float)txPos2.nRatingCountAsArbiter);
-				oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
-				oName.push_back(Pair("buyer_ratingcount", (int)txPos2.nRatingCountAsBuyer));
-				oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
-				oName.push_back(Pair("seller_ratingcount", (int)txPos2.nRatingCountAsSeller));
-				oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
-				oName.push_back(Pair("arbiter_ratingcount", (int)txPos2.nRatingCountAsArbiter));
-				expired_block = nHeight + (txPos2.nRenewal*GetAliasExpirationDepth()) ;
-				if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
-				{
-					if(expired_block < chainActive.Tip()->nHeight)
-					{
-						expired = 1;
-					} 
-				}
-				expires_in = expired_block - chainActive.Tip()->nHeight;
-				oName.push_back(Pair("expires_in", expires_in));
-				oName.push_back(Pair("expires_on", expired_block));
-				oName.push_back(Pair("expired", expired));
-				UniValue msInfo(UniValue::VOBJ);
-				msInfo.push_back(Pair("reqsigs", (int)txPos2.multiSigInfo.nRequiredSigs));
-				UniValue msAliases(UniValue::VARR);
-				for(int i =0;i<txPos2.multiSigInfo.vchAliases.size();i++)
-				{
-					msAliases.push_back(txPos2.multiSigInfo.vchAliases[i]);
-				}
-				msInfo.push_back(Pair("reqsigners", msAliases));
-				oName.push_back(Pair("multisiginfo", msInfo));
-			}
-			oRes.push_back(oName);
 		}
+		else if(DecodeMessageTx(tx, op, nOut, vvch) )
+			opName = messageFromOp(op);
+		else if(DecodeEscrowTx(tx, op, nOut, vvch) )
+		{
+			CEscrow escrow(tx);
+			opName = escrowFromOp(escrow.op);
+			if(escrow.bPaymentAck)
+				opName += "("+_("acknowledged")+")";
+			else if(!escrow.feedback.empty())
+				opName += "("+_("feedback")+")";
+		}
+		else if(DecodeCertTx(tx, op, nOut, vvch) )
+			opName = certFromOp(op);
+		else if(GetAliasOfTx(tx, vchName))
+			opName = stringFromVch(vchName);
+		else
+			continue;
+		UniValue oName(UniValue::VOBJ);
+		oName.push_back(Pair("type", opName));
+		if(BuildAliasJson(alias, tx, oName))
+			oRes.push_back(oName);
 	}
+	
 	return oRes;
 }
 UniValue generatepublickey(const UniValue& params, bool fHelp) {
@@ -3002,69 +2857,15 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 	vector<CAliasIndex> nameScan;
 	boost::algorithm::to_lower(strName);
 	vchAlias = vchFromString(strName);
+	CTransaction aliastx;
 	if (!paliasdb->ScanNames(vchAlias, strRegexp, safeSearch, 25, nameScan))
 		throw runtime_error("scan failed");
 	BOOST_FOREACH(const CAliasIndex &alias, nameScan) {
-
-		int nHeight = alias.nHeight;
-
-		int expired = 0;
-		int expires_in = 0;
-		int expired_block = 0;
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			continue;
 		UniValue oName(UniValue::VOBJ);
-		oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
-		oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
-		oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
-		string strPrivateValue = "";
-		if(!alias.vchPrivateValue.empty())
-			strPrivateValue = _("Encrypted for alias owner");
-		string strDecrypted = "";
-		if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
-			strPrivateValue = strDecrypted;		
-		oName.push_back(Pair("privatevalue", strPrivateValue));
-
-		string strPassword = "";
-		if(!alias.vchPassword.empty())
-			strPassword = _("Encrypted for alias owner");
-		strDecrypted = "";
-		if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
-			strPassword = strDecrypted;		
-		oName.push_back(Pair("password", strPassword));
-				
-
-
-        oName.push_back(Pair("lastupdate_height", nHeight));
-		float ratingAsBuyer = 0;
-		if(alias.nRatingCountAsBuyer > 0)
-			ratingAsBuyer = roundf(alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer);
-		float ratingAsSeller = 0;
-		if(alias.nRatingCountAsSeller > 0)
-			ratingAsSeller = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
-		float ratingAsArbiter = 0;
-		if(alias.nRatingCountAsArbiter > 0)
-			ratingAsArbiter = roundf(alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter);
-		oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
-		oName.push_back(Pair("buyer_ratingcount", (int)alias.nRatingCountAsBuyer));
-		oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
-		oName.push_back(Pair("seller_ratingcount", (int)alias.nRatingCountAsSeller));
-		oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
-		oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
-		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-		expires_in = expired_block - chainActive.Tip()->nHeight;
-		oName.push_back(Pair("expires_in", expires_in));
-		oName.push_back(Pair("expires_on", expired_block));
-		oName.push_back(Pair("expired", expired));
-		UniValue msInfo(UniValue::VOBJ);
-		msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
-		UniValue msAliases(UniValue::VARR);
-		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
-		{
-			msAliases.push_back(alias.multiSigInfo.vchAliases[i]);
-		}
-		msInfo.push_back(Pair("reqsigners", msAliases));
-		oName.push_back(Pair("multisiginfo", msInfo));
-		
-		oRes.push_back(oName);
+		if(BuildAliasJson(alias, aliastx, oName))
+			oRes.push_back(oName);
 	}
 
 
