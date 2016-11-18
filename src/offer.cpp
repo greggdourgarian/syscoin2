@@ -3319,7 +3319,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	int op, nOut;
 	COffer offerTmp;
 	BOOST_FOREACH(const CAliasIndex &alias, aliasScan) {
-				
+		if (!paliasdb->ReadAlias(alias.vchAlias, vtxPos) || vtxPos.empty())
+			continue;				
 		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 			CAliasIndex theAlias = *it;
 			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
@@ -3345,12 +3346,15 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 					continue;
 				if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 					continue;
-				vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
+				
 				theAlias.nHeight = theOffer.accept.nAcceptHeight;
 				theAlias.GetAliasFromList(vtxPos);
 				UniValue oAccept(UniValue::VOBJ);
 				if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept))
+				{
+					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
 					aoOfferAccepts.push_back(oAccept);	
+				}
 			}
 		}
 	}
