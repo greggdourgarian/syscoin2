@@ -3513,7 +3513,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 	vector<pair<CEscrow, CEscrow> > escrowScan;
 	if(aliases.size() > 0)
 	{
-		if (!pescrowdb->ScanEscrows(vchNameUniq, "", aliases, 1000, messageScan))
+		if (!pescrowdb->ScanEscrows(vchNameUniq, "", aliases, 1000, escrowScan))
 			throw runtime_error("scan failed");
 	}
 	else
@@ -3536,12 +3536,13 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 				if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxEscrowPos) || vtxEscrowPos.empty())
 					continue;
 				const CEscrow& theEscrow = vtxEscrowPos.back();
-				escrowScan.push_back(theEscrow, vtxEscrowPos.front());
+				escrowScan.push_back(make_pair(theEscrow, vtxEscrowPos.front()));
 				vNamesI[escrow.vchEscrow] = theEscrow.nHeight;
 			}
 		}
 	}
-	BOOST_FOREACH(const vector<pair<CEscrow, CEscrow> > &pairScan, escrowScan) {
+	pair<CEscrow, CEscrow> pairScan;
+	BOOST_FOREACH(pairScan, escrowScan) {
 		UniValue oEscrow(UniValue::VOBJ);
 		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow))
 			oRes.push_back(oEscrow);
