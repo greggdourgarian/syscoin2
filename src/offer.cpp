@@ -3272,7 +3272,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, int > vNamesA;
 	map< vector<unsigned char>, int > vNamesAlias;
-	vector<CAliasIndex> aliasScan;
+	vector<vector<CAliasIndex> > aliasScan;
 	if(aliases.size() > 0)
 	{
 		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
@@ -3285,7 +3285,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			const CAliasIndex &alias = vtxPos.back();
 			if (vNamesAlias.find(alias.vchAlias) != vNamesAlias.end())
 				continue;
-			aliasScan.push_back(alias);
+			aliasScan.push_back(vtxPos);
 			vNamesAlias[alias.vchAlias] = alias.nHeight;
 		}
 	}
@@ -3307,7 +3307,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				if (!paliasdb->ReadAlias(alias.vchAlias, vtxPos) || vtxPos.empty())
 					continue;
 				const CAliasIndex &alias = vtxPos.back();
-				aliasScan.push_back(alias);
+				aliasScan.push_back(vtxPos);
 				vNamesAlias[alias.vchAlias] = alias.nHeight;
 			}
 		}
@@ -3318,10 +3318,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
 	COffer offerTmp;
-	BOOST_FOREACH(const CAliasIndex &alias, aliasScan) {
-		if (!paliasdb->ReadAlias(alias.vchAlias, vtxPos) || vtxPos.empty())
-			continue;				
-		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+	BOOST_FOREACH(const vector<CAliasIndex> &aliasVtxPos, aliasScan) {				
+		for(std::vector<CAliasIndex>::reverse_iterator it = aliasVtxPos.rbegin(); it != aliasVtxPos.rend(); ++it) {
 			CAliasIndex theAlias = *it;
 			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 				continue;
@@ -3348,7 +3346,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 					continue;
 				
 				theAlias.nHeight = theOffer.accept.nAcceptHeight;
-				theAlias.GetAliasFromList(vtxPos);
+				theAlias.GetAliasFromList(aliasVtxPos);
 				UniValue oAccept(UniValue::VOBJ);
 				if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept))
 				{
