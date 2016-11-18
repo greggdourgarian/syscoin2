@@ -157,7 +157,7 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 					pcursor->Next();
 					continue;
 				}
-                escrowScan.push_back(make_pair(vtxPos.front(), txPos));
+                escrowScan.push_back(make_pair(txPos, vtxPos.front()));
             }
             if (escrowScan.size() >= nMax)
                 break;
@@ -3530,7 +3530,7 @@ UniValue escrowhistory(const UniValue& params, bool fHelp) {
     CEscrow txPos2;
     BOOST_FOREACH(txPos2, vtxPos) {
 		UniValue oEscrow(UniValue::VOBJ);
-        if(BuildEscrowJson(vtxPos.front(), txPos2, oEscrow))
+        if(BuildEscrowJson(txPos2, vtxPos.front(), oEscrow))
 			oRes.push_back(oEscrow);
     }
     return oRes;

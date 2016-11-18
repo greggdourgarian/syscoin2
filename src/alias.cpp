@@ -2474,12 +2474,12 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			}
 		}
 		// get last active name only
-		if (vNamesI.find(vchAlias) != vNamesI.end() && (nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
+		if (vNamesI.find(vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
 		if(BuildAliasJson(alias, tx, oName))
 		{
-			vNamesI[vchAlias] = nHeight;
+			vNamesI[vchAlias] = alias.nHeight;
 			vNamesO[vchAlias] = oName;	
 		}
 
@@ -2660,12 +2660,13 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 }
 bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName)
 {
+	CAliasIndex aliasTmp = alias;
 	uint64_t nHeight;
 	int expired = 0;
 	int expires_in = 0;
 	int expired_block = 0;
 	nHeight = alias.nHeight;
-	oName.push_back(Pair("name", stringFromVch(vchAlias)));
+	oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
 
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
 		throw runtime_error("alias has been banned");
@@ -2689,7 +2690,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 
 	oName.push_back(Pair("txid", alias.txHash.GetHex()));
 	CSyscoinAddress address;
-	alias.GetAddress(&address);
+	aliasTmp.GetAddress(&address);
 	if(!address.IsValid())
 		throw runtime_error("Invalid alias address");
 	oName.push_back(Pair("address", address.ToString()));
@@ -2794,13 +2795,13 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 		}
 		else if(DecodeCertTx(tx, op, nOut, vvch) )
 			opName = certFromOp(op);
-		else if(GetAliasOfTx(tx, vchName))
-			opName = stringFromVch(vchName);
+		else if(DecodeAliasTx(tx, op, nOut, vvch) )
+			opName = stringFromVch(vvch[0]);
 		else
 			continue;
 		UniValue oName(UniValue::VOBJ);
 		oName.push_back(Pair("type", opName));
-		if(BuildAliasJson(alias, tx, oName))
+		if(BuildAliasJson(txPos2, tx, oName))
 			oRes.push_back(oName);
 	}
 	
