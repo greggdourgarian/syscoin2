@@ -130,6 +130,7 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 	string strMethod = string("offeracceptlist");
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+	UniValue params(UniValue::VARR);
 	if(defaultListAlias != tr("Wallet"))
 		params.push_back(defaultListAlias.toStdString());
 	UniValue offerAcceptsValue;
