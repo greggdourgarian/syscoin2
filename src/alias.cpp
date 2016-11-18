@@ -2724,7 +2724,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, UniVa
 	oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
     oName.push_back(Pair("lastupdate_height", nHeight));
 	expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
+	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
 		if(expired_block < chainActive.Tip()->nHeight)
 		{
