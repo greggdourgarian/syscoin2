@@ -143,7 +143,9 @@ public:
 						if (seller_value.type() == UniValue::VSTR)
 							seller_str = seller_value.get_str();
 
-						if((FindAliasInList(listAliases, buyer_str) && type == Accept) || (FindAliasInList(listAliases, seller_str) && type == MyAccept))
+						if(defaultListAlias != QObject::tr("Wallet") && (defaultListAlias.toStdString() == buyer_str && type == Accept) || (defaultListAlias.toStdString() ==  seller_str && type == MyAccept))
+							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(seller_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
+						else if(defaultListAlias == QObject::tr("Wallet") && (ismine_str == "false" && type == Accept) || (ismine_str ==  "true" && type == MyAccept))
 							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(seller_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
 					}
 				}
