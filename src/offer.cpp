@@ -3318,7 +3318,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
 	COffer offerTmp;
-	BOOST_FOREACH(const vector<CAliasIndex> &aliasVtxPos, aliasScan) {				
+	BOOST_FOREACH(vector<CAliasIndex> &aliasVtxPos, aliasScan) {				
 		for(std::vector<CAliasIndex>::reverse_iterator it = aliasVtxPos.rbegin(); it != aliasVtxPos.rend(); ++it) {
 			CAliasIndex theAlias = *it;
 			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
