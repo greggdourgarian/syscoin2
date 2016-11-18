@@ -3271,7 +3271,9 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	UniValue aoOfferAccepts(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, int > vNamesA;
+	map< vector<unsigned char>, int > vNamesAlias;
 	vector<COffer> offerScan;
+	vector<CAliasIndex> aliasScan;
 	if(aliases.size() > 0)
 	{
 		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
@@ -3282,53 +3284,10 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 				continue;
 			const CAliasIndex &alias = vtxPos.back();
-			CTransaction aliastx;
-			uint256 txHash;
-			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			if (vNamesAlias.find(alias.vchAlias) != vNamesAlias.end())
 				continue;
-			
-			CTransaction tx, offerTx, acceptTx, aliasTx, linkTx, linkAliasTx, offerTxTmp;
-			COffer theOffer, offerTmp, linkOffer;
-			CAliasIndex linkAlias;
-			vector<COffer> vtxOfferPos, vtxAcceptPos, vtxLinkPos, vtxAliasLinkPos;
-			vector<unsigned char> vchOffer;
-			uint256 blockHash;
-			uint256 hash;
-
-			
-			for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-				CAliasIndex theAlias = *it;
-				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
-					continue;
-				vector<vector<unsigned char> > vvch;
-				int op, nOut;
-				if (!DecodeOfferTx(tx, op, nOut, vvch))
-					continue;
-				if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
-					continue;
-
-				// get unique offers
-				if (vNamesI.find(vvch[0]) != vNamesI.end())
-					continue;
-
-				vNamesI[vvch[0]] = offerTmp.nHeight;
-				// this is needed because offer accepts dont use seller alias as input (they use buyers obviously) and we dont them in our alias history but they exist in our offer history
-				for(int i=vtxOfferPos.size()-1;i>=0;i--) {
-
-					const COffer &theOffer = vtxOfferPos[i];
-					if(theOffer.accept.IsNull())
-						continue;
-					// get unique accepts
-					if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
-						continue;
-					if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
-						continue;
-					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-					offerScan.push_back(theOffer);
-					
-
-				}
-			}
+			aliasScan.push_back(alias);
+			vNamesAlias[alias.vchAlias] = alias.nHeight;
 		}
 	}
 	else
@@ -3340,40 +3299,71 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			const CWalletTx &wtx = item.second;   
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
-			COffer offer(wtx);
-			if(!offer.IsNull() && !offer.accept.IsNull() && offer.accept.feedback.empty() && !offer.accept.bPaymentAck)
+			CAliasIndex alias(wtx);
+			if(!alias.IsNull())
 			{
-				// get unique accepts
-				if (vNamesA.find(offer.accept.vchAcceptRand) != vNamesA.end())
+				if (vNamesAlias.find(alias.vchAlias) != vNamesAlias.end())
 					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != offer.accept.vchAcceptRand)
+				vector<CAliasIndex> vtxPos;
+				if (!paliasdb->ReadAlias(alias.vchAlias, vtxPos) || vtxPos.empty())
 					continue;
-				if (!GetTxOfOfferAccept(offer.vchOffer, offer.accept.vchAcceptRand, offer, accept, accepttx))
-					continue;
-				offerScan.push_back(offer);
-				vNamesA[offer.accept.vchAcceptRand] = offer.accept.nAcceptHeight;
+				const CAliasIndex &alias = vtxPos.back();
+				aliasScan.push_back(alias);
+				vNamesAlias[alias.vchAlias] = alias.nHeight;
 			}
 		}
 	}
+	CTransaction tx, aliastx, offerTx;
+	vector<COffer> vtxOfferPos;
+	vector<vector<unsigned char> > vvch;
+	int op, nOut;
+	COffer offerTmp;
+	BOOST_FOREACH(const CAliasIndex &alias, aliasScan) {
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			continue;
+				
+		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+			CAliasIndex theAlias = *it;
+			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+				continue;
+			if (!DecodeOfferTx(tx, op, nOut, vvch))
+				continue;
+			if(!GetTxAndVtxOfOffer( vvch[0], offerTmp, offerTx, vtxOfferPos, true))
+				continue;
+
+			// get unique offers
+			if (vNamesI.find(vvch[0]) != vNamesI.end())
+				continue;
+
+			vNamesI[vvch[0]] = offerTmp.nHeight;
+			// this is needed because offer accepts dont use seller alias as input (they use buyers obviously) and we dont them in our alias history but they exist in our offer history
+			for(int i=vtxOfferPos.size()-1;i>=0;i--) {
+
+				const COffer &theOffer = vtxOfferPos[i];
+				if(theOffer.accept.IsNull())
+					continue;
+				// get unique accepts
+				if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
+					continue;
+				vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
+				offerScan.push_back(theOffer);			
+			}
+		}
+	}
+
 	CTransaction aliastx;
-	CAliasIndex alias;
-	COffer linkOffer;
+	CAliasIndex alias ;
 	BOOST_FOREACH(const COffer &offer, offerScan) {
 		vector<CAliasIndex> vtxPos;
-		if(!offer.vchLinkOffer.empty())
-		{
-			vector<COffer> vtxLinkPos;
-			if (!pofferdb->ReadOffer(offer.vchLinkOffer, vtxLinkPos) || vtxLinkPos.empty())
-				continue;
-			linkOffer.nHeight = offer.accept.nAcceptHeight;
-			linkOffer.GetOfferFromList(vtxLinkPos);
-		}
-		if (!paliasdb->ReadAlias(!offer.vchLinkOffer.empty()? linkOffer.vchAlias: offer.vchAlias, vtxPos) || vtxPos.empty())
+		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
+			continue;
+		alias = vtxPos.back();
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
 		alias.nHeight = offer.accept.nAcceptHeight;
 		alias.GetAliasFromList(vtxPos);
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
 		UniValue oAccept(UniValue::VOBJ);
 		if(BuildOfferAcceptJson(offer, alias, aliastx, oAccept))
 			aoOfferAccepts.push_back(oAccept);
@@ -3382,18 +3372,19 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 }
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept)
 {
-	CTransaction offerTx;
+	CTransaction offerTxTmp;
 	COffer linkOffer;
 	CTransaction linkTx;
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
-	if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTx, Params().GetConsensus()))
+	if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTxTmp, Params().GetConsensus()))
 		return false;
-	
-	if (!DecodeOfferTx(offerTx, op, nOut, vvch)
+
+	if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
 		|| (op != OP_OFFER_ACCEPT))
 		return false;
 
+	
 	int nHeight = theOffer.accept.nAcceptHeight;
 
 	bool commissionPaid = false;
@@ -3500,7 +3491,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	}
 	oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 	oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-	oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true":"false"));
+	oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
 	string statusStr = "Paid";
 	if(!theOffer.accept.txExtId.IsNull())
 		statusStr = "Paid with external coin";
