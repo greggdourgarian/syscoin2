@@ -3523,10 +3523,8 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 			const CWalletTx &wtx = item.second;       
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
-			if(!IsSyscoinTxMine(wtx, "escrow"))
-				continue;
 			CEscrow escrow(wtx);
-			if(!escrow.IsNull())
+			if(!escrow.IsNull() && escrow.feedback.empty())
 			{
 				if (vNamesI.find(escrow.vchEscrow) != vNamesI.end())
 					continue;

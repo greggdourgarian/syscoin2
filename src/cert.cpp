@@ -1237,8 +1237,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		const CAliasIndex &alias = vtxPos.back();
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
-		if(!IsSyscoinTxMine(aliastx, "alias"))
-			continue;
 		UniValue oCert(UniValue::VOBJ);
 		if(BuildCertJson(cert, alias, aliastx, oCert))
 			oRes.push_back(oCert);

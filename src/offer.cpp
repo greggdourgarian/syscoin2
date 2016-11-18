@@ -3636,8 +3636,6 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			const CWalletTx &wtx = item.second;
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
-			if(IsSyscoinTxMine(wtx, "offer"))
-				continue;
 			COffer offer(wtx);
 			if(!offer.IsNull() && offer.accept.IsNull())
 			{
