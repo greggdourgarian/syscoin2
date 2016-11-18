@@ -771,7 +771,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;
 
-				CMessage message(wtx);
+				CMessage message(tx);
 				if(!message.IsNull() && message.vchAliasFrom == vchAlias)
 				{
 					if (vNamesI.find(message.vchMessage) != vNamesI.end())
