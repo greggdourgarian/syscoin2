@@ -140,9 +140,9 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 	vector<CCert> vtxPos;
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("certi"), vchCert));
+	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
-		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "certi") {
             	const vector<unsigned char> &vchMyCert = key.second;

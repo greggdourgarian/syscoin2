@@ -99,13 +99,13 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("messagei"), vchMessage));
+	pair<string, vector<unsigned char> > key;
+	 vector<CMessage> vtxPos;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
-		pair<string, vector<unsigned char> > key;
         try {
             if (pcursor->GetKey(key) && key.first == "messagei") {
-                const vector<unsigned char> &vchMsg = key.second;
-                vector<CMessage> vtxPos;
+                const vector<unsigned char> &vchMyMessage = key.second;     
                 pcursor->GetValue(vtxPos);
 				if (vtxPos.empty()){
 					pcursor->Next();
@@ -129,7 +129,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 				}
 				if(vchMessage.size() > 0)
 				{
-					if(vchMsg != vchMessage)
+					if(vchMyMessage != vchMessage)
 					{
 						pcursor->Next();
 						continue;

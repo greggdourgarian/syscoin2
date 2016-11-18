@@ -127,9 +127,9 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("escrowi"), vchEscrow));
 	vector<CEscrow> vtxPos;
+	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
-		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "escrowi") {
             	const vector<unsigned char> &vchMyEscrow = key.second;

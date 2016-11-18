@@ -151,8 +151,8 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("offeri"), vchOffer));
 	vector<COffer> vtxPos;
+	boost::this_thread::interruption_point();
     while (pcursor->Valid()) {
-        boost::this_thread::interruption_point();
 		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "offeri") {

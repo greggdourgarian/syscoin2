@@ -1278,9 +1278,9 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->Seek(make_pair(string("namei"), vchAlias));
 	vector<CAliasIndex> vtxPos;
+	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
-		pair<string, vector<unsigned char> > key;
         try {
 			if (pcursor->GetKey(key) && key.first == "namei") {
             	const vector<unsigned char> &vchMyAlias = key.second;
@@ -3019,7 +3019,7 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 		if(!alias.vchPrivateValue.empty())
 			strPrivateValue = _("Encrypted for alias owner");
 		string strDecrypted = "";
-		if(DecryptMessage(txName.vchPubKey, alias.vchPrivateValue, strDecrypted))
+		if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
 			strPrivateValue = strDecrypted;		
 		oName.push_back(Pair("privatevalue", strPrivateValue));
 
