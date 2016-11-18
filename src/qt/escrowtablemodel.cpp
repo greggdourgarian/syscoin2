@@ -12,6 +12,12 @@
 #include <QSettings>
 #include "rpc/server.h"
 #include "starrating.h"
+#include "platformstyle.h"
+#include "optionsmodel.h"
+#include "walletmodel.h"
+#include "syscoingui.h"
+#include "guiutil.h"
+#include "util.h"
 using namespace std;
 
 
@@ -90,6 +96,7 @@ public:
 			string strMethod = string("escrowlist");
 			QSettings settings;
 			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
+			UniValue params(UniValue::VARR);
 			if(defaultListAlias != tr("Wallet"))
 				params.push_back(defaultListAlias.toStdString());
 			UniValue result ;
