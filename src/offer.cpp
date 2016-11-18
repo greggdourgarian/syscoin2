@@ -3129,6 +3129,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 }
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer)
 {
+	CAliasIndex tmpAlias = alias;
 	CTransaction linkTx;
 	COffer linkOffer;
 	vector<COffer> myLinkedVtxPos;
@@ -3154,13 +3155,13 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	expired = 0;
 	expires_in = 0;
 	expired_block = 0;
-    nHeight = vtxPos.back().nHeight;
+    nHeight = theOffer.nHeight;
 	vector<unsigned char> vchCert;
 	if(!theOffer.vchCert.empty())
 		vchCert = theOffer.vchCert;
-	oOffer.push_back(Pair("offer", offer));
+	oOffer.push_back(Pair("offer", stringFromVch(offer.vchOffer)));
 	oOffer.push_back(Pair("cert", stringFromVch(vchCert)));
-	oOffer.push_back(Pair("txid", tx.GetHash().GetHex()));
+	oOffer.push_back(Pair("txid", offer.txHash.GetHex()));
 	expired_block = nHeight + GetOfferExpirationDepth();
     if(expired_block < chainActive.Tip()->nHeight)
 	{
@@ -3222,9 +3223,9 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	oOffer.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 	oOffer.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
 	CSyscoinAddress address;
-	alias.GetAddress(&address);
+	tmpAlias.GetAddress(&address);
 	if(!address.IsValid())
-		throw runtime_error("Invalid alias address");
+		return false;
 	oOffer.push_back(Pair("address", address.ToString()));
 
 	float rating = 0;
@@ -3279,7 +3280,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 
 		
 		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-			const CAliasIndex& theAlias = *it;
+			CAliasIndex theAlias = *it;
 			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 				continue;
 			vector<vector<unsigned char> > vvch;
@@ -3320,8 +3321,13 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	}
     return aoOfferAccepts;
 }
-bool BuildOfferAcceptJson(const COffer& theOffer, const CTransaction &aliastx, UniValue& oOfferAccept)
+bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept)
 {
+	CTransaction offerTxTmp;
+	COffer linkOffer;
+	CTransaction linkTx;
+	vector<vector<unsigned char> > vvch;
+	int op, nOut;
 	if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTxTmp, Params().GetConsensus()))
 		return false;
 
@@ -3355,7 +3361,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CTransaction &aliastx, U
 				discountApplied = true;
 		}
 		// NON-LINKED buyer
-		else if(vchAlias == theOffer.accept.vchBuyerAlias)
+		else if(theAlias.vchAlias == theOffer.accept.vchBuyerAlias)
 		{
 			priceAtTimeOfAccept = theOffer.GetPrice();
 			commissionPaid = false;
@@ -3365,6 +3371,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CTransaction &aliastx, U
 	// linked offer
 	else
 	{
+		vector<COffer> vtxLinkPos;
 		GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
 		linkOffer.nHeight = nHeight;
 		linkOffer.GetOfferFromList(vtxLinkPos);
@@ -3377,7 +3384,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CTransaction &aliastx, U
 				discountApplied = true;
 		}
 		// You are the affiliate
-		else if(vchAlias == theOffer.vchAlias)
+		else if(theAlias.vchAlias == theOffer.vchAlias)
 		{
 			// full price with commission - discounted merchant price = commission + discount
 			priceAtTimeOfAccept = theOffer.GetPrice() -  theOffer.accept.nPrice;
@@ -3491,7 +3498,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CTransaction &aliastx, U
 	float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
 	oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
 	string strMessage = string("");
-	if(!DecryptMessage(alias.vchPubKey, theOffer.accept.vchMessage, strMessage))
+	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage))
 		strMessage = _("Encrypted for owner of offer");
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;
@@ -3589,10 +3596,10 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 		throw runtime_error("failed to read from offer DB");
 		
 	vector<CAliasIndex> vtxAliasPos;
-	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxPos) || vtxAliasPos.empty())
+	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 		throw runtime_error("failed to read from alias DB");
 	
-	const CAliasIndex &alias = vtxAliasPos.back();
+	CAliasIndex alias = vtxAliasPos.back();
 	CTransaction aliastx;
 	uint256 txHash;
 	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
@@ -3601,7 +3608,6 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 	}
 
 	COffer txPos2;
-	uint256 txHash;
 	CAliasIndex theAlias;
 	CTransaction tx;
 	vector<vector<unsigned char> > vvch;
@@ -3619,7 +3625,6 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 		alias.GetAliasFromList(vtxAliasPos);
 
 		UniValue oOffer(UniValue::VOBJ);
-		oOffer.push_back(Pair("offer", offer));
 		string opName = offerFromOp(op);
 		if(offer.accept.bPaymentAck)
 			opName += "("+_("acknowledged")+")";
@@ -3628,7 +3633,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 
 		
 		oOffer.push_back(Pair("offertype", opName));
-		if(BuildOfferJson(txPos2, alias, aliastx, oOffer);
+		if(BuildOfferJson(txPos2, alias, aliastx, oOffer))
 			oRes.push_back(oOffer);
 	}
 	
