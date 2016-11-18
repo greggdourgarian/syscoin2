@@ -3590,7 +3590,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 	{
 		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 		{
-			string name = aliases[aliasIndex].get_str();
+			string name = aliases[aliasIndex];
 			vector<unsigned char> vchAlias = vchFromString(name);
 
 
