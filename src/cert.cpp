@@ -1229,7 +1229,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
         oRes.push_back(item.second);
     return oRes;
 }
-bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName)
+bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert)
 {
 	string sHeight = strprintf("%llu", cert.nHeight);
     oCert.push_back(Pair("cert", stringFromVch(vchCert)));
@@ -1269,12 +1269,13 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 	nHeight = cert.nHeight;
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
-	expired_block = nHeight + GetCertExpirationDepth();
+	int expired_block = nHeight + GetCertExpirationDepth();
+	int expired = 0;
     if(expired_block < chainActive.Tip()->nHeight)
 	{
 		expired = 1;
 	}  
-	expires_in = expired_block - chainActive.Tip()->nHeight;
+	int expires_in = expired_block - chainActive.Tip()->nHeight;
 	oCert.push_back(Pair("expires_in", expires_in));
 	oCert.push_back(Pair("expires_on", expired_block));
 	oCert.push_back(Pair("expired", expired));
@@ -1294,10 +1295,10 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
         throw runtime_error("failed to read from cert DB");
 
 	vector<CAliasIndex> vtxAliasPos;
-	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxPos) || vtxAliasPos.empty())
+	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 		throw runtime_error("failed to read from alias DB");
 	
-	const CAliasIndex &alias = vtxAliasPos.back();
+	CAliasIndex alias = vtxAliasPos.back();
 	CTransaction aliastx;
 	uint256 txHash;
 	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
@@ -1306,8 +1307,6 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
 	}
 
     CCert txPos2;
-	CTransaction aliastx;
-	uint256 txHash;
 	CTransaction tx;
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
@@ -1324,7 +1323,7 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
 		alias.nHeight = txPos2.nHeight;
 		alias.GetAliasFromList(vtxAliasPos);
 
-		UniValue oOffer(UniValue::VOBJ);
+		UniValue oCert(UniValue::VOBJ);
 		string opName = certFromOp(op);
 		oCert.push_back(Pair("certtype", opName));
 		if(BuildCertJson(txPos2, alias, aliastx, oCert))
