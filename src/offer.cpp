@@ -3356,7 +3356,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	CTransaction aliastx;
-	CAliasIndex alias ;
+	CAliasIndex alias;
+	COffer linkOffer;
 	BOOST_FOREACH(const COffer &offer, offerScan) {
 		vector<CAliasIndex> vtxPos;
 		if(!offer.vchLinkOffer.empty())
@@ -3364,7 +3365,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			vector<COffer> vtxLinkPos;
 			if (!pofferdb->ReadOffer(offer.vchLinkOffer, vtxLinkPos) || vtxLinkPos.empty())
 				continue;
-			COffer linkOffer;
 			linkOffer.nHeight = offer.accept.nAcceptHeight;
 			linkOffer.GetOfferFromList(vtxLinkPos);
 		}
