@@ -75,7 +75,7 @@ public:
 	        UniValue params(UniValue::VARR); 
 			QSettings settings;
 			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-			if(defaultListAlias != tr("Wallet"))
+			if(defaultListAlias != QObject::tr("Wallet"))
 				params.push_back(defaultListAlias.toStdString());
 			UniValue result;
 			string name_str;

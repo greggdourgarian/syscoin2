@@ -3,7 +3,6 @@
 
 #include "guiutil.h"
 #include "walletmodel.h"
-#include "syscoingui.h"
 #include "wallet/wallet.h"
 #include "base58.h"
 
@@ -12,7 +11,6 @@
 #include <QSettings>
 #include "rpc/server.h"
 #include "starrating.h"
-#include "clientmodel.h"
 using namespace std;
 
 
@@ -92,7 +90,7 @@ public:
 			QSettings settings;
 			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
 			UniValue params(UniValue::VARR);
-			if(defaultListAlias != tr("Wallet"))
+			if(defaultListAlias != QObject::tr("Wallet"))
 				params.push_back(defaultListAlias.toStdString());
 			UniValue result ;
 			string name_str;
