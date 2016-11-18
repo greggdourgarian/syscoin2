@@ -3359,13 +3359,21 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	CAliasIndex alias ;
 	BOOST_FOREACH(const COffer &offer, offerScan) {
 		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
-			continue;
-		alias = vtxPos.back();
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+		if(!offer.vchLinkOffer.empty())
+		{
+			vector<COffer> vtxLinkPos;
+			if (!pofferdb->ReadOffer(offer.vchLinkOffer, vtxLinkPos) || vtxLinkPos.empty())
+				continue;
+			COffer linkOffer;
+			linkOffer.nHeight = offer.accept.nAcceptHeight;
+			linkOffer.GetOfferFromList(vtxLinkPos);
+		}
+		if (!paliasdb->ReadAlias(!offer.vchLinkOffer.empty()? linkOffer.vchAlias: offer.vchAlias, vtxPos) || vtxPos.empty())
 			continue;
 		alias.nHeight = offer.accept.nAcceptHeight;
 		alias.GetAliasFromList(vtxPos);
+		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			continue;
 		UniValue oAccept(UniValue::VOBJ);
 		if(BuildOfferAcceptJson(offer, alias, aliastx, oAccept))
 			aoOfferAccepts.push_back(oAccept);
@@ -3386,7 +3394,6 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		|| (op != OP_OFFER_ACCEPT))
 		return false;
 
-	bool ismine = IsSyscoinTxMine(offerTx, "offer");
 	int nHeight = theOffer.accept.nAcceptHeight;
 
 	bool commissionPaid = false;
@@ -3424,8 +3431,6 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	{
 		vector<COffer> vtxLinkPos;
 		GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
-		if(!ismine)
-			ismine = IsSyscoinTxMine(linkTx, "offer");
 		linkOffer.nHeight = nHeight;
 		linkOffer.GetOfferFromList(vtxLinkPos);
 		// You are the merchant
@@ -3495,7 +3500,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	}
 	oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 	oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-	oOfferAccept.push_back(Pair("ismine", ismine? "true" : "false"));
+	oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")));
 	string statusStr = "Paid";
 	if(!theOffer.accept.txExtId.IsNull())
 		statusStr = "Paid with external coin";
