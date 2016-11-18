@@ -3,7 +3,7 @@
 
 #include "guiutil.h"
 #include "walletmodel.h"
-
+#include "syscoingui.h"
 #include "wallet/wallet.h"
 #include "base58.h"
 
