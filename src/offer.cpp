@@ -3276,7 +3276,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	{
 		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 		{
-			string name = aliases[aliasIndex].get_str();
+			string name = aliases[aliasIndex];
 			vector<unsigned char> vchAlias = vchFromString(name);
 			vector<CAliasIndex> vtxPos;
 			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
@@ -3356,11 +3356,12 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	CTransaction aliastx;
+	CAliasIndex alias ;
 	BOOST_FOREACH(const COffer &offer, offerScan) {
 		vector<CAliasIndex> vtxPos;
 		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
 			continue;
-		const CAliasIndex &alias = vtxPos.back();
+		alias = vtxPos.back();
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
 		alias.nHeight = offer.accept.nAcceptHeight;
@@ -3582,46 +3583,50 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 	if (params.size() >= 2)
 		vchNameUniq = vchFromValue(params[1]);
 	UniValue oRes(UniValue::VARR);
+	vector<COffer> offerScan;
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, UniValue > vNamesO;
-	for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
+	if(aliases.size() > 0)
 	{
-		string name = aliases[aliasIndex].get_str();
-		vector<unsigned char> vchAlias = vchFromString(name);
-
-
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-			throw runtime_error("failed to read from alias DB");
-		const CAliasIndex &alias = vtxPos.back();
-		CTransaction aliastx;
-		uint256 txHash;
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+		for(unsigned int aliasIndex =0;aliasIndex<aliases.size();aliasIndex++)
 		{
-			throw runtime_error("failed to read alias transaction");
-		}
+			string name = aliases[aliasIndex].get_str();
+			vector<unsigned char> vchAlias = vchFromString(name);
 
-		CTransaction tx;
-		uint64_t nHeight;
-		for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
-			const CAliasIndex& theAlias = *it;
-			if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
-				continue;
-			COffer offer(wtx);
-			if(!offer.IsNull() && offer.accept.IsNull())
+
+			vector<CAliasIndex> vtxPos;
+			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+				throw runtime_error("failed to read from alias DB");
+			const CAliasIndex &alias = vtxPos.back();
+			CTransaction aliastx;
+			uint256 txHash;
+			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			{
-				if (vNamesI.find(offer.vchOffer) != vNamesI.end())
-					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != offer.vchOffer)
-					continue;
-				vector<COffer> vtxOfferPos;
-				if (!pofferdb->ReadOffer(offer.vchOffer, vtxOfferPos) || vtxOfferPos.empty())
-					continue;
-				const COffer &theOffer = vtxOfferPos.back();
-				offerScan.push_back(theOffer);
-				vNamesI[offer.vchOffer] = theOffer.nHeight;
+				throw runtime_error("failed to read alias transaction");
 			}
-				
+
+			CTransaction tx;
+			uint64_t nHeight;
+			for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+				const CAliasIndex& theAlias = *it;
+				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
+					continue;
+				COffer offer(tx);
+				if(!offer.IsNull() && offer.accept.IsNull())
+				{
+					if (vNamesI.find(offer.vchOffer) != vNamesI.end())
+						continue;
+					if (vchNameUniq.size() > 0 && vchNameUniq != offer.vchOffer)
+						continue;
+					vector<COffer> vtxOfferPos;
+					if (!pofferdb->ReadOffer(offer.vchOffer, vtxOfferPos) || vtxOfferPos.empty())
+						continue;
+					const COffer &theOffer = vtxOfferPos.back();
+					offerScan.push_back(theOffer);
+					vNamesI[offer.vchOffer] = theOffer.nHeight;
+				}
+					
+			}
 		}
 	}
 	else
