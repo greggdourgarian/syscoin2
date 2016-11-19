@@ -1052,11 +1052,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 			if(theOfferAccept.bPaymentAck)
 			{
-				if(theOfferAccept.vchBuyerAlias != theOffer.vchAlias)
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1081 - " + _("Only seller can acknowledge offer payment");
-					return true;
-				}
+
 				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1081 - " + _("Could not find offer accept from mempool or disk");
@@ -1064,9 +1060,25 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				if(!acceptOffer.vchLinkOffer.empty())
 				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1081 - " + _("Could not acknowledge payment for linked offer");
-					return true;
-				}			
+					if(!GetTxAndVtxOfOffer( acceptOffer.vchLinkOffer, linkOffer, linkedTx, offerVtxPos))
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1096 - " + _("Could not get linked offer");
+						return true;
+					}
+					if(theOfferAccept.vchBuyerAlias != linkOffer.vchAlias)
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1081 - " + _("Only root merchant can acknowledge offer payment");
+						return true;
+					}
+				}	
+				else
+				{
+					if(theOfferAccept.vchBuyerAlias != theOffer.vchAlias)
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1081 - " + _("Only merchant can acknowledge offer payment");
+						return true;
+					}
+				}
 				if(offerAccept.bPaymentAck)
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Offer payment already acknowledged");
@@ -2976,29 +2988,43 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
 
     // look for a transaction with this key
-    CTransaction tx;
-	COffer theOffer;
+    CTransaction tx, linkTx;
+	COffer theOffer, linkOffer;
 	COfferAccept theOfferAccept;
 	const CWalletTx *wtxAliasIn = NULL;
 
 	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find an offer with this guid"));
 
+	
+	CAliasIndex buyerAlias, sellerAlias;
+	CTransaction buyeraliastx, selleraliastx;
+
+	if(!theOffer.vchLinkOffer.empty())
+	{
+		if (!GetTxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, true))
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find a linked offer with this guid"));
+		GetTxOfAlias(linkOffer.vchAlias, sellerAlias, selleraliastx, true);
+	}
+	else
+		GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
+
+	CPubKey sellerKey(sellerAlias.vchPubKey);
+	CSyscoinAddress sellerAddress(sellerKey.GetID());
+
 	COffer tmpOffer;
 	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, tmpOffer, theOfferAccept, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find this offer purchase"));
 
 
-	CAliasIndex buyerAlias, sellerAlias;
-	CTransaction buyeraliastx, selleraliastx;
+
+	
 
 	GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx, true);
 	CPubKey buyerKey(buyerAlias.vchPubKey);
 	CSyscoinAddress buyerAddress(buyerKey.GetID());
 
-	GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
-	CPubKey sellerKey(sellerAlias.vchPubKey);
-	CSyscoinAddress sellerAddress(sellerKey.GetID());
+
 
 	CScript scriptPubKeyAlias;
 	CScript scriptPubKey,scriptPubKeyBuyer, scriptPubKeyOrig, scriptPubKeyBuyerOrig;
