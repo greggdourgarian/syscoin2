@@ -3332,7 +3332,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 				for(int i=vtxOfferPos.size()-1;i>=0;i--) {
 
 					const COffer &theOffer = vtxOfferPos[i];
-					if(theOffer.accept.IsNull() || !theOffer.accept.feedback.empty() || theOffer.accept.bPaymentAck)
+					if(theOffer.accept.IsNull())
 						continue;
 					// get unique accepts
 					if (vNamesA.find(theOffer.accept.vchAcceptRand) != vNamesA.end())
@@ -3357,7 +3357,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			if (wtx.nVersion != SYSCOIN_TX_VERSION)
 				continue;
 			COffer offer(wtx);
-			if(!offer.IsNull() && !offer.accept.IsNull() && offer.accept.feedback.empty() && !offer.accept.bPaymentAck)
+			if(!offer.IsNull() && !offer.accept.IsNull())
 			{
 				// get unique accepts
 				if (vNamesA.find(offer.accept.vchAcceptRand) != vNamesA.end())
