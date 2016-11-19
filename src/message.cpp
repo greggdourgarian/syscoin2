@@ -578,35 +578,9 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 
 	if (!pmessagedb->ReadMessage(vchMessage, vtxPos) || vtxPos.empty())
 		 throw runtime_error("failed to read from message DB");
-	CMessage ca = vtxPos.back();
-	if (!GetSyscoinTransaction(ca.nHeight, ca.txHash, tx, Params().GetConsensus()))
-		throw runtime_error("failed to read transaction from disk");   
-    string sHeight = strprintf("%llu", ca.nHeight);
-	oMessage.push_back(Pair("GUID", stringFromVch(vchMessage)));
-	string sTime;
-	CBlockIndex *pindex = chainActive[ca.nHeight];
-	if (pindex) {
-		sTime = strprintf("%llu", pindex->nTime);
-	}
-	CAliasIndex aliasFrom, aliasTo;
-	CTransaction aliastx;
-	GetTxOfAlias(ca.vchAliasFrom, aliasFrom, aliastx);
-	GetTxOfAlias(ca.vchAliasTo, aliasTo, aliastx);
-	oMessage.push_back(Pair("time", sTime));
-	oMessage.push_back(Pair("from", stringFromVch(ca.vchAliasFrom)));
-	oMessage.push_back(Pair("to", stringFromVch(ca.vchAliasTo)));
-
-	oMessage.push_back(Pair("subject", stringFromVch(ca.vchSubject)));
-	string strDecrypted = "";
-	string strData = _("Encrypted for recipient of message");
-	if(DecryptMessage(aliasTo.vchPubKey, ca.vchMessageTo, strDecrypted))
-		strData = strDecrypted;
-	else if(DecryptMessage(aliasFrom.vchPubKey, ca.vchMessageFrom, strDecrypted))
-		strData = strDecrypted;
-	oMessage.push_back(Pair("message", strData));
-    oMessage.push_back(Pair("txid", ca.txHash.GetHex()));
-    oMessage.push_back(Pair("height", sHeight));
-	
+	const CMessage &message = vtxPos.back();
+	if(!BuildMessageJson(message, oMessage))
+		oMessage.clear();
     return oMessage;
 }
 

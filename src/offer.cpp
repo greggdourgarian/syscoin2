@@ -3115,18 +3115,19 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	CAliasIndex alias;
 	if(!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("Could not find the alias associated with this offer");
-	if(theOffer.safetyLevel >= SAFETY_LEVEL2)
-		throw runtime_error("offer has been banned");
-	if(alias.safetyLevel >= SAFETY_LEVEL2)
-		throw runtime_error("offer owner has been banned");
 
-	BuildOfferJson(theOffer, alias, aliastx, oOffer);
+	if(!BuildOfferJson(theOffer, alias, aliastx, oOffer))
+		oOffer.clear();
 
 	return oOffer;
 
 }
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer)
 {
+	if(theOffer.safetyLevel >= SAFETY_LEVEL2)
+		return false;
+	if(alias.safetyLevel >= SAFETY_LEVEL2)
+		return false;
 	CAliasIndex tmpAlias = alias;
 	CTransaction linkTx;
 	COffer linkOffer;

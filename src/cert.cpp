@@ -1151,8 +1151,7 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 	if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
 		throw runtime_error("failed to read from cert DB");
 	CCert cert = vtxPos.back();
-	if(cert.safetyLevel >= SAFETY_LEVEL2)
-		throw runtime_error("cert has been banned");
+
 	if (!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
 		throw runtime_error("failed to read transaction from disk");   
 
@@ -1162,11 +1161,9 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 	CTransaction aliastx;
 	if (!GetTxOfAlias(cert.vchAlias, alias, aliastx, true))
 		throw runtime_error("failed to read xfer alias from alias DB");
-	
-	if(alias.safetyLevel >= SAFETY_LEVEL2)
-		throw runtime_error("cert owner has been banned");
 
-	BuildCertJson(cert, alias, aliastx, oCert);
+	if(!BuildCertJson(cert, alias, aliastx, oCert))
+		oCert.clear();
     return oCert;
 }
 
@@ -1247,6 +1244,10 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 }
 bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert)
 {
+	if(cert.safetyLevel >= SAFETY_LEVEL2)
+		return false;
+	if(alias.safetyLevel >= SAFETY_LEVEL2)
+		return false;
 	string sHeight = strprintf("%llu", cert.nHeight);
     oCert.push_back(Pair("cert", stringFromVch(cert.vchCert)));
     oCert.push_back(Pair("txid", cert.txHash.GetHex()));

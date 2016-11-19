@@ -2654,7 +2654,8 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("failed to read from alias DB");
 
 	UniValue oName(UniValue::VOBJ);
-	BuildAliasJson(alias, tx, 0, oName);
+	if(!BuildAliasJson(alias, tx, 0, oName))
+		oName.clear();
 		
 	return oName;
 }
