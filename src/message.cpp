@@ -651,7 +651,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 
     return oRes;
 }
-void BuildMessageJson(const CMessage& message, UniValue& oName)
+bool BuildMessageJson(const CMessage& message, UniValue& oName)
 {
 	oName.push_back(Pair("GUID", stringFromVch(message.vchMessage)));
 	string sTime;
@@ -670,12 +670,16 @@ void BuildMessageJson(const CMessage& message, UniValue& oName)
 		aliasFrom.nHeight = message.nHeight;
 		aliasFrom.GetAliasFromList(aliasVtxPos);
 	}
+	else
+		return false;
 	aliasVtxPos.clear();
 	if(GetTxAndVtxOfAlias(message.vchAliasTo, aliasTo, aliastxtmp, aliasVtxPos, isExpired, true))
 	{
 		aliasTo.nHeight = message.nHeight;
 		aliasTo.GetAliasFromList(aliasVtxPos);
 	}
+	else
+		return false;
 	oName.push_back(Pair("from", stringFromVch(message.vchAliasFrom)));
 	oName.push_back(Pair("to", stringFromVch(message.vchAliasTo)));
 
@@ -687,6 +691,7 @@ void BuildMessageJson(const CMessage& message, UniValue& oName)
 	else if(DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
 		strData = strDecrypted;
 	oName.push_back(Pair("message", strData));
+	return true;
 }
 
 UniValue messagesentlist(const UniValue& params, bool fHelp) {
