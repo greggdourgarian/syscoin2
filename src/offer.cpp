@@ -3400,7 +3400,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	// for merchant (discounted) #3
 	// for buyer (full price) #1
 
-	bool ismine = IsSyscoinTxMine(offerTx, "offer");
+	bool ismine = IsSyscoinTxMine(aliastx, "alias");
 	CAmount priceAtTimeOfAccept = theOffer.GetPrice();
 	if(theOffer.GetPrice() != priceAtTimeOfAccept)
 		discountApplied = true;
