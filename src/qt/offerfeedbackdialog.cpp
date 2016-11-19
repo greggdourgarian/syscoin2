@@ -19,9 +19,8 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();  
 	ui->aboutFeedback->setPixmap(QPixmap(":/images/" + theme + "/about_horizontal"));
-	QString buyer, seller, currency, offertitle, total, systotal, reselleralias, resellerguid;
-	bool reseller = false;
-	if(!lookup(offerStr, acceptStr, buyer, seller, offertitle, currency, total, systotal, reseller, reselleralias, resellerguid))
+	QString buyer, seller, currency, offertitle, total, systotal;
+	if(!lookup(offerStr, acceptStr, buyer, seller, offertitle, currency, total, systotal))
 	{
 		ui->manageInfo2->setText(tr("Cannot find this offer purchase on the network, please try again later."));
 		ui->feedbackButton->setEnabled(false);
@@ -30,12 +29,7 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
 		ui->primaryFeedback->setVisible(false);
 		return;
 	}
-	ui->manageInfo->setText(tr("This offer payment was for Offer ID: <b>%1</b> for <b>%2</b> totaling <b>%3 %4 (%5 SYS)</b>. The buyer is <b>%6</b>, merchant is <b>%7</b>%8").arg(offer).arg(offertitle).arg(total).arg(currency).arg(systotal).arg(buyer).arg(seller).arg(reseller? tr(" (reseller)"): ""));
-	if(reseller)
-	{
-		seller = reselleralias;
-		offer = resellerguid;
-	}
+	ui->manageInfo->setText(tr("This offer payment was for Offer ID: <b>%1</b> for <b>%2</b> totaling <b>%3 %4 (%5 SYS)</b>. The buyer is <b>%6</b>, merchant is <b>%7</b>%8").arg(offer).arg(offertitle).arg(total).arg(currency).arg(systotal).arg(buyer).arg(seller));
 	OfferType offerType = findYourOfferRoleFromAliases(buyer, seller);
 	
 	if(offerType == None)
@@ -57,7 +51,7 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
 		ui->manageInfo2->setText(tr("You are the <b>merchant</b> of this offer, you may leave feedback and rate the buyer once you confirmed you have recieved full payment from buyer and you have ship the goods (if its for a physical good)."));
 	}
 }
-bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid, QString &buyer, QString &seller, QString &offertitle, QString &currency, QString &total, QString &systotal, bool &reseller, QString &reselleralias, QString &resellerguid)
+bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid, QString &buyer, QString &seller, QString &offertitle, QString &currency, QString &total, QString &systotal)
 {
 	UniValue result(UniValue::VOBJ);
 	string strMethod = string("offerinfo");
@@ -70,13 +64,6 @@ bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid
 		{
 			seller = QString::fromStdString(find_value(result.get_obj(), "alias").get_str());
 			offertitle = QString::fromStdString(find_value(result.get_obj(), "title").get_str());
-			string offerlinkStr = find_value(result.get_obj(), "offerlink").get_str();
-			if(offerlinkStr == "true")
-			{
-				reseller = true;
-				reselleralias = QString::fromStdString(find_value(result.get_obj(), "offerlink_seller").get_str());
-				resellerguid = QString::fromStdString(find_value(result.get_obj(), "offerlink_guid").get_str());
-			}
 		}
 		 
 
@@ -95,7 +82,6 @@ bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid
 	params.push_back(seller.toStdString());
 	params.push_back(acceptGuid.toStdString());
 	UniValue offerAcceptsValue;
-	reseller = false;
     try {
         offerAcceptsValue = tableRPC.execute(strMethod, params);
 

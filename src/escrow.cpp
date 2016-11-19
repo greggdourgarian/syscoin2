@@ -1256,8 +1256,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4517 - " + _("Could not find an alias with this identifier"));
 		if(linkedOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkedOffer.sCategory), "wanted"))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4518 - " + _("Cannot purchase a wanted offer"));
-
-		selleralias = theLinkedAlias;
 	}
 
 	if(!IsSyscoinTxMine(buyeraliastx, "alias"))

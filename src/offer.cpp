@@ -1047,7 +1047,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			COffer acceptOffer;
 			if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyeralias, buyeraliasTx))
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1080 - " + _("Cannot find buyer alias. It may be expired");
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1080 - " + _("Cannot find alias. It may be expired");
 				return true;
 			}
 			if(theOfferAccept.bPaymentAck)
@@ -1121,11 +1121,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				else
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1084 - " + _("Unknown feedback user type");
-					return true;
-				}
-				if(!acceptOffer.vchLinkOffer.empty())
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1085 - " + _("Cannot leave feedback for linked offers");
 					return true;
 				}
 				int numBuyerRatings, numSellerRatings, feedbackBuyerCount, numArbiterRatings, feedbackSellerCount, feedbackArbiterCount;
@@ -2793,17 +2788,12 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
     // look for a transaction with this key
     CTransaction tx;
-	COffer theOffer;
+	COffer theOffer, linkOffer;
 	COfferAccept theOfferAccept;
 	const CWalletTx *wtxAliasIn = NULL;
 
 	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find an offer with this guid"));
-	if(!theOffer.vchLinkOffer.empty())
-	{
-		if (!GetTxOfOffer( theOffer.vchLinkOffer, theOffer, tx, true))
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find a linked offer with this guid"));
-	}
 
 	COffer tmpOffer;
 	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, tmpOffer, theOfferAccept, tx, true))
