@@ -3382,7 +3382,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	if(!GetSyscoinTransaction(theOffer.nHeight, theOffer.txHash, offerTx, Params().GetConsensus()))
 		return false;
 
-	if (!DecodeOfferTx(offerTxTmp, op, nOut, vvch)
+	if (!DecodeOfferTx(offerTx, op, nOut, vvch)
 		|| (op != OP_OFFER_ACCEPT))
 		return false;
 
@@ -3402,7 +3402,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 
 	bool ismine = IsSyscoinTxMine(offerTx, "offer");
 	if(ismine && !IsSyscoinTxMine(aliastx, "alias"))
-		continue;
+		retrun false;
 	CAmount priceAtTimeOfAccept = theOffer.GetPrice();
 	if(theOffer.GetPrice() != priceAtTimeOfAccept)
 		discountApplied = true;
@@ -3422,6 +3422,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		linkOffer.nHeight = nHeight;
 		linkOffer.GetOfferFromList(vtxLinkPos);
 		CTransaction linkAliasTx;
+		CAliasIndex linkAlias;
 	
 		if(!GetTxAndVtxOfAlias( linkOffer.vchAlias, linkAlias, linkAliasTx, vtxAliasLinkPos, true))
 			return false;
@@ -3437,7 +3438,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 			if(ismine)
 			{
 				commissionPaid = false;
-				priceAtTimeOfAccept = theOfferAccept.nPrice;
+				priceAtTimeOfAccept = theOffer.accept.nPrice;
 				if(linkOffer.GetPrice() != priceAtTimeOfAccept)
 					discountApplied = true;
 			}
@@ -3449,13 +3450,13 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 				priceAtTimeOfAccept = theOffer.GetPrice();
 			}
 			if(ismine && !IsSyscoinTxMine(linkAliasTx, "alias"))
-				continue;
+				return false;
 		}
 		// You are the affiliate
 		else
 		{
 			// full price with commission - discounted merchant price = commission + discount
-			priceAtTimeOfAccept = theOffer.GetPrice() -  theOfferAccept.nPrice;
+			priceAtTimeOfAccept = theOffer.GetPrice() -  theOffer.accept.nPrice;
 			commissionPaid = true;
 			discountApplied = false;
 		}
@@ -3510,7 +3511,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	}
 	oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 	oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-	oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
+	oOfferAccept.push_back(Pair("ismine", ismine? "true" : "false"));
 	string statusStr = "Paid";
 	if(!theOffer.accept.txExtId.IsNull())
 		statusStr = "Paid with external coin";
