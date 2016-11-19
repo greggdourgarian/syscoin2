@@ -1273,7 +1273,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 	EnsureWalletIsUnlocked();
-    CScript scriptPubKey, scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyRootSeller, scriptPubKeyArbiter,scriptBuyer, scriptSeller,scripRoottSeller,scriptArbiter;
+    CScript scriptPubKey, scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyRootSeller, scriptPubKeyArbiter,scriptBuyer, scriptSeller,scripRootSeller,scriptArbiter;
 
 	string strCipherText = "";
 	// encrypt to offer owner
