@@ -782,10 +782,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "password", "somedata");
 	AliasNew("node2", "aliasexpirednode2", "password", "somedata");
-	GenerateBlocks(35);
+	GenerateBlocks(30);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
 	GenerateBlocks(5);
 	string offerguid = OfferNew("node1", "aliasexpire", "category", "title", "100", "0.01", "description", "USD");
+	OfferAddWhitelist("node1", offerguid, "aliasexpirednode2", "5");
 	string certguid = CertNew("node1", "aliasexpire", "certtitle", "certdata", false, "Yes");
 	StopNode("node3");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire"));

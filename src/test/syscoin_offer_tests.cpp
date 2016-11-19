@@ -160,6 +160,7 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedoffer)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias5", "category", "title", "100", "10.00", "description", "USD", "nocert");
+	OfferAddWhitelist("node1", offerguid, "selleralias6", "5");
 	string lofferguid = OfferLink("node2", "selleralias6", offerguid, "5", "newdescription");
 
 	// it was already added to whitelist, remove it and add it as 5% discount
@@ -208,9 +209,7 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedofferexmode)
 	// should fail: attempt to create a linked offer for a product without being on the whitelist
 	BOOST_CHECK_THROW(r = CallRPC("node2", "offerlink selleralias9 " + offerguid + " 5 newdescription"), runtime_error);
 
-	// should succeed: offer seller adds affiliate to whitelist
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offeraddwhitelist " + offerguid + " selleralias9 10"));
-	GenerateBlocks(10);
+	OfferAddWhitelist("node1", offerguid, "selleralias9", "5");
 
 	// should succeed: attempt to create a linked offer for a product while being on the whitelist
 	OfferLink("node2", "selleralias9", offerguid, "5", "newdescription");
@@ -231,6 +230,8 @@ BOOST_AUTO_TEST_CASE (generate_offernew_linkedlinkedoffer)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias12", "category", "title", "100", "0.05", "description", "USD", "nocert");
+	OfferAddWhitelist("node1", offerguid, "selleralias13", "5");
+
 	string lofferguid = OfferLink("node2", "selleralias13", offerguid, "5", "newdescription");
 
 	// should fail: try to generate a linked offer with a linked offer
@@ -395,6 +396,7 @@ BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 	AliasNew("node3", "node3aliaslinked", "password", "node2aliasdata");
 
 	string offerguid = OfferNew("node1", "node1aliaslinked", "category", "title", "10", "0.05", "description", "USD", "nocert");
+	OfferAddWhitelist("node1", offerguid, "node2aliaslinked", "5");
 	string lofferguid = OfferLink("node2", "node2aliaslinked", offerguid, "3", "newdescription");
 
 	LinkOfferAccept("node1", "node3", "node3aliaslinked", lofferguid, "6", "message", "node2");
@@ -418,6 +420,7 @@ BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == "node1alias");
 	// generate a good cert offer
 	string offerguid = OfferNew("node1", "node1alias", "category", "title", "1", "0.05", "description", "USD", certguid);
+	OfferAddWhitelist("node1", offerguid, "node2alias", "5");
 	string lofferguid = OfferLink("node2", "node2alias", offerguid, "5", "newdescription");
 
 	AliasUpdate("node1", "node1alias", "changeddata2", "privdata2");
@@ -502,6 +505,7 @@ BOOST_AUTO_TEST_CASE (generate_offerexpired)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias4", "category", "title", "100", "0.01", "description", "USD");
+	OfferAddWhitelist("node1", offerguid, "buyeralias4", "5");
 	GenerateBlocks(40);
 	// ensure aliases dont't expire
 	AliasUpdate("node1", "selleralias4", "selleralias4", "data1");
@@ -606,7 +610,7 @@ BOOST_AUTO_TEST_CASE (generate_offerlink_offlinenode)
 
 	// generate a good offer
 	string offerguid = OfferNew("node2", "selleralias15", "category", "title", "100", "10.00", "description", "USD", "nocert");
-
+	OfferAddWhitelist("node2", offerguid, "selleralias16", "5");
 	// stop node2 and link offer on node1 while node2 is offline
 	StopNode("node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerlink selleralias16 " + offerguid + " 5 newdescription"));
