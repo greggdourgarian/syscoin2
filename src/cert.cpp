@@ -1285,6 +1285,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 	nHeight = cert.nHeight;
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
+	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
 	int expired_block = nHeight + GetCertExpirationDepth();
 	int expired = 0;
     if(expired_block < chainActive.Tip()->nHeight)
@@ -1472,6 +1473,11 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 
 	entry.push_back(Pair("category", categoryValue ));
 
+	string transferViewOnlyValue = noDifferentStr;
+	if(cert.bTransferViewOnly != dbCert.bTransferViewOnly)
+		transferViewOnlyValue = cert.bTransferViewOnly? "Yes": "No";
+
+	entry.push_back(Pair("transferviewonly", transferViewOnlyValue));
 
 	string safeSearchValue = noDifferentStr;
 	if(cert.safeSearch != dbCert.safeSearch)
