@@ -1142,9 +1142,6 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 
 	vector<CCert> vtxPos;
 
-	int expired = 0;
-	int expires_in = 0;
-	int expired_block = 0;
 	UniValue oCert(UniValue::VOBJ);
     vector<unsigned char> vchValue;
 
@@ -1155,8 +1152,6 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 	if (!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
 		throw runtime_error("failed to read transaction from disk");   
 
-
-	// check that the seller isn't banned level 2
 	CAliasIndex alias;
 	CTransaction aliastx;
 	if (!GetTxOfAlias(cert.vchAlias, alias, aliastx, true))
