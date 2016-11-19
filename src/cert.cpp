@@ -1220,6 +1220,8 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 					continue;
 				if (vchNameUniq.size() > 0 && vchNameUniq != cert.vchCert)
 					continue;
+				if(!IsSyscoinTxMine(wtx, "cert"))
+					continue;
 				vector<CCert> vtxCertPos;
 				if (!pcertdb->ReadCert(cert.vchCert, vtxCertPos) || vtxCertPos.empty())
 					continue;

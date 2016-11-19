@@ -79,7 +79,7 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 		ui->aliasDisclaimer->setVisible(false);
 		ui->aliasEdit->setEnabled(false);
 		ui->viewAliasDisclaimer->setVisible(false);
-		ui->viewAliasEdit->setVisible(false);
+		ui->viewAliasEdit->setEnabled(false);
 		ui->viewOnlyBox->setVisible(true);
 		ui->viewOnlyLabel->setVisible(true);
 		ui->viewOnlyDisclaimer->setVisible(true);
