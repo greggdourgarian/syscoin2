@@ -3402,7 +3402,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 
 	bool ismine = IsSyscoinTxMine(offerTx, "offer");
 	if(ismine && !IsSyscoinTxMine(aliastx, "alias"))
-		retrun false;
+		return false;
 	CAmount priceAtTimeOfAccept = theOffer.GetPrice();
 	if(theOffer.GetPrice() != priceAtTimeOfAccept)
 		discountApplied = true;
@@ -3427,7 +3427,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		if(!GetTxAndVtxOfAlias( linkOffer.vchAlias, linkAlias, linkAliasTx, vtxAliasLinkPos, true))
 			return false;
 		linkAlias.nHeight = linkOffer.nHeight;
-		linkAlias.GetOfferFromList(vtxAliasLinkPos);
+		linkAlias.GetAliasFromList(vtxAliasLinkPos);
 		if(!GetSyscoinTransaction(linkAlias.nHeight, linkAlias.txHash, linkAliasTx, Params().GetConsensus()))
 			return false;
 		// if you don't own this offer check the linked offer
