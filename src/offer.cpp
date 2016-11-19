@@ -3415,7 +3415,8 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	}
 	if( !theOffer.vchLinkOffer.empty())
 	{	
-		vector<COffer> vtxLinkPos, vtxAliasLinkPos;
+		vector<COffer> vtxLinkPos;
+		vector<CAliasIndex> vtxAliasLinkPos;
 		CTransaction linkTx;
 		if(!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true))
 			return false;
