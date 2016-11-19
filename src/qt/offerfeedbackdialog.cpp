@@ -34,7 +34,7 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
 	
 	if(offerType == None)
 	{
-		ui->manageInfo2->setText(tr("You cannot leave feedback this offer purchase because you do not own either the buyer or merchant aliases. %1").arg(reseller? "The merchant as a reseller cannot leave feedback.": ""));
+		ui->manageInfo2->setText(tr("You cannot leave feedback this offer purchase because you do not own either the buyer or merchant aliases."));
 		ui->feedbackButton->setEnabled(false);
 		ui->primaryLabel->setVisible(false);
 		ui->primaryRating->setVisible(false);
