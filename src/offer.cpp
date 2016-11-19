@@ -3236,6 +3236,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	if(!theOffer.vchLinkOffer.empty())
 		sold = linkOffer.nSold;
 	oOffer.push_back(Pair("offers_sold", sold));
+	return true;
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (fHelp || 2 < params.size())
