@@ -1104,8 +1104,6 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 		if (!GetTxOfAlias( linkedOffer.vchAlias, theLinkedAlias, txLinkedAlias, true))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4506 - " + _("Could not find an alias with this identifier"));
 
-
-		selleralias = theLinkedAlias;
 	}
 	else
 	{
@@ -1242,6 +1240,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	CScript scriptPubKeyAlias, scriptPubKeyAliasOrig;
 	COfferLinkWhitelistEntry foundEntry;
+	CAliasIndex theLinkedAlias;
 	if(!theOffer.vchLinkOffer.empty())
 	{
 
@@ -1250,7 +1249,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkedOffer, tmpTx, offerTmpVtxPos, true))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4516 - " + _("Trying to accept a linked offer but could not find parent offer"));
 
-		CAliasIndex theLinkedAlias;
+		
 		CTransaction txLinkedAlias;
 		if (!GetTxOfAlias( linkedOffer.vchAlias, theLinkedAlias, txLinkedAlias, true))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4517 - " + _("Could not find an alias with this identifier"));
@@ -1274,7 +1273,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 	EnsureWalletIsUnlocked();
-    CScript scriptPubKey, scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyArbiter,scriptBuyer, scriptSeller,scriptArbiter;
+    CScript scriptPubKey, scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyRootSeller, scriptPubKeyArbiter,scriptBuyer, scriptSeller,scripRoottSeller,scriptArbiter;
 
 	string strCipherText = "";
 	// encrypt to offer owner
@@ -1287,10 +1286,12 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CPubKey ArbiterPubKey(arbiteralias.vchPubKey);
 	CPubKey SellerPubKey(selleralias.vchPubKey);
 	CPubKey BuyerPubKey(buyeralias.vchPubKey);
+	CPubKey RootSellerPubKey(theLinkedAlias.vchPubKey);
 
 	scriptArbiter= GetScriptForDestination(ArbiterPubKey.GetID());
 	scriptSeller= GetScriptForDestination(SellerPubKey.GetID());
 	scriptBuyer= GetScriptForDestination(BuyerPubKey.GetID());
+	scriptRootSeller= GetScriptForDestination(RootSellerPubKey.GetID());
 	vector<unsigned char> redeemScript;
 	if(vchRedeemScript.empty())
 	{
@@ -1366,6 +1367,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	scriptPubKeyArbiter += scriptArbiter;
 	scriptPubKeyBuyer += scriptBuyer;
 
+	scriptPubKeyRootSeller << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
+	scriptPubKeyRootSeller += scriptRootSeller;
+
 
 	// send the tranasction
 
@@ -1378,6 +1382,13 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CRecipient recipientBuyer;
 	CreateRecipient(scriptPubKeyBuyer, recipientBuyer);
 	vecSend.push_back(recipientBuyer);
+
+	CRecipient recipientRootSeller;
+	if(!theLinkedAlias.IsNull())
+	{
+		CreateRecipient(scriptPubKeyRootSeller, recipientRootSeller);
+		vecSend.push_back(recipientRootSeller);
+	}
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
@@ -1393,7 +1404,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend,recipientBuyer.nAmount+recipientArbiter.nAmount+recipientSeller.nAmount+aliasRecipient.nAmount+recipientEscrow.nAmount+fee.nAmount, false, wtx, wtxAliasIn, buyeralias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend,recipientBuyer.nAmount+recipientArbiter.nAmount+recipientSeller.nAmount+recipientRootSeller.nAmount+aliasRecipient.nAmount+recipientEscrow.nAmount+fee.nAmount, false, wtx, wtxAliasIn, buyeralias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
 	{
