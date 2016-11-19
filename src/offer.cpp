@@ -1560,7 +1560,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(params.size() >= 9& & !params[8].get_str().empty() && params[8].get_str() != "NONE")
+	if(params.size() >= 9 && !params[8].get_str().empty() && params[8].get_str() != "NONE")
 	{
 		paymentOptions = params[9].get_str();
 	}
