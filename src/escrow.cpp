@@ -1384,11 +1384,10 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientBuyer);
 
 	CRecipient recipientRootSeller;
+	CreateRecipient(scriptPubKeyRootSeller, recipientRootSeller);
 	if(!theLinkedAlias.IsNull())
-	{
-		CreateRecipient(scriptPubKeyRootSeller, recipientRootSeller);
 		vecSend.push_back(recipientRootSeller);
-	}
+	
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);

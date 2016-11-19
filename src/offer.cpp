@@ -3619,7 +3619,6 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			}
 
 			CTransaction tx;
-			uint64_t nHeight;
 			for(std::vector<CAliasIndex>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 				const CAliasIndex& theAlias = *it;
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
