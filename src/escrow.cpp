@@ -3271,7 +3271,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 	if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
 		  throw runtime_error("failed to read from escrow DB");
 	if(!BuildEscrowJson(vtxPos.back(), vtxPos.front(), oEscrow))
-		oEscrow.clear();
+		throw runtime_error("Could not find this escrow");
     return oEscrow;
 }
 bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow)

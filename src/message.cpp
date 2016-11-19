@@ -580,7 +580,7 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 		 throw runtime_error("failed to read from message DB");
 	const CMessage &message = vtxPos.back();
 	if(!BuildMessageJson(message, oMessage))
-		oMessage.clear();
+		throw runtime_error("Could not find this message");
     return oMessage;
 }
 

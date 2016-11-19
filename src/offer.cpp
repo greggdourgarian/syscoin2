@@ -3117,7 +3117,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("Could not find the alias associated with this offer");
 
 	if(!BuildOfferJson(theOffer, alias, aliastx, oOffer))
-		oOffer.clear();
+		throw runtime_error("Could not find this offer");
 
 	return oOffer;
 

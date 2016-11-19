@@ -2655,7 +2655,7 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 
 	UniValue oName(UniValue::VOBJ);
 	if(!BuildAliasJson(alias, tx, 0, oName))
-		oName.clear();
+		throw runtime_error("Could not find this alias");
 		
 	return oName;
 }
