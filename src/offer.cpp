@@ -3401,8 +3401,6 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	// for buyer (full price) #1
 
 	bool ismine = IsSyscoinTxMine(offerTx, "offer");
-	if(ismine && !IsSyscoinTxMine(aliastx, "alias"))
-		return false;
 	CAmount priceAtTimeOfAccept = theOffer.GetPrice();
 	if(theOffer.GetPrice() != priceAtTimeOfAccept)
 		discountApplied = true;
@@ -3434,7 +3432,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		// if you don't own this offer check the linked offer
 		if(!ismine)
 		{
-			ismine = IsSyscoinTxMine(linkTx, "offer");
+			ismine = IsSyscoinTxMine(linkAliasTx, "alias");
 			// You are the merchant
 			if(ismine)
 			{
@@ -3450,8 +3448,6 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 				discountApplied = false;
 				priceAtTimeOfAccept = theOffer.GetPrice();
 			}
-			if(ismine && !IsSyscoinTxMine(linkAliasTx, "alias"))
-				return false;
 		}
 		// You are the affiliate
 		else
