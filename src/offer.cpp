@@ -3425,7 +3425,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		CTransaction linkAliasTx;
 		CAliasIndex linkAlias;
 		bool isExpired;
-		if(!GetTxAndVtxOfAlias( linkOffer.vchAlias, linkAlias, linkAliasTx, vtxAliasLinkPos, isExpired))
+		if(!GetTxAndVtxOfAlias( linkOffer.vchAlias, linkAlias, linkAliasTx, vtxAliasLinkPos, isExpired, true))
 			return false;
 		linkAlias.nHeight = linkOffer.nHeight;
 		linkAlias.GetAliasFromList(vtxAliasLinkPos);
