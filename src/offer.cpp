@@ -1562,7 +1562,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	string paymentOptions = "SYS";
 	if(params.size() >= 9 && !params[8].get_str().empty() && params[8].get_str() != "NONE")
 	{
-		paymentOptions = params[9].get_str();
+		paymentOptions = params[8].get_str();
 	}
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOptions))
