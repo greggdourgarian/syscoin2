@@ -121,7 +121,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 				if(keyWordArray.size() > 0)
 				{
 					string toAliasLower = stringFromVch(txPos.vchAliasTo);
-					if (std::find(keyWordArray.begin(), keyWordArray.end(), toAliasLower) != keyWordArray.end())
+					if (std::find(keyWordArray.begin(), keyWordArray.end(), toAliasLower) == keyWordArray.end())
 					{
 						pcursor->Next();
 						continue;

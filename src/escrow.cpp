@@ -153,9 +153,9 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 				string arbiterAliasLower = stringFromVch(txPos.vchArbiterAlias);
 				if(aliasArray.size() > 0)
 				{
-					if (std::find(aliasArray.begin(), aliasArray.end(), buyerAliasLower) != aliasArray.end() &&
-						std::find(aliasArray.begin(), aliasArray.end(), sellerAliasLower) != aliasArray.end() &&
-						std::find(aliasArray.begin(), aliasArray.end(), arbiterAliasLower) != aliasArray.end())
+					if (std::find(aliasArray.begin(), aliasArray.end(), buyerAliasLower) == aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), sellerAliasLower) == aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), arbiterAliasLower) == aliasArray.end())
 					{
 						pcursor->Next();
 						continue;
