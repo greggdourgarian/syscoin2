@@ -192,12 +192,11 @@ void OfferListPage::setModel(WalletModel* walletModel, OfferTableModel *model)
     ui->tableView->setColumnWidth(7, 75); //qty
 	ui->tableView->setColumnWidth(8, 75); //sold
     ui->tableView->setColumnWidth(9, 50); //status
-    ui->tableView->setColumnWidth(10, 75); //exclusive resell
-    ui->tableView->setColumnWidth(11, 50); //private
-    ui->tableView->setColumnWidth(12, 100); //seller alias
-	ui->tableView->setColumnWidth(13, 150); //seller rating
-    ui->tableView->setColumnWidth(14, 0); //btc only
-	ui->tableView->setItemDelegateForColumn(13, new StarDelegate);
+    ui->tableView->setColumnWidth(10, 50); //private
+    ui->tableView->setColumnWidth(11, 100); //seller alias
+	ui->tableView->setColumnWidth(12, 150); //seller rating
+    ui->tableView->setColumnWidth(13, 0); //btc only
+	ui->tableView->setItemDelegateForColumn(12, new StarDelegate);
 
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -411,7 +410,6 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 	string currency_str;
 	string qty_str;
 	string expired_str;
-	string exclusive_resell_str;
 	string private_str;
 	string paymentoptions_str;
 	string alias_peg_str;
@@ -476,7 +474,6 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 			value_str = "";
 			desc_str = "";
 			private_str = "";
-			exclusive_resell_str = "";
 			alias_str = "";
 			paymentoptions_str = "";
 			alias_peg_str = "";
@@ -516,10 +513,7 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 				qty_str = qty_value.get_str();
 			const UniValue& sold_value = find_value(o, "offers_sold");
 			if (sold_value.type() == UniValue::VNUM)
-				sold = sold_value.get_int();
-			const UniValue& exclusive_resell_value = find_value(o, "exclusive_resell");
-			if (exclusive_resell_value.type() == UniValue::VSTR)
-				exclusive_resell_str = exclusive_resell_value.get_str();		
+				sold = sold_value.get_int();	
 			const UniValue& private_value = find_value(o, "private");
 			if (private_value.type() == UniValue::VSTR)
 				private_str = private_value.get_str();	
@@ -569,7 +563,6 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 					QString::fromStdString(qty_str),
 					QString::number(sold),
 					QString::fromStdString(expired_str), 
-					QString::fromStdString(exclusive_resell_str),
 					QString::fromStdString(private_str),
 					QString::fromStdString(alias_str),
 					aliasRating, aliasRatingCount,
@@ -587,7 +580,6 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 					QString::fromStdString(qty_str),
 					QString::number(sold),
 					QString::fromStdString(expired_str),
-					QString::fromStdString(exclusive_resell_str),
 					QString::fromStdString(private_str), 
 					QString::fromStdString(alias_str), 
 					aliasRating, aliasRatingCount,

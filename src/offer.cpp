@@ -884,8 +884,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 								theOffer.vchLinkOffer.clear();
 							}
 						}
-						// make sure alias exists in the root offer affiliate list if root offer is in exclusive mode
-						else if (linkOffer.linkWhitelist.bExclusiveResell)
+						// make sure alias exists in the root offer affiliate list
+						else
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1059 - " + _("Cannot find this alias in the parent offer affiliate list");
 							theOffer.vchLinkOffer.clear();
@@ -975,8 +975,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theOffer.vchLinkOffer.clear();
 					}
 				}
-				// make sure alias exists in the root offer affiliate list if root offer is in exclusive mode
-				else if (linkOffer.linkWhitelist.bExclusiveResell)
+				// make sure alias exists in the root offer affiliate list
+				else
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1072 - " + _("Cannot find this alias in the parent offer affiliate list");
 					theOffer.vchLinkOffer.clear();
@@ -1005,7 +1005,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				{
 					// if creating a linked offer we set some mandatory fields to the parent
 					theOffer.nQty = linkOffer.nQty;
-					theOffer.linkWhitelist.bExclusiveResell = true;
 					theOffer.sCurrencyCode = linkOffer.sCurrencyCode;
 					theOffer.vchCert = linkOffer.vchCert;
 					theOffer.SetPrice(linkOffer.nPrice);
@@ -1013,9 +1012,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theOffer.sTitle = linkOffer.sTitle;
 					theOffer.safeSearch = linkOffer.safeSearch;
 					theOffer.paymentOptions = linkOffer.paymentOptions;
-					COfferLinkWhitelistEntry addEntry;
-					addEntry.aliasLinkVchRand = theOffer.vchAlias;
-					linkOffer.linkWhitelist.PutWhitelistEntry(addEntry);
 					linkOffer.PutToOfferList(offerVtxPos);
 					// write parent offer
 
@@ -1505,9 +1501,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 }
 
 UniValue offernew(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 7 || params.size() > 13)
+	if (fHelp || params.size() < 7 || params.size() > 12)
 		throw runtime_error(
-		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [exclusive resell=1] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='0']\n"
+		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='0']\n"
 						"<alias> An alias you own.\n"
 						"<category> category, 255 chars max.\n"
 						"<title> title, 255 chars max.\n"
@@ -1516,7 +1512,6 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						"<description> description, 1 KB max.\n"
 						"<currency> The currency code that you want your offer to be in ie: USD.\n"
 						"<cert. guid> Set this to the guid of a certificate you wish to sell\n"
-						"<exclusive resell> set to 1 if you only want those who control the affiliate's who are able to resell this offer via offerlink. Defaults to 1.\n"
 						"<paymentOptions> 'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'.\n"
 						"<geolocation> set to your geolocation. Defaults to empty. \n"
 						"<safe search> set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).\n"
@@ -1524,7 +1519,6 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						+ HelpRequiringPassphrase());
 	// gather inputs
 	float fPrice;
-	bool bExclusiveResell = true;
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 
 	CTransaction aliastx;
@@ -1564,14 +1558,9 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 			vchCert.clear();
 	}
 
-	if(params.size() >= 9)
-	{
-		bExclusiveResell = boost::lexical_cast<int>(params[8].get_str()) == 1? true: false;
-	}
-
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(params.size() >= 10 && !params[9].get_str().empty() && params[9].get_str() != "NONE")
+	if(params.size() >= 9& & !params[8].get_str().empty() && params[8].get_str() != "NONE")
 	{
 		paymentOptions = params[9].get_str();
 	}
@@ -1586,17 +1575,17 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 
 	string strGeoLocation = "";
-	if(params.size() >= 11)
+	if(params.size() >= 10)
 	{
-		strGeoLocation = params[10].get_str();
+		strGeoLocation = params[9].get_str();
 	}
 	string strSafeSearch = "Yes";
-	if(params.size() >= 12)
+	if(params.size() >= 11)
 	{
-		strSafeSearch = params[11].get_str();
+		strSafeSearch = params[10].get_str();
 	}
 	bool bPrivate = false;
-	if (params.size() >= 13) bPrivate = boost::lexical_cast<int>(params[12].get_str()) == 1? true: false;
+	if (params.size() >= 12) bPrivate = boost::lexical_cast<int>(params[11].get_str()) == 1? true: false;
 
 	int precision = 2;
 	CAmount nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, vchCurrency, fPrice, chainActive.Tip()->nHeight, precision);
@@ -1626,7 +1615,6 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	newOffer.nHeight = chainActive.Tip()->nHeight;
 	newOffer.SetPrice(nPricePerUnit);
 	newOffer.vchCert = vchCert;
-	newOffer.linkWhitelist.bExclusiveResell = bExclusiveResell;
 	newOffer.sCurrencyCode = vchCurrency;
 	newOffer.bPrivate = bPrivate;
 	newOffer.paymentOptions = paymentOptionsMask;
@@ -2228,9 +2216,9 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
     return oRes;
 }
 UniValue offerupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 6 || params.size() > 15)
+	if (fHelp || params.size() < 6 || params.size() > 14)
 		throw runtime_error(
-		"offerupdate <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private='0'] [cert. guid=''] [exclusive resell='1'] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
+		"offerupdate <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private='0'] [cert. guid=''] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
 						"Perform an update on an offer you control.\n"
 						+ HelpRequiringPassphrase());
 	// gather & validate inputs
@@ -2242,7 +2230,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchCert;
 	vector<unsigned char> vchGeoLocation;
 	vector<unsigned char> sCurrencyCode;
-	bool bExclusiveResell = true;
 	int bPrivate = false;
 	int nQty;
 	float fPrice;
@@ -2253,22 +2240,21 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if (params.size() >= 10) vchCert = vchFromValue(params[9]);
 	if(vchCert == vchFromString("nocert"))
 		vchCert.clear();
-	if (params.size() >= 11) bExclusiveResell = boost::lexical_cast<int>(params[10].get_str()) == 1? true: false;
-	if (params.size() >= 12) vchGeoLocation = vchFromValue(params[11]);
+	if (params.size() >= 11) vchGeoLocation = vchFromValue(params[10]);
 	string strSafeSearch = "Yes";
-	if(params.size() >= 13)
+	if(params.size() >= 12)
 	{
-		strSafeSearch = params[12].get_str();
+		strSafeSearch = params[11].get_str();
 	}
-	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
+	if(params.size() >= 13 && !params[12].get_str().empty() && params[12].get_str() != "NONE")
 	{
-		nCommission = boost::lexical_cast<int>(params[13].get_str());
+		nCommission = boost::lexical_cast<int>(params[12].get_str());
 	}
 
 	string paymentOptions = "SYS";
-	if(params.size() >= 15 && !params[14].get_str().empty() && params[14].get_str() != "NONE")
+	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
 	{
-		paymentOptions = params[14].get_str();
+		paymentOptions = params[13].get_str();
 	}
 	if(!ValidatePaymentOptionsString(paymentOptions))
 	{
@@ -2347,9 +2333,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			throw runtime_error(err.c_str());
 		}
 	}
-	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
+	if(params.size() >= 13 && !params[12].get_str().empty() && params[12].get_str() != "NONE")
 		theOffer.nCommission = nCommission;
-	if(params.size() >= 15 && !params[14].get_str().empty() && params[14].get_str() != "NONE")
+	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
 		theOffer.paymentOptions = paymentOptionsMask;
 
 	theOffer.vchAlias = alias.vchAlias;
@@ -2362,11 +2348,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.SetPrice(nPricePerUnit);
-	if(params.size() >= 11 && params[10].get_str().size() > 0)
-		theOffer.linkWhitelist.bExclusiveResell = bExclusiveResell;
-	else
-		theOffer.linkWhitelist.bExclusiveResell = offerCopy.linkWhitelist.bExclusiveResell;
-
 
 
 	const vector<unsigned char> &data = theOffer.Serialize();
@@ -3224,7 +3205,6 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 		oOffer.push_back(Pair("offerlink_guid", ""));
 		oOffer.push_back(Pair("offerlink_seller", ""));
 	}
-	oOffer.push_back(Pair("exclusive_resell", theOffer.linkWhitelist.bExclusiveResell ? "ON" : "OFF"));
 	oOffer.push_back(Pair("private", theOffer.bPrivate ? "Yes" : "No"));
 	oOffer.push_back(Pair("safesearch", theOffer.safeSearch? "Yes" : "No"));
 	unsigned char safetyLevel = max(theOffer.safetyLevel, alias.safetyLevel );
@@ -3915,12 +3895,6 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 	if(offer.nCommission  != 0 && offer.nCommission != dbOffer.nCommission)
 		commissionValue =  boost::lexical_cast<string>(offer.nCommission);
 	entry.push_back(Pair("commission", commissionValue));
-
-	string exclusiveResellValue = noDifferentStr;
-	if(offer.linkWhitelist.bExclusiveResell != dbOffer.linkWhitelist.bExclusiveResell)
-		exclusiveResellValue = offer.linkWhitelist.bExclusiveResell? "ON": "OFF";
-
-	entry.push_back(Pair("exclusiveresell", exclusiveResellValue));
 
 	string paymentOptionsValue = noDifferentStr;
 	if(offer.paymentOptions > 0 && offer.paymentOptions != dbOffer.paymentOptions)

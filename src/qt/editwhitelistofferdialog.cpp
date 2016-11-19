@@ -38,7 +38,6 @@ EditWhitelistOfferDialog::EditWhitelistOfferDialog(const PlatformStyle *platform
 	if (!platformStyle->getImagesOnButtons())
 	{
 		ui->exportButton->setIcon(QIcon());
-		ui->exclusiveButton->setIcon(QIcon());
 		ui->removeAllButton->setIcon(QIcon());
 		ui->removeButton->setIcon(QIcon());
 		ui->newEntry->setIcon(QIcon());
@@ -47,7 +46,6 @@ EditWhitelistOfferDialog::EditWhitelistOfferDialog(const PlatformStyle *platform
 	else
 	{
 		ui->exportButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/export"));
-		ui->exclusiveButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/key"));
 		ui->removeAllButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/remove"));
 		ui->removeButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/remove"));
 		ui->newEntry->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/add"));
@@ -55,7 +53,6 @@ EditWhitelistOfferDialog::EditWhitelistOfferDialog(const PlatformStyle *platform
 	}
 
 	offerGUID = idx->data(OfferTableModel::NameRole).toString();
-	exclusiveWhitelist = idx->data(OfferTableModel::ExclusiveWhitelistRole).toString();
 	offerCategory = idx->data(OfferTableModel::CategoryRole).toString();
 	offerTitle = idx->data(OfferTableModel::TitleRole).toString();
 	offerQty = idx->data(OfferTableModel::QtyRole).toString();
@@ -66,7 +63,7 @@ EditWhitelistOfferDialog::EditWhitelistOfferDialog(const PlatformStyle *platform
 	
 
 	ui->removeAllButton->setEnabled(false);
-    ui->labelExplanation->setText(tr("These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer if you are in Exclusive Resell Mode. If Exclusive Resell Mode is off anyone can resell your offers, although discounts will still be applied if they own an alias that you've added to your affiliate list. Click the button at the bottom of this dialog to toggle the exclusive mode."));
+    ui->labelExplanation->setText(tr("These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer."));
 	
     // Context menu actions
     QAction *removeAction = new QAction(tr("&Remove"), this);
@@ -137,71 +134,6 @@ void EditWhitelistOfferDialog::on_copy()
 {
     GUIUtil::copyEntryData(ui->tableView, OfferWhitelistTableModel::Alias);
 }
-void EditWhitelistOfferDialog::on_exclusiveButton_clicked()
-{
-    if(!model || !walletModel) return;
-    WalletModel::UnlockContext ctx(walletModel->requestUnlock());
-    if(!ctx.isValid())
-    {
-		model->editStatus = OfferWhitelistTableModel::WALLET_UNLOCK_FAILURE;
-        return;
-    }
-	QString tmpExclusiveWhitelist = exclusiveWhitelist;
-	string strError;
-	string strMethod = string("offerupdate");
-	UniValue params(UniValue::VARR);
-	UniValue result;
-	try {
-		params.push_back("");
-		params.push_back(offerGUID.toStdString());
-		params.push_back(offerCategory.toStdString());
-		params.push_back(offerTitle.toStdString());
-		params.push_back(offerQty.toStdString());
-		params.push_back(offerPrice.toStdString());
-		params.push_back(offerDescription.toStdString());
-		params.push_back(offerCurrency.toStdString());
-		// keep it the same as what's in the database
-		params.push_back(offerPrivate.toStdString() == "Yes"? "1": "0");
-		params.push_back("");
-		if(tmpExclusiveWhitelist == QString("ON"))
-			params.push_back("0");
-		else 
-			params.push_back("1");
-		result = tableRPC.execute(strMethod, params);
-		QMessageBox::information(this, windowTitle(),
-		tr("Affiliate exclusive mode changed successfully!"),
-			QMessageBox::Ok, QMessageBox::Ok);
-		if(tmpExclusiveWhitelist == QString("ON"))
-			exclusiveWhitelist = QString("OFF");
-		else
-			exclusiveWhitelist = QString("ON");
-
-		if(exclusiveWhitelist == QString("ON"))
-		{
-			ui->exclusiveButton->setText(tr("Exclusive Mode is ON"));
-		}
-		else
-		{
-			ui->exclusiveButton->setText(tr("Exclusive Mode is OFF"));
-		}
-	}
-	catch (UniValue& objError)
-	{
-		string strError = find_value(objError, "message").get_str();
-		QMessageBox::critical(this, windowTitle(),
-			tr("Could not change the affiliate mode: %1").arg(QString::fromStdString(strError)),
-				QMessageBox::Ok, QMessageBox::Ok);
-
-	}
-	catch(std::exception& e)
-	{
-		QMessageBox::critical(this, windowTitle(),
-			tr("There was an exception trying to change the affiliate mode: ") + QString::fromStdString(e.what()),
-				QMessageBox::Ok, QMessageBox::Ok);
-	}
-	
-}
-
 void EditWhitelistOfferDialog::on_removeButton_clicked()
 {
     if(!model || !walletModel) return;
@@ -361,14 +293,7 @@ void EditWhitelistOfferDialog::on_refreshButton_clicked()
 				ui->removeAllButton->setEnabled(true);
 			}
 		}
-		if(exclusiveWhitelist == QString("ON"))
-		{
-			ui->exclusiveButton->setText(tr("Exclusive Mode is ON"));
-		}
-		else
-		{
-			ui->exclusiveButton->setText(tr("Exclusive Mode is OFF"));
-		}
+
 	}
 	catch (UniValue& objError)
 	{

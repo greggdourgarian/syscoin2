@@ -171,12 +171,11 @@ void MyOfferListPage::setModel(WalletModel *walletModel, OfferTableModel *model)
         ui->tableView->setColumnWidth(7, 75); //qty
 		ui->tableView->setColumnWidth(8, 75); //sold
         ui->tableView->setColumnWidth(9, 50); //status
-        ui->tableView->setColumnWidth(10, 75); //exclusive resell
-        ui->tableView->setColumnWidth(11, 50); //private
-        ui->tableView->setColumnWidth(12, 100); //seller alias
-		ui->tableView->setColumnWidth(13, 150); //seller rating
-        ui->tableView->setColumnWidth(14, 0); //btc only
-		ui->tableView->setItemDelegateForColumn(13, new StarDelegate);
+        ui->tableView->setColumnWidth(10, 50); //private
+        ui->tableView->setColumnWidth(11, 100); //seller alias
+		ui->tableView->setColumnWidth(12, 150); //seller rating
+        ui->tableView->setColumnWidth(13, 0); //btc only
+		ui->tableView->setItemDelegateForColumn(12, new StarDelegate);
 
         ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -348,7 +347,6 @@ void MyOfferListPage::on_exportButton_clicked()
 	writer.addColumn("Currency", OfferTableModel::Currency, Qt::EditRole);
 	writer.addColumn("Qty", OfferTableModel::Qty, Qt::EditRole);
 	writer.addColumn("Sold", OfferTableModel::Sold, Qt::EditRole);
-	writer.addColumn("Exclusive Resell", OfferTableModel::ExclusiveResell, Qt::EditRole);
 	writer.addColumn("Private", OfferTableModel::Private, Qt::EditRole);
 	writer.addColumn("Expired", OfferTableModel::Expired, Qt::EditRole);
 	writer.addColumn("Seller Alias", OfferTableModel::Alias, Qt::EditRole);

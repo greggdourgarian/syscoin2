@@ -101,13 +101,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="exclusiveButton">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

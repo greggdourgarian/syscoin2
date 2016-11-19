@@ -141,7 +141,6 @@ public:
 class COfferLinkWhitelist {
 public:
 	std::vector<COfferLinkWhitelistEntry> entries;
-	bool bExclusiveResell;
 	COfferLinkWhitelist() {
 		SetNull();
 	}
@@ -150,8 +149,6 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         READWRITE(entries);
-		READWRITE(bExclusiveResell);
-
 	}
     inline bool GetLinkEntryByHash(const std::vector<unsigned char> &ahash, COfferLinkWhitelistEntry &entry) const {
     	entry.SetNull();
@@ -184,14 +181,11 @@ public:
     inline friend bool operator==(const COfferLinkWhitelist &a, const COfferLinkWhitelist &b) {
         return (
            a.entries == b.entries
-		&& a.bExclusiveResell == b.bExclusiveResell
-
         );
     }
 
     inline COfferLinkWhitelist operator=(const COfferLinkWhitelist &b) {
     	entries = b.entries;
-		bExclusiveResell = b.bExclusiveResell;
         return *this;
     }
 
@@ -199,8 +193,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { entries.clear(); bExclusiveResell = true;}
-    inline bool IsNull() const { return (entries.empty() && bExclusiveResell);}
+    inline void SetNull() { entries.clear();}
+    inline bool IsNull() const { return (entries.empty());}
 
 };
 class COffer {

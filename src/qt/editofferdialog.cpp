@@ -680,7 +680,6 @@ bool EditOfferDialog::saveCurrentRow()
 			}
 			params.push_back("nocert");
 		}
-		params.push_back("1");
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());
 		params.push_back(ui->geoLocationEdit->text().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
@@ -774,7 +773,6 @@ bool EditOfferDialog::saveCurrentRow()
 				params.push_back("nocert");
 			}
 
-			params.push_back("0");
 			params.push_back(ui->geoLocationEdit->text().toStdString());
 			params.push_back(ui->safeSearchEdit->currentText().toStdString());
 			params.push_back(ui->commissionEdit->text().toStdString());
