@@ -2984,9 +2984,9 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 	if(!theOffer.vchLinkOffer.empty())
 	{
-		if (!GetTxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, true))
+		if (!GetTxOfOffer( theOffer.vchLinkOffer, theOffer, linkTx, true))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find a linked offer with this guid"));
-		GetTxOfAlias(linkOffer.vchAlias, sellerAlias, selleraliastx, true);
+		GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
 	}
 	else
 		GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
