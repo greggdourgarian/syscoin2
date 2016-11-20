@@ -124,7 +124,7 @@ bool CEscrowDB::CleanupDatabase()
 	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	vector<CEscrow> vtxPos;
-	const uint256 &txHash;
+	uint256 txHash;
 	CTransaction fundingTx;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
