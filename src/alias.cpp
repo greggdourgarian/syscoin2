@@ -1355,7 +1355,7 @@ bool CAliasDB::CleanupDatabase()
             	const vector<unsigned char> &vchMyAlias = key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
-					EraseAlias(vchMyAlias);
+					EraseAlias(vchMyAlias, vchFromString(""), vchFromString(""));
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
@@ -1364,7 +1364,8 @@ bool CAliasDB::CleanupDatabase()
 					CPubKey PubKey(txPos.vchPubKey);
 					CSyscoinAddress address(PubKey.GetID());
 					CSyscoinAddress multisigAddress;
-					txPos.GetAddress(&multisigAddress);
+					CAliasIndex tmpAlias = txPos;
+					tmpAlias.GetAddress(&multisigAddress);
 					EraseAlias(vchMyAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()));
 				} 
 				
