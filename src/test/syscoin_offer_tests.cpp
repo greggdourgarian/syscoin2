@@ -397,7 +397,7 @@ BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 
 	string offerguid = OfferNew("node1", "node1aliaslinked", "category", "title", "10", "0.05", "description", "USD", "nocert");
 	OfferAddWhitelist("node1", offerguid, "node2aliaslinked", "0");
-	string lofferguid = OfferLink("node2", "node2aliaslinked", offerguid, "0", "newdescription");
+	string lofferguid = OfferLink("node2", "node2aliaslinked", offerguid, "5", "newdescription");
 
 	LinkOfferAccept("node1", "node3", "node3aliaslinked", lofferguid, "6", "message", "node2");
 }
