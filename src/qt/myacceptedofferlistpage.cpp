@@ -128,6 +128,7 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 	
 	string strError;
 	string strMethod = string("offeracceptlist");
+	UniValue params(UniValue::VARR); 
 	UniValue listAliases(UniValue::VARR);
 	appendListAliases(listAliases);
 	params.push_back(listAliases);
