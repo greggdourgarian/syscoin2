@@ -3633,29 +3633,6 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			}
 		}
 	}
-	else
-	{
-		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
-		{
-			const CWalletTx &wtx = item.second;
-			if (wtx.nVersion != SYSCOIN_TX_VERSION)
-				continue;
-			COffer offer(wtx);
-			if(!offer.IsNull() && offer.accept.IsNull())
-			{
-				if (vNamesI.find(offer.vchOffer) != vNamesI.end())
-					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != offer.vchOffer)
-					continue;
-				vector<COffer> vtxOfferPos;
-				if (!pofferdb->ReadOffer(offer.vchOffer, vtxOfferPos) || vtxOfferPos.empty())
-					continue;
-				const COffer &theOffer = vtxOfferPos.back();
-				offerScan.push_back(theOffer);
-				vNamesI[offer.vchOffer] = theOffer.nHeight;
-			}
-		}
-	}
 	CTransaction aliastx;
 	BOOST_FOREACH(const COffer &offer, offerScan) {
 		vector<CAliasIndex> vtxPos;
