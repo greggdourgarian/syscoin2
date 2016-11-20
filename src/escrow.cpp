@@ -3267,11 +3267,6 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
                 "Show stored values of a single escrow and its .\n");
 
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
-
-    // look for a transaction with this key, also returns
-    // an escrow UniValue if it is found
-    CTransaction tx;
-
 	vector<CEscrow> vtxPos;
 
     UniValue oEscrow(UniValue::VOBJ);
@@ -3295,11 +3290,18 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
     if (!DecodeEscrowTx(tx, op, nOut, vvch) )
         return false;
 	CTransaction offertx;
-	COffer offer;
+	COffer offer, linkOffer;
 	vector<COffer> offerVtxPos;
 	GetTxAndVtxOfOffer(escrow.vchOffer, offer, offertx, offerVtxPos, true);
 	offer.nHeight = firstEscrow.nAcceptHeight;
 	offer.GetOfferFromList(offerVtxPos);
+	vector<COffer> vtxLinkOfferPos;
+	if(!offer.vchLinkOffer.empty())
+	{
+		if (!pofferdb->ReadOffer(offer.vchOffer, vtxLinkOfferPos) || vtxLinkOfferPos.empty())
+			return false;
+		linkOffer = vtxLinkOfferPos.back();
+	}
     string sHeight = strprintf("%llu", escrow.nHeight);
 
 	string opName = escrowFromOp(escrow.op);
@@ -3336,6 +3338,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("arbiter", stringFromVch(escrow.vchArbiterAlias)));
 	oEscrow.push_back(Pair("buyer", stringFromVch(escrow.vchBuyerAlias)));
 	oEscrow.push_back(Pair("offer", stringFromVch(escrow.vchOffer)));
+	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(linkOffer.vchAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
 	int precision = 2;

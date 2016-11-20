@@ -36,7 +36,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	ui->secondaryFeedback->setVisible(false);
 	ui->extButton->setVisible(false);
 	ui->extButton->setEnabled(false);
-	if(!loadEscrow(escrow, buyer, seller, arbiter, status, offertitle, total, m_exttxid, m_paymentOption, m_redeemTxId))
+	if(!loadEscrow(escrow, buyer, seller, reseller, arbiter, status, offertitle, total, m_exttxid, m_paymentOption, m_redeemTxId))
 	{
 		ui->manageInfo2->setText(tr("Cannot find this escrow on the network, please try again later."));
 		ui->releaseButton->setEnabled(false);
@@ -44,7 +44,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		return;
 	}
 
-	escrowRoleType = findYourEscrowRoleFromAliases(buyer, seller, arbiter);
+	escrowRoleType = findYourEscrowRoleFromAliases(buyer, seller, reseller, arbiter);
 	ui->manageInfo->setText(tr("You are managing escrow ID: <b>%1</b> of an offer for <b>%2</b> totalling <b>%3</b>. The buyer is <b>%4</b>, merchant is <b>%5</b> and arbiter is <b>%6</b>").arg(escrow).arg(offertitle).arg(total).arg(buyer).arg(seller).arg(arbiter));
 	if(escrowRoleType == None)
 	{
@@ -146,7 +146,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 			ui->primaryLabel->setText("Choose a rating for the merchant (1-5) or leave at 0 for no rating. Below please give feedback to the merchant.");
 			ui->secondaryLabel->setText("Choose a rating for the arbiter (1-5) or leave at 0 for no rating. Below please give feedback to the arbiter. Skip if escrow arbiter was not involved.");
 		}
-		else if(escrowRoleType == Seller)
+		else if(escrowRoleType == ReSeller)
 		{
 			ui->primaryLabel->setText("Choose a rating for the buyer (1-5) or leave at 0 for no rating. Below please give feedback to the buyer.");
 			ui->secondaryLabel->setText("Choose a rating for the arbiter (1-5) or leave at 0 for no rating. Below please give feedback to the arbiter. Skip if escrow arbiter was not involved.");
@@ -182,7 +182,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 			ui->primaryLabel->setText("Choose a rating for the merchant (1-5) or leave at 0 for no rating. Below please give feedback to the merchant.");
 			ui->secondaryLabel->setText("Choose a rating for the arbiter (1-5) or leave at 0 for no rating. Below please give feedback to the arbiter. Skip if escrow arbiter was not involved.");	
 		}
-		else if(escrowRoleType == Seller)
+		else if(escrowRoleType == ReSeller)
 		{
 			ui->primaryLabel->setText("Choose a rating for the buyer (1-5) or leave at 0 for no rating. Below please give feedback to the buyer.");
 			ui->secondaryLabel->setText("Choose a rating for the arbiter (1-5) or leave at 0 for no rating. Below please give feedback to the arbiter. Skip if escrow arbiter was not involved.");
@@ -201,7 +201,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		ui->releaseButton->setEnabled(false);
 	}
 }
-bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid)
+bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller,  QString &reseller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid)
 {
 	QSettings settings;
 	string strMethod = string("escrowinfo");
@@ -223,6 +223,9 @@ bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QStri
 			const UniValue& seller_value = find_value(o, "seller");
 			if (seller_value.type() == UniValue::VSTR)
 				seller = QString::fromStdString(seller_value.get_str());
+			const UniValue& reseller_value = find_value(o, "offerlink_seller");
+			if (reseller_value.type() == UniValue::VSTR)
+				reseller = QString::fromStdString(reseller_value.get_str());
 			const UniValue& arbiter_value = find_value(o, "arbiter");
 			if (arbiter_value.type() == UniValue::VSTR)
 				arbiter = QString::fromStdString(arbiter_value.get_str());
@@ -808,12 +811,14 @@ void ManageEscrowDialog::on_refundButton_clicked()
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 }
-EscrowRoleType ManageEscrowDialog::findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &arbiter)
+EscrowRoleType ManageEscrowDialog::findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &reseller, const QString &arbiter)
 {
 	if(isYourAlias(buyer))
 		return Buyer;
 	else if(isYourAlias(seller))
 		return Seller;
+	else if(isYourAlias(reseller))
+		return ReSeller;
 	else if(isYourAlias(arbiter))
 		return Arbiter;
 	else

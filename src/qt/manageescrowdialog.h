@@ -14,6 +14,7 @@ QT_END_NAMESPACE
  enum EscrowRoleType {
     Buyer,
     Seller,
+	ReSeller,
 	Arbiter,
 	None
 };
@@ -29,9 +30,9 @@ public:
 	bool isYourAlias(const QString &alias);
 	bool CompleteEscrowRefund();
 	bool CompleteEscrowRelease();
-	bool loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid);
+	bool loadEscrow(const QString &escrow, QString &buyer, QString &seller, QString &reseller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid);
 	QString EscrowRoleTypeToString(const EscrowRoleType& escrowType);
-	EscrowRoleType findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &arbiter);
+	EscrowRoleType findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &reseller, const QString &arbiter);
 	EscrowRoleType escrowRoleType;
 public Q_SLOTS:
 	void on_releaseButton_clicked();
