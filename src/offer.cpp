@@ -2785,7 +2785,12 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	COfferAccept theOfferAccept;
 	const CWalletTx *wtxAliasIn = NULL;
 
-	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, theOffer, theOfferAccept, tx, true))
+	COffer tmpOffer;
+	if (!GetTxOfOffer( vchOffer, tmpffer, tx, true))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("Could not find an offer with this guid"));
+
+	
+	if (!GetTxOfOfferAccept(tmpffer.vchOffer, vchAcceptRand, theOffer, theOfferAccept, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find this offer purchase"));
 
 
