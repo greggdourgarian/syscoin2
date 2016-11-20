@@ -1098,10 +1098,10 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	BOOST_CHECK_EQUAL(nSellerTotal, nTotal);
 	BOOST_CHECK_THROW(r = CallRPC(buyernode, "offeracceptacknowledge " + rootofferguid + " " + acceptguid), runtime_error);
 	BOOST_CHECK_THROW(r = CallRPC(resellernode, "offeracceptacknowledge " + rootofferguid + " " +  acceptguid), runtime_error);
-	BOOST_CHECK_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + offerguid + " " +  acceptguid), runtime_error);
-	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + rootofferguid + " " +  acceptguid));
-	GenerateBlocks(4,ownernode);
 	BOOST_CHECK_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + rootofferguid + " " +  acceptguid), runtime_error);
+	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + offerguid + " " +  acceptguid), runtime_error);
+	GenerateBlocks(4,ownernode);
+	BOOST_CHECK_THROW(r = CallRPC(ownernode, "offeracceptacknowledge " + offerguid + " " +  acceptguid), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "quantity").get_str(),sTargetQty);
 	return acceptguid;
