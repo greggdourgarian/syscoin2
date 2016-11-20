@@ -1320,7 +1320,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 				pescrowdb = new CEscrowDB(nCoinCacheUsage*2, false, fReindex);
 				pmessagedb = new CMessageDB(nCoinCacheUsage*2, false, fReindex);
 				if(!fTxIndex)
+				{
+					uiInterface.InitMessage(_("Cleaning up Syscoin Databases..."));
 					CleanupSyscoinServiceDatabases();
+				}
                 if (fReindex) {
                     pblocktree->WriteReindexing(true);
                     //If we're reindexing in prune mode, wipe away unusable block files and all undo data files
