@@ -86,7 +86,6 @@ public:
 			else if(type == InMessage)
 				strMethod = string("messagereceivelist");
 			UniValue listAliases(UniValue::VARR);
-			UniValue params(UniValue::VARR); 
 			appendListAliases(listAliases);
 			params.push_back(listAliases);
 			UniValue result ;
