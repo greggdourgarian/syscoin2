@@ -3556,7 +3556,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 				vector<CEscrow> vtxPos;
 				if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
 					continue;
-				escrowScan.push_back(vtxPos.back(), vtxPos.front());
+				escrowScan.push_back(make_pair(vtxPos.back(), vtxPos.front()));
 				vNamesI[escrow.vchEscrow] = escrow.nHeight;
 			}
 		}
