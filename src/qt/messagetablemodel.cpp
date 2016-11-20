@@ -80,7 +80,7 @@ public:
         cachedMessageTable.clear();
         {
 			string strMethod;
-			
+			UniValue params(UniValue::VARR); 
 			if(type == OutMessage)
 				strMethod = string("messagesentlist");
 			else if(type == InMessage)
