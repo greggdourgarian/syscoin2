@@ -620,27 +620,6 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases, 1000, messageScan))
 			throw runtime_error("scan failed");
 	}
-	else
-	{
-		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
-		{
-			const CWalletTx &wtx = item.second; 
-			if (wtx.nVersion != SYSCOIN_TX_VERSION)
-				continue;
-			if(!IsSyscoinTxMine(wtx, "message"))
-				continue;
-			CMessage message(wtx);
-			if(!message.IsNull())
-			{
-				if (vNamesI.find(message.vchMessage) != vNamesI.end())
-					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
-					continue;
-				messageScan.push_back(message);
-				vNamesI[message.vchMessage] = message.nHeight;
-			}
-		}
-	}
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
@@ -760,27 +739,6 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 					messageScan.push_back(message);
 					vNamesI[message.vchMessage] = message.nHeight;
 				}
-			}
-		}
-	}
-	else
-	{
-		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
-		{
-			const CWalletTx &wtx = item.second;        // skip non-syscoin txns
-			if (wtx.nVersion != SYSCOIN_TX_VERSION)
-				continue;
-			if(IsSyscoinTxMine(wtx, "message"))
-				continue;
-			CMessage message(wtx);
-			if(!message.IsNull())
-			{
-				if (vNamesI.find(message.vchMessage) != vNamesI.end())
-					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
-					continue;
-				messageScan.push_back(message);
-				vNamesI[message.vchMessage] = message.nHeight;
 			}
 		}
 	}

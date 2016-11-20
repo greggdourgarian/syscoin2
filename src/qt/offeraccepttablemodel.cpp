@@ -74,10 +74,9 @@ public:
         {
 			string strMethod = string("offeracceptlist");
 	        UniValue params(UniValue::VARR); 
-			QSettings settings;
-			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-			if(defaultListAlias != QObject::tr("Wallet"))
-				params.push_back(defaultListAlias.toStdString());
+			UniValue listAliases(UniValue::VARR);
+			appendListAliases(listAliases);
+			params.push_back(listAliases);
 			UniValue result ;
 			string name_str;
 			string value_str;
@@ -143,9 +142,7 @@ public:
 						if (seller_value.type() == UniValue::VSTR)
 							seller_str = seller_value.get_str();
 
-						if(defaultListAlias != QObject::tr("Wallet") && (defaultListAlias.toStdString() == buyer_str && type == Accept) || (defaultListAlias.toStdString() ==  seller_str && type == MyAccept))
-							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(seller_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
-						else if(defaultListAlias == QObject::tr("Wallet") && (ismine_str == "false" && type == Accept) || (ismine_str ==  "true" && type == MyAccept))
+						if((FindAliasInList(listAliases, buyer_str) && type == Accept) || (FindAliasInList(listAliases, seller_str) && type == MyAccept))
 							updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(title_str), QString::fromStdString(height_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(total_str), QString::fromStdString(seller_str),QString::fromStdString(status_str), QString::fromStdString(buyer_str),type, CT_NEW); 
 					}
 				}
@@ -161,7 +158,15 @@ public:
          }
         
     }
-
+	bool FindAliasInList(const UniValue& listArray, const string& aliasName)
+	{
+		for(unsigned int i = 0;i<listArray.size();i++)
+		{
+			if(listArray[i].get_str() == aliasName)
+				return true;
+		}
+		return false;
+	}
     void updateEntry(const QString &offer, const QString &guid, const QString &title, const QString &height,const QString &price, const QString &currency,const QString &qty,const QString &total, const QString &alias, const QString &status,  const QString &buyer, OfferAcceptModelType type, int statusi)
     {
 		if(!parent || parent->modelType != type)

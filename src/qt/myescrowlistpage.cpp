@@ -110,11 +110,11 @@ void MyEscrowListPage::loadAliasList()
 	QSettings settings;
 	QString oldListAlias = settings.value("defaultListAlias", "").toString();
 	ui->displayListAlias->clear();
-	ui->displayListAlias->addItem(tr("Wallet"));
+	ui->displayListAlias->addItem(tr("All"));
 	
 	
 	UniValue aliasList(UniValue::VARR);
-	appendListAliases(aliasList);
+	appendListAliases(aliasList, true);
 	for(unsigned int i = 0;i<aliasList.size();i++)
 	{
 		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());

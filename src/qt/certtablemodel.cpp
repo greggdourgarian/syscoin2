@@ -73,10 +73,9 @@ public:
         {
 			string strMethod = string("certlist");
 	        UniValue params(UniValue::VARR); 
-			QSettings settings;
-			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-			if(defaultListAlias != QObject::tr("Wallet"))
-				params.push_back(defaultListAlias.toStdString());
+			UniValue listAliases(UniValue::VARR);
+			appendListAliases(listAliases);
+			params.push_back(listAliases);
 			UniValue result;
 			string name_str;
 			string data_str;

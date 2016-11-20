@@ -87,11 +87,9 @@ public:
         cachedEscrowTable.clear();
         {
 			string strMethod = string("escrowlist");
-			QSettings settings;
-			QString defaultListAlias = settings.value("defaultListAlias", "").toString();
-			UniValue params(UniValue::VARR);
-			if(defaultListAlias != QObject::tr("Wallet"))
-				params.push_back(defaultListAlias.toStdString());
+			UniValue listAliases(UniValue::VARR);
+			appendListAliases(listAliases);
+			params.push_back(listAliases);
 			UniValue result ;
 			string name_str;
 			string time_str;

@@ -3329,30 +3329,6 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			}
 		}
 	}
-	else
-	{
-		COfferAccept accept;
-		CTransaction accepttx;
-		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
-		{
-			const CWalletTx &wtx = item.second;   
-			if (wtx.nVersion != SYSCOIN_TX_VERSION)
-				continue;
-			COffer offer(wtx);
-			if(!offer.IsNull() && !offer.accept.IsNull())
-			{
-				// get unique accepts
-				if (vNamesA.find(offer.accept.vchAcceptRand) != vNamesA.end())
-					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != offer.accept.vchAcceptRand)
-					continue;
-				if (!GetTxOfOfferAccept(offer.vchOffer, offer.accept.vchAcceptRand, offer, accept, accepttx))
-					continue;
-				offerScan.push_back(offer);
-				vNamesA[offer.accept.vchAcceptRand] = offer.accept.nAcceptHeight;
-			}
-		}
-	}
 	CTransaction aliastx;
 	CAliasIndex alias ;
 	BOOST_FOREACH(const COffer &offer, offerScan) {
@@ -3398,57 +3374,42 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	// for merchant (discounted) #3
 	// for buyer (full price) #1
 
-	bool ismine = IsSyscoinTxMine(aliastx, "alias");
+
 	CAmount priceAtTimeOfAccept = theOffer.GetPrice();
-	if(theOffer.GetPrice() != priceAtTimeOfAccept)
-		discountApplied = true;
-	// NON-LINKED buyer
-	if(!ismine)
+	if(theOffer.vchLinkOffer.empty())
 	{
-		priceAtTimeOfAccept = theOffer.GetPrice();
-		commissionPaid = false;
-		discountApplied = false;
+		// NON-LINKED merchant
+		if(theAlias.vchAlias == theOffer.vchAlias)
+		{
+			priceAtTimeOfAccept = theOffer.accept.nPrice;
+			if(theOffer.GetPrice() != priceAtTimeOfAccept)
+				discountApplied = true;
+		}
+		// NON-LINKED buyer
+		else if(theAlias.vchAlias == theOffer.accept.vchBuyerAlias)
+		{
+			priceAtTimeOfAccept = theOffer.GetPrice();
+			commissionPaid = false;
+			discountApplied = false;
+		}
 	}
-	if( !theOffer.vchLinkOffer.empty())
-	{	
+	// linked offer
+	else
+	{
 		vector<COffer> vtxLinkPos;
-		vector<CAliasIndex> vtxAliasLinkPos;
-		CTransaction linkTx;
-		if(!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true))
-			return false;
+		GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, vtxLinkPos, true);
 		linkOffer.nHeight = nHeight;
 		linkOffer.GetOfferFromList(vtxLinkPos);
-		CTransaction linkAliasTx;
-		CAliasIndex linkAlias;
-		bool isExpired;
-		if(!GetTxAndVtxOfAlias( linkOffer.vchAlias, linkAlias, linkAliasTx, vtxAliasLinkPos, isExpired, true))
-			return false;
-		linkAlias.nHeight = linkOffer.nHeight;
-		linkAlias.GetAliasFromList(vtxAliasLinkPos);
-		if(!GetSyscoinTransaction(linkAlias.nHeight, linkAlias.txHash, linkAliasTx, Params().GetConsensus()))
-			return false;
-		// if you don't own this offer check the linked offer
-		if(!ismine)
+		// You are the merchant
+		if(theAlias.vchAlias == linkOffer.vchAlias)
 		{
-			ismine = IsSyscoinTxMine(linkAliasTx, "alias");
-			// You are the merchant
-			if(ismine)
-			{
-				commissionPaid = false;
-				priceAtTimeOfAccept = theOffer.accept.nPrice;
-				if(linkOffer.GetPrice() != priceAtTimeOfAccept)
-					discountApplied = true;
-			}
-			// You are the buyer
-			else
-			{
-				commissionPaid = false;
-				discountApplied = false;
-				priceAtTimeOfAccept = theOffer.GetPrice();
-			}
+			commissionPaid = false;
+			priceAtTimeOfAccept = theOffer.accept.nPrice;
+			if(linkOffer.GetPrice() != priceAtTimeOfAccept)
+				discountApplied = true;
 		}
 		// You are the affiliate
-		else
+		else if(theAlias.vchAlias == theOffer.vchAlias)
 		{
 			// full price with commission - discounted merchant price = commission + discount
 			priceAtTimeOfAccept = theOffer.GetPrice() -  theOffer.accept.nPrice;
@@ -3506,7 +3467,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	}
 	oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 	oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
-	oOfferAccept.push_back(Pair("ismine", ismine? "true" : "false"));
+	oOfferAccept.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")? "true" : "false"));
 	string statusStr = "Paid";
 	if(!theOffer.accept.txExtId.IsNull())
 		statusStr = "Paid with external coin";
