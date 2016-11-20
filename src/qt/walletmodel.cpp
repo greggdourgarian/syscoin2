@@ -126,6 +126,10 @@ void appendListAliases(UniValue& defaultAliasArray, bool allAliases)
 		{
 		}
 	}
+	else
+	{
+		defaultAliasArray.push_back(defaultListAlias.toStdString());
+	}
 }
 CAmount WalletModel::getBalance(const CCoinControl *coinControl) const
 {

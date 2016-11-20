@@ -77,7 +77,26 @@ InMessageListPage::InMessageListPage(const PlatformStyle *platformStyle, QWidget
 	loadAliasList();
 
 }
-
+void InMessageListPage::loadAliasList()
+{
+	QSettings settings;
+	QString oldListAlias = settings.value("defaultListAlias", "").toString();
+	ui->displayListAlias->clear();
+	ui->displayListAlias->addItem(tr("All"));
+	
+	
+	UniValue aliasList(UniValue::VARR);
+	appendListAliases(aliasList);
+	for(unsigned int i = 0;i<aliasList.size();i++)
+	{
+		const QString& aliasName = QString::fromStdString(aliasList[i].get_str());
+		ui->displayListAlias->addItem(aliasName);
+	}
+	int currentIndex = ui->displayListAlias->findText(oldListAlias);
+	if(currentIndex >= 0)
+		ui->displayListAlias->setCurrentIndex(currentIndex);
+	settings.setValue("defaultListAlias", oldListAlias);
+}
 void InMessageListPage::displayListChanged(const QString& alias)
 {
 	QSettings settings;

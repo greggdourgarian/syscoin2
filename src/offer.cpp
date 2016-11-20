@@ -3352,28 +3352,18 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 						continue;
 					if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 						continue;
+					
+					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-					offerScan.push_back(theOffer);
+					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept))
+					{
+						aoOfferAccepts.push_back(oAccept);
+					}
 					
 
 				}
 			}
 		}
-	}
-	CTransaction aliastx;
-	CAliasIndex alias ;
-	BOOST_FOREACH(const COffer &offer, offerScan) {
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
-			continue;
-		alias = vtxPos.back();
-		alias.nHeight = offer.accept.nAcceptHeight;
-		alias.GetAliasFromList(vtxPos);
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
-		UniValue oAccept(UniValue::VOBJ);
-		if(BuildOfferAcceptJson(offer, alias, aliastx, oAccept))
-			aoOfferAccepts.push_back(oAccept);
 	}
     return aoOfferAccepts;
 }
@@ -3627,23 +3617,17 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 						continue;
 					const COffer &theOffer = vtxOfferPos.back();
 					offerScan.push_back(theOffer);
+					
+					UniValue oOffer(UniValue::VOBJ);
 					vNamesI[offer.vchOffer] = theOffer.nHeight;
+					if(BuildOfferJson(theOffer, theAlias, tx, oOffer))
+					{
+						oRes.push_back(oOffer);
+					}
 				}
 					
 			}
 		}
-	}
-	CTransaction aliastx;
-	BOOST_FOREACH(const COffer &offer, offerScan) {
-		vector<CAliasIndex> vtxPos;
-		if (!paliasdb->ReadAlias(offer.vchAlias, vtxPos) || vtxPos.empty())
-			continue;
-		const CAliasIndex &alias = vtxPos.back();
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
-		UniValue oOffer(UniValue::VOBJ);
-		if(BuildOfferJson(offer, alias, aliastx, oOffer))
-			oRes.push_back(oOffer);
 	}
     return oRes;
 }
