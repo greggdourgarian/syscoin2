@@ -1198,6 +1198,29 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if (!pcertdb->ScanCerts(vchNameUniq, "", aliases, true, "", 1000,certScan))
 			throw runtime_error("scan failed");
 	}
+	else
+	{
+		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
+		{
+			const CWalletTx &wtx = item.second;       
+			if (wtx.nVersion != SYSCOIN_TX_VERSION)
+				continue;
+			CCert cert(wtx);
+			if(!cert.IsNull())
+			{
+				if (vNamesI.find(cert.vchCert) != vNamesI.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != cert.vchCert)
+					continue;
+				vector<CCert> vtxCertPos;
+				if (!pcertdb->ReadCert(cert.vchCert, vtxCertPos) || vtxCertPos.empty())
+					continue;
+				const CCert& theCert = vtxCertPos.back();
+				certScan.push_back(theCert);
+				vNamesI[cert.vchCert] = theCert.nHeight;
+			}
+		}
+	}
 	CTransaction aliastx;
 	BOOST_FOREACH(const CCert& cert, certScan) {
 		vector<CAliasIndex> vtxPos;
@@ -1205,6 +1228,8 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			continue;
 		const CAliasIndex &alias = vtxPos.back();
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
+			continue;
+		if(!IsSyscoinTxMine(aliastx, "alias"))
 			continue;
 		UniValue oCert(UniValue::VOBJ);
 		if(BuildCertJson(cert, alias, aliastx, oCert))

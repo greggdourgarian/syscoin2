@@ -3537,6 +3537,30 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		if (!pescrowdb->ScanEscrows(vchNameUniq, "", aliases, 1000, escrowScan))
 			throw runtime_error("scan failed");
 	}
+	else
+	{
+		BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet)
+		{
+			const CWalletTx &wtx = item.second;       
+			if (wtx.nVersion != SYSCOIN_TX_VERSION)
+				continue;
+			if(!IsSyscoinTxMine(wtx, "escrow"))
+				continue;
+			CEscrow escrow(wtx);
+			if(!escrow.IsNull())
+			{
+				if (vNamesI.find(escrow.vchEscrow) != vNamesI.end())
+					continue;
+				if (vchNameUniq.size() > 0 && vchNameUniq != vchOffer)
+					continue;
+				vector<CEscrow> vtxPos;
+				if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
+					continue;
+				escrowScan.push_back(vtxPos.back(), vtxPos.front());
+				vNamesI[escrow.vchEscrow] = escrow.nHeight;
+			}
+		}
+	}
 	pair<CEscrow, CEscrow> pairScan;
 	BOOST_FOREACH(pairScan, escrowScan) {
 		UniValue oEscrow(UniValue::VOBJ);
