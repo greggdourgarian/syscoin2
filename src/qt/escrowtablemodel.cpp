@@ -88,6 +88,9 @@ public:
         {
 			string strMethod = string("escrowlist");
 			UniValue params(UniValue::VARR);
+			UniValue listAliases(UniValue::VARR);
+			appendListAliases(listAliases);
+			params.push_back(listAliases);
 			UniValue result ;
 			string name_str;
 			string time_str;
