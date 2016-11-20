@@ -119,12 +119,12 @@ void appendListAliases(UniValue& defaultAliasArray, bool allAliases)
 				}
 			}
 		}
-	}
-	catch (UniValue& objError)
-	{
-	}
-	catch(std::exception& e)
-	{
+		catch (UniValue& objError)
+		{
+		}
+		catch(std::exception& e)
+		{
+		}
 	}
 }
 CAmount WalletModel::getBalance(const CCoinControl *coinControl) const
