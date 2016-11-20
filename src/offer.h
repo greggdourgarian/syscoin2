@@ -402,8 +402,8 @@ public:
 	bool WriteOfferTx(const std::vector<unsigned char>& name, const uint256& txid) {
 		return Write(make_pair(std::string("offert"), txid), name);
 	}
-	bool EraseOffer(const std::vector<unsigned char>& name, const uint256& txid) {
-	    return Erase(make_pair(std::string("offeri"), name)) && Erase(make_pair(std::string("offert"), txid));
+	bool EraseOffer(const std::vector<unsigned char>& name) {
+	    return Erase(make_pair(std::string("offeri"), name));
 	}
 
 	bool ReadOffer(const std::vector<unsigned char>& name, std::vector<COffer>& vtxPos) {
