@@ -117,7 +117,6 @@ void InMessageListPage::on_refreshButton_clicked()
 {
     if(!model)
         return;
-	loadAliasList();
     model->refreshMessageTable();
 }
 void InMessageListPage::showEvent ( QShowEvent * event )
