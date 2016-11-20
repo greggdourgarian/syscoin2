@@ -36,7 +36,6 @@ public:
     const QString &getReturnValue() const { return returnValue; }
 	void keyPressEvent(QKeyEvent * event);
 	void showEvent ( QShowEvent * event );
-	void loadAliasList();
 private:
     Ui::MessageListPage *ui;
     MessageTableModel *model;

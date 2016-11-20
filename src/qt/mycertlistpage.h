@@ -34,7 +34,6 @@ public:
     void setOptionsModel(ClientModel* clientmodel, OptionsModel *optionsModel);
     const QString &getReturnValue() const { return returnValue; }
 	void showEvent ( QShowEvent * event );
-	void loadAliasList();
 public Q_SLOTS:
     void done(int retval);
 
@@ -73,7 +72,6 @@ private Q_SLOTS:
     void contextualMenu(const QPoint &point);
     /** New entry/entries were added to cert table */
     void selectNewCert(const QModelIndex &parent, int begin, int /*end*/);
-	void displayListChanged(const QString& alias);
 Q_SIGNALS:
     void transferCert(QString addr);
 };
