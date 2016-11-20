@@ -73,8 +73,17 @@ InMessageListPage::InMessageListPage(const PlatformStyle *platformStyle, QWidget
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
 
+	connect(ui->displayListAlias,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(displayListChanged(const QString&)));
+	loadAliasList();
+
 }
 
+void InMessageListPage::displayListChanged(const QString& alias)
+{
+	QSettings settings;
+	settings.setValue("defaultListAlias", alias);
+	settings.sync();
+}
 void InMessageListPage::on_detailButton_clicked()
 {
     if(!ui->tableView->selectionModel())
@@ -117,6 +126,7 @@ void InMessageListPage::on_refreshButton_clicked()
 {
     if(!model)
         return;
+	loadAliasList();
     model->refreshMessageTable();
 }
 void InMessageListPage::showEvent ( QShowEvent * event )

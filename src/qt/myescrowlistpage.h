@@ -34,6 +34,7 @@ public:
     void setOptionsModel(ClientModel* clientmodel, OptionsModel *optionsModel);
     const QString &getReturnValue() const { return returnValue; }
 	void showEvent ( QShowEvent * event );
+	void loadAliasList();
 private:
 	ClientModel* clientModel;
 	WalletModel *walletModel;
@@ -62,6 +63,7 @@ private Q_SLOTS:
     /** New entry/entries were added to cert table */
     void selectNewEscrow(const QModelIndex &parent, int begin, int /*end*/);
 	void on_ackButton_clicked();
+	void displayListChanged(const QString& alias);
 
 };
 
