@@ -3551,7 +3551,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 			{
 				if (vNamesI.find(escrow.vchEscrow) != vNamesI.end())
 					continue;
-				if (vchNameUniq.size() > 0 && vchNameUniq != vchOffer)
+				if (vchNameUniq.size() > 0 && vchNameUniq != escrow.vchEscrow)
 					continue;
 				vector<CEscrow> vtxPos;
 				if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
