@@ -27,7 +27,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	refundWarningStr = releaseWarningStr = "";
 	QString theme = GUIUtil::getThemeName();  
 	ui->aboutEscrow->setPixmap(QPixmap(":/images/" + theme + "/escrow"));
-	QString buyer, seller, arbiter, status, offertitle, total;
+	QString buyer, seller, reseller, arbiter, status, offertitle, total;
 	ui->primaryLabel->setVisible(false);
 	ui->primaryRating->setVisible(false);
 	ui->primaryFeedback->setVisible(false);
