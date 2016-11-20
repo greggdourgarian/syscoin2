@@ -86,6 +86,7 @@ WalletModel::~WalletModel()
 }
 // SYSCOIN
 void appendListAliases(UniValue& defaultAliasArray, bool allAliases)
+{
 	QSettings settings;
 	QString defaultListAlias = settings.value("defaultListAlias", "").toString();
 	if(allAliases || defaultListAlias == QObject::tr("All"))
