@@ -251,8 +251,11 @@ public:
 		return true;
 	}
 
-	bool EraseAlias(const std::vector<unsigned char>& name) {
-	    return Erase(make_pair(std::string("namei"), name));
+	bool EraseAlias(const std::vector<unsigned char>& name,const std::vector<unsigned char>& address,const std::vector<unsigned char>& msaddress) {
+	    bool eraseAlias =  Erase(make_pair(std::string("namei"), name)) ;
+		bool eraseAliasPayment = Erase(make_pair(std::string("namep"), name));
+		bool eraseAliasAddress  = Erase(make_pair(std::string("namea"), address)) || Erase(make_pair(std::string("namea"), msaddress));
+		return eraseAlias && eraseAliasPayment && eraseAliasAddress;
 	}
 	bool EraseAliasPayment(const std::vector<unsigned char>& name) {
 	    return Erase(make_pair(std::string("namep"), name));
@@ -279,6 +282,7 @@ public:
 		const std::vector<unsigned char>& vchAlias, const std::string& strRegExp, bool safeSearch,
             unsigned int nMax,
             std::vector<CAliasIndex>& nameScan);
+	void CleanupDatabase();
 
 };
 
@@ -344,4 +348,5 @@ void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index);
 void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName);
+void CleanupSyscoinServiceDatabases();
 #endif // ALIAS_H

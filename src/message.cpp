@@ -94,6 +94,36 @@ const vector<unsigned char> CMessage::Serialize() {
     return vchData;
 
 }
+void CMessageDB::CleanupDatabase()
+{
+	int nMaxAge  = GetMessageExpirationDepth();
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	vector<CMessage> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "messagei") {
+            	const vector<unsigned char> &vchMyMessage= key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty()){
+					EraseMessage(vchMyMessage);
+					continue;
+				}
+				const CMessage &txPos = vtxPos.back();
+  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= nMaxAge)
+				{
+					EraseMessage(vchMyMessage);
+				} 
+				
+            }
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+}
+
 bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<string>& keyWordArray,unsigned int nMax,
         std::vector<CMessage> & messageScan) {
 	int nMaxAge  = GetMessageExpirationDepth();

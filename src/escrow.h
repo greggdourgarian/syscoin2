@@ -173,6 +173,7 @@ public:
 		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp, const std::vector<std::string>& aliasArray,
             unsigned int nMax,
             std::vector<std::pair<CEscrow, CEscrow> >& escrowScan);
+	void CleanupDatabase();
 };
 
 bool GetTxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx);

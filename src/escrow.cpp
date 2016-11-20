@@ -119,6 +119,41 @@ const vector<unsigned char> CEscrow::Serialize() {
     return vchData;
 
 }
+void CEscrowDB::CleanupDatabase()
+{
+	int nMaxAge  = GetEscrowExpirationDepth();
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	vector<CEscrow> vtxPos;
+	const uint256 &txHash;
+	CTransaction fundingTx;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "escrowi") {
+            	const vector<unsigned char> &vchMyEscrow= key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty()){
+					EraseEscrow(vchMyEscrow, txHash);
+					continue;
+				}
+				const CEscrow &txPos = vtxPos.back();
+	
+  				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge && txPos.op == OP_ESCROW_COMPLETE)
+				{
+					if (DecodeHexTx(fundingTx,HexStr(txPos.rawTx)))
+						txHash = fundingTx.GetHash();
+					EraseEscrow(vchMyEscrow, txHash);
+				} 
+				
+            }
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+}
+
 bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const string& strRegexp, const vector<string>& aliasArray, unsigned int nMax,
 							std::vector<std::pair<CEscrow, CEscrow> >& escrowScan) {
 	string strSearchLower = strRegexp;

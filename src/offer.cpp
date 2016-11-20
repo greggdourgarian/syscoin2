@@ -138,6 +138,35 @@ const vector<unsigned char> COffer::Serialize() {
     return vchData;
 
 }
+void COfferDB::CleanupDatabase()
+{
+	int nMaxAge  = GetOfferExpirationDepth();
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	vector<COffer> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "offeri") {
+            	const vector<unsigned char> &vchMyOffer = key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty()){
+					EraseOffer(vchMyOffer);
+					continue;
+				}
+				const COffer &txPos = vtxPos.back();
+  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= nMaxAge)
+				{
+					EraseOffer(vchMyOffer);
+				} 
+				
+            }
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+}
 bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const string& strRegexp, bool safeSearch,const string& strCategory, unsigned int nMax,
 		std::vector<COffer>& offerScan) {
    // regexp

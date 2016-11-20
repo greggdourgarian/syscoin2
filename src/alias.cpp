@@ -1342,6 +1342,47 @@ int GetAliasExpirationDepth() {
     return 525600;
   #endif
 }
+void CAliasDB::CleanupDatabase()
+{
+	int nMaxAge  = GetAliasExpirationDepth();
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	vector<CAliasIndex> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "namei") {
+            	const vector<unsigned char> &vchMyAlias = key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty()){
+					EraseAlias(vchMyAlias);
+					continue;
+				}
+				const CAliasIndex &txPos = vtxPos.back();
+  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= (txPos.nRenewal*nMaxAge))
+				{
+					CPubKey PubKey(txPos.vchPubKey);
+					CSyscoinAddress address(PubKey.GetID());
+					CSyscoinAddress multisigAddress;
+					txPos.GetAddress(&multisigAddress);
+					EraseAlias(vchMyAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()));
+				} 
+				
+            }
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+}
+void CleanupSyscoinServiceDatabases()
+{
+	paliasdb->CleanupDatabase();
+	pofferdb->CleanupDatabase();
+	pescrowdb->CleanupDatabase();
+	pmessageb->CleanupDatabase();
+	pcertdb->CleanupDatabase();
+}
 bool GetTxOfAlias(const vector<unsigned char> &vchAlias, 
 				  CAliasIndex& txPos, CTransaction& tx, bool skipExpiresCheck) {
 	vector<CAliasIndex> vtxPos;

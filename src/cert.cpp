@@ -128,6 +128,35 @@ const vector<unsigned char> CCert::Serialize() {
     return vchData;
 
 }
+void CCertDB::CleanupDatabase()
+{
+	int nMaxAge  = GetCertExpirationDepth();
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	vector<CCert> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "certi") {
+            	const vector<unsigned char> &vchMyCert= key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty()){
+					EraseCert(vchMyCert);
+					continue;
+				}
+				const CCert &txPos = vtxPos.back();
+  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= nMaxAge)
+				{
+					EraseCert(vchMyCert);
+				} 
+				
+            }
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+}
 bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string &strRegexp, const vector<string>& aliasArray, bool safeSearch, const string& strCategory, unsigned int nMax,
         std::vector<CCert>& certScan) {
     // regexp
