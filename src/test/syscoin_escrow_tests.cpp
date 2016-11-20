@@ -216,7 +216,6 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release)
 	string qty = "3";
 	string message = "paymentmessage";
 	string offerguid = OfferNew("node2", "selleralias22", "category", "title", "100", "0.04", "description", "EUR");
-	OfferAddWhitelist("node2", offerguid, "arbiteralias2", "5");
 	string commission = "10";
 	string description = "newdescription";
 	// by default linking isn't allowed
