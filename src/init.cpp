@@ -1319,11 +1319,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 pcertdb = new CCertDB(nCoinCacheUsage*2, false, fReindex);
 				pescrowdb = new CEscrowDB(nCoinCacheUsage*2, false, fReindex);
 				pmessagedb = new CMessageDB(nCoinCacheUsage*2, false, fReindex);
-				if(!fTxIndex)
-				{
-					uiInterface.InitMessage(_("Cleaning up Syscoin Databases..."));
-					CleanupSyscoinServiceDatabases();
-				}
                 if (fReindex) {
                     pblocktree->WriteReindexing(true);
                     //If we're reindexing in prune mode, wipe away unusable block files and all undo data files
@@ -1352,7 +1347,12 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                     strLoadError = _("You need to rebuild the database using -reindex-chainstate to change -txindex");
                     break;
                 }
-
+				// SYSCOIN
+				if(!fTxIndex)
+				{
+					uiInterface.InitMessage(_("Cleaning up Syscoin Databases..."));
+					CleanupSyscoinServiceDatabases();
+				}
                 // Check for changed -prune state.  What we are concerned about is a user who has pruned blocks
                 // in the past, but is now trying to run unpruned.
                 if (fHavePruned && !fPruneMode) {
