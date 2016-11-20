@@ -119,7 +119,7 @@ const vector<unsigned char> CEscrow::Serialize() {
     return vchData;
 
 }
-void CEscrowDB::CleanupDatabase()
+bool CEscrowDB::CleanupDatabase()
 {
 	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
@@ -152,6 +152,7 @@ void CEscrowDB::CleanupDatabase()
             return error("%s() : deserialize error", __PRETTY_FUNCTION__);
         }
     }
+	return true;
 }
 
 bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const string& strRegexp, const vector<string>& aliasArray, unsigned int nMax,

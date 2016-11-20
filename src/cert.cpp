@@ -128,7 +128,7 @@ const vector<unsigned char> CCert::Serialize() {
     return vchData;
 
 }
-void CCertDB::CleanupDatabase()
+bool CCertDB::CleanupDatabase()
 {
 	int nMaxAge  = GetCertExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
@@ -156,6 +156,7 @@ void CCertDB::CleanupDatabase()
             return error("%s() : deserialize error", __PRETTY_FUNCTION__);
         }
     }
+	return true;
 }
 bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string &strRegexp, const vector<string>& aliasArray, bool safeSearch, const string& strCategory, unsigned int nMax,
         std::vector<CCert>& certScan) {

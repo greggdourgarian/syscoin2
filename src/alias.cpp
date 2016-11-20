@@ -1342,7 +1342,7 @@ int GetAliasExpirationDepth() {
     return 525600;
   #endif
 }
-void CAliasDB::CleanupDatabase()
+bool CAliasDB::CleanupDatabase()
 {
 	int nMaxAge  = GetAliasExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
@@ -1374,13 +1374,14 @@ void CAliasDB::CleanupDatabase()
             return error("%s() : deserialize error", __PRETTY_FUNCTION__);
         }
     }
+	return true;
 }
 void CleanupSyscoinServiceDatabases()
 {
 	paliasdb->CleanupDatabase();
 	pofferdb->CleanupDatabase();
 	pescrowdb->CleanupDatabase();
-	pmessageb->CleanupDatabase();
+	pmessagedb->CleanupDatabase();
 	pcertdb->CleanupDatabase();
 }
 bool GetTxOfAlias(const vector<unsigned char> &vchAlias, 

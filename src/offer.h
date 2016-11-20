@@ -420,6 +420,7 @@ public:
 		const std::vector<unsigned char>& vchOffer,const std::string &strRegExp, bool safeSearch,const std::string& strCategory,
             unsigned int nMax,
             std::vector<COffer>& offerScan);
+	bool CleanupDatabase();
 
 };
 void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, std::vector<COffer> &vtxPos);

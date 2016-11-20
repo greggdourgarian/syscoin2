@@ -94,7 +94,7 @@ const vector<unsigned char> CMessage::Serialize() {
     return vchData;
 
 }
-void CMessageDB::CleanupDatabase()
+bool CMessageDB::CleanupDatabase()
 {
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
@@ -122,6 +122,7 @@ void CMessageDB::CleanupDatabase()
             return error("%s() : deserialize error", __PRETTY_FUNCTION__);
         }
     }
+	return true;
 }
 
 bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<string>& keyWordArray,unsigned int nMax,

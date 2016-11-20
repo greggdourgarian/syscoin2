@@ -169,6 +169,7 @@ public:
 		const std::vector<unsigned char>& vchCert, const std::string &strRegExp, const std::vector<std::string>& aliasArray, bool safeSearch, const std::string& strCategory,
             unsigned int nMax,
             std::vector<CCert>& certScan);
+	bool CleanupDatabase();
 
 };
 bool GetTxOfCert(const std::vector<unsigned char> &vchCert,

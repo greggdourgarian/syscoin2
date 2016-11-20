@@ -138,7 +138,7 @@ const vector<unsigned char> COffer::Serialize() {
     return vchData;
 
 }
-void COfferDB::CleanupDatabase()
+bool COfferDB::CleanupDatabase()
 {
 	int nMaxAge  = GetOfferExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
@@ -166,6 +166,7 @@ void COfferDB::CleanupDatabase()
             return error("%s() : deserialize error", __PRETTY_FUNCTION__);
         }
     }
+	return true;
 }
 bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const string& strRegexp, bool safeSearch,const string& strCategory, unsigned int nMax,
 		std::vector<COffer>& offerScan) {
