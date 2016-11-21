@@ -158,6 +158,9 @@ bool EscrowInfoDialog::lookup()
 		if (result.type() == UniValue::VOBJ)
 		{
 			QString seller = QString::fromStdString(find_value(result.get_obj(), "seller").get_str());
+			const UniValue& reseller_value = find_value(o, "offerlink_seller");
+			if (reseller_value.type() == UniValue::VSTR)
+				seller = QString::fromStdString(reseller_value.get_str());
 			QString arbiter = QString::fromStdString(find_value(result.get_obj(), "arbiter").get_str());
 			QString buyer = QString::fromStdString(find_value(result.get_obj(), "buyer").get_str());
 			QString currency = QString::fromStdString(find_value(result.get_obj(), "currency").get_str());
