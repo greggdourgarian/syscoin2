@@ -834,6 +834,9 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				}
 				else if(op == OP_ESCROW_COMPLETE)
 				{
+					vector<unsigned char> vchSellerAlias = theEscrow.vchSellerAlias;
+					if(theEscrow.vchLinkSellerAlias.empty())
+						vchSellerAlias = theEscrow.vchLinkSellerAlias;
 					if(serializedEscrow.feedback.size() != 2)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4057 - " + _("Invalid number of escrow feedbacks provided");
@@ -860,7 +863,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4061 - " + _("Only buyer can leave this feedback");
 						serializedEscrow = theEscrow;
 					}
-					else if((serializedEscrow.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER || serializedEscrow.feedback[1].nFeedbackUserFrom == FEEDBACKSELLER) && serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias && serializedEscrow.vchLinkAlias != theEscrow.vchLinkSellerAlias)
+					else if((serializedEscrow.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER || serializedEscrow.feedback[1].nFeedbackUserFrom == FEEDBACKSELLER) && serializedEscrow.vchLinkAlias != vchSellerAlias)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4062 - " + _("Only seller can leave this feedback");
 						serializedEscrow = theEscrow;
