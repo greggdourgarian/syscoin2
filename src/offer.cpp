@@ -153,6 +153,7 @@ bool COfferDB::CleanupDatabase()
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseOffer(vchMyOffer);
+					pcursor->Next();
 					continue;
 				}
 				const COffer &txPos = vtxPos.back();

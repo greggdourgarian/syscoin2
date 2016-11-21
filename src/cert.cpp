@@ -143,6 +143,7 @@ bool CCertDB::CleanupDatabase()
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseCert(vchMyCert);
+					pcursor->Next();
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();

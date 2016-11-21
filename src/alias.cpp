@@ -1362,6 +1362,7 @@ bool CAliasDB::CleanupDatabase()
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseAlias(vchMyAlias, vchFromString(""), vchFromString(""));
+					pcursor->Next();
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();

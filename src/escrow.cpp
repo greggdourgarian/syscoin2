@@ -136,6 +136,7 @@ bool CEscrowDB::CleanupDatabase()
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseEscrow(vchMyEscrow, txHash);
+					pcursor->Next();
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();

@@ -109,6 +109,7 @@ bool CMessageDB::CleanupDatabase()
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseMessage(vchMyMessage);
+					pcursor->Next();
 					continue;
 				}
 				const CMessage &txPos = vtxPos.back();
