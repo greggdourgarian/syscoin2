@@ -123,6 +123,7 @@ bool CEscrowDB::CleanupDatabase()
 {
 	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
 	vector<CEscrow> vtxPos;
 	uint256 txHash;
 	CTransaction fundingTx;
@@ -161,7 +162,10 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 	boost::algorithm::to_lower(strSearchLower);
 	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
-	pcursor->Seek(make_pair(string("escrowi"), vchEscrow));
+	if(!vchEscrow.empty())
+		pcursor->Seek(make_pair(string("escrowi"), vchEscrow));
+	else
+		pcursor->SeekToFirst();
 	vector<CEscrow> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {

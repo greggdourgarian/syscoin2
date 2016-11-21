@@ -132,6 +132,7 @@ bool CCertDB::CleanupDatabase()
 {
 	int nMaxAge  = GetCertExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
 	vector<CCert> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
@@ -169,7 +170,10 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 	int nMaxAge  = GetCertExpirationDepth();
 	vector<CCert> vtxPos;
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
-	pcursor->Seek(make_pair(string("certi"), vchCert));
+	if(!vchCert.empty())
+		pcursor->Seek(make_pair(string("certi"), vchCert));
+	else
+		pcursor->SeekToFirst();
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();

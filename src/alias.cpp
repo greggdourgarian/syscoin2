@@ -1276,7 +1276,10 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 	boost::algorithm::to_lower(strRegexpLower);
 	sregex cregex = sregex::compile(strRegexpLower);
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
-	pcursor->Seek(make_pair(string("namei"), vchAlias));
+	if(!vchAlias.empty())
+		pcursor->Seek(make_pair(string("namei"), vchAlias));
+	else
+		pcursor->SeekToFirst();
 	vector<CAliasIndex> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
@@ -1346,6 +1349,7 @@ bool CAliasDB::CleanupDatabase()
 {
 	int nMaxAge  = GetAliasExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
 	vector<CAliasIndex> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {

@@ -98,6 +98,7 @@ bool CMessageDB::CleanupDatabase()
 {
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
 	vector<CMessage> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
@@ -129,7 +130,10 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
         std::vector<CMessage> & messageScan) {
 	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
-	pcursor->Seek(make_pair(string("messagei"), vchMessage));
+	if(!vchMessage.empty())
+		pcursor->Seek(make_pair(string("messagei"), vchMessage));
+	else
+		pcursor->SeekToFirst();
 	pair<string, vector<unsigned char> > key;
 	 vector<CMessage> vtxPos;
     while (pcursor->Valid()) {

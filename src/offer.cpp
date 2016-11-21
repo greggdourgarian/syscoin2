@@ -142,6 +142,7 @@ bool COfferDB::CleanupDatabase()
 {
 	int nMaxAge  = GetOfferExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
 	vector<COffer> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
@@ -179,7 +180,10 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 	sregex cregex = sregex::compile(strRegexpLower);
 	int nMaxAge  = GetOfferExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
-	pcursor->Seek(make_pair(string("offeri"), vchOffer));
+	if(!vchOffer.empty())
+		pcursor->Seek(make_pair(string("offeri"), vchOffer));
+	else
+		pcursor->SeekToFirst();
 	vector<COffer> vtxPos;
 	boost::this_thread::interruption_point();
     while (pcursor->Valid()) {
