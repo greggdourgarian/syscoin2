@@ -860,7 +860,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4061 - " + _("Only buyer can leave this feedback");
 						serializedEscrow = theEscrow;
 					}
-					else if((serializedEscrow.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER || serializedEscrow.feedback[1].nFeedbackUserFrom == FEEDBACKSELLER) && (serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias || (!theEscrow.vchLinkSellerAlias.empty() && serializedEscrow.vchLinkAlias != theEscrow.vchLinkSellerAlias)))
+					else if((serializedEscrow.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER || serializedEscrow.feedback[1].nFeedbackUserFrom == FEEDBACKSELLER) && serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias && serializedEscrow.vchLinkAlias != theEscrow.vchLinkSellerAlias)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4062 - " + _("Only seller can leave this feedback");
 						serializedEscrow = theEscrow;
@@ -3085,7 +3085,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
     if (fHelp || params.size() != 6)
         throw runtime_error(
 		"escrowfeedback <escrow guid> <user role> <feedbackprimary> <ratingprimary> <feedbacksecondary> <ratingasecondary>\n"
-                        "Send feedback for primary and secondary users in escrow, depending on who you are. Ratings are numbers from 1 to 5. User Role is either 'buyer', 'seller', or 'arbiter'.\n"
+                        "Send feedback for primary and secondary users in escrow, depending on who you are. Ratings are numbers from 1 to 5. User Role is either 'buyer', 'seller', 'reseller', or 'arbiter'.\n"
 						"If you are the buyer, feedbackprimary is for seller and feedbacksecondary is for arbiter.\n"
 						"If you are the seller, feedbackprimary is for buyer and feedbacksecondary is for arbiter.\n"
 						"If you are the arbiter, feedbackprimary is for buyer and feedbacksecondary is for seller.\n"

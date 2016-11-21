@@ -288,6 +288,8 @@ void ManageEscrowDialog::on_extButton_clicked()
 {
 	if(m_paymentOption == QString("BTC"))
     	CheckPaymentInBTC();
+	//else if(m_paymentOption == QString("ZEC"))
+	//	CheckPaymentInZEC();
 }
 
 ManageEscrowDialog::~ManageEscrowDialog()

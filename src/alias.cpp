@@ -1837,7 +1837,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CPubKey defaultKey = pwalletMain->GenerateNewKey();
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true))
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
 	{
 		defaultKey = CPubKey(oldAlias.vchPubKey);	
 	}
