@@ -1282,7 +1282,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	CScript scriptPubKeyAlias, scriptPubKeyAliasOrig;
 	COfferLinkWhitelistEntry foundEntry;
-	CAliasIndex theLinkedAlias;
+	CAliasIndex theLinkedAlias, reselleralias;
+
 	if(!theOffer.vchLinkOffer.empty())
 	{
 
@@ -1298,7 +1299,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		if(linkedOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkedOffer.sCategory), "wanted"))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4518 - " + _("Cannot purchase a wanted offer"));
 
+		reselleralias = selleralias;
 		selleralias = theLinkedAlias;
+
 	}
 
 	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
@@ -1328,9 +1331,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4520 - " + _("Payment message length cannot exceed 1023 bytes"));
 
 	CPubKey ArbiterPubKey(arbiteralias.vchPubKey);
-	CPubKey SellerPubKey(selleralias.vchPubKey);
+	CPubKey SellerPubKey(reselleralias.vchPubKey);
 	CPubKey BuyerPubKey(buyeralias.vchPubKey);
-	CPubKey RootSellerPubKey(theLinkedAlias.vchPubKey);
+	CPubKey RootSellerPubKey(selleralias.vchPubKey);
 
 	scriptArbiter= GetScriptForDestination(ArbiterPubKey.GetID());
 	scriptSeller= GetScriptForDestination(SellerPubKey.GetID());
@@ -1393,7 +1396,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	newEscrow.vchRedeemScript = redeemScript;
 	newEscrow.vchOffer = vchOffer;
 	newEscrow.vchSellerAlias = selleralias.vchAlias;
-	newEscrow.vchLinkSellerAlias = theLinkedAlias.vchAlias;
+	newEscrow.vchLinkSellerAlias = reselleralias.vchAlias;
 	newEscrow.vchPaymentMessage = vchFromString(strCipherText);
 	newEscrow.nQty = nQty;
 	newEscrow.rawTx = vchExtTx;
@@ -1423,15 +1426,17 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientArbiter);
 	CRecipient recipientSeller;
 	CreateRecipient(scriptPubKeySeller, recipientSeller);
-	vecSend.push_back(recipientSeller);
+	
 	CRecipient recipientBuyer;
 	CreateRecipient(scriptPubKeyBuyer, recipientBuyer);
 	vecSend.push_back(recipientBuyer);
 
 	CRecipient recipientRootSeller;
 	CreateRecipient(scriptPubKeyRootSeller, recipientRootSeller);
-	if(!theLinkedAlias.IsNull())
-		vecSend.push_back(recipientRootSeller);
+	if(!reselleralias.IsNull())
+		vecSend.push_back(recipientSeller);
+		
+	vecSend.push_back(recipientRootSeller);
 	
 
 	CRecipient aliasRecipient;
@@ -3367,13 +3372,6 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	GetTxAndVtxOfOffer(escrow.vchOffer, offer, offertx, offerVtxPos, true);
 	offer.nHeight = firstEscrow.nAcceptHeight;
 	offer.GetOfferFromList(offerVtxPos);
-	vector<COffer> vtxLinkOfferPos;
-	if(!offer.vchLinkOffer.empty())
-	{
-		if (!pofferdb->ReadOffer(offer.vchOffer, vtxLinkOfferPos) || vtxLinkOfferPos.empty())
-			return false;
-		linkOffer = vtxLinkOfferPos.back();
-	}
     string sHeight = strprintf("%llu", escrow.nHeight);
 
 	string opName = escrowFromOp(escrow.op);
@@ -3410,7 +3408,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("arbiter", stringFromVch(escrow.vchArbiterAlias)));
 	oEscrow.push_back(Pair("buyer", stringFromVch(escrow.vchBuyerAlias)));
 	oEscrow.push_back(Pair("offer", stringFromVch(escrow.vchOffer)));
-	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(linkOffer.vchAlias)));
+	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(escrow.vchLinkSellerAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
 	int precision = 2;
