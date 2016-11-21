@@ -1358,7 +1358,10 @@ bool CAliasDB::CleanupDatabase()
 			if (pcursor->GetKey(key) && key.first == "namei") {
             	const vector<unsigned char> &vchMyAlias = key.second;  
 				if(vchMyAlias == vchFromString("sysrates.peg") || vchMyAlias == vchFromString("sysban") || vchMyAlias == vchFromString("syscategory"))
+				{
+					pcursor->Next();
 					continue;
+				}
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseAlias(vchMyAlias, vchFromString(""), vchFromString(""));
