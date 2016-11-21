@@ -1777,6 +1777,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 						
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
+	if(vchAliasPeg.empty())
+		vchAliasPeg = vchFromString("sysrates.peg");
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
 	string strName = stringFromVch(vchAlias);
 	/*Above pattern makes sure domain name matches the following criteria :
@@ -2020,6 +2022,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"     ]\n"							
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
+	if(vchAliasPeg.empty())
+		vchAliasPeg = vchFromString("sysrates.peg");
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
@@ -2748,6 +2752,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	if(!address.IsValid())
 		return false;
 	oName.push_back(Pair("address", address.ToString()));
+
 	oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 
 	UniValue balanceParams(UniValue::VARR);
