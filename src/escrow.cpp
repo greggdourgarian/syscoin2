@@ -840,7 +840,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				else if(op == OP_ESCROW_COMPLETE)
 				{
 					vector<unsigned char> vchSellerAlias = theEscrow.vchSellerAlias;
-					if(theEscrow.vchLinkSellerAlias.empty())
+					if(!theEscrow.vchLinkSellerAlias.empty())
 						vchSellerAlias = theEscrow.vchLinkSellerAlias;
 					if(serializedEscrow.feedback.size() != 2)
 					{
