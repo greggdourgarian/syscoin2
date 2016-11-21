@@ -15,7 +15,7 @@ class StarEditor : public QWidget
 public:
     StarEditor(QWidget *parent = 0);
 
-    QSize sizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const;
     void setStarRating(const StarRating &starRating) {
         myStarRating = starRating;
     }
@@ -26,9 +26,9 @@ Q_SIGNALS:
     void editingFinished();
 
 protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 private:
     int starAtPosition(int x);
