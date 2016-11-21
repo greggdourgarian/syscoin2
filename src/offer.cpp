@@ -2828,6 +2828,13 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	if (!GetTxOfOfferAccept(tmpOffer.vchOffer, vchAcceptRand, theOffer, theOfferAccept, tx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find this offer purchase"));
 
+	vector<vector<unsigned char> > vvch;
+	int op, nOut;
+	if (!DecodeOfferTx(tx, op, nOut, vvch) || op != OP_OFFER_ACCEPT)
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Offer purchase transaction of wrong type"));
+
+	if(vvch[0] != theOffer.vchOffer)
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Only merchant of this offer can leave feedback for this purchase"));
 
 	CAliasIndex buyerAlias, sellerAlias;
 	CTransaction buyeraliastx, selleraliastx;
