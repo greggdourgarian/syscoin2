@@ -273,6 +273,8 @@ QString ManageEscrowDialog::EscrowRoleTypeToString(const EscrowRoleType& escrowT
 		return tr("arbiter");
 	else if(escrowType == Seller)
 		return tr("seller");
+	else if(escrowType == ReSeller)
+		return tr("reseller");
 	else if(escrowType == Buyer)
 		return tr("buyer");
 	else
