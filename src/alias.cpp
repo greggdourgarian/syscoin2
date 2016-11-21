@@ -1352,7 +1352,9 @@ bool CAliasDB::CleanupDatabase()
         boost::this_thread::interruption_point();
         try {
 			if (pcursor->GetKey(key) && key.first == "namei") {
-            	const vector<unsigned char> &vchMyAlias = key.second;         
+            	const vector<unsigned char> &vchMyAlias = key.second;  
+				if(vchMyAlias == vchFromString("sysrates.peg") || vchMyAlias == vchFromString("sysban") || vchMyAlias == vchFromString("syscategory"))
+					continue;
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
 					EraseAlias(vchMyAlias, vchFromString(""), vchFromString(""));
