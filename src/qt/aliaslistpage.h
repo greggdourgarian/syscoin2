@@ -2,6 +2,8 @@
 #define ALIASLISTPAGE_H
 
 #include <QDialog>
+#include <map>
+#include <utility>
 class PlatformStyle;
 namespace Ui {
     class AliasListPage;

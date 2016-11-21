@@ -2,6 +2,8 @@
 #define CERTLISTPAGE_H
 
 #include <QDialog>
+#include <map>
+#include <utility>
 class PlatformStyle;
 namespace Ui {
     class CertListPage;

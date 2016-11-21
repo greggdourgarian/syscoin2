@@ -2,7 +2,8 @@
 #define OFFERLISTPAGE_H
 
 #include <QDialog>
-
+#include <map>
+#include <utility>
 namespace Ui {
     class OfferListPage;
 }

@@ -2,6 +2,8 @@
 #define ESCROWLISTPAGE_H
 
 #include <QDialog>
+#include <map>
+#include <utility>
 class PlatformStyle;
 namespace Ui {
     class EscrowListPage;
