@@ -1039,35 +1039,18 @@ void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, ve
 	{
 		if(serializedEscrow.feedback[i].nRating > 0)
 		{
-			CSyscoinAddress address, reselleraddress;
+			CSyscoinAddress address;
 			if(serializedEscrow.feedback[i].nFeedbackUserTo == FEEDBACKBUYER)
 				address = CSyscoinAddress(stringFromVch(dbEscrow.vchBuyerAlias));
 			else if(serializedEscrow.feedback[i].nFeedbackUserTo == FEEDBACKSELLER)
 			{
 				if(!dbEscrow.vchLinkSellerAlias.empty())
-					reselleraddress = CSyscoinAddress(stringFromVch(dbEscrow.vchLinkSellerAlias));
-				address = CSyscoinAddress(stringFromVch(dbEscrow.vchSellerAlias));
+					address = CSyscoinAddress(stringFromVch(dbEscrow.vchLinkSellerAlias));
+				else
+					address = CSyscoinAddress(stringFromVch(dbEscrow.vchSellerAlias));
 			}
 			else if(serializedEscrow.feedback[i].nFeedbackUserTo == FEEDBACKARBITER)
 				address = CSyscoinAddress(stringFromVch(dbEscrow.vchArbiterAlias));
-			// give feedback to reseller same as seller
-			if(reselleraddress.IsValid() && reselleraddress.isAlias)
-			{
-				vector<CAliasIndex> vtxPos;
-				const vector<unsigned char> &vchAlias = vchFromString(reselleraddress.aliasName);
-				if (paliasdb->ReadAlias(vchAlias, vtxPos) && !vtxPos.empty())
-				{
-
-					CAliasIndex alias = vtxPos.back();
-					alias.nRatingCountAsSeller++;
-					alias.nRatingAsSeller += serializedEscrow.feedback[i].nRating;
-					PutToAliasList(vtxPos, alias);
-					CSyscoinAddress multisigAddress;
-					alias.GetAddress(&multisigAddress);
-					paliasdb->WriteAlias(vchAlias, vchFromString(reselleraddress.ToString()), vchFromString(multisigAddress.ToString()), vtxPos);
-				}
-			
-			}
 			if(address.IsValid() && address.isAlias)
 			{
 				vector<CAliasIndex> vtxPos;
