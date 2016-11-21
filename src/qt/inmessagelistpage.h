@@ -36,7 +36,6 @@ public:
     const QString &getReturnValue() const { return returnValue; }
 	void keyPressEvent(QKeyEvent * event);
 	void showEvent ( QShowEvent * event );
-	void loadAliasList();
 private:
     Ui::MessageListPage *ui;
     MessageTableModel *model;
@@ -66,7 +65,6 @@ private Q_SLOTS:
     void contextualMenu(const QPoint &point);
     /** New entry/entries were added to message table */
     void selectNewMessage(const QModelIndex &parent, int begin, int /*end*/);
-	void displayListChanged(const QString& alias);
 	
 };
 
