@@ -2,11 +2,9 @@
 #define FEEDBACK_H
 #include "script/script.h"
 #include "serialize.h"
-enum FeedbackUser {
-    FEEDBACKBUYER=1,
-	FEEDBACKSELLER=2,
-	FEEDBACKARBITER=3
-};
+#define FEEDBACKBUYER 1
+#define FEEDBACKSELLER 2
+#define FEEDBACKARBITER 3
 class CFeedback {
 public:
 	std::vector<unsigned char> vchFeedback;

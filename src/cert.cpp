@@ -1213,6 +1213,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		else
 		{
 			string aliasName =  params[0].get_str();
+			boost::algorithm::to_lower(aliasName);
 			if(aliasName != "")
 				aliases.push_back(aliasName);
 		}

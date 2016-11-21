@@ -194,7 +194,7 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 					if (std::find(aliasArray.begin(), aliasArray.end(), buyerAliasLower) == aliasArray.end() &&
 						std::find(aliasArray.begin(), aliasArray.end(), sellerAliasLower) == aliasArray.end() &&
 						std::find(aliasArray.begin(), aliasArray.end(), arbiterAliasLower) == aliasArray.end() &&
-						(!linkSellerAliasLower.empty() && std::find(aliasArray.begin(), aliasArray.end(), linkSellerAliasLower) == aliasArray.end()))
+						(linkSellerAliasLower.empty() || (!linkSellerAliasLower.empty() && std::find(aliasArray.begin(), aliasArray.end(), linkSellerAliasLower) == aliasArray.end())))
 					{
 						pcursor->Next();
 						continue;
@@ -831,9 +831,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				}
 				else if(op == OP_ESCROW_COMPLETE)
 				{
-					vector<unsigned char> &vchSeller = theEscrow.vchSellerAlias;
-					if(!theEscrow.vchLinkSellerAlias.empty())
-						vchSeller = theEscrow.vchLinkSellerAlias;
 					if(serializedEscrow.feedback.size() != 2)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4057 - " + _("Invalid number of escrow feedbacks provided");
@@ -860,7 +857,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4061 - " + _("Only buyer can leave this feedback");
 						serializedEscrow = theEscrow;
 					}
-					else if((serializedEscrow.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER || serializedEscrow.feedback[1].nFeedbackUserFrom == FEEDBACKSELLER) && serializedEscrow.vchLinkAlias != vchSeller)
+					else if((serializedEscrow.feedback[0].nFeedbackUserFrom == FEEDBACKSELLER || serializedEscrow.feedback[1].nFeedbackUserFrom == FEEDBACKSELLER) && (serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias || (!theEscrow.vchLinkSellerAlias.empty() && serializedEscrow.vchLinkAlias != theEscrow.vchLinkSellerAlias)))
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4062 - " + _("Only seller can leave this feedback");
 						serializedEscrow = theEscrow;
@@ -3109,8 +3106,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		escrow, tx))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4588 - " + _("Could not find a escrow with this key"));
 
-	CAliasIndex arbiterAliasLatest, buyerAliasLatest, sellerAliasLatest;
-	CTransaction arbiteraliastx, selleraliastx, buyeraliastx;
+	CAliasIndex arbiterAliasLatest, buyerAliasLatest, sellerAliasLatest, resellerAliasLatest;
+	CTransaction arbiteraliastx, selleraliastx, reselleraliastx, buyeraliastx;
 	GetTxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, true);
 	CPubKey arbiterKey(arbiterAliasLatest.vchPubKey);
 
@@ -3118,7 +3115,12 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	CPubKey buyerKey(buyerAliasLatest.vchPubKey);
 
 	GetTxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, true);
+
+	
+	GetTxOfAlias(escrow.vchLinkSellerAlias, resellerAliasLatest, reselleraliastx, true);
+
 	CPubKey sellerKey(sellerAliasLatest.vchPubKey);
+	CPubKey resellerKey(resellerAliasLatest.vchPubKey);
 	vector <unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
 	CScript scriptPubKeyAlias;
@@ -3135,6 +3137,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		scriptPubKeyAlias += scriptPubKeyAliasOrig;
 		vchLinkAlias = buyerAliasLatest.vchAlias;
 		theAlias = buyerAliasLatest;
+		if(!resellerAliasLatest.IsNull())
+			sellerKey = resellerKey;
 	}
 	else if(role == "seller")
 	{
@@ -3149,6 +3153,20 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		vchLinkAlias = sellerAliasLatest.vchAlias;
 		theAlias = sellerAliasLatest;
 	}
+	else if(role == "reseller")
+	{
+		if(!IsSyscoinTxMine(reselleraliastx, "alias"))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4587 - " + _("You must own the reseller alias to complete this transaction"));
+		wtxAliasIn = pwalletMain->GetWalletTx(reselleraliastx.GetHash());
+		CScript scriptPubKeyAliasOrig = GetScriptForDestination(resellerKey.GetID());
+		if(resellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
+			scriptPubKeyAliasOrig = CScript(resellerAliasLatest.multiSigInfo.vchRedeemScript.begin(), resellerAliasLatest.multiSigInfo.vchRedeemScript.end());
+		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << resellerAliasLatest.vchAlias << resellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+		scriptPubKeyAlias += scriptPubKeyAliasOrig;
+		vchLinkAlias = resellerAliasLatest.vchAlias;
+		theAlias = resellerAliasLatest;
+		sellerKey = resellerKey;
+	}
 	else if(role == "arbiter")
 	{
 		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
@@ -3161,6 +3179,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		scriptPubKeyAlias += scriptPubKeyAliasOrig;
 		vchLinkAlias = arbiterAliasLatest.vchAlias;
 		theAlias = arbiterAliasLatest;
+		if(!resellerAliasLatest.IsNull())
+			sellerKey = resellerKey;
 	}
 
 	escrow.ClearEscrow();
@@ -3184,6 +3204,19 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	// seller
 	else if(role == "seller")
+	{
+		CFeedback buyerFeedback(FEEDBACKSELLER, FEEDBACKBUYER);
+		buyerFeedback.vchFeedback = vchFeedbackPrimary;
+		buyerFeedback.nRating = nRatingPrimary;
+		buyerFeedback.nHeight = chainActive.Tip()->nHeight;
+		CFeedback arbiterFeedback(FEEDBACKSELLER, FEEDBACKARBITER);
+		arbiterFeedback.vchFeedback = vchFeedbackSecondary;
+		arbiterFeedback.nRating = nRatingSecondary;
+		arbiterFeedback.nHeight = chainActive.Tip()->nHeight;
+		escrow.feedback.push_back(buyerFeedback);
+		escrow.feedback.push_back(arbiterFeedback);
+	}
+	else if(role == "reseller")
 	{
 		CFeedback buyerFeedback(FEEDBACKSELLER, FEEDBACKBUYER);
 		buyerFeedback.vchFeedback = vchFeedbackPrimary;
@@ -3240,7 +3273,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		vecSend.push_back(recipientArbiter);
 	}
 	// seller
-	else if(role == "seller")
+	else if(role == "seller" || role == "reseller")
 	{
 		vecSend.push_back(recipientBuyer);
 		vecSend.push_back(recipientArbiter);
@@ -3558,6 +3591,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		else
 		{
 			string aliasName =  params[0].get_str();
+			boost::algorithm::to_lower(aliasName);
 			if(aliasName != "")
 				aliases.push_back(aliasName);
 		}
