@@ -1919,6 +1919,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		strPassword = strCipherText;
 	}
 	vector<unsigned char> vchRandAlias = vchFromString(GenerateSyscoinGuid());
+
     // build alias
     CAliasIndex newAlias;
 	newAlias.vchGUID = vchRandAlias;
