@@ -1214,7 +1214,7 @@ bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, cons
         CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsAlias >> *this;
 
-		const vector<unsigned char> &vchAliasData = Serialize();
+		const vector<unsigned char> &vchAliasData = DecodeBase64(stringFromVch(Serialize()));
 		uint256 calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
 		vector<unsigned char> vchRandAlias = vchFromValue(calculatedHash.GetHex());
 		if(vchRandAlias != vchHash)
@@ -1247,7 +1247,7 @@ const vector<unsigned char> CAliasIndex::Serialize() {
     CDataStream dsAlias(SER_NETWORK, PROTOCOL_VERSION);
     dsAlias << *this;
     const vector<unsigned char> vchData(dsAlias.begin(), dsAlias.end());
-    return vchData;
+    return EncodeBase64(vchData.data(), vchData.size());
 
 }
 void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOption)

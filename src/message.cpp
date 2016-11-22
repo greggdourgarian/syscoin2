@@ -62,7 +62,7 @@ bool CMessage::UnserializeFromData(const vector<unsigned char> &vchData, const v
 		SetNull();
         return false;
     }
-	const vector<unsigned char> &vchMsgData = Serialize();
+	const vector<unsigned char> &vchMsgData = DecodeBase64(stringFromVch(Serialize()));
 	uint256 calculatedHash = Hash(vchMsgData.begin(), vchMsgData.end());
 	vector<unsigned char> vchRandMsg= vchFromValue(calculatedHash.GetHex());
 	if(vchRandMsg != vchHash)
@@ -91,7 +91,7 @@ const vector<unsigned char> CMessage::Serialize() {
     CDataStream dsMessage(SER_NETWORK, PROTOCOL_VERSION);
     dsMessage << *this;
     const vector<unsigned char> vchData(dsMessage.begin(), dsMessage.end());
-    return vchData;
+    return EncodeBase64(vchData.data(), vchData.size());
 
 }
 bool CMessageDB::CleanupDatabase()
@@ -528,7 +528,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     // build message
     CMessage newMessage;
 	newMessage.vchMessage = vchMessage;
-	if(strCipherTextFrom.size() <= MAX_ENCRYPTED_VALUE_LENGTH)
+	if(vchMyMessage.size() <= MAX_VALUE_LENGTH)
 		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
 	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
 	newMessage.vchSubject = vchMySubject;

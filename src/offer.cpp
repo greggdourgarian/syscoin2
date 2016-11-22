@@ -102,7 +102,7 @@ bool COffer::UnserializeFromData(const vector<unsigned char> &vchData, const vec
         CDataStream dsOffer(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsOffer >> *this;
 
-		const vector<unsigned char> &vchOfferData = Serialize();
+		const vector<unsigned char> &vchOfferData = DecodeBase64(stringFromVch(Serialize()));
 		uint256 calculatedHash = Hash(vchOfferData.begin(), vchOfferData.end());
 		vector<unsigned char> vchRandOffer= vchFromValue(calculatedHash.GetHex());
 		if(vchRandOffer != vchHash)
@@ -135,7 +135,7 @@ const vector<unsigned char> COffer::Serialize() {
     CDataStream dsOffer(SER_NETWORK, PROTOCOL_VERSION);
     dsOffer << *this;
     const vector<unsigned char> vchData(dsOffer.begin(), dsOffer.end());
-    return vchData;
+    return EncodeBase64(vchData.data(), vchData.size());
 
 }
 bool COfferDB::CleanupDatabase()
