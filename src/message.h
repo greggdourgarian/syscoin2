@@ -25,7 +25,7 @@ extern bool IsSys21Fork(const uint64_t& nHeight);
 void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string messageFromOp(int op);
 static const unsigned int MAX_MESSAGE_LENGTH = 1023*8;
-static const unsigned int MAX_ENCRYPTED_MESSAGE_LENGTH = 1108*8;
+static const unsigned int MAX_ENCRYPTED_MESSAGE_LENGTH = MAX_MESSAGE_LENGTH + 85;
 
 class CMessage {
 public:
