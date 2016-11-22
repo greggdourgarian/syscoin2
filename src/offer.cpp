@@ -102,7 +102,7 @@ bool COffer::UnserializeFromData(const vector<unsigned char> &vchData, const vec
         CDataStream dsOffer(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsOffer >> *this;
 
-		const vector<unsigned char> &vchOfferData = DecodeBase64(stringFromVch(Serialize()));
+		const string &vchOfferData = DecodeBase64(stringFromVch(Serialize()));
 		uint256 calculatedHash = Hash(vchOfferData.begin(), vchOfferData.end());
 		vector<unsigned char> vchRandOffer= vchFromValue(calculatedHash.GetHex());
 		if(vchRandOffer != vchHash)
