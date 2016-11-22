@@ -379,12 +379,12 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3005 - " + _("Message subject too long");
 			return error(errorMessage.c_str());
 		}
-		if(theMessage.vchMessageTo.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+		if(theMessage.vchMessageTo.size() > MAX_ENCRYPTED_MESSAGE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Message too long");
 			return error(errorMessage.c_str());
 		}
-		if(theMessage.vchMessageFrom.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+		if(theMessage.vchMessageFrom.size() > MAX_ENCRYPTED_MESSAGE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3007 - " + _("Message too long");
 			return error(errorMessage.c_str());
