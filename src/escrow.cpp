@@ -83,7 +83,7 @@ bool CEscrow::UnserializeFromData(const vector<unsigned char> &vchData, const ve
         CDataStream dsEscrow(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsEscrow >> *this;
 
-		const vector<unsigned char> &vchEscrowData = DecodeBase64(stringFromVch(Serialize()));
+		const string &vchEscrowData = DecodeBase64(stringFromVch(Serialize()));
 		uint256 calculatedHash = Hash(vchEscrowData.begin(), vchEscrowData.end());
 		vector<unsigned char> vchRandEscrow= vchFromValue(calculatedHash.GetHex());
 		if(vchRandEscrow != vchHash)
@@ -116,7 +116,7 @@ const vector<unsigned char> CEscrow::Serialize() {
     CDataStream dsEscrow(SER_NETWORK, PROTOCOL_VERSION);
     dsEscrow << *this;
     const vector<unsigned char> vchData(dsEscrow.begin(), dsEscrow.end());
-    return EncodeBase64(vchData.data(), vchData.size());
+    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
 
 }
 bool CEscrowDB::CleanupDatabase()

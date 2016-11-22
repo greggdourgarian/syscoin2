@@ -91,7 +91,7 @@ bool CCert::UnserializeFromData(const vector<unsigned char> &vchData, const vect
         CDataStream dsCert(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsCert >> *this;
 
-		const vector<unsigned char> &vchCertData = DecodeBase64(stringFromVch(Serialize()));
+		const string &vchCertData = DecodeBase64(stringFromVch(Serialize()));
 		uint256 calculatedHash = Hash(vchCertData.begin(), vchCertData.end());
 		vector<unsigned char> vchRandCert= vchFromValue(calculatedHash.GetHex());
 		if(vchRandCert != vchHash)
@@ -125,7 +125,7 @@ const vector<unsigned char> CCert::Serialize() {
     CDataStream dsCert(SER_NETWORK, PROTOCOL_VERSION);
     dsCert << *this;
     const vector<unsigned char> vchData(dsCert.begin(), dsCert.end());
-    return EncodeBase64(vchData.data(), vchData.size());
+    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
 
 }
 bool CCertDB::CleanupDatabase()

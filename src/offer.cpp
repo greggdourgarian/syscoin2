@@ -135,7 +135,7 @@ const vector<unsigned char> COffer::Serialize() {
     CDataStream dsOffer(SER_NETWORK, PROTOCOL_VERSION);
     dsOffer << *this;
     const vector<unsigned char> vchData(dsOffer.begin(), dsOffer.end());
-    return EncodeBase64(vchData.data(), vchData.size());
+    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
 
 }
 bool COfferDB::CleanupDatabase()
