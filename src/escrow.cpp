@@ -80,7 +80,7 @@ string escrowFromOp(int op) {
 }
 bool CEscrow::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsEscrow(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsEscrow(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsEscrow >> *this;
 
 		const vector<unsigned char> &vchEscrowData = Serialize();
@@ -116,7 +116,7 @@ const vector<unsigned char> CEscrow::Serialize() {
     CDataStream dsEscrow(SER_NETWORK, PROTOCOL_VERSION);
     dsEscrow << *this;
     const vector<unsigned char> vchData(dsEscrow.begin(), dsEscrow.end());
-    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
+    return vchData;
 
 }
 bool CEscrowDB::CleanupDatabase()

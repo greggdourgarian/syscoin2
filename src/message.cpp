@@ -56,7 +56,7 @@ string messageFromOp(int op) {
 }
 bool CMessage::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsMessage(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsMessage(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsMessage >> *this;
     } catch (std::exception &e) {
 		SetNull();
@@ -91,7 +91,7 @@ const vector<unsigned char> CMessage::Serialize() {
     CDataStream dsMessage(SER_NETWORK, PROTOCOL_VERSION);
     dsMessage << *this;
     const vector<unsigned char> vchData(dsMessage.begin(), dsMessage.end());
-    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
+    return vchData;
 
 }
 bool CMessageDB::CleanupDatabase()

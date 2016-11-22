@@ -99,7 +99,7 @@ string offerFromOp(int op) {
 }
 bool COffer::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsOffer(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsOffer(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsOffer >> *this;
 
 		const vector<unsigned char> &vchOfferData = Serialize();
@@ -135,7 +135,7 @@ const vector<unsigned char> COffer::Serialize() {
     CDataStream dsOffer(SER_NETWORK, PROTOCOL_VERSION);
     dsOffer << *this;
     const vector<unsigned char> vchData(dsOffer.begin(), dsOffer.end());
-    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
+    return vchData;
 
 }
 bool COfferDB::CleanupDatabase()

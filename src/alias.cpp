@@ -1211,8 +1211,7 @@ bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData,
 }
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-
-        CDataStream dsAlias(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsAlias >> *this;
 
 		const vector<unsigned char> &vchAliasData = Serialize();
@@ -1248,7 +1247,7 @@ const vector<unsigned char> CAliasIndex::Serialize() {
     CDataStream dsAlias(SER_NETWORK, PROTOCOL_VERSION);
     dsAlias << *this;
     const vector<unsigned char> vchData(dsAlias.begin(), dsAlias.end());
-    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
+    return vchData;
 
 }
 void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOption)

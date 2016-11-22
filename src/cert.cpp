@@ -88,7 +88,7 @@ string certFromOp(int op) {
 }
 bool CCert::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsCert(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsCert(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsCert >> *this;
 
 		const vector<unsigned char> &vchCertData = Serialize();
@@ -125,7 +125,7 @@ const vector<unsigned char> CCert::Serialize() {
     CDataStream dsCert(SER_NETWORK, PROTOCOL_VERSION);
     dsCert << *this;
     const vector<unsigned char> vchData(dsCert.begin(), dsCert.end());
-    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
+    return vchData;
 
 }
 bool CCertDB::CleanupDatabase()
