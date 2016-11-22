@@ -88,10 +88,10 @@ string certFromOp(int op) {
 }
 bool CCert::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsCert(vchData, SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsCert(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
         dsCert >> *this;
 
-		const string &vchCertData = DecodeBase64(stringFromVch(Serialize()));
+		const vector<unsigned char> &vchCertData = Serialize();
 		uint256 calculatedHash = Hash(vchCertData.begin(), vchCertData.end());
 		vector<unsigned char> vchRandCert= vchFromValue(calculatedHash.GetHex());
 		if(vchRandCert != vchHash)

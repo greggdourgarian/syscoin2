@@ -56,13 +56,13 @@ string messageFromOp(int op) {
 }
 bool CMessage::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsMessage(vchData, SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsMessage(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
         dsMessage >> *this;
     } catch (std::exception &e) {
 		SetNull();
         return false;
     }
-	const string &vchMsgData = DecodeBase64(stringFromVch(Serialize()));
+	const vector<unsigned char> &vchMsgData = Serialize();
 	uint256 calculatedHash = Hash(vchMsgData.begin(), vchMsgData.end());
 	vector<unsigned char> vchRandMsg= vchFromValue(calculatedHash.GetHex());
 	if(vchRandMsg != vchHash)

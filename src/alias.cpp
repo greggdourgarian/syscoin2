@@ -1211,10 +1211,11 @@ bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData,
 }
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
+
+        CDataStream dsAlias(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
         dsAlias >> *this;
 
-		const string &vchAliasData = DecodeBase64(stringFromVch(Serialize()));
+		const vector<unsigned char> &vchAliasData = Serialize();
 		uint256 calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
 		vector<unsigned char> vchRandAlias = vchFromValue(calculatedHash.GetHex());
 		if(vchRandAlias != vchHash)

@@ -80,10 +80,10 @@ string escrowFromOp(int op) {
 }
 bool CEscrow::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsEscrow(vchData, SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsEscrow(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
         dsEscrow >> *this;
 
-		const string &vchEscrowData = DecodeBase64(stringFromVch(Serialize()));
+		const vector<unsigned char> &vchEscrowData = Serialize();
 		uint256 calculatedHash = Hash(vchEscrowData.begin(), vchEscrowData.end());
 		vector<unsigned char> vchRandEscrow= vchFromValue(calculatedHash.GetHex());
 		if(vchRandEscrow != vchHash)

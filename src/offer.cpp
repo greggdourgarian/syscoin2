@@ -99,10 +99,10 @@ string offerFromOp(int op) {
 }
 bool COffer::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
-        CDataStream dsOffer(vchData, SER_NETWORK, PROTOCOL_VERSION);
+        CDataStream dsOffer(vchFromString(DecodeBase64(stringFromVch(vchData))), SER_NETWORK, PROTOCOL_VERSION);
         dsOffer >> *this;
 
-		const string &vchOfferData = DecodeBase64(stringFromVch(Serialize()));
+		const vector<unsigned char> &vchOfferData = Serialize();
 		uint256 calculatedHash = Hash(vchOfferData.begin(), vchOfferData.end());
 		vector<unsigned char> vchRandOffer= vchFromValue(calculatedHash.GetHex());
 		if(vchRandOffer != vchHash)
