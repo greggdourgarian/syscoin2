@@ -1246,8 +1246,8 @@ bool CAliasIndex::UnserializeFromTx(const CTransaction &tx) {
 const vector<unsigned char> CAliasIndex::Serialize() {
     CDataStream dsAlias(SER_NETWORK, PROTOCOL_VERSION);
     dsAlias << *this;
-    vector<unsigned char> vchData(dsAlias.begin(), dsAlias.end());
-    return EncodeBase64(vchData.data(), vchData.size());
+    const vector<unsigned char> vchData(dsAlias.begin(), dsAlias.end());
+    return vchFromString(EncodeBase64(vchData.data(), vchData.size()));
 
 }
 void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOption)
