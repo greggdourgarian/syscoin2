@@ -528,7 +528,8 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     // build message
     CMessage newMessage;
 	newMessage.vchMessage = vchMessage;
-	newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
+	if(strCipherTextFrom.size() <= MAX_ENCRYPTED_VALUE_LENGTH)
+		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
 	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
 	newMessage.vchSubject = vchMySubject;
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
