@@ -1214,17 +1214,14 @@ bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, cons
         CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsAlias >> *this;
 
-		const vector<unsigned char> &data = Serialize();
-		uint256 hash = Hash(data.begin(), data.end());
-		vector<unsigned char> vchHashAlias(hash.begin(), hash.end());
-		if(vchHashAlias != vchHash)
+		vector<unsigned char> vchAliasData;
+		Serialize(vchAliasData);
+		const uint256 &calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
+		const vector<unsigned char> &vchRandAlias = vchFromValue(calculatedHash.GetHex());
+		if(vchRandAlias != vchHash)
 		{
-			vchHashAlias = vchFromValue(hash.GetHex());
-			if(vchHashAlias != vchHash)
-			{
-				SetNull();
-				return false;
-			}
+			SetNull();
+			return false;
 		}
     } catch (std::exception &e) {
 		SetNull();
@@ -1247,11 +1244,10 @@ bool CAliasIndex::UnserializeFromTx(const CTransaction &tx) {
 	}
     return true;
 }
-const vector<unsigned char> CAliasIndex::Serialize() {
+void CAliasIndex::Serialize(vector<unsigned char>& vchData) {
     CDataStream dsAlias(SER_NETWORK, PROTOCOL_VERSION);
     dsAlias << *this;
-    const vector<unsigned char> vchData(dsAlias.begin(), dsAlias.end());
-    return vchData;
+    vchData = vector<unsigned char>(dsAlias.begin(), dsAlias.end());
 
 }
 void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOption)
@@ -1940,9 +1936,10 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	newAlias.multiSigInfo = multiSigInfo;
 	
-	const vector<unsigned char> &data = newAlias.Serialize();
+	vector<unsigned char> data;
+	newAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
-    vector<unsigned char> vchHashAlias(hash.begin(), hash.end());
+    vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 
 	CScript scriptPubKey;
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_ACTIVATE) << vchAlias << vchRandAlias << vchHashAlias << OP_2DROP << OP_2DROP;
@@ -2189,7 +2186,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 
 	
-	const vector<unsigned char> &data = theAlias.Serialize();
+	vector<unsigned char> data;
+	theAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 

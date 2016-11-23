@@ -223,7 +223,7 @@ public:
     bool IsNull() const { return (vchAliasPeg.empty() && vchPassword.empty() && acceptCertTransfers && multiSigInfo.IsNull() && nRenewal == 0 && vchGUID.empty() && vchAlias.empty() && nRatingCountAsBuyer == 0 && nRatingAsBuyer == 0 && nRatingCountAsArbiter == 0 && nRatingAsArbiter == 0 && nRatingCountAsSeller == 0 && nRatingAsSeller == 0 && safetyLevel == 0 && safeSearch && nHeight == 0 && txHash.IsNull() && vchPublicValue.empty() && vchPrivateValue.empty() && vchPubKey.empty()); }
 	bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
-	const std::vector<unsigned char> Serialize();
+	void Serialize(std::vector<unsigned char>& vchData);
 };
 
 class CAliasDB : public CDBWrapper {
