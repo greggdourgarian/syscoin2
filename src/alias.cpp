@@ -879,7 +879,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				break;
 			case OP_ALIAS_ACTIVATE:
 				// Check GUID
-				if (vvchArgs.size() <= 2 && theAlias.vchGUID != vvchArgs[1])
+				if (vvchArgs.size() <=  1 || theAlias.vchGUID != vvchArgs[1])
 				{
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5010 - " + _("Alias input guid mismatch");
 					return error(errorMessage.c_str());
@@ -896,6 +896,18 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5013 - " + _("Alias input to this transaction not found");
 					return error(errorMessage.c_str());
 				}
+				// Check GUID
+				if (vvchArgs.size() <= 1 || vvchPrevArgs.size() <= 1 || vvchPrevArgs[1] != vvchArgs[1])
+				{
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5016 - " + _("Alias Guid input mismatch");
+					return error(errorMessage.c_str());
+				}
+				// Check name
+				if (vvchPrevArgs[0] != vvchArgs[0])
+				{
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5015 - " + _("Alias input mismatch");
+					return error(errorMessage.c_str());
+				}
 				if(!theAlias.IsNull())
 				{
 					if(theAlias.vchAlias != vvchArgs[0])
@@ -903,18 +915,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5014 - " + _("Guid in data output doesn't match guid in transaction");
 						return error(errorMessage.c_str());
 					}
-				}
-				// Check name
-				if (vvchPrevArgs.empty() || vvchPrevArgs[0] != vvchArgs[0])
-				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5015 - " + _("Alias input mismatch");
-					return error(errorMessage.c_str());
-				}
-				// Check GUID
-				if (vvchPrevArgs.size() <= 1 || vvchPrevArgs[1] != vvchArgs[1])
-				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5016 - " + _("Alias Guid input mismatch");
-					return error(errorMessage.c_str());
 				}
 				break;
 		default:
@@ -1214,13 +1214,17 @@ bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, cons
         CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsAlias >> *this;
 
-		const vector<unsigned char> &vchAliasData = Serialize();
-		uint256 calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
-		vector<unsigned char> vchRandAlias(calculatedHash.begin(), calculatedHash.end());
-		if(vchRandAlias != vchHash)
+		const vector<unsigned char> &data = Serialize();
+		uint256 hash = Hash(data.begin(), data.end());
+		vector<unsigned char> vchHashAlias(hash.begin(), hash.end());
+		if(vchHashAlias != vchHash)
 		{
-			SetNull();
-			return false;
+			vchHashAlias = vchFromValue(hash.GetHex());
+			if(vchHashAlias != vchHash)
+			{
+				SetNull();
+				return false;
+			}
 		}
     } catch (std::exception &e) {
 		SetNull();
