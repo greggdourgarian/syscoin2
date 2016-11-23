@@ -514,12 +514,12 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	scriptPubKeyOrig= GetScriptForDestination(ToPubKey.GetID());
 
 	string strCipherTextTo;
-	if(!EncryptMessage(aliasTo.vchPubKey, vchMyMessageByte, strCipherTextTo))
+	if(!EncryptMessage(aliasTo.vchPubKey, vchMyMessage, strCipherTextTo))
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3504 - " + _("Could not encrypt message data for receiver"));
 	}
 	string strCipherTextFrom;
-	if(!EncryptMessage(aliasFrom.vchPubKey, vchMyMessageByte, strCipherTextFrom))
+	if(!EncryptMessage(aliasFrom.vchPubKey, vchMyMessage, strCipherTextFrom))
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3505 - " + _("Could not encrypt message data for sender"));
 	}
