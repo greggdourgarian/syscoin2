@@ -527,12 +527,20 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
     // build message
     CMessage newMessage;
+	vector<unsigned char> vchMessageFrom;
 	newMessage.vchMessage = vchMessage;
 	if(vchMyMessage.size() <= MAX_VALUE_LENGTH)
+	{
 		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
+		boost::algorithm::unhex(newMessage.vchMessageFrom.begin(), newMessage.vchMessageFrom.end(), std::back_inserter(vchMessageFrom ));
+	}
 	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
-	boost::algorithm::unhex(newMessage.vchMessageFrom.begin(), newMessage.vchMessageFrom.end(), std::back_inserter(newMessage.vchMessageFrom ));
-	boost::algorithm::unhex(newMessage.vchMessageTo.begin(), newMessage.vchMessageTo.end(), std::back_inserter(newMessage.vchMessageTo ));
+	vector<unsigned char> vchMessageTo;
+	
+	
+	boost::algorithm::unhex(newMessage.vchMessageTo.begin(), newMessage.vchMessageTo.end(), std::back_inserter(vchMessageTo ));
+	newMessage.vchMessageFrom = vchMessageFrom;
+	newMessage.vchMessageTo = vchMessageTo;
 	newMessage.vchSubject = vchMySubject;
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
 	newMessage.vchAliasTo = aliasTo.vchAlias;
