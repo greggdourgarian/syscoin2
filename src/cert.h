@@ -141,7 +141,7 @@ public:
     bool IsNull() const { return (bTransferViewOnly == false && vchViewAlias.empty() && vchLinkAlias.empty() && sCategory.empty() && vchCert.empty() && safetyLevel == 0 && safeSearch && !bPrivate && txHash.IsNull() &&  nHeight == 0 && vchData.empty() && vchViewData.empty() && vchTitle.empty() && vchAlias.empty()); }
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
-	const std::vector<unsigned char> Serialize();
+	void Serialize(std::vector<unsigned char>& vchData);
 };
 
 

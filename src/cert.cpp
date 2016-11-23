@@ -91,9 +91,10 @@ bool CCert::UnserializeFromData(const vector<unsigned char> &vchData, const vect
         CDataStream dsCert(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsCert >> *this;
 
-		const vector<unsigned char> &vchCertData = Serialize();
-		uint256 calculatedHash = Hash(vchCertData.begin(), vchCertData.end());
-		vector<unsigned char> vchRandCert= vchFromValue(calculatedHash.GetHex());
+		vector<unsigned char> vchCertData;
+		Serialize(vchCertData);
+		const uint256 &calculatedHash = Hash(vchCertData.begin(), vchCertData.end());
+		const vector<unsigned char> &vchRandCert = vchFromValue(calculatedHash.GetHex());
 		if(vchRandCert != vchHash)
 		{
 			SetNull();
@@ -121,11 +122,10 @@ bool CCert::UnserializeFromTx(const CTransaction &tx) {
 	}
     return true;
 }
-const vector<unsigned char> CCert::Serialize() {
+const vector<unsigned char> CCert::Serialize( vector<unsigned char> &vchData) {
     CDataStream dsCert(SER_NETWORK, PROTOCOL_VERSION);
     dsCert << *this;
-    const vector<unsigned char> vchData(dsCert.begin(), dsCert.end());
-    return vchData;
+	vchData = vector<unsigned char>(dsCert.begin(), dsCert.end());
 
 }
 bool CCertDB::CleanupDatabase()
@@ -770,7 +770,8 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	newCert.safeSearch = strSafeSearch == "Yes"? true: false;
 
 
-	const vector<unsigned char> &data = newCert.Serialize();
+	vector<unsigned char> data;
+	newCert.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
  	
     vector<unsigned char> vchHashCert = vchFromValue(hash.GetHex());
@@ -955,7 +956,8 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	theCert.bPrivate = bPrivate;
 	theCert.safeSearch = strSafeSearch == "Yes"? true: false;
 
-	const vector<unsigned char> &data = theCert.Serialize();
+	vector<unsigned char> data;
+	theCert.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
  	
     vector<unsigned char> vchHashCert = vchFromValue(hash.GetHex());
@@ -1103,7 +1105,8 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	if(copyCert.vchData != vchData)
 		theCert.vchData = vchData;
 
-	const vector<unsigned char> &data = theCert.Serialize();
+	vector<unsigned char> data;
+	theCert.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
  	
     vector<unsigned char> vchHashCert = vchFromValue(hash.GetHex());

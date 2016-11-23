@@ -389,7 +389,7 @@ public:
 
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
-	const std::vector<unsigned char> Serialize();
+	void Serialize(std::vector<unsigned char>& vchData);
 };
 
 class COfferDB : public CDBWrapper {

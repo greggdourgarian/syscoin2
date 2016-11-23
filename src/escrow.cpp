@@ -83,9 +83,10 @@ bool CEscrow::UnserializeFromData(const vector<unsigned char> &vchData, const ve
         CDataStream dsEscrow(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsEscrow >> *this;
 
-		const vector<unsigned char> &vchEscrowData = Serialize();
-		uint256 calculatedHash = Hash(vchEscrowData.begin(), vchEscrowData.end());
-		vector<unsigned char> vchRandEscrow= vchFromValue(calculatedHash.GetHex());
+		vector<unsigned char> vchEscrowData;
+		Serialize(vchEscrowData);
+		const uint256 &calculatedHash = Hash(vchEscrowData.begin(), vchEscrowData.end());
+		const vector<unsigned char> &vchRandEscrow = vchFromValue(calculatedHash.GetHex());
 		if(vchRandEscrow != vchHash)
 		{
 			SetNull();
@@ -112,11 +113,10 @@ bool CEscrow::UnserializeFromTx(const CTransaction &tx) {
 	}
     return true;
 }
-const vector<unsigned char> CEscrow::Serialize() {
+void CEscrow::Serialize(vector<unsigned char>& vchData) {
     CDataStream dsEscrow(SER_NETWORK, PROTOCOL_VERSION);
     dsEscrow << *this;
-    const vector<unsigned char> vchData(dsEscrow.begin(), dsEscrow.end());
-    return vchData;
+	vchData = vector<unsigned char>(dsEscrow.begin(), dsEscrow.end());
 
 }
 bool CEscrowDB::CleanupDatabase()
@@ -1422,7 +1422,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	newEscrow.nHeight = nHeight;
 	newEscrow.nAcceptHeight = chainActive.Tip()->nHeight;
 
-	const vector<unsigned char> &data = newEscrow.Serialize();
+	vector<unsigned char> data;
+	newEscrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
@@ -1763,7 +1764,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	escrow.bPaymentAck = false;
 	escrow.vchLinkAlias = vchLinkAlias;
 
-	const vector<unsigned char> &data = escrow.Serialize();
+	vector<unsigned char> data;
+	escrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
@@ -1923,7 +1925,8 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	escrow.nHeight = chainActive.Tip()->nHeight;
 	escrow.vchLinkAlias = sellerAlias.vchAlias;
 
-	const vector<unsigned char> &data = escrow.Serialize();
+	vector<unsigned char> data;
+	escrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
@@ -2349,7 +2352,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
     CScript scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyArbiter;
 
-	const vector<unsigned char> &data = escrow.Serialize();
+	vector<unsigned char> data;
+	escrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
@@ -2646,7 +2650,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	escrow.nHeight = chainActive.Tip()->nHeight;
 	escrow.vchLinkAlias = vchLinkAlias;
 
-	const vector<unsigned char> &data = escrow.Serialize();
+	vector<unsigned char> data;
+	escrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
@@ -3032,7 +3037,8 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
     CScript scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyArbiter;
 
-	const vector<unsigned char> &data = escrow.Serialize();
+	vector<unsigned char> data;
+	escrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
@@ -3273,7 +3279,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	{
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4589 - " + _("You must be either the arbiter, buyer or seller to leave feedback on this escrow"));
 	}
-	const vector<unsigned char> &data = escrow.Serialize();
+	vector<unsigned char> data;
+	escrow.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());

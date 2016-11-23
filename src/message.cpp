@@ -62,9 +62,10 @@ bool CMessage::UnserializeFromData(const vector<unsigned char> &vchData, const v
 		SetNull();
         return false;
     }
-	const vector<unsigned char> &vchMsgData = Serialize();
-	uint256 calculatedHash = Hash(vchMsgData.begin(), vchMsgData.end());
-	vector<unsigned char> vchRandMsg= vchFromValue(calculatedHash.GetHex());
+	vector<unsigned char> vchMsgData ;
+	Serialize(vchMsgData);
+	const uint256 &calculatedHash = Hash(vchMsgData.begin(), vchMsgData.end());
+	const vector<unsigned char> &vchRandMsg = vchFromValue(calculatedHash.GetHex());
 	if(vchRandMsg != vchHash)
 	{
 		SetNull();
@@ -87,11 +88,10 @@ bool CMessage::UnserializeFromTx(const CTransaction &tx) {
 	}
     return true;
 }
-const vector<unsigned char> CMessage::Serialize() {
+void CMessage::Serialize(vector<unsigned char>& vchData) {
     CDataStream dsMessage(SER_NETWORK, PROTOCOL_VERSION);
     dsMessage << *this;
-    const vector<unsigned char> vchData(dsMessage.begin(), dsMessage.end());
-    return vchData;
+	vchData = vector<unsigned char>(dsMessage.begin(), dsMessage.end());
 
 }
 bool CMessageDB::CleanupDatabase()
@@ -550,7 +550,8 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	newMessage.vchAliasTo = aliasTo.vchAlias;
 	newMessage.nHeight = chainActive.Tip()->nHeight;
 
-	const vector<unsigned char> &data = newMessage.Serialize();
+	vector<unsigned char> data;
+	newMessage.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
  	
     vector<unsigned char> vchHashMessage = vchFromValue(hash.GetHex());

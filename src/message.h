@@ -95,7 +95,7 @@ public:
     bool IsNull() const { return (bHex && vchMessage.empty() && txHash.IsNull() && nHeight == 0 && vchAliasTo.empty() && vchAliasFrom.empty()); }
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
-	const std::vector<unsigned char> Serialize();
+	void Serialize(std::vector<unsigned char>& vchData);
 };
 
 

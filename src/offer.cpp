@@ -102,9 +102,10 @@ bool COffer::UnserializeFromData(const vector<unsigned char> &vchData, const vec
         CDataStream dsOffer(vchData, SER_NETWORK, PROTOCOL_VERSION);
         dsOffer >> *this;
 
-		const vector<unsigned char> &vchOfferData = Serialize();
-		uint256 calculatedHash = Hash(vchOfferData.begin(), vchOfferData.end());
-		vector<unsigned char> vchRandOffer= vchFromValue(calculatedHash.GetHex());
+		vector<unsigned char> vchOfferData;
+		Serialize(vchOfferData);
+		const uint256 &calculatedHash = Hash(vchOfferData.begin(), vchOfferData.end());
+		const vector<unsigned char> &vchRandOffer = vchFromValue(calculatedHash.GetHex());
 		if(vchRandOffer != vchHash)
 		{
 			SetNull();
@@ -131,12 +132,10 @@ bool COffer::UnserializeFromTx(const CTransaction &tx) {
 	}
     return true;
 }
-const vector<unsigned char> COffer::Serialize() {
+void COffer::Serialize(vector<unsigned char> &vchData) {
     CDataStream dsOffer(SER_NETWORK, PROTOCOL_VERSION);
     dsOffer << *this;
-    const vector<unsigned char> vchData(dsOffer.begin(), dsOffer.end());
-    return vchData;
-
+	vchData = vector<unsigned char>(dsOffer.begin(), dsOffer.end());
 }
 bool COfferDB::CleanupDatabase()
 {
@@ -1662,7 +1661,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	newOffer.safeSearch = strSafeSearch == "Yes"? true: false;
 	newOffer.vchGeoLocation = vchFromString(strGeoLocation);
 
-	const vector<unsigned char> &data = newOffer.Serialize();
+	vector<unsigned char> data;
+	newOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -1802,7 +1802,8 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	newOffer.nHeight = chainActive.Tip()->nHeight;
 	//create offeractivate txn keys
 
-	const vector<unsigned char> &data = newOffer.Serialize();
+	vector<unsigned char> data;
+	newOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -1940,7 +1941,8 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -2050,7 +2052,8 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.linkWhitelist.PutWhitelistEntry(foundEntry);
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -2157,7 +2160,8 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	entry.nDiscountPct = 127;
 	theOffer.linkWhitelist.PutWhitelistEntry(entry);
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -2390,7 +2394,8 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	theOffer.SetPrice(nPricePerUnit);
 
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -2591,7 +2596,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	theOffer.accept = txAccept;
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -2944,7 +2950,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1552 - " + _("You must be either the buyer or seller to leave feedback on this offer purchase"));
 	}
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
@@ -3086,7 +3093,8 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	scriptPubKeyBuyerOrig= GetScriptForDestination(buyerKey.GetID());
 
 
-	const vector<unsigned char> &data = theOffer.Serialize();
+	vector<unsigned char> data;
+	theOffer.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());

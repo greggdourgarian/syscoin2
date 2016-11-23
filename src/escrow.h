@@ -141,7 +141,7 @@ public:
     bool IsNull() const { return (bPaymentAck == false && redeemTxId.IsNull() && vchLinkSellerAlias.empty() && vchLinkAlias.empty() && feedback.empty() && op == 0 && vchEscrow.empty() && txHash.IsNull() && nHeight == 0 && nPaymentOption == 0 && nAcceptHeight == 0 && nQty == 0 && vchBuyerAlias.empty() && vchArbiterAlias.empty() && vchSellerAlias.empty() && vchRedeemScript.empty() && vchOffer.empty() && rawTx.empty() && vchPaymentMessage.empty()); }
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
-	const std::vector<unsigned char> Serialize();
+	void Serialize(std::vector<unsigned char>& vchData);
 };
 
 
