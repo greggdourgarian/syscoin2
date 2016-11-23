@@ -184,7 +184,7 @@ bool NewMessageDialog::saveCurrentRow()
 		params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
 		params.push_back(ui->aliasEdit->currentText().toStdString());
 		params.push_back(ui->toEdit->text().toStdString());
-		params.push_back(ui->hexEdit->currentText()toStdString());
+		params.push_back(ui->hexEdit->currentText().toStdString());
 		
 
 		try {
@@ -242,7 +242,7 @@ bool NewMessageDialog::saveCurrentRow()
 			params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->toEdit->text().toStdString());
-			params.push_back(ui->hexEdit->currentText()toStdString());
+			params.push_back(ui->hexEdit->currentText().toStdString());
 			
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
