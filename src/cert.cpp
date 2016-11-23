@@ -22,10 +22,8 @@ using namespace std;
 extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
 bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchMessage, string &strCipherText)
 {
-	vector<unsigned char> vchMessageByte;
-	boost::algorithm::unhex(vchMessage.begin(), vchMessage.end(), std::back_inserter(vchMessageByte ));
 	CMessageCrypter crypter;
-	if(!crypter.Encrypt(stringFromVch(vchPubKey), stringFromVch(vchMessageByte), strCipherText))
+	if(!crypter.Encrypt(stringFromVch(vchPubKey), stringFromVch(vchMessage), strCipherText))
 		return false;
 
 	return true;
@@ -43,7 +41,6 @@ bool DecryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigne
 	CMessageCrypter crypter;
 	if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
 		return false;
-	strMessage = HexStr(strMessage);
 	
 	return true;
 }

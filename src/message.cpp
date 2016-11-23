@@ -474,7 +474,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 						"<toalias> Alias to send message to.\n"					
                         + HelpRequiringPassphrase());
 	vector<unsigned char> vchMySubject = vchFromValue(params[0]);
-	vector<unsigned char> vchMyMessage = vchFromValue(params[1]);
+	vector<unsigned char> vchMyMessage = vchFromString(params[1].get_str());
 	string strFromAddress = params[2].get_str();
 	boost::algorithm::to_lower(strFromAddress);
 	string strToAddress = params[3].get_str();
@@ -512,14 +512,16 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 	scriptPubKeyOrig= GetScriptForDestination(ToPubKey.GetID());
+	vector<unsigned char> vchMessageByte;
+	boost::algorithm::unhex(vchMyMessage.begin(), vchMyMessage.end(), std::back_inserter(vchMessageByte ));
 
 	string strCipherTextTo;
-	if(!EncryptMessage(aliasTo.vchPubKey, vchMyMessage, strCipherTextTo))
+	if(!EncryptMessage(aliasTo.vchPubKey, vchMessageByte, strCipherTextTo))
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3504 - " + _("Could not encrypt message data for receiver"));
 	}
 	string strCipherTextFrom;
-	if(!EncryptMessage(aliasFrom.vchPubKey, vchMyMessage, strCipherTextFrom))
+	if(!EncryptMessage(aliasFrom.vchPubKey, vchMessageByte, strCipherTextFrom))
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3505 - " + _("Could not encrypt message data for sender"));
 	}
