@@ -648,7 +648,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		switch (op) {
 		case OP_OFFER_ACTIVATE:
-			if(!IsAliasOp(prevAliasOp) || theOffer.vchAlias != vvchPrevAliasArgs[0])
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theOffer.vchAlias != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1021 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
@@ -713,7 +713,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 			break;
 		case OP_OFFER_UPDATE:
-			if(!IsAliasOp(prevAliasOp) || theOffer.vchAlias != vvchPrevAliasArgs[0])
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theOffer.vchAlias != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1021 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
@@ -762,7 +762,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			break;
 		case OP_OFFER_ACCEPT:
 			theOfferAccept = theOffer.accept;
-			if(!IsAliasOp(prevAliasOp) || theOfferAccept.vchBuyerAlias != vvchPrevAliasArgs[0])
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theOfferAccept.vchBuyerAlias != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1021 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());

@@ -396,14 +396,9 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 		}
 		if(op == OP_MESSAGE_ACTIVATE)
 		{
-			if(!IsAliasOp(prevAliasOp))
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theMessage.vchAliasFrom != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3009 - " + _("Alias not provided as input");
-				return error(errorMessage.c_str());
-			}
-			if (theMessage.vchAliasFrom != vvchPrevAliasArgs[0])
-			{
-				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3010 - " + _("Alias guid mismatch");
 				return error(errorMessage.c_str());
 			}
 			if (theMessage.vchMessage != vvchArgs[0])

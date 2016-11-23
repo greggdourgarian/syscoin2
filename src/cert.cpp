@@ -122,7 +122,7 @@ bool CCert::UnserializeFromTx(const CTransaction &tx) {
 	}
     return true;
 }
-const vector<unsigned char> CCert::Serialize( vector<unsigned char> &vchData) {
+void CCert::Serialize( vector<unsigned char> &vchData) {
     CDataStream dsCert(SER_NETWORK, PROTOCOL_VERSION);
     dsCert << *this;
 	vchData = vector<unsigned char>(dsCert.begin(), dsCert.end());
@@ -503,7 +503,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2012 - " + _("Certificate linked alias not allowed in activate");
 				return error(errorMessage.c_str());
 			}
-			if(!IsAliasOp(prevAliasOp) || theCert.vchAlias != vvchPrevAliasArgs[0])
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theCert.vchAlias != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2013 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
@@ -526,7 +526,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2019 - " + _("Certificate title too big");
 				return error(errorMessage.c_str());
 			}
-			if(!IsAliasOp(prevAliasOp) || theCert.vchAlias != vvchPrevAliasArgs[0])
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theCert.vchAlias != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2020 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
@@ -539,7 +539,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2023 - " + _("Certificate guid mismatch");
 				return error(errorMessage.c_str());
 			}
-			if(!IsAliasOp(prevAliasOp) || theCert.vchAlias != vvchPrevAliasArgs[0])
+			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theCert.vchAlias != vvchPrevAliasArgs[0])
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2024 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
