@@ -1216,7 +1216,7 @@ bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, cons
 
 		const vector<unsigned char> &vchAliasData = Serialize();
 		uint256 calculatedHash = Hash(vchAliasData.begin(), vchAliasData.end());
-		vector<unsigned char> vchRandAlias = vchFromValue(calculatedHash.GetHex());
+		vector<unsigned char> vchRandAlias(calculatedHash.begin(), calculatedHash.end());
 		if(vchRandAlias != vchHash)
 		{
 			SetNull();
@@ -1938,7 +1938,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	const vector<unsigned char> &data = newAlias.Serialize();
     uint256 hash = Hash(data.begin(), data.end());
-    vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
+    vector<unsigned char> vchHashAlias(hash.begin(), hash.end());
 
 	CScript scriptPubKey;
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_ACTIVATE) << vchAlias << vchRandAlias << vchHashAlias << OP_2DROP << OP_2DROP;
