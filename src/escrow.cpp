@@ -469,12 +469,12 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4005 - " + _("Escrow redeem script too long");
 			return error(errorMessage.c_str());
 		}
-		if(theEscrow.feedback.size() > 0 && theEscrow.feedback[0].vchFeedback.size() > MAX_VALUE_LENGTH)
+		if(theEscrow.feedback.size() > 0 && theEscrow.feedback[0].vchFeedback.size() > MAX_NAME_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4006 - " + _("Feedback too long");
 			return error(errorMessage.c_str());
 		}
-		if(theEscrow.feedback.size() > 1 && theEscrow.feedback[1].vchFeedback.size() > MAX_VALUE_LENGTH)
+		if(theEscrow.feedback.size() > 1 && theEscrow.feedback[1].vchFeedback.size() > MAX_NAME_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4007 - " + _("Feedback too long");
 			return error(errorMessage.c_str());
@@ -509,6 +509,11 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					if(theEscrow.op != OP_ESCROW_ACTIVATE)
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4010 - " + _("Invalid op, should be escrow activate");
+						return error(errorMessage.c_str());
+					}
+					if (theEscrow.vchPaymentMessage.size() > MAX_ENCRYPTED_NAME_LENGTH)
+					{
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 1051 - " + _("Payment message too long");
 						return error(errorMessage.c_str());
 					}
 				}
@@ -1215,7 +1220,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 						"<alias> An alias you own.\n"
                         "<offer> GUID of offer that this escrow is managing.\n"
                         "<quantity> Quantity of items to buy of offer.\n"
-						"<message> Delivery details to seller.\n"
+						"<message> Delivery details to seller. 255 bytes max\n"
 						"<arbiter alias> Alias of Arbiter.\n"
 						"<extTx> If paid in another coin enter raw external input transaction.\n"
 						"<paymentOption> If extTx is defined, specify a valid payment option used to make payment. Default is SYS.\n"

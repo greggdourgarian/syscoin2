@@ -24,7 +24,7 @@ CScript RemoveMessageScriptPrefix(const CScript& scriptIn);
 extern bool IsSys21Fork(const uint64_t& nHeight);
 void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string messageFromOp(int op);
-static const unsigned int MAX_MESSAGE_LENGTH = 1023*8;
+static const unsigned int MAX_MESSAGE_LENGTH = 3000;
 static const unsigned int MAX_ENCRYPTED_MESSAGE_LENGTH = MAX_MESSAGE_LENGTH + 85;
 
 class CMessage {
@@ -36,6 +36,7 @@ public:
 	std::vector<unsigned char> vchMessageTo;
 	std::vector<unsigned char> vchMessageFrom;
     uint256 txHash;
+	bool bHex;
     uint64_t nHeight;
     CMessage() {
         SetNull();
@@ -54,7 +55,8 @@ public:
 		READWRITE(VARINT(nHeight));
 		READWRITE(vchMessage);
         READWRITE(vchAliasTo);
-		READWRITE(vchAliasFrom);		
+		READWRITE(vchAliasFrom);
+		READWRITE(bHex);
 		
 	}
 
@@ -68,6 +70,7 @@ public:
 		&& a.txHash == b.txHash
 		&& a.nHeight == b.nHeight
 		&& a.vchMessage == b.vchMessage
+		&& a.bHex == b.bHex
         );
     }
 
@@ -80,6 +83,7 @@ public:
 		txHash = b.txHash;
 		nHeight = b.nHeight;
 		vchMessage = b.vchMessage;
+		bHex = b.bHex;
         return *this;
     }
 
@@ -87,8 +91,8 @@ public:
         return !(a == b);
     }
 
-    void SetNull() {vchMessage.clear(); txHash.SetNull(); nHeight = 0; vchAliasTo.clear(); vchAliasFrom.clear(); vchSubject.clear(); vchMessageTo.clear();vchMessageFrom.clear();}
-    bool IsNull() const { return (vchMessage.empty() && txHash.IsNull() && nHeight == 0 && vchAliasTo.empty() && vchAliasFrom.empty()); }
+    void SetNull() {bHex = false; vchMessage.clear(); txHash.SetNull(); nHeight = 0; vchAliasTo.clear(); vchAliasFrom.clear(); vchSubject.clear(); vchMessageTo.clear();vchMessageFrom.clear();}
+    bool IsNull() const { return (bHex && vchMessage.empty() && txHash.IsNull() && nHeight == 0 && vchAliasTo.empty() && vchAliasFrom.empty()); }
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
 	const std::vector<unsigned char> Serialize();

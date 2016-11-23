@@ -28,6 +28,8 @@ NewMessageDialog::NewMessageDialog(Mode mode, const QString &to, const QString &
 	{
 		ui->topicEdit->setText(title);
 	}
+	ui->hexDisclaimer->setText(tr("<font color='blue'>Choose Yes if you are sending a Hex string as a message such as a raw transaction for multisignature signing purposes. To compress the message this will convert the message data from hex to binary and send it to the recipient. The outgoing message field will not be utilized to save space.</font>"));
+	
 	QSettings settings;
 	QString defaultMessageAlias;
 	int aliasIndex;
@@ -182,6 +184,7 @@ bool NewMessageDialog::saveCurrentRow()
 		params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
 		params.push_back(ui->aliasEdit->currentText().toStdString());
 		params.push_back(ui->toEdit->text().toStdString());
+		params.push_back(ui->hexEdit->currentText());
 		
 
 		try {
@@ -239,6 +242,7 @@ bool NewMessageDialog::saveCurrentRow()
 			params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->toEdit->text().toStdString());
+			params.push_back(ui->hexEdit->currentText());
 			
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);

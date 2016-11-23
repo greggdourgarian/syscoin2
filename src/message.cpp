@@ -442,6 +442,8 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
         // set the message's txn-dependent values
 		theMessage.txHash = tx.GetHash();
 		theMessage.nHeight = nHeight;
+		if(theMessage.bHex)
+			theMessage.vchMessageFrom.clear();
 		PutToMessageList(vtxPos, theMessage);
         // write message  
 
@@ -465,13 +467,14 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 }
 
 UniValue messagenew(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() != 4 )
+    if (fHelp || 4 > params.size() || 5 < params.size() )
         throw runtime_error(
-		"messagenew <subject> <message> <fromalias> <toalias>\n"
+		"messagenew <subject> <message> <fromalias> <toalias> [hex='No']\n"
 						"<subject> Subject of message.\n"
 						"<message> Message to send to alias.\n"
 						"<fromalias> Alias to send message from.\n"
-						"<toalias> Alias to send message to.\n"					
+						"<toalias> Alias to send message to.\n"	
+						"<hex> Is data an hex based message(only To-Message will be displayed). No by default.\n"	
                         + HelpRequiringPassphrase());
 	vector<unsigned char> vchMySubject = vchFromValue(params[0]);
 	vector<unsigned char> vchMyMessage = vchFromString(params[1].get_str());
@@ -479,6 +482,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	boost::algorithm::to_lower(strFromAddress);
 	string strToAddress = params[3].get_str();
 	boost::algorithm::to_lower(strToAddress);
+	bool bHex = params[4].get_str() == "Yes"? true: false;
 
 	EnsureWalletIsUnlocked();
 
@@ -512,8 +516,11 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 	scriptPubKeyOrig= GetScriptForDestination(ToPubKey.GetID());
-	vector<unsigned char> vchMessageByte;
-	boost::algorithm::unhex(vchMyMessage.begin(), vchMyMessage.end(), std::back_inserter(vchMessageByte ));
+
+	vector<unsigned char> vchMessageByte = vchMyMessage;;
+	if(bHex)
+		boost::algorithm::unhex(vchMyMessage.begin(), vchMyMessage.end(), std::back_inserter(vchMessageByte ));
+	
 
 	string strCipherTextTo;
 	if(!EncryptMessage(aliasTo.vchPubKey, vchMessageByte, strCipherTextTo))
@@ -529,11 +536,12 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     // build message
     CMessage newMessage;
 	newMessage.vchMessage = vchMessage;
-	if(vchMyMessage.size() <= MAX_VALUE_LENGTH)
+	if(!bHex)
 		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
 	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
 	newMessage.vchSubject = vchMySubject;
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
+	newMessage.bHex = bHex;
 	newMessage.vchAliasTo = aliasTo.vchAlias;
 	newMessage.nHeight = chainActive.Tip()->nHeight;
 
@@ -726,9 +734,15 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName)
 	string strDecrypted = "";
 	string strData = _("Encrypted for recipient of message");
 	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted))
+	{
+		if(message.bHex)
+			strData = HexStr(strDecrypted);
+		else
+			strData = strDecrypted;
+	}
+	else if(!message.bHex && DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
 		strData = strDecrypted;
-	else if(DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
-		strData = strDecrypted;
+
 	oName.push_back(Pair("message", strData));
 	return true;
 }

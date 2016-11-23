@@ -780,6 +780,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1044 - " + _("Cannot leave empty feedback");
 					return error(errorMessage.c_str());
 				}
+				if(theOfferAccept.feedback[0].vchFeedback.size() > MAX_NAME_LENGTH)
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1045 - " + _("Feedback too long");
+					return error(errorMessage.c_str());
+				}
 				if(theOfferAccept.feedback.size() > 1)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1045 - " + _("Cannot only leave one feedback per transaction");
@@ -816,9 +821,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1050 - " + _("Offer accept hex guid too long");
 				return error(errorMessage.c_str());
 			}
-			if (theOfferAccept.vchMessage.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+			if (theOfferAccept.vchMessage.size() > MAX_ENCRYPTED_NAME_LENGTH)
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1051 - " + _("Message field too big");
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1051 - " + _("Payment message too long");
 				return error(errorMessage.c_str());
 			}
 			if (theOffer.vchOffer != vvchArgs[0])
@@ -2452,7 +2457,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 				"<alias> An alias of the buyer.\n"
 				"<guid> guidkey from offer.\n"
 				"<quantity> quantity to buy. Defaults to 1.\n"
-				"<message> payment message to seller, 1KB max.\n"
+				"<message> payment message to seller, 255 bytes max.\n"
 				"<Ext TxId> If paid in another coin, enter the Transaction ID here. Default is empty.\n"
 				"<paymentOption> If Ext TxId is defined, specify a valid payment option used to make payment. Default is SYS.\n"
 				+ HelpRequiringPassphrase());
