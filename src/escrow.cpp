@@ -1220,7 +1220,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 						"<alias> An alias you own.\n"
                         "<offer> GUID of offer that this escrow is managing.\n"
                         "<quantity> Quantity of items to buy of offer.\n"
-						"<message> Delivery details to seller. 255 bytes max\n"
+						"<message> Delivery details to seller. 256 characters max\n"
 						"<arbiter alias> Alias of Arbiter.\n"
 						"<extTx> If paid in another coin enter raw external input transaction.\n"
 						"<paymentOption> If extTx is defined, specify a valid payment option used to make payment. Default is SYS.\n"
@@ -1346,7 +1346,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4519 - " + _("Could not encrypt message to seller"));
 
 	if (strCipherText.size() > MAX_ENCRYPTED_VALUE_LENGTH)
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4520 - " + _("Payment message length cannot exceed 1023 bytes"));
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4520 - " + _("Payment message length cannot exceed 1024 characters"));
 
 	CPubKey ArbiterPubKey(arbiteralias.vchPubKey);
 	CPubKey SellerPubKey(reselleralias.vchPubKey);

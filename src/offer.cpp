@@ -2462,7 +2462,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 				"<alias> An alias of the buyer.\n"
 				"<guid> guidkey from offer.\n"
 				"<quantity> quantity to buy. Defaults to 1.\n"
-				"<message> payment message to seller, 255 bytes max.\n"
+				"<message> payment message to seller, 256 characters max.\n"
 				"<Ext TxId> If paid in another coin, enter the Transaction ID here. Default is empty.\n"
 				"<paymentOption> If Ext TxId is defined, specify a valid payment option used to make payment. Default is SYS.\n"
 				+ HelpRequiringPassphrase());

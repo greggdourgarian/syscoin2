@@ -668,11 +668,11 @@ UniValue certnew(const UniValue& params, bool fHelp) {
         throw runtime_error(
 		"certnew <alias> <title> <data> [private=0] [safe search=Yes] [category=certificates] [viewalias='']\n"
 						"<alias> An alias you own.\n"
-                        "<title> title, 255 bytes max.\n"
-                        "<data> data, 1KB max.\n"
+                        "<title> title, 256 characters max.\n"
+                        "<data> data, 1024 characters max.\n"
 						"<private> set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.\n"
  						"<safe search> set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).\n"                     
-						"<category> category, 255 chars max. Defaults to certificates\n"
+						"<category> category, 25 characters max. Defaults to certificates\n"
 						"<viewalias> Allow this alias to view certificate private data.\n"
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
@@ -846,10 +846,10 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
                         "Perform an update on an certificate you control.\n"
                         "<guid> certificate guidkey.\n"
 						"<alias> an alias you own to associate with this certificate.\n"
-                        "<title> certificate title, 255 bytes max.\n"
-                        "<data> certificate data, 1KB max.\n"
+                        "<title> certificate title, 256 characters max.\n"
+                        "<data> certificate data, 1024 characters max.\n"
 						"<private> set to 1 if you only want to make the cert data private, only the owner of the cert can view it.\n"
-						"<category> category, 255 chars max. Defaults to certificates\n"
+						"<category> category, 256 characters max. Defaults to certificates\n"
 						"<viewalias> Allow this alias to view certificate private data.\n"
                         + HelpRequiringPassphrase());
     // gather & validate inputs

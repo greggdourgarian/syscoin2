@@ -1763,8 +1763,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.\n"
-						"<public value> alias public profile data, 1023 chars max.\n"
-						"<private value> alias private profile data, 1023 chars max. Will be private and readable by owner only.\n"
+						"<public value> alias public profile data, 1024 chars max.\n"
+						"<private value> alias private profile data, 1024 chars max. Will be private and readable by owner only.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
 						"<expire> Number of years before expiry. It affects the fees you pay, the cheapest being 1 year. The more years you specify the more fees you pay. Max is 5 years, Min is 1 year. Defaults to 1 year.\n"	
@@ -1794,18 +1794,18 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	using namespace boost::algorithm;
 	to_lower(strName);
 	smatch nameparts;
-	sregex domainwithtldregex = sregex::compile("^((?!-)[a-z0-9-]{3,63}(?<!-)\\.)+[a-z]{2,6}$");
-	sregex domainwithouttldregex = sregex::compile("^((?!-)[a-z0-9-]{3,63}(?<!-))");
+	sregex domainwithtldregex = sregex::compile("^((?!-)[a-z0-9-]{3,64}(?<!-)\\.)+[a-z]{2,6}$");
+	sregex domainwithouttldregex = sregex::compile("^((?!-)[a-z0-9-]{3,64}(?<!-))");
 
 	if(find_first(strName, "."))
 	{
 		if (!regex_search(strName, nameparts, domainwithtldregex) || string(nameparts[0]) != strName)
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5500 - " + _("Invalid Syscoin Identity. Must follow the domain name spec of 3 to 63 characters with no preceding or trailing dashes and a TLD of 2 to 6 characters"));	
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5500 - " + _("Invalid Syscoin Identity. Must follow the domain name spec of 3 to 64 characters with no preceding or trailing dashes and a TLD of 2 to 6 characters"));	
 	}
 	else
 	{
 		if (!regex_search(strName, nameparts, domainwithouttldregex)  || string(nameparts[0]) != strName)
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5501 - " + _("Invalid Syscoin Identity. Must follow the domain name spec of 3 to 63 characters with no preceding or trailing dashes"));
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5501 - " + _("Invalid Syscoin Identity. Must follow the domain name spec of 3 to 64 characters with no preceding or trailing dashes"));
 	}
 	
 
@@ -2009,8 +2009,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
-						"<public value> alias public profile data, 1023 chars max.\n"
-						"<private value> alias private profile data, 1023 chars max. Will be private and readable by owner only.\n"				
+						"<public value> alias public profile data, 1024 chars max.\n"
+						"<private value> alias private profile data, 1024 chars max. Will be private and readable by owner only.\n"				
 						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text. Leave empty to leave current password unchanged.\n"
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<toalias_pubkey> receiver syscoin alias pub key, if transferring alias.\n"
