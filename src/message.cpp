@@ -513,34 +513,23 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     CWalletTx wtx;
 	scriptPubKeyOrig= GetScriptForDestination(ToPubKey.GetID());
 
-
 	string strCipherTextTo;
-	if(!EncryptMessage(aliasTo.vchPubKey, vchMyMessage, strCipherTextTo))
+	if(!EncryptMessage(aliasTo.vchPubKey, vchMyMessageByte, strCipherTextTo))
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3504 - " + _("Could not encrypt message data for receiver"));
 	}
 	string strCipherTextFrom;
-	if(!EncryptMessage(aliasFrom.vchPubKey, vchMyMessage, strCipherTextFrom))
+	if(!EncryptMessage(aliasFrom.vchPubKey, vchMyMessageByte, strCipherTextFrom))
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3505 - " + _("Could not encrypt message data for sender"));
 	}
 
     // build message
     CMessage newMessage;
-	vector<unsigned char> vchMessageFrom;
 	newMessage.vchMessage = vchMessage;
 	if(vchMyMessage.size() <= MAX_VALUE_LENGTH)
-	{
 		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
-		boost::algorithm::unhex(newMessage.vchMessageFrom.begin(), newMessage.vchMessageFrom.end(), std::back_inserter(vchMessageFrom ));
-	}
 	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
-	vector<unsigned char> vchMessageTo;
-	
-	
-	boost::algorithm::unhex(newMessage.vchMessageTo.begin(), newMessage.vchMessageTo.end(), std::back_inserter(vchMessageTo ));
-	newMessage.vchMessageFrom = vchMessageFrom;
-	newMessage.vchMessageTo = vchMessageTo;
 	newMessage.vchSubject = vchMySubject;
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
 	newMessage.vchAliasTo = aliasTo.vchAlias;
