@@ -403,13 +403,13 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			}
 			if (theMessage.vchMessage != vvchArgs[0])
 			{
-				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3011 - " + _("Message guid mismatch");
+				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3010 - " + _("Message guid mismatch");
 				return error(errorMessage.c_str());
 			}
 
 		}
 		else{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3012 - " + _("Message transaction has unknown op");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3011 - " + _("Message transaction has unknown op");
 			return error(errorMessage.c_str());
 		}
 	}
@@ -420,18 +420,18 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
     if (!fJustCheck ) {
 		if(!GetTxOfAlias(theMessage.vchAliasTo, alias, aliasTx))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3013 - " + _("Cannot find alias for the recipient of this message. It may be expired");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3012 - " + _("Cannot find alias for the recipient of this message. It may be expired");
 			return true;
 		}
 		if(!GetTxOfAlias(theMessage.vchAliasFrom, alias, aliasTx))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3014 - " + _("Cannot find alias for the sender of this message. It may be expired");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3013 - " + _("Cannot find alias for the sender of this message. It may be expired");
 			return true;		
 		}
 
 		vector<CMessage> vtxPos;
 		if (pmessagedb->ExistsMessage(vvchArgs[0])) {
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3015 - " + _("This message already exists");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3014 - " + _("This message already exists");
 			return true;
 		}      
         // set the message's txn-dependent values
@@ -444,7 +444,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 
 		if(!dontaddtodb && !pmessagedb->WriteMessage(vvchArgs[0], vtxPos))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3016 - " + _("Failed to write to message DB");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3015 - " + _("Failed to write to message DB");
             return error(errorMessage.c_str());
 		}
 	
@@ -624,10 +624,12 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchValue;
 
 	if (!pmessagedb->ReadMessage(vchMessage, vtxPos) || vtxPos.empty())
-		 throw runtime_error("failed to read from message DB");
+		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3506 - " + _("Failed to read from message DB"));
+
 	const CMessage &message = vtxPos.back();
 	if(!BuildMessageJson(message, oMessage))
-		throw runtime_error("Could not find this message");
+		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3507 - " + _("Could not find this message"));
+
     return oMessage;
 }
 
@@ -666,7 +668,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	if(aliases.size() > 0)
 	{
 		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases, 1000, messageScan))
-			throw runtime_error("scan failed");
+			throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3508 - " + _("Scan failed"));
 	}
 	else
 	{
@@ -788,14 +790,13 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 			vector<unsigned char> vchAlias = vchFromString(name);
 			vector<CAliasIndex> vtxPos;
 			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
-				throw runtime_error("failed to read from alias DB");
+				throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3509 - " + _("Failed to read from alias DB"));
+		
 			const CAliasIndex &alias = vtxPos.back();
 			CTransaction aliastx;
 			uint256 txHash;
 			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			{
-				throw runtime_error("failed to read alias transaction");
-			}
+				throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3510 - " + _("Failed to read alias transaction));
 
 			CTransaction tx;
 
