@@ -531,6 +531,8 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	if(vchMyMessage.size() <= MAX_VALUE_LENGTH)
 		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
 	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
+	boost::algorithm::unhex(newMessage.vchMessageFrom.begin(), newMessage.vchMessageFrom.end(), std::back_inserter(newMessage.vchMessageFrom ));
+	boost::algorithm::unhex(newMessage.vchMessageTo.begin(), newMessage.vchMessageTo.end(), std::back_inserter(newMessage.vchMessageTo ));
 	newMessage.vchSubject = vchMySubject;
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
 	newMessage.vchAliasTo = aliasTo.vchAlias;
