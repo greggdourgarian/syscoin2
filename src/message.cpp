@@ -696,8 +696,8 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		BuildMessageJson(message, oName);
-		oRes.push_back(oName);
+		if(BuildMessageJson(message, oName))
+			oRes.push_back(oName);
 	}
 	
 
@@ -846,8 +846,8 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		BuildMessageJson(message, oName);
-		oRes.push_back(oName);
+		if(BuildMessageJson(message, oName))
+			oRes.push_back(oName);
 	}
     return oRes;
 }
