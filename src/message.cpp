@@ -705,14 +705,6 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 }
 bool BuildMessageJson(const CMessage& message, UniValue& oName)
 {
-	oName.push_back(Pair("GUID", stringFromVch(message.vchMessage)));
-	string sTime;
-	CBlockIndex *pindex = chainActive[message.nHeight];
-	if (pindex) {
-		sTime = strprintf("%llu", pindex->nTime);
-	}
-	string strAddress = "";
-	oName.push_back(Pair("time", sTime));
 	CAliasIndex aliasFrom, aliasTo;
 	CTransaction aliastxtmp;
 	bool isExpired = false;
@@ -732,6 +724,14 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName)
 	}
 	else
 		return false;
+	oName.push_back(Pair("GUID", stringFromVch(message.vchMessage)));
+	string sTime;
+	CBlockIndex *pindex = chainActive[message.nHeight];
+	if (pindex) {
+		sTime = strprintf("%llu", pindex->nTime);
+	}
+	string strAddress = "";
+	oName.push_back(Pair("time", sTime));
 	oName.push_back(Pair("from", stringFromVch(message.vchAliasFrom)));
 	oName.push_back(Pair("to", stringFromVch(message.vchAliasTo)));
 
