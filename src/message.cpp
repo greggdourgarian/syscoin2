@@ -384,7 +384,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Message too long");
 			return error(errorMessage.c_str());
 		}
-		if(theMessage.vchMessageFrom.size() > MAX_ENCRYPTED_MESSAGE_LENGTH)
+		if(theMessage.vchMessageFrom.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3007 - " + _("Message too long");
 			return error(errorMessage.c_str());
@@ -482,7 +482,9 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	boost::algorithm::to_lower(strFromAddress);
 	string strToAddress = params[3].get_str();
 	boost::algorithm::to_lower(strToAddress);
-	bool bHex = params[4].get_str() == "Yes"? true: false;
+	bool bHex = false;
+	if(params.size() >= 5)
+		bHex = params[4].get_str() == "Yes"? true: false;
 
 	EnsureWalletIsUnlocked();
 
@@ -517,9 +519,12 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     CWalletTx wtx;
 	scriptPubKeyOrig= GetScriptForDestination(ToPubKey.GetID());
 
-	vector<unsigned char> vchMessageByte = vchMyMessage;;
+	vector<unsigned char> vchMessageByte;
 	if(bHex)
 		boost::algorithm::unhex(vchMyMessage.begin(), vchMyMessage.end(), std::back_inserter(vchMessageByte ));
+	else
+		vchMessageByte = vchMyMessage;
+	
 	
 
 	string strCipherTextTo;
