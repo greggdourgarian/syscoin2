@@ -1215,7 +1215,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
                 "list certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
-	vector<pair<string, string> > privatekeys;
 	if(params.size() >= 1)
 	{
 		if(params[0].isArray())
@@ -1225,7 +1224,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
-				if(!aliasName.empty())
+				if(!lowerStr.empty())
 					aliases.push_back(lowerStr);
 			}
 		}
