@@ -676,6 +676,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
+	vector<CMessage > messageScan;
 	if(aliases.size() > 0)
 	{
 		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases, 1000, messageScan))
@@ -697,6 +698,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 					continue;
 				if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
 					continue;
+				messageScan.push_back(message);
 				vNamesI[message.vchMessage] = message.nHeight;
 				UniValue oName(UniValue::VOBJ);
 				if(BuildMessageJson(message, oName, vchPk))
@@ -704,6 +706,13 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 			}
 		}
 	}
+	BOOST_FOREACH(const CMessage &message, messageScan) {
+		// build the output
+		UniValue oName(UniValue::VOBJ);
+		if(BuildMessageJson(message, oName, vchPk))
+			oRes.push_back(oName);
+	}
+	
 
     return oRes;
 }
