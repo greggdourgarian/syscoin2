@@ -2466,19 +2466,19 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 < params.size())
-		throw runtime_error("aliaslist [<aliasname>]\n"
+	if (fHelp || 2 < params.size())
+		throw runtime_error("aliaslist [<aliasname>] [<privatekey>]\n"
 				"list my own aliases.\n"
 				"<aliasname> alias name to use as filter.\n");
-	
-	vector<unsigned char> vchAlias;
 
-	if (params.size() == 1)
+	vector<unsigned char> vchAlias;
+	if (params.size() >= 1)
 		vchAlias = vchFromValue(params[0]);
 
-	vector<unsigned char> vchNameUniq;
-	if (params.size() == 1)
-		vchNameUniq = vchFromValue(params[0]);
+	string strPrivateKey;
+	if(params.size() >= 2)
+		strPrivateKey = params[1].get_str();	
+
 	UniValue oRes(UniValue::VARR);
 	map<vector<unsigned char>, int> vNamesI;
 	map<vector<unsigned char>, UniValue> vNamesO;
@@ -2537,7 +2537,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 		if (vNamesI.find(vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, tx, pending, oName))
+		if(BuildAliasJson(alias, tx, pending, oName, strPrivateKey))
 		{
 			vNamesI[vchAlias] = alias.nHeight;
 			vNamesO[vchAlias] = oName;	
@@ -2699,11 +2699,13 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
  * @return        [description]
  */
 UniValue aliasinfo(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 != params.size())
-		throw runtime_error("aliasinfo <aliasname>\n"
+	if (fHelp || 2 < params.size())
+		throw runtime_error("aliasinfo <aliasname> [<privatekey>]\n"
 				"Show values of an alias.\n");
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-
+	string strPrivateKey;
+	if(params.size() >= 2)
+		strPrivateKey = params[1].get_str();
 	CTransaction tx;
 	CAliasIndex alias;
 
@@ -2714,12 +2716,12 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Failed to read from alias DB"));
 
 	UniValue oName(UniValue::VOBJ);
-	if(!BuildAliasJson(alias, tx, 0, oName))
+	if(!BuildAliasJson(alias, tx, 0, oName, strPrivateKey))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5530 - " + _("Could not find this alias"));
 		
 	return oName;
 }
-bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const vector<unsigned char> &vchPrivKey)
+bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const string &strPrivKey)
 {
 	CAliasIndex aliasTmp = alias;
 	uint64_t nHeight;
@@ -2736,7 +2738,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	if(!alias.vchPrivateValue.empty())
 		strPrivateValue = _("Encrypted for alias owner");
 	string strDecrypted = "";
-	if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted, vchPrivKey))
+	if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted, strPrivKey))
 		strPrivateValue = strDecrypted;		
 	oName.push_back(Pair("privatevalue", strPrivateValue));
 
@@ -2744,7 +2746,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	if(!alias.vchPassword.empty())
 		strPassword = _("Encrypted for alias owner");
 	strDecrypted = "";
-	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted, vchPrivKey))
+	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted, strPrivKey))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 
