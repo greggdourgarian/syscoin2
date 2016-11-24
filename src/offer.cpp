@@ -3178,7 +3178,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	return oOffer;
 
 }
-bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer)
+bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer, const vector<unsigned char> &vchPrivKey)
 {
 	if(theOffer.safetyLevel >= SAFETY_LEVEL2)
 		return false;
@@ -3295,8 +3295,8 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	return true;
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size())
-        throw runtime_error("offeracceptlist [\"alias\",...] [acceptguid='']\n"
+    if (fHelp || 3 < params.size())
+        throw runtime_error("offeracceptlist [\"alias\",...] [<acceptguid>] [<privatekey>]\n"
                 "list offer purchases that an array of aliases own");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
@@ -3309,20 +3309,32 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
-				aliases.push_back(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
 			}
 		}
 		else
 		{
 			string aliasName =  params[0].get_str();
 			boost::algorithm::to_lower(aliasName);
-			if(aliasName != "")
+			if(!aliasName.empty())
 				aliases.push_back(aliasName);
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-	if (params.size() >= 2)
-		vchNameUniq = vchFromValue(params[1]);
+    if (params.size() >= 2)
+        vchNameUniq = vchFromValue(params[1]);
+
+	vector<unsigned char> vchPk;
+	if(params.size() >= 3)
+	{
+		vchPk =  vchFromValue(params[2]);
+		vector<unsigned char> vchPrivKeyByte;
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+		vchPk = vchPrivKeyByte;
+	}
+
 	UniValue aoOfferAccepts(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, int > vNamesA;
@@ -3381,7 +3393,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept))
+					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, vchPk))
 					{
 						aoOfferAccepts.push_back(oAccept);
 					}
@@ -3393,7 +3405,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	}
     return aoOfferAccepts;
 }
-bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept)
+bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept, const vector<unsigned char> &vchPrivKey)
 {
 	CTransaction offerTx;
 	COffer linkOffer;
@@ -3570,14 +3582,14 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
 	oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
 	string strMessage = string("");
-	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage))
+	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage, vchPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;
 }
 UniValue offerlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size())
-        throw runtime_error("offerlist [\"alias\",...] [<offer>]\n"
+    if (fHelp || 3 < params.size())
+        throw runtime_error("offerlist [\"alias\",...] [<offer>] [<privatekey>]\n"
                 "list offers that an array of aliases own");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
@@ -3590,20 +3602,32 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
-				aliases.push_back(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
 			}
 		}
 		else
 		{
 			string aliasName =  params[0].get_str();
 			boost::algorithm::to_lower(aliasName);
-			if(aliasName != "")
+			if(!aliasName.empty())
 				aliases.push_back(aliasName);
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-	if (params.size() >= 2)
-		vchNameUniq = vchFromValue(params[1]);
+    if (params.size() >= 2)
+        vchNameUniq = vchFromValue(params[1]);
+
+	vector<unsigned char> vchPk;
+	if(params.size() >= 3)
+	{
+		vchPk =  vchFromValue(params[2]);
+		vector<unsigned char> vchPrivKeyByte;
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+		vchPk = vchPrivKeyByte;
+	}
+
 	UniValue oRes(UniValue::VARR);
 	vector<COffer> offerScan;
 	map< vector<unsigned char>, int > vNamesI;
@@ -3645,7 +3669,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oOffer(UniValue::VOBJ);
 					vNamesI[offer.vchOffer] = theOffer.nHeight;
-					if(BuildOfferJson(theOffer, theAlias, tx, oOffer))
+					if(BuildOfferJson(theOffer, theAlias, tx, oOffer, vchPk))
 					{
 						oRes.push_back(oOffer);
 					}

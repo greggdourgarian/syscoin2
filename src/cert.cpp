@@ -1242,7 +1242,13 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPk;
 	if(params.size() >= 3)
+	{
 		vchPk =  vchFromValue(params[2]);
+		vector<unsigned char> vchPrivKeyByte;
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+		vchPk = vchPrivKeyByte;
+	}
 	
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -1260,12 +1266,8 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		const CAliasIndex &alias = vtxPos.back();
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-			
 		UniValue oCert(UniValue::VOBJ);
-		if(BuildCertJson(cert, alias, aliastx, oCert, vchPrivKeyByte))
+		if(BuildCertJson(cert, alias, aliastx, oCert, vchPk))
 			oRes.push_back(oCert);
 	}
     return oRes;

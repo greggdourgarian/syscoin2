@@ -3380,7 +3380,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4597 - " + _("Could not find this escrow"));
     return oEscrow;
 }
-bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow)
+bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const vector<unsigned char> &vchPrivKey)
 {
 	vector<CEscrow> vtxPos;
 	if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
@@ -3481,7 +3481,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
     oEscrow.push_back(Pair("txid", escrow.txHash.GetHex()));
     oEscrow.push_back(Pair("height", sHeight));
 	string strMessage = string("");
-	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage))
+	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, vchPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int expired_block = escrow.nHeight + GetEscrowExpirationDepth();
@@ -3597,10 +3597,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 }
 
 UniValue escrowlist(const UniValue& params, bool fHelp) {
-   if (fHelp || 2 < params.size())
-        throw runtime_error("escrowlist [\"alias\",...] [<escrow>]\n"
+   if (fHelp || 3 < params.size())
+        throw runtime_error("escrowlist [\"alias\",...] [<escrow>] [<privatekey>]\n"
                 "list escrows that an array of aliases are involved in");
-
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -3612,20 +3611,32 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
-				aliases.push_back(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
 			}
 		}
 		else
 		{
 			string aliasName =  params[0].get_str();
 			boost::algorithm::to_lower(aliasName);
-			if(aliasName != "")
+			if(!aliasName.empty())
 				aliases.push_back(aliasName);
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
+    if (params.size() >= 2)
         vchNameUniq = vchFromValue(params[1]);
+
+	vector<unsigned char> vchPk;
+	if(params.size() >= 3)
+	{
+		vchPk =  vchFromValue(params[2]);
+		vector<unsigned char> vchPrivKeyByte;
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+		vchPk = vchPrivKeyByte;
+	}
+
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	vector<pair<CEscrow, CEscrow> > escrowScan;
@@ -3638,7 +3649,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 	pair<CEscrow, CEscrow> pairScan;
 	BOOST_FOREACH(pairScan, escrowScan) {
 		UniValue oEscrow(UniValue::VOBJ);
-		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow))
+		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow, vchPk))
 			oRes.push_back(oEscrow);
 	}
     return oRes;

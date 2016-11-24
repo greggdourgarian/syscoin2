@@ -2719,7 +2719,7 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		
 	return oName;
 }
-bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName)
+bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const vector<unsigned char> &vchPrivKey)
 {
 	CAliasIndex aliasTmp = alias;
 	uint64_t nHeight;
@@ -2736,7 +2736,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	if(!alias.vchPrivateValue.empty())
 		strPrivateValue = _("Encrypted for alias owner");
 	string strDecrypted = "";
-	if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted))
+	if(DecryptMessage(alias.vchPubKey, alias.vchPrivateValue, strDecrypted, vchPrivKey))
 		strPrivateValue = strDecrypted;		
 	oName.push_back(Pair("privatevalue", strPrivateValue));
 
@@ -2744,7 +2744,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	if(!alias.vchPassword.empty())
 		strPassword = _("Encrypted for alias owner");
 	strDecrypted = "";
-	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted))
+	if(DecryptMessage(alias.vchPubKey, alias.vchPassword, strDecrypted, vchPrivKey))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 

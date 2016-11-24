@@ -634,8 +634,8 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 }
 
 UniValue messagereceivelist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size())
-        throw runtime_error("messagereceivelist [\"alias\",...] [<message>]\n"
+    if (fHelp || 3 < params.size())
+        throw runtime_error("messagereceivelist [\"alias\",...] [<message>] [<privatekey>]\n"
                 "list received messages that an array of aliases own");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
@@ -648,23 +648,34 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
-				aliases.push_back(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
 			}
 		}
 		else
 		{
 			string aliasName =  params[0].get_str();
 			boost::algorithm::to_lower(aliasName);
-			if(aliasName != "")
+			if(!aliasName.empty())
 				aliases.push_back(aliasName);
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
+    if (params.size() >= 2)
         vchNameUniq = vchFromValue(params[1]);
+
+	vector<unsigned char> vchPk;
+	if(params.size() >= 3)
+	{
+		vchPk =  vchFromValue(params[2]);
+		vector<unsigned char> vchPrivKeyByte;
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+		vchPk = vchPrivKeyByte;
+	}
+
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
-	vector<CMessage > messageScan;
 	if(aliases.size() > 0)
 	{
 		if (!pmessagedb->ScanRecvMessages(vchNameUniq, aliases, 1000, messageScan))
@@ -686,22 +697,17 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 					continue;
 				if (vchNameUniq.size() > 0 && vchNameUniq != message.vchMessage)
 					continue;
-				messageScan.push_back(message);
 				vNamesI[message.vchMessage] = message.nHeight;
+				UniValue oName(UniValue::VOBJ);
+				if(BuildMessageJson(message, oName, vchPk))
+					oRes.push_back(oName);
 			}
 		}
 	}
-	BOOST_FOREACH(const CMessage &message, messageScan) {
-		// build the output
-		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName))
-			oRes.push_back(oName);
-	}
-	
 
     return oRes;
 }
-bool BuildMessageJson(const CMessage& message, UniValue& oName)
+bool BuildMessageJson(const CMessage& message, UniValue& oName, const vector<unsigned char> &vchPrivKey)
 {
 	CAliasIndex aliasFrom, aliasTo;
 	CTransaction aliastxtmp;
@@ -736,14 +742,14 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName)
 	oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
 	string strDecrypted = "";
 	string strData = _("Encrypted for recipient of message");
-	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted))
+	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted, vchPrivKey))
 	{
 		if(message.bHex)
 			strData = HexStr(strDecrypted);
 		else
 			strData = strDecrypted;
 	}
-	else if(!message.bHex && DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
+	else if(!message.bHex && DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted, vchPrivKey))
 		strData = strDecrypted;
 
 	oName.push_back(Pair("message", strData));
@@ -751,8 +757,8 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName)
 }
 
 UniValue messagesentlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 2 < params.size())
-        throw runtime_error("messagesentlist [\"alias\",...] [<message>]\n"
+    if (fHelp || 3 < params.size())
+        throw runtime_error("messagesentlist [\"alias\",...] [<message>] [<privatekey>]\n"
                 "list sent messages that an array of aliases own");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
@@ -765,20 +771,32 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
 				boost::algorithm::to_lower(lowerStr);
-				aliases.push_back(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
 			}
 		}
 		else
 		{
 			string aliasName =  params[0].get_str();
 			boost::algorithm::to_lower(aliasName);
-			if(aliasName != "")
+			if(!aliasName.empty())
 				aliases.push_back(aliasName);
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() == 2)
+    if (params.size() >= 2)
         vchNameUniq = vchFromValue(params[1]);
+
+	vector<unsigned char> vchPk;
+	if(params.size() >= 3)
+	{
+		vchPk =  vchFromValue(params[2]);
+		vector<unsigned char> vchPrivKeyByte;
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+		vchPk = vchPrivKeyByte;
+	}
+
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	vector<CMessage> messageScan;
@@ -843,7 +861,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName))
+		if(BuildMessageJson(message, oName, vchPk))
 			oRes.push_back(oName);
 	}
     return oRes;
