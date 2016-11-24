@@ -31,7 +31,7 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigne
 bool DecryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
 {
 	std::vector<unsigned char> vchPrivateKey;
-	if(vchPrivKey.empty())
+	if(strPrivKey.empty())
 	{
 		CKey PrivateKey;
 		CPubKey PubKey(vchPubKey);

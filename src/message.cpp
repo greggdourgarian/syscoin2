@@ -858,7 +858,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName, strPrivKey))
+		if(BuildMessageJson(message, oName, strPrivateKey))
 			oRes.push_back(oName);
 	}
     return oRes;

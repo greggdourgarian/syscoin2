@@ -2500,16 +2500,12 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 		if (!DecodeAliasTx(wtx, op, nOut, vvch) || !IsAliasOp(op))
 			continue;
 
-		// get the txn alias name
-		if (!GetAliasOfTx(wtx, vchAlias))
-			continue;
-
 		// skip this alias if it doesn't match the given filter value
-		if (vchNameUniq.size() > 0 && vchNameUniq != vchAlias)
+		if (vchAlias.size() > 0 && vvch[0] != vchAlias)
 			continue;
 		vector<CAliasIndex> vtxPos;
 		CAliasIndex alias;
-		if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+		if (!paliasdb->ReadAlias(vvch[0], vtxPos) || vtxPos.empty())
 		{
 			pending = 1;
 			alias = CAliasIndex(wtx);
@@ -2534,13 +2530,13 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			}
 		}
 		// get last active name only
-		if (vNamesI.find(vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[vchAlias] || vNamesI[vchAlias] < 0))
+		if (vNamesI.find(vvch[0]) != vNamesI.end() && (alias.nHeight <= vNamesI[vvch[0]] || vNamesI[vvch[0]] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
 		if(BuildAliasJson(alias, tx, pending, oName, strPrivateKey))
 		{
-			vNamesI[vchAlias] = alias.nHeight;
-			vNamesO[vchAlias] = oName;	
+			vNamesI[vvch[0]] = alias.nHeight;
+			vNamesO[vvch[0]] = oName;	
 		}
 
 	}

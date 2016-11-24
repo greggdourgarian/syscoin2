@@ -3388,7 +3388,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, strPrivKey))
+					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, strPrivateKey))
 					{
 						aoOfferAccepts.push_back(oAccept);
 					}
