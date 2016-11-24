@@ -1211,8 +1211,8 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 
 UniValue certlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
-        throw runtime_error("certlist [\"alias\",...] [\"privatekey\",...] [<cert>]\n"
-                "list certificates that an array of aliases own. Set of aliases to look up based on alias, and private key set should pair with the alias passed in to decrypt the certificate private data related to that alias.");
+        throw runtime_error("certlist [\"alias\",...] [<cert>] [<privatekey>]\n"
+                "list certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	vector<pair<string, string> > privatekeys;
@@ -1237,34 +1237,14 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 				aliases.push_back(aliasName);
 		}
 	}
-	if(params.size() >= 2)
-	{
-		UniValue pkValue(UniValue::VARR);
-		if(params[1].isArray())
-		{
-			pkValue = params[1].get_array();
-			for(unsigned int pkIndex =0;pkIndex<pkValue.size();aliasIndex++)
-			{
-				string pkStr = pkValue[pkValue].get_str();
-				if(!pkStr.empty() && aliases.size() > pkIndex && !aliases.at(pkIndex).empty())
-					privatekeys.push_back(make_pair(aliases.at(pkIndex), pkStr));
-			}
-		}
-		else
-		{
-			string pkStr =  params[1].get_str();
-			if(!pkStr.empty())
-			{
-				int pkIndex = 0;
-				if(aliases.size() >= 1 && aliases.size() > pkIndex && !aliases.at(pkIndex).empty())
-					privatekeys.push_back(make_pair(aliases.at(pkIndex), pkStr));
-			}
-
-		}
-	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 3)
-        vchNameUniq = vchFromValue(params[2]);
+    if (params.size() >= 2)
+        vchNameUniq = vchFromValue(params[1]);
+
+	vector<unsigned char> vchPk;
+	if(params.size() >= 3)
+		vchPk =  vchFromValue(params[2]);
+	
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	vector<CCert> certScan;
@@ -1282,16 +1262,9 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
 		vector<unsigned char> vchPrivKeyByte;
-		if(!privatekeys.empty())
-		{
-			auto it = std::find_if( privatekeys.begin(), privatekeys.end(),
-		[](const pair<string, string>& element){ return element.first == stringFromVch(alias.vchAlias);} );
-			if(it != privatekeys.end())
-			{
-				const vector<unsigned char> &vchAlias = vchFromString(it->first);
-				boost::algorithm::unhex(vchAlias.begin(), vchAlias.end(), std::back_inserter(vchPrivKeyByte));
-			}
-		}
+		if(!vchPk.empty())
+			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
+			
 		UniValue oCert(UniValue::VOBJ);
 		if(BuildCertJson(cert, alias, aliastx, oCert, vchPrivKeyByte))
 			oRes.push_back(oCert);
