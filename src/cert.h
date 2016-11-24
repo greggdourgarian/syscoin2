@@ -19,7 +19,7 @@ bool DecodeCertScript(const CScript& script, int& op, std::vector<std::vector<un
 bool IsCertOp(int op);
 int IndexOfCertOutput(const CTransaction& tx);
 bool EncryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::vector<unsigned char> &vchMessage, std::string &strCipherText);
-bool DecryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::vector<unsigned char> &vchCipherText, std::string &strMessage);
+bool DecryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::vector<unsigned char> &vchCipherText, std::string &strMessage, const std::vector<unsigned char> &vchPublicKey=std::vector<unsigned char>());
 void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string certFromOp(int op);
 int GetCertExpirationDepth();
@@ -177,5 +177,5 @@ bool GetTxOfCert(const std::vector<unsigned char> &vchCert,
 bool GetTxAndVtxOfCert(const std::vector<unsigned char> &vchCert,
 					   CCert& txPos, CTransaction& tx, std::vector<CCert> &vtxPos, bool skipExpiresCheck=false);
 void PutToCertList(std::vector<CCert> &certList, CCert& index);
-bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName);
+bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName, const std::vector<unsigned char> &vchPrivKey=std::vector<unsigned char>());
 #endif // CERT_H
