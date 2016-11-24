@@ -3298,7 +3298,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
         throw runtime_error("offeracceptlist [\"alias\",...] [<acceptguid>] [<privatekey>]\n"
-                "list offer purchases that an array of aliases own");
+                "list offer purchases that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer purchase.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -3591,7 +3591,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 UniValue offerlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
         throw runtime_error("offerlist [\"alias\",...] [<offer>] [<privatekey>]\n"
-                "list offers that an array of aliases own");
+                "list offers that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)

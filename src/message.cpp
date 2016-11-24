@@ -636,7 +636,7 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 UniValue messagereceivelist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
         throw runtime_error("messagereceivelist [\"alias\",...] [<message>] [<privatekey>]\n"
-                "list received messages that an array of aliases own");
+                "list received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -768,7 +768,7 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const vector<uns
 UniValue messagesentlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
         throw runtime_error("messagesentlist [\"alias\",...] [<message>] [<privatekey>]\n"
-                "list sent messages that an array of aliases own");
+                "list sent messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)

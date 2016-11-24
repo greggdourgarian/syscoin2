@@ -3600,7 +3600,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 3 < params.size())
         throw runtime_error("escrowlist [\"alias\",...] [<escrow>] [<privatekey>]\n"
-                "list escrows that an array of aliases are involved in");
+                "list escrows that an array of aliases are involved in. Set of aliases to look up based on alias, and private key to decrypt any data found in escrow.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
