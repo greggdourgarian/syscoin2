@@ -695,7 +695,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 				messageScan.push_back(message);
 				vNamesI[message.vchMessage] = message.nHeight;
 				UniValue oName(UniValue::VOBJ);
-				if(BuildMessageJson(message, oName, vchPk))
+				if(BuildMessageJson(message, oName, strPrivateKey))
 					oRes.push_back(oName);
 			}
 		}
