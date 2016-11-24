@@ -796,7 +796,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 			CTransaction aliastx;
 			uint256 txHash;
 			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-				throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3510 - " + _("Failed to read alias transaction));
+				throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3510 - " + _("Failed to read alias transaction"));
 
 			CTransaction tx;
 
