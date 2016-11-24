@@ -3381,7 +3381,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4597 - " + _("Could not find this escrow"));
     return oEscrow;
 }
-bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const vector<unsigned char> &vchPrivKey)
+bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const string &strPrivKey)
 {
 	vector<CEscrow> vtxPos;
 	if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
@@ -3482,7 +3482,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
     oEscrow.push_back(Pair("txid", escrow.txHash.GetHex()));
     oEscrow.push_back(Pair("height", sHeight));
 	string strMessage = string("");
-	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, vchPrivKey))
+	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int expired_block = escrow.nHeight + GetEscrowExpirationDepth();
@@ -3625,18 +3625,12 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
+    if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	vector<unsigned char> vchPk;
+	string strPrivateKey;
 	if(params.size() >= 3)
-	{
-		vchPk =  vchFromValue(params[2]);
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-		vchPk = vchPrivKeyByte;
-	}
+		strPrivateKey = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -3650,7 +3644,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 	pair<CEscrow, CEscrow> pairScan;
 	BOOST_FOREACH(pairScan, escrowScan) {
 		UniValue oEscrow(UniValue::VOBJ);
-		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow, vchPk))
+		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow, strPrivateKey))
 			oRes.push_back(oEscrow);
 	}
     return oRes;

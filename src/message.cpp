@@ -661,18 +661,12 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
+    if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	vector<unsigned char> vchPk;
+	string strPrivateKey;
 	if(params.size() >= 3)
-	{
-		vchPk =  vchFromValue(params[2]);
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-		vchPk = vchPrivKeyByte;
-	}
+		strPrivateKey = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -709,14 +703,14 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName, vchPk))
+		if(BuildMessageJson(message, oName, strPrivateKey))
 			oRes.push_back(oName);
 	}
 	
 
     return oRes;
 }
-bool BuildMessageJson(const CMessage& message, UniValue& oName, const vector<unsigned char> &vchPrivKey)
+bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &strPrivKey)
 {
 	CAliasIndex aliasFrom, aliasTo;
 	CTransaction aliastxtmp;
@@ -751,14 +745,14 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const vector<uns
 	oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
 	string strDecrypted = "";
 	string strData = _("Encrypted for recipient of message");
-	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted, vchPrivKey))
+	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted, strPrivKey))
 	{
 		if(message.bHex)
 			strData = HexStr(strDecrypted);
 		else
 			strData = strDecrypted;
 	}
-	else if(!message.bHex && DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted, vchPrivKey))
+	else if(!message.bHex && DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted, strPrivKey))
 		strData = strDecrypted;
 
 	oName.push_back(Pair("message", strData));
@@ -793,18 +787,12 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
+    if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	vector<unsigned char> vchPk;
+	string strPrivateKey;
 	if(params.size() >= 3)
-	{
-		vchPk =  vchFromValue(params[2]);
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-		vchPk = vchPrivKeyByte;
-	}
+		strPrivateKey = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -870,7 +858,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName, vchPk))
+		if(BuildMessageJson(message, oName, strPrivKey))
 			oRes.push_back(oName);
 	}
     return oRes;

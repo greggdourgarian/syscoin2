@@ -3179,7 +3179,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	return oOffer;
 
 }
-bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer, const vector<unsigned char> &vchPrivKey)
+bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer, const string &strPrivKey)
 {
 	if(theOffer.safetyLevel >= SAFETY_LEVEL2)
 		return false;
@@ -3323,18 +3323,12 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
+    if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	vector<unsigned char> vchPk;
+	string strPrivateKey;
 	if(params.size() >= 3)
-	{
-		vchPk =  vchFromValue(params[2]);
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-		vchPk = vchPrivKeyByte;
-	}
+		strPrivateKey = params[2].get_str();
 
 	UniValue aoOfferAccepts(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -3394,7 +3388,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, vchPk))
+					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, strPrivKey))
 					{
 						aoOfferAccepts.push_back(oAccept);
 					}
@@ -3406,7 +3400,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	}
     return aoOfferAccepts;
 }
-bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept, const vector<unsigned char> &vchPrivKey)
+bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept, const string &strPrivKey)
 {
 	CTransaction offerTx;
 	COffer linkOffer;
@@ -3583,7 +3577,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
 	oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
 	string strMessage = string("");
-	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage, vchPrivKey))
+	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;
@@ -3616,18 +3610,12 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
+    if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	vector<unsigned char> vchPk;
+	string strPrivateKey;
 	if(params.size() >= 3)
-	{
-		vchPk =  vchFromValue(params[2]);
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-		vchPk = vchPrivKeyByte;
-	}
+		strPrivateKey = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	vector<COffer> offerScan;
@@ -3670,7 +3658,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oOffer(UniValue::VOBJ);
 					vNamesI[offer.vchOffer] = theOffer.nHeight;
-					if(BuildOfferJson(theOffer, theAlias, tx, oOffer, vchPk))
+					if(BuildOfferJson(theOffer, theAlias, tx, oOffer, strPrivateKey))
 					{
 						oRes.push_back(oOffer);
 					}

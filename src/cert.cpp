@@ -28,7 +28,7 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigne
 
 	return true;
 }
-bool DecryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage, const vector<unsigned char> &vchPrivKey)
+bool DecryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
 {
 	std::vector<unsigned char> vchPrivateKey;
 	if(vchPrivKey.empty())
@@ -43,7 +43,13 @@ bool DecryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigne
 		vchPrivateKey = std::vector<unsigned char>(PrivateKey.begin(), PrivateKey.end());
 	}
 	else
-		vchPrivateKey = vchPrivKey;
+	{
+		CSyscoinSecret vchSecret;
+		bool fGood = vchSecret.SetString(strPrivKey);
+		if (!fGood) return false;
+		CKey key = vchSecret.GetKey();
+		vchPrivateKey = std::vector<unsigned char>(key.begin(), key.end());
+	}
 	CMessageCrypter crypter;
 	if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
 		return false;
@@ -1237,18 +1243,13 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		}
 	}
 	vector<unsigned char> vchNameUniq;
-    if (params.size() >= 2)
+    if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	vector<unsigned char> vchPk;
+	string strPrivateKey;
 	if(params.size() >= 3)
-	{
-		vchPk =  vchFromValue(params[2]);
-		vector<unsigned char> vchPrivKeyByte;
-		if(!vchPk.empty())
-			boost::algorithm::unhex(vchPk.begin(), vchPk.end(), std::back_inserter(vchPrivKeyByte));
-		vchPk = vchPrivKeyByte;
-	}
+		strPrivateKey = params[2].get_str();
+	
 	
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -1267,12 +1268,12 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
 			continue;
 		UniValue oCert(UniValue::VOBJ);
-		if(BuildCertJson(cert, alias, aliastx, oCert, vchPk))
+		if(BuildCertJson(cert, alias, aliastx, oCert, strPrivateKey))
 			oRes.push_back(oCert);
 	}
     return oRes;
 }
-bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert, const vector<unsigned char> &vchPrivKey)
+bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert, const string &strPrivKey)
 {
 	if(cert.safetyLevel >= SAFETY_LEVEL2)
 		return false;
@@ -1294,12 +1295,12 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 			CTransaction aliasviewtx;
 			if (!GetTxOfAlias(cert.vchViewAlias, aliasView, aliasviewtx, true))
 				return false;
-			if(DecryptMessage(aliasView.vchPubKey, cert.vchViewData, strDecrypted, vchPrivKey))
+			if(DecryptMessage(aliasView.vchPubKey, cert.vchViewData, strDecrypted, strPrivKey))
 				strData = strDecrypted;	
 		}
 		if(!cert.vchData.empty() && strDecrypted == "")
 		{
-			if(DecryptMessage(alias.vchPubKey, cert.vchData, strDecrypted, vchPrivKey))
+			if(DecryptMessage(alias.vchPubKey, cert.vchData, strDecrypted, strPrivKey))
 				strData = strDecrypted;		
 		}
 	}
