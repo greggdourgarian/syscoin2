@@ -1257,7 +1257,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 	if(aliases.size() > 0)
 	{
 		if (!pcertdb->ScanCerts(vchNameUniq, "", aliases, true, "", 1000,certScan))
-			throw runtime_error("scan failed");
+			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2522 - " + _("Scan failed"));
 	}
 	CTransaction aliastx;
 	BOOST_FOREACH(const CCert& cert, certScan) {
@@ -1341,17 +1341,17 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
  
     vector<CCert> vtxPos;
     if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2522 - " + _("Failed to read from cert DB"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2523 - " + _("Failed to read from cert DB"));
 
 	vector<CAliasIndex> vtxAliasPos;
 	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxAliasPos) || vtxAliasPos.empty())
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2523 - " + _("Failed to read from alias DB"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2524 - " + _("Failed to read from alias DB"));
 	
 	CAliasIndex alias = vtxAliasPos.back();
 	CTransaction aliastx;
 	uint256 txHash;
 	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2523 - " + _("Failed to read alias transaction"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2525 - " + _("Failed to read alias transaction"));
 
     CCert txPos2;
 	CTransaction tx;
@@ -1416,7 +1416,7 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
     vector<CCert> certScan;
 	vector<string> aliases;
     if (!pcertdb->ScanCerts(vchCert, strRegexp, aliases, safeSearch, strCategory, 25, certScan))
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2524 - " + _("Scan failed"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2526 - " + _("Scan failed"));
   
 	CTransaction aliastx;
 	uint256 txHash;
