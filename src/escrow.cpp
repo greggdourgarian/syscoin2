@@ -3451,7 +3451,12 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
 	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
+	int precision = 2;
 	int nFeePerByte;
+	// if offer is not linked, look for a discount for the buyer
+	COfferLinkWhitelistEntry foundEntry;
+	if(offer.vchLinkOffer.empty())
+		offer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
 	if(!firstEscrow.rawTx.empty())
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
@@ -3472,17 +3477,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 		nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precision);
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
 	}
-	int precision = 2;
-	float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, firstEscrow.nAcceptHeight, precision);
-	int64_t nEscrowFee = GetEscrowArbiterFee(offer.GetPrice() * escrow.nQty, fEscrowFee);
-	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(), firstEscrow.nAcceptHeight, precision);
-	CAmount nFee = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, nEscrowFee, firstEscrow.nAcceptHeight, precision);
-
-	int extprecision;
-	int nExtFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString(GetPaymentOptionsString(escrow.nPaymentOption)), firstEscrow.nAcceptHeight, extprecision);
-	nFee += (nExtFeePerByte*400);
-	oEscrow.push_back(Pair("sysrelayfee",strprintf("%ld", (nExtFeePerByte*400))));
-	oEscrow.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nExtFeePerByte*400).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
+	
+	oEscrow.push_back(Pair("sysrelayfee",strprintf("%ld", (nFeePerByte*400))));
+	oEscrow.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nFeePerByte*400).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
 
 
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
