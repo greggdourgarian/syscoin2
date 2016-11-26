@@ -3505,7 +3505,10 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));
 
 	int precision = 2;
-	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
+	vector<unsigned char> sCurrencyCode = theOffer.sCurrencyCode;
+	if(theOffer.accept.nPaymentOption != PAYMENTOPTION_SYS)
+		sCurrencyCode = vchFromString(GetPaymentOptionsString(theOffer.accept.nPaymentOption));
+	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
 	CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
 	oOfferAccept.push_back(Pair("systotal", sysTotal));
 	oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));

@@ -284,7 +284,7 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 						if(paymentValue.isNum())
 						{
 							valueAmount += paymentValue.get_real();
-							if(valueAmount >= dblPrice)
+							if(valueAmount >= this->qstrPrice.toDouble())
 							{
 								ui->confirmButton->setText(m_buttonText);
 								ui->confirmButton->setEnabled(true);
