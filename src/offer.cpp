@@ -24,7 +24,7 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
+extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
 bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectOffer(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectCertificate(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
@@ -1574,7 +1574,9 @@ UniValue offernew(const UniValue& params, bool fHelp) {
     if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1501 - " + _("This alias is not yours"));
     }
-	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1502 - " + _("This alias is not in your wallet"));
 
@@ -1698,7 +1700,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, alias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -1758,7 +1760,9 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
     if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1507 - " + _("This alias is not yours"));
     }
-	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1508 - " + _("This alias is not in your wallet"));
 
@@ -1843,7 +1847,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, alias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
@@ -1925,7 +1929,9 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1512 - " + _("This alias is not yours"));
 	}
-	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(theOffer.vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1513 - " + _("This alias is not in your wallet"));
 
@@ -1976,7 +1982,7 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2042,7 +2048,9 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1517 - " + _("This alias is not yours"));
 	}
-	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(theOffer.vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1518 - " + _("This alias is not in your wallet"));
 
@@ -2087,7 +2095,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2148,7 +2156,9 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1522 - " + _("This alias is not yours"));
 	}
-	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(theOffer.vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1524 - " + _("This alias is not in your wallet"));
 
@@ -2195,7 +2205,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2343,7 +2353,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if(!IsSyscoinTxMine(aliastx, "alias")) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1527 - " + _("This alias is not yours"));
 	}
-	wtxAliasIn = pwalletMain->GetWalletTx(aliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(theOffer.vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1528 - " + _("This alias is not in your wallet"));
 
@@ -2430,7 +2442,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, alias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2553,7 +2565,9 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 		nPrice = linkOffer.GetPrice(foundEntry);
 		nCommission = theOffer.GetPrice() - nPrice;
 	}
-	wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	CPubKey currentKey(buyerAlias.vchPubKey);
 	scriptPubKeyAliasOrig = GetScriptForDestination(currentKey.GetID());
 	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2667,7 +2681,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, buyerAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
-	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, buyerAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, buyerAlias.multiSigInfo.vchAliases.size() > 0);
 
 	UniValue res(UniValue::VARR);
 	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2919,7 +2933,9 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		sellerFeedback.nHeight = chainActive.Tip()->nHeight;
 		theOffer.accept.feedback.clear();
 		theOffer.accept.feedback.push_back(sellerFeedback);
-		wtxAliasIn = pwalletMain->GetWalletTx(buyeraliastx.GetHash());
+		COutPoint outPoint;
+		int numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);	
+		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1548 - " + _("Buyer alias is not in your wallet"));
 
@@ -2939,7 +2955,9 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		buyerFeedback.nHeight = chainActive.Tip()->nHeight;
 		theOffer.accept.feedback.clear();
 		theOffer.accept.feedback.push_back(buyerFeedback);
-		wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
+		COutPoint outPoint;
+		int numResults  = aliasunspent(sellerAlias.vchAlias, outPoint);	
+		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1549 - " + _("Seller alias is not in your wallet"));
 
@@ -2983,7 +3001,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -3086,7 +3104,10 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	theOffer.accept.nPaymentOption = theOfferAccept.nPaymentOption;
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 
-	wtxAliasIn = pwalletMain->GetWalletTx(selleraliastx.GetHash());
+	theOffer.accept.feedback.push_back(buyerFeedback);
+	COutPoint outPoint;
+	int numResults  = aliasunspent(sellerAlias.vchAlias, outPoint);	
+	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1556 - " + _("Seller alias is not in your wallet"));
 
@@ -3126,7 +3147,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, sellerAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, sellerAlias.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
 	{

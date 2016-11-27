@@ -2174,16 +2174,12 @@ bool CWallet::FundTransaction(CMutableTransaction& tx, CAmount& nFeeRet, bool ov
 }
 // SYSCOIN
 bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wtxNew, CReserveKey& reservekey, CAmount& nFeeRet,
-                                int& nChangePosInOut, std::string& strFailReason, const CCoinControl* coinControl, bool sign, const CWalletTx* wtxInAlias, bool sysTx)
+                                int& nChangePosInOut, std::string& strFailReason, const CCoinControl* coinControl, bool sign, const CWalletTx* wtxInAlias, int nTxOutAlias, bool sysTx)
 {
     CAmount nValue = 0;
 	// SYSCOIN: get output amount of input transactions for syscoin service calls
-	int nTxOutAlias = 0;
-	
 	if(wtxInAlias != NULL)
 	{
-		const CTransaction& txIn = wtxInAlias[0];
-		nTxOutAlias = IndexOfAliasOutput(txIn);
 		if (nTxOutAlias < 0)
 		{
 			strFailReason = _("Can't determine type of alias input into syscoin service transaction");

@@ -16,6 +16,7 @@ class CCoinsViewCache;
 class CCoins;
 class CBlock;
 class CSyscoinAddress;
+class COutPoint;
 struct CRecipient;
 static const unsigned int MAX_GUID_LENGTH = 71;
 static const unsigned int MAX_NAME_LENGTH = 256;
@@ -23,6 +24,8 @@ static const unsigned int MAX_VALUE_LENGTH = 1024;
 static const unsigned int MAX_ID_LENGTH = 20;
 static const unsigned int MAX_ENCRYPTED_VALUE_LENGTH = MAX_VALUE_LENGTH + 85;
 static const unsigned int MAX_ENCRYPTED_NAME_LENGTH = MAX_NAME_LENGTH + 85;
+static const unsigned int MAX_ALIAS_UPDATES_PER_BLOCK = 50;
+
 
 static const unsigned int SAFETY_LEVEL1 = 1;
 static const unsigned int SAFETY_LEVEL2 = 2;
@@ -350,4 +353,5 @@ void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const 
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const std::string &strPrivKey="");
 void CleanupSyscoinServiceDatabases();
+int aliasunspent(const std::vector<unsigned char> &vchAlias, COutPoint& outpoint);
 #endif // ALIAS_H

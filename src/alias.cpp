@@ -37,7 +37,7 @@ CCertDB *pcertdb = NULL;
 CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
+extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
 bool GetPreviousInput(const COutPoint * outpoint, int &op, vector<vector<unsigned char> > &vvchArgs)
 {
 	if(!pwalletMain || !outpoint)
@@ -1970,7 +1970,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		coinControl.fAllowWatchOnly = true;
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
-	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, NULL,  oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount + fee.nAmount, false, wtx, NULL, 0, oldAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	if(oldAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2083,8 +2083,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not find an alias with this name"));
 
-
-	const CWalletTx* wtxIn = pwalletMain->GetWalletTx(tx.GetHash());
+	COutPoint outPoint;
+	int numResults  = aliasunspent(vchAlias, outPoint);
+	const CWalletTx* wtxIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxIn == NULL)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5516 - " + _("This alias is not in your wallet"));
 
@@ -2220,7 +2221,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
 	
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxIn,  copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxIn, outPoint.n, copyAlias.multiSigInfo.vchAliases.size() > 0, coinControl.HasSelected()? &coinControl: NULL);
 	UniValue res(UniValue::VARR);
 	if(copyAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2690,6 +2691,40 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		
     }
     return  ValueFromAmount(nAmount);
+}
+int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
+{
+	LOCK(cs_main);
+	vector<CAliasInudex> vtxPos;
+	CAliasIndex theAlias;
+	CTransaction aliasTx;
+	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, true))
+		return 0;
+
+	int numResults = 0;
+	CCoinsViewCache view(pcoinsTip);
+	const CCoins *coins;
+	int op;
+	vector<vector<unsigned char> > vvch;
+	
+    for (unsigned int i = 0;i<vtxPos.size();i++)
+    {
+		const CAliasIndex& alias = vtxPos[i];
+		coins = view.AccessCoins(alias.txHash);
+
+		if(coins == NULL)
+			continue;
+         for (unsigned int j = 0;j<coins->vout.size();j++)
+		 {
+			if(!coins->IsAvailable(coins->vout[j]))
+				continue;
+			if(!IsSyscoinScript(coins->vout[j].scriptPubKey, op, vvch) || !IsAliasOp(op) || vvch[0] != vchAlias)
+				continue;
+			outpoint = COutPoint(alias.txHash, j);
+			numResults++;
+		 }	
+    }
+	return numResults;
 }
 /**
  * [aliasinfo description]
