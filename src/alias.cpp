@@ -2705,8 +2705,6 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	int numResults = 0;
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
-	int op;
-	vector<vector<unsigned char> > vvch;
 	
     for (unsigned int i = 0;i<vtxPos.size();i++)
     {
@@ -2717,9 +2715,12 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 			continue;
          for (unsigned int j = 0;j<coins->vout.size();j++)
 		 {
+			int op;
+			vector<vector<unsigned char> > vvch;
+
 			if(!coins->IsAvailable(j))
 				continue;
-			if(!IsSyscoinScript(coins->vout[j].scriptPubKey, op, vvch) || !IsAliasOp(op) || vvch[0] != vchAlias)
+			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != vchAlias)
 				continue;
 			outpoint = COutPoint(alias.txHash, j);
 			numResults++;
