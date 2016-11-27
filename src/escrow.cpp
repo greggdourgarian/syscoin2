@@ -1670,9 +1670,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	{
 		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4531 - " + _("You must own the buyer alias to complete this transaction"));
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
-	
 		numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);
+		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = GetScriptForDestination(buyerKey.GetID());
 		if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
