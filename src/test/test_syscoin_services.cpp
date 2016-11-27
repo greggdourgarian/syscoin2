@@ -1238,7 +1238,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	// get balances after
 	BOOST_CHECK_NO_THROW(a = CallRPC(node, "aliasinfo " + buyeralias));
 	CAmount balanceBuyerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
-
+	BOOST_CHECK(balanceBuyerBefore != balanceBuyerAfter);
 	balanceBuyerBefore += nBuyerTotal;
 	if(rootselleralias.empty())
 	{
