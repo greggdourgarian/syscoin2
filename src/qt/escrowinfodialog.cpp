@@ -31,7 +31,8 @@ EscrowInfoDialog::EscrowInfoDialog(const PlatformStyle *platformStyle, const QMo
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 	GUID = idx.data(EscrowTableModel::EscrowRole).toString();
-
+	ui->exttxidEdit->setVisible(false);
+	ui->exttxidLabel->setVisible(false);
 
 	QString theme = GUIUtil::getThemeName();  
 	if (!platformStyle->getImagesOnButtons())
@@ -164,6 +165,14 @@ bool EscrowInfoDialog::lookup()
 			QString arbiter = QString::fromStdString(find_value(result.get_obj(), "arbiter").get_str());
 			QString buyer = QString::fromStdString(find_value(result.get_obj(), "buyer").get_str());
 			QString currency = QString::fromStdString(find_value(result.get_obj(), "currency").get_str());
+			QString paymentOption = QString::fromStdString(find_value(result.get_obj(), "paymentoption_display").get_str());
+			QString exttxidStr = QString::fromStdString(find_value(result.get_obj(), "exttxid").get_str());
+			if(exttxidStr != "")
+			{
+				ui->exttxidEdit->setVisible(true);
+				ui->exttxidLabel->setVisible(true);
+				ui->exttxidEdit->setText(exttxidStr);
+			}
 			ui->guidEdit->setText(QString::fromStdString(find_value(result.get_obj(), "escrow").get_str()));
 			ui->offerEdit->setText(QString::fromStdString(find_value(result.get_obj(), "offer").get_str()));
 			
@@ -174,9 +183,9 @@ bool EscrowInfoDialog::lookup()
 			dateTime.setTime_t(unixTime);	
 			ui->timeEdit->setText(dateTime.toString());
 			ui->priceEdit->setText(QString("%1 %2").arg(QString::fromStdString(find_value(result.get_obj(), "price").get_str())).arg(currency));
-			ui->feeEdit->setText(QString("%1 %2").arg(QString::fromStdString(find_value(result.get_obj(), "fee").get_str())).arg(currency));
+			ui->feeEdit->setText(QString("%1 %2").arg(QString::fromStdString(find_value(result.get_obj(), "fee").get_str())).arg(exttxidStr != ""? paymentOption: tr("SYS")));
 
-			ui->totalEdit->setText(QString("%1 %2").arg(QString::fromStdString(find_value(result.get_obj(), "total").get_str())).arg(currency));
+			ui->totalEdit->setText(QString("%1 %2").arg(QString::fromStdString(find_value(result.get_obj(), "total").get_str())).arg(exttxidStr != ""? paymentOption: currency));
 			ui->paymessageEdit->setText(QString::fromStdString(find_value(result.get_obj(), "pay_message").get_str()));
 			int avgRating = find_value(result.get_obj(), "avg_rating").get_int();
 			ui->ratingEdit->setText(tr("%1 Stars").arg(QString::number(avgRating)));

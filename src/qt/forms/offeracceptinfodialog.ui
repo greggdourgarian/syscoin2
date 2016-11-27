@@ -71,7 +71,7 @@
          <item row="2" column="0">
           <widget class="QLabel" name="exttxidLabel">
            <property name="text">
-            <string>BTC TXID:</string>
+            <string>External TXID:</string>
            </property>
           </widget>
          </item>

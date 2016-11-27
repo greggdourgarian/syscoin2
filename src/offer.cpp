@@ -3508,10 +3508,12 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		oOfferAccept.push_back(Pair("offer_discount_percentage", "0%"));
 
 	int precision = 2;
-	vector<unsigned char> sCurrencyCode = theOffer.sCurrencyCode;
+	int extprecision = 2;
+
+	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, theOffer.sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
+	CAmount nPricePerUnitExt = 0;
 	if(theOffer.accept.nPaymentOption != PAYMENTOPTION_SYS)
-		sCurrencyCode = vchFromString(GetPaymentOptionsString(theOffer.accept.nPaymentOption));
-	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, sCurrencyCode, priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, precision);
+		nPricePerUnitExt = convertSyscoinToCurrencyCode(theAlias.vchAliasPeg, vchFromString(GetPaymentOptionsString(theOffer.accept.nPaymentOption)), priceAtTimeOfAccept, theOffer.accept.nAcceptHeight, extprecision);
 	CAmount sysTotal = priceAtTimeOfAccept * theOffer.accept.nQty;
 	oOfferAccept.push_back(Pair("systotal", sysTotal));
 	oOfferAccept.push_back(Pair("sysprice", priceAtTimeOfAccept));
@@ -3523,7 +3525,10 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	else
 	{
 		oOfferAccept.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
-		oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
+		if(nPricePerUnitExt > 0)
+			oOfferAccept.push_back(Pair("total", strprintf("%.*f", extprecision, ValueFromAmount(nPricePerUnitExt).get_real() * theOffer.accept.nQty )));
+		else
+			oOfferAccept.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() * theOffer.accept.nQty )));
 	}
 	oOfferAccept.push_back(Pair("buyer", stringFromVch(theOffer.accept.vchBuyerAlias)));
 	oOfferAccept.push_back(Pair("seller", stringFromVch(theOffer.vchAlias)));
