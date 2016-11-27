@@ -903,12 +903,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						if (!GetTxOfCert( theOffer.vchCert, theCert, txCert))
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1049 - " + _("Updating an offer with a cert that does not exist");
-							theOffer.vchCert.clear();
+							return true;
 						}
 						else if(theOffer.vchLinkOffer.empty() && theCert.vchAlias != theOffer.vchAlias)
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1050 - " + _("Cannot update this offer because the certificate alias does not match the offer alias");
-							theOffer.vchAlias = dbOffer.vchAlias;
+							return true;
 						}
 					}
 					if(!theOffer.vchLinkOffer.empty())
@@ -917,36 +917,36 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, txLinkedOffer, offerVtxPos))
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1051 - " + _("Linked offer not found. It may be expired");
-							theOffer.vchLinkOffer.clear();
+							return true;
 						}
 						else if(linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, entry))
 						{
 							if(theOffer.nCommission <= -entry.nDiscountPct)
 							{
 								errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1052 - " + _("This resold offer must be of higher price than the original offer including any discount");
-								theOffer.vchLinkOffer.clear();
+								return true;
 							}
 						}
 						// make sure alias exists in the root offer affiliate list
 						else
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1053 - " + _("Cannot find this alias in the parent offer affiliate list");
-							theOffer.vchLinkOffer.clear();
+							return true;
 						}
 						if (!linkOffer.vchLinkOffer.empty())
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1054 - " + _("Cannot link to an offer that is already linked to another offer");
-							theOffer.vchLinkOffer.clear();
+							return true;
 						}
 						else if(linkOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkOffer.sCategory), "wanted"))
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1055 - " + _("Cannot link to a wanted offer");
-							theOffer.vchLinkOffer.clear();
+							return true;
 						}
 						else if(!theOffer.vchCert.empty() && theCert.vchAlias != linkOffer.vchAlias)
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1056 - " + _("Cannot update this offer because the certificate alias does not match the linked offer alias");
-							theOffer.vchAlias = dbOffer.vchAlias;
+							return true;
 						}
 					}
 					// non linked offers cant edit commission
@@ -955,7 +955,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if(theOffer.vchAlias != dbOffer.vchAlias)
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1057 - " + _("Wrong alias input provided in this offer update transaction");
-						theOffer.vchAlias = dbOffer.vchAlias;
+						return true;
 					}
 					else if(!theOffer.vchLinkAlias.empty())
 						theOffer.vchAlias = theOffer.vchLinkAlias;
@@ -963,7 +963,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if(!GetTxOfAlias(theOffer.vchAlias, alias, aliasTx))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1058 - " + _("Cannot find alias for this offer. It may be expired");
-						theOffer = dbOffer;
+						return true;
 					}
 					// check for valid alias peg
 					if(getCurrencyToSYSFromAlias(alias.vchAliasPeg, theOffer.sCurrencyCode, nRate, theOffer.nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
@@ -1008,41 +1008,41 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, txLinkedOffer, offerVtxPos))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1064 - " + _("Linked offer not found. It may be expired");
-					theOffer.vchLinkOffer.clear();
+					return true;
 				}
 				else if(linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, entry))
 				{
 					if(theOffer.nCommission <= -entry.nDiscountPct)
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1065 - " + _("This resold offer must be of higher price than the original offer including any discount");
-						theOffer.vchLinkOffer.clear();
+						return true;
 					}
 				}
 				// make sure alias exists in the root offer affiliate list
 				else
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1066 - " + _("Cannot find this alias in the parent offer affiliate list");
-					theOffer.vchLinkOffer.clear();
+					return true;
 				}
 				if (!linkOffer.vchLinkOffer.empty())
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1067 - " + _("Cannot link to an offer that is already linked to another offer");
-					theOffer.vchLinkOffer.clear();
+					return true;
 				}
 				else if(linkOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkOffer.sCategory), "wanted"))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1068 - " + _("Cannot link to a wanted offer");
-					theOffer.vchLinkOffer.clear();
+					return true;
 				}
 				else if(!theOffer.vchCert.empty() && theCert.vchAlias != linkOffer.vchAlias)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1069 -" + _("Cannot create this offer because the certificate alias does not match the offer alias");
-					theOffer.vchLinkOffer.clear();
+					return true;
 				}
 				else if(linkOffer.linkWhitelist.entries.size() > 20)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1070 -" + _("Too many affiliates for this offer");
-					theOffer.vchLinkOffer.clear();
+					return true;
 				}
 				else if(!theOffer.vchLinkOffer.empty())
 				{
@@ -1484,6 +1484,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if(theOffer.linkWhitelist.entries.empty())
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1118 - " + _("Whitelist is already empty");
+						return true;
 					}
 					else
 						theOffer.linkWhitelist.SetNull();
@@ -1505,6 +1506,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						else
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1119 - " + _("Cannot find the alias you are trying to offer affiliate list. It may be expired");
+							return true;
 						}
 					}
 				}
