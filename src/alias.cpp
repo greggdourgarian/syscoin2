@@ -1954,7 +1954,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     vector<CRecipient> vecSend;
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
-	vecSend.push_back(recipient);
+	//for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(recipient);
 	CScript scriptData;
 	
 	scriptData << OP_RETURN << data;
@@ -2205,7 +2206,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
     vector<CRecipient> vecSend;
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient); 
-	vecSend.push_back(recipient);
+	//for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(recipient);
+
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
@@ -2723,7 +2726,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 
 			if(!coins->IsAvailable(j))
 				continue;
-			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != vchAlias)
+			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID)
 				continue;
 			if(numResults <= 0)
 				outpoint = COutPoint(alias.txHash, j);
