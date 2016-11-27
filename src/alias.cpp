@@ -751,11 +751,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	}
 	// unserialize alias from txn, check for valid
 	CAliasIndex theAlias;
-	bool found = false;
 	vector<unsigned char> vchData;
 	vector<unsigned char> vchAlias;
 	vector<unsigned char> vchHash;
 	CSyscoinAddress multisigAddress;
+	CSyscoinAddress prevaddy;
 	int nDataOut;
 	if(op != OP_ALIAS_PAYMENT)
 	{
@@ -798,39 +798,34 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5003 - " + _("Hash provided doesn't match the calculated hash of the data");
 					return true;
 				}
-			}		
-			for (unsigned int i = 0; i < tx.vout.size(); i++) {
-				int tmpOp;
-				vector<vector<unsigned char> > vvchRead;
-				if (DecodeAliasScript(tx.vout[i].scriptPubKey, tmpOp, vvchRead) && vvchRead[0] == vvchArgs[0] && tmpOp != OP_ALIAS_PAYMENT) {
-					if(found)
-					{
-						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Too many alias outputs found in a transaction, only 1 allowed");
-						return error(errorMessage.c_str());
-					}
-					found = true; 
-				}
-			}			
-			// Strict check - bug disallowed
-			for (unsigned int i = 0; i < tx.vin.size(); i++) {
-				vector<vector<unsigned char> > vvch;
-				int pop;
-				prevOutput = &tx.vin[i].prevout;
-				if(!prevOutput)
-					continue;
-				// ensure inputs are unspent when doing consensus check to add to block
-				prevCoins = inputs.AccessCoins(prevOutput->hash);
-				if(prevCoins == NULL)
-					continue;
-				if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
-					continue;
+			}					
+		}
+	}
+	// Strict check - bug disallowed
+	for (unsigned int i = 0; i < tx.vin.size(); i++) {
+		vector<vector<unsigned char> > vvch;
+		int pop;
+		prevOutput = &tx.vin[i].prevout;
+		if(!prevOutput)
+			continue;
+		// ensure inputs are unspent when doing consensus check to add to block
+		prevCoins = inputs.AccessCoins(prevOutput->hash);
+		if(prevCoins == NULL)
+			continue;
+		if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
+			continue;
 
-				if (IsAliasOp(pop)) {
-					prevOp = pop;
-					vvchPrevArgs = vvch;
-					break;
-				}
+		if (IsAliasOp(pop)) {
+			prevOp = pop;
+			vvchPrevArgs = vvch;
+			CTxDestination aliasDest;
+			if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
+			{
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1106 - " + _("Could not extract payment destination from scriptPubKey");
+				return true;
 			}
+			prevaddy = CSyscoinAddress(aliasDest);
+			break;
 		}
 	}
 	vector<CAliasIndex> vtxPos;
@@ -968,6 +963,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		{
 			if(!vtxPos.empty())
 			{
+				CPubKey PubKey(dbAlias.vchPubKey);	
+				CSyscoinAddress destaddy(PubKey.GetID());
+				if(destaddy.ToString() != prevaddy.ToString())
+				{
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1106 - " + _("You are not the owner of this alias");
+					return true;
+				}
 				if(dbAlias.vchGUID != vvchArgs[1])
 				{
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5022 - " + _("Cannot edit this alias, guid mismatch");
@@ -999,8 +1001,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					{
 						if(theAlias.multiSigInfo.vchAliases.size() > 6 || theAlias.multiSigInfo.nRequiredSigs > 6)
 						{
-							theAlias.multiSigInfo.SetNull();
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5023 - " + _("Alias multisig too big, reduce the number of signatures required for this alias and try again");
+							return true;
 						}
 						std::vector<CPubKey> pubkeys; 
 						CPubKey pubkey(theAlias.vchPubKey);
@@ -1017,15 +1019,15 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						}	
 						if(theAlias.multiSigInfo.nRequiredSigs > pubkeys.size())
 						{
-							theAlias.multiSigInfo.SetNull();
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5024 - " + _("Cannot update multisig alias because required signatures is greator than the amount of signatures provided");
+							return true;
 						}	
 						CScript inner = GetScriptForMultisig(theAlias.multiSigInfo.nRequiredSigs, pubkeys);
 						CScript redeemScript = CScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
 						if(redeemScript != inner)
 						{
-							theAlias.multiSigInfo.SetNull();
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5025 - " + _("Invalid redeem script provided in transaction");
+							return true;
 						}
 						CScriptID innerID(inner);
 						multisigAddress = CSyscoinAddress(innerID);					
@@ -1041,8 +1043,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					// we want to avoid aliases with duplicate public keys (addresses)
 					if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
 					{
-						theAlias.vchPubKey = dbAlias.vchPubKey;
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5026 - " + _("An alias already exists with that address, try another public key");
+						return true;
 					}					
 				}
 			}
