@@ -1463,7 +1463,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 
 	CScript scriptData;
@@ -1802,7 +1803,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -1964,7 +1966,8 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2392,7 +2395,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2704,7 +2708,8 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -3091,8 +3096,8 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
-
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
@@ -3361,7 +3366,8 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;

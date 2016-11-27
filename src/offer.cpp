@@ -1690,7 +1690,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -1836,8 +1837,8 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
-
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -1972,7 +1973,8 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2085,7 +2087,8 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2195,7 +2198,8 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2431,7 +2435,8 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	scriptPubKeyAlias += scriptPubKeyOrig;
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 
 	CScript scriptData;
@@ -2661,7 +2666,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CRecipient paymentCommissionRecipient = {scriptPubKeyCommission, nTotalCommission, false};
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	vecSend.push_back(aliasRecipient);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
 
 
 	if(vchExtTxId.empty())
@@ -2990,7 +2996,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKeyAlias, recipientAlias);
 
 	vecSend.push_back(recipient);
-	vecSend.push_back(recipientAlias);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(recipientAlias);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -3135,7 +3142,8 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKeyAlias, recipientAlias);
 
 	vecSend.push_back(recipientBuyer);
-	vecSend.push_back(recipientAlias);
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(recipientAlias);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
