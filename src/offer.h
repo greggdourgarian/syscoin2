@@ -31,6 +31,7 @@ CScript RemoveOfferScriptPrefix(const CScript& scriptIn);
 
 bool ValidatePaymentOptionsMask(const uint32_t paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
+bool IsValidPaymentOption(const uint32_t paymentOptionsMask);
 uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString);
 bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption);
 extern bool IsSys21Fork(const uint64_t& nHeight);

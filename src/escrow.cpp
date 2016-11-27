@@ -523,7 +523,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4014 - " + _("Escrow Guid mismatch");
 					return error(errorMessage.c_str());
 				}
-				if(!ValidatePaymentOptionsMask(theEscrow.nPaymentOption))
+				if(!IsValidPaymentOption(theEscrow.nPaymentOption))
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4015 - " + _("Invalid payment option");
 					return error(errorMessage.c_str());
@@ -3450,7 +3450,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(escrow.vchLinkSellerAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
-	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
+	CAmount nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int precision = 2;
 	int nFeePerByte;
 	// if offer is not linked, look for a discount for the buyer
@@ -3477,20 +3477,21 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precision)*400;
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + nFeePerByte;
 	}
+	if(nExpectedAmount == 0)
+		oEscrow.push_back(Pair("price", "0"));
+	else
+		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(offer.GetPrice(foundEntry)*escrow.nQty).get_real() )));
+	
 	
 	oEscrow.push_back(Pair("sysrelayfee",strprintf("%ld", nFeePerByte)));
 	oEscrow.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nFeePerByte).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
 
 
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
+	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
 	oEscrow.push_back(Pair("systotal", (offer.GetPrice(foundEntry) * escrow.nQty)));
-	if(nExpectedAmount == 0)
-		oEscrow.push_back(Pair("price", "0"));
-	else
-		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nExpectedAmount).get_real() )));
-	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFeePerByte).get_real() )));
-
 	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nEscrowTotal).get_real() )));
+
 	oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 
 

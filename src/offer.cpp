@@ -41,6 +41,9 @@ bool ValidatePaymentOptionsMask(const uint32_t paymentOptionsMask) {
 	return !(paymentOptionsMask < 1 || paymentOptionsMask > maxVal);
 }
 
+bool IsValidPaymentOption(const uint32_t paymentOptionsMask) {
+	return (paymentOptionsMask == PAYMENTOPTION_SYS || paymentOptionsMask == PAYMENTOPTION_BTC || paymentOptionsMask == PAYMENTOPTION_ZEC);
+}
 
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString) {
 	bool retval = true;
@@ -794,7 +797,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 			else
 			{
-                if(!ValidatePaymentOptionsMask(theOfferAccept.nPaymentOption))
+                if(!IsValidPaymentOption(theOfferAccept.nPaymentOption))
                 {
                     errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1040 - " + _("Invalid payment option");
                     return error(errorMessage.c_str());
