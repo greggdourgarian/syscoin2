@@ -800,32 +800,29 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 			}					
 		}
-	}
-	// Strict check - bug disallowed
-	for (unsigned int i = 0; i < tx.vin.size(); i++) {
-		vector<vector<unsigned char> > vvch;
-		int pop;
-		prevOutput = &tx.vin[i].prevout;
-		if(!prevOutput)
-			continue;
-		// ensure inputs are unspent when doing consensus check to add to block
-		prevCoins = inputs.AccessCoins(prevOutput->hash);
-		if(prevCoins == NULL)
-			continue;
-		if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
-			continue;
+		// Strict check - bug disallowed
+		for (unsigned int i = 0; i < tx.vin.size(); i++) {
+			vector<vector<unsigned char> > vvch;
+			int pop;
+			prevOutput = &tx.vin[i].prevout;
+			if(!prevOutput)
+				continue;
+			// ensure inputs are unspent when doing consensus check to add to block
+			prevCoins = inputs.AccessCoins(prevOutput->hash);
+			if(prevCoins == NULL)
+				continue;
+			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
+				continue;
 
-		if (IsAliasOp(pop)) {
-			prevOp = pop;
-			vvchPrevArgs = vvch;
-			CTxDestination aliasDest;
-			if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
-			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1106 - " + _("Could not extract payment destination from scriptPubKey");
-				return true;
+			if (IsAliasOp(pop)) {
+				prevOp = pop;
+				vvchPrevArgs = vvch;
+				CTxDestination aliasDest;
+				if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
+					continue;
+				prevaddy = CSyscoinAddress(aliasDest);
+				break;
 			}
-			prevaddy = CSyscoinAddress(aliasDest);
-			break;
 		}
 	}
 	vector<CAliasIndex> vtxPos;
@@ -911,6 +908,17 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return error(errorMessage.c_str());
 					}
 				}
+				
+				if (paliasdb->ReadAlias(vvchArgs[0], vtxPos) && !vtxPos.empty())
+				{
+					CPubKey PubKey(vtxPos.back().vchPubKey);	
+					CSyscoinAddress destaddy(PubKey.GetID());
+					if(destaddy.ToString() != prevaddy.ToString())
+					{
+						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1106 - " + _("You are not the owner of this alias");
+						return error(errorMessage.c_str());
+					}
+				}
 				break;
 		default:
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("Alias transaction has unknown op");
@@ -963,13 +971,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		{
 			if(!vtxPos.empty())
 			{
-				CPubKey PubKey(dbAlias.vchPubKey);	
-				CSyscoinAddress destaddy(PubKey.GetID());
-				if(destaddy.ToString() != prevaddy.ToString())
-				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1106 - " + _("You are not the owner of this alias");
-					return true;
-				}
 				if(dbAlias.vchGUID != vvchArgs[1])
 				{
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5022 - " + _("Cannot edit this alias, guid mismatch");
