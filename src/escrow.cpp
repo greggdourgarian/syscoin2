@@ -3459,6 +3459,10 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	COfferLinkWhitelistEntry foundEntry;
 	if(offer.vchLinkOffer.empty())
 		offer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
+
+	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision);
+	nExpectedAmount = nPricePerUnit*escrow.nQty;
+	
 	if(!firstEscrow.rawTx.empty())
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
@@ -3472,10 +3476,6 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
 	}
 
-	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision);
-	
-	nExpectedAmount = nPricePerUnit*escrow.nQty;
-	
 	
 	if(nExpectedAmount == 0)
 		oEscrow.push_back(Pair("price", "0"));
