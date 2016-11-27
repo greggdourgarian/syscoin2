@@ -2717,7 +2717,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 			continue;
          for (unsigned int j = 0;j<coins->vout.size();j++)
 		 {
-			if(!coins->IsAvailable(coins->vout[j]))
+			if(!coins->IsAvailable(j))
 				continue;
 			if(!IsSyscoinScript(coins->vout[j].scriptPubKey, op, vvch) || !IsAliasOp(op) || vvch[0] != vchAlias)
 				continue;
