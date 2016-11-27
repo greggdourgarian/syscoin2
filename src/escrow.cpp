@@ -3460,8 +3460,8 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(!firstEscrow.rawTx.empty())
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
-		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, firstEscrow.nAcceptHeight, precision)*escrow.nQty;
-		nExpectedAmount = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision)*escrow.nQty;
+		
+		nExpectedAmount = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), firstEscrow.nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);	
 		nEscrowFee = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, firstEscrow.nAcceptHeight, precision);
@@ -3470,9 +3470,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	}
 	else
 	{
-		nExpectedCommissionAmount = nCommission*escrow.nQty;
+
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
-		float fEscrowFee = getEscrowFee(v.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, precision);
+		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
 		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precision)*400;
 		nEscrowTotal =  nExpectedAmount + nEscrowFee + nFeePerByte;
