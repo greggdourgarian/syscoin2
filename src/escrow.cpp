@@ -3474,23 +3474,23 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 		nExpectedAmount = theOffer.GetPrice(foundEntry)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, precision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
-		nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precision);
-		nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);
+		nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precision)*400;
+		nEscrowTotal =  nExpectedAmount + nEscrowFee + nFeePerByte;
 	}
 	
-	oEscrow.push_back(Pair("sysrelayfee",strprintf("%ld", (nFeePerByte*400))));
-	oEscrow.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nFeePerByte*400).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
+	oEscrow.push_back(Pair("sysrelayfee",strprintf("%ld", nFeePerByte)));
+	oEscrow.push_back(Pair("relayfee", strprintf("%.*f %s", 8, ValueFromAmount(nFeePerByte).get_real(), GetPaymentOptionsString(escrow.nPaymentOption) )));
 
 
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
-	oEscrow.push_back(Pair("systotal", (offer.GetPrice() * escrow.nQty)));
+	oEscrow.push_back(Pair("systotal", (offer.GetPrice(foundEntry) * escrow.nQty)));
 	if(nPricePerUnit == 0)
 		oEscrow.push_back(Pair("price", "0"));
 	else
-		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real() )));
+		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nExpectedAmount).get_real() )));
 	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nFee).get_real() )));
 
-	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nFee + (nPricePerUnit* escrow.nQty)).get_real() )));
+	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nEscrowTotal).get_real() )));
 	oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 
 
