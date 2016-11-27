@@ -2695,10 +2695,11 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 {
 	LOCK(cs_main);
-	vector<CAliasInudex> vtxPos;
+	vector<CAliasIndex> vtxPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, true))
+	bool isExpired = false;
+	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired, true))
 		return 0;
 
 	int numResults = 0;
