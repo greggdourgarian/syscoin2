@@ -817,10 +817,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if (IsAliasOp(pop)) {
 				prevOp = pop;
 				vvchPrevArgs = vvch;
-				CTxDestination aliasDest;
-				if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
-					continue;
-				prevaddy = CSyscoinAddress(aliasDest);
 				break;
 			}
 		}
@@ -911,6 +907,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				
 				if (paliasdb->ReadAlias(vvchArgs[0], vtxPos) && !vtxPos.empty())
 				{
+					CTxDestination aliasDest;
+					if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
+					{
+						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 1106 - " + _("Cannot extract destination of alias input");
+						return error(errorMessage.c_str());
+					}
+					prevaddy = CSyscoinAddress(aliasDest);
 					CPubKey PubKey(vtxPos.back().vchPubKey);	
 					CSyscoinAddress destaddy(PubKey.GetID());
 					if(destaddy.ToString() != prevaddy.ToString())
@@ -2722,7 +2725,8 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 				continue;
 			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != vchAlias)
 				continue;
-			outpoint = COutPoint(alias.txHash, j);
+			if(numResults <= 0)
+				outpoint = COutPoint(alias.txHash, j);
 			numResults++;
 		 }	
     }
