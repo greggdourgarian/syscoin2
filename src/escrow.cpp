@@ -3450,9 +3450,10 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(escrow.vchLinkSellerAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
-	CAmount nExpectedAmount, nEscrowFee, nEscrowTotal, nEscrowTotalExt;
+	CAmount nExpectedAmount, nEscrowFee, nExpectedAmountExt;
 	int precision = 2;
 	int extprecision = 2;
+	int precisiontmp;
 	int nFeePerByte;
 	// if offer is not linked, look for a discount for the buyer
 	COfferLinkWhitelistEntry foundEntry;
@@ -3472,7 +3473,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	}
 
 	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision);
-	int precisiontmp;
+	
 	nExpectedAmount = nPricePerUnit*escrow.nQty;
 	
 	
