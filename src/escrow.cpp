@@ -3484,7 +3484,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
 	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
-	oEscrow.push_back(Pair("systotal", (nPricePerUnit * escrow.nQty)));
+	oEscrow.push_back(Pair("systotal", (offer.GetPrice(foundEntry) * escrow.nQty)));
 	if(nExpectedAmountExt > 0)
 		oEscrow.push_back(Pair("total", strprintf("%.*f", extprecision, ValueFromAmount(nExpectedAmountExt).get_real() )));
 	else
