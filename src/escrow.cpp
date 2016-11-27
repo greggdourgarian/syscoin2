@@ -3473,7 +3473,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	else
 	{
 		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, precisiontmp);
-		nEscrowFee = GetEscrowArbiterFee(nExpectedAmount, fEscrowFee);
+		nEscrowFee = GetEscrowArbiterFee(offer.GetPrice(foundEntry)*escrow.nQty, fEscrowFee);
 	}
 
 	
