@@ -1645,7 +1645,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
 	COutPoint outPoint;
-	int numResults;
+	int numResults=0;
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
@@ -2568,7 +2568,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CAliasIndex theAlias;
 	CScript scriptPubKeyAlias;
 	COutPoint outPoint;
-	int numResults;
+	int numResults = 0;
 	// who is initiating release arbiter or seller?
 	if(role == "arbiter")
 	{
