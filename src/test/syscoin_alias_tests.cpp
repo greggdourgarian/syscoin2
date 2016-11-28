@@ -50,6 +50,52 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
 
 }
+BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
+{
+	printf("Running generate_aliasmultiupdate...\n");
+	GenerateBlocks(1);
+	UniValue r;
+	AliasNew("node1", "jagmultiupdate", "password", "data");
+	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
+
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata2 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata3 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata4 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata5 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata6 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata7 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata8 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata9 pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata10 pvtdata"));
+
+	AliasTransfer("node1", "jagmultiupdate", "node2", "changeddata5", "pvtdata2");
+
+	// after transfer it can't update alias even though there are utxo's available from old owner
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpirebuyback changedata1 pvtdata"));
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagmultiupdate"));
+	string publicdata = find_value(r.get_obj(), "value").get_str();
+	BOOST_CHECK_EQUAL(publicdata , "changedata10");
+
+	// new owner can update
+	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata2b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata3b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata4b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata5b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata6b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata7b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata9b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"));
+	
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagmultiupdate"));
+	string publicdata = find_value(r.get_obj(), "value").get_str();
+	BOOST_CHECK_EQUAL(publicdata , "changedata10b");
+}
+
 BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 {
 	printf("Running generate_sendmoneytoalias...\n");
