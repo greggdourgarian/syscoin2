@@ -851,7 +851,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	OfferAddWhitelist("node1", offerguid, "aliasexpirednode2", "5");
 	string certguid = CertNew("node1", "aliasexpire", "certtitle", "certdata", false, "Yes");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire2"));
 	const UniValue &array = r.get_array();
 	string escrowguid = array[1].get_str();	
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -947,7 +947,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
 
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 75"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 70"));
 	MilliSleep(2500);
 	// should fail: update cert with expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data 0"), runtime_error);
