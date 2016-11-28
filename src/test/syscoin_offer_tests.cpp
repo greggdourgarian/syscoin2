@@ -578,7 +578,9 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	// should fail: offer accept on offer with expired/transferred cert and n
 	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"), runtime_error);
 	// should fail: generate a cert offer using an expired cert
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias2a category title 1 0.05 description USD " + certguid1));
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias2a category title 1 0.05 description USD " + certguid1), runtime_error);
+	// because above offernew updated node1alias2, the cert will also be valid so this should work
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew node1alias2 category title 1 0.05 description USD " + certguid));
 
 }
 
