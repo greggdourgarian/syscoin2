@@ -58,11 +58,10 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	AliasNew("node1", "jagmultiupdate", "password", "data");
 	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
-		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
+		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
 
-	MilliSleep(2500);
-	GenerateBlocks(10);
-	GenerateBlocks(10);
+	GenerateBlocks(10, "node1");
+	GenerateBlocks(10, "node1");
 
 	AliasTransfer("node1", "jagmultiupdate", "node2", "changeddata5", "pvtdata2");
 
@@ -72,17 +71,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	// new owner can update
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"), runtime_error);
-	MilliSleep(1000);
-	GenerateBlocks(10);
-	GenerateBlocks(10);
+	GenerateBlocks(10, "node2");
+	GenerateBlocks(10, "node2");
 	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
 
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
 	MilliSleep(2500);
-	GenerateBlocks(10);
-	GenerateBlocks(10);
+	GenerateBlocks(10, "node2");
+	GenerateBlocks(10, "node2");
 	// try transfers and updates in parallel
 	UniValue pkr = CallRPC("node1", "generatepublickey");
 	BOOST_CHECK(pkr.type() == UniValue::VARR);
@@ -102,8 +100,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	}
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
 	MilliSleep(2500);
-	GenerateBlocks(10);
-	GenerateBlocks(10);
+	GenerateBlocks(10, "node2");
+	GenerateBlocks(10, "node2");
 }
 
 BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
