@@ -70,15 +70,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata10 pvtdata"));
 	GenerateBlocks(10);
 	GenerateBlocks(10);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagmultiupdate"));
-	string publicdata = find_value(r.get_obj(), "value").get_str();
-	BOOST_CHECK_EQUAL(publicdata , "changedata10");
 
 	AliasTransfer("node1", "jagmultiupdate", "node2", "changeddata5", "pvtdata2");
 
 	// after transfer it can't update alias even though there are utxo's available from old owner
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpirebuyback changedata1 pvtdata"));
-
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"), runtime_error);
 
 	// new owner can update
 	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
@@ -94,9 +90,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"));
 	GenerateBlocks(10);
 	GenerateBlocks(10);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagmultiupdate"));
-	publicdata = find_value(r.get_obj(), "value").get_str();
-	BOOST_CHECK_EQUAL(publicdata , "changedata10b");
 }
 
 BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
