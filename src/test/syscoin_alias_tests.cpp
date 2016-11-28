@@ -78,7 +78,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
 
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
-	MilliSleep(2500);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	// try transfers and updates in parallel
@@ -99,7 +98,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 
 	}
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
-	MilliSleep(2500);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 }
