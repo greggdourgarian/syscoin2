@@ -892,6 +892,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				
 				if (paliasdb->ReadAlias(vvchArgs[0], vtxPos) && !vtxPos.empty())
 				{
+					// check last alias because of the case where you have multiple updates in a single block and where alias gets transferred while subsequently updating the same alias
+					theAlias.nHeight = nHeight-1;
+					theAlias.GetAliasFromList(vtxPos);
 					CTxDestination aliasDest;
 					if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
 					{
@@ -899,7 +902,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return error(errorMessage.c_str());
 					}
 					prevaddy = CSyscoinAddress(aliasDest);
-					CPubKey PubKey(vtxPos.back().vchPubKey);	
+					CPubKey PubKey(theAlias.vchPubKey);	
 					CSyscoinAddress destaddy(PubKey.GetID());
 					if(destaddy.ToString() != prevaddy.ToString())
 					{
@@ -2685,7 +2688,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 }
 int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 {
-	LOCK(cs_main);
+	LOCK2(cs_main, mempool.cs);
 	vector<CAliasIndex> vtxPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
@@ -2696,7 +2699,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	int numResults = 0;
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
-	
+	bool found = false;
     for (unsigned int i = 0;i<vtxPos.size();i++)
     {
 		const CAliasIndex& alias = vtxPos[i];
@@ -2715,9 +2718,17 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 				continue;
 			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID)
 				continue;
-			if(numResults <= 0)
-				outpoint = COutPoint(alias.txHash, j);
 			numResults++;
+			if(!found)
+			{
+				auto it = mempool.mapNextTx.find(COutPoint(alias.txHash, j));
+				if (it != mempool.mapNextTx.end())
+					continue;
+
+				outpoint = COutPoint(alias.txHash, j);
+				found = true;
+			}
+			
 		 }	
     }
 	return numResults;
