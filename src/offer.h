@@ -237,7 +237,6 @@ public:
 		linkWhitelist.SetNull();
 		sCategory.clear();
 		sTitle.clear();
-		vchAlias.clear();
 		sDescription.clear();
 		vchLinkOffer.clear();
 		vchLinkAlias.clear();

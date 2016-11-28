@@ -83,7 +83,7 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
 
 int GetOfferExpiration(const COffer& offer) {
 	int nHeight = chainActive.Tip()->nHeight;
-	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(offer.vchLinkAlias));
+	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(offer.vchAlias));
 	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
 		nHeight = ownerAddress.nExpireHeight;
 
@@ -853,6 +853,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(!GetTxAndVtxOfOffer(vvchArgs[0], theOffer, offerTx, vtxPos))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1048 - " + _("Failed to read from offer DB");
+				return true;
+			}
+			if(serializedOffer.vchAlias != theOffer.vchAlias)
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1048 - " + _("Offer alias mismatch");
 				return true;
 			}
 		}
@@ -1947,7 +1952,6 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	entry.aliasLinkVchRand = vchAlias;
 	entry.nDiscountPct = nDiscountPctInteger;
 	theOffer.ClearOffer();
-	theOffer.vchAlias = theAlias.vchAlias;
 	theOffer.linkWhitelist.PutWhitelistEntry(entry);
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 
@@ -2062,7 +2066,6 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	if(!theOffer.linkWhitelist.GetLinkEntryByHash(vchAlias, foundEntry))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1519 - " + _("This alias entry was not found on affiliate list"));
 	theOffer.ClearOffer();
-	theOffer.vchAlias = theAlias.vchAlias;
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.linkWhitelist.PutWhitelistEntry(foundEntry);
 
@@ -2167,7 +2170,6 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
 
 	theOffer.ClearOffer();
-	theOffer.vchAlias = theAlias.vchAlias;
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	// create OFFERUPDATE txn keys
 	CScript scriptPubKey;
@@ -2402,7 +2404,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
 		theOffer.paymentOptions = paymentOptionsMask;
 
-	theOffer.vchAlias = alias.vchAlias;
 	if(!vchAlias.empty() && vchAlias != alias.vchAlias)
 		theOffer.vchLinkAlias = vchAlias;
 	theOffer.safeSearch = strSafeSearch == "Yes"? true: false;
