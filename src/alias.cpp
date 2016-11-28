@@ -888,9 +888,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				
 				if (paliasdb->ReadAlias(vvchArgs[0], vtxPos) && !vtxPos.empty())
 				{
-					// check last alias because of the case where you have multiple updates in a single block and where alias gets transferred while subsequently updating the same alias
-					theAlias.nHeight = nHeight-1;
-					theAlias.GetAliasFromList(vtxPos);
 					CTxDestination aliasDest;
 					if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
 					{
@@ -898,7 +895,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return error(errorMessage.c_str());
 					}
 					prevaddy = CSyscoinAddress(aliasDest);
-					CPubKey PubKey(theAlias.vchPubKey);	
+					CPubKey PubKey(vtxPos.back().vchPubKey);	
 					CSyscoinAddress destaddy(PubKey.GetID());
 					if(destaddy.ToString() != prevaddy.ToString())
 					{
