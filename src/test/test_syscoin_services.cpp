@@ -394,8 +394,6 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch + " 0 " + password));
-	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch + " 0 " + password), runtime_error);
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();
@@ -551,8 +549,6 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 	UniValue r;
 	string privateFlag = privateData? "1":" 0";
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + data + " " + privateFlag + " " + safesearch));
-	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + data + " " + privateFlag + " " + safesearch), runtime_error);
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
@@ -599,8 +595,6 @@ void CertTransfer(const string& node, const string& guid, const string& toalias)
 	string data = find_value(r.get_obj(), "data").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certtransfer " + guid + " " + toalias));
-	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(CallRPC(node, "certtransfer " + guid + " " + toalias), runtime_error);
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	bool privateData = find_value(r.get_obj(), "private").get_str() == "Yes";
@@ -778,8 +772,6 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, offerupdatestr));
-	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(r = CallRPC(node, offerupdatestr), runtime_error);	
 	GenerateBlocks(10, node);
 
 
@@ -850,8 +842,6 @@ void OfferAcceptFeedback(const string& node, const string &alias, const string& 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, offerfeedbackstr));
 	const UniValue &arr = r.get_array();
 	string acceptTxid = arr[0].get_str();
-	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(CallRPC(node, offerfeedbackstr), runtime_error);	
 
 	GenerateBlocks(10, node);
 	string ratingstr = (israting? rating: "0");
@@ -881,8 +871,6 @@ void EscrowFeedback(const string& node, const string& role, const string& escrow
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, escrowfeedbackstr));
 	const UniValue &arr = r.get_array();
 	string escrowTxid = arr[0].get_str();
-	// ensure mempool blocks second tx until it confirms
-	BOOST_CHECK_THROW(CallRPC(node, escrowfeedbackstr), runtime_error);	
 
 	GenerateBlocks(10, node);
 	string ratingprimarystr = (israting? ratingprimary: "0");
