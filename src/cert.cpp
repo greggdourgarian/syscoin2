@@ -1322,6 +1322,9 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 		expired = 1;
 	}  
 	int expires_in = expired_block - chainActive.Tip()->nHeight;
+	if(expires_in < -1)
+		expires_in = -1;
+
 	oCert.push_back(Pair("expires_in", expires_in));
 	oCert.push_back(Pair("expires_on", expired_block));
 	oCert.push_back(Pair("expired", expired));

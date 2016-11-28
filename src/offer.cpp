@@ -3240,11 +3240,13 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	oOffer.push_back(Pair("cert", stringFromVch(vchCert)));
 	oOffer.push_back(Pair("txid", theOffer.txHash.GetHex()));
 	expired_block =  GetOfferExpiration(theOffer);
-    if(expired_block < chainActive.Tip()->nHeight)
+    if(expired_block <= chainActive.Tip()->nHeight)
 	{
 		expired = 1;
 	}
 	expires_in = expired_block - chainActive.Tip()->nHeight;
+	if(expires_in < -1)
+		expires_in = -1;
 	oOffer.push_back(Pair("expires_in", expires_in));
 	oOffer.push_back(Pair("expired_block", expired_block));
 	oOffer.push_back(Pair("expired", expired));

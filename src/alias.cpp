@@ -2769,6 +2769,8 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 			expired = 1;
 		}  
 		expires_in = expired_block - chainActive.Tip()->nHeight;
+		if(expires_in < -1)
+			expires_in = -1;
 	}
 	else
 	{
