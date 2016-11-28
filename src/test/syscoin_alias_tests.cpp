@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"), runtime_error);
 
 	// new owner can update
-	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
+	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata2b pvtdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata3b pvtdata"));
