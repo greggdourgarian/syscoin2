@@ -57,17 +57,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	UniValue r;
 	AliasNew("node1", "jagmultiupdate", "password", "data");
 	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
+		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
 
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata2 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata3 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata4 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata5 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata6 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata7 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata8 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata9 pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata10 pvtdata"));
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata10 pvtdata"), runtime_error);
 	MilliSleep(2500);
 	GenerateBlocks(10);
@@ -80,16 +72,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 
 	// new owner can update
 	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata2b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata3b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata4b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata5b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata6b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata7b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata9b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"));
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
+		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
+
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
 	MilliSleep(2500);
 	GenerateBlocks(10);
@@ -99,17 +84,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK(pkr.type() == UniValue::VARR);
 	const UniValue &resultArray = pkr.get_array();
 	string newPubkey = resultArray[0].get_str();	
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
+	{
+		if((i%2) == 0)
+			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
+		else
+			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
 
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata2b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata5b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata6b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8b pvtdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"));
+	}
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
 	MilliSleep(2500);
 	GenerateBlocks(10);
