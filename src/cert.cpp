@@ -1310,8 +1310,6 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 
     oCert.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
 
-    uint64_t nHeight;
-	nHeight = cert.nHeight;
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
