@@ -393,11 +393,12 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
-	// now it should be expired, try to leave feedback it shouldn't let you
-	BOOST_CHECK_THROW(CallRPC("node2",  "escrowfeedback " + guid1 + " buyer 1 2 3 4"), runtime_error);
+	// try to leave feedback it should let you because aliases not expired
+	BOOST_CHECK_NO_THROW(CallRPC("node2",  "escrowfeedback " + guid1 + " buyer 1 2 3 4"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	// and it should say its expired
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrowinfo " + guid1));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
 	MilliSleep(2500);
 	StartNode("node3");
@@ -406,7 +407,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(5000);
 	// node3 should find the service because the aliases aren't expired
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + guid1));
-	BOOST_CHECK_EQUAL(EscrowFilter("node3", guid1), false);
+	BOOST_CHECK_EQUAL(EscrowFilter("node3", guid1), true);
 }
 
 BOOST_AUTO_TEST_SUITE_END ()
