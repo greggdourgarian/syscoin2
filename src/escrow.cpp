@@ -3190,7 +3190,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	CAliasIndex theAlias;
 	CScript scriptPubKeyAlias;
 	COutPoint outPoint;
-	int numResults;
+	int numResults=0;
 	const CWalletTx *wtxAliasIn = NULL;
 	if(role == "buyer")
 	{
