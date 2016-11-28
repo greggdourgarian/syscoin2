@@ -395,7 +395,7 @@ bool GetTxOfOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsi
 	if(!GetAcceptByHash(vtxPos, theOfferAccept, acceptOffer))
 		return false;
 
-	if (!skipExpiresCheck && GetOfferExpiration(acceptOffer))
+	if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetOfferExpiration(acceptOffer))
 	{
 		string offer = stringFromVch(vchOfferAccept);
 		if(fDebug)
