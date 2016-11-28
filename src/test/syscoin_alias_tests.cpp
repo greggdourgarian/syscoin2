@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	UniValue r;
 	AliasNew("node1", "jagmultiupdate", "password", "data");
 	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
-	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
 
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata10 pvtdata"), runtime_error);
@@ -71,8 +71,13 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"), runtime_error);
 
 	// new owner can update
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"), runtime_error);
+	MilliSleep(1000);
+	GenerateBlocks(10);
+	GenerateBlocks(10);
 	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
-	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
 
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
@@ -84,7 +89,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK(pkr.type() == UniValue::VARR);
 	const UniValue &resultArray = pkr.get_array();
 	string newPubkey = resultArray[0].get_str();	
-	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 	{
 		if((i%2) == 0)
 			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
