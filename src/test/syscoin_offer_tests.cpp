@@ -506,17 +506,12 @@ BOOST_AUTO_TEST_CASE (generate_offerexpired)
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias4", "category", "title", "100", "0.01", "description", "USD");
 	OfferAddWhitelist("node1", offerguid, "buyeralias4", "5");
-	GenerateBlocks(40);
-	// ensure aliases dont't expire
-	AliasUpdate("node1", "selleralias4", "selleralias4", "data1");
-	AliasUpdate("node2", "buyeralias4", "buyeralias4", "data1");
 	// this will expire the offer
-	GenerateBlocks(65);
+	GenerateBlocks(105);
 
 	// should fail: perform an accept on expired offer
 	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias4 " + offerguid + " 1 message"), runtime_error);
 
-	GenerateBlocks(5);
 	// should fail: offer update on an expired offer
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate selleralias4 " + offerguid + " category title 90 0.15 description"), runtime_error);
 	
@@ -543,12 +538,7 @@ BOOST_AUTO_TEST_CASE (generate_offerexpiredexmode)
 
 	// should succeed: offer seller adds affiliate to whitelist
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offeraddwhitelist " + offerguid + " selleralias11 10"));
-	GenerateBlocks(40);
-	// ensure alias doesn't expire
-	AliasUpdate("node1", "selleralias10", "selleralias10", "data1");
-	AliasUpdate("node2", "selleralias11", "selleralias11", "data1");
-	// this will expire the offer
-	GenerateBlocks(51);
+	GenerateBlocks(105);
 
 	// should fail: remove whitelist item from expired offer
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offerremovewhitelist " + offerguid + " selleralias11"), runtime_error);

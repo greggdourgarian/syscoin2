@@ -614,11 +614,6 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				theCert.bTransferViewOnly = dbCert.bTransferViewOnly;
 			}
 			theCert.vchLinkAlias.clear();
-			if(!GetTxOfAlias(theCert.vchAlias, alias, aliasTx))
-			{
-				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2022 - " + _("Cannot find alias for this certificate. It may be expired");	
-				return true;
-			}
 			if(dbCert.bTransferViewOnly)
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2023 - " + _("Cannot edit or transfer this certificate. It is view-only.");

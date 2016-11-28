@@ -959,11 +959,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if(!theOffer.vchLinkAlias.empty())
 						theOffer.vchAlias = theOffer.vchLinkAlias;
 					theOffer.vchLinkAlias.clear();
-					if(!GetTxOfAlias(theOffer.vchAlias, alias, aliasTx))
-					{
-						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1058 - " + _("Cannot find alias for this offer. It may be expired");
-						return true;
-					}
 					// check for valid alias peg
 					if(getCurrencyToSYSFromAlias(alias.vchAliasPeg, theOffer.sCurrencyCode, nRate, theOffer.nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
 					{
@@ -1078,19 +1073,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		else if (op == OP_OFFER_ACCEPT) {
 			theOfferAccept = serializedOffer.accept;
-			CAliasIndex buyeralias;
-			CTransaction buyeraliasTx;
 			CTransaction acceptTx;
 			COfferAccept offerAccept;
 			COffer acceptOffer;
-			if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyeralias, buyeraliasTx))
-			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1073 - " + _("Cannot find alias. It may be expired");
-				return true;
-			}
+
 			if(theOfferAccept.bPaymentAck)
 			{
-
 				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1074 - " + _("Could not find offer accept from mempool or disk");
