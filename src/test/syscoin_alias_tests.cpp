@@ -70,10 +70,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 
 	// new owner can update
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
+	// on transfer only 1 utxo available, to create more you have to run through an update first with a confirmation
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"), runtime_error);
+	// now MAX_ALIAS_UPDATES_PER_BLOCK utxo's should be available
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
-	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
 
