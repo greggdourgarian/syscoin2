@@ -406,7 +406,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(5000);
 	// node3 should find the service because the aliases aren't expired
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + guid1));
-	BOOST_CHECK_EQUAL(EscrowFilter("node3", guid1, "Off"), false);
+	BOOST_CHECK_EQUAL(EscrowFilter("node3", guid1), false);
 }
 
 BOOST_AUTO_TEST_SUITE_END ()

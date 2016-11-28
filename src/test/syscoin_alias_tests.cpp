@@ -738,7 +738,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + escrowguid), runtime_error);
-	BOOST_CHECK_EQUAL(EscrowFilter("node3", escrowguid, "Off"), false);
+	BOOST_CHECK_EQUAL(EscrowFilter("node3", escrowguid), false);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 {
