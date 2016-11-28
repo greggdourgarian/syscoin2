@@ -3560,7 +3560,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int expired_block = GetEscrowExpiration(escrow);
 	int expired = 0;
-    if(expired_block < chainActive.Tip()->nHeight && escrow.op == OP_ESCROW_COMPLETE)
+    if(expired_block <= chainActive.Tip()->nHeight)
 	{
 		expired = 1;
 	}

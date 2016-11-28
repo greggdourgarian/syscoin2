@@ -1317,7 +1317,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
 	int expired_block = GetCertExpiration(cert);
 	int expired = 0;
-    if(expired_block < chainActive.Tip()->nHeight)
+    if(expired_block <= chainActive.Tip()->nHeight)
 	{
 		expired = 1;
 	}  

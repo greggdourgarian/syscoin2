@@ -2764,7 +2764,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{
 		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-		if(expired_block < chainActive.Tip()->nHeight)
+		if(expired_block <= chainActive.Tip()->nHeight)
 		{
 			expired = 1;
 		}  
