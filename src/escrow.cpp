@@ -678,7 +678,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				return true;
 			}
 			if(serializedEscrow.vchBuyerAlias != theEscrow.vchBuyerAlias || 
-				serializedEscrow.vchArbiterAlias != theEscrow.vchArbiterAlias
+				serializedEscrow.vchArbiterAlias != theEscrow.vchArbiterAlias ||
 				serializedEscrow.vchSellerAlias != theEscrow.vchSellerAlias)
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4036 - " + _("Invalid aliases used for escrow transaction");
