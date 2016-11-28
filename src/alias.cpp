@@ -2077,9 +2077,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (wtxIn == NULL)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5516 - " + _("This alias is not in your wallet"));
 
-	if(!IsSyscoinTxMine(tx, "alias"))
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5517 - " + _("You must own this alias to complete the transaction"));	
-
 	CPubKey pubKey(theAlias.vchPubKey);	
 	CSyscoinAddress oldAddress(pubKey.GetID());
 	if(!strPassword.empty())
