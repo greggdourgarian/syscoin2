@@ -736,6 +736,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	MilliSleep(2500);
 	StartNode("node3");
 	GenerateBlocks(5, "node3");
+	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
+	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + escrowguid), runtime_error);
+	BOOST_CHECK_EQUAL(EscrowFilter("node3", escrowguid, "Off"), false);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 {
@@ -789,6 +792,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	MilliSleep(2500);
 	StartNode("node3");
 	GenerateBlocks(5, "node3");
+	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
+	BOOST_CHECK_THROW(CallRPC("node3", "offerinfo " + offerguid), runtime_error);
+	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "Off"), false);
 }
 
 BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
@@ -821,6 +827,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	MilliSleep(2500);
 	StartNode("node3");
 	GenerateBlocks(5, "node3");
+	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
+	BOOST_CHECK_THROW(CallRPC("node3", "certinfo " + certguid), runtime_error);
+	BOOST_CHECK_EQUAL(OfferFilter("node3", certguid, "Off"), false);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 {

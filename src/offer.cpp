@@ -374,6 +374,7 @@ bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer,
 	int nHeight = txPos.nHeight;
 
 	if (!skipExpiresCheck chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
+	{
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
 			LogPrintf("GetTxOfOffer(%s) : expired", offer.c_str());
@@ -395,6 +396,7 @@ bool GetTxOfOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsi
 		return false;
 
 	if (!skipExpiresCheck && GetOfferExpiration(vtxPos.back()))
+	{
 		string offer = stringFromVch(vchOfferAccept);
 		if(fDebug)
 			LogPrintf("GetTxOfOfferAccept(%s) : expired", offer.c_str());
