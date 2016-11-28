@@ -38,21 +38,6 @@ CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
 extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
-bool GetPreviousInput(const COutPoint * outpoint, int &op, vector<vector<unsigned char> > &vvchArgs)
-{
-	if(!pwalletMain || !outpoint)
-		return false;
-    map<uint256, CWalletTx>::const_iterator it = pwalletMain->mapWallet.find(outpoint->hash);
-    if (it != pwalletMain->mapWallet.end())
-    {
-        const CWalletTx* pcoin = &it->second;
-		if(pcoin->vout.size() >= outpoint->n && IsSyscoinScript(pcoin->vout[outpoint->n].scriptPubKey, op, vvchArgs))
-			return true;
-
-    } else
-       return false;
-    return false;
-}
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
 	if(nHeight < 0 || nHeight > chainActive.Height())
