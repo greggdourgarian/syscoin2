@@ -2726,6 +2726,8 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 
 			if(!coins->IsAvailable(j))
 				continue;
+			if(!pwalletMain->IsMine(coins->vout[j]))
+				continue;
 			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID)
 				continue;
 			if(numResults <= 0)
