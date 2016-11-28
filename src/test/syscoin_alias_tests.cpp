@@ -92,9 +92,13 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 	{
 		if((i%2) == 0)
+		{
 			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
+		}
 		else
+		{
 			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+		}
 
 	}
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
