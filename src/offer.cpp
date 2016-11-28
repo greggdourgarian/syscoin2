@@ -955,12 +955,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					// non linked offers cant edit commission
 					else
 						theOffer.nCommission = 0;
-					if(theOffer.vchAlias != dbOffer.vchAlias)
-					{
-						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1057 - " + _("Wrong alias input provided in this offer update transaction");
-						return true;
-					}
-					else if(!theOffer.vchLinkAlias.empty())
+
+					if(!theOffer.vchLinkAlias.empty())
 						theOffer.vchAlias = theOffer.vchLinkAlias;
 					theOffer.vchLinkAlias.clear();
 					if(!GetTxOfAlias(theOffer.vchAlias, alias, aliasTx))
