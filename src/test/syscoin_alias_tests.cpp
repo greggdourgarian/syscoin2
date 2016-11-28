@@ -855,7 +855,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire2 passwordnew somedata"));
 	const UniValue &array1 = r.get_array();
 	string aliasexpire2pubkey = array1[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
+	MilliSleep(2500);
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire2"));
