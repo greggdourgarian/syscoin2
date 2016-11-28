@@ -373,7 +373,7 @@ bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer,
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
 
-	if (!skipExpiresCheck chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
+	if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
 	{
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
