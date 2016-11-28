@@ -92,6 +92,26 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
 	GenerateBlocks(10);
 	GenerateBlocks(10);
+	// try transfers and updates in parallel
+	UniValue pkr = CallRPC("node1", "generatepublickey");
+	BOOST_CHECK(pkr.type() == UniValue::VARR);
+	const UniValue &resultArray = pkr.get_array();
+	string newPubkey = resultArray[0].get_str();	
+
+	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata2b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata5b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata6b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"));
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
+	GenerateBlocks(10);
+	GenerateBlocks(10);
 }
 
 BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
