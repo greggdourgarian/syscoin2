@@ -43,7 +43,7 @@ int GetMessageExpiration(const CMessage& message) {
 	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
 		nHeight = ownerAddress.nExpireHeight;
 
-	return nHeight
+	return nHeight;
 }
 
 
@@ -101,7 +101,6 @@ bool CMessageDB::CleanupDatabase()
 	pcursor->SeekToFirst();
 	vector<CMessage> vtxPos;
 	pair<string, vector<unsigned char> > key;
-	uint64_t nExpiryHeight;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         try {
