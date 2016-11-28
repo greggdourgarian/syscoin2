@@ -2763,12 +2763,12 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
     oName.push_back(Pair("lastupdate_height", nHeight));
 	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{
+		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
 		if(expired_block < chainActive.Tip()->nHeight)
 		{
 			expired = 1;
 		}  
 		expires_in = expired_block - chainActive.Tip()->nHeight;
-		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
 	}
 	else
 	{
