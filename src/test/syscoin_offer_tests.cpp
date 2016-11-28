@@ -566,7 +566,7 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	GenerateBlocks(40);
 
 	// generate a good cert offer
-	string offerguid = OfferNew("node1", "node1alias2", "category", "title", "2", "0.05", "description", "USD", certguid);
+	string offerguid = OfferNew("node1", "node1alias2", "category", "title", "1", "0.05", "description", "USD", certguid);
 
 	// updates the offer so it won't expire, and doesn't update cert linked to offer so we can have offer linked with expired cert
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"));
@@ -799,7 +799,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	StartNode("node3");
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
+	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 15"));
 	MilliSleep(2500);
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "offerinfo " + guid1), runtime_error);
