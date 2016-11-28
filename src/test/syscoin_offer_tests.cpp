@@ -736,12 +736,12 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
-	// now we shouldn't be able to search it
-	BOOST_CHECK_EQUAL(OfferFilter("node1", guid, "Off"), false);
 
-	// and it should say its expired
+	BOOST_CHECK_EQUAL(OfferFilter("node1", guid, "Off"), true);
+
+	// not expired because alias was updated
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + guid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
 
 	// shouldnt be pruned yet because alias pruneoffer isn't expired
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "offerinfo " + guid));
@@ -792,11 +792,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
-	MilliSleep(2500);
-	// make sure our offer alias doesn't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 60"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);

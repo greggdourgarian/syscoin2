@@ -212,15 +212,14 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
-	// now we shouldn't be able to search it
-	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), false);
-	// and it should say its expired
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + guid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), true);
 
-	// node2 shouldn't find the service at all (meaning node2 doesn't sync the data)
-	BOOST_CHECK_THROW(CallRPC("node2", "certinfo " + guid), runtime_error);
-	BOOST_CHECK_EQUAL(CertFilter("node2", guid, "Off"), false);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + guid));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+
+	// node2 should find the service
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "certinfo " + guid));
+	BOOST_CHECK_EQUAL(CertFilter("node2", guid, "Off"), true);
 
 	// stop node3
 	StopNode("node3");
@@ -261,7 +260,9 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), true);
 	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "Off"), true);
 
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 125"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 100"));
+	MilliSleep(2500);
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 25"));
 	MilliSleep(2500);
 	// now it should be expired
 	BOOST_CHECK_THROW(CallRPC("node2",  "certupdate " + guid1 + " jagprune1 newdata1 privdata1 0"), runtime_error);
