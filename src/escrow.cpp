@@ -54,7 +54,7 @@ int64_t GetEscrowArbiterFee(int64_t escrowValue, float fEscrowFee) {
 }
 int GetEscrowExpiration(const CEscrow& escrow) {
 
-	int nHeight = chainActive.Tip()->nHeight
+	int nHeight = chainActive.Tip()->nHeight;
 	CSyscoinAddress buyerAddress = CSyscoinAddress(stringFromVch(escrow.vchBuyerAlias));
 	if(buyerAddress.IsValid() && buyerAddress.isAlias && buyerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
 		nHeight = buyerAddress.nExpireHeight;
