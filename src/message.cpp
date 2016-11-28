@@ -114,10 +114,7 @@ bool CMessageDB::CleanupDatabase()
 					continue;
 				}
 				const CMessage &txPos = vtxPos.back();
-				CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(message.vchAliasTo));
-				if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-					nExpiryHeight = ownerAddress.nExpireHeight;
-  				if (chainActive.Tip()->nHeight >= nExpiryHeight)
+  				if (chainActive.Tip()->nHeight >= GetMessageExpiration(txPos))
 				{
 					EraseMessage(vchMyMessage);
 				} 
