@@ -562,7 +562,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
