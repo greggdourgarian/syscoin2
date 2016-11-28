@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	GenerateBlocks(10);
 	GenerateBlocks(10);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagmultiupdate"));
-	string publicdata = find_value(r.get_obj(), "value").get_str();
+	publicdata = find_value(r.get_obj(), "value").get_str();
 	BOOST_CHECK_EQUAL(publicdata , "changedata10b");
 }
 
