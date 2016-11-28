@@ -1954,7 +1954,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     vector<CRecipient> vecSend;
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
-	for(unsigned int i =0;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(recipient);
 	CScript scriptData;
 	
