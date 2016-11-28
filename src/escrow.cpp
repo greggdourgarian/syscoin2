@@ -52,12 +52,25 @@ int64_t GetEscrowArbiterFee(int64_t escrowValue, float fEscrowFee) {
 		nFee = DEFAULT_MIN_RELAY_TX_FEE;
 	return nFee;
 }
-int GetEscrowExpirationDepth() {
-	#ifdef ENABLE_DEBUGRPC
-    return 1440;
-  #else
-    return 525600;
-  #endif
+int GetEscrowExpiration(const CEscrow& escrow) {
+
+	int nHeight = chainActive.Tip()->nHeight
+	CSyscoinAddress buyerAddress = CSyscoinAddress(stringFromVch(escrow.vchBuyerAlias));
+	if(buyerAddress.IsValid() && buyerAddress.isAlias && buyerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+		nHeight = buyerAddress.nExpireHeight;
+	else
+	{
+		CSyscoinAddress sellerAddress = CSyscoinAddress(stringFromVch(escrow.vchSellerAlias));
+		if(sellerAddress.IsValid() && sellerAddress.isAlias && sellerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+			nHeight = sellerAddress.nExpireHeight;
+		else
+		{
+			CSyscoinAddress arbiterAddress = CSyscoinAddress(stringFromVch(escrow.vchArbiterAlias));
+			if(arbiterAddress.IsValid() && arbiterAddress.isAlias  && arbiterAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+				nHeight = arbiterAddress.nExpireHeight;
+		}
+	}
+	return nHeight;
 }
 
 
@@ -118,7 +131,6 @@ void CEscrow::Serialize(vector<unsigned char>& vchData) {
 }
 bool CEscrowDB::CleanupDatabase()
 {
-	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
 	vector<CEscrow> vtxPos;
@@ -138,7 +150,7 @@ bool CEscrowDB::CleanupDatabase()
 				}
 				const CEscrow &txPos = vtxPos.back();
 	
-  				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge && txPos.op == OP_ESCROW_COMPLETE)
+  				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
 				{
 					if (DecodeHexTx(fundingTx,HexStr(txPos.rawTx)))
 						txHash = fundingTx.GetHash();
@@ -158,7 +170,6 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 							std::vector<std::pair<CEscrow, CEscrow> >& escrowScan) {
 	string strSearchLower = strRegexp;
 	boost::algorithm::to_lower(strSearchLower);
-	int nMaxAge  = GetEscrowExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	if(!vchEscrow.empty())
 		pcursor->Seek(make_pair(string("escrowi"), vchEscrow));
@@ -178,7 +189,7 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
-  				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge && txPos.op == OP_ESCROW_COMPLETE)
+  				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -243,10 +254,7 @@ bool GetTxOfEscrow(const vector<unsigned char> &vchEscrow,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-	// if escrow is refunded or claimed and its expired
-	// if not refunded or claimed it cannot expire
-    if ((nHeight + GetEscrowExpirationDepth()
-            < chainActive.Tip()->nHeight) && txPos.op == OP_ESCROW_COMPLETE) {
+    if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos)) {
         string escrow = stringFromVch(vchEscrow);
         LogPrintf("GetTxOfEscrow(%s) : expired", escrow.c_str());
         return false;
@@ -263,10 +271,7 @@ bool GetTxAndVtxOfEscrow(const vector<unsigned char> &vchEscrow,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-	// if escrow is refunded or claimed and its expired
-	// if not refunded or claimed it cannot expire
-    if ((nHeight + GetEscrowExpirationDepth()
-            < chainActive.Tip()->nHeight) && txPos.op == OP_ESCROW_COMPLETE) {
+   if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos)) {
         string escrow = stringFromVch(vchEscrow);
         LogPrintf("GetTxOfEscrow(%s) : expired", escrow.c_str());
         return false;
@@ -670,6 +675,13 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			if(!GetTxAndVtxOfEscrow(vvchArgs[0], theEscrow, escrowTx, vtxPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4036 - " + _("Failed to read from escrow DB");
+				return true;
+			}
+			if(serializedEscrow.vchBuyerAlias != theEscrow.vchBuyerAlias || 
+				serializedEscrow.vchArbiterAlias != theEscrow.vchArbiterAlias
+				serializedEscrow.vchSellerAlias != theEscrow.vchSellerAlias)
+			{
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4036 - " + _("Invalid aliases used for escrow transaction");
 				return true;
 			}
 			if(serializedEscrow.bPaymentAck && theEscrow.bPaymentAck)
@@ -3546,7 +3558,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
-	int expired_block = escrow.nHeight + GetEscrowExpirationDepth();
+	int expired_block = GetEscrowExpiration(escrow);
 	int expired = 0;
     if(expired_block < chainActive.Tip()->nHeight && escrow.op == OP_ESCROW_COMPLETE)
 	{

@@ -82,7 +82,11 @@ bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
 	if(alias.UnserializeFromData(vchData, vchHash))
 	{
 		if(alias.vchAlias == vchFromString("sysrates.peg") || alias.vchAlias == vchFromString("sysban") || alias.vchAlias == vchFromString("syscategory"))
-			return false;
+		{
+			// setting to the tip means we don't prune this data, we keep it
+			nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
+			return true;
+		}
 		vector<CAliasIndex> vtxPos;
 		// we only prune things that we have in our db and that we can verify the last tx is expired
 		// nHeight is set to the height at which data is pruned, if the tip is newer than nHeight it won't send data to other nodes
@@ -99,90 +103,29 @@ bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
 		else
 		{
 			// setting to the tip means we don't prune this data, we keep it
-			nHeight = chainActive.Tip()->nHeight +  GetAliasExpirationDepth();
+			nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
 			return true;
 		}
 	}
 	else if(offer.UnserializeFromData(vchData, vchHash))
 	{
-		vector<COffer> vtxPos;
-		if (pofferdb->ReadOffer(offer.vchOffer, vtxPos) && !vtxPos.empty())
-		{
-			uint64_t nLastHeight =  vtxPos.back().nHeight;
-			// if alises of offer is not expired then don't prune the offer yet
-			CSyscoinAddress sellerAddress = CSyscoinAddress(stringFromVch(vtxPos.back().vchAlias));
-			if(sellerAddress.IsValid() && sellerAddress.isAlias && sellerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-				nLastHeight = chainActive.Tip()->nHeight;
-			nHeight = nLastHeight + GetOfferExpirationDepth();
-			return true;			
-		}
-		else
-		{
-			nHeight = chainActive.Tip()->nHeight +  GetOfferExpirationDepth();
-			return true;
-		}
+		nHeight = GetOfferExpiration(offer);
+		return true; 
 	}
 	else if(cert.UnserializeFromData(vchData, vchHash))
 	{
-		vector<CCert> vtxPos;
-		if (pcertdb->ReadCert(cert.vchCert, vtxPos) && !vtxPos.empty())
-		{
-			nHeight = vtxPos.back().nHeight + GetCertExpirationDepth();
-			return true;			
-		}
-		else
-		{	
-			nHeight = chainActive.Tip()->nHeight + GetCertExpirationDepth();
-			return true;
-		}
+		nHeight = GetCertExpiration(cert);
+		return true; 
 	}
 	else if(escrow.UnserializeFromData(vchData, vchHash))
 	{
-		vector<CEscrow> vtxPos;
-		if (pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) && !vtxPos.empty())
-		{
-			uint64_t nLastHeight = vtxPos.back().nHeight;
-			if(vtxPos.back().op != OP_ESCROW_COMPLETE)
-				nLastHeight = chainActive.Tip()->nHeight;
-			// if alises of escrow are not expired then don't prune the escrow yet
-			CSyscoinAddress buyerAddress = CSyscoinAddress(stringFromVch(vtxPos.back().vchBuyerAlias));
-			if(buyerAddress.IsValid() && buyerAddress.isAlias && buyerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-				nLastHeight = chainActive.Tip()->nHeight;
-			else
-			{
-				CSyscoinAddress sellerAddress = CSyscoinAddress(stringFromVch(vtxPos.back().vchSellerAlias));
-				if(sellerAddress.IsValid() && sellerAddress.isAlias && sellerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-					nLastHeight = chainActive.Tip()->nHeight;
-				else
-				{
-					CSyscoinAddress arbiterAddress = CSyscoinAddress(stringFromVch(vtxPos.back().vchArbiterAlias));
-					if(arbiterAddress.IsValid() && arbiterAddress.isAlias  && arbiterAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-						nLastHeight = chainActive.Tip()->nHeight;
-				}
-			}
-		
-			nHeight = nLastHeight + GetEscrowExpirationDepth();
-			return true;				
-		}
-		else 
-		{		
-			nHeight = chainActive.Tip()->nHeight + GetEscrowExpirationDepth();
-			return true;
-		}
+		nHeight = GetEscrowExpiration(escrow);
+		return true;
 	}
 	else if(message.UnserializeFromData(vchData, vchHash))
 	{
-		vector<CMessage> vtxPos;
-		if (pmessagedb->ReadMessage(message.vchMessage, vtxPos) && !vtxPos.empty())
-		{
-			nHeight = vtxPos.back().nHeight + GetMessageExpirationDepth();
-			return true;		
-		}
-		else
-		{	
-			nHeight = chainActive.Tip()->nHeight + GetMessageExpirationDepth();
-			return true;
-		}
+		nHeight = GetMessageExpiration(message);
+		return true;
 	}
 
 	return false;
@@ -191,7 +134,7 @@ bool IsSysServiceExpired(const uint64_t &nHeight)
 {
 	if(!chainActive.Tip() || fTxIndex)
 		return false;
-	return (nHeight < chainActive.Tip()->nHeight);
+	return (chainActive.Tip()->nHeight >= nHeight);
 
 }
 bool IsSyscoinScript(const CScript& scriptPubKey, int &op, vector<vector<unsigned char> > &vvchArgs)
@@ -2818,15 +2761,21 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
 	oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
     oName.push_back(Pair("lastupdate_height", nHeight));
-	expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
 	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{
 		if(expired_block < chainActive.Tip()->nHeight)
 		{
 			expired = 1;
 		}  
+		expires_in = expired_block - chainActive.Tip()->nHeight;
+		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
 	}
-	expires_in = expired_block - chainActive.Tip()->nHeight;
+	else
+	{
+		expires_in = -1;
+		expired = 0;
+		expired_block = -1;
+	}
 	oName.push_back(Pair("expires_in", expires_in));
 	oName.push_back(Pair("expires_on", expired_block));
 	oName.push_back(Pair("expired", expired));

@@ -22,7 +22,6 @@ bool EncryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::v
 bool DecryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::vector<unsigned char> &vchCipherText, std::string &strMessage, const std:: string &strPrivKey="");
 void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string certFromOp(int op);
-int GetCertExpirationDepth();
 CScript RemoveCertScriptPrefix(const CScript& scriptIn);
 extern bool IsSys21Fork(const uint64_t& nHeight);
 class CCert {
@@ -178,4 +177,5 @@ bool GetTxAndVtxOfCert(const std::vector<unsigned char> &vchCert,
 					   CCert& txPos, CTransaction& tx, std::vector<CCert> &vtxPos, bool skipExpiresCheck=false);
 void PutToCertList(std::vector<CCert> &certList, CCert& index);
 bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oName, const std::string &strPrivKey="");
+int GetCertExpiration(const CCert& cert);
 #endif // CERT_H

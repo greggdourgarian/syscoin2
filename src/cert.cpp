@@ -73,12 +73,13 @@ bool IsCertOp(int op) {
         || op == OP_CERT_TRANSFER;
 }
 
-int GetCertExpirationDepth() {
-	#ifdef ENABLE_DEBUGRPC
-    return 1440;
-  #else
-    return 525600;
-  #endif
+int GetCertExpiration(const CCert& cert) {
+	int nHeight = chainActive.Tip()->nHeight;
+	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(cert.vchAlias));
+	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+		nHeight = ownerAddress.nExpireHeight;
+
+	return nHeight;
 }
 
 
@@ -138,7 +139,6 @@ void CCert::Serialize( vector<unsigned char> &vchData) {
 }
 bool CCertDB::CleanupDatabase()
 {
-	int nMaxAge  = GetCertExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
 	vector<CCert> vtxPos;
@@ -155,7 +155,7 @@ bool CCertDB::CleanupDatabase()
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();
-  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= nMaxAge)
+  				if (chainActive.Tip()->nHeight >= GetCertExpiration(txPos))
 				{
 					EraseCert(vchMyCert);
 				} 
@@ -176,7 +176,6 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 	string strRegexpLower = strRegexp;
 	boost::algorithm::to_lower(strRegexpLower);
     sregex cregex = sregex::compile(strRegexpLower);
-	int nMaxAge  = GetCertExpirationDepth();
 	vector<CCert> vtxPos;
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	if(!vchCert.empty())
@@ -196,7 +195,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();
-  				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge)
+  				if (chainActive.Tip()->nHeight >= GetCertExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -296,8 +295,7 @@ bool GetTxOfCert(const vector<unsigned char> &vchCert,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (!skipExpiresCheck && (nHeight + GetCertExpirationDepth()
-            < chainActive.Tip()->nHeight)) {
+    if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetCertExpiration(txPos)) {
         string cert = stringFromVch(vchCert);
         LogPrintf("GetTxOfCert(%s) : expired", cert.c_str());
         return false;
@@ -315,8 +313,7 @@ bool GetTxAndVtxOfCert(const vector<unsigned char> &vchCert,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (!skipExpiresCheck && (nHeight + GetCertExpirationDepth()
-            < chainActive.Tip()->nHeight)) {
+    if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetCertExpiration(txPos)) {
         string cert = stringFromVch(vchCert);
         LogPrintf("GetTxOfCert(%s) : expired", cert.c_str());
         return false;
@@ -1323,7 +1320,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
-	int expired_block = nHeight + GetCertExpirationDepth();
+	int expired_block = GetCertExpiration(cert);
 	int expired = 0;
     if(expired_block < chainActive.Tip()->nHeight)
 	{

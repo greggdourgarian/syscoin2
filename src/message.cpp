@@ -37,12 +37,13 @@ bool IsMessageOp(int op) {
     return op == OP_MESSAGE_ACTIVATE;
 }
 
-int GetMessageExpirationDepth() {
-	#ifdef ENABLE_DEBUGRPC
-    return 1440;
-  #else
-    return 525600;
-  #endif
+int GetMessageExpiration(const CMessage& message) {
+	int nHeight = chainActive.Tip()->nHeight;
+	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(message.vchAliasTo));
+	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+		nHeight = ownerAddress.nExpireHeight;
+
+	return nHeight
 }
 
 
@@ -96,11 +97,11 @@ void CMessage::Serialize(vector<unsigned char>& vchData) {
 }
 bool CMessageDB::CleanupDatabase()
 {
-	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
 	vector<CMessage> vtxPos;
 	pair<string, vector<unsigned char> > key;
+	uint64_t nExpiryHeight;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         try {
@@ -113,7 +114,10 @@ bool CMessageDB::CleanupDatabase()
 					continue;
 				}
 				const CMessage &txPos = vtxPos.back();
-  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= nMaxAge)
+				CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(message.vchAliasTo));
+				if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+					nExpiryHeight = ownerAddress.nExpireHeight;
+  				if (chainActive.Tip()->nHeight >= nExpiryHeight)
 				{
 					EraseMessage(vchMyMessage);
 				} 
@@ -129,7 +133,6 @@ bool CMessageDB::CleanupDatabase()
 
 bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const vector<string>& keyWordArray,unsigned int nMax,
         std::vector<CMessage> & messageScan) {
-	int nMaxAge  = GetMessageExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	if(!vchMessage.empty())
 		pcursor->Seek(make_pair(string("messagei"), vchMessage));
@@ -148,7 +151,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 					continue;
 				}
 				const CMessage &txPos = vtxPos.back();
-  				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge)
+  				if (chainActive.Tip()->nHeight >= GetMessageExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -207,8 +210,7 @@ bool GetTxOfMessage(const vector<unsigned char> &vchMessage,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (nHeight + GetMessageExpirationDepth()
-            < chainActive.Tip()->nHeight) {
+    if (chainActive.Tip()->nHeight >= GetMessageExpiration(txPos)) {
         string message = stringFromVch(vchMessage);
         LogPrintf("GetTxOfMessage(%s) : expired", message.c_str());
         return false;

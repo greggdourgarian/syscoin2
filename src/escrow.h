@@ -16,7 +16,6 @@ bool DecodeAndParseEscrowTx(const CTransaction& tx, int& op, int& nOut, std::vec
 bool DecodeEscrowScript(const CScript& script, int& op, std::vector<std::vector<unsigned char> > &vvch);
 bool IsEscrowOp(int op);
 int IndexOfEscrowOutput(const CTransaction& tx);
-int GetEscrowExpirationDepth();
 void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string escrowFromOp(int op);
 CScript RemoveEscrowScriptPrefix(const CScript& scriptIn);
@@ -45,9 +44,7 @@ public:
 	void ClearEscrow()
 	{
 		feedback.clear();
-		vchSellerAlias.clear();
 		vchLinkSellerAlias.clear();
-		vchArbiterAlias.clear();
 		vchLinkAlias.clear();
 		vchRedeemScript.clear();
 		vchLinkAlias.clear();
@@ -180,4 +177,5 @@ bool GetTxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, 
 bool GetTxAndVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx, std::vector<CEscrow> &vtxPos);
 void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, std::vector<CEscrow> &vtxPos);
 bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const std::string &strPrivKey="");
+int GetEscrowExpiration(const CEscrow& escrow);
 #endif // ESCROW_H

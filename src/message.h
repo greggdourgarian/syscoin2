@@ -18,7 +18,6 @@ bool DecodeAndParseMessageTx(const CTransaction& tx, int& op, int& nOut, std::ve
 bool DecodeMessageScript(const CScript& script, int& op, std::vector<std::vector<unsigned char> > &vvch);
 bool IsMessageOp(int op);
 int IndexOfMessageOutput(const CTransaction& tx);
-int GetMessageExpirationDepth();
 bool ExtractMessageAddress(const CScript& script, std::string& address);
 CScript RemoveMessageScriptPrefix(const CScript& scriptIn);
 extern bool IsSys21Fork(const uint64_t& nHeight);
@@ -127,4 +126,5 @@ public:
 
 bool GetTxOfMessage(const std::vector<unsigned char> &vchMessage, CTransaction& tx);
 bool BuildMessageJson(const CMessage& message, UniValue& oName, const std::string &strPrivKey="");
+int GetMessageExpiration(const CMessage& message);
 #endif // MESSAGE_H

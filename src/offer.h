@@ -21,7 +21,6 @@ bool DecodeAndParseOfferTx(const CTransaction& tx, int& op, int& nOut, std::vect
 bool DecodeOfferScript(const CScript& script, int& op, std::vector<std::vector<unsigned char> > &vvch);
 bool IsOfferOp(int op);
 int IndexOfOfferOutput(const CTransaction& tx);
-int GetOfferExpirationDepth();
 std::string offerFromOp(int op);
 void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 CScript RemoveOfferScriptPrefix(const CScript& scriptIn);
@@ -437,4 +436,5 @@ std::string GetPaymentOptionsString(const uint32_t paymentOptions);
 CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOptions);
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOfferAccept, const std::string &strPrivKey="");
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer, const std::string &strPrivKey="");
+int GetOfferExpiration(const COffer& offer);
 #endif // OFFER_H

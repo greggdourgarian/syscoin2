@@ -81,12 +81,13 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
   return mask & paymentOption ? true : false;
 }
 
-int GetOfferExpirationDepth() {
-	#ifdef ENABLE_DEBUGRPC
-    return 1440;
-  #else
-    return 525600;
-  #endif
+int GetOfferExpiration(const COffer& offer) {
+	int nHeight = chainActive.Tip()->nHeight;
+	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(offer.vchLinkAlias));
+	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
+		nHeight = ownerAddress.nExpireHeight;
+
+	return nHeight;
 }
 
 string offerFromOp(int op) {
@@ -143,7 +144,6 @@ void COffer::Serialize(vector<unsigned char> &vchData) {
 }
 bool COfferDB::CleanupDatabase()
 {
-	int nMaxAge  = GetOfferExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
 	vector<COffer> vtxPos;
@@ -160,7 +160,7 @@ bool COfferDB::CleanupDatabase()
 					continue;
 				}
 				const COffer &txPos = vtxPos.back();
-  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= nMaxAge)
+  				if (chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
 				{
 					EraseOffer(vchMyOffer);
 				} 
@@ -182,7 +182,6 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 	string strRegexpLower = strRegexp;
 	boost::algorithm::to_lower(strRegexpLower);
 	sregex cregex = sregex::compile(strRegexpLower);
-	int nMaxAge  = GetOfferExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	if(!vchOffer.empty())
 		pcursor->Seek(make_pair(string("offeri"), vchOffer));
@@ -204,7 +203,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 				}
 				const COffer &txPos = vtxPos.back();
 				int nQty = txPos.nQty;
-  				if (chainActive.Tip()->nHeight - txPos.nHeight >= nMaxAge)
+  				if (chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -354,8 +353,7 @@ bool GetTxOfOffer(const vector<unsigned char> &vchOffer,
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
 
-	if (!skipExpiresCheck && (nHeight + GetOfferExpirationDepth()
-			< chainActive.Tip()->nHeight)) {
+	if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetOfferExpiration(txPos)) {
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
 			LogPrintf("GetTxOfOffer(%s) : expired", offer.c_str());
@@ -375,8 +373,7 @@ bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer,
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
 
-	if (!skipExpiresCheck && (nHeight + GetOfferExpirationDepth()
-			< chainActive.Tip()->nHeight)) {
+	if (!skipExpiresCheck chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
 			LogPrintf("GetTxOfOffer(%s) : expired", offer.c_str());
@@ -397,8 +394,7 @@ bool GetTxOfOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsi
 	if(!GetAcceptByHash(vtxPos, theOfferAccept, acceptOffer))
 		return false;
 
-	if (!skipExpiresCheck && ( vtxPos.back().nHeight + GetOfferExpirationDepth())
-			< chainActive.Tip()->nHeight) {
+	if (!skipExpiresCheck && GetOfferExpiration(vtxPos.back()))
 		string offer = stringFromVch(vchOfferAccept);
 		if(fDebug)
 			LogPrintf("GetTxOfOfferAccept(%s) : expired", offer.c_str());
@@ -3251,7 +3247,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	oOffer.push_back(Pair("offer", stringFromVch(theOffer.vchOffer)));
 	oOffer.push_back(Pair("cert", stringFromVch(vchCert)));
 	oOffer.push_back(Pair("txid", theOffer.txHash.GetHex()));
-	expired_block = nHeight + GetOfferExpirationDepth();
+	expired_block =  GetOfferExpiration(theOffer);
     if(expired_block < chainActive.Tip()->nHeight)
 	{
 		expired = 1;
