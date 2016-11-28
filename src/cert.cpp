@@ -59,11 +59,7 @@ bool DecryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigne
 void PutToCertList(std::vector<CCert> &certList, CCert& index) {
 	int i = certList.size() - 1;
 	BOOST_REVERSE_FOREACH(CCert &o, certList) {
-        if(index.nHeight != 0 && o.nHeight == index.nHeight) {
-        	certList[i] = index;
-            return;
-        }
-        else if(!o.txHash.IsNull() && o.txHash == index.txHash) {
+        if(!o.txHash.IsNull() && o.txHash == index.txHash) {
         	certList[i] = index;
             return;
         }

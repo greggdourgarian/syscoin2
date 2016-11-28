@@ -27,11 +27,7 @@ extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, 
 void PutToEscrowList(std::vector<CEscrow> &escrowList, CEscrow& index) {
 	int i = escrowList.size() - 1;
 	BOOST_REVERSE_FOREACH(CEscrow &o, escrowList) {
-        if(index.nHeight != 0 && o.nHeight ==index.nHeight) {
-        	escrowList[i] = index;
-            return;
-        }
-        else if(!o.txHash.IsNull() && o.txHash == index.txHash) {
+        if(!o.txHash.IsNull() && o.txHash == index.txHash) {
         	escrowList[i] = index;
             return;
         }

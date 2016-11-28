@@ -579,11 +579,7 @@ bool getCategoryList(vector<string>& categoryList)
 void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index) {
 	int i = aliasList.size() - 1;
 	BOOST_REVERSE_FOREACH(CAliasIndex &o, aliasList) {
-        if(index.nHeight != 0 && o.nHeight == index.nHeight) {
-        	aliasList[i] = index;
-            return;
-        }
-        else if(!o.txHash.IsNull() && o.txHash == index.txHash) {
+        if(!o.txHash.IsNull() && o.txHash == index.txHash) {
         	aliasList[i] = index;
             return;
         }

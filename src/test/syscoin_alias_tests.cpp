@@ -100,7 +100,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	const UniValue &resultArray = pkr.get_array();
 	string newPubkey = resultArray[0].get_str();	
 
-	AliasUpdate("node2", "jagmultiupdate", "changeddata", "privdata");
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata2b pvtdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
