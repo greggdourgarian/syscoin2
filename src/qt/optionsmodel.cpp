@@ -154,6 +154,18 @@ void OptionsModel::Init(bool resetSettings)
         settings.setValue("defaultListAlias", tr("All"));
     if (!settings.contains("safesearch"))
         settings.setValue("safesearch", "Yes");
+    if (!settings.contains("zecEndPoint"))
+		settings.setValue("zecEndPoint", "http://zec.syscoin.org:8080/");
+    if (!settings.contains("btcEndPoint"))
+        settings.setValue("btcEndPoint", "http://btc.syscoin.org:8080/");
+    if (!settings.contains("zecRPCLogin"))
+        settings.setValue("zecRPCLogin", "sysrpc");
+    if (!settings.contains("btcRPCLogin"))
+        settings.setValue("btcRPCLogin", "sysrpc");
+    if (!settings.contains("zecRPCPassword"))
+        settings.setValue("zecRPCPassword", "JcfJqiyhVVRsYJo0MQKjBJxOZMCrXPqQjUt2Kte2qU");
+    if (!settings.contains("btcRPCPassword"))
+        settings.setValue("btcRPCPassword", "JcfJqiyhVVRsYJo0MQKjBJxOZMCrXPqQjUt2Kte2qU");
     if (!settings.contains("language"))
         settings.setValue("language", "");
     if (!SoftSetArg("-lang", settings.value("language").toString().toStdString()))
@@ -267,6 +279,18 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("defaultPegAlias");
        case SafeSearch:
             return settings.value("safesearch");
+       case ZecEndPoint:
+            return settings.value("zecEndPoint");
+       case BtcEndPoint:
+            return settings.value("btcEndPoint");
+       case ZecRPCLogin:
+            return settings.value("zecRPCLogin");
+       case BTCRPCLogin:
+            return settings.value("btcRPCLogin");
+       case ZecRPCPassword:
+            return settings.value("zecRPCPassword");
+       case BtcRPCPassword:
+            return settings.value("btcRPCPassword");
         default:
             return QVariant();
         }
@@ -415,6 +439,36 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         case SafeSearch:
             if (settings.value("safesearch") != value) {
 				settings.setValue("safesearch", value);
+            }
+            break;
+       case ZecEndPoint:
+            if (settings.value("zecEndPoint") != value) {
+				settings.setValue("zecEndPoint", value);
+            }
+            break;
+       case BtcEndPoint:
+            if (settings.value("btcEndPoint") != value) {
+				settings.setValue("btcEndPoint", value);
+            }
+            break;
+       case ZecRPCLogin:
+            if (settings.value("zecRPCLogin") != value) {
+				settings.setValue("zecRPCLogin", value);
+            }
+            break;
+       case BTCRPCLogin:
+            if (settings.value("btcRPCLogin") != value) {
+				settings.setValue("btcRPCLogin", value);
+            }
+            break;
+       case ZecRPCPassword:
+            if (settings.value("zecRPCPassword") != value) {
+				settings.setValue("zecRPCPassword", value);
+            }
+            break;
+       case BtcRPCPassword:
+            if (settings.value("btcRPCPassword") != value) {
+				settings.setValue("btcRPCPassword", value);
             }
             break;
         case CoinControlFeatures:

@@ -81,7 +81,12 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
 	ui->theme->addItem(tr("solid"), QVariant("1"));
 	ui->theme->addItem(tr("white"), QVariant("2"));
 	ui->defaultPegAlias->setPlaceholderText("sysrates.peg");
-
+	ui->zecEndPoint->setPlaceholderText("http://zec.syscoin.org:8080/");
+	ui->btcEndPoint->setPlaceholderText("http://btc.syscoin.org:8080/");
+	ui->zecRPCLogin->setPlaceholderText("sysuser");
+	ui->btcRPCLogin->setPlaceholderText("sysuser");
+	ui->zecRPCPassword->setPlaceholderText("JcfJqiyhVVRsYJo0MQKjBJxOZMCrXPqQjUt2Kte2qU");
+	ui->btcRPCPassword->setPlaceholderText("JcfJqiyhVVRsYJo0MQKjBJxOZMCrXPqQjUt2Kte2qU");
     /* Display elements init */
     QDir translations(":translations");
 

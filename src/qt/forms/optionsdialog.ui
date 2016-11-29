@@ -719,6 +719,108 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabDirectBTC">
+      <attribute name="title">
+       <string>DirectBTC</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_Pref_3">
+         <item>
+          <widget class="QLabel" name="labelBTCEndPoint">
+           <property name="text">
+            <string>BTC End Point:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="btcEndPoint"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4_Pref_5">
+         <item>
+          <widget class="QLabel" name="labelBTCLogin">
+           <property name="text">
+            <string>BTC RPC Login:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="btcRPCLogin"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4_Pref_4">
+         <item>
+          <widget class="QLabel" name="labelBTCPassword">
+           <property name="text">
+            <string>BTC RPC Password:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="btcRPCPassword"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+      <zorder>btcEndPointLabel</zorder>
+      <zorder>layoutWidget</zorder>
+      <zorder>layoutWidget_2</zorder>
+      <zorder>layoutWidget_3</zorder>
+     </widget>
+     <widget class="QWidget" name="tabDirectZEC">
+      <attribute name="title">
+       <string>DirectZEC</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_Pref_4">
+         <item>
+          <widget class="QLabel" name="labelZECEndPoint">
+           <property name="text">
+            <string>ZEC End Point:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="zecEndPoint"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4_Pref_7">
+         <item>
+          <widget class="QLabel" name="labelZECLogin">
+           <property name="text">
+            <string>ZEC RPC Login:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="zecRPCLogin"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4_Pref_6">
+         <item>
+          <widget class="QLabel" name="labelZECRPCPassword">
+           <property name="text">
+            <string>ZEC RPC Password:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="zecRPCPassword"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

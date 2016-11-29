@@ -45,6 +45,12 @@ public:
 		DefaultAlias,			// QString
 		DefaultPegAlias,		// QString
 		SafeSearch,				// QString
+		ZecEndPoint,			// QString
+		BtcEndPoint,			// QString
+		ZecRPCLogin,			// QString
+		BTCRPCLogin,			// QString
+		ZecRPCPassword,			// QString
+		BtcRPCPassword,			// QString
         Language,               // QString
         CoinControlFeatures,    // bool
         ThreadsScriptVerif,     // int
