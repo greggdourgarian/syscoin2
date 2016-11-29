@@ -8,7 +8,7 @@ BtcRpcClient::BtcRpcClient()
 	m_client.setUsername(settings.value("btcRPCLogin", "").toString());
 	m_client.setPassword(settings.value("btcRPCPassword", "").toString());
 }
-void BtcRpcClient::sendRequest(const QNetworkAccessManager *nam, const QString &request, const QString &param)
+void BtcRpcClient::sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param)
 {
 	m_client.sendRequest(nam, request, param);
 }

@@ -26,7 +26,7 @@ void RpcClient::setUsername(const QString &username) {
 void RpcClient::setPassword(const QString &password) {
     m_password = password;
 }
-void RpcClient::sendRequest(const QNetworkAccessManager *nam, const QString &method, const QString &param) {
+void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, const QString &param) {
 
 	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"syscoinRpcClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
 	QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
