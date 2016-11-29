@@ -8,8 +8,6 @@ QT_END_NAMESPACE
 
 class ZecRpcClient
 {
-    Q_OBJECT
-
 public:
  
     explicit ZecRpcClient();
