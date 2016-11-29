@@ -138,7 +138,6 @@ public:
         SetNull();
         UnserializeFromTx(tx);
     }
-	void GetAddress(CSyscoinAddress* address, const uint32_t nPaymentOption=1);
 	void ClearAlias()
 	{
 		vchPublicValue.clear();
@@ -353,5 +352,6 @@ void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const std::string &strPrivKey="");
 void CleanupSyscoinServiceDatabases();
 int aliasunspent(const std::vector<unsigned char> &vchAlias, COutPoint& outpoint);
-bool IsMyAlias(CAliasIndex& alias);
+bool IsMyAlias(const CAliasIndex& alias);
+void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, const uint32_t nPaymentOption=1);
 #endif // ALIAS_H

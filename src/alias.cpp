@@ -615,7 +615,7 @@ void updateBans(const vector<unsigned char> &banData)
 					CPubKey PubKey(aliasBan.vchPubKey);
 					CSyscoinAddress address(PubKey.GetID());
 					CSyscoinAddress multisigAddress;
-					aliasBan.GetAddress(&multisigAddress);
+					GetAddress(aliasBan, &multisigAddress);
 					paliasdb->WriteAlias(vchGUID, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxAliasPos);
 					
 				}		
@@ -1186,16 +1186,16 @@ void CAliasIndex::Serialize(vector<unsigned char>& vchData) {
     vchData = vector<unsigned char>(dsAlias.begin(), dsAlias.end());
 
 }
-void CAliasIndex::GetAddress(CSyscoinAddress* address,const uint32_t nPaymentOption)
+void CAliasIndex::GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_t nPaymentOption)
 {
 	if(!address)
 		return;
-	CPubKey aliasPubKey(vchPubKey);
+	CPubKey aliasPubKey(alias.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
 	address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
-	if(multiSigInfo.vchAliases.size() > 0)
+	if(alias.multiSigInfo.vchAliases.size() > 0)
 	{
-		CScript inner = CScript(multiSigInfo.vchRedeemScript.begin(), multiSigInfo.vchRedeemScript.end());
+		CScript inner = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
 		CScriptID innerID(inner);
 		address[0] = CSyscoinAddress(innerID, myAddressType);
 	}
@@ -1310,8 +1310,7 @@ bool CAliasDB::CleanupDatabase()
 					CPubKey PubKey(txPos.vchPubKey);
 					CSyscoinAddress address(PubKey.GetID());
 					CSyscoinAddress multisigAddress;
-					CAliasIndex tmpAlias = txPos;
-					tmpAlias.GetAddress(&multisigAddress);
+					GetAddress(txPos, &multisigAddress);
 					EraseAlias(vchMyAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()));
 				} 
 				
@@ -1652,7 +1651,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 		return;
 
 	CSyscoinAddress addressFrom;
-	theAlias.GetAddress(&addressFrom);
+	GetAddress(theAlias, &addressFrom);
 
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
@@ -2295,9 +2294,9 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 
 	CSyscoinAddress address;
-	alias.GetAddress(&address);
+	GetAddress(alias, &address);
 	CSyscoinAddress dbaddress;
-	dbAlias.GetAddress(&dbaddress);
+	GetAddress(dbAlias, &dbaddress);
 
 	string addressValue = noDifferentStr;
 	if(address.ToString() != dbaddress.ToString())
@@ -2402,10 +2401,10 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	}
 	return res;
 }
-bool IsMyAlias(CAliasIndex& alias)
+bool IsMyAlias(const CAliasIndex& alias)
 {
 	CSyscoinAddress address;
-	myAlias.GetAddress(&address);
+	GetAddress(alias, &address);
 	return !IsMine(*pwalletMain, address.Get());
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
@@ -2601,7 +2600,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		return ValueFromAmount(nAmount);
 
 	CSyscoinAddress addressFrom;
-	theAlias.GetAddress(&addressFrom);
+	GetAddress(theAlias, &addressFrom);
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 		return ValueFromAmount(nAmount);
@@ -2718,7 +2717,6 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 }
 bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const string &strPrivKey)
 {
-	CAliasIndex aliasTmp = alias;
 	uint64_t nHeight;
 	int expired = 0;
 	int expires_in = 0;
@@ -2748,7 +2746,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 
 	oName.push_back(Pair("txid", alias.txHash.GetHex()));
 	CSyscoinAddress address;
-	aliasTmp.GetAddress(&address);
+	GetAddress(alias, &address);
 	if(!address.IsValid())
 		return false;
 

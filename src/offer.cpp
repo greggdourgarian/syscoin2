@@ -1364,14 +1364,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 					commissionaddy = CSyscoinAddress(commissionDest);
 					CSyscoinAddress aliaslinkaddy;
-					linkAlias.GetAddress(&aliaslinkaddy);
+					GetAddress(linkAlias, &aliaslinkaddy);
 					if(aliaslinkaddy.ToString() != destaddy.ToString())
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1108 - " + _("Payment destination does not match merchant address");
 						return true;
 					}
 					CSyscoinAddress aliasaddy;
-					alias.GetAddress(&aliasaddy);
+					GetAddress(alias, &aliasaddy);
 					if(aliasaddy.ToString() != commissionaddy.ToString())
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1109 - " + _("Commission destination does not match affiliate address");
@@ -1388,7 +1388,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 					destaddy = CSyscoinAddress(payDest);
 					CSyscoinAddress aliasaddy;
-					alias.GetAddress(&aliasaddy);
+					GetAddress(alias, &aliasaddy);
 					if(aliasaddy.ToString() != destaddy.ToString())
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1111 - " + _("Payment destination does not match merchant address");
@@ -2749,7 +2749,7 @@ void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, vector<COffe
 				}
 				PutToAliasList(vtxPos, alias);
 				CSyscoinAddress multisigAddress;
-				alias.GetAddress(&multisigAddress);
+				GetAddress(alias, &multisigAddress);
 				paliasdb->WriteAlias(vchAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos);
 			}
 		}
@@ -3205,7 +3205,6 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 		return false;
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
 		return false;
-	CAliasIndex tmpAlias = alias;
 	CTransaction linkTx;
 	COffer linkOffer;
 	vector<COffer> myLinkedVtxPos;
@@ -3300,7 +3299,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	oOffer.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 	oOffer.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
 	CSyscoinAddress address;
-	tmpAlias.GetAddress(&address);
+	GetAddress(alias, &address);
 	if(!address.IsValid())
 		return false;
 	oOffer.push_back(Pair("address", address.ToString()));

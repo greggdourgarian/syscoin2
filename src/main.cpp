@@ -2465,8 +2465,8 @@ bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, 
 	paliasdb->ReadAlias(vvchArgs[0], vtxPos);
 	if(vtxPos.empty())
 		return true;
-	CAliasIndex foundAlias = vtxPos.back();
-	while (!vtxPos.empty() && vtxPos.back().txHash == tx.GetHash())	
+	const CAliasIndex &foundAlias = vtxPos.back();
+	while (!vtxPos.empty() && foundAlias.txHash == tx.GetHash())	
 		vtxPos.pop_back();
 	while (!vtxPaymentPos.empty() && vtxPaymentPos.back().txHash == tx.GetHash())	
 		vtxPaymentPos.pop_back();	
@@ -2474,7 +2474,7 @@ bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, 
 	CPubKey PubKey(foundAlias.vchPubKey);
 	CSyscoinAddress address(PubKey.GetID());
 	CSyscoinAddress multisigAddress;
-	foundAlias.GetAddress(&multisigAddress);
+	GetAddress(foundAlias, &multisigAddress);
 	if(!paliasdb->WriteAlias(vvchArgs[0], vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos))
 		return error("DisconnectBlock() : failed to write to alias DB");
 	if(!paliasdb->WriteAliasPayment(vvchArgs[0], vtxPaymentPos))
