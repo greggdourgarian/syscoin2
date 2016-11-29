@@ -485,7 +485,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CTransaction aliastx;
 	if (!GetTxOfAlias(vchFromString(strFromAddress), aliasFrom, aliastx, true))
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3500 - " + _("Could not find an alias with this name"));
-    if(!IsSyscoinTxMine(aliastx, "alias")) {
+    if(!IsMyAlias(aliasFrom)) {
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3501 - " + _("This alias is not yours"));
     }
 	COutPoint outPoint;

@@ -1332,7 +1332,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	}
 
-	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+	if(!IsMyAlias(buyeralias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4519 - " + _("You must own the buyer alias to complete this transaction"));
 	COutPoint outPoint;
 	int numResults  = aliasunspent(buyeralias.vchAlias, outPoint);	
@@ -1662,7 +1662,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
-		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+		if(!IsMyAlias(arbiterAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4530 - " + _("You must own the arbiter alias to complete this transaction"));
 		
 		numResults  = aliasunspent(arbiterAlias.vchAlias, outPoint);		
@@ -1678,7 +1678,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "buyer")
 	{
-		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+		if(!IsMyAlias(buyerAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4531 - " + _("You must own the buyer alias to complete this transaction"));
 		numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
@@ -1932,7 +1932,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 	}
 	
-	if(!IsSyscoinTxMine(selleraliastx, "alias"))
+	if(!IsMyAlias(sellerAlias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4537 - " + _("You must own the seller alias to complete this transaction"));
 	COutPoint outPoint;
 	int numResults  = aliasunspent(sellerAlias.vchAlias, outPoint);	
@@ -2359,7 +2359,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	if(!IsSyscoinTxMine(selleraliastx, "alias"))
+	if(!IsMyAlias(sellerAlias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4559 - " + _("You must own the seller alias to complete this transaction"));
 	COutPoint outPoint;
 	int numResults  = aliasunspent(sellerAlias.vchAlias, outPoint);		
@@ -2585,7 +2585,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or seller?
 	if(role == "arbiter")
 	{
-		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+		if(!IsMyAlias(arbiterAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("You must own the arbiter alias to complete this transaction"));
 		
 		numResults  = aliasunspent(arbiterAlias.vchAlias, outPoint);		
@@ -2601,7 +2601,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
-		if(!IsSyscoinTxMine(selleraliastx, "alias"))
+		if(!IsMyAlias(sellerAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4567 - " + _("You must own the seller alias to complete this transaction"));
 		
 		numResults  = aliasunspent(sellerAlias.vchAlias, outPoint);		
@@ -3060,7 +3060,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+	if(!IsMyAlias(buyerAlias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4589 - " + _("You must own the buyer alias to complete this transaction"));
 	COutPoint outPoint;
 	int numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);		
@@ -3207,7 +3207,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	if(role == "buyer")
 	{
-		if(!IsSyscoinTxMine(buyeraliastx, "alias"))
+		if(!IsMyAlias(buyerAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4591 - " + _("You must own the buyer alias to complete this transaction"));
 		
 		numResults  = aliasunspent(buyerAliasLatest.vchAlias, outPoint);			
@@ -3224,7 +3224,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
-		if(!IsSyscoinTxMine(selleraliastx, "alias"))
+		if(!IsMyAlias(sellerAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4592 - " + _("You must own the seller alias to complete this transaction"));
 		
 		numResults  = aliasunspent(sellerAliasLatest.vchAlias, outPoint);		
@@ -3239,7 +3239,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "reseller")
 	{
-		if(!IsSyscoinTxMine(reselleraliastx, "alias"))
+		if(!IsMyAlias(resellerAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4593 - " + _("You must own the reseller alias to complete this transaction"));
 		
 		numResults  = aliasunspent(resellerAliasLatest.vchAlias, outPoint);		
@@ -3255,7 +3255,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "arbiter")
 	{
-		if(!IsSyscoinTxMine(arbiteraliastx, "alias"))
+		if(!IsMyAlias(arbiterAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4594 - " + _("You must own the arbiter alias to complete this transaction"));
 		
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outPoint);			

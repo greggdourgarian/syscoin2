@@ -29,7 +29,7 @@ static const unsigned int MAX_ALIAS_UPDATES_PER_BLOCK = 50;
 
 static const unsigned int SAFETY_LEVEL1 = 1;
 static const unsigned int SAFETY_LEVEL2 = 2;
-static const unsigned int SYSCOIN_FORK1 = 50000;
+static const unsigned int SYSCOIN_FORK1 = 321000;
 
 bool IsSys21Fork(const uint64_t& nHeight);
 class CAliasPayment {

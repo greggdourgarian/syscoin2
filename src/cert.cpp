@@ -686,7 +686,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2500 - " + _("failed to read alias from alias DB"));
 
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2501 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -895,7 +895,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	if (!GetTxOfAlias(theCert.vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2506 - " + _("Failed to read alias from alias DB"));
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2507 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -1065,7 +1065,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	{
 		 throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2514 - " + _("Could not find the certificate alias"));
 	}
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(fromAlias)) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2515 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -1207,7 +1207,7 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2521 - " + _("Failed to read xfer alias from alias DB"));
 
 
-	if(!BuildCertJson(cert, alias, aliastx, oCert))
+	if(!BuildCertJson(cert, alias, oCert))
 		oCert.clear();
     return oCert;
 }
@@ -1262,15 +1262,13 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if (!paliasdb->ReadAlias(cert.vchAlias, vtxPos) || vtxPos.empty())
 			continue;
 		const CAliasIndex &alias = vtxPos.back();
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
 		UniValue oCert(UniValue::VOBJ);
-		if(BuildCertJson(cert, alias, aliastx, oCert, strPrivateKey))
+		if(BuildCertJson(cert, alias, oCert, strPrivateKey))
 			oRes.push_back(oCert);
 	}
     return oRes;
 }
-bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransaction& aliastx, UniValue& oCert, const string &strPrivKey)
+bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert, const string &strPrivKey)
 {
 	if(cert.safetyLevel >= SAFETY_LEVEL2)
 		return false;
@@ -1308,7 +1306,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, const CTransacti
 	unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
 	oCert.push_back(Pair("safetylevel", safetyLevel));
 
-    oCert.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias") ? "true" : "false"));
+    oCert.push_back(Pair("ismine", IsMyAlias(alias) ? "true" : "false"));
 
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
@@ -1345,12 +1343,6 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
 	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2524 - " + _("Failed to read from alias DB"));
 	
-	CAliasIndex alias = vtxAliasPos.back();
-	CTransaction aliastx;
-	uint256 txHash;
-	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2525 - " + _("Failed to read alias transaction"));
-
     CCert txPos2;
 	CTransaction tx;
 	vector<vector<unsigned char> > vvch;
@@ -1371,7 +1363,7 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
 		UniValue oCert(UniValue::VOBJ);
 		string opName = certFromOp(op);
 		oCert.push_back(Pair("certtype", opName));
-		if(BuildCertJson(txPos2, alias, aliastx, oCert))
+		if(BuildCertJson(txPos2, alias, oCert))
 			oRes.push_back(oCert);
     }
     
@@ -1423,10 +1415,8 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
 		if(!paliasdb->ReadAlias(txCert.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 			continue;
 		const CAliasIndex& alias = vtxAliasPos.back();
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
 		UniValue oCert(UniValue::VOBJ);
-		if(BuildCertJson(txCert, alias, aliastx, oCert))
+		if(BuildCertJson(txCert, alias, oCert))
 			oRes.push_back(oCert);
 	}
 

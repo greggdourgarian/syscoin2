@@ -1562,7 +1562,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	if (!GetTxOfAlias(vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1500 - " + _("Could not find an alias with this name"));
-    if(!IsSyscoinTxMine(aliastx, "alias")) {
+    if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1501 - " + _("This alias is not yours"));
     }
 	COutPoint outPoint;
@@ -1749,7 +1749,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 	if (!GetTxOfAlias(vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1506 - " + _("Could not find an alias with this name"));
-    if(!IsSyscoinTxMine(aliastx, "alias")) {
+    if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1507 - " + _("This alias is not yours"));
     }
 	COutPoint outPoint;
@@ -1918,7 +1918,7 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias( theOffer.vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1511 - " + _("Could not find an alias with this guid"));
 
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1512 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -2037,7 +2037,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	CAliasIndex theAlias;
 	if (!GetTxOfAlias( theOffer.vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1516 - " + _("Could not find an alias with this guid"));
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1517 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -2145,7 +2145,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(theOffer.vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1521 - " + _("Could not find an alias with this guid"));
 
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1522 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -2342,7 +2342,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1526 - " + _("Could not find an alias with this name"));
 
-	if(!IsSyscoinTxMine(aliastx, "alias")) {
+	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1527 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -3193,13 +3193,13 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	if(!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1558 - " + _("Could not find the alias associated with this offer"));
 
-	if(!BuildOfferJson(theOffer, alias, aliastx, oOffer))
+	if(!BuildOfferJson(theOffer, alias, oOffer))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1559 - " + _("Could not find this offer"));
 
 	return oOffer;
 
 }
-bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOffer, const string &strPrivKey)
+bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const string &strPrivKey)
 {
 	if(theOffer.safetyLevel >= SAFETY_LEVEL2)
 		return false;
@@ -3270,7 +3270,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, const CTra
 	else
 		oOffer.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nPricePerUnit).get_real())));
 
-	oOffer.push_back(Pair("ismine", IsSyscoinTxMine(aliastx, "alias")  ? "true" : "false"));
+	oOffer.push_back(Pair("ismine", IsMyAlias(alias)  ? "true" : "false"));
 	if(!theOffer.vchLinkOffer.empty()) {
 		oOffer.push_back(Pair("commission", strprintf("%d", theOffer.nCommission)));
 		oOffer.push_back(Pair("offerlink", "true"));
@@ -3688,7 +3688,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oOffer(UniValue::VOBJ);
 					vNamesI[offer.vchOffer] = theOffer.nHeight;
-					if(BuildOfferJson(theOffer, theAlias, tx, oOffer, strPrivateKey))
+					if(BuildOfferJson(theOffer, theAlias, oOffer, strPrivateKey))
 					{
 						oRes.push_back(oOffer);
 					}
@@ -3715,12 +3715,6 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 	if (!paliasdb->ReadAlias(vtxPos.back().vchAlias, vtxAliasPos) || vtxAliasPos.empty())
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1561 - " + _("Failed to read from alias DB"));
 	
-	CAliasIndex alias = vtxAliasPos.back();
-	CTransaction aliastx;
-	uint256 txHash;
-	if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1562 - " + _("Failed to read alias transaction"));
-
 
 	COffer txPos2;
 	CAliasIndex theAlias;
@@ -3749,7 +3743,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 
 		
 		oOffer.push_back(Pair("offertype", opName));
-		if(BuildOfferJson(txPos2, alias, aliastx, oOffer))
+		if(BuildOfferJson(txPos2, alias, oOffer))
 			oRes.push_back(oOffer);
 	}
 	
@@ -3798,10 +3792,8 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 			continue;
 		const CAliasIndex& alias = vtxAliasPos.back();
 
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
 		UniValue oOffer(UniValue::VOBJ);
-		if(BuildOfferJson(txOffer, alias, aliastx, oOffer))
+		if(BuildOfferJson(txOffer, alias, oOffer))
 			oRes.push_back(oOffer);
 	}
 

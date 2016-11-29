@@ -60,7 +60,7 @@ bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut
 }
 bool IsSys21Fork(const uint64_t& nHeight)
 {
-	if(nHeight <= /*SYSCOIN_FORK1*/0 && ChainNameFromCommandLine() == CBaseChainParams::MAIN)
+	if(nHeight <= SYSCOIN_FORK1 && ChainNameFromCommandLine() == CBaseChainParams::MAIN)
 		return false;
 	return true;
 }
@@ -1785,7 +1785,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CPubKey defaultKey = pwalletMain->GenerateNewKey();
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsSyscoinTxMine(oldTx, "alias"))
+	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsMyAlias(oldAlias))
 	{
 		defaultKey = CPubKey(oldAlias.vchPubKey);	
 	}
@@ -1898,7 +1898,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
 	// if renewing your own alias and address changed, transfer balances
-	if(!oldAlias.IsNull() && newAddress.ToString() != oldAddress.ToString() && IsSyscoinTxMine(oldTx, "alias"))
+	if(!oldAlias.IsNull() && newAddress.ToString() != oldAddress.ToString() && IsMyAlias(oldAlias))
 	{
 		coinControl.fAllowOtherInputs = true;
 		coinControl.fAllowWatchOnly = true;
@@ -2402,6 +2402,12 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	}
 	return res;
 }
+bool IsMyAlias(const CAliasIndex& alias)
+{
+	CSyscoinAddress address;
+	alias.GetAddress(&address);
+	return !IsMine(*pwalletMain, address.Get());
+}
 UniValue aliaslist(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
 		throw runtime_error("aliaslist [<aliasname>] [<privatekey>]\n"
@@ -2462,9 +2468,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			else{
 				if (!DecodeAliasTx(tx, op, nOut, vvch) || !IsAliasOp(op))
 					continue;
-				CSyscoinAddress address;
-				alias.GetAddress(&address);
-				if(!IsMine(*pwalletMain, address.Get()))
+				if(!IsMyAlias(alias))
 					continue;
 			}
 		}
@@ -2547,7 +2551,7 @@ UniValue aliasaffiliates(const UniValue& params, bool fHelp) {
 				COfferLinkWhitelistEntry& entry = linkOffer.linkWhitelist.entries[i];
 				if (GetTxOfAlias(entry.aliasLinkVchRand, theAlias, txAlias))
 				{
-					if (!IsSyscoinTxMine(txAlias, "alias"))
+					if (!IsMyAlias(theAlias))
 						continue;
 					UniValue oList(UniValue::VOBJ);
 					oList.push_back(Pair("offer", stringFromVch(vchOffer)));
@@ -2747,6 +2751,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	aliasTmp.GetAddress(&address);
 	if(!address.IsValid())
 		return false;
+
 	oName.push_back(Pair("address", address.ToString()));
 
 	oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
@@ -2757,8 +2762,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const
 	CAmount nAliasBalance = AmountFromValue(resBalance);
 	oName.push_back(Pair("balance", ValueFromAmount(nAliasBalance)));
 
-	bool fAliasMine = IsSyscoinTxMine(aliastx, "alias")? true:  false;
-	oName.push_back(Pair("ismine", fAliasMine));
+	oName.push_back(Pair("ismine", IsMyAlias(alias)? true:  false));
 	oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
 	oName.push_back(Pair("acceptcerttransfers", alias.acceptCertTransfers ? "Yes" : "No"));
 	oName.push_back(Pair("safetylevel", alias.safetyLevel ));
