@@ -3406,7 +3406,8 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 						continue;
 					if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 						continue;
-					
+					if(theOffer.vchAlias != theAlias.vchAlias)
+						continue;
 					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
 					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, strPrivateKey))
@@ -3683,6 +3684,8 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					if (!pofferdb->ReadOffer(offer.vchOffer, vtxOfferPos) || vtxOfferPos.empty())
 						continue;
 					const COffer &theOffer = vtxOfferPos.back();
+					if(theOffer.vchAlias != theAlias.vchAlias)
+						continue;
 					offerScan.push_back(theOffer);
 					
 					UniValue oOffer(UniValue::VOBJ);

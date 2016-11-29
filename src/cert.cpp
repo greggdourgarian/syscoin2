@@ -1262,6 +1262,8 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if (!paliasdb->ReadAlias(cert.vchAlias, vtxPos) || vtxPos.empty())
 			continue;
 		const CAliasIndex &alias = vtxPos.back();
+		if(cert.vchAlias != alias.vchAlias)
+				continue;
 		UniValue oCert(UniValue::VOBJ);
 		if(BuildCertJson(cert, alias, oCert, strPrivateKey))
 			oRes.push_back(oCert);
