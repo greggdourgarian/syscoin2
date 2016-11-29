@@ -6,6 +6,7 @@
 using namespace std;
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QJsonDocument>
 #include <QAuthenticator>
 #include <QDebug>
 #include "qjsonrpcclient.h"
@@ -28,7 +29,8 @@ void RpcClient::setPassword(const QString &password) {
 void RpcClient::sendRequest(const QNetworkAccessManager *nam, const QString &method, const QString &param) {
 
 	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"syscoinRpcClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
-	QByteArray postData = data.toJson();
+	QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
+	QByteArray postData = doc.toJson();
 	QUrl url(m_endpoint);
 	QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
