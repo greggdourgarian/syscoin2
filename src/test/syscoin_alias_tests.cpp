@@ -841,13 +841,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node3");
 
 	string aliasexpirepubkey = AliasNew("node1", "aliasexpire", "password", "somedata");
+	AliasNew("node1", "aliasexpire0", "password", "somedata");
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "password", "somedata");
 	AliasNew("node2", "aliasexpirednode2", "password", "somedata");
-	GenerateBlocks(30);
+	GenerateBlocks(20);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
 	GenerateBlocks(5);
-	string offerguid = OfferNew("node1", "aliasexpire", "category", "title", "100", "0.01", "description", "USD");
+	string offerguid = OfferNew("node1", "aliasexpire0", "category", "title", "100", "0.01", "description", "USD");
 	OfferAddWhitelist("node1", offerguid, "aliasexpirednode2", "5");
 	string certguid = CertNew("node1", "aliasexpire", "certtitle", "certdata", false, "Yes");
 	StopNode("node3");
@@ -860,7 +861,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire2"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire0"));
 	const UniValue &array = r.get_array();
 	string escrowguid = array[1].get_str();	
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
@@ -920,7 +921,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	MilliSleep(2500);
 	
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata 0"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " category title 100 0.05 description"));
 	// expire the escrow
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 30"));
 	MilliSleep(2500);
@@ -935,6 +936,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire0 newdata1 privdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1 privdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
