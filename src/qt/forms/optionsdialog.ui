@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>7</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -774,6 +774,11 @@
         </widget>
        </item>
       </layout>
+      <zorder>btcEndPointLabel</zorder>
+      <zorder>layoutWidget</zorder>
+      <zorder>layoutWidget_2</zorder>
+      <zorder>layoutWidget_3</zorder>
+      <zorder>testZECButton</zorder>
      </widget>
      <widget class="QWidget" name="tabDirectZEC">
       <attribute name="title">

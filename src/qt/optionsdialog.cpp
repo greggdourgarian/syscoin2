@@ -165,7 +165,7 @@ void OptionsDialog::on_testZECButton_clicked()
 }
 void OptionsDialog::on_testBTCButton_clicked()
 {
-	BtcRpcClient zecClient;
+	BtcRpcClient btcClient;
 	ui->testBTCButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
