@@ -27,6 +27,7 @@ public:
     ~ManageEscrowDialog();
 	void SendRawTxBTC();
 	void CheckPaymentInBTC();
+	void CheckPaymentInZEC();
 	bool isYourAlias(const QString &alias);
 	bool CompleteEscrowRefund();
 	bool CompleteEscrowRelease();
