@@ -27,7 +27,7 @@ private:
     QString m_username;
     QString m_password;
 
-private:
+public:
 	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &response);
 private Q_SLOTS:
 	 virtual void handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator);
