@@ -767,7 +767,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="testZECButton">
+        <widget class="QPushButton" name="testBTCButton">
          <property name="text">
           <string>Test Connection</string>
          </property>
@@ -823,7 +823,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="testBTCButton">
+        <widget class="QPushButton" name="testZECButton">
          <property name="text">
           <string>Test Connection</string>
          </property>
