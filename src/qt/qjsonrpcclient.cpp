@@ -1,4 +1,11 @@
-
+#if QT_VERSION < 0x050000
+#include <QUrl>
+#else
+#include <QUrlQuery>
+#endif
+using namespace std;
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QAuthenticator>
 #include <QDebug>
 #include "qjsonrpcclient.h"
