@@ -3406,7 +3406,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 						continue;
 					if (vchNameUniq.size() > 0 && vchNameUniq != theOffer.accept.vchAcceptRand)
 						continue;
-					if(theOffer.vchAlias != theAlias.vchAlias)
+					if(theOffer.vchAlias != theAlias.vchAlias && theOffer.accept.vchBuyerAlias != theAlias.vchAlias)
 						continue;
 					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
