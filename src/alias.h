@@ -353,5 +353,5 @@ void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const std::string &strPrivKey="");
 void CleanupSyscoinServiceDatabases();
 int aliasunspent(const std::vector<unsigned char> &vchAlias, COutPoint& outpoint);
-bool IsMyAlias(const CAliasIndex& alias);
+bool IsMyAlias(CAliasIndex& alias)
 #endif // ALIAS_H

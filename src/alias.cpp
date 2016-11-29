@@ -2402,10 +2402,10 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	}
 	return res;
 }
-bool IsMyAlias(const CAliasIndex& alias)
+bool IsMyAlias(CAliasIndex& alias)
 {
 	CSyscoinAddress address;
-	alias.GetAddress(&address);
+	myAlias.GetAddress(&address);
 	return !IsMine(*pwalletMain, address.Get());
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
