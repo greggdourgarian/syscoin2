@@ -2462,7 +2462,11 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			else{
 				if (!DecodeAliasTx(tx, op, nOut, vvch) || !IsAliasOp(op))
 					continue;
-				if(!IsSyscoinTxMine(tx, "alias"))
+				CSyscoinAddress address;
+				alias.GetAddress(&address);
+				if(!address.IsValid())
+					continue;
+				if(!IsMine(pwalletMain, address.Get()))
 					continue;
 			}
 		}
