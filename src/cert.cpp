@@ -1344,6 +1344,7 @@ UniValue certhistory(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2524 - " + _("Failed to read from alias DB"));
 	
     CCert txPos2;
+	CAliasIndex alias;
 	CTransaction tx;
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
