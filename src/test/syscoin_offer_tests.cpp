@@ -569,7 +569,7 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	// generate a good cert offer
 	string offerguid = OfferNew("node1", "node1alias2", "category", "title", "1", "0.05", "description", "USD", certguid);
 
-	// updates the offer so it won't expire, and doesn't update cert linked to offer so we can have offer linked with expired cert
+	// updates the alias which updates the offer and cert using this alias
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"));
 
 	offerguid = OfferNew("node1", "node1alias2", "category", "title", "1", "0.05", "description", "USD", certguid);
