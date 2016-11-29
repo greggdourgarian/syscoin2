@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>5</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -766,11 +766,19 @@
          </item>
         </layout>
        </item>
+       <item>
+        <widget class="QPushButton" name="testZECButton">
+         <property name="text">
+          <string>Test Connection</string>
+         </property>
+        </widget>
+       </item>
       </layout>
       <zorder>btcEndPointLabel</zorder>
       <zorder>layoutWidget</zorder>
       <zorder>layoutWidget_2</zorder>
       <zorder>layoutWidget_3</zorder>
+      <zorder>testZECButton</zorder>
      </widget>
      <widget class="QWidget" name="tabDirectZEC">
       <attribute name="title">
@@ -818,6 +826,13 @@
           <widget class="QLineEdit" name="zecRPCPassword"/>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="testBTCButton">
+         <property name="text">
+          <string>Test Connection</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

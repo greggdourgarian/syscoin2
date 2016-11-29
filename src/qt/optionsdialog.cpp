@@ -29,7 +29,16 @@
 #include <QLocale>
 #include <QMessageBox>
 #include <QTimer>
-
+#include "qzecjsonrpcclient.h"
+#include "qbtcjsonrpcclient.h"
+#if QT_VERSION < 0x050000
+#include <QUrl>
+#else
+#include <QUrlQuery>
+#endif
+using namespace std;
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     QDialog(parent),
     ui(new Ui::OptionsDialog),
@@ -145,7 +154,42 @@ OptionsDialog::~OptionsDialog()
 {
     delete ui;
 }
+// SYSCOIN
+void OptionsDialog::on_testZECButton_clicked()
+{
+	ZecRpcClient zecClient;
+	ui->testZECButton->setText(tr("Please Wait..."));	
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	zecClient.sendRequest(nam, "getinfo", "");
+}
+void OptionsDialog::on_testBTCButton_clicked()
+{
+	BtcRpcClient zecClient;
+	ui->testBTCButton->setText(tr("Please Wait..."));	
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	btcClient.sendRequest(nam, "getinfo", "");
+}
+void OptionsDialog::slotConfirmedFinished(QNetworkReply * reply)
+{
+	ui->testBTCButton->setText(tr("Test Connection"));	
+	ui->testZECButton->setText(tr("Test Connection"));	
+	if(reply->error() != QNetworkReply::NoError) {
+        QString msg = tr("Error communicating with %1: %2")
+            .arg(reply->request().url().toString())
+            .arg(reply->errorString());
 
+        QMessageBox::critical(this, windowTitle(),msg,QMessageBox::Ok, QMessageBox::Ok);
+	}
+	else
+	{
+        QMessageBox::information(this, windowTitle(),
+            tr("Connection successfully established!"),
+                QMessageBox::Ok, QMessageBox::Ok);
+	}
+	reply->deleteLater();
+}
 void OptionsDialog::setModel(OptionsModel *_model)
 {
     this->model = _model;
