@@ -1,5 +1,5 @@
-#ifndef ZECRpcClient_H
-#define ZECRpcClient_H
+#ifndef ZECRPCCLIENT_H
+#define ZECRPCCLIENT_H
 
 #include "qjsonrpcclient.h"
 QT_BEGIN_NAMESPACE
@@ -20,4 +20,4 @@ private:
 
 };
 
-#endif // ZECRpcClient_H
+#endif // ZECRPCCLIENT_H

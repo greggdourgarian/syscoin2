@@ -25,14 +25,15 @@ void RpcClient::setUsername(const QString &username) {
 void RpcClient::setPassword(const QString &password) {
     m_password = password;
 }
-void RpcClient::sendRequest(const QNetworkAccessManager *nam, const QString &request, const QString &param) {
+void RpcClient::sendRequest(const QNetworkAccessManager *nam, const QString &method, const QString &param) {
 
-	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"syscoinRpcClient\", ""\"method\": \"" + request + "\", \"params\": [" + param + "] }";
+	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"syscoinRpcClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
+	QByteArray postData = data.toJson();
 	QUrl url(m_endpoint);
 	QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Accept", "application/json-rpc");
-	nam->post(request, data);
+	nam->post(request, postData);
 }
 void RpcClient::handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator)
 {

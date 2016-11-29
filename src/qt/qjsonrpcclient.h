@@ -1,5 +1,5 @@
-#ifndef RpcClient_H
-#define RpcClient_H
+#ifndef RPCCLIENT_H
+#define RPCCLIENT_H
 
 #include <QDialog>
 QT_BEGIN_NAMESPACE
@@ -33,4 +33,4 @@ private Q_SLOTS:
 	 virtual void handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator);
 };
 
-#endif // RpcClient_H
+#endif // RPCCLIENT_H

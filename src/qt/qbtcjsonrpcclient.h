@@ -1,5 +1,5 @@
-#ifndef BTCRpcClient_H
-#define BTCRpcClient_H
+#ifndef BTCRPCCLIENT_H
+#define BTCRPCCLIENT_H
 
 #include "qjsonrpcclient.h"
 QT_BEGIN_NAMESPACE
@@ -20,4 +20,4 @@ private:
 
 };
 
-#endif // BTCRpcClient_H
+#endif // BTCRPCCLIENT_H
