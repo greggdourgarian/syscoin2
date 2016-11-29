@@ -4,6 +4,7 @@
 
 BtcRpcClient::BtcRpcClient()
 {
+	QSettings settings;
 	m_client = RpcClient(settings.value("btcEndPoint", "").toString());
 	m_client.setUsername(settings.value("btcRPCLogin", "").toString());
 	m_client.setPassword(settings.value("btcRPCPassword", "").toString());

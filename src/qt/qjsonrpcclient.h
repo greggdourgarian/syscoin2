@@ -15,7 +15,7 @@ class RpcClient
 public:
    
 
-    explicit RpcClient(const QString &endpoint, QObject *parent = 0);
+    explicit RpcClient(const QString &endpoint);
     ~RpcClient();
 
 
