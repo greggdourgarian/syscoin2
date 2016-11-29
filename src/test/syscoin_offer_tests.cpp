@@ -571,10 +571,10 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 
 	// updates the alias which updates the offer and cert using this alias
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"));
-	GenerateBlocks(15, "node2");
+
 	offerguid = OfferNew("node1", "node1alias2", "category", "title", "1", "0.05", "description", "USD", certguid);
 	GenerateBlocks(30);
-	GenerateBlocks(15, "node2");
+	GenerateBlocks(30, "node2");
 	// cert was renewed on above offernew
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"));
 	// should fail: generate a cert offer using an expired cert
