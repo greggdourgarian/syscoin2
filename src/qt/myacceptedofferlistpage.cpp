@@ -28,7 +28,8 @@ extern CRPCTable tableRPC;
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSettings>
-
+#include "qzecjsonrpcclient.h"
+#include "qbtcjsonrpcclient.h"
 MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformStyle, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MyAcceptedOfferListPage),
@@ -263,6 +264,11 @@ void MyAcceptedOfferListPage::on_ackButton_clicked()
 	}
 }
 void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
+	QString chain;
+	if(m_paymentOption == "BTC")
+		chain = tr("Bitcoin");
+	else if(m_paymentOption == "ZEC")
+		chain = tr("ZCash");
 	if(reply->error() != QNetworkReply::NoError) {
 		ui->extButton->setText(m_buttonText);
 		ui->extButton->setEnabled(true);
@@ -325,7 +331,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 				ui->extButton->setText(m_buttonText);
 				ui->extButton->setEnabled(true);
 				QMessageBox::critical(this, windowTitle(),
-					tr("Payment transaction found but it has not been confirmed by the Bitcoin blockchain yet! Please try again later."),
+					tr("Payment transaction found but it has not been confirmed by the %1 blockchain yet! Please try again later.").arg(chain),
 						QMessageBox::Ok, QMessageBox::Ok);
 				return;
 			}
@@ -352,7 +358,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 								ui->extButton->setText(m_buttonText);
 								ui->extButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your Bitcoin wallet and seeing the funds in your account.").arg(m_strExtTxId),
+									tr("Transaction ID %1 was found in the %2 blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your Bitcoin wallet and seeing the funds in your account.").arg(m_strExtTxId).arg(chain),
 									QMessageBox::Ok, QMessageBox::Ok);
 								return;
 							}
@@ -377,7 +383,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	ui->extButton->setText(m_buttonText);
 	ui->extButton->setEnabled(true);
 	QMessageBox::warning(this, windowTitle(),
-		tr("Payment not found in the Bitcoin blockchain! Please try again later"),
+		tr("Payment not found in the %1 blockchain! Please try again later").arg(chain),
 			QMessageBox::Ok, QMessageBox::Ok);	
 }
 void MyAcceptedOfferListPage::CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price)
@@ -388,12 +394,28 @@ void MyAcceptedOfferListPage::CheckPaymentInBTC(const QString &strExtTxId, const
 	ui->extButton->setEnabled(false);
 	m_strAddress = address;
 	m_strExtTxId = strExtTxId;
+
+	BtcRpcClient btcClient;
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + strExtTxId);
-	QNetworkRequest request(url);
-	nam->get(request);
+	btcClient.sendRequest(nam, "gettransaction", strExtTxId);
 }
+void MyAcceptedOfferListPage::CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price)
+{
+	dblPrice = price.toDouble();
+	m_buttonText = ui->extButton->text();
+	ui->extButton->setText(tr("Please Wait..."));
+	ui->extButton->setEnabled(false);
+	m_strAddress = address;
+	m_strExtTxId = strExtTxId;
+
+	ZecRpcClient zecClient;
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	zecClient.sendRequest(nam, "gettransaction", strExtTxId);
+
+}
+
 void MyAcceptedOfferListPage::on_extButton_clicked()
 {
  	if(!model)	
@@ -408,8 +430,7 @@ void MyAcceptedOfferListPage::on_extButton_clicked()
 	QString address, price, extTxId;
 	QString offerid = selection.at(0).data(OfferAcceptTableModel::NameRole).toString();
 	QString acceptid = selection.at(0).data(OfferAcceptTableModel::GUIDRole).toString();
-	QString paymentOption;
-	if(!lookup(offerid, acceptid, address, price, extTxId, paymentOption))
+	if(!lookup(offerid, acceptid, address, price, extTxId, m_paymentOption))
 	{
         QMessageBox::critical(this, windowTitle(),
         tr("Could not find this offer, please ensure the offer has been confirmed by the blockchain: ") + offerid,
@@ -423,8 +444,10 @@ void MyAcceptedOfferListPage::on_extButton_clicked()
             QMessageBox::Ok, QMessageBox::Ok);
         return;
 	}
-	if(paymentOption == QString("BTC"))
+	if(m_paymentOption == QString("BTC"))
 		CheckPaymentInBTC(extTxId, address, price);
+	else if(m_paymentOption == QString("ZEC"))
+		CheckPaymentInZEC(extTxId, address, price);
 
 
 }

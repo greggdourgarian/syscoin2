@@ -533,22 +533,29 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 }
 void ManageEscrowDialog::SendRawTxBTC()
 {
-	QNetworkAccessManager *nam = new QNetworkAccessManager(this); 
+	BtcRpcClient btcClient;	
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	QUrlQuery postData;
-	postData.addQueryItem("hex", m_rawTx);
-	QUrl url("http://btc.blockr.io/api/v1/tx/push");
-	QNetworkRequest request(url);
-	request.setHeader(QNetworkRequest::ContentTypeHeader, 
-		"application/x-www-form-urlencoded");
-	nam->post(request, postData.toString(QUrl::FullyEncoded).toUtf8());
+	btcClient.sendRequest(nam, "sendrawtransaction", m_rawTx);
+}
+void ManageEscrowDialog::SendRawTxZEC()
+{
+	ZecRpcClient zecClient;	
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	zecClient.sendRequest(nam, "sendrawtransaction", m_rawTx);
 }
 void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
+	QString chain;
+	if(m_paymentOption == "BTC")
+		chain = tr("Bitcoin");
+	else if(m_paymentOption == "ZEC")
+		chain = tr("ZCash");
 	if(reply->error() != QNetworkReply::NoError) {
 		ui->extButton->setText(m_buttontext);
 		GUIUtil::setClipboard(m_redeemTxId);
         QMessageBox::critical(this, windowTitle(),
-            tr("Could not find escrow payment on the Bitcoin blockchain, please ensure that the payment transaction ID <b>%1</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId),
+			tr("Could not find escrow payment on the %1 blockchain, please ensure that the payment transaction ID <b>%2</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference.").arg(chain).arg(m_redeemTxId),
                 QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
 		return;
@@ -603,7 +610,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 			{
 				GUIUtil::setClipboard(m_redeemTxId);
 				QMessageBox::information(this, windowTitle(),
-					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the Bitcoin blockchain and has <b>%3</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(QString::number(confirmations)),
+					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
 					QMessageBox::Ok, QMessageBox::Ok);	
 				reply->deleteLater();
 				return;
@@ -619,24 +626,22 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		reply->deleteLater();
 		return;
 	}
-	
 	reply->deleteLater();
 	ui->extButton->setText(m_buttontext);	
 	GUIUtil::setClipboard(m_redeemTxId);
 	QMessageBox::warning(this, windowTitle(),
-		tr("Escrow payment ID <b>%1</b> found in the Bitcoin blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId),
+		tr("Escrow payment ID <b>%1</b> found in the %2 blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(chain),
 			QMessageBox::Ok, QMessageBox::Ok);	
 }
 
 void ManageEscrowDialog::CheckPaymentInBTC()
 {
+	BtcRpcClient btcClient;
 	m_buttontext = tr("Check BTC Payment");
 	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
-	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + m_redeemTxId);
-	QNetworkRequest request(url);
-	nam->get(request);
+	btcClient.sendRequest(nam, "gettransaction", m_redeemTxId);
 }
 void ManageEscrowDialog::CheckPaymentInZEC()
 {
@@ -693,6 +698,8 @@ void ManageEscrowDialog::on_releaseButton_clicked()
 				m_redeemTxId = QString::fromStdString(retarray[1].get_str());
 				if(m_paymentOption == QString("BTC"))
 					SendRawTxBTC();
+				else if(m_paymentOption == QString("ZEC"))
+					SendRawTxZEC();
 			}
 			else
 			{
@@ -780,6 +787,8 @@ void ManageEscrowDialog::on_refundButton_clicked()
 				m_redeemTxId = QString::fromStdString(retarray[1].get_str());
 				if(m_paymentOption == QString("BTC"))
 					SendRawTxBTC();		
+				else if(m_paymentOption == QString("ZEC"))
+					SendRawTxZEC();	
 			}
 			else
 			{

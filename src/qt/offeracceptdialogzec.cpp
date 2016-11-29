@@ -32,6 +32,7 @@ using namespace std;
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include "qzecjsonrpcclient.h"
 extern CRPCTable tableRPC;
 OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QWidget *parent) :
     QDialog(parent),
@@ -351,19 +352,13 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 }
 void OfferAcceptDialogZEC::CheckPaymentInZEC()
 {
+	ZecRpcClient zecClient;
 	m_buttonText = ui->confirmButton->text();
-	ui->confirmButton->setText(tr("Please Wait..."));
+	ui->confirmButton->setText(tr("Please Wait..."));	
 	ui->confirmButton->setEnabled(false);
-	/*QNetworkAccessManager *nam = new QNetworkAccessManager(this);
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + ui->exttxidEdit->text().trimmed());
-	QNetworkRequest request(url);
-	nam->get(request);*/
-    QMessageBox::critical(this, windowTitle(),
-        tr("Payments with ZCash are not supported yet. Please contact the Syscoin Development team for an update on when payments will go online."),
-            QMessageBox::Ok, QMessageBox::Ok);
-	ui->confirmButton->setText(m_buttonText);
-	ui->confirmButton->setEnabled(true);
+	zecClient.sendRequest(nam, "gettransaction", ui->exttxidEdit->text().trimmed());
 }
 // send offeraccept with offer guid/qty as params and then send offerpay with wtxid (first param of response) as param, using RPC commands.
 void OfferAcceptDialogZEC::tryAcceptOffer()

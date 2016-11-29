@@ -38,6 +38,7 @@ public:
 	void showEvent ( QShowEvent * event );
 	bool lookup(const QString &lookupid, const QString &acceptid, QString& address, QString& price, QString& extTxId, QString& paymentOption);
 	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
+	void CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price);
 	void loadAliasList();
 public Q_SLOTS:
     void done(int retval);
@@ -56,6 +57,7 @@ private:
 	QString m_buttonText;
 	QString m_strExtTxId;
 	QString m_strAddress;
+	QString m_paymentOption;
 	double dblPrice;
 private Q_SLOTS:
 	void slotConfirmedFinished(QNetworkReply *);
