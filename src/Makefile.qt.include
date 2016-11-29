@@ -623,7 +623,7 @@ SYSCOIN_QT_CPP += \
   qt/qjsonrpc/json//qjsonarray.cpp \
   qt/qjsonrpc/json/qjsonvalue.cpp \
   qt/qjsonrpc/json/qjsonwriter.cpp \
-  qt/qjsonrpc/json/qjsonparser.cpp
+  qt/qjsonrpc/json/qjsonparser.cpp \
   qt/qjsonrpc/qjsonrpcmessage.cpp \
   qt/qjsonrpc/qjsonrpcservice.cpp \
   qt/qjsonrpc/qjsonrpcsocket.cpp \
