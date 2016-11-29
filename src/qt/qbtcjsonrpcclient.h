@@ -14,7 +14,7 @@ public:
  
     explicit BtcRpcClient();
     ~BtcRpcClient();
-	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param) 
+	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param);
 private:
 	RpcClient m_client;
 
