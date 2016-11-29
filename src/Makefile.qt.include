@@ -259,7 +259,7 @@ PROTOBUF_PROTO = qt/paymentrequest.proto
 
 SYSCOIN_QT_H = \
   qt/qjsonrpc/json/qjson_p.h \
-  qt/qjsonrpc/json/qjson_export.h
+  qt/qjsonrpc/json/qjson_export.h \
   qt/qjsonrpc/json/qjsonwriter_p.h \
   qt/qjsonrpc/json/qjsonparser_p.h \
   qt/qjsonrpc/json/qjsondocument.h \
