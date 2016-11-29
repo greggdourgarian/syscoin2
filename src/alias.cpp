@@ -2405,7 +2405,7 @@ bool IsMyAlias(const CAliasIndex& alias)
 {
 	CSyscoinAddress address;
 	GetAddress(alias, &address);
-	return !IsMine(*pwalletMain, address.Get());
+	return IsMine(*pwalletMain, address.Get());
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
