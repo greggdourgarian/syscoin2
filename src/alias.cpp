@@ -2464,9 +2464,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 					continue;
 				CSyscoinAddress address;
 				alias.GetAddress(&address);
-				if(!address.IsValid())
-					continue;
-				if(!IsMine(pwalletMain, address.Get()))
+				if(!IsMine(*pwalletMain, address.Get()))
 					continue;
 			}
 		}
