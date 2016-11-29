@@ -159,6 +159,8 @@ void OptionsDialog::on_testZECButton_clicked()
 {
 	ZecRpcClient zecClient;
 	ui->testZECButton->setText(tr("Please Wait..."));	
+	ui->testBTCButton->setEnabled(false);
+	ui->testZECButton->setEnabled(false);
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
 	zecClient.sendRequest(nam, "getinfo", "");
@@ -167,6 +169,8 @@ void OptionsDialog::on_testBTCButton_clicked()
 {
 	BtcRpcClient btcClient;
 	ui->testBTCButton->setText(tr("Please Wait..."));	
+	ui->testBTCButton->setEnabled(false);
+	ui->testZECButton->setEnabled(false);
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
 	btcClient.sendRequest(nam, "getinfo", "");
@@ -175,6 +179,8 @@ void OptionsDialog::slotConfirmedFinished(QNetworkReply * reply)
 {
 	ui->testBTCButton->setText(tr("Test Connection"));	
 	ui->testZECButton->setText(tr("Test Connection"));	
+	ui->testBTCButton->setEnabled(true);
+	ui->testZECButton->setEnabled(true);
 	if(reply->error() != QNetworkReply::NoError) {
         QString msg = tr("Error communicating with %1: %2")
             .arg(reply->request().url().toString())
