@@ -10,14 +10,17 @@ using namespace std;
 #include <QAuthenticator>
 #include <QDebug>
 #include "qjsonrpcclient.h"
-RpcClient::RpcClient(const QString &endpoint)
+RpcClient::RpcClient()
 {
-	m_endpoint = endpoint;
+	m_endpoint = "";
 	m_username = "";
 	m_password = "";
 }
 RpcClient::~RpcClient()
 {
+}
+void RpcClient::setEndpoint(const QString &endpoint) {
+    m_endpoint = endpoint;
 }
 void RpcClient::setUsername(const QString &username) {
     m_username = username;

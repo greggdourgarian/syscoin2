@@ -5,7 +5,7 @@
 ZecRpcClient::ZecRpcClient()
 {
 	QSettings settings;
-	m_client = RpcClient(settings.value("zecEndPoint", "").toString());
+	m_client.setEndpoint(settings.value("btcEndPoint", "").toString());
 	m_client.setUsername(settings.value("zecRPCLogin", "").toString());
 	m_client.setPassword(settings.value("zecRPCPassword", "").toString());
 }

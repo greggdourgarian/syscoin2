@@ -15,10 +15,10 @@ class RpcClient
 public:
    
 
-    explicit RpcClient(const QString &endpoint);
+    explicit RpcClient();
     ~RpcClient();
 
-
+	void setEndpoint(const QString &endPoint);
     void setUsername(const QString &username);
 	void setPassword(const QString &password);
 	
