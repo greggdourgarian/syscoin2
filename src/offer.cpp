@@ -2342,7 +2342,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1526 - " + _("Could not find an alias with this name"));
 
-	if(!IsMyAlias(theAlias)) {
+	if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1527 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
@@ -3730,8 +3730,8 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 		}
 		if (!DecodeOfferTx(tx, op, nOut, vvch) )
 			continue;
-		alias.nHeight = txPos2.nHeight;
-		alias.GetAliasFromList(vtxAliasPos);
+		theAlias.nHeight = txPos2.nHeight;
+		theAlias.GetAliasFromList(vtxAliasPos);
 
 		UniValue oOffer(UniValue::VOBJ);
 		string opName = offerFromOp(op);
@@ -3743,7 +3743,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 
 		
 		oOffer.push_back(Pair("offertype", opName));
-		if(BuildOfferJson(txPos2, alias, oOffer))
+		if(BuildOfferJson(txPos2, theAlias, oOffer))
 			oRes.push_back(oOffer);
 	}
 	
