@@ -901,7 +901,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(dbAlias.vchGUID != vvchArgs[1])
 				{
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5022 - " + _("Cannot edit this alias, guid mismatch");
-					return true;
+					theAlias = dbAlias;
 				}
 				if(theAlias.IsNull())
 					theAlias = vtxPos.back();
@@ -930,7 +930,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						if(theAlias.multiSigInfo.vchAliases.size() > 6 || theAlias.multiSigInfo.nRequiredSigs > 6)
 						{
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5023 - " + _("Alias multisig too big, reduce the number of signatures required for this alias and try again");
-							return true;
+							theAlias.multiSigInfo.SetNull();
 						}
 						std::vector<CPubKey> pubkeys; 
 						CPubKey pubkey(theAlias.vchPubKey);
@@ -948,17 +948,20 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						if(theAlias.multiSigInfo.nRequiredSigs > pubkeys.size())
 						{
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5024 - " + _("Cannot update multisig alias because required signatures is greator than the amount of signatures provided");
-							return true;
+							theAlias.multiSigInfo.SetNull();
 						}	
 						CScript inner = GetScriptForMultisig(theAlias.multiSigInfo.nRequiredSigs, pubkeys);
 						CScript redeemScript = CScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
 						if(redeemScript != inner)
 						{
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5025 - " + _("Invalid redeem script provided in transaction");
-							return true;
+							theAlias.multiSigInfo.SetNull();
 						}
-						CScriptID innerID(inner);
-						multisigAddress = CSyscoinAddress(innerID);					
+						else
+						{
+							CScriptID innerID(inner);
+							multisigAddress = CSyscoinAddress(innerID);	
+						}
 					}
 				}
 				// if transfer (and not changing password which changes key)
@@ -972,13 +975,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
 					{
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5026 - " + _("An alias already exists with that address, try another public key");
-						return true;
+						theAlias = dbAlias;
 					}					
 				}
 			}
 			else
 			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 -" + _(" Alias not found when trying to update");
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 -" + _("Alias not found when trying to update");
 				return true;
 			}
 		}
@@ -1028,8 +1031,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theAlias.multiSigInfo.SetNull();
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5031 - " + _("Invalid redeem script provided in transaction");
 				}
-				CScriptID innerID(inner);
-				multisigAddress = CSyscoinAddress(innerID);
+				else
+				{
+					CScriptID innerID(inner);
+					multisigAddress = CSyscoinAddress(innerID);
+				}
 			}
 		}
 		else if(op == OP_ALIAS_PAYMENT)

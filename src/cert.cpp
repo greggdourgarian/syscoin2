@@ -586,7 +586,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			if(theCert.vchAlias != dbCert.vchAlias)
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2019 - " + _("Wrong alias input provided in this certificate transaction");
-				return true;
+				theCert = dbCert;
 			}
 			else if(!theCert.vchLinkAlias.empty())
 				theCert.vchAlias = theCert.vchLinkAlias;
@@ -597,7 +597,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				if(!GetTxOfAlias(theCert.vchLinkAlias, alias, aliasTx))
 				{
 					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2020 - " + _("Cannot find alias you are transfering to. It may be expired");
-					return true;				
+					theCert = dbCert;			
 				}
 				else
 				{
@@ -605,7 +605,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 					if(!alias.acceptCertTransfers)
 					{
 						errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2021 - " + _("The alias you are transferring to does not accept certificate transfers");
-						return true;	
+						theCert = dbCert;	
 					}
 				}
 			}
@@ -617,7 +617,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			if(dbCert.bTransferViewOnly)
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2023 - " + _("Cannot edit or transfer this certificate. It is view-only.");
-				return true;
+				theCert = dbCert;
 			}
 		}
 		else
