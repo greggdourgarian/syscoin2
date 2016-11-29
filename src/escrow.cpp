@@ -2088,7 +2088,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			resellerAlias.nHeight = vtxPos.front().nHeight;
 			resellerAlias.GetAliasFromList(aliasVtxPos);
 			resellerKey = CPubKey(resellerAlias.vchPubKey);
-			resellerAlias.GetAddress(&resellerAddressPayment, escrow.nPaymentOption);
+			GetAddress(resellerAlias, &resellerAddressPayment, escrow.nPaymentOption);
 		}
 	}
 	CAmount nCommission;
