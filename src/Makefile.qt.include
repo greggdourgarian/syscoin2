@@ -235,7 +235,8 @@ QT_MOC_CPP = \
   qt/moc_certlistpage.cpp \
   qt/moc_qcomboboxdelegate.cpp \
   qt/moc_qjsonrpcclient.cpp \
-  qt/moc_qzecjsonrpcclient.cpp
+  qt/moc_qzecjsonrpcclient.cpp \
+  qt/moc_qbtcjsonrpcclient.cpp
 
 SYSCOIN_MM = \
   qt/macdockiconhandler.mm \
@@ -258,27 +259,8 @@ PROTOBUF_H = qt/paymentrequest.pb.h
 PROTOBUF_PROTO = qt/paymentrequest.proto
 
 SYSCOIN_QT_H = \
-  qt/qjsonrpc/json/qjson_p.h \
-  qt/qjsonrpc/json/qjson_export.h \
-  qt/qjsonrpc/json/qjsonwriter_p.h \
-  qt/qjsonrpc/json/qjsonparser_p.h \
-  qt/qjsonrpc/json/qjsondocument.h \
-  qt/qjsonrpc/json/qjsonobject.h \
-  qt/qjsonrpc/json/qjsonvalue.h \
-  qt/qjsonrpc/json/qjsonarray.h \
-  qt/qjsonrpc/qjsonrpcservice_p.h \
-  qt/qjsonrpc/qjsonrpcsocket_p.h \
-  qt/qjsonrpc/qjsonrpcabstractserver_p.h \
-  qt/qjsonrpc/qjsonrpcservicereply_p.h \
-  qt/qjsonrpc/qjsonrpcmessage.h \
-  qt/qjsonrpc/qjsonrpcservice.h \
-  qt/qjsonrpc/qjsonrpcsocket.h \
-  qt/qjsonrpc/qjsonrpcserviceprovider.h \
-  qt/qjsonrpc/qjsonrpcabstractserver.h \
-  qt/qjsonrpc/qjsonrpcglobal.h \
-  qt/qjsonrpc/qjsonrpcservicereply.h \
-  qt/qjsonrpc/qjsonrpchttpclient.h \
   qt/qjsonrpcclient.h \
+  qt/qbtcjsonrpcclient.h \
   qt/qzecjsonrpcclient.h \
   qt/addressbookpage.h \
   qt/addresstablemodel.h \
@@ -617,21 +599,8 @@ endif
 
 if ENABLE_WALLET
 SYSCOIN_QT_CPP += \
-  qt/qjsonrpc/json/qjson.cpp \
-  qt/qjsonrpc/json/qjsondocument.cpp \
-  qt/qjsonrpc/json/qjsonobject.cpp \
-  qt/qjsonrpc/json//qjsonarray.cpp \
-  qt/qjsonrpc/json/qjsonvalue.cpp \
-  qt/qjsonrpc/json/qjsonwriter.cpp \
-  qt/qjsonrpc/json/qjsonparser.cpp \
-  qt/qjsonrpc/qjsonrpcmessage.cpp \
-  qt/qjsonrpc/qjsonrpcservice.cpp \
-  qt/qjsonrpc/qjsonrpcsocket.cpp \
-  qt/qjsonrpc/qjsonrpcserviceprovider.cpp \
-  qt/qjsonrpc/qjsonrpcabstractserver.cpp \
-  qt/qjsonrpc/qjsonrpcservicereply.cpp \
-  qt/qjsonrpc/qjsonrpchttpclient.cpp \
   qt/qjsonrpcclient.cpp \
+  qt/qbtcjsonrpcclient.cpp \
   qt/qzecjsonrpcclient.cpp \
   qt/addressbookpage.cpp \
   qt/addresstablemodel.cpp \

@@ -1,39 +1,36 @@
-#ifndef HTTPCLIENT_H
-#define HTTPCLIENT_H
+#ifndef RpcClient_H
+#define RpcClient_H
 
 #include <QDialog>
-#include "qjsonrpchttpclient.h"
 QT_BEGIN_NAMESPACE
+class QNetworkAccessManager;
 class QAuthenticator;
 class QNetworkReply;
 QT_END_NAMESPACE
 
-
-/** Widget that shows a list of owned aliases.
-  */
-class HttpClient : public QJsonRpcHttpClient
+class RpcClient
 {
     Q_OBJECT
 
 public:
    
 
-    explicit HttpClient(const QString &endpoint, QObject *parent = 0);
-    ~HttpClient();
+    explicit RpcClient(const QString &endpoint, QObject *parent = 0);
+    ~RpcClient();
 
 
     void setUsername(const QString &username);
 	void setPassword(const QString &password);
 	
 private:
+	QString m_endpoint;
     QString m_username;
     QString m_password;
 
 private:
-	void sendRequest(const QString &request, QString &response);
+	void sendRequest(const QNetworkAccessManager *nam, const QString &request, const QString &response);
 private Q_SLOTS:
 	 virtual void handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator);
-
 };
 
-#endif // HTTPCLIENT_H
+#endif // RpcClient_H

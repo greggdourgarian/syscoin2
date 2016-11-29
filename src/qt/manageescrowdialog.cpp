@@ -8,6 +8,8 @@
 #include <QMessageBox>
 #include "rpc/server.h"
 #include "walletmodel.h"
+#include "qzecjsonrpcclient.h"
+#include "qbtcjsonrpcclient.h"
 #if QT_VERSION < 0x050000
 #include <QUrl>
 #else
@@ -635,6 +637,15 @@ void ManageEscrowDialog::CheckPaymentInBTC()
 	QUrl url("http://btc.blockr.io/api/v1/tx/raw/" + m_redeemTxId);
 	QNetworkRequest request(url);
 	nam->get(request);
+}
+void ManageEscrowDialog::CheckPaymentInZEC()
+{
+	ZecRpcClient zecClient;
+	m_buttontext = tr("Check ZEC Payment");
+	ui->extButton->setText(tr("Please Wait..."));	
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
+	zecClient.sendRequest(nam, "gettransaction", m_redeemTxId);
 }
 void ManageEscrowDialog::on_releaseButton_clicked()
 {
