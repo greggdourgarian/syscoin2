@@ -10,8 +10,6 @@ QT_END_NAMESPACE
 
 class RpcClient
 {
-    Q_OBJECT
-
 public:
    
 

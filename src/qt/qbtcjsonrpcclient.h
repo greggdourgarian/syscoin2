@@ -8,8 +8,6 @@ QT_END_NAMESPACE
 
 class BtcRpcClient
 {
-    Q_OBJECT
-
 public:
  
     explicit BtcRpcClient();
