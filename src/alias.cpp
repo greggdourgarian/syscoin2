@@ -1145,6 +1145,20 @@ bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData,
 		return false;
 	return true;
 }
+void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_t nPaymentOption)
+{
+	if(!address)
+		return;
+	CPubKey aliasPubKey(alias.vchPubKey);
+	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
+	address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
+	if(alias.multiSigInfo.vchAliases.size() > 0)
+	{
+		CScript inner = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
+		CScriptID innerID(inner);
+		address[0] = CSyscoinAddress(innerID, myAddressType);
+	}
+}
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
         CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
@@ -1185,20 +1199,6 @@ void CAliasIndex::Serialize(vector<unsigned char>& vchData) {
     dsAlias << *this;
     vchData = vector<unsigned char>(dsAlias.begin(), dsAlias.end());
 
-}
-void CAliasIndex::GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_t nPaymentOption)
-{
-	if(!address)
-		return;
-	CPubKey aliasPubKey(alias.vchPubKey);
-	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
-	if(alias.multiSigInfo.vchAliases.size() > 0)
-	{
-		CScript inner = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
-		CScriptID innerID(inner);
-		address[0] = CSyscoinAddress(innerID, myAddressType);
-	}
 }
 bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const string& strRegexp, bool safeSearch, 
 		unsigned int nMax,
