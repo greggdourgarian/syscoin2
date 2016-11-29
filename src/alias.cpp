@@ -2636,7 +2636,10 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	bool isExpired = false;
 	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired, true))
 		return 0;
-
+	CPubKey PubKey(theAlias.vchPubKey);	
+	CSyscoinAddress destaddy(PubKey.GetID());
+	CTxDestination aliasDest;
+	CSyscoinAddress prevaddy;
 	int numResults = 0;
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
@@ -2659,6 +2662,12 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 				continue;
 			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID)
 				continue;
+			if (!ExtractDestination(coins->vout[j].scriptPubKey, aliasDest))
+				continue;
+			prevaddy = CSyscoinAddress(aliasDest);
+			if(destaddy.ToString() != prevaddy.ToString())
+				continue;
+
 			numResults++;
 			if(!found)
 			{
