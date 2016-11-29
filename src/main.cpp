@@ -1190,10 +1190,10 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, i
 			}
 			if(!good)
 			{
-				if(fDebug && !errorMessage.empty())
-					LogPrintf("%s\n", errorMessage.c_str());
 				return false;
 			}
+			if(fDebug && !errorMessage.empty())
+				LogPrintf("%s\n", errorMessage.c_str());
 		}
 	}
 	return true;	
@@ -1244,10 +1244,10 @@ bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, 
 			}
 			if(!good)
 			{			
-				if(fDebug && !errorMessage.empty())
-					LogPrintf("%s\n", errorMessage.c_str());
 				return false;		
-			}	
+			}
+			if(fDebug && !errorMessage.empty())
+				LogPrintf("%s\n", errorMessage.c_str());
 		}
 	}
 	return true;
