@@ -155,9 +155,9 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("safesearch"))
         settings.setValue("safesearch", "Yes");
     if (!settings.contains("zecEndPoint"))
-		settings.setValue("zecEndPoint", "http://zec.syscoin.org:8332/");
+		settings.setValue("zecEndPoint", "http://zec.syscoin.org:8080/");
     if (!settings.contains("btcEndPoint"))
-        settings.setValue("btcEndPoint", "http://btc.syscoin.org:8332/");
+        settings.setValue("btcEndPoint", "http://btc.syscoin.org:8080/");
     if (!settings.contains("zecRPCLogin"))
         settings.setValue("zecRPCLogin", "sysrpc");
     if (!settings.contains("btcRPCLogin"))
