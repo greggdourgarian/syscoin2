@@ -13,9 +13,9 @@ void ZecRpcClient::sendRequest(QNetworkAccessManager *nam, const QString &reques
 {
 	m_client.sendRequest(nam, request, param);
 }
-void ZecRpcClient::sendRawTxRequest(QNetworkAccessManager *nam, const QString &request, const QString &param)
+void ZecRpcClient::sendRawTxRequest(QNetworkAccessManager *nam, const QString &param)
 {
-	m_client.sendRequest(nam, request, param, "1");
+	m_client.sendRequest(nam, "getrawtransaction", param, "1");
 }
 ZecRpcClient::~ZecRpcClient()
 {

@@ -13,7 +13,7 @@ public:
     explicit BtcRpcClient(const QString& zecEndPoint="", const QString& zecRPCLogin="", const QString& zecRPCPassword="");
     ~BtcRpcClient();
 	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param="");
-	void sendRawTxRequest(QNetworkAccessManager *nam, const QString &request, const QString &param);
+	void sendRawTxRequest(QNetworkAccessManager *nam, const QString &param);
 
 private:
 	RpcClient m_client;
