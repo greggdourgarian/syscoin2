@@ -26,7 +26,7 @@ private:
     QString m_password;
 
 public:
-	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &response);
+	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param="", const QString &param1="");
 };
 
 #endif // RPCCLIENT_H

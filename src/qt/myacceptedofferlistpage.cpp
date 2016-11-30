@@ -398,7 +398,7 @@ void MyAcceptedOfferListPage::CheckPaymentInBTC(const QString &strExtTxId, const
 	BtcRpcClient btcClient;
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	btcClient.sendRequest(nam, "gettransaction", strExtTxId);
+	btcClient.sendRawTxRequest(nam, strExtTxId);
 }
 void MyAcceptedOfferListPage::CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price)
 {
@@ -412,7 +412,7 @@ void MyAcceptedOfferListPage::CheckPaymentInZEC(const QString &strExtTxId, const
 	ZecRpcClient zecClient;
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	zecClient.sendRequest(nam, "gettransaction", strExtTxId);
+	zecClient.sendRawTxRequest(nam, strExtTxId);
 
 }
 

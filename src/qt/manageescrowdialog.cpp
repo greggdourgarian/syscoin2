@@ -569,31 +569,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	if (read)
 	{
 		UniValue outerObj = outerValue.get_obj();
-		UniValue statusValue = find_value(outerObj, "status");
-		if (statusValue.isStr())
-		{
-			if(statusValue.get_str() != "success")
-			{
-				ui->extButton->setText(m_buttontext);
-				QMessageBox::critical(this, windowTitle(),
-					tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
-						QMessageBox::Ok, QMessageBox::Ok);
-				reply->deleteLater();
-				return;
-			}
-		}
-		else
-		{
-			ui->extButton->setText(m_buttontext);
-			QMessageBox::critical(this, windowTitle(),
-				tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
-					QMessageBox::Ok, QMessageBox::Ok);
-			reply->deleteLater();	
-			return;
-		}
-		UniValue dataObj1 = find_value(outerObj, "data").get_obj();
-		UniValue dataObj = find_value(dataObj1, "tx").get_obj();
-		UniValue timeValue = find_value(dataObj, "time");
+		UniValue timeValue = find_value(outerObj, "time");
 		QDateTime timestamp;
 		if (timeValue.isNum())
 		{
@@ -602,7 +578,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		}
 		
 
-		UniValue unconfirmedValue = find_value(dataObj, "confirmations");
+		UniValue unconfirmedValue = find_value(outerObj, "confirmations");
 		if (unconfirmedValue.isNum())
 		{
 			int confirmations = unconfirmedValue.get_int();
@@ -641,7 +617,7 @@ void ManageEscrowDialog::CheckPaymentInBTC()
 	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
-	btcClient.sendRequest(nam, "gettransaction", m_redeemTxId);
+	btcClient.sendRawTxRequest(nam, m_redeemTxId);
 }
 void ManageEscrowDialog::CheckPaymentInZEC()
 {
@@ -650,7 +626,7 @@ void ManageEscrowDialog::CheckPaymentInZEC()
 	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
-	zecClient.sendRequest(nam, "gettransaction", m_redeemTxId);
+	zecClient.sendRawTxRequest(nam, m_redeemTxId);
 }
 void ManageEscrowDialog::on_releaseButton_clicked()
 {

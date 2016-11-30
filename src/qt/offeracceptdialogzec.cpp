@@ -243,7 +243,6 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 		return;
 	}
 	double valueAmount = 0;
-	unsigned int time;
 
 	QByteArray bytes = reply->readAll();
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
@@ -252,48 +251,12 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 	if (read)
 	{
 		UniValue outerObj = outerValue.get_obj();
-		UniValue statusValue = find_value(outerObj, "status");
-		if (statusValue.isStr())
-		{
-			if(statusValue.get_str() != "success")
-			{
-				ui->confirmButton->setText(m_buttonText);
-				ui->confirmButton->setEnabled(true);
-				QMessageBox::critical(this, windowTitle(),
-					tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
-						QMessageBox::Ok, QMessageBox::Ok);
-				reply->deleteLater();
-				return;
-			}
-		}
-		else
-		{
-			ui->confirmButton->setText(m_buttonText);
-			ui->confirmButton->setEnabled(true);
-			QMessageBox::critical(this, windowTitle(),
-				tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
-					QMessageBox::Ok, QMessageBox::Ok);
-			reply->deleteLater();
-			return;
-		}
-
-
-		UniValue dataObj1 = find_value(outerObj, "data").get_obj();
-		UniValue dataObj = find_value(dataObj1, "tx").get_obj();
-		UniValue timeValue = find_value(dataObj, "time");
-		QDateTime timestamp;
-		if (timeValue.isNum())
-		{
-			time = timeValue.get_int();
-			timestamp.setTime_t(time);
-		}
-		
-		
-		UniValue hexValue = find_value(dataObj, "hex");
+	
+		UniValue hexValue = find_value(outerObj, "hex");
 		if (hexValue.isStr())
 			this->rawZECTx = QString::fromStdString(hexValue.get_str());
 
-		UniValue outputsValue = find_value(dataObj, "vout");
+		UniValue outputsValue = find_value(outerObj, "vout");
 		if (outputsValue.isArray())
 		{
 			UniValue outputs = outputsValue.get_array();
@@ -358,7 +321,7 @@ void OfferAcceptDialogZEC::CheckPaymentInZEC()
 	ui->confirmButton->setEnabled(false);
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	zecClient.sendRequest(nam, "gettransaction", ui->exttxidEdit->text().trimmed());
+	zecClient.sendRawTxRequest(nam, ui->exttxidEdit->text().trimmed());
 }
 // send offeraccept with offer guid/qty as params and then send offerpay with wtxid (first param of response) as param, using RPC commands.
 void OfferAcceptDialogZEC::tryAcceptOffer()

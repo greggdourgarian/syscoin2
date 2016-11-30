@@ -28,8 +28,13 @@ void RpcClient::setUsername(const QString &username) {
 void RpcClient::setPassword(const QString &password) {
     m_password = password;
 }
-void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, const QString &param) {
-	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"SyscoinRPCClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
+void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, const QString &param, const QString &param1) {
+	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"SyscoinRPCClient\", ""\"method\": \"" + method + "\", \"params\": [";
+	if(param.size() > 0)
+		data += "\"" + param + "\"";
+	if(param1.size() > 0)
+		data += ", " + param1;
+	data += "] }";
 	QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
 	QByteArray postData = doc.toJson();
 	QUrl url(m_endpoint);

@@ -1,23 +1,24 @@
-#ifndef BTCRPCCLIENT_H
-#define BTCRPCCLIENT_H
+#ifndef ZECHTTPCLIENT_H
+#define ZECHTTPCLIENT_H
 
-#include "qjsonrpcclient.h"
+#include "qjsonhttpclient.h"
 QT_BEGIN_NAMESPACE
 class QNetworkAccessManager;
 QT_END_NAMESPACE
 
-class BtcRpcClient
+class ZecHttpClient
 {
+    Q_OBJECT
+
 public:
  
-    explicit BtcRpcClient(const QString& zecEndPoint="", const QString& zecRPCLogin="", const QString& zecRPCPassword="");
-    ~BtcRpcClient();
+    explicit ZecHttpClient();
+    ~ZecHttpClient();
 	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param="");
 	void sendRawTxRequest(QNetworkAccessManager *nam, const QString &request, const QString &param);
-
 private:
-	RpcClient m_client;
+	HttpClient m_client;
 
 };
 
-#endif // BTCRPCCLIENT_H
+#endif // ZECHTTPCLIENT_H
