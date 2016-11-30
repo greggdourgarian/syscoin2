@@ -616,7 +616,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			theCert.vchLinkAlias.clear();
 			if(dbCert.bTransferViewOnly)
 			{
-				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2023 - " + _("Cannot edit or transfer this certificate. It is view-only.");
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2022 - " + _("Cannot edit or transfer this certificate. It is view-only.");
 				theCert = dbCert;
 			}
 		}
@@ -624,12 +624,12 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 		{
 			if (!GetTxOfAlias(theCert.vchAlias, alias, aliasTx))
 			{
-				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2024 - " + _("Cannot find alias for this certificate. It may be expired");
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2023 - " + _("Cannot find alias for this certificate. It may be expired");
 				return true;
 			}
 			if (pcertdb->ExistsCert(vvchArgs[0]))
 			{
-				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2025 - " + _("Certificate already exists");
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2024 - " + _("Certificate already exists");
 				return true;
 			}
 		}
@@ -641,7 +641,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 
         if (!dontaddtodb && !pcertdb->WriteCert(vvchArgs[0], vtxPos))
 		{
-			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2026 - " + _("Failed to write to certifcate DB");
+			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2025 - " + _("Failed to write to certifcate DB");
             return error(errorMessage.c_str());
 		}
 		
@@ -1409,7 +1409,7 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
     vector<CCert> certScan;
 	vector<string> aliases;
     if (!pcertdb->ScanCerts(vchCert, strRegexp, aliases, safeSearch, strCategory, 25, certScan))
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2526 - " + _("Scan failed"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2525 - " + _("Scan failed"));
   
 	CTransaction aliastx;
 	uint256 txHash;

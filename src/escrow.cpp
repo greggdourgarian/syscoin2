@@ -681,12 +681,12 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				serializedEscrow.vchArbiterAlias != theEscrow.vchArbiterAlias ||
 				serializedEscrow.vchSellerAlias != theEscrow.vchSellerAlias)
 			{
-				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4036 - " + _("Invalid aliases used for escrow transaction");
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4037 - " + _("Invalid aliases used for escrow transaction");
 				return true;
 			}
 			if(serializedEscrow.bPaymentAck && theEscrow.bPaymentAck)
 			{
-				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4037 - " + _("Escrow already acknowledged");
+				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Escrow already acknowledged");
 				return true;
 			}
 			// make sure we have found this escrow in db
@@ -694,7 +694,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			{
 				if (theEscrow.vchEscrow != vvchArgs[0])
 				{
-					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Escrow Guid mismatch");
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Escrow Guid mismatch");
 					return true;
 				}
 
@@ -706,7 +706,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				{
 					if(serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias)
 					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4039 - " + _("Only seller can acknowledge an escrow payment");
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Only seller can acknowledge an escrow payment");
 						return true;
 					}
 					else
@@ -717,28 +717,28 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					CAliasIndex alias;
 					if(!GetTxOfAlias(theEscrow.vchSellerAlias, alias, aliasTx))
 					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4040 - " + _("Cannot find seller alias. It may be expired");
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Cannot find seller alias. It may be expired");
 						return true;
 					}
 					if(!GetTxOfAlias(theEscrow.vchArbiterAlias, alias, aliasTx))
 					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Cannot find arbiter alias. It may be expired");
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4042 - " + _("Cannot find arbiter alias. It may be expired");
 						return true;
 					}
 
 					if(theEscrow.op == OP_ESCROW_COMPLETE)
 					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4042 - " + _("Can only refund an active escrow");
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4043 - " + _("Can only refund an active escrow");
 						return true;
 					}
 					else if(theEscrow.op == OP_ESCROW_RELEASE)
 					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4043 - " + _("Cannot refund an escrow that is already released");
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4044 - " + _("Cannot refund an escrow that is already released");
 						return true;
 					}
 					else if(serializedEscrow.vchLinkAlias != theEscrow.vchSellerAlias && serializedEscrow.vchLinkAlias != theEscrow.vchArbiterAlias)
 					{
-						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4044 - " + _("Only arbiter or seller can initiate an escrow refund");
+						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4045 - " + _("Only arbiter or seller can initiate an escrow refund");
 						return true;
 					}
 					// only the arbiter can re-refund an escrow
