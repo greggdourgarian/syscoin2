@@ -10,7 +10,7 @@ class BtcRpcClient
 {
 public:
  
-    explicit BtcRpcClient(QObject *parent = 0);
+    explicit BtcRpcClient();
     ~BtcRpcClient();
 	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param);
 private:
