@@ -8,11 +8,8 @@ using namespace std;
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QAuthenticator>
-#include <QDebug>
-#include <QMessageBox>
 #include "qjsonrpcclient.h"
-RpcClient::RpcClient(QObject *parent) :
- QObject(parent)
+RpcClient::RpcClient()
 {
 	m_endpoint = "";
 	m_username = "";
@@ -32,9 +29,6 @@ void RpcClient::setPassword(const QString &password) {
     m_password = password;
 }
 void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, const QString &param) {
-	
-	connect(nam, SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)), this, SLOT(handleAuthenticationRequired(QNetworkReply*, QAuthenticator*)));
-	
 	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"SyscoinRPCClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
 	QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
 	QByteArray postData = doc.toJson();
@@ -42,12 +36,11 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
 	QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Accept", "application/json-rpc");
+	// HTTP Basic authentication header value: base64(username:password)
+	QString concatenated = m_username + ":" + m_password;
+	QByteArray data = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + data;
+	request.setRawHeader("Authorization", headerData.toLocal8Bit());
 	nam->post(request, postData);
 }
-void RpcClient::handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator)
-{
-     qDebug() << "handleAuthenticationRequired " << m_username << m_password;
-    Q_UNUSED(reply)
-    authenticator->setUser(m_username);
-    authenticator->setPassword(m_password);
-} 
+
