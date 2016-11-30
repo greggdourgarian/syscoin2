@@ -368,9 +368,9 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(1000);
+	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
-
+	MilliSleep(2500);
 	// leave some feedback (escrow is complete but not expired yet)
 	BOOST_CHECK_NO_THROW(CallRPC("node1",  "escrowfeedback " + guid1 + " seller 1 2 3 4"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
