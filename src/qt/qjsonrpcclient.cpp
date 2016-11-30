@@ -45,7 +45,7 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
 }
 void RpcClient::handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator)
 {
-        QMessageBox::information(this, windowTitle(),
+        QMessageBox::information(this, "test",
 			tr("Login: %1 password: %2").arg)(m_username).arg(m_password),
                 QMessageBox::Ok, QMessageBox::Ok);
     Q_UNUSED(reply)
