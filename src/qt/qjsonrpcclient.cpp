@@ -38,8 +38,8 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
     request.setRawHeader("Accept", "application/json-rpc");
 	// HTTP Basic authentication header value: base64(username:password)
 	QString concatenated = m_username + ":" + m_password;
-	QByteArray data = concatenated.toLocal8Bit().toBase64();
-	QString headerData = "Basic " + data;
+	QByteArray authdata = concatenated.toLocal8Bit().toBase64();
+	QString headerData = "Basic " + authdata;
 	request.setRawHeader("Authorization", headerData.toLocal8Bit());
 	nam->post(request, postData);
 }
