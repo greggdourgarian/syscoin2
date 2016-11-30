@@ -273,7 +273,7 @@ void OptionsDialog::setMapper()
 	mapper->addMapping(ui->zecRPCLogin, OptionsModel::ZecRPCLogin);
 	mapper->addMapping(ui->btcRPCLogin, OptionsModel::BTCRPCLogin);
 	mapper->addMapping(ui->zecRPCPassword, OptionsModel::ZecRPCPassword);
-	mapper->addMapping(ui->btcRPCPassword, OptionsModel::BtcRPCPassword);
+	mapper->addMapping(ui->btcRPCPassword, OptionsModel::BTCRPCPassword);
 
 	mapper->addMapping(ui->theme, OptionsModel::Theme);
 	mapper->addMapping(ui->defaultAlias, OptionsModel::DefaultAlias);

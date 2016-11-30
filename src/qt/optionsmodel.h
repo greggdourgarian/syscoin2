@@ -50,7 +50,7 @@ public:
 		ZecRPCLogin,			// QString
 		BTCRPCLogin,			// QString
 		ZecRPCPassword,			// QString
-		BtcRPCPassword,			// QString
+		BTCRPCPassword,			// QString
         Language,               // QString
         CoinControlFeatures,    // bool
         ThreadsScriptVerif,     // int

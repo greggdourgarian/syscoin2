@@ -289,7 +289,7 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("btcRPCLogin");
        case ZecRPCPassword:
             return settings.value("zecRPCPassword");
-       case BtcRPCPassword:
+       case BTCRPCPassword:
             return settings.value("btcRPCPassword");
         default:
             return QVariant();
@@ -466,7 +466,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 				settings.setValue("zecRPCPassword", value);
             }
             break;
-       case BtcRPCPassword:
+       case BTCRPCPassword:
             if (settings.value("btcRPCPassword") != value) {
 				settings.setValue("btcRPCPassword", value);
             }
