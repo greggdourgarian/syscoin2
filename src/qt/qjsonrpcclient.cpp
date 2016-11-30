@@ -8,6 +8,7 @@ using namespace std;
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QAuthenticator>
+#include <QDebug>
 #include <QMessageBox>
 #include "qjsonrpcclient.h"
 RpcClient::RpcClient(QObject *parent) :
@@ -45,9 +46,7 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
 }
 void RpcClient::handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator)
 {
-        QMessageBox::information(this, tr("title"),
-			tr("Login: %1 password: %2").arg(m_username).arg(m_password),
-                QMessageBox::Ok, QMessageBox::Ok);
+     qDebug() << m_username << m_password;
     Q_UNUSED(reply)
     authenticator->setUser(m_username);
     authenticator->setPassword(m_password);
