@@ -30,7 +30,7 @@ private:
 public:
 	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &response);
 private Q_SLOTS:
-	 virtual void handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator);
+	 void handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator);
 };
 
 #endif // RPCCLIENT_H
