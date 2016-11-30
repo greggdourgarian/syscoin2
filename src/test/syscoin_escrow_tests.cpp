@@ -306,10 +306,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(1000);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
-	
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 45"));
 	MilliSleep(2500);
 	// stop and start node1
 	StopNode("node1");
@@ -329,8 +326,6 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(1000);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 35"));
 	MilliSleep(2500);
@@ -361,9 +356,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 30"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 35"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
@@ -373,23 +366,15 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	MilliSleep(2500);
 	// leave some feedback (escrow is complete but not expired yet)
 	BOOST_CHECK_NO_THROW(CallRPC("node1",  "escrowfeedback " + guid1 + " seller 1 2 3 4"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(1000);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 45"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 	// ensure dependent services don't expire
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 2"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 3"));	
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));	
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
