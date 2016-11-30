@@ -8,7 +8,7 @@ using namespace std;
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QAuthenticator>
-#include <QDebug>
+#include <QMessageBox>
 #include "qjsonrpcclient.h"
 RpcClient::RpcClient(QObject *parent) :
  QObject(parent)
