@@ -2,12 +2,12 @@
 #include "qbtcjsonrpcclient.h"
 #include <QSettings>
 
-BtcRpcClient::BtcRpcClient()
+BtcRpcClient::BtcRpcClient(const QString& btcEndPoint, const QString& btcRPCLogin, const QString& btcRPCPassword)
 {
 	QSettings settings;
-	m_client.setEndpoint(settings.value("btcEndPoint", "").toString());
-	m_client.setUsername(settings.value("btcRPCLogin", "").toString());
-	m_client.setPassword(settings.value("btcRPCPassword", "").toString());
+	m_client.setEndpoint(btcEndPoint.size() > 0? btcEndPoint : settings.value("btcEndPoint", "").toString());
+	m_client.setUsername(btcRPCLogin.size() > 0? btcRPCLogin : settings.value("btcRPCLogin", "").toString());
+	m_client.setPassword(btcRPCPassword.size() > 0? btcRPCPassword : settings.value("btcRPCPassword", "").toString());
 }
 void BtcRpcClient::sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param)
 {

@@ -10,7 +10,7 @@ class ZecRpcClient
 {
 public:
  
-    explicit ZecRpcClient();
+    explicit ZecRpcClient(const QString& zecEndPoint="", const QString& zecRPCLogin="", const QString& zecRPCPassword="");
     ~ZecRpcClient();
 	void sendRequest(QNetworkAccessManager *nam, const QString &request, const QString &param); 
 private:

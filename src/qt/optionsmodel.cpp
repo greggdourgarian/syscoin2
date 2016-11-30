@@ -281,7 +281,7 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("safesearch");
        case ZecEndPoint:
             return settings.value("zecEndPoint");
-       case BtcEndPoint:
+       case BTCEndPoint:
             return settings.value("btcEndPoint");
        case ZecRPCLogin:
             return settings.value("zecRPCLogin");
@@ -446,7 +446,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 				settings.setValue("zecEndPoint", value);
             }
             break;
-       case BtcEndPoint:
+       case BTCEndPoint:
             if (settings.value("btcEndPoint") != value) {
 				settings.setValue("btcEndPoint", value);
             }

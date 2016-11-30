@@ -157,7 +157,7 @@ OptionsDialog::~OptionsDialog()
 // SYSCOIN
 void OptionsDialog::on_testZECButton_clicked()
 {
-	ZecRpcClient zecClient;
+	ZecRpcClient zecClient(ui->zecEndPoint->text(), ui->zecRPCLogin->text(), ui->zecRPCPassword->text());
 	ui->testZECButton->setText(tr("Please Wait..."));	
 	ui->testBTCButton->setEnabled(false);
 	ui->testZECButton->setEnabled(false);
@@ -167,7 +167,7 @@ void OptionsDialog::on_testZECButton_clicked()
 }
 void OptionsDialog::on_testBTCButton_clicked()
 {
-	BtcRpcClient btcClient;
+	BtcRpcClient btcClient(ui->btcEndPoint->text(), ui->btcRPCLogin->text(), ui->btcRPCPassword->text());
 	ui->testBTCButton->setText(tr("Please Wait..."));	
 	ui->testBTCButton->setEnabled(false);
 	ui->testZECButton->setEnabled(false);
@@ -268,8 +268,16 @@ void OptionsDialog::setMapper()
 
    /* Display */
 	// SYSCOIN
+	mapper->addMapping(ui->zecEndPoint, OptionsModel::ZecEndPoint);
+	mapper->addMapping(ui->btcEndPoint, OptionsModel::BTCEndPoint);
+	mapper->addMapping(ui->zecRPCLogin, OptionsModel::ZecRPCLogin);
+	mapper->addMapping(ui->btcRPCLogin, OptionsModel::BTCRPCLogin);
+	mapper->addMapping(ui->zecRPCPassword, OptionsModel::ZecRPCPassword);
+	mapper->addMapping(ui->btcRPCPassword, OptionsModel::BtcRPCPassword);
+
 	mapper->addMapping(ui->theme, OptionsModel::Theme);
 	mapper->addMapping(ui->defaultAlias, OptionsModel::DefaultAlias);
+	mapper->addMapping(ui->defaultPegAlias, OptionsModel::DefaultPegAlias);
 	mapper->addMapping(ui->safeSearch, OptionsModel::SafeSearch);
     mapper->addMapping(ui->lang, OptionsModel::Language);
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);

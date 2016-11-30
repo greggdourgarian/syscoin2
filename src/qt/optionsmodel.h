@@ -46,7 +46,7 @@ public:
 		DefaultPegAlias,		// QString
 		SafeSearch,				// QString
 		ZecEndPoint,			// QString
-		BtcEndPoint,			// QString
+		BTCEndPoint,			// QString
 		ZecRPCLogin,			// QString
 		BTCRPCLogin,			// QString
 		ZecRPCPassword,			// QString
