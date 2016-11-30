@@ -34,7 +34,7 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
 	
 	connect(nam, SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)), this, SLOT(handleAuthenticationRequired(QNetworkReply*, QAuthenticator*)));
 	
-	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"syscoinRpcClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
+	QString data = "{\"jsonrpc\": \"1.0\", \"id\":\"SyscoinRPCClient\", ""\"method\": \"" + method + "\", \"params\": [" + param + "] }";
 	QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
 	QByteArray postData = doc.toJson();
 	QUrl url(m_endpoint);
@@ -45,6 +45,9 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
 }
 void RpcClient::handleAuthenticationRequired(QNetworkReply *reply, QAuthenticator * authenticator)
 {
+        QMessageBox::information(this, windowTitle(),
+			tr("Login: %1 password: %2").arg)(m_username).arg(m_password),
+                QMessageBox::Ok, QMessageBox::Ok);
     Q_UNUSED(reply)
     authenticator->setUser(m_username);
     authenticator->setPassword(m_password);
