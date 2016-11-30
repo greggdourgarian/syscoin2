@@ -163,7 +163,7 @@ void OptionsDialog::on_testZECButton_clicked()
 	ui->testZECButton->setEnabled(false);
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	zecClient.sendRequest(nam, "getinfo", "");
+	zecClient.sendRequest(nam, "getinfo");
 }
 void OptionsDialog::on_testBTCButton_clicked()
 {
@@ -173,7 +173,7 @@ void OptionsDialog::on_testBTCButton_clicked()
 	ui->testZECButton->setEnabled(false);
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
-	btcClient.sendRequest(nam, "getinfo", "");
+	btcClient.sendRequest(nam, "getinfo");
 }
 void OptionsDialog::slotConfirmedFinished(QNetworkReply * reply)
 {

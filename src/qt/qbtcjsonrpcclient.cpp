@@ -17,7 +17,6 @@ void BtcRpcClient::sendRawTxRequest(QNetworkAccessManager *nam, const QString &r
 {
 	m_client.sendRequest(nam, request, param, "1");
 }
-sendRawTxRequest
 BtcRpcClient::~BtcRpcClient()
 {
 }
