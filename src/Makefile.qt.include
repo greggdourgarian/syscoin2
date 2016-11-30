@@ -233,6 +233,7 @@ QT_MOC_CPP = \
   qt/moc_stareditor.cpp \
   qt/moc_starrating.cpp \
   qt/moc_certlistpage.cpp \
+  qt/moc_qjsonrpcclient.cpp \
   qt/moc_qcomboboxdelegate.cpp
 
 SYSCOIN_MM = \

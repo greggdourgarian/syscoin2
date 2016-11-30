@@ -8,12 +8,14 @@ class QAuthenticator;
 class QNetworkReply;
 QT_END_NAMESPACE
 
-class RpcClient
+class RpcClient: public QObject
 {
+    Q_OBJECT
+
 public:
    
 
-    explicit RpcClient();
+    explicit RpcClient(QObject *parent = 0);
     ~RpcClient();
 
 	void setEndpoint(const QString &endPoint);
