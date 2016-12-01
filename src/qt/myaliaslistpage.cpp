@@ -20,7 +20,6 @@
 #include <QMenu>
 #include "rpc/server.h"
 #include "stardelegate.h"
-#include "ui_interface.h"
 using namespace std;
 extern CRPCTable tableRPC;
 MyAliasListPage::MyAliasListPage(const PlatformStyle *platformStyle, QWidget *parent) :

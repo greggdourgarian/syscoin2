@@ -20,8 +20,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QSortFilterProxyModel>
-// SYSCOIN
-#include "ui_interface.h"
+
 AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode, Tabs _tab, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddressBookPage),

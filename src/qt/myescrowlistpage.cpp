@@ -14,7 +14,7 @@
 #include "syscoingui.h"
 #include "csvmodelwriter.h"
 #include "guiutil.h"
-#include "ui_interface.h"
+
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>
