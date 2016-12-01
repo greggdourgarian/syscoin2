@@ -2138,7 +2138,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, vchAliasPeg,  chainActive.Tip()->nHeight, data, fee);
+	CreateFeeRecipient(scriptData, copyAlias.vchAliasPeg,  chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
 	if(nRenewal > 1)
 		fee.nAmount *=  nRenewal*nRenewal;
