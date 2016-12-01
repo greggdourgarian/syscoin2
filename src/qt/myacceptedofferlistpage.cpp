@@ -284,11 +284,11 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
 	UniValue outerValue;
 	bool read = outerValue.read(str.toStdString());
-	if (read && outerValue.isObj())
+	if (read && outerValue.isObject())
 	{
 		UniValue outerObj = outerValue.get_obj();
 		UniValue resultValue = find_value(outerObj, "result");
-		if(!resultValue.isObj())
+		if(!resultValue.isObject())
 		{
 			QMessageBox::critical(this, windowTitle(),
 				tr("Cannot parse JSON results"),
