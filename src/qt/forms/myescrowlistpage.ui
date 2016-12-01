@@ -135,6 +135,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="extButton">
+       <property name="text">
+        <string>Check External Payment</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="buyerMessageButton">
        <property name="toolTip">
         <string>Send message to buyer</string>

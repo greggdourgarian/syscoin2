@@ -3494,11 +3494,11 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(escrow.vchLinkSellerAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
-	CAmount nExpectedAmount, nEscrowFee, nExpectedAmountExt;
-	int precision = 2;
-	int extprecision = 2;
-	int precisiontmp;
+	CAmount nExpectedAmount, nExpectedAmountExt, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
+	int precision = 2;
+	int tmpprecision = 2;
+	int extprecision = 2;
 	// if offer is not linked, look for a discount for the buyer
 	COfferLinkWhitelistEntry foundEntry;
 	if(offer.vchLinkOffer.empty())
@@ -3510,14 +3510,19 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(!firstEscrow.rawTx.empty())
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
-		nExpectedAmountExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, extprecision)*escrow.nQty;
-		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), firstEscrow.nAcceptHeight, precisiontmp);
+		nExpectedAmountExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, extprecision)*escrow.nQty;
+		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), firstEscrow.nAcceptHeight, tmpprecision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmountExt, fEscrowFee);	
+		CAmount nEscrowFeeExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, firstEscrow.nAcceptHeight, tmpprecision);
+		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), firstEscrow.nAcceptHeight, tmpprecision);
+		nEscrowTotal =  nExpectedAmountExt + nEscrowFeeExt + (nFeePerByte*400);	
 	}
 	else
 	{
 		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, precisiontmp);
 		nEscrowFee = GetEscrowArbiterFee(offer.GetPrice(foundEntry)*escrow.nQty, fEscrowFee);
+		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precisiontmp);
+		nEscrowTotal =  (offer.GetPrice(foundEntry)*escrow.nQty) + nEscrowFee + (nFeePerByte*400);
 	}
 
 	
@@ -3530,9 +3535,16 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
 	oEscrow.push_back(Pair("systotal", (offer.GetPrice(foundEntry) * escrow.nQty)));
 	if(nExpectedAmountExt > 0)
+	{
 		oEscrow.push_back(Pair("total", strprintf("%.*f", extprecision, ValueFromAmount(nExpectedAmountExt).get_real() )));
+		oEscrow.push_back(Pair("totalwithfee", strprintf("%.*f", extprecision, ValueFromAmount(nEscrowTotal).get_real() )));
+	}
 	else
+	{
 		oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nExpectedAmount).get_real() )));
+		oEscrow.push_back(Pair("totalwithfee", strprintf("%.*f", precision, ValueFromAmount(nEscrowTotal).get_real() )));
+	}
+	
 
 	oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 
@@ -3547,6 +3559,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 		}
 	}
 	oEscrow.push_back(Pair("exttxid", strExtId));
+	CScriptID innerID(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+	CSyscoinAddress escrowAddress(innerID);	
+	oEscrow.push_back(Pair("escrowaddress", escrowAddress.ToString());
 	string strRedeemTxId = "";
 	if(!escrow.redeemTxId.IsNull())
 		strRedeemTxId = escrow.redeemTxId.GetHex();

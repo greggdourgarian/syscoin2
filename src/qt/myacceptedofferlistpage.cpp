@@ -70,11 +70,12 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));	
     // Context menu actions
     QAction *copyOfferAction = new QAction(ui->copyOffer->text(), this);
-    QAction *copyOfferValueAction = new QAction(tr("&Copy OfferAccept ID"), this);
-	QAction *detailsAction = new QAction(tr("&Details"), this);
-	QAction *messageAction = new QAction(tr("&Message Buyer"), this);
-	QAction *feedbackAction = new QAction(tr("&Leave Feedback For Buyer"), this);
-	QAction *ackAction = new QAction(tr("&Acknowledge Payment"), this);
+    QAction *copyOfferValueAction = new QAction(tr("Copy OfferAccept ID"), this);
+	QAction *detailsAction = new QAction(tr("Details"), this);
+	QAction *messageAction = new QAction(tr("Message Buyer"), this);
+	QAction *feedbackAction = new QAction(tr("Leave Feedback For Buyer"), this);
+	QAction *ackAction = new QAction(tr("Acknowledge Payment"), this);
+	QAction *extAction = new QAction(tr("Check External Payment"), this);
 
     // Build context menu
     contextMenu = new QMenu();
@@ -85,6 +86,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	contextMenu->addAction(messageAction);
 	contextMenu->addAction(feedbackAction);
 	contextMenu->addAction(ackAction);
+	contextMenu->addAction(extAction);
     // Connect signals for context menu actions
     connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
     connect(copyOfferValueAction, SIGNAL(triggered()), this, SLOT(onCopyOfferValueAction()));
@@ -92,6 +94,7 @@ MyAcceptedOfferListPage::MyAcceptedOfferListPage(const PlatformStyle *platformSt
 	connect(messageAction, SIGNAL(triggered()), this, SLOT(on_messageButton_clicked()));
 	connect(feedbackAction, SIGNAL(triggered()), this, SLOT(on_feedbackButton_clicked()));
 	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
+	connect(extAction, SIGNAL(triggered()), this, SLOT(on_extButton_clicked()));
 
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
 	connect(ui->displayListAlias,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(displayListChanged(const QString&)));
@@ -310,7 +313,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 		if (unconfirmedValue.isNum())
 		{
 			int confirmations = unconfirmedValue.get_int();
-			if(confirmations <= 1)
+			if(confirmations <= 0)
 			{
 				ui->extButton->setText(m_buttonText);
 				ui->extButton->setEnabled(true);

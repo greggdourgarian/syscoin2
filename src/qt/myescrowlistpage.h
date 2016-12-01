@@ -35,6 +35,9 @@ public:
     const QString &getReturnValue() const { return returnValue; }
 	void showEvent ( QShowEvent * event );
 	void loadAliasList();
+	bool lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption);
+	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
+	void CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price);
 private:
 	ClientModel* clientModel;
 	WalletModel *walletModel;
@@ -46,6 +49,10 @@ private:
     QMenu *contextMenu;
     QString newEscrowToSelect;
 	const PlatformStyle *platformStyle;
+	QString m_strExtTxId;
+	QString m_strAddress;
+	QString m_paymentOption;
+	double dblPrice;
 private Q_SLOTS:
 	void onToggleShowComplete(bool toggled);
     void on_copyEscrow_clicked();
@@ -56,6 +63,7 @@ private Q_SLOTS:
 	void on_buyerMessageButton_clicked();
 	void on_sellerMessageButton_clicked();
 	void on_arbiterMessageButton_clicked();
+	void on_extButton_clicked();
 	void on_manageButton_clicked();
 	void on_detailButton_clicked();
     /** Spawn contextual menu (right mouse menu) for cert book entry */

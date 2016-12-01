@@ -22,6 +22,8 @@
 #include <QMenu>
 #include "rpc/server.h"
 #include "stardelegate.h"
+#include "qzecjsonrpcclient.h"
+#include "qbtcjsonrpcclient.h"
 using namespace std;
 
 extern CRPCTable tableRPC;
@@ -45,7 +47,7 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
 		ui->refreshButton->setIcon(QIcon());
 		ui->detailButton->setIcon(QIcon());
 		ui->ackButton->setIcon(QIcon());
-
+		ui->extButton->setIcon(QIcon());
 	}
 	else
 	{
@@ -58,7 +60,7 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
 		ui->refreshButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/refresh"));
 		ui->detailButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/details"));
 		ui->ackButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/synced"));
-		
+		ui->extButton->setIcon(platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
 	}
 
     ui->labelExplanation->setText(tr("These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right."));
@@ -69,7 +71,8 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
 	QAction *copyOfferAction = new QAction(tr("&Copy Offer ID"), this);
     QAction *manageAction = new QAction(tr("Manage Escrow"), this);
 	QAction *ackAction = new QAction(tr("Acknowledge Payment"), this);
-	QAction *detailsAction = new QAction(tr("&Details"), this);
+	QAction *detailsAction = new QAction(tr("Details"), this);
+	QAction *extAction = new QAction(tr("Check External Payment"), this);
     QAction *buyerMessageAction = new QAction(tr("Send Msg To Buyer"), this);
 	QAction *sellerMessageAction = new QAction(tr("Send Msg To Seller"), this);
 	QAction *arbiterMessageAction = new QAction(tr("Send Msg To Arbiter"), this);
@@ -85,12 +88,14 @@ MyEscrowListPage::MyEscrowListPage(const PlatformStyle *platformStyle, QWidget *
 	contextMenu->addAction(detailsAction);
 	contextMenu->addAction(manageAction);
 	contextMenu->addAction(ackAction);
+	contextMenu->addAction(extAction);
 
     // Connect signals for context menu actions
     connect(copyEscrowAction, SIGNAL(triggered()), this, SLOT(on_copyEscrow_clicked()));
 	connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
 	connect(manageAction, SIGNAL(triggered()), this, SLOT(on_manageButton_clicked()));
 	connect(ackAction, SIGNAL(triggered()), this, SLOT(on_ackButton_clicked()));
+	connect(extAction, SIGNAL(triggered()), this, SLOT(on_extButton_clicked()));
 
 	connect(buyerMessageAction, SIGNAL(triggered()), this, SLOT(on_buyerMessageButton_clicked()));
 	connect(sellerMessageAction, SIGNAL(triggered()), this, SLOT(on_sellerMessageButton_clicked()));
@@ -124,6 +129,53 @@ void MyEscrowListPage::loadAliasList()
 	if(currentIndex >= 0)
 		ui->displayListAlias->setCurrentIndex(currentIndex);
 	settings.setValue("defaultListAlias", oldListAlias);
+}
+bool ManageEscrowDialog::lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption)
+{
+	QSettings settings;
+	string strMethod = string("escrowinfo");
+    UniValue params(UniValue::VARR); 
+	params.push_back(escrow.toStdString());
+	UniValue result ;
+	string name_str;
+	try {
+		result = tableRPC.execute(strMethod, params);
+		if (result.type() == UniValue::VOBJ)
+		{
+			const UniValue& o = result.get_obj();
+	
+			const UniValue& name_value = find_value(o, "escrow");
+			if (name_value.type() == UniValue::VSTR)
+				name_str = name_value.get_str();
+			if(QString::fromStdString(name_str) != escrow)
+				return false;
+			
+			const UniValue& address_value = find_value(o, "escrowaddress");
+			if (address_value.type() == UniValue::VSTR)
+				address = QString::fromStdString(address_value.get_str());
+		
+			const UniValue& total_value = find_value(o, "totalwithfee");
+			if (total_value.type() == UniValue::VSTR)
+				total = QString::fromStdString(total_value.get_str());
+
+			const UniValue& exttxid_value = find_value(o, "exttxid");
+			if (exttxid_value.type() == UniValue::VSTR)
+				extTxId = QString::fromStdString(exttxid_value.get_str());
+			const UniValue& paymentOption_Value = find_value(o, "paymentoption_display");
+			if (paymentOption_Value.type() == UniValue::VSTR)
+				paymentOption = QString::fromStdString(paymentOption_Value.get_str());
+			return true;
+		}
+	}
+	catch (UniValue& objError)
+	{
+		return false;
+	}
+	catch(std::exception& e)
+	{
+		return false;
+	}
+	return false;
 }
 void MyEscrowListPage::displayListChanged(const QString& alias)
 {
@@ -192,6 +244,176 @@ void MyEscrowListPage::setOptionsModel(ClientModel* clientmodel, OptionsModel *o
 void MyEscrowListPage::on_copyEscrow_clicked()
 {
     GUIUtil::copyEntryData(ui->tableView, EscrowTableModel::Escrow);
+}
+void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
+	QString chain;
+	if(m_paymentOption == "BTC")
+		chain = tr("Bitcoin");
+	else if(m_paymentOption == "ZEC")
+		chain = tr("ZCash");
+	if(reply->error() != QNetworkReply::NoError) {
+		ui->extButton->setText(m_buttonText);
+		ui->extButton->setEnabled(true);
+        QMessageBox::critical(this, windowTitle(),
+            tr("Error making request: ") + reply->errorString(),
+                QMessageBox::Ok, QMessageBox::Ok);
+		return;
+	}
+	double valueAmount = 0;
+	unsigned int time;
+		
+	QByteArray bytes = reply->readAll();
+	QString str = QString::fromUtf8(bytes.data(), bytes.size());
+	UniValue outerValue;
+	bool read = outerValue.read(str.toStdString());
+	if (read && outerValue.isObject())
+	{
+		UniValue outerObj = outerValue.get_obj();
+		UniValue resultValue = find_value(outerObj, "result");
+		if(!resultValue.isObject())
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Cannot parse JSON results"),
+					QMessageBox::Ok, QMessageBox::Ok);
+			reply->deleteLater();
+			return;
+		}
+		UniValue resultObj = resultValue.get_obj();
+		UniValue hexValue = find_value(resultObj, "hex");
+		UniValue timeValue = find_value(resultObj, "time");
+		QDateTime timestamp;
+		if (timeValue.isNum())
+		{
+			time = timeValue.get_int();
+			timestamp.setTime_t(time);
+		}
+		
+		UniValue unconfirmedValue = find_value(resultObj, "confirmations");
+		if (unconfirmedValue.isNum())
+		{
+			int confirmations = unconfirmedValue.get_int();
+			if(confirmations <= 0)
+			{
+				ui->extButton->setText(m_buttonText);
+				ui->extButton->setEnabled(true);
+				QMessageBox::critical(this, windowTitle(),
+					tr("Payment transaction found but it has not been confirmed by the %1 blockchain yet! Please try again later.").arg(chain),
+						QMessageBox::Ok, QMessageBox::Ok);
+				return;
+			}
+		}
+		UniValue outputsValue = find_value(resultObj, "vout");
+		if (outputsValue.isArray())
+		{
+			UniValue outputs = outputsValue.get_array();
+			for (unsigned int idx = 0; idx < outputs.size(); idx++) {
+				const UniValue& output = outputs[idx].get_obj();	
+				UniValue paymentValue = find_value(output, "value");
+				UniValue scriptPubKeyObj = find_value(output, "scriptPubKey").get_obj();
+				UniValue addressesValue = find_value(scriptPubKeyObj, "addresses");
+				if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
+				{
+					UniValue addressValue = addressesValue.get_array()[0];
+					if(addressValue.get_str() == m_strAddress.toStdString())
+					{
+						if(paymentValue.isNum())
+						{
+							valueAmount += paymentValue.get_real();
+							if(valueAmount >= dblPrice)
+							{
+								ui->extButton->setText(m_buttonText);
+								ui->extButton->setEnabled(true);
+								QMessageBox::information(this, windowTitle(),
+									tr("Transaction ID %1 was found in the %2 blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your Bitcoin wallet and seeing the funds in your account.").arg(m_strExtTxId).arg(chain),
+									QMessageBox::Ok, QMessageBox::Ok);
+								return;
+							}
+						}
+					}
+						
+				}
+			}
+		}
+	}
+	else
+	{
+		ui->extButton->setText(m_buttonText);
+		ui->extButton->setEnabled(true);
+		QMessageBox::critical(this, windowTitle(),
+			tr("Cannot parse JSON response: ") + str,
+				QMessageBox::Ok, QMessageBox::Ok);
+		return;
+	}
+	
+	reply->deleteLater();
+	ui->extButton->setText(m_buttonText);
+	ui->extButton->setEnabled(true);
+	QMessageBox::warning(this, windowTitle(),
+		tr("Payment not found in the %1 blockchain! Please try again later").arg(chain),
+			QMessageBox::Ok, QMessageBox::Ok);	
+}
+void MyEscrowListPage::CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price)
+{
+	dblPrice = price.toDouble();
+	m_buttonText = ui->extButton->text();
+	ui->extButton->setText(tr("Please Wait..."));
+	ui->extButton->setEnabled(false);
+	m_strAddress = address;
+	m_strExtTxId = strExtTxId;
+
+	BtcRpcClient btcClient;
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	btcClient.sendRawTxRequest(nam, strExtTxId);
+}
+void MyEscrowListPage::CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price)
+{
+	dblPrice = price.toDouble();
+	m_buttonText = ui->extButton->text();
+	ui->extButton->setText(tr("Please Wait..."));
+	ui->extButton->setEnabled(false);
+	m_strAddress = address;
+	m_strExtTxId = strExtTxId;
+
+	ZecRpcClient zecClient;
+	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
+	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinished(QNetworkReply *)));
+	zecClient.sendRawTxRequest(nam, strExtTxId);
+
+}
+void MyEscrowListPage::on_extButton_clicked()
+{
+ 	if(!model)	
+		return;
+	if(!ui->tableView->selectionModel())
+        return;
+    QModelIndexList selection = ui->tableView->selectionModel()->selectedRows();
+    if(selection.isEmpty())
+    {
+        return;
+    }
+	QString address, price, extTxId;
+	QString escrow = selection.at(0).data(EscrowTableModel::EscrowRole).toString();
+	if(!lookup(escrow, address, price, extTxId, m_paymentOption))
+	{
+        QMessageBox::critical(this, windowTitle(),
+        tr("Could not find this escrow, please ensure the escrow has been confirmed by the blockchain: ") + offerid,
+            QMessageBox::Ok, QMessageBox::Ok);
+        return;
+	}
+	if(extTxId.isEmpty())
+	{
+        QMessageBox::critical(this, windowTitle(),
+        tr("This payment was not done using another coin, please select an escrow that was created by paying with another blockchain."),
+            QMessageBox::Ok, QMessageBox::Ok);
+        return;
+	}
+	if(m_paymentOption == QString("BTC"))
+		CheckPaymentInBTC(extTxId, address, price);
+	else if(m_paymentOption == QString("ZEC"))
+		CheckPaymentInZEC(extTxId, address, price);
+
+
 }
 void MyEscrowListPage::on_ackButton_clicked()
 {
