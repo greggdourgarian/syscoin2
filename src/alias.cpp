@@ -747,11 +747,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	}
 	vector<CAliasIndex> vtxPos;
 	CRecipient fee;
-	int precision = 2;
-	int nFeePerByte;
-	vector<string> rateList;
-	float fEscrowFee;
-	double nRate;
 	string retError = "";
 	if(fJustCheck)
 	{
