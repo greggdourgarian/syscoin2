@@ -982,9 +982,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							theAlias = dbAlias;
 						}					
 					}
-					if(getCurrencyToSYSFromAlias(theAlias.vchAliasPeg, vchFromString("SYS"), nRate, nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
+					if(!getCurrencyToSYSFromAlias(theAlias.vchAliasPeg, vchFromString("SYS"), nRate, nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
 					{
-						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1059 - " + _("Could not find SYS currency in the peg alias");
+						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5028 - " + _("Could not find SYS currency in the peg alias");
 						theAlias = dbAlias;
 					}
 				}
@@ -1002,9 +1002,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5029 - " + _("Trying to renew an alias that isn't expired");
 				return true;
 			}
-			if(getCurrencyToSYSFromAlias(theAlias.vchAliasPeg, vchFromString("SYS"), nRate, nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
+			if(!getCurrencyToSYSFromAlias(theAlias.vchAliasPeg, vchFromString("SYS"), nRate, nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1059 - " + _("Could not find SYS currency in the peg alias");
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Could not find SYS currency in the peg alias");
 				theAlias = dbAlias;
 			}
 			theAlias.nRatingAsBuyer = 0;
