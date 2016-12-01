@@ -284,35 +284,21 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
 	UniValue outerValue;
 	bool read = outerValue.read(str.toStdString());
-	if (read)
+	if (read && outValue.isObj())
 	{
 		UniValue outerObj = outerValue.get_obj();
-		UniValue statusValue = find_value(outerObj, "status");
-		if (statusValue.isStr())
+		UniValue resultValue = find_value(outerObj, "result");
+		if(!resultValue.isObj())
 		{
-			if(statusValue.get_str() != "success")
-			{
-				ui->extButton->setText(m_buttonText);
-				ui->extButton->setEnabled(true);
-				QMessageBox::critical(this, windowTitle(),
-					tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
-						QMessageBox::Ok, QMessageBox::Ok);
-				return;
-			}
-		}
-		else
-		{
-			ui->extButton->setText(m_buttonText);
-			ui->extButton->setEnabled(true);
 			QMessageBox::critical(this, windowTitle(),
-				tr("Transaction status not successful: ") + QString::fromStdString(statusValue.get_str()),
+				tr("Cannot parse JSON results"),
 					QMessageBox::Ok, QMessageBox::Ok);
-			reply->deleteLater();	
+			reply->deleteLater();
 			return;
 		}
-		UniValue dataObj1 = find_value(outerObj, "data").get_obj();
-		UniValue dataObj = find_value(dataObj1, "tx").get_obj();
-		UniValue timeValue = find_value(dataObj, "time");
+		UniValue resultObj = resultValue.get_obj();
+		UniValue hexValue = find_value(resultObj, "hex");
+		UniValue timeValue = find_value(resultObj, "time");
 		QDateTime timestamp;
 		if (timeValue.isNum())
 		{
@@ -320,9 +306,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 			timestamp.setTime_t(time);
 		}
 		
-		
-
-		UniValue unconfirmedValue = find_value(dataObj, "confirmations");
+		UniValue unconfirmedValue = find_value(resultObj, "confirmations");
 		if (unconfirmedValue.isNum())
 		{
 			int confirmations = unconfirmedValue.get_int();

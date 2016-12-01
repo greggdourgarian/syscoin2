@@ -222,14 +222,24 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
 	UniValue outerValue;
 	bool read = outerValue.read(str.toStdString());
-	if (read)
+	if (read && outValue.isObj())
 	{
 		UniValue outerObj = outerValue.get_obj();
-		UniValue hexValue = find_value(outerObj, "hex");
+		UniValue resultValue = find_value(outerObj, "result");
+		if(!resultValue.isObj())
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Cannot parse JSON results"),
+					QMessageBox::Ok, QMessageBox::Ok);
+			reply->deleteLater();
+			return;
+		}
+		UniValue resultObj = resultValue.get_obj();
+		UniValue hexValue = find_value(resultObj, "hex");
 		if (hexValue.isStr())
 			this->rawBTCTx = QString::fromStdString(hexValue.get_str());
 
-		UniValue outputsValue = find_value(outerObj, "vout");
+		UniValue outputsValue = find_value(resultObj, "vout");
 		if (outputsValue.isArray())
 		{
 			UniValue outputs = outputsValue.get_array();

@@ -566,10 +566,20 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
 	UniValue outerValue;
 	bool read = outerValue.read(str.toStdString());
-	if (read)
+	if (read && outValue.isObj())
 	{
 		UniValue outerObj = outerValue.get_obj();
-		UniValue timeValue = find_value(outerObj, "time");
+		UniValue resultValue = find_value(outerObj, "result");
+		if(!resultValue.isObj())
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Cannot parse JSON results"),
+					QMessageBox::Ok, QMessageBox::Ok);
+			reply->deleteLater();
+			return;
+		}
+		UniValue resultObj = resultValue.get_obj();
+		UniValue timeValue = find_value(resultObj, "time");
 		QDateTime timestamp;
 		if (timeValue.isNum())
 		{
@@ -578,7 +588,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		}
 		
 
-		UniValue unconfirmedValue = find_value(outerObj, "confirmations");
+		UniValue unconfirmedValue = find_value(resultObj, "confirmations");
 		if (unconfirmedValue.isNum())
 		{
 			int confirmations = unconfirmedValue.get_int();
