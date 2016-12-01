@@ -90,7 +90,7 @@
      <item>
       <widget class="QPushButton" name="extButton">
        <property name="text">
-        <string>Check External Payment</string>
+        <string>Check External Spending Payment</string>
        </property>
       </widget>
      </item>

@@ -49,6 +49,7 @@ private:
     QMenu *contextMenu;
     QString newEscrowToSelect;
 	const PlatformStyle *platformStyle;
+	QString m_buttonText;
 	QString m_strExtTxId;
 	QString m_strAddress;
 	QString m_paymentOption;

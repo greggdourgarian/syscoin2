@@ -133,7 +133,7 @@ void MyEscrowListPage::loadAliasList()
 		ui->displayListAlias->setCurrentIndex(currentIndex);
 	settings.setValue("defaultListAlias", oldListAlias);
 }
-bool ManageEscrowDialog::lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption)
+bool MyEscrowListPage::lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption)
 {
 	QSettings settings;
 	string strMethod = string("escrowinfo");
