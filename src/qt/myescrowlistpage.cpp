@@ -20,6 +20,9 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QMenu>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include "rpc/server.h"
 #include "stardelegate.h"
 #include "qzecjsonrpcclient.h"
