@@ -248,7 +248,7 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
 	UniValue outerValue;
 	bool read = outerValue.read(str.toStdString());
-	if (read && outValue.isObj())
+	if (read && outerValue.isObj())
 	{
 		UniValue outerObj = outerValue.get_obj();
 		UniValue resultValue = find_value(outerObj, "result");
