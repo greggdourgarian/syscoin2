@@ -374,9 +374,9 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 25"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 25"));
 	MilliSleep(2500);
 	// try to leave feedback it should let you because aliases not expired
 	BOOST_CHECK_NO_THROW(CallRPC("node2",  "escrowfeedback " + guid1 + " buyer 1 2 3 4"));
