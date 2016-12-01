@@ -41,6 +41,7 @@ private:
 	QString alias;
 	QString rawBTCTx;
 	QString m_buttonText;
+	QString m_address;
 	bool offerPaid; 
 	QString m_redeemScript;	
 	QString priceBtc;

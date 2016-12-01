@@ -277,8 +277,7 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 				if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
 				{
 					UniValue addressValue = addressesValue.get_array()[0];
-					if((!ui->checkBox->isChecked() && addressValue.get_str() == zaddress.toStdString())
-						|| (ui->checkBox->isChecked() && addressValue.get_str() == multisigaddress.toStdString()))
+					if(addressValue.get_str() == m_address.toStdString())
 					{
 						if(paymentValue.isNum())
 						{
@@ -324,6 +323,10 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 }
 void OfferAcceptDialogZEC::CheckPaymentInZEC()
 {
+	if(!ui->checkBox->isChecked())
+		m_address = address;
+	else
+		m_address = multisigaddress;
 	ZecRpcClient zecClient;
 	m_buttonText = ui->confirmButton->text();
 	ui->confirmButton->setText(tr("Please Wait..."));	

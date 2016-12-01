@@ -43,6 +43,7 @@ private:
 	QString alias;
 	QString rawZECTx;
 	QString m_buttonText;
+	QString m_address;
 	double dblPrice;
 	bool offerPaid; 
 	QString m_redeemScript;	

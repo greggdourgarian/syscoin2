@@ -251,8 +251,7 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 				if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
 				{
 					UniValue addressValue = addressesValue.get_array()[0];
-					if((!ui->checkBox->isChecked() && addressValue.get_str() == address.toStdString())
-						|| (ui->checkBox->isChecked() && addressValue.get_str() == multisigaddress.toStdString()))
+					if(addressValue.get_str() == m_address.toStdString())
 					{
 						if(paymentValue.isNum())
 						{
@@ -298,6 +297,10 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 }
 void OfferAcceptDialogBTC::CheckPaymentInBTC()
 {
+	if(!ui->checkBox->isChecked())
+		m_address = address;
+	else
+		m_address = multisigaddress;
 	m_buttonText = ui->confirmButton->text();
 	ui->confirmButton->setText(tr("Please Wait..."));
 	ui->confirmButton->setEnabled(false);

@@ -3510,7 +3510,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(!firstEscrow.rawTx.empty())
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
-		nExpectedAmountExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, extprecision)*escrow.nQty;
+		nExpectedAmountExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, extprecision)*escrow.nQty;
 		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), firstEscrow.nAcceptHeight, tmpprecision);
 		nEscrowFee = GetEscrowArbiterFee(nExpectedAmountExt, fEscrowFee);	
 		CAmount nEscrowFeeExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nEscrowFee, firstEscrow.nAcceptHeight, tmpprecision);
@@ -3519,9 +3519,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	}
 	else
 	{
-		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, precisiontmp);
+		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, tmpprecision);
 		nEscrowFee = GetEscrowArbiterFee(offer.GetPrice(foundEntry)*escrow.nQty, fEscrowFee);
-		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,precisiontmp);
+		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,tmpprecision);
 		nEscrowTotal =  (offer.GetPrice(foundEntry)*escrow.nQty) + nEscrowFee + (nFeePerByte*400);
 	}
 
@@ -3559,7 +3559,8 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 		}
 	}
 	oEscrow.push_back(Pair("exttxid", strExtId));
-	CScriptID innerID(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+	CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+	CScriptID innerID(inner);
 	CSyscoinAddress escrowAddress(innerID);	
 	oEscrow.push_back(Pair("escrowaddress", escrowAddress.ToString());
 	string strRedeemTxId = "";
