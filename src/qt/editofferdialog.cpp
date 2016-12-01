@@ -206,6 +206,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 	params.push_back(alias.toStdString());
 	UniValue result ;
 	string name_str;
+	string alias_peg;
 	int expired = 0;
 	bool safeSearch;
 	int safetyLevel;
@@ -218,7 +219,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 			safeSearch = false;
 			expired = safetyLevel = 0;
 			const UniValue& o = result.get_obj();
-			name_str = "";
+			name_str = alias_peg = "";
 			safeSearch = false;
 			expired = safetyLevel = 0;
 
@@ -233,6 +234,10 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 			const UniValue& ss_value = find_value(o, "safesearch");
 			if (ss_value.type() == UniValue::VSTR)
 				safeSearch = ss_value.get_str() == "Yes";	
+			const UniValue& alias_peg_value = find_value(o, "alias_peg");
+			if (alias_peg_value.type() == UniValue::VSTR)
+				alias_peg = alias_peg_value.get_str();	
+			
 			const UniValue& sl_value = find_value(o, "safetylevel");
 			if (sl_value.type() == UniValue::VNUM)
 				safetyLevel = sl_value.get_int();
@@ -248,7 +253,9 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 				ui->aliasDisclaimer->setText(tr("<font color='red'>This alias has expired, please choose another one</font>"));					
 			}
 			else
-				ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));	
+				ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));
+			ui->aliasPegEdit->setText(QString::fromStdString(alias_peg));
+			on_aliasPegEdit_editingFinished();
 		}
 		else
 		{

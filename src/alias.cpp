@@ -747,6 +747,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	}
 	vector<CAliasIndex> vtxPos;
 	CRecipient fee;
+	int precision = 2;
+	int nFeePerByte;
+	double nRate;
+	float fEscrowFee;
 	string retError = "";
 	if(fJustCheck)
 	{
@@ -963,20 +967,25 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							multisigAddress = CSyscoinAddress(innerID);	
 						}
 					}
-				}
-				// if transfer (and not changing password which changes key)
-				if(dbAlias.vchPubKey != theAlias.vchPubKey && !pwChange)
-				{
-					theAlias.vchPassword.clear();
-					CPubKey xferKey  = CPubKey(theAlias.vchPubKey);	
-					CSyscoinAddress myAddress = CSyscoinAddress(xferKey.GetID());
-					// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
-					// we want to avoid aliases with duplicate public keys (addresses)
-					if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
+					// if transfer (and not changing password which changes key)
+					if(dbAlias.vchPubKey != theAlias.vchPubKey && !pwChange)
 					{
-						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 - " + _("An alias already exists with that address, try another public key");
+						theAlias.vchPassword.clear();
+						CPubKey xferKey  = CPubKey(theAlias.vchPubKey);	
+						CSyscoinAddress myAddress = CSyscoinAddress(xferKey.GetID());
+						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
+						// we want to avoid aliases with duplicate public keys (addresses)
+						if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
+						{
+							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 - " + _("An alias already exists with that address, try another public key");
+							theAlias = dbAlias;
+						}					
+					}
+					if(getCurrencyToSYSFromAlias(theAlias.vchAliasPeg, vchFromString("SYS"), 0, nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1059 - " + _("Could not find SYS currency in the peg alias");
 						theAlias = dbAlias;
-					}					
+					}
 				}
 			}
 			else
@@ -991,6 +1000,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			{
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5029 - " + _("Trying to renew an alias that isn't expired");
 				return true;
+			}
+			if(getCurrencyToSYSFromAlias(theAlias.vchAliasPeg, vchFromString("SYS"), 0, nHeight, rateList,precision, nFeePerByte, fEscrowFee) != "")
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1059 - " + _("Could not find SYS currency in the peg alias");
+				theAlias = dbAlias;
 			}
 			theAlias.nRatingAsBuyer = 0;
 			theAlias.nRatingCountAsBuyer = 0;
