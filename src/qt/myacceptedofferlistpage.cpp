@@ -320,7 +320,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 				return;
 			}
 		}
-		UniValue outputsValue = find_value(dataObj, "vout");
+		UniValue outputsValue = find_value(resultObj, "vout");
 		if (outputsValue.isArray())
 		{
 			UniValue outputs = outputsValue.get_array();
