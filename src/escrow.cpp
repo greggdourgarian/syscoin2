@@ -3562,7 +3562,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
 	CScriptID innerID(inner);
 	CSyscoinAddress escrowAddress(innerID);	
-	oEscrow.push_back(Pair("escrowaddress", escrowAddress.ToString());
+	oEscrow.push_back(Pair("escrowaddress", escrowAddress.ToString()));
 	string strRedeemTxId = "";
 	if(!escrow.redeemTxId.IsNull())
 		strRedeemTxId = escrow.redeemTxId.GetHex();
