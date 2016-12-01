@@ -15,7 +15,6 @@
 #include <QKeyEvent>
 #include <QSettings>
 #include <QMenu>
-
 using namespace std;
 
 OutMessageListPage::OutMessageListPage(const PlatformStyle *platformStyle, QWidget *parent) :

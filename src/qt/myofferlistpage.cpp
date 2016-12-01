@@ -15,7 +15,7 @@
 #include "csvmodelwriter.h"
 #include "guiutil.h"
 #include "stardelegate.h"
-
+#include "ui_interface.h"
 #include <QSortFilterProxyModel>
 #include <QClipboard>
 #include <QMessageBox>

@@ -22,7 +22,6 @@
 #include <QItemSelection>
 #include "rpc/server.h"
 #include "tinyformat.h"
-
 using namespace std;
 
 

@@ -17,6 +17,7 @@
 #include "rpc/server.h"
 #include "util.h"
 #include "utilmoneystr.h"
+#include "ui_interface.h"
 using namespace std;
 
 extern CRPCTable tableRPC;

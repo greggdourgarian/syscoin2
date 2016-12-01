@@ -11,6 +11,7 @@
 #include "optionsmodel.h"
 #include "walletmodel.h"
 #include "syscoingui.h"
+#include "ui_interface.h"
 #include "csvmodelwriter.h"
 #include "guiutil.h"
 #include "platformstyle.h"
