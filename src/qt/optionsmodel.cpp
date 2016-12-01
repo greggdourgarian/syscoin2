@@ -159,9 +159,9 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("btcEndPoint"))
         settings.setValue("btcEndPoint", "http://btc.syscoin.org:8080/");
     if (!settings.contains("zecRPCLogin"))
-        settings.setValue("zecRPCLogin", "sysrpc");
+        settings.setValue("zecRPCLogin", "sysuser");
     if (!settings.contains("btcRPCLogin"))
-        settings.setValue("btcRPCLogin", "sysrpc");
+        settings.setValue("btcRPCLogin", "sysuser");
     if (!settings.contains("zecRPCPassword"))
         settings.setValue("zecRPCPassword", "JcfJqiyhVVRsYJo0MQKjBJxOZMCrXPqQjUt2Kte2qU");
     if (!settings.contains("btcRPCPassword"))
