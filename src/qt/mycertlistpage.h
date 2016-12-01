@@ -50,11 +50,6 @@ private:
     QAction *deleteAction; // to be able to explicitly disable it
     QString newCertToSelect;
 
-Q_SIGNALS:
-    /**  Fired when a message should be reported to the user */
-    void message(const QString &title, const QString &message, unsigned int style);
-	void transferCert(QString addr);
-
 private Q_SLOTS:
 	void on_sellCertButton_clicked();
     /** Create a new cert */
@@ -79,7 +74,8 @@ private Q_SLOTS:
     /** New entry/entries were added to cert table */
     void selectNewCert(const QModelIndex &parent, int begin, int /*end*/);
 	void displayListChanged(const QString& alias);
-
+Q_SIGNALS:
+    void transferCert(QString addr);
 };
 
 #endif // MYCERTLISTPAGE_H

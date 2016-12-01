@@ -1,4 +1,3 @@
-
 #ifndef MYESCROWLISTPAGE_H
 #define MYESCROWLISTPAGE_H
 
@@ -47,11 +46,6 @@ private:
     QMenu *contextMenu;
     QString newEscrowToSelect;
 	const PlatformStyle *platformStyle;
-	
-Q_SIGNALS:
-    /**  Fired when a message should be reported to the user */
-    void message(const QString &title, const QString &message, unsigned int style);
-
 private Q_SLOTS:
 	void onToggleShowComplete(bool toggled);
     void on_copyEscrow_clicked();

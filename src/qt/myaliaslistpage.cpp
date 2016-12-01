@@ -317,13 +317,10 @@ void MyAliasListPage::on_exportButton_clicked()
 	writer.addColumn("Seller Rating Count", AliasTableModel::RatingAsSeller, AliasTableModel::SellerRatingCountRole);
 	writer.addColumn("Arbiter Rating", AliasTableModel::RatingAsArbiter, AliasTableModel::ArbiterRatingRole);
 	writer.addColumn("Arbiter Rating Count", AliasTableModel::RatingAsArbiter, AliasTableModel::ArbiterRatingCountRole);
-    if(!writer.write()) {
-        Q_EMIT message(tr("Exporting Failed"), tr("Could not export to file %1.").arg(filename),
-            CClientUIInterface::MSG_ERROR);
-    }
-    else {
-        Q_EMIT message(tr("Exporting Successful"), tr("Export successfully saved to %1.").arg(filename),
-            CClientUIInterface::MSG_INFORMATION);
+    if(!writer.write())
+    {
+        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
+                              QMessageBox::Abort, QMessageBox::Abort);
     }
 }
 

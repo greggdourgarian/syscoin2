@@ -59,11 +59,6 @@ private:
 	QString m_strAddress;
 	QString m_paymentOption;
 	double dblPrice;
-	
-Q_SIGNALS:
-    /**  Fired when a message should be reported to the user */
-    void message(const QString &title, const QString &message, unsigned int style);
-
 private Q_SLOTS:
 	void slotConfirmedFinished(QNetworkReply *);
     void on_copyOffer_clicked();

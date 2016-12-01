@@ -29,7 +29,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 	overrideSafeSearch = false;
     ui->setupUi(this);
 	ui->aliasPegEdit->setEnabled(false);
-	ui->aliasPegDisclaimer->setText(tr("<font color='blue'>You may change the alias rate peg through your alias settings.</font>"));
 	ui->privateDisclaimer->setText(tr("<font color='blue'>Choose if you would like the offer to be private or publicly listed on the marketplace.</font>"));
 	ui->offerLabel->setVisible(true);
 	ui->offerEdit->setVisible(true);

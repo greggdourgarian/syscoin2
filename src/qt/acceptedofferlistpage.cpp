@@ -306,13 +306,10 @@ void AcceptedOfferListPage::on_exportButton_clicked()
 	writer.addColumn("Seller", OfferAcceptTableModel::Alias, Qt::EditRole);
 	writer.addColumn("Buyer", OfferAcceptTableModel::Buyer, Qt::EditRole);
 	writer.addColumn("Status", OfferAcceptTableModel::Status, Qt::EditRole);
-    if(!writer.write()) {
-        Q_EMIT message(tr("Exporting Failed"), tr("Could not export to file %1.").arg(filename),
-            CClientUIInterface::MSG_ERROR);
-    }
-    else {
-        Q_EMIT message(tr("Exporting Successful"), tr("Export successfully saved to %1.").arg(filename),
-            CClientUIInterface::MSG_INFORMATION);
+    if(!writer.write())
+    {
+        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
+                              QMessageBox::Abort, QMessageBox::Abort);
     }
 }
 
