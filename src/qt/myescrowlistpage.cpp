@@ -397,7 +397,7 @@ void MyEscrowListPage::on_extButton_clicked()
 	if(!lookup(escrow, address, price, extTxId, m_paymentOption))
 	{
         QMessageBox::critical(this, windowTitle(),
-        tr("Could not find this escrow, please ensure the escrow has been confirmed by the blockchain: ") + offerid,
+        tr("Could not find this escrow, please ensure the escrow has been confirmed by the blockchain: ") + escrow,
             QMessageBox::Ok, QMessageBox::Ok);
         return;
 	}
