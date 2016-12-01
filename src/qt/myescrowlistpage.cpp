@@ -159,7 +159,7 @@ bool MyEscrowListPage::lookup(const QString &escrow, QString& address, QString& 
 		
 			const UniValue& total_value = find_value(o, "totalwithfee");
 			if (total_value.type() == UniValue::VSTR)
-				total = QString::fromStdString(total_value.get_str());
+				price = QString::fromStdString(total_value.get_str());
 
 			const UniValue& exttxid_value = find_value(o, "exttxid");
 			if (exttxid_value.type() == UniValue::VSTR)
