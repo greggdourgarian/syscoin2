@@ -16,6 +16,7 @@ class QItemSelection;
 class QSortFilterProxyModel;
 class QMenu;
 class QModelIndex;
+class QNetworkReply;
 QT_END_NAMESPACE
 
 /** Widget that shows a list of owned certes.
@@ -55,6 +56,7 @@ private:
 	QString m_paymentOption;
 	double dblPrice;
 private Q_SLOTS:
+	void slotConfirmedFinished(QNetworkReply *);
 	void onToggleShowComplete(bool toggled);
     void on_copyEscrow_clicked();
 	void on_copyOffer_clicked();
