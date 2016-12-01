@@ -355,10 +355,13 @@ void EditWhitelistOfferDialog::on_exportButton_clicked()
 	writer.addColumn("Expires", OfferWhitelistTableModel::Expires, Qt::EditRole);
 	writer.addColumn("Discount", OfferWhitelistTableModel::Discount, Qt::EditRole);
 	
-    if(!writer.write())
-    {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
-                              QMessageBox::Abort, QMessageBox::Abort);
+    if(!writer.write()) {
+        Q_EMIT message(tr("Exporting Failed"), tr("Could not export to file %1.").arg(filename),
+            CClientUIInterface::MSG_ERROR);
+    }
+    else {
+        Q_EMIT message(tr("Exporting Successful"), tr("Export successfully saved to %1.").arg(filename),
+            CClientUIInterface::MSG_INFORMATION);
     }
 }
 

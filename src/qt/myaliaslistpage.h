@@ -71,7 +71,11 @@ private Q_SLOTS:
     /** New entry/entries were added to alias table */
     void selectNewAlias(const QModelIndex &parent, int begin, int /*end*/);
 
+	
 Q_SIGNALS:
+    /**  Fired when a message should be reported to the user */
+    void message(const QString &title, const QString &message, unsigned int style);
+
     void transferAlias(QString addr);
 };
 

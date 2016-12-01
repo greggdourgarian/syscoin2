@@ -40,6 +40,10 @@ private:
 	WalletModel* walletModel;
     QString newEntryToSelect;
 
+Q_SIGNALS:
+    /**  Fired when a message should be reported to the user */
+    void message(const QString &title, const QString &message, unsigned int style);
+
 private Q_SLOTS:
     /** Copy alias of currently selected cert entry to clipboard */
     void on_copy();

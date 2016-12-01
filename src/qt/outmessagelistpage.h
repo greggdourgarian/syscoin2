@@ -47,6 +47,10 @@ private:
     QAction *deleteAction; // to be able to explicitly disable it
     QString newMessageToSelect;
 
+Q_SIGNALS:
+    /**  Fired when a message should be reported to the user */
+    void message(const QString &title, const QString &message, unsigned int style);
+
 private Q_SLOTS:
     /** Copy message of currently selected entry to clipboard */
     void on_copyMessage_clicked();
