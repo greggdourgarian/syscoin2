@@ -24,7 +24,6 @@ public:
     enum Mode {
         NewOffer,
         EditOffer,
-		EditLinkedOffer,
 		NewCertOffer
     };
 
