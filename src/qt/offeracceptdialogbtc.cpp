@@ -235,10 +235,6 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 			return;
 		}
 		UniValue resultObj = resultValue.get_obj();
-		UniValue hexValue = find_value(resultObj, "hex");
-		if (hexValue.isStr())
-			this->rawBTCTx = QString::fromStdString(hexValue.get_str());
-
 		UniValue outputsValue = find_value(resultObj, "vout");
 		if (outputsValue.isArray())
 		{
@@ -436,7 +432,7 @@ void OfferAcceptDialogBTC::acceptEscrow()
 		params.push_back(this->quantity.toStdString());
 		params.push_back(this->notes.toStdString());
 		params.push_back(ui->escrowEdit->text().toStdString());
-		params.push_back(this->rawBTCTx.toStdString());
+		params.push_back(ui->exttxidEdit->text().trimmed().toStdString());
 		params.push_back("BTC");
 		params.push_back(m_redeemScript.toStdString());
 		params.push_back(QString::number(m_height).toStdString());

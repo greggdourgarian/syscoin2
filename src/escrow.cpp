@@ -151,11 +151,8 @@ bool CEscrowDB::CleanupDatabase()
 				const CEscrow &txPos = vtxPos.back();
 	
   				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
-				{
-					if (DecodeHexTx(fundingTx,HexStr(txPos.rawTx)))
-						txHash = fundingTx.GetHash();
-					EraseEscrow(vchMyEscrow, txHash);
-				} 
+					EraseEscrow(vchMyEscrow, txPos.extTxId);
+				}
 				
             }
             pcursor->Next();
@@ -356,20 +353,16 @@ CScript RemoveEscrowScriptPrefix(const CScript& scriptIn) {
 }
 bool ValidateExternalPayment(const CEscrow& theEscrow, const bool &dontaddtodb, string& errorMessage)
 {
-	CTransaction fundingTx;
-	if (!DecodeHexTx(fundingTx,HexStr(theEscrow.rawTx)))
-	{
-		errorMessage = _("Could not decode external transaction");
-		return true;
-	}
 
-	const uint256 &txHash = fundingTx.GetHash();
-	if(pescrowdb->ExistsEscrowTx(txHash) || pofferdb->ExistsOfferTx(txHash))
+	if(!theEscrow.extTxId.IsNull())
 	{
-		errorMessage = _("External Transaction ID specified was already used to pay for an offer");
-		return true;
+		if(pescrowdb->ExistsEscrowTx(theEscrow.extTxId) || pofferdb->ExistsOfferTx(theEscrow.extTxId))
+		{
+			errorMessage = _("External Transaction ID specified was already used to pay for an offer");
+			return true;
+		}
 	}
-	if(!dontaddtodb && !pescrowdb->WriteEscrowTx(theEscrow.vchEscrow, txHash))
+	if(!dontaddtodb && !pescrowdb->WriteEscrowTx(theEscrow.vchEscrow, theEscrow.extTxId))
 	{
 		errorMessage = _("Failed to External Transaction ID to DB");
 		return false;
@@ -529,9 +522,14 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4015 - " + _("Invalid payment option");
 					return error(errorMessage.c_str());
 				}
-				if (!theEscrow.rawTx.empty() && theEscrow.nPaymentOption == PAYMENTOPTION_SYS)
+				if (!theEscrow.extTxId.IsNull() && theEscrow.nPaymentOption == PAYMENTOPTION_SYS)
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4016 - " + _("External payment cannot be paid with SYS");
+					return error(errorMessage.c_str());
+				}
+				if (theEscrow.extTxId.IsNull() && theEscrow.nPaymentOption != PAYMENTOPTION_SYS)
+				{
+					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4016 - " + _("External payment missing transaction ID");
 					return error(errorMessage.c_str());
 				}
 				if(!theEscrow.feedback.empty())
@@ -1019,7 +1017,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4076 - " + _("Cannot find linked offer for this escrow");
 				return true;
 			}
-			if(!theEscrow.rawTx.empty())
+			if(theEscrow.nPaymentOption != PAYMENTOPTION_SYS)
 			{
 				bool noError = ValidateExternalPayment(theEscrow, dontaddtodb, errorMessage);
 				if(!errorMessage.empty())
@@ -1232,7 +1230,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
                         "<quantity> Quantity of items to buy of offer.\n"
 						"<message> Delivery details to seller. 256 characters max\n"
 						"<arbiter alias> Alias of Arbiter.\n"
-						"<extTx> If paid in another coin enter raw external input transaction.\n"
+						"<extTx> External transaction ID if paid with another blockchain.\n"
 						"<paymentOption> If extTx is defined, specify a valid payment option used to make payment. Default is SYS.\n"
 						"<redeemScript> If paid in external chain, enter redeemScript that generateescrowmultisig returns\n"
 						"<height> If paid in extneral chain, enter height that generateescrowmultisig returns\n"
@@ -1247,12 +1245,12 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CTransaction aliastx, buyeraliastx;
 	if (!GetTxOfAlias(vchFromString(strArbiter), arbiteralias, aliastx))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4509 - " + _("Failed to read arbiter alias from DB"));
-
+	
+	string extTxIdStr;
+	if(params.size() >= 6)
+		extTxIdStr = params[5].get_str();
 
 	vector<unsigned char> vchMessage = vchFromValue(params[3]);
-	string strExtTx;
-	if(params.size() >= 6)
-		strExtTx = params[5].get_str();
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
 	if(params.size() >= 7 && !params[6].get_str().empty() && params[6].get_str() != "NONE")
@@ -1425,11 +1423,11 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	newEscrow.vchArbiterAlias = arbiteralias.vchAlias;
 	newEscrow.vchRedeemScript = redeemScript;
 	newEscrow.vchOffer = vchOffer;
+	newEscrow.extTxId = uint256S(extTxIdStr);
 	newEscrow.vchSellerAlias = selleralias.vchAlias;
 	newEscrow.vchLinkSellerAlias = reselleralias.vchAlias;
 	newEscrow.vchPaymentMessage = vchFromString(strCipherText);
 	newEscrow.nQty = nQty;
-	newEscrow.rawTx = ParseHex(strExtTx);
 	newEscrow.nPaymentOption = paymentOptionsMask;
 	newEscrow.nHeight = nHeight;
 	newEscrow.nAcceptHeight = chainActive.Tip()->nHeight;
@@ -1522,14 +1520,18 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue escrowrelease(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() != 2)
+    if (fHelp || params.size() > 3 || params.size() < 2)
         throw runtime_error(
-		"escrowrelease <escrow guid> <user role>\n"
-                        "Releases escrow funds to seller, seller needs to sign the output transaction and send to the network. User role represents either 'buyer' or 'arbiter'\n"
+		"escrowrelease <escrow guid> <user role> [rawTx]\n"
+                        "Releases escrow funds to seller, seller needs to sign the output transaction and send to the network. User role represents either 'buyer' or 'arbiter'. Enter in rawTx if this is an external payment release.\n"
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string role = params[1].get_str();
+	string rawTx;
+	if(params.size() >= 3)
+		rawTx = params[2].get_str();
+
     // this is a syscoin transaction
     CWalletTx wtx;
 
@@ -1616,7 +1618,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
-	if(!vtxPos.front().rawTx.empty())
+	if(escrow.nPaymentOption != PAYMENTOPTION_SYS)
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
@@ -1639,7 +1641,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
     CTransaction fundingTx;
 	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4527 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+	if (!rawTx.empty() && !DecodeHexTx(fundingTx,rawTx))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4528 - " + _("Could not decode external payment transaction"));
 	unsigned int nOutMultiSig = 0;
 	for(unsigned int i=0;i<fundingTx.vout.size();i++)
@@ -1730,7 +1732,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	arrayCreateParams.push_back(createAddressUniValue);
 	arrayCreateParams.push_back(NullUniValue);
 	// if external blockchain then we dont set the alias payments scriptpubkey
-	arrayCreateParams.push_back(vtxPos.front().rawTx.empty());
+	arrayCreateParams.push_back(rawTx.empty());
 	UniValue resCreate;
 	try
 	{
@@ -2018,14 +2020,16 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 }
 UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() != 1)
+    if (fHelp || params.size() > 2 || params.size() < 1)
         throw runtime_error(
-		"escrowclaimrelease <escrow guid>\n"
-                        "Claim escrow funds released from buyer or arbiter using escrowrelease.\n"
+		"escrowclaimrelease <escrow guid> [rawTx]\n"
+                        "Claim escrow funds released from buyer or arbiter using escrowrelease. Enter in rawTx if this is an external payment release.\n"
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
-
+	string rawTx;
+	if(params.size() >= 2)
+		rawTx = params[1].get_str();
 
 	EnsureWalletIsUnlocked();
 	UniValue ret(UniValue::VARR);
@@ -2098,7 +2102,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
-	if(!vtxPos.front().rawTx.empty())
+	if(escrow.nPaymentOption != PAYMENTOPTION_SYS)
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
@@ -2121,7 +2125,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
     CTransaction fundingTx;
 	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4541 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+	if (!rawTx.empty() && !DecodeHexTx(fundingTx,rawTx))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4542 - " + _("Could not decode external payment transaction"));
 	unsigned int nOutMultiSig = 0;
 	for(unsigned int i=0;i<fundingTx.vout.size();i++)
@@ -2315,7 +2319,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4558 - " + _("Could not find a escrow with this key"));
 
 	bool extPayment = false;
-	if (!vtxPos.front().rawTx.empty())
+	if (escrow.nPaymentOption != PAYMENTOPTION_SYS)
 		extPayment = true;
 
 	CAliasIndex sellerAlias, sellerAliasLatest, buyerAlias, buyerAliasLatest, arbiterAlias, arbiterAliasLatest, resellerAlias, resellerAliasLatest;
@@ -2444,14 +2448,17 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue escrowrefund(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() != 2)
+    if (fHelp || params.size() > 3 || params.size() < 2)
         throw runtime_error(
-		"escrowrefund <escrow guid> <user role>\n"
-                        "Refunds escrow funds back to buyer, buyer needs to sign the output transaction and send to the network. User role represents either 'seller' or 'arbiter'\n"
+		"escrowrefund <escrow guid> <user role> [rawTx]\n"
+                        "Refunds escrow funds back to buyer, buyer needs to sign the output transaction and send to the network. User role represents either 'seller' or 'arbiter'. Enter in rawTx if this is an external payment refund.\n"
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string role = params[1].get_str();
+	string rawTx;
+	if(params.size() >= 3)
+		rawTx = params[2].get_str();
     // this is a syscoin transaction
     CWalletTx wtx;
 
@@ -2529,7 +2536,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
-	if(!vtxPos.front().rawTx.empty())
+	if(escrow.nPaymentOption != PAYMENTOPTION_SYS)
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
@@ -2552,7 +2559,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
     CTransaction fundingTx;
 	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4563 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+	if (!rawTx.empty() && !DecodeHexTx(fundingTx,rawTx))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4564 - " + _("Could not decode external payment transaction"));
 	unsigned int nOutMultiSig = 0;
 	for(unsigned int i=0;i<fundingTx.vout.size();i++)
@@ -2629,7 +2636,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	arrayCreateParams.push_back(createAddressUniValue);
 	arrayCreateParams.push_back(NullUniValue);
 	// if external blockchain then we dont set the alias payments scriptpubkey
-	arrayCreateParams.push_back(vtxPos.front().rawTx.empty());
+	arrayCreateParams.push_back(rawTx.empty());
 	UniValue resCreate;
 	try
 	{
@@ -2755,14 +2762,16 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	return res;
 }
 UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() != 1)
+    if (fHelp || params.size() > 2 || params.size() < 1)
         throw runtime_error(
-		"escrowclaimrefund <escrow guid>\n"
-                        "Claim escrow funds released from seller or arbiter using escrowrefund.\n"
+		"escrowclaimrefund <escrow guid> [rawTx]\n"
+                        "Claim escrow funds released from seller or arbiter using escrowrefund. Enter in rawTx if this is an external payment refund.\n"
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
-
+	string rawTx;
+	if(params.size() >= 2)
+		rawTx = params[1].get_str();
 
 	EnsureWalletIsUnlocked();
     // look for a transaction with this key
@@ -2835,7 +2844,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
-	if(!vtxPos.front().rawTx.empty())
+	if(escrow.nPaymentOption != PAYMENTOPTION_SYS)
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 		nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
@@ -2858,7 +2867,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
     CTransaction fundingTx;
 	if (!GetSyscoinTransaction(vtxPos.front().nHeight, vtxPos.front().txHash, fundingTx, Params().GetConsensus()))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4573 - " + _("Failed to find escrow transaction"));
-	if (!vtxPos.front().rawTx.empty() && !DecodeHexTx(fundingTx,HexStr(vtxPos.front().rawTx)))
+	if (!rawTx.empty() && !DecodeHexTx(fundingTx,rawTx))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4574 - " + _("Could not decode external payment transaction"));
 	unsigned int nOutMultiSig = 0;
 	for(unsigned int i=0;i<fundingTx.vout.size();i++)
@@ -3015,7 +3024,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4588 - " + _("Could not find a escrow with this key"));
 
 	bool extPayment = false;
-	if (!vtxPos.front().rawTx.empty())
+	if (escrow.nPaymentOption != PAYMENTOPTION_SYS)
 		extPayment = true;
 
 	CAliasIndex sellerAlias, sellerAliasLatest, buyerAlias, buyerAliasLatest, arbiterAlias, arbiterAliasLatest, resellerAlias, resellerAliasLatest;
@@ -3498,7 +3507,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	CAmount nPricePerUnit = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision);
 	nExpectedAmount = nPricePerUnit*escrow.nQty;
 	
-	if(!firstEscrow.rawTx.empty())
+	if(escrow.nPaymentOption != PAYMENTOPTION_SYS)
 	{
 		string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 		nExpectedAmountExt = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, extprecision)*escrow.nQty;
@@ -3540,16 +3549,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 
 
-	string strExtId = "";
-	if(escrow.nPaymentOption != PAYMENTOPTION_SYS && !firstEscrow.rawTx.empty())
-	{
-		CTransaction fundingTx;
-		if (DecodeHexTx(fundingTx,HexStr(firstEscrow.rawTx)))
-		{
-			strExtId = fundingTx.GetHash().GetHex();
-		}
-	}
-	oEscrow.push_back(Pair("exttxid", strExtId));
+	oEscrow.push_back(Pair("exttxid", escrow.extTxId.GetHex()));
 	CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
 	CScriptID innerID(inner);
 	CSyscoinAddress escrowAddress(innerID);	

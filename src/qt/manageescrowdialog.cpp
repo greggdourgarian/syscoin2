@@ -288,6 +288,8 @@ void ManageEscrowDialog::on_cancelButton_clicked()
 }
 void ManageEscrowDialog::on_extButton_clicked()
 {
+	m_bRelease = false;
+	m_bRefund = false;
 	if(m_paymentOption == QString("BTC"))
     	CheckPaymentInBTC();
 	else if(m_paymentOption == QString("ZEC"))
@@ -586,7 +588,6 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 			time = timeValue.get_int();
 			timestamp.setTime_t(time);
 		}
-		
 
 		UniValue unconfirmedValue = find_value(resultObj, "confirmations");
 		if (unconfirmedValue.isNum())
@@ -594,10 +595,26 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 			int confirmations = unconfirmedValue.get_int();
 			if(confirmations >= 1)
 			{
-				GUIUtil::setClipboard(m_redeemTxId);
-				QMessageBox::information(this, windowTitle(),
-					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
-					QMessageBox::Ok, QMessageBox::Ok);	
+				UniValue hexValue = find_value(resultObj, "hex");
+				if (hexValue.isStr())
+					QString rawTx = QString::fromStdString(hexValue.get_str());		
+				if(m_bRelease)
+				{
+					m_bRelease = false;
+					doRelease(rawTx);
+				}
+				else if(m_bRefund)
+				{
+					m_bRefund = false;
+					doRefund(rawTx);
+				}
+				else
+				{
+					GUIUtil::setClipboard(m_redeemTxId);
+					QMessageBox::information(this, windowTitle(),
+						tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
+						QMessageBox::Ok, QMessageBox::Ok);	
+				}
 				reply->deleteLater();
 				return;
 			}
@@ -638,27 +655,30 @@ void ManageEscrowDialog::CheckPaymentInZEC()
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
 	zecClient.sendRawTxRequest(nam, m_redeemTxId);
 }
-void ManageEscrowDialog::on_releaseButton_clicked()
+void ManageEscrowDialog::onRelease()
 {
-    if(!walletModel) return;
-    WalletModel::UnlockContext ctx(walletModel->requestUnlock());
-    if(!ctx.isValid())
-    {
-		return;
-    }
-	if(ui->releaseButton->text() == tr("Leave Feedback"))
+	if(this->m_exttxid.size() > 0)
 	{
-		onLeaveFeedback();
-		return;
+		m_bRelease = true;
+		m_bRefund = false;
+		on_extButton_clicked();
 	}
-	if (releaseWarningStr.size() > 0) {
-		QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Escrow Release"),
-             releaseWarningStr,
-             QMessageBox::Yes|QMessageBox::Cancel,
-             QMessageBox::Cancel);
-		if(retval == QMessageBox::Cancel)
-			return;
+	else
+		doRelease();
+}
+void ManageEscrowDialog::onRefund()
+{
+	if(this->m_exttxid.size() > 0)
+	{
+		m_bRelease = false;
+		m_bRefund = true;
+		on_extButton_clicked();
 	}
+	else
+		doRefund();
+}
+void ManageEscrowDialog::doRelease(const QString &rawTx)
+{
 	UniValue params(UniValue::VARR);
 	params.push_back(escrow.toStdString());
 	string strMethod;
@@ -671,6 +691,7 @@ void ManageEscrowDialog::on_releaseButton_clicked()
 	}
 	
 	try {
+		params.push_back(rawTx);
 		UniValue result = tableRPC.execute(strMethod, params);
 		const UniValue& retarray = result.get_array();
 		if(ui->releaseButton->text() == tr("Claim Payment"))
@@ -730,9 +751,9 @@ void ManageEscrowDialog::on_releaseButton_clicked()
 		QMessageBox::critical(this, windowTitle(),
             tr("General exception releasing escrow"),
 			QMessageBox::Ok, QMessageBox::Ok);
-	}	
+	}
 }
-void ManageEscrowDialog::on_refundButton_clicked()
+void ManageEscrowDialog::on_releaseButton_clicked()
 {
     if(!walletModel) return;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -740,14 +761,24 @@ void ManageEscrowDialog::on_refundButton_clicked()
     {
 		return;
     }
-	if (refundWarningStr.size() > 0) {
-		QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Escrow Refund"),
-             refundWarningStr,
+	if(ui->releaseButton->text() == tr("Leave Feedback"))
+	{
+		onLeaveFeedback();
+		return;
+	}
+	if (releaseWarningStr.size() > 0) {
+		QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Escrow Release"),
+             releaseWarningStr,
              QMessageBox::Yes|QMessageBox::Cancel,
              QMessageBox::Cancel);
 		if(retval == QMessageBox::Cancel)
 			return;
 	}
+	onRelease();
+	
+}
+void ManageEscrowDialog::doRefund(const QString &rawTx)
+{
 	UniValue params(UniValue::VARR);
 	params.push_back(escrow.toStdString());
 	string strMethod;
@@ -760,6 +791,7 @@ void ManageEscrowDialog::on_refundButton_clicked()
 	}
 	
 	try {
+		params.push_back(rawTx);
 		UniValue result = tableRPC.execute(strMethod, params);
 		const UniValue& retarray = result.get_array();
 		if(ui->refundButton->text() == tr("Claim Refund"))
@@ -820,6 +852,24 @@ void ManageEscrowDialog::on_refundButton_clicked()
             tr("General exception refunding escrow"),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
+}
+void ManageEscrowDialog::on_refundButton_clicked()
+{
+    if(!walletModel) return;
+    WalletModel::UnlockContext ctx(walletModel->requestUnlock());
+    if(!ctx.isValid())
+    {
+		return;
+    }
+	if (refundWarningStr.size() > 0) {
+		QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Escrow Refund"),
+             refundWarningStr,
+             QMessageBox::Yes|QMessageBox::Cancel,
+             QMessageBox::Cancel);
+		if(retval == QMessageBox::Cancel)
+			return;
+	}
+	onRefund();
 }
 EscrowRoleType ManageEscrowDialog::findYourEscrowRoleFromAliases(const QString &buyer, const QString &seller, const QString &reseller, const QString &arbiter)
 {

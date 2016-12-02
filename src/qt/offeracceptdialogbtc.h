@@ -39,7 +39,6 @@ private:
 	QString address;
 	QString multisigaddress;
 	QString alias;
-	QString rawBTCTx;
 	QString m_buttonText;
 	QString m_address;
 	bool offerPaid; 

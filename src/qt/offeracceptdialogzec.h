@@ -41,7 +41,6 @@ private:
 	QString zaddress;
 	QString multisigaddress;
 	QString alias;
-	QString rawZECTx;
 	QString m_buttonText;
 	QString m_address;
 	double dblPrice;
