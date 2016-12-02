@@ -1559,7 +1559,9 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	CRecipient recp = {scriptPubKey, recipient.nAmount, false};
 	recipient = recp;
 	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
-    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+    size_t nSize = txout.GetSerializeSize(SER_DISK,0);
+	if(nSize < 148u)
+		nSize = 148u;
 	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
 	recipient.nAmount = fee;
 }
@@ -1574,7 +1576,9 @@ void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchA
 	CRecipient recp = {scriptPubKey, 0, false};
 	recipient = recp;
 	CTxOut txout(0,	recipient.scriptPubKey);
-	size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+	size_t nSize = txout.GetSerializeSize(SER_DISK,0);
+	if(nSize < 148u)
+		nSize = 148u;
 	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
 	if(nFeePerByte <= 0)
 		nFee = 3*minRelayTxFee.GetFee(nSize);
@@ -1591,7 +1595,9 @@ CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vch
 	CRecipient recp = {scriptPubKey, 0, false};
 	recipient = recp;
 	CTxOut txout(0,	recipient.scriptPubKey);
-    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+    size_t nSize = txout.GetSerializeSize(SER_DISK,0);
+	if(nSize < 148u)
+		nSize = 148u;
 	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
 	if(nFeePerByte <= 0)
 		nFee = 3*minRelayTxFee.GetFee(nSize);
