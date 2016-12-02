@@ -324,9 +324,9 @@ void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 void OfferAcceptDialogZEC::CheckPaymentInZEC()
 {
 	if(!ui->checkBox->isChecked())
-		m_address = address;
+		m_address = this->zaddress;
 	else
-		m_address = multisigaddress;
+		m_address = this->multisigaddress;
 	ZecRpcClient zecClient;
 	m_buttonText = ui->confirmButton->text();
 	ui->confirmButton->setText(tr("Please Wait..."));	
