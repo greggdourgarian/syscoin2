@@ -460,7 +460,7 @@ void OfferAcceptDialogZEC::acceptEscrow()
 		params.push_back(this->quantity.toStdString());
 		params.push_back(this->notes.toStdString());
 		params.push_back(ui->escrowEdit->text().toStdString());
-		params.push_back(this->rawZECTx.trimmed().toStdString());
+		params.push_back(this->rawZECTx.toStdString());
 		params.push_back("ZEC");
 		params.push_back(m_redeemScript.toStdString());
 		params.push_back(QString::number(m_height).toStdString());

@@ -1250,9 +1250,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 
 	vector<unsigned char> vchMessage = vchFromValue(params[3]);
-	vector<unsigned char> vchExtTx;
+	string strExtTx;
 	if(params.size() >= 6)
-		vchExtTx = vchFromValue(params[5]);
+		strExtTx = params[5].get_str();
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
 	if(params.size() >= 7 && !params[6].get_str().empty() && params[6].get_str() != "NONE")
@@ -1413,7 +1413,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CAmount nAmountWithFee = nTotal+nEscrowFee+(nFeePerByte*400);
 	CWalletTx escrowWtx;
 	CRecipient recipientEscrow  = {scriptPubKey, nAmountWithFee, false};
-	if(vchExtTx.empty())
+	if(strExtTx.empty())
 		vecSend.push_back(recipientEscrow);
 
 	// send to seller/arbiter so they can track the escrow through GUI
@@ -1429,7 +1429,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	newEscrow.vchLinkSellerAlias = reselleralias.vchAlias;
 	newEscrow.vchPaymentMessage = vchFromString(strCipherText);
 	newEscrow.nQty = nQty;
-	newEscrow.rawTx = vchExtTx;
+	newEscrow.rawTx = ParseHex(strExtTx);
 	newEscrow.nPaymentOption = paymentOptionsMask;
 	newEscrow.nHeight = nHeight;
 	newEscrow.nAcceptHeight = chainActive.Tip()->nHeight;
@@ -1890,21 +1890,18 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 		sellerAlias.nHeight = vtxPos.front().nHeight;
 		sellerAlias.GetAliasFromList(aliasVtxPos);
 		sellerKey = CPubKey(sellerAlias.vchPubKey);
-		GetAddress(sellerAlias, &sellerAddressPayment, escrow.nPaymentOption);
 	}
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
 		buyerAlias.nHeight = vtxPos.front().nHeight;
 		buyerAlias.GetAliasFromList(aliasVtxPos);
 		buyerKey = CPubKey(buyerAlias.vchPubKey);
-		GetAddress(buyerAlias, &buyerAddressPayment, escrow.nPaymentOption);
 	}
 	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
 	{
 		arbiterAlias.nHeight = vtxPos.front().nHeight;
 		arbiterAlias.GetAliasFromList(aliasVtxPos);
 		arbiterKey = CPubKey(arbiterAlias.vchPubKey);
-		GetAddress(arbiterAlias, &arbiterAddressPayment, escrow.nPaymentOption);
 	}
 
 	COffer theOffer, linkOffer;
@@ -1927,7 +1924,6 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 			resellerAlias.nHeight = vtxPos.front().nHeight;
 			resellerAlias.GetAliasFromList(aliasVtxPos);
 			resellerKey = CPubKey(resellerAlias.vchPubKey);
-			GetAddress(resellerAlias, &resellerAddressPayment, escrow.nPaymentOption);
 		}
 
 	}
@@ -2052,7 +2048,6 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		sellerAlias.nHeight = vtxPos.front().nHeight;
 		sellerAlias.GetAliasFromList(aliasVtxPos);
 		sellerKey = CPubKey(sellerAlias.vchPubKey);
-		GetAddress(sellerAlias, &sellerAddressPayment, escrow.nPaymentOption);
 	}
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
@@ -2066,7 +2061,6 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		arbiterAlias.nHeight = vtxPos.front().nHeight;
 		arbiterAlias.GetAliasFromList(aliasVtxPos);
 		arbiterKey = CPubKey(arbiterAlias.vchPubKey);
-		GetAddress(arbiterAlias, &arbiterAddressPayment, escrow.nPaymentOption);
 	}
 	COffer theOffer, linkOffer;
 	CTransaction txOffer;
@@ -2087,8 +2081,6 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		{
 			resellerAlias.nHeight = vtxPos.front().nHeight;
 			resellerAlias.GetAliasFromList(aliasVtxPos);
-			resellerKey = CPubKey(resellerAlias.vchPubKey);
-			GetAddress(resellerAlias, &resellerAddressPayment, escrow.nPaymentOption);
 		}
 	}
 	CAmount nCommission;
@@ -2210,7 +2202,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			}
 			CScript script = GetScriptForMultisig(reqSigsValue.get_int(), pubKeys);
 			CScriptID innerID(script);
-			CSyscoinAddress aliasAddress(innerID, PaymentOptionToAddressType(escrow.nPaymentOption));
+			CSyscoinAddress aliasAddress(innerID);
 			strAddress = aliasAddress.ToString();
 		}
 
@@ -2801,7 +2793,6 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		buyerAlias.nHeight = vtxPos.front().nHeight;
 		buyerAlias.GetAliasFromList(aliasVtxPos);
 		buyerKey = CPubKey(buyerAlias.vchPubKey);
-		GetAddress(buyerAlias, &buyerAddressPayment, escrow.nPaymentOption);
 	}
 	aliasVtxPos.clear();
 	CPubKey sellerKey;
@@ -2947,7 +2938,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 			}
 			CScript script = GetScriptForMultisig(reqSigsValue.get_int(), pubKeys);
 			CScriptID innerID(script);
-			CSyscoinAddress aliasAddress(innerID, PaymentOptionToAddressType(escrow.nPaymentOption));
+			CSyscoinAddress aliasAddress(innerID);
 			strAddress = aliasAddress.ToString();
 		}
 		if(!foundRefundPayment)
