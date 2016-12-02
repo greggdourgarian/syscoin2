@@ -597,24 +597,27 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 			{
 				UniValue hexValue = find_value(resultObj, "hex");
 				if (hexValue.isStr())
-					QString rawTx = QString::fromStdString(hexValue.get_str());		
-				if(m_bRelease)
 				{
-					m_bRelease = false;
-					doRelease(rawTx);
+					const QString &rawTx = QString::fromStdString(hexValue.get_str());		
+					if(m_bRelease)
+					{
+						m_bRelease = false;
+						doRelease(rawTx);
+					}
+					else if(m_bRefund)
+					{
+						m_bRefund = false;
+						doRefund(rawTx);
+					}
+					reply->deleteLater();
+					return;
 				}
-				else if(m_bRefund)
-				{
-					m_bRefund = false;
-					doRefund(rawTx);
-				}
-				else
-				{
-					GUIUtil::setClipboard(m_redeemTxId);
-					QMessageBox::information(this, windowTitle(),
-						tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
-						QMessageBox::Ok, QMessageBox::Ok);	
-				}
+				
+				GUIUtil::setClipboard(m_redeemTxId);
+				QMessageBox::information(this, windowTitle(),
+					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
+					QMessageBox::Ok, QMessageBox::Ok);	
+				
 				reply->deleteLater();
 				return;
 			}
@@ -691,7 +694,7 @@ void ManageEscrowDialog::doRelease(const QString &rawTx)
 	}
 	
 	try {
-		params.push_back(rawTx.toStdString(););
+		params.push_back(rawTx.toStdString());
 		UniValue result = tableRPC.execute(strMethod, params);
 		const UniValue& retarray = result.get_array();
 		if(ui->releaseButton->text() == tr("Claim Payment"))
