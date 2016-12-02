@@ -184,8 +184,8 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 
 		if (result.type() == UniValue::VOBJ)
 		{
-			const string &strAddress = find_value(result, "address").get_str();			
-			address = QString::fromStdString(strAddress);			
+			const string &strAddress = find_value(result, "address").get_str();				
+			address = QString::fromStdString(strAddress);
 			return true;
 		}
 	}
@@ -208,6 +208,31 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 
 
 } 
+QString MyAcceptedOfferListPage::convertAddress(const QString &sysAddress)
+{
+	UniValue params(UniValue::VARR);
+	params.push_back(sysAddress.toStdString());
+	UniValue resCreate;
+	try
+	{
+		resCreate = tableRPC.execute("getzaddress", params);
+		return QString::fromStdString(resCreate.get_str());
+	}
+	catch (UniValue& objError)
+	{
+		QMessageBox::critical(this, windowTitle(),
+			tr("Failed to generate ZCash address, please close this screen and try again"),
+				QMessageBox::Ok, QMessageBox::Ok);
+	}
+	catch(std::exception& e)
+	{
+		QMessageBox::critical(this, windowTitle(),
+			tr("There was an exception trying to generate ZCash address, please close this screen and try again: ") + QString::fromStdString(e.what()),
+				QMessageBox::Ok, QMessageBox::Ok);
+	}
+	return QString("");
+
+}
 void MyAcceptedOfferListPage::on_ackButton_clicked()
 {
  	if(!model)	
@@ -393,7 +418,7 @@ void MyAcceptedOfferListPage::CheckPaymentInZEC(const QString &strExtTxId, const
 	m_buttonText = ui->extButton->text();
 	ui->extButton->setText(tr("Please Wait..."));
 	ui->extButton->setEnabled(false);
-	m_strAddress = address;
+	m_strAddress = convertAddress(address);
 	m_strExtTxId = strExtTxId;
 
 	ZecRpcClient zecClient;

@@ -40,6 +40,8 @@ public:
 	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
 	void CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price);
 	void loadAliasList();
+	QString convertAddress(const QString &sysAddress);
+
 public Q_SLOTS:
     void done(int retval);
 private:
