@@ -149,11 +149,8 @@ bool CEscrowDB::CleanupDatabase()
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
-	
   				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
-					EraseEscrow(vchMyEscrow, txPos.extTxId);
-				}
-				
+					EraseEscrow(vchMyEscrow, txPos.extTxId);	
             }
             pcursor->Next();
         } catch (std::exception &e) {
@@ -3549,7 +3546,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 
 
-	oEscrow.push_back(Pair("exttxid", escrow.extTxId.GetHex()));
+	oEscrow.push_back(Pair("exttxid", escrow.extTxId.IsNull()? "": escrow.extTxId.GetHex()));
 	CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
 	CScriptID innerID(inner);
 	CSyscoinAddress escrowAddress(innerID);	
