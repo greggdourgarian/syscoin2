@@ -691,7 +691,7 @@ void ManageEscrowDialog::doRelease(const QString &rawTx)
 	}
 	
 	try {
-		params.push_back(rawTx);
+		params.push_back(rawTx.toStdString(););
 		UniValue result = tableRPC.execute(strMethod, params);
 		const UniValue& retarray = result.get_array();
 		if(ui->releaseButton->text() == tr("Claim Payment"))
@@ -791,7 +791,7 @@ void ManageEscrowDialog::doRefund(const QString &rawTx)
 	}
 	
 	try {
-		params.push_back(rawTx);
+		params.push_back(rawTx.toStdString());
 		UniValue result = tableRPC.execute(strMethod, params);
 		const UniValue& retarray = result.get_array();
 		if(ui->refundButton->text() == tr("Claim Refund"))
