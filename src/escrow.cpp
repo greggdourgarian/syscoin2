@@ -2282,10 +2282,10 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	if (hex_value.isStr())
 		hex_str = hex_value.get_str();
 
-	CTransaction rawTx;
-	DecodeHexTx(rawTx,hex_str);
+	CTransaction rawTransaction;
+	DecodeHexTx(rawTransaction,hex_str);
 	ret.push_back(hex_str);
-	ret.push_back(rawTx.GetHash().GetHex());
+	ret.push_back(rawTransaction.GetHash().GetHex());
 	return ret;
 
 
@@ -2988,11 +2988,11 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	const UniValue& hex_value = find_value(o, "hex");
 	if (hex_value.isStr())
 		hex_str = hex_value.get_str();
-	CTransaction rawTx;
-	DecodeHexTx(rawTx,hex_str);
+	CTransaction rawTransaction;
+	DecodeHexTx(rawTransaction,hex_str);
 	UniValue ret(UniValue::VARR);
 	ret.push_back(hex_str);
-	ret.push_back(rawTx.GetHash().GetHex());
+	ret.push_back(rawTransaction.GetHash().GetHex());
 	return ret;
 }
 UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
