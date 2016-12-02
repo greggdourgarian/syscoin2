@@ -1408,7 +1408,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CAmount nAmountWithFee = nTotal+nEscrowFee+(nFeePerByte*400);
 	CWalletTx escrowWtx;
 	CRecipient recipientEscrow  = {scriptPubKey, nAmountWithFee, false};
-	if(strExtTx.empty())
+	if(extTxIdStr.empty())
 		vecSend.push_back(recipientEscrow);
 
 	// send to seller/arbiter so they can track the escrow through GUI
