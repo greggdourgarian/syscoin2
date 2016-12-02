@@ -58,8 +58,8 @@ public:
         MAX_BASE58_TYPES
     };  
     enum AddressType {
+		ADDRESS_OLDSYS,
         ADDRESS_SYS,
-        ADDRESS_OLDSYS,
         ADDRESS_ZEC,
         MAX_ADDRESS_TYPES
     };
