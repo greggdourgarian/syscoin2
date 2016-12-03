@@ -3558,7 +3558,8 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("exttxid", escrow.extTxId.IsNull()? "": escrow.extTxId.GetHex()));
 	CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
 	CScriptID innerID(inner);
-	CSyscoinAddress escrowAddress(innerID);	
+	const CChainParams::AddressType &myAddressType = PaymentOptionToAddressType(escrow.nPaymentOption);
+	CSyscoinAddress escrowAddress(innerID, myAddressType);	
 	oEscrow.push_back(Pair("escrowaddress", escrowAddress.ToString()));
 	string strRedeemTxId = "";
 	if(!escrow.redeemTxId.IsNull())

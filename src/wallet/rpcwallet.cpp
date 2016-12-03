@@ -215,6 +215,10 @@ UniValue getzaddress(const UniValue& params, bool fHelp)
 
     string strAddress = params[0].get_str();
     CSyscoinAddress sysAddress(strAddress);
+
+	if(!sysAddress.isAlias)
+		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
+    
 	CPubKey pubkey(sysAddress.vchPubKey);
     return CSyscoinAddress(pubkey.GetID(), CChainParams::ADDRESS_ZEC).ToString();
 }
