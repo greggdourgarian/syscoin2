@@ -288,8 +288,6 @@ void ManageEscrowDialog::on_cancelButton_clicked()
 }
 void ManageEscrowDialog::on_extButton_clicked()
 {
-	m_bRelease = false;
-	m_bRefund = false;
 	if(m_paymentOption == QString("BTC"))
     	CheckPaymentInBTC();
 	else if(m_paymentOption == QString("ZEC"))
@@ -566,6 +564,8 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 			tr("Could not find escrow payment on the %1 blockchain, please ensure that the payment transaction ID <b>%2</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: ").arg(chain).arg(m_checkTxId) + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
+		m_bRelease = false;
+		m_bRefund = false;
 		return;
 	}
 	unsigned int time;
@@ -584,6 +584,8 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 				tr("Cannot parse JSON results"),
 					QMessageBox::Ok, QMessageBox::Ok);
 			reply->deleteLater();
+			m_bRelease = false;
+			m_bRefund = false;
 			return;
 		}
 		UniValue resultObj = resultValue.get_obj();
@@ -623,7 +625,8 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 				QMessageBox::information(this, windowTitle(),
 					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
 					QMessageBox::Ok, QMessageBox::Ok);	
-				
+				m_bRelease = false;
+				m_bRefund = false;
 				reply->deleteLater();
 				return;
 			}
@@ -636,6 +639,8 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 			tr("Cannot parse JSON response: ") + str,
 				QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
+		m_bRelease = false;
+		m_bRefund = false;
 		return;
 	}
 	reply->deleteLater();
@@ -644,6 +649,8 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	QMessageBox::warning(this, windowTitle(),
 		tr("Escrow payment ID <b>%1</b> found in the %2 blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(chain),
 			QMessageBox::Ok, QMessageBox::Ok);	
+	m_bRelease = false;
+	m_bRefund = false;
 }
 
 void ManageEscrowDialog::CheckPaymentInBTC()
