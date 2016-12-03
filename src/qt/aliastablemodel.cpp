@@ -182,7 +182,7 @@ public:
 						if (safesearch_value.type() == UniValue::VSTR)
 							safesearch_str = safesearch_value.get_str();
 
-						const UniValue& multisigValue = find_value(o), "multisiginfo");
+						const UniValue& multisigValue = find_value(o, "multisiginfo");
 						if (multisigValue.type() == UniValue::VOBJ)
 						{
 							const UniValue& reqsigsValue = find_value(multisigValue.get_obj(), "reqsigs");
