@@ -461,6 +461,11 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 	return false;
 }
 void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
+	QString chain;
+	if(m_paymentOption == "BTC")
+		chain = tr("Bitcoin");
+	else if(m_paymentOption == "ZEC")
+		chain = tr("ZCash");
 	if(reply->error() != QNetworkReply::NoError) {
 		if(m_buttontext == tr("Claim Payment"))
 		{
@@ -473,7 +478,7 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 			ui->refundButton->setEnabled(true);	
 		}
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not send raw escrow transaction to the Bitcoin blockchain, error: ") + reply->errorString(),
+			tr("Could not send raw escrow transaction to the %1 blockchain, error: ").arg(chain) + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
 		return;
@@ -554,10 +559,11 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	else if(m_paymentOption == "ZEC")
 		chain = tr("ZCash");
 	if(reply->error() != QNetworkReply::NoError) {
+
 		ui->extButton->setText(m_buttontext);
-		GUIUtil::setClipboard(m_redeemTxId);
+		GUIUtil::setClipboard(m_checkTxId);
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not find escrow payment on the %1 blockchain, please ensure that the payment transaction ID <b>%2</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference.").arg(chain).arg(m_redeemTxId),
+			tr("Could not find escrow payment on the %1 blockchain, please ensure that the payment transaction ID <b>%2</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: ").arg(chain).arg(m_checkTxId) + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
 		return;
@@ -613,9 +619,9 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 					return;
 				}
 				
-				GUIUtil::setClipboard(m_redeemTxId);
+				GUIUtil::setClipboard(m_checkTxId);
 				QMessageBox::information(this, windowTitle(),
-					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
+					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
 					QMessageBox::Ok, QMessageBox::Ok);	
 				
 				reply->deleteLater();
@@ -634,9 +640,9 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	}
 	reply->deleteLater();
 	ui->extButton->setText(m_buttontext);	
-	GUIUtil::setClipboard(m_redeemTxId);
+	GUIUtil::setClipboard(m_checkTxId);
 	QMessageBox::warning(this, windowTitle(),
-		tr("Escrow payment ID <b>%1</b> found in the %2 blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_redeemTxId).arg(chain),
+		tr("Escrow payment ID <b>%1</b> found in the %2 blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(chain),
 			QMessageBox::Ok, QMessageBox::Ok);	
 }
 
@@ -647,7 +653,8 @@ void ManageEscrowDialog::CheckPaymentInBTC()
 	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
-	btcClient.sendRawTxRequest(nam, m_redeemTxId);
+	m_checkTxId = m_redeemTxId.size() > 0? m_redeemTxId: m_exttxid;
+	btcClient.sendRawTxRequest(nam, m_checkTxId);
 }
 void ManageEscrowDialog::CheckPaymentInZEC()
 {
@@ -656,7 +663,8 @@ void ManageEscrowDialog::CheckPaymentInZEC()
 	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
-	zecClient.sendRawTxRequest(nam, m_redeemTxId);
+	m_checkTxId = m_redeemTxId.size() > 0? m_redeemTxId: m_exttxid;
+	zecClient.sendRawTxRequest(nam, m_checkTxId);
 }
 void ManageEscrowDialog::onRelease()
 {

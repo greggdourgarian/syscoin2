@@ -53,6 +53,7 @@ private:
     Ui::ManageEscrowDialog *ui;
 	QString escrow;
 	QString m_exttxid;
+	QString m_checkTxId;
 	QString m_redeemTxId;
 	QString m_rawTx;
 	QString refundWarningStr;
