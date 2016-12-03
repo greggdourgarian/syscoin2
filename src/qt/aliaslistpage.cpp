@@ -101,12 +101,13 @@ void AliasListPage::setModel(WalletModel* walletModel, AliasTableModel *model)
 
     // Set column widths
     ui->tableView->setColumnWidth(0, 500); //alias name
-    ui->tableView->setColumnWidth(1, 75); //expires on
-    ui->tableView->setColumnWidth(2, 75); //expires in
-    ui->tableView->setColumnWidth(3, 75); //expired status
-	ui->tableView->setColumnWidth(4, 150); //buyerrating
-	ui->tableView->setColumnWidth(5, 150); //sellerrrating
-	ui->tableView->setColumnWidth(6, 150); //arbiterrating
+	ui->tableView->setColumnWidth(1, 50); //multisig
+    ui->tableView->setColumnWidth(2, 75); //expires on
+    ui->tableView->setColumnWidth(3, 75); //expires in
+    ui->tableView->setColumnWidth(4, 75); //expired status
+	ui->tableView->setColumnWidth(5, 150); //buyerrating
+	ui->tableView->setColumnWidth(6, 150); //sellerrrating
+	ui->tableView->setColumnWidth(7, 150); //arbiterrating
 	ui->tableView->setItemDelegate(new StarDelegate);
 
 
@@ -255,6 +256,7 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 		string name_str;
 		string value_str;
 		string privvalue_str;
+		string multisig_str;
 		string expires_in_str;
 		string expires_on_str;
 		string expired_str;
@@ -308,6 +310,7 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 					continue;
 				const UniValue &o = input.get_obj();
 				name_str = "";
+				multisig_str = "";
 				value_str = "";
 				privvalue_str = "";
 				expires_in_str = "";
@@ -371,10 +374,17 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 					expires_in_str = strprintf("%d Blocks", expires_in);
 					expires_on_str = strprintf("Block %d", expires_on);
 				}
-
+				const UniValue& multisigValue = find_value(o), "multisiginfo");
+				if (multisigValue.type() == UniValue::VOBJ)
+				{
+					const UniValue& reqsigsValue = find_value(multisigValue.get_obj(), "reqsigs");
+					int reqsigs = reqsigsValue.get_int();
+					multisig_str = reqsigs > 0? "Yes": "No";
+				}
 	
 				model->addRow(AliasTableModel::Alias,
 						QString::fromStdString(name_str),
+						QString::fromStdString(multisig_str),
 						QString::fromStdString(value_str),
 						QString::fromStdString(privvalue_str),
 						QString::fromStdString(expires_on_str),
@@ -386,7 +396,8 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 						arbiter_rating, arbiter_ratingcount
 						);
 					this->model->updateEntry(QString::fromStdString(name_str),
-						QString::fromStdString(value_str),
+						QString::fromStdString(name_str),
+						QString::fromStdString(multisig_str),
 						QString::fromStdString(privvalue_str),
 						QString::fromStdString(expires_on_str),
 						QString::fromStdString(expires_in_str),

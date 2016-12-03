@@ -653,17 +653,18 @@ void MyAcceptedOfferListPage::on_exportButton_clicked()
 
     // name, column, role
     writer.setModel(proxyModel);
-    writer.addColumn("Offer ID", OfferAcceptTableModel::Name, Qt::EditRole);
-    writer.addColumn("OfferAccept ID", OfferAcceptTableModel::GUID, Qt::EditRole);
-	writer.addColumn("Title", OfferAcceptTableModel::Title, Qt::EditRole);
-	writer.addColumn("Height", OfferAcceptTableModel::Height, Qt::EditRole);
-	writer.addColumn("Price", OfferAcceptTableModel::Price, Qt::EditRole);
-	writer.addColumn("Currency", OfferAcceptTableModel::Currency, Qt::EditRole);
-	writer.addColumn("Qty", OfferAcceptTableModel::Qty, Qt::EditRole);
-	writer.addColumn("Total", OfferAcceptTableModel::Total, Qt::EditRole);
-	writer.addColumn("Seller", OfferAcceptTableModel::Alias, Qt::EditRole);
-	writer.addColumn("Buyer", OfferAcceptTableModel::Buyer, Qt::EditRole);
-	writer.addColumn("Status", OfferAcceptTableModel::Status, Qt::EditRole);
+
+    writer.addColumn(tr("Offer ID"), OfferAcceptTableModel::Name, Qt::EditRole);
+    writer.addColumn(tr("Accept ID"), OfferAcceptTableModel::GUID, Qt::EditRole);
+	writer.addColumn(tr("Title"), OfferAcceptTableModel::Title, Qt::EditRole);
+	writer.addColumn(tr("Height"), OfferAcceptTableModel::Height, Qt::EditRole);
+	writer.addColumn(tr("Price"), OfferAcceptTableModel::Price, Qt::EditRole);
+	writer.addColumn(tr("Currency"), OfferAcceptTableModel::Currency, Qt::EditRole);
+	writer.addColumn(tr("Qty"), OfferAcceptTableModel::Qty, Qt::EditRole);
+	writer.addColumn(tr("Total"), OfferAcceptTableModel::Total, Qt::EditRole);
+	writer.addColumn(tr("Seller"), OfferAcceptTableModel::Alias, Qt::EditRole);
+	writer.addColumn(tr("Buyer"), OfferAcceptTableModel::Buyer, Qt::EditRole);
+	writer.addColumn(tr("Status"), OfferAcceptTableModel::Status, Qt::EditRole);
     if(!writer.write())
     {
         QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),

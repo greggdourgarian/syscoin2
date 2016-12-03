@@ -245,7 +245,7 @@ public:
 OfferAcceptTableModel::OfferAcceptTableModel(CWallet *wallet, WalletModel *parent,  OfferAcceptModelType type) :
     QAbstractTableModel(parent),walletModel(parent),wallet(wallet),priv(0), modelType(type)
 {
-	columns << tr("Offer ID") << tr("Accept ID") << tr("Title") << tr("Height") << tr("Price") << tr("Currency") << tr("Quantity") << tr("Total") << tr("Seller") << tr("Buyer") << tr("Status");
+	columns << tr("Offer ID") << tr("Accept ID") << tr("Title") << tr("Height") << tr("Price") << tr("Currency") << tr("Qty") << tr("Total") << tr("Seller") << tr("Buyer") << tr("Status");
     priv = new OfferAcceptTablePriv(wallet, this);
     refreshOfferTable();
 }

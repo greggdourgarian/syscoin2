@@ -284,8 +284,9 @@ void AddressBookPage::on_exportButton_clicked()
 
     // name, column, role
     writer.setModel(proxyModel);
-    writer.addColumn("Label", AddressTableModel::Label, Qt::EditRole);
-    writer.addColumn("Address", AddressTableModel::Address, Qt::EditRole);
+	// SYSCOIN
+    writer.addColumn(tr("Label"), AddressTableModel::Label, Qt::EditRole);
+    writer.addColumn(tr("Address"), AddressTableModel::Address, Qt::EditRole);
 
     if(!writer.write()) {
         QMessageBox::critical(this, tr("Exporting Failed"),

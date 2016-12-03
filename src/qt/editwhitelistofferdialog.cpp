@@ -351,9 +351,9 @@ void EditWhitelistOfferDialog::on_exportButton_clicked()
     CSVModelWriter writer(filename);
     // name, column, role
     writer.setModel(proxyModel);
-	writer.addColumn("Alias", OfferWhitelistTableModel::Alias, Qt::EditRole);
-	writer.addColumn("Expires", OfferWhitelistTableModel::Expires, Qt::EditRole);
-	writer.addColumn("Discount", OfferWhitelistTableModel::Discount, Qt::EditRole);
+	writer.addColumn(tr("Alias"), OfferWhitelistTableModel::Alias, Qt::EditRole);
+	writer.addColumn(tr("Expires"), OfferWhitelistTableModel::Expires, Qt::EditRole);
+	writer.addColumn(tr("Discount"), OfferWhitelistTableModel::Discount, Qt::EditRole);
 	
     if(!writer.write())
     {
