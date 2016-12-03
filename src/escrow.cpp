@@ -3525,10 +3525,17 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	}
 	else
 	{
+		CAmount nExpectedAmountSys;
+		if(offer.sCurrencyCode != "SYS")
+			nExpectedAmountSys = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString("SYS"), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision)*escrow.nQty;
+		else
+			nExpectedAmountSys = nExpectedAmount;
+	
+
 		float fEscrowFee = getEscrowFee(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight, tmpprecision);
-		nEscrowFee = GetEscrowArbiterFee(offer.GetPrice(foundEntry)*escrow.nQty, fEscrowFee);
+		nEscrowFee = GetEscrowArbiterFee(nExpectedAmountSys, fEscrowFee);
 		nFeePerByte = getFeePerByte(theSellerAlias.vchAliasPeg, vchFromString("SYS"), firstEscrow.nAcceptHeight,tmpprecision);
-		nEscrowTotal =  (offer.GetPrice(foundEntry)*escrow.nQty) + nEscrowFee + (nFeePerByte*400);
+		nEscrowTotal =  nExpectedAmountSys + nEscrowFee + (nFeePerByte*400);
 	}
 
 	
