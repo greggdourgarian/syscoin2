@@ -1781,13 +1781,16 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CWalletTx wtx;
 
 	EnsureWalletIsUnlocked();
-	CPubKey defaultKey = pwalletMain->GenerateNewKey();
+	CPubKey defaultKey ;
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
 	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsMyAlias(oldAlias))
 	{
 		defaultKey = CPubKey(oldAlias.vchPubKey);	
 	}
+	else if(strPassword.empty())
+		defaultKey = pwalletMain->GenerateNewKey();
+
 	CSyscoinAddress oldAddress(defaultKey.GetID());
 	if(!strPassword.empty())
 	{
@@ -2403,9 +2406,16 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 }
 bool IsMyAlias(const CAliasIndex& alias)
 {
-	CSyscoinAddress address;
-	GetAddress(alias, &address);
-	return IsMine(*pwalletMain, address.Get());
+
+	CPubKey aliasPubKey(alias.vchPubKey);
+	CSyscoinAddress address(aliasPubKey.GetID());
+	if(alias.multiSigInfo.vchAliases.size() > 0)
+	{
+		CScript inner(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
+		return IsMine(*pwalletMain, inner);
+	}
+	else
+		return IsMine(*pwalletMain, address.Get());
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
