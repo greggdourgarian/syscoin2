@@ -3543,12 +3543,12 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(nExpectedAmountExt > 0)
 	{
 		oEscrow.push_back(Pair("total", strprintf("%.*f", extprecision, ValueFromAmount(nExpectedAmountExt).get_real() )));
-		oEscrow.push_back(Pair("totalwithfee", strprintf("%.*f", extprecision, ValueFromAmount(nEscrowTotal).get_real() )));
+		oEscrow.push_back(Pair("totalwithfee", ValueFromAmount(nEscrowTotal)));
 	}
 	else
 	{
 		oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nExpectedAmount).get_real() )));
-		oEscrow.push_back(Pair("totalwithfee", strprintf("%.*f", precision, ValueFromAmount(nEscrowTotal).get_real() )));
+		oEscrow.push_back(Pair("totalwithfee", ValueFromAmount(nEscrowTotal)));
 	}
 	
 
