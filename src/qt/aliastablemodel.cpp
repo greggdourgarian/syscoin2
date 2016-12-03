@@ -255,7 +255,7 @@ public:
             
             }
             parent->beginInsertRows(QModelIndex(), lowerIndex, lowerIndex);
-            cachedAliasTable.insert(lowerIndex, AliasTableEntry(newEntryType, multisig, alias, value, privvalue, expires_on, expires_in, expired, safesearch, buyer_rating, buyer_ratingcount, seller_rating, seller_ratingcount, arbiter_rating, arbiter_ratingcount));
+            cachedAliasTable.insert(lowerIndex, AliasTableEntry(newEntryType, alias, multisig, value, privvalue, expires_on, expires_in, expired, safesearch, buyer_rating, buyer_ratingcount, seller_rating, seller_ratingcount, arbiter_rating, arbiter_ratingcount));
             parent->endInsertRows();
             break;
         case CT_UPDATED:
