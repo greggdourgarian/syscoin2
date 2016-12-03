@@ -185,10 +185,10 @@ void MyWhitelistOfferDialog::on_exportButton_clicked()
     CSVModelWriter writer(filename);
     // name, column, role
     writer.setModel(proxyModel);
-	writer.addColumn("Offer", MyOfferWhitelistTableModel::Offer, Qt::EditRole);
-	writer.addColumn("Alias", MyOfferWhitelistTableModel::Alias, Qt::EditRole);
-	writer.addColumn("Expires", MyOfferWhitelistTableModel::Expires, Qt::EditRole);
-	writer.addColumn("Discount", MyOfferWhitelistTableModel::Discount, Qt::EditRole);
+	writer.addColumn(tr("Offer"), MyOfferWhitelistTableModel::Offer, Qt::EditRole);
+	writer.addColumn(tr("Alias"), MyOfferWhitelistTableModel::Alias, Qt::EditRole);
+	writer.addColumn(tr("Expires"), MyOfferWhitelistTableModel::Expires, Qt::EditRole);
+	writer.addColumn(tr("Discount"), MyOfferWhitelistTableModel::Discount, Qt::EditRole);
 	
     if(!writer.write())
     {

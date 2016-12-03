@@ -210,12 +210,12 @@ void OutMessageListPage::on_exportButton_clicked()
 
     // name, column, role
     writer.setModel(proxyModel);
-    writer.addColumn("GUID", MessageTableModel::GUID, Qt::EditRole);
-    writer.addColumn("Time", MessageTableModel::Time, Qt::EditRole);
-    writer.addColumn("From", MessageTableModel::From, Qt::EditRole);
-	writer.addColumn("To", MessageTableModel::To, Qt::EditRole);
-	writer.addColumn("Subject", MessageTableModel::Subject, Qt::EditRole);
-	writer.addColumn("Message", MessageTableModel::Message, Qt::EditRole);
+    writer.addColumn(tr("GUID"), MessageTableModel::GUID, Qt::EditRole);
+    writer.addColumn(tr("Time"), MessageTableModel::Time, Qt::EditRole);
+    writer.addColumn(tr("From"), MessageTableModel::From, Qt::EditRole);
+	writer.addColumn(tr("To"), MessageTableModel::To, Qt::EditRole);
+	writer.addColumn(tr("Subject"), MessageTableModel::Subject, Qt::EditRole);
+	writer.addColumn(tr("Message"), MessageTableModel::Message, Qt::EditRole);
     if(!writer.write())
     {
         QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),

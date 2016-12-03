@@ -311,7 +311,7 @@ public:
 OfferTableModel::OfferTableModel(CWallet *wallet, WalletModel *parent,  OfferModelType type) :
     QAbstractTableModel(parent),walletModel(parent),wallet(wallet),priv(0), modelType(type)
 {
-    columns << tr("Offer") << tr("Certificate") << tr("Title") << tr("Description") << tr("Category") << tr("Price") << tr("Currency") << tr("Quantity") << tr("Sold") << tr("Status") << tr("Private") << tr("Seller Alias") << tr("Rating As Seller") << tr("Payment Options");
+    columns << tr("Offer") << tr("Certificate") << tr("Title") << tr("Description") << tr("Category") << tr("Price") << tr("Currency") << tr("Qty") << tr("Sold") << tr("Status") << tr("Private") << tr("Seller Alias") << tr("Rating As Seller") << tr("Payment Options");
     priv = new OfferTablePriv(wallet, this);
     refreshOfferTable();
 }

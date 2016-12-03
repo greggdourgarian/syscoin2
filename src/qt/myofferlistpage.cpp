@@ -338,21 +338,21 @@ void MyOfferListPage::on_exportButton_clicked()
 
     // name, column, role
     writer.setModel(proxyModel);
-    writer.addColumn("Offer", OfferTableModel::Name, Qt::EditRole);
-	writer.addColumn("Cert", OfferTableModel::Cert, Qt::EditRole);
-    writer.addColumn("Title", OfferTableModel::Title, Qt::EditRole);
-	writer.addColumn("Description", OfferTableModel::Description, Qt::EditRole);
-	writer.addColumn("Category", OfferTableModel::Category, Qt::EditRole);
-	writer.addColumn("Price", OfferTableModel::Price, Qt::EditRole);
-	writer.addColumn("Currency", OfferTableModel::Currency, Qt::EditRole);
-	writer.addColumn("Qty", OfferTableModel::Qty, Qt::EditRole);
-	writer.addColumn("Sold", OfferTableModel::Sold, Qt::EditRole);
-	writer.addColumn("Private", OfferTableModel::Private, Qt::EditRole);
-	writer.addColumn("Expired", OfferTableModel::Expired, Qt::EditRole);
-	writer.addColumn("Seller Alias", OfferTableModel::Alias, Qt::EditRole);
-	writer.addColumn("Seller Rating", OfferTableModel::AliasRating, OfferTableModel::AliasRatingRole);
-	writer.addColumn("Seller Rating Count", OfferTableModel::AliasRating, OfferTableModel::AliasRatingCountRole);
-	writer.addColumn("Payment Options", OfferTableModel::PaymentOptions, Qt::EditRole);
+    writer.addColumn(tr("Offer"), OfferTableModel::Name, Qt::EditRole);
+	writer.addColumn(tr("Cert"), OfferTableModel::Cert, Qt::EditRole);
+    writer.addColumn(tr("Title"), OfferTableModel::Title, Qt::EditRole);
+	writer.addColumn(tr("Description"), OfferTableModel::Description, Qt::EditRole);
+	writer.addColumn(tr("Category"), OfferTableModel::Category, Qt::EditRole);
+	writer.addColumn(tr("Price"), OfferTableModel::Price, Qt::EditRole);
+	writer.addColumn(tr("Currency"), OfferTableModel::Currency, Qt::EditRole);
+	writer.addColumn(tr("Qty"), OfferTableModel::Qty, Qt::EditRole);
+	writer.addColumn(tr("Sold"), OfferTableModel::Sold, Qt::EditRole);
+	writer.addColumn(tr("Private"), OfferTableModel::Private, Qt::EditRole);
+	writer.addColumn(tr("Expired"), OfferTableModel::Expired, Qt::EditRole);
+	writer.addColumn(tr("Seller Alias"), OfferTableModel::Alias, Qt::EditRole);
+	writer.addColumn(tr("Seller Rating"), OfferTableModel::AliasRating, OfferTableModel::AliasRatingRole);
+	writer.addColumn(tr("Seller Rating Count"), OfferTableModel::AliasRating, OfferTableModel::AliasRatingCountRole);
+	writer.addColumn(tr("Payment Options"), OfferTableModel::PaymentOptions, Qt::EditRole);
     if(!writer.write())
     {
         QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
