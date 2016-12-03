@@ -374,7 +374,7 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 					expires_in_str = strprintf("%d Blocks", expires_in);
 					expires_on_str = strprintf("Block %d", expires_on);
 				}
-				const UniValue& multisigValue = find_value(o), "multisiginfo");
+				const UniValue& multisigValue = find_value(o, "multisiginfo");
 				if (multisigValue.type() == UniValue::VOBJ)
 				{
 					const UniValue& reqsigsValue = find_value(multisigValue.get_obj(), "reqsigs");
