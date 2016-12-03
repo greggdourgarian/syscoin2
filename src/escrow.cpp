@@ -3526,7 +3526,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	else
 	{
 		CAmount nExpectedAmountSys;
-		if(offer.sCurrencyCode != "SYS")
+		if(offer.sCurrencyCode != vchFromString("SYS"))
 			nExpectedAmountSys = convertSyscoinToCurrencyCode(theSellerAlias.vchAliasPeg, vchFromString("SYS"), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision)*escrow.nQty;
 		else
 			nExpectedAmountSys = nExpectedAmount;
