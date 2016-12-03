@@ -39,6 +39,7 @@ public:
 	bool lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption);
 	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
 	void CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price);
+	QString convertAddress(const QString &sysAddress);
 private:
 	ClientModel* clientModel;
 	WalletModel *walletModel;
