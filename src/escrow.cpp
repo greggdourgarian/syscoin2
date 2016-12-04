@@ -2792,38 +2792,6 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		escrow, tx, vtxPos))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4570 - " + _("Could not find a escrow with this key"));
 
-	CAliasIndex sellerAlias, sellerAliasLatest, buyerAlias, buyerAliasLatest, arbiterAlias, arbiterAliasLatest, resellerAlias, resellerAliasLatest;
-	vector<CAliasIndex> aliasVtxPos;
-	CTransaction selleraliastx, buyeraliastx, arbiteraliastx, reselleraliastx;
-	bool isExpired;
-	CSyscoinAddress buyerAddressPayment;
-	CPubKey arbiterKey;
-	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
-	{
-		arbiterAlias.nHeight = vtxPos.front().nHeight;
-		arbiterAlias.GetAliasFromList(aliasVtxPos);
-		arbiterKey = CPubKey(arbiterAlias.vchPubKey);
-	}
-
-	aliasVtxPos.clear();
-	CPubKey buyerKey;
-	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
-	{
-		buyerAlias.nHeight = vtxPos.front().nHeight;
-		buyerAlias.GetAliasFromList(aliasVtxPos);
-		buyerKey = CPubKey(buyerAlias.vchPubKey);
-		GetAddress(buyerAlias, &buyerAddressPayment);
-	}
-	aliasVtxPos.clear();
-	CPubKey sellerKey;
-	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
-	{
-		sellerAlias.nHeight = vtxPos.front().nHeight;
-		sellerAlias.GetAliasFromList(aliasVtxPos);
-		sellerKey = CPubKey(sellerAlias.vchPubKey);
-	}
-
- 
 	COffer theOffer, linkOffer;
 	CTransaction txOffer;
 	vector<COffer> offerVtxPos;
@@ -2844,7 +2812,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	COfferLinkWhitelistEntry foundEntry;
 	if(theOffer.vchLinkOffer.empty())
 	{
-		theOffer.linkWhitelist.GetLinkEntryByHash(buyerAlias.vchAlias, foundEntry);
+		theOffer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
 		nCommission = 0;
 	}
 	else
@@ -2965,8 +2933,9 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		}
 		if(!foundRefundPayment)
 		{
+			CSyscoinAddress aliasAddress(strAddress);
 			LogPrintf("strAddress %s vs buyerAddressPayment %s iVout %lld vs nExpectedAmount %lld\n", strAddress.c_str(), buyerAddressPayment.ToString().c_str(), iVout, nExpectedAmount);
-			if(buyerAddressPayment.ToString() == strAddress && iVout >= nExpectedAmount)
+			if(aliasAddress.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nExpectedAmount)
 				foundRefundPayment = true;
 		}
 
