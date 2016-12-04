@@ -2080,7 +2080,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	COfferLinkWhitelistEntry foundEntry;
 	if(theOffer.vchLinkOffer.empty())
 	{
-		theOffer.linkWhitelist.GetLinkEntryByHash(buyerAlias.vchAlias, foundEntry);
+		theOffer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
 		nCommission = 0;
 	}
 	else
