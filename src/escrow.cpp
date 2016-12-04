@@ -2940,8 +2940,10 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		if(!address.isStr())
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4582 - " + _("Could not decode escrow transaction: Invalid address"));
 		string strAddress = address.get_str();
+		LogPrintf("strAddress %s\n", strAddress.c_str());
 		if(typeValue.get_str() == "multisig")
 		{
+			LogPrintf("multisig\n");
 			const UniValue &reqSigsValue = find_value(scriptPubKeyValueObj, "reqSigs");
 			if(!reqSigsValue.isNum())
 				throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4583 - " + _("Could not decode escrow transaction: Invalid number of signatures"));
@@ -2963,6 +2965,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		}
 		if(!foundRefundPayment)
 		{
+			LogPrintf("strAddress %s vs buyerAddressPayment %s iVout %lld vs nExpectedAmount %lld\n", strAddress.c_str(), buyerAddressPayment.ToString().c_str(), iVout, nExpectedAmount);
 			if(buyerAddressPayment.ToString() == strAddress && iVout >= nExpectedAmount)
 				foundRefundPayment = true;
 		}
