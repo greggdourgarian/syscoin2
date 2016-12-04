@@ -1675,7 +1675,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		scriptPubKeyOrig = GetScriptForDestination(arbiterKey.GetID());
 		if(arbiterAlias.multiSigInfo.vchAliases.size() > 0)
 			scriptPubKeyOrig = CScript(arbiterAlias.multiSigInfo.vchRedeemScript.begin(), arbiterAlias.multiSigInfo.vchRedeemScript.end());
-		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAlias.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
 		vchLinkAlias = arbiterAlias.vchAlias;
 		theAlias = arbiterAlias;
@@ -1690,7 +1690,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		scriptPubKeyOrig = GetScriptForDestination(buyerKey.GetID());
 		if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
 			scriptPubKeyOrig = CScript(buyerAlias.multiSigInfo.vchRedeemScript.begin(), buyerAlias.multiSigInfo.vchRedeemScript.end());
-		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAlias.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
 		vchLinkAlias = buyerAlias.vchAlias;
 		theAlias = buyerAlias;
@@ -2047,12 +2047,12 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		escrow, tx, vtxPos))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4538 - " + _("Could not find a escrow with this key"));
 
-	CAliasIndex sellerAlias, sellerAliasLatest, buyerAlias, buyerAliasLatest, arbiterAlias, arbiterAliasLatest, resellerAlias, resellerAliasLatest;
+	CAliasIndex sellerAlias, sellerAliasLatest;
 	vector<CAliasIndex> aliasVtxPos;
-	CTransaction selleraliastx, buyeraliastx, arbiteraliastx, reselleraliastx;
+	CTransaction selleraliastx;
 	bool isExpired;
-	CSyscoinAddress arbiterAddressPayment, buyerAddressPayment, sellerAddressPayment, resellerAddressPayment;
-	CPubKey sellerKey, buyerKey, arbiterKey, resellerKey;
+	CSyscoinAddress sellerAddressPayment;
+	CPubKey sellerKey;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
 		sellerAlias.nHeight = vtxPos.front().nHeight;
@@ -2060,20 +2060,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		sellerKey = CPubKey(sellerAlias.vchPubKey);
 		GetAddress(sellerAlias, &sellerAddressPayment);
 	}
-	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
-	{
-		buyerAlias.nHeight = vtxPos.front().nHeight;
-		buyerAlias.GetAliasFromList(aliasVtxPos);
-		buyerKey = CPubKey(buyerAlias.vchPubKey);
-		GetAddress(buyerAlias, &buyerAddressPayment);
-	}
-	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
-	{
-		arbiterAlias.nHeight = vtxPos.front().nHeight;
-		arbiterAlias.GetAliasFromList(aliasVtxPos);
-		arbiterKey = CPubKey(arbiterAlias.vchPubKey);
-		GetAddress(arbiterAlias, &arbiterAddressPayment);
-	}
+	
 	COffer theOffer, linkOffer;
 	CTransaction txOffer;
 	vector<COffer> offerVtxPos;
@@ -2088,14 +2075,6 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4540 - " + _("Could not find an offer with this identifier"));
 		linkOffer.nHeight = vtxPos.front().nAcceptHeight;
 		linkOffer.GetOfferFromList(offerLinkVtxPos);
-
-		if(GetTxAndVtxOfAlias(theOffer.vchAlias, resellerAliasLatest, reselleraliastx, aliasVtxPos, isExpired, true))
-		{
-			resellerAlias.nHeight = vtxPos.front().nHeight;
-			resellerAlias.GetAliasFromList(aliasVtxPos);
-			resellerKey = CPubKey(resellerAlias.vchPubKey);
-			GetAddress(resellerAlias, &resellerAddressPayment);
-		}
 	}
 	CAmount nCommission;
 	COfferLinkWhitelistEntry foundEntry;
@@ -2219,30 +2198,30 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			CSyscoinAddress aliasAddress(innerID);
 			strAddress = aliasAddress.ToString();
 		}
-
+		CSyscoinAddress aliasAddress(strAddress);
 		// check arb fee is paid to arbiter or buyer
 		if(!foundFeePayment)
 		{
-			if(arbiterAddressPayment.ToString() == strAddress && iVout >= nEscrowFee)
+			if(aliasAddress.aliasName == stringFromVch(escrow.vchArbiterAlias) && iVout >= nEscrowFee)
 				foundFeePayment = true;
 		}
 		if(!foundFeePayment)
 		{
-			if(buyerAddressPayment.ToString() == strAddress  && iVout >= nEscrowFee)
+			if(aliasAddress.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nEscrowFee)
 				foundFeePayment = true;
 		}
 		if(!theOffer.vchLinkOffer.empty())
 		{
 			if(!foundCommissionPayment)
 			{
-				if(resellerAddressPayment.ToString() == strAddress  && iVout >= nExpectedCommissionAmount)
+				if(aliasAddress.aliasName == stringFromVch(escrow.vchLinkSellerAlias) && iVout >= nExpectedCommissionAmount)
 				{
 					foundCommissionPayment = true;
 				}
 			}
 			if(!foundSellerPayment)
 			{
-				if(sellerAddressPayment.ToString() == strAddress  && iVout >= (nExpectedAmount-nExpectedCommissionAmount))
+				if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= (nExpectedAmount-nExpectedCommissionAmount))
 				{
 					foundSellerPayment = true;
 				}
@@ -2250,7 +2229,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		}
 		else if(!foundSellerPayment)
 		{
-			if(sellerAddressPayment.ToString() == strAddress && iVout >= nExpectedAmount)
+			if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= nExpectedAmount)
 			{
 				foundSellerPayment = true;
 			}
@@ -2603,10 +2582,10 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		scriptPubKeyOrig = GetScriptForDestination(arbiterKey.GetID());
 		if(arbiterAlias.multiSigInfo.vchAliases.size() > 0)
 			scriptPubKeyOrig = CScript(arbiterAlias.multiSigInfo.vchRedeemScript.begin(), arbiterAlias.multiSigInfo.vchRedeemScript.end());
-		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAlias.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
-		vchLinkAlias = arbiterAlias.vchAlias;
-		theAlias = arbiterAlias;
+		vchLinkAlias = arbiterAliasLatest.vchAlias;
+		theAlias = arbiterAliasLatest;
 	}
 	else if(role == "seller")
 	{
@@ -2619,10 +2598,10 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		scriptPubKeyOrig = GetScriptForDestination(sellerKey.GetID());
 		if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
 			scriptPubKeyOrig = CScript(sellerAlias.multiSigInfo.vchRedeemScript.begin(), sellerAlias.multiSigInfo.vchRedeemScript.end());
-		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAlias.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
-		vchLinkAlias = sellerAlias.vchAlias;
-		theAlias = sellerAlias;
+		vchLinkAlias = sellerAliasLatest.vchAlias;
+		theAlias = sellerAliasLatest;
 	}
 
 	// refunds buyer from escrow
@@ -2796,6 +2775,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	vector<CAliasIndex> aliasVtxPos;
 	CTransaction selleraliastx;
 	CPubKey sellerKey;
+	bool isExpired;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
 		sellerAlias.nHeight = vtxPos.front().nHeight;
@@ -3061,9 +3041,9 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	scriptPubKeyOrig= GetScriptForDestination(buyerKey.GetID());
 	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
 		scriptPubKeyOrig = CScript(buyerAlias.multiSigInfo.vchRedeemScript.begin(), buyerAlias.multiSigInfo.vchRedeemScript.end());
-	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAlias.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
-	vchLinkAlias = buyerAlias.vchAlias;
+	vchLinkAlias = buyerAliasLatest.vchAlias;
 
 
 	escrow.ClearEscrow();
