@@ -2792,6 +2792,18 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		escrow, tx, vtxPos))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4570 - " + _("Could not find a escrow with this key"));
 
+	CAliasIndex sellerAlias, sellerAliasLatest;
+	vector<CAliasIndex> aliasVtxPos;
+	CTransaction selleraliastx;
+	CPubKey sellerKey;
+	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
+	{
+		sellerAlias.nHeight = vtxPos.front().nHeight;
+		sellerAlias.GetAliasFromList(aliasVtxPos);
+		sellerKey = CPubKey(sellerAlias.vchPubKey);
+	}
+
+ 
 	COffer theOffer, linkOffer;
 	CTransaction txOffer;
 	vector<COffer> offerVtxPos;
