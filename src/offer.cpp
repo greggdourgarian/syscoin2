@@ -956,7 +956,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					// non linked offers cant edit commission
 					else
 						theOffer.nCommission = 0;
-
+					if(theOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "wanted") && !boost::algorithm::starts_with(stringFromVch(dbOffer.sCategory), "wanted"))
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1056 - " + _("Cannot change category to wanted");
+						theOffer = dbOffer;
+					}
 					if(!theOffer.vchLinkAlias.empty())
 						theOffer.vchAlias = theOffer.vchLinkAlias;
 					theOffer.vchLinkAlias.clear();
@@ -1209,6 +1213,12 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 			// if linked offer then get offer info from root offer history because the linked offer may not have history of changes (root offer can update linked offer without tx)
 			myPriceOffer.GetOfferFromList(vtxPos);
+
+			if(myPriceOffer.bPrivate && !myPriceOffer.linkWhitelist.IsNull())
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1087 - " + _("Cannot purchase this private offer, must purchase through an affiliate");
+				return true;
+			}
 			if(!GetTxOfAlias(myPriceOffer.vchAlias, alias, aliasTx))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1086 - " + _("Cannot find alias for this offer. It may be expired");
