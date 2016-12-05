@@ -61,14 +61,14 @@ int GetEscrowExpiration(const CEscrow& escrow) {
 		if (paliasdb->ReadAliasUnprunable(escrow.vchBuyerAlias, aliasBuyerPrunable) && !aliasBuyerPrunable.IsNull())
 		{
 			if(aliasBuyerPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-				nHeight = nExpireHeight;
+				nHeight = aliasBuyerPrunable.nExpireHeight;
 		}
 		if(nHeight == chainActive.Tip()->nHeight)
 		{
 			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasArbiterPrunable) && !aliasArbiterPrunable.IsNull())
 			{
 				if(aliasArbiterPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-					nHeight = nExpireHeight;
+					nHeight = aliasArbiterPrunable.nExpireHeight;
 			}
 		}
 		if(nHeight == chainActive.Tip()->nHeight)
@@ -76,7 +76,7 @@ int GetEscrowExpiration(const CEscrow& escrow) {
 			if (paliasdb->ReadAliasUnprunable(escrow.vchArbiterAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
 			{
 				if(aliasSellerPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-					nHeight = nExpireHeight;
+					nHeight = aliasSellerPrunable.nExpireHeight;
 			}
 		}
 	}
