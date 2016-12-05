@@ -2316,8 +2316,6 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	CPubKey arbiterKey;
 	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
 	{
-		arbiterAlias.nHeight = vtxPos.front().nHeight;
-		arbiterAlias.GetAliasFromList(aliasVtxPos);
 		arbiterKey = CPubKey(arbiterAliasLatest.vchPubKey);
 	}
 
@@ -2325,16 +2323,12 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	CPubKey buyerKey;
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
-		buyerAlias.nHeight = vtxPos.front().nHeight;
-		buyerAlias.GetAliasFromList(aliasVtxPos);
 		buyerKey = CPubKey(buyerAliasLatest.vchPubKey);
 	}
 	aliasVtxPos.clear();
 	CPubKey sellerKey;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
-		sellerAlias.nHeight = vtxPos.front().nHeight;
-		sellerAlias.GetAliasFromList(aliasVtxPos);
 		sellerKey = CPubKey(sellerAliasLatest.vchPubKey);
 	}
 
@@ -3003,8 +2997,6 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	CPubKey arbiterKey;
 	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
 	{
-		arbiterAlias.nHeight = vtxPos.front().nHeight;
-		arbiterAlias.GetAliasFromList(aliasVtxPos);
 		arbiterKey = CPubKey(arbiterAliasLatest.vchPubKey);
 	}
 
@@ -3012,16 +3004,12 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	CPubKey buyerKey;
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
-		buyerAlias.nHeight = vtxPos.front().nHeight;
-		buyerAlias.GetAliasFromList(aliasVtxPos);
 		buyerKey = CPubKey(buyerAliasLatest.vchPubKey);
 	}
 	aliasVtxPos.clear();
 	CPubKey sellerKey;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
-		sellerAlias.nHeight = vtxPos.front().nHeight;
-		sellerAlias.GetAliasFromList(aliasVtxPos);
 		buyerKey = CPubKey(sellerAliasLatest.vchPubKey);
 	}
 
