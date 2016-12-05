@@ -2343,7 +2343,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	CScript scriptPubKeyOrig;
 	scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
-	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
+	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
 		scriptPubKeyOrig = CScript(sellerAliasLatest.multiSigInfo.vchRedeemScript.begin(), sellerAliasLatest.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
