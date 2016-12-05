@@ -275,7 +275,7 @@ public:
 	bool WriteAlias(const std::vector<unsigned char>& name, std::vector<CAliasIndex>& vtxPos) {	
 		return Write(make_pair(std::string("namei"), name), vtxPos);
 	}
-	bool WriteAlias(const std::vector<unsigned char>& name, const CAliasUnprunable &aliasUnprunable, const std::vector<unsigned char>& address, std::vector<CAliasIndex>& vtxPos) {
+	bool WriteAlias(const std::vector<unsigned char>& name, const CAliasUnprunable &aliasUnprunable, const std::vector<unsigned char>& address, const std::vector<CAliasIndex>& vtxPos) {
 		if(address.empty())
 			return false;		
 		if(!Write(make_pair(std::string("namei"), name), vtxPos))

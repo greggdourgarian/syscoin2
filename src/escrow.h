@@ -150,7 +150,7 @@ class CEscrowDB : public CDBWrapper {
 public:
     CEscrowDB(size_t nCacheSize, bool fMemory, bool fWipe) : CDBWrapper(GetDataDir() / "escrow", nCacheSize, fMemory, fWipe) {}
 
-    bool WriteEscrow(const std::vector<unsigned char>& name, std::vector<CEscrow>& vtxPos) {
+    bool WriteEscrow(const std::vector<unsigned char>& name, const std::vector<CEscrow>& vtxPos) {
         return Write(make_pair(std::string("escrowi"), name), vtxPos);
     }
     bool WriteEscrowTx(const std::vector<unsigned char>& name, const uint256& txid) {

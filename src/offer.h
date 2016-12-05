@@ -395,7 +395,7 @@ class COfferDB : public CDBWrapper {
 public:
 	COfferDB(size_t nCacheSize, bool fMemory, bool fWipe) : CDBWrapper(GetDataDir() / "offers", nCacheSize, fMemory, fWipe) {}
 
-	bool WriteOffer(const std::vector<unsigned char>& name, std::vector<COffer>& vtxPos) {
+	bool WriteOffer(const std::vector<unsigned char>& name, const std::vector<COffer>& vtxPos) {
 		return Write(make_pair(std::string("offeri"), name), vtxPos);
 	}
 	bool WriteOfferTx(const std::vector<unsigned char>& name, const uint256& txid) {

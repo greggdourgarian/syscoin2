@@ -102,7 +102,7 @@ class CMessageDB : public CDBWrapper {
 public:
     CMessageDB(size_t nCacheSize, bool fMemory, bool fWipe) : CDBWrapper(GetDataDir() / "message", nCacheSize, fMemory, fWipe) {}
 
-    bool WriteMessage(const std::vector<unsigned char>& name, std::vector<CMessage>& vtxPos) {
+    bool WriteMessage(const std::vector<unsigned char>& name, const std::vector<CMessage>& vtxPos) {
         return Write(make_pair(std::string("messagei"), name), vtxPos);
     }
 
