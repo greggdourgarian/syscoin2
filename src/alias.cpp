@@ -1365,12 +1365,12 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	string strLowerAlias = strAlias;
 	boost::algorithm::to_lower(strLowerAlias);
 	const vector<unsigned char> &vchAlias = vchFromValue(strLowerAlias);
-	if (paliasdb && !paliasdb->ExistsAlias(vchAlias))
+	if (!paliasdb || !paliasdb->ExistsAlias(vchAlias))
 		return false;
 
 	// check for alias existence in DB
 	vector<CAliasIndex> vtxPos;
-	if (paliasdb && !paliasdb->ReadAlias(vchAlias, vtxPos))
+	if (!paliasdb->ReadAlias(vchAlias, vtxPos))
 		return false;
 	if (vtxPos.size() < 1)
 		return false;
