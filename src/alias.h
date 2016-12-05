@@ -280,7 +280,7 @@ public:
 			return false;		
 		return Write(make_pair(std::string("namei"), name), vtxPos) && Write(make_pair(std::string("namea"), address), aliasUnprunable);
 	}
-	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos)
+	bool WriteAliasPayment(const std::vector<unsigned char>& name, const std::vector<CAliasPayment>& vtxPaymentPos)
 	{
 		return Write(make_pair(std::string("namep"), name), vtxPaymentPos);
 	}
