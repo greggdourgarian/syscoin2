@@ -962,7 +962,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						GetAddress(theAlias, &myAddress);
 						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
 						// we want to avoid aliases with duplicate public keys (addresses)
-						if (paliasdb->ExistsAliasUnprunable(vchFromString(myAddress.ToString())))
+						if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
 						{
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 - " + _("An alias already exists with that address, try another public key");
 							theAlias = dbAlias;
