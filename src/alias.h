@@ -71,7 +71,7 @@ class CAliasUnprunable
 
     inline void SetNull() { vchAlias.clear(); vchGUID.clear(); nExpireHeight = 0;}
     inline bool IsNull() const { return (vchAlias.empty() && vchGUID.empty() && nExpireHeight == 0 ); }
-}
+};
 class CAliasPayment {
 public:
 	
