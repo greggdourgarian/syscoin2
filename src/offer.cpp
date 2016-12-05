@@ -85,10 +85,8 @@ int GetOfferExpiration(const COffer& offer) {
 	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
 	CAliasUnprunable aliasPrunable;
 	if (paliasdb && paliasdb->ReadAliasUnprunable(offer.vchAlias, aliasPrunable) && !aliasPrunable.IsNull())
-	{
-		if(aliasPrunable.nExpireHeight <= chainActive.Tip()->nHeight)
-			nHeight = chainActive.Tip()->nHeight;
-	}
+		nHeight = aliasPrunable.nExpireHeight;
+	
 	return nHeight;
 }
 
