@@ -38,7 +38,7 @@ class CAliasUnprunable
 	std::vector<unsigned char> vchAlias;
 	std::vector<unsigned char> vchGUID;
     uint64_t nExpireHeight;
-	CAliasPayment() {
+	CAliasUnprunable() {
         SetNull();
     }
 
