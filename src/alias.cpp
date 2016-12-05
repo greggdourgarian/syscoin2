@@ -1300,18 +1300,14 @@ bool CAliasDB::CleanupDatabase()
 				}
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
-					EraseAlias(vchMyAlias, vchFromString(""), vchFromString(""));
+					EraseAlias(vchMyAlias);
 					pcursor->Next();
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
   				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= (txPos.nRenewal*nMaxAge))
 				{
-					CPubKey PubKey(txPos.vchPubKey);
-					CSyscoinAddress address(PubKey.GetID());
-					CSyscoinAddress multisigAddress;
-					GetAddress(txPos, &multisigAddress);
-					EraseAlias(vchMyAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()));
+					EraseAlias(vchMyAlias);
 				} 
 				
             }

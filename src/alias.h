@@ -254,11 +254,10 @@ public:
 		return true;
 	}
 
-	bool EraseAlias(const std::vector<unsigned char>& name,const std::vector<unsigned char>& address,const std::vector<unsigned char>& msaddress) {
+	bool EraseAlias(const std::vector<unsigned char>& name) {
 	    bool eraseAlias =  Erase(make_pair(std::string("namei"), name)) ;
 		bool eraseAliasPayment = Erase(make_pair(std::string("namep"), name));
-		bool eraseAliasAddress  = Erase(make_pair(std::string("namea"), address)) || Erase(make_pair(std::string("namea"), msaddress));
-		return eraseAlias && eraseAliasPayment && eraseAliasAddress;
+		return eraseAlias && eraseAliasPayment;
 	}
 	bool EraseAliasPayment(const std::vector<unsigned char>& name) {
 	    return Erase(make_pair(std::string("namep"), name));

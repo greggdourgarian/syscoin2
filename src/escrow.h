@@ -156,8 +156,8 @@ public:
     bool WriteEscrowTx(const std::vector<unsigned char>& name, const uint256& txid) {
         return Write(make_pair(std::string("escrowt"), txid), name);
     }
-    bool EraseEscrow(const std::vector<unsigned char>& name, const uint256& txid) {
-        return Erase(make_pair(std::string("escrowi"), name)) && Erase(make_pair(std::string("escrowt"), txid));
+    bool EraseEscrow(const std::vector<unsigned char>& name) {
+        return Erase(make_pair(std::string("escrowi"), name)));
     }
 
     bool ReadEscrow(const std::vector<unsigned char>& name, std::vector<CEscrow>& vtxPos) {

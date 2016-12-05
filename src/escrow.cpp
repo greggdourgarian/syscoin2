@@ -144,13 +144,13 @@ bool CEscrowDB::CleanupDatabase()
             	const vector<unsigned char> &vchMyEscrow= key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
-					EraseEscrow(vchMyEscrow, txHash);
+					EraseEscrow(vchMyEscrow);
 					pcursor->Next();
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
   				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
-					EraseEscrow(vchMyEscrow, txPos.extTxId);	
+					EraseEscrow(vchMyEscrow);	
             }
             pcursor->Next();
         } catch (std::exception &e) {
