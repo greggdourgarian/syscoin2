@@ -1365,11 +1365,6 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	string strLowerAlias = strAlias;
 	boost::algorithm::to_lower(strLowerAlias);
 	const vector<unsigned char> &vchAlias = vchFromValue(strLowerAlias);
-	CAliasUnprunable aliasUnprunable;
-	if (!paliasdb->ReadAliasUnprunable(vchAlias, aliasUnprunable) || aliasUnprunable.IsNull())
-		return false;
-	nExpireHeight = aliasUnprunable.nExpireHeight;
-
 	if (paliasdb && !paliasdb->ExistsAlias(vchAlias))
 		return false;
 
@@ -1385,6 +1380,7 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	CSyscoinAddress address(PubKey.GetID());
 	if(!address.IsValid())
 		return false;
+	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	strAddress = address.ToString();
 	safetyLevel = alias.safetyLevel;
 	safeSearch = alias.safeSearch;
@@ -1409,16 +1405,14 @@ bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, u
 	strAlias = stringFromVch(vchAlias);
 	if (!paliasdb->ExistsAliasUnprunable(vchAlias))
 		return false;
-	CAliasUnprunable aliasUnprunable;
-	if (!paliasdb->ReadAliasUnprunable(vchAlias, aliasUnprunable) || aliasUnprunable.IsNull())
-		return false;
-	nExpireHeight = aliasUnprunable.nExpireHeight;
+
 	vector<CAliasIndex> vtxPos;
 	if (paliasdb && !paliasdb->ReadAlias(vchAlias, vtxPos))
 		return false;
 	if (vtxPos.size() < 1)
 		return false;
 	const CAliasIndex &alias = vtxPos.back();
+	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	safetyLevel = alias.safetyLevel;
 	safeSearch = alias.safeSearch;
 	vchRedeemScript = alias.multiSigInfo.vchRedeemScript;
