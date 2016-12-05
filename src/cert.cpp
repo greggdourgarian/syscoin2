@@ -75,9 +75,9 @@ bool IsCertOp(int op) {
 
 int GetCertExpiration(const CCert& cert) {
 	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
-	CAliasUnprunable aliasPrunable;
-	if (paliasdb && paliasdb->ReadAliasUnprunable(cert.vchAlias, aliasPrunable) && !aliasPrunable.IsNull())
-		nHeight = aliasPrunable.nExpireHeight;
+	CAliasUnprunable aliasUnprunable;
+	if (paliasdb && paliasdb->ReadAliasUnprunable(cert.vchAlias, aliasUnprunable) && !aliasUnprunable.IsNull())
+		nHeight = aliasUnprunable.nExpireHeight;
 	
 	return nHeight;
 }

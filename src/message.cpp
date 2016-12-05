@@ -39,9 +39,9 @@ bool IsMessageOp(int op) {
 
 int GetMessageExpiration(const CMessage& message) {
 	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
-	CAliasUnprunable aliasPrunable;
-	if (paliasdb && paliasdb->ReadAliasUnprunable(message.vchAliasTo, aliasPrunable) && !aliasPrunable.IsNull())
-		nHeight = aliasPrunable.nExpireHeight;
+	CAliasUnprunable aliasUnprunable;
+	if (paliasdb && paliasdb->ReadAliasUnprunable(message.vchAliasTo, aliasUnprunable) && !aliasUnprunable.IsNull())
+		nHeight = aliasUnprunable.nExpireHeight;
 	
 	return nHeight;
 }

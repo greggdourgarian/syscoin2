@@ -1365,10 +1365,10 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	string strLowerAlias = strAlias;
 	boost::algorithm::to_lower(strLowerAlias);
 	const vector<unsigned char> &vchAlias = vchFromValue(strLowerAlias);
-	CAliasUnprunable aliasPrunable;
-	if (!paliasdb->ReadAliasPrunable(vchAlias, aliasPrunable) || aliasPrunable.IsNull())
+	CAliasUnprunable aliasUnprunable;
+	if (!paliasdb->ReadAliasUnprunable(vchAlias, aliasUnprunable) || aliasUnprunable.IsNull())
 		return false;
-	nExpireHeight = aliasPrunable.nExpireHeight;
+	nExpireHeight = aliasUnprunable.nExpireHeight;
 
 	if (paliasdb && !paliasdb->ExistsAlias(vchAlias))
 		return false;
@@ -1409,10 +1409,10 @@ bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, u
 	strAlias = stringFromVch(vchAlias);
 	if (!paliasdb->ExistsAliasUnprunable(vchAlias))
 		return false;
-	CAliasUnprunable aliasPrunable;
-	if (!paliasdb->ReadAliasPrunable(vchAlias, aliasPrunable) || aliasPrunable.IsNull())
+	CAliasUnprunable aliasUnprunable;
+	if (!paliasdb->ReadAliasUnprunable(vchAlias, aliasUnprunable) || aliasUnprunable.IsNull())
 		return false;
-	nExpireHeight = aliasPrunable.nExpireHeight;
+	nExpireHeight = aliasUnprunable.nExpireHeight;
 	vector<CAliasIndex> vtxPos;
 	if (paliasdb && !paliasdb->ReadAlias(vchAlias, vtxPos))
 		return false;
