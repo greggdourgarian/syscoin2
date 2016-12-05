@@ -82,8 +82,10 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
 }
 
 int GetOfferExpiration(const COffer& offer) {
+	// dont prunte by default, set nHeight to future time
 	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
 	CAliasUnprunable aliasUnprunable;
+	// if service alias exists in unprunable db (this should always exist for any alias that ever existed) then get the last expire height set for this alias and check against it for pruning
 	if (paliasdb && paliasdb->ReadAliasUnprunable(offer.vchAlias, aliasUnprunable) && !aliasUnprunable.IsNull())
 		nHeight = aliasUnprunable.nExpireHeight;
 	

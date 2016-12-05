@@ -39,8 +39,7 @@ void RpcClient::sendRequest(QNetworkAccessManager *nam, const QString &method, c
 	QByteArray postData = doc.toJson();
 	QUrl url(m_endpoint);
 	QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Accept", "application/json-rpc");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "text/plain");
 	// HTTP Basic authentication header value: base64(username:password)
 	QString concatenated = m_username + ":" + m_password;
 	QByteArray authdata = concatenated.toLocal8Bit().toBase64();
