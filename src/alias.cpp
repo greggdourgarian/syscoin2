@@ -1403,9 +1403,6 @@ bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, u
 		return false;
 	
 	strAlias = stringFromVch(vchAlias);
-	if (!paliasdb->ExistsAliasUnprunable(vchAlias))
-		return false;
-
 	vector<CAliasIndex> vtxPos;
 	if (paliasdb && !paliasdb->ReadAlias(vchAlias, vtxPos))
 		return false;
