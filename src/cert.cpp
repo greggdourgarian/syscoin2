@@ -79,7 +79,7 @@ int GetCertExpiration(const CCert& cert) {
 	if (paliasdb && paliasdb->ReadAliasUnprunable(cert.vchAlias, aliasPrunable) && !aliasPrunable.IsNull())
 	{
 		if(aliasPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-			nHeight = nExpireHeight;
+			nHeight = aliasPrunable.nExpireHeight;
 	}
 	return nHeight;
 }

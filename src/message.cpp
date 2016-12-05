@@ -43,7 +43,7 @@ int GetMessageExpiration(const CMessage& message) {
 	if (paliasdb && paliasdb->ReadAliasUnprunable(message.vchAliasTo, aliasPrunable) && !aliasPrunable.IsNull())
 	{
 		if(aliasPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-			nHeight = nExpireHeight;
+			nHeight = aliasPrunable.nExpireHeight;
 	}
 	return nHeight;
 }
