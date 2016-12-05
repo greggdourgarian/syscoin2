@@ -54,29 +54,29 @@ int64_t GetEscrowArbiterFee(int64_t escrowValue, float fEscrowFee) {
 }
 int GetEscrowExpiration(const CEscrow& escrow) {
 
-	int nHeight = chainActive.Tip()->nHeight;
+	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
 	CAliasUnprunable aliasBuyerPrunable,aliasSellerPrunable,aliasArbiterPrunable;
 	if(paliasdb)
 	{
 		if (paliasdb->ReadAliasUnprunable(escrow.vchBuyerAlias, aliasBuyerPrunable) && !aliasBuyerPrunable.IsNull())
 		{
-			if(aliasBuyerPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-				nHeight = aliasBuyerPrunable.nExpireHeight;
+			if(aliasBuyerPrunable.nExpireHeight <= chainActive.Tip()->nHeight)
+				nHeight = chainActive.Tip()->nHeight;
 		}
-		if(nHeight == chainActive.Tip()->nHeight)
+		if(nHeight > chainActive.Tip()->nHeight)
 		{
 			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasArbiterPrunable) && !aliasArbiterPrunable.IsNull())
 			{
-				if(aliasArbiterPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-					nHeight = aliasArbiterPrunable.nExpireHeight;
+				if(aliasArbiterPrunable.nExpireHeight <= chainActive.Tip()->nHeight)
+					nHeight = chainActive.Tip()->nHeight;
 			}
 		}
-		if(nHeight == chainActive.Tip()->nHeight)
+		if(nHeight > chainActive.Tip()->nHeight)
 		{
 			if (paliasdb->ReadAliasUnprunable(escrow.vchArbiterAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
 			{
-				if(aliasSellerPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-					nHeight = aliasSellerPrunable.nExpireHeight;
+				if(aliasSellerPrunable.nExpireHeight <= chainActive.Tip()->nHeight)
+					nHeight = chainActive.Tip()->nHeight;
 			}
 		}
 	}

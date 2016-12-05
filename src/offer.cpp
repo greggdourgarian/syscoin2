@@ -82,12 +82,12 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
 }
 
 int GetOfferExpiration(const COffer& offer) {
-	int nHeight = chainActive.Tip()->nHeight;
+	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
 	CAliasUnprunable aliasPrunable;
 	if (paliasdb && paliasdb->ReadAliasUnprunable(offer.vchAlias, aliasPrunable) && !aliasPrunable.IsNull())
 	{
-		if(aliasPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
-			nHeight = aliasPrunable.nExpireHeight;
+		if(aliasPrunable.nExpireHeight <= chainActive.Tip()->nHeight)
+			nHeight = chainActive.Tip()->nHeight;
 	}
 	return nHeight;
 }
