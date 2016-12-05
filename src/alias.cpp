@@ -1060,7 +1060,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		GetAddress(theAlias, &address);
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
-		aliasUnprunable.vchAlias = theAlias.vchAlias;
 		aliasUnprunable.nExpireHeight = theAlias.nHeight + theAlias.nRenewal*GetAliasExpirationDepth();
 		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vtxPos))
 		{
@@ -1366,6 +1365,11 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	string strLowerAlias = strAlias;
 	boost::algorithm::to_lower(strLowerAlias);
 	const vector<unsigned char> &vchAlias = vchFromValue(strLowerAlias);
+	CAliasUnprunable aliasPrunable;
+	if (!paliasdb->ReadAliasPrunable(vchAlias, aliasPrunable) || aliasPrunable.IsNull())
+		return false;
+	nExpireHeight = aliasPrunable.nExpireHeight;
+
 	if (paliasdb && !paliasdb->ExistsAlias(vchAlias))
 		return false;
 
@@ -1384,7 +1388,6 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	strAddress = address.ToString();
 	safetyLevel = alias.safetyLevel;
 	safeSearch = alias.safeSearch;
-	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	vchRedeemScript = alias.multiSigInfo.vchRedeemScript;
 	vchPubKey = alias.vchPubKey;
 	return true;
@@ -1393,19 +1396,25 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
 
 	const vector<unsigned char> &vchAddress = vchFromValue(strAddress);
-	if (paliasdb && !paliasdb->ExistsAliasUnprunable(vchAddress))
+	if (!paliasdb || !paliasdb->ExistsAddress(vchAddress))
 		return false;
 
 	// check for alias address mapping existence in DB
-	CAliasUnprunable aliasPrunable;
-	if (paliasdb && !paliasdb->ReadAliasUnprunable(vchAddress, aliasPrunable))
+	vector<unsigned char> vchAlias;
+	if (!paliasdb->ReadAddress(vchAddress, vchAlias))
 		return false;
-	if (aliasPrunable.vchAlias.empty())
+	if (vchAlias.empty())
+		return false;
+	
+	strAlias = stringFromVch(vchAlias);
+	if (!paliasdb->ExistsAliasUnprunable(vchAlias))
+		return false;
+	CAliasUnprunable aliasPrunable;
+	if (!paliasdb->ReadAliasPrunable(vchAlias, aliasPrunable) || aliasPrunable.IsNull())
 		return false;
 	nExpireHeight = aliasPrunable.nExpireHeight;
-	strAlias = stringFromVch(aliasPrunable.vchAlias);
 	vector<CAliasIndex> vtxPos;
-	if (paliasdb && !paliasdb->ReadAlias(aliasPrunable.vchAlias, vtxPos))
+	if (paliasdb && !paliasdb->ReadAlias(vchAlias, vtxPos))
 		return false;
 	if (vtxPos.size() < 1)
 		return false;
