@@ -280,12 +280,10 @@ CSyscoinAddress::CSyscoinAddress(const std::string& strAddress) {
 	{
 		
 		std::string strAliasAddress = strAddress;
-		std::string strAlias;
 		SetString(strAliasAddress);
-		if(GetAliasFromAddress(strAliasAddress, strAlias, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
+		if(GetAliasFromAddress(strAliasAddress, aliasName, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
 		{
 			SetString(strAliasAddress);
-			aliasName = strAlias;
 			isAlias = true;
 		}	
 	}
@@ -310,11 +308,9 @@ CSyscoinAddress::CSyscoinAddress(const char* pszAddress) {
 	{
 		
 		std::string strAliasAddress = std::string(pszAddress);
-		std::string strAlias;
 		SetString(strAliasAddress);
-		if(GetAliasFromAddress(strAliasAddress, strAlias, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
+		if(GetAliasFromAddress(strAliasAddress, aliasName, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
 		{
-			aliasName = strAlias;
 			isAlias = true;
 		}	
 	}

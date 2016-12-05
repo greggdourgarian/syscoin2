@@ -223,6 +223,12 @@ void Shutdown()
 
     {
         LOCK(cs_main);
+		// SYSCOIN
+		if(!fTxIndex)
+		{
+			LogPrintf("%s: Cleaning up Syscoin Databases...\n", __func__);
+			CleanupSyscoinServiceDatabases();
+		}
         if (pcoinsTip != NULL) {
             FlushStateToDisk();
         }
@@ -1529,12 +1535,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     if(!connman.Start(threadGroup, scheduler, strNodeError, connOptions))
         return InitError(strNodeError);
 
-	// SYSCOIN
-	if(!fTxIndex)
-	{
-		uiInterface.InitMessage(_("Cleaning up Syscoin Databases..."));
-		CleanupSyscoinServiceDatabases();
-	}
     // ********************************************************* Step 12: finished
 
     SetRPCWarmupFinished();

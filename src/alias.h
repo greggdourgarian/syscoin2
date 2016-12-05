@@ -32,6 +32,46 @@ static const unsigned int SAFETY_LEVEL2 = 2;
 static const unsigned int SYSCOIN_FORK1 = 321000;
 
 bool IsSys21Fork(const uint64_t& nHeight);
+class CAliasUnprunable
+{
+	public:
+	std::vector<unsigned char> vchAlias;
+	std::vector<unsigned char> vchGUID;
+    uint64_t nExpireHeight;
+	CAliasPayment() {
+        SetNull();
+    }
+
+	ADD_SERIALIZE_METHODS;
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
+		READWRITE(vchGUID);
+		READWRITE(vchAlias);
+		READWRITE(VARINT(nExpireHeight));
+	}
+
+    inline friend bool operator==(const CAliasUnprunable &a, const CAliasUnprunable &b) {
+        return (
+		a.vchGUID == b.vchGUID
+        && a.vchAlias == b.vchAlias
+		&& a.nExpireHeight == b.nExpireHeight
+        );
+    }
+
+    inline CAliasUnprunable operator=(const CAliasUnprunable &b) {
+		vchGUID = b.vchGUID;
+        vchAlias = b.vchAlias;
+		nExpireHeight = b.nExpireHeight;
+        return *this;
+    }
+
+    inline friend bool operator!=(const CAliasUnprunable &a, const CAliasUnprunable &b) {
+        return !(a == b);
+    }
+
+    inline void SetNull() { vchAlias.clear(); vchGUID.clear(); nExpireHeight = 0;}
+    inline bool IsNull() const { return (vchAlias.empty() && vchGUID.empty() && nExpireHeight == 0 ); }
+}
 class CAliasPayment {
 public:
 	
@@ -232,26 +272,26 @@ class CAliasDB : public CDBWrapper {
 public:
     CAliasDB(size_t nCacheSize, bool fMemory, bool fWipe) : CDBWrapper(GetDataDir() / "aliases", nCacheSize, fMemory, fWipe) {
     }
-
-	bool WriteAlias(const std::vector<unsigned char>& name, const std::vector<unsigned char>& address, const std::vector<unsigned char>& msaddress, std::vector<CAliasIndex>& vtxPos) {
+	bool WriteAlias(const std::vector<unsigned char>& name, std::vector<CAliasIndex>& vtxPos) {	
+		return Write(make_pair(std::string("namei"), name), vtxPos);
+	}
+	bool WriteAlias(const std::vector<unsigned char>& name, const CAliasUnprunable &aliasUnprunable, const std::vector<unsigned char>& address, const std::vector<unsigned char>& msaddress, std::vector<CAliasIndex>& vtxPos) {
 		if(address.empty() || msaddress.empty())
 			return false;		
 		if(!Write(make_pair(std::string("namei"), name), vtxPos))
 			return false;
-		if(!ExistsAddress(address) && !Write(make_pair(std::string("namea"), address), name))
+		if(!ExistsAliasUnprunable(address) && !Write(make_pair(std::string("namea"), address), aliasUnprunable))
 			return false;
-		if(msaddress != address && !ExistsAddress(msaddress))
+		if(msaddress != address && !ExistsAliasUnprunable(msaddress))
 		{
-			if(!Write(make_pair(std::string("namea"), msaddress), name))
+			if(!Write(make_pair(std::string("namea"), msaddress), aliasUnprunable))
 				return false;
 		}
 		return true;
 	}
 	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos)
 	{
-		if(!Write(make_pair(std::string("namep"), name), vtxPaymentPos))
-			return false;
-		return true;
+		return Write(make_pair(std::string("namep"), name), vtxPaymentPos);
 	}
 
 	bool EraseAlias(const std::vector<unsigned char>& name) {
@@ -268,8 +308,8 @@ public:
 	bool ReadAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos) {
 		return Read(make_pair(std::string("namep"), name), vtxPaymentPos);
 	}
-	bool ReadAddress(const std::vector<unsigned char>& address, std::vector<unsigned char>& name) {
-		return Read(make_pair(std::string("namea"), address), name);
+	bool ReadAliasUnprunable(const std::vector<unsigned char>& address, CAliasUnprunable& aliasUnprunable) {
+		return Read(make_pair(std::string("namea"), address), aliasUnprunable);
 	}
 	bool ExistsAlias(const std::vector<unsigned char>& name) {
 	    return Exists(make_pair(std::string("namei"), name));
@@ -277,7 +317,7 @@ public:
 	bool ExistsAliasPayment(const std::vector<unsigned char>& name) {
 	    return Exists(make_pair(std::string("namep"), name));
 	}
-	bool ExistsAddress(const std::vector<unsigned char>& address) {
+	bool ExistsAliasUnprunable(const std::vector<unsigned char>& address) {
 	    return Exists(make_pair(std::string("namea"), address));
 	}
     bool ScanNames(

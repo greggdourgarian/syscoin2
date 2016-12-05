@@ -83,10 +83,12 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
 
 int GetOfferExpiration(const COffer& offer) {
 	int nHeight = chainActive.Tip()->nHeight;
-	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(offer.vchAlias));
-	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-		nHeight = ownerAddress.nExpireHeight;
-
+	CAliasUnprunable aliasPrunable;
+	if (paliasdb && paliasdb->ReadAliasUnprunable(offer.vchAlias, aliasPrunable) && !aliasPrunable.IsNull())
+	{
+		if(aliasPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
+			nHeight = nExpireHeight;
+	}
 	return nHeight;
 }
 
@@ -2757,9 +2759,7 @@ void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, vector<COffe
 					alias.nRatingAsArbiter += feedback.nRating;
 				}
 				PutToAliasList(vtxPos, alias);
-				CSyscoinAddress multisigAddress;
-				GetAddress(alias, &multisigAddress);
-				paliasdb->WriteAlias(vchAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos);
+				paliasdb->WriteAlias(vchAlias, vtxPos);
 			}
 		}
 	}

@@ -87,16 +87,17 @@ bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
 			nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
 			return true;
 		}
-		vector<CAliasIndex> vtxPos;
+		CAliasUnprunable aliasUnprunable;
 		// we only prune things that we have in our db and that we can verify the last tx is expired
 		// nHeight is set to the height at which data is pruned, if the tip is newer than nHeight it won't send data to other nodes
-		if (paliasdb->ReadAlias(alias.vchAlias, vtxPos) && !vtxPos.empty())
+		if (paliasdb->ReadAliasUnprunable(alias.vchAlias, aliasUnprunable) && !aliasUnprunable.IsNull())
 		{	
-			uint64_t nLastHeight = vtxPos.back().nHeight;
-			// if we are renewing alias then prune based on nHeight of tx
-			if(!alias.vchGUID.empty() && vtxPos.back().vchGUID != alias.vchGUID)
-				nLastHeight = alias.nHeight;
-			nHeight = nLastHeight + (vtxPos.back().nRenewal*GetAliasExpirationDepth());
+			// if we are renewing alias then prune based on expiry of alias in tx
+			if(!alias.vchGUID.empty() && aliasUnprunable.vchGUID != alias.vchGUID)
+				nHeight = alias.nHeight + (alias.nRenewal*GetAliasExpirationDepth());
+			else
+				nHeight = aliasUnprunable.nExpireHeight;
+			
 			return true;				
 		}
 		// this is a new service, either sent to us because it's not supposed to be expired yet or sent to ourselves as a new service, either way we keep the data and validate it into the service db
@@ -612,11 +613,7 @@ void updateBans(const vector<unsigned char> &banData)
 					CAliasIndex aliasBan = vtxAliasPos.back();
 					aliasBan.safetyLevel = severity;
 					PutToAliasList(vtxAliasPos, aliasBan);
-					CPubKey PubKey(aliasBan.vchPubKey);
-					CSyscoinAddress address(PubKey.GetID());
-					CSyscoinAddress multisigAddress;
-					GetAddress(aliasBan, &multisigAddress);
-					paliasdb->WriteAlias(vchGUID, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxAliasPos);
+					paliasdb->WriteAlias(aliasBan.vchAlias, vtxAliasPos);
 					
 				}		
 			}
@@ -1072,7 +1069,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		PutToAliasList(vtxPos, theAlias);
 		CPubKey PubKey(theAlias.vchPubKey);
 		CSyscoinAddress address(PubKey.GetID());
-		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos))
+		CAliasUnprunable aliasUnprunable;
+		aliasUnprunable.vchGUID = theAlias.vchGUID;
+		aliasUnprunable.vchAlias = theAlias.vchAlias;
+		aliasUnprunable.nExpireHeight = theAlias.nHeight + theAlias.nRenewal*GetAliasExpirationDepth();
+		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5035 - " + _("Failed to write to alias DB");
 			return error(errorMessage.c_str());
@@ -1281,6 +1282,7 @@ int GetAliasExpirationDepth() {
     return 525600;
   #endif
 }
+// TODO: need to cleanout CTxOuts (transactions stored on disk) which have data stored in them after expiry, erase at same time on startup so pruning can happen properly
 bool CAliasDB::CleanupDatabase()
 {
 	int nMaxAge  = GetAliasExpirationDepth();
@@ -1320,11 +1322,11 @@ bool CAliasDB::CleanupDatabase()
 }
 void CleanupSyscoinServiceDatabases()
 {
-	//paliasdb->CleanupDatabase();
 	pofferdb->CleanupDatabase();
 	pescrowdb->CleanupDatabase();
 	pmessagedb->CleanupDatabase();
 	pcertdb->CleanupDatabase();
+	paliasdb->CleanupDatabase();
 }
 bool GetTxOfAlias(const vector<unsigned char> &vchAlias, 
 				  CAliasIndex& txPos, CTransaction& tx, bool skipExpiresCheck) {
@@ -1402,25 +1404,25 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
 
 	const vector<unsigned char> &vchAddress = vchFromValue(strAddress);
-	if (paliasdb && !paliasdb->ExistsAddress(vchAddress))
+	if (paliasdb && !paliasdb->ExistsAliasUnprunable(vchAddress))
 		return false;
 
 	// check for alias address mapping existence in DB
-	vector<unsigned char> vchAlias;
-	if (paliasdb && !paliasdb->ReadAddress(vchAddress, vchAlias))
+	CAliasUnprunable aliasPrunable;
+	if (paliasdb && !paliasdb->ReadAliasUnprunable(vchAddress, aliasPrunable))
 		return false;
-	if (vchAlias.empty())
+	if (aliasPrunable.vchAlias.empty())
 		return false;
+	nExpireHeight = aliasPrunable.nExpireHeight;
+	strAlias = stringFromVch(aliasPrunable.vchAlias);
 	vector<CAliasIndex> vtxPos;
-	if (paliasdb && !paliasdb->ReadAlias(vchAlias, vtxPos))
+	if (paliasdb && !paliasdb->ReadAlias(aliasPrunable.vchAlias, vtxPos))
 		return false;
 	if (vtxPos.size() < 1)
 		return false;
 	const CAliasIndex &alias = vtxPos.back();
-	strAlias = stringFromVch(vchAlias);
 	safetyLevel = alias.safetyLevel;
 	safeSearch = alias.safeSearch;
-	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	vchRedeemScript = alias.multiSigInfo.vchRedeemScript;
 	vchPubKey = alias.vchPubKey;
 	return true;

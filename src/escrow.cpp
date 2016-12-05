@@ -55,19 +55,29 @@ int64_t GetEscrowArbiterFee(int64_t escrowValue, float fEscrowFee) {
 int GetEscrowExpiration(const CEscrow& escrow) {
 
 	int nHeight = chainActive.Tip()->nHeight;
-	CSyscoinAddress buyerAddress = CSyscoinAddress(stringFromVch(escrow.vchBuyerAlias));
-	if(buyerAddress.IsValid() && buyerAddress.isAlias && buyerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-		nHeight = buyerAddress.nExpireHeight;
-	else
+	CAliasUnprunable aliasBuyerPrunable,aliasSellerPrunable,aliasArbiterPrunable;
+	if(paliasdb)
 	{
-		CSyscoinAddress sellerAddress = CSyscoinAddress(stringFromVch(escrow.vchSellerAlias));
-		if(sellerAddress.IsValid() && sellerAddress.isAlias && sellerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-			nHeight = sellerAddress.nExpireHeight;
-		else
+		if (paliasdb->ReadAliasUnprunable(escrow.vchBuyerAlias, aliasBuyerPrunable) && !aliasBuyerPrunable.IsNull())
 		{
-			CSyscoinAddress arbiterAddress = CSyscoinAddress(stringFromVch(escrow.vchArbiterAlias));
-			if(arbiterAddress.IsValid() && arbiterAddress.isAlias  && arbiterAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-				nHeight = arbiterAddress.nExpireHeight;
+			if(aliasBuyerPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
+				nHeight = nExpireHeight;
+		}
+		if(nHeight == chainActive.Tip()->nHeight)
+		{
+			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasArbiterPrunable) && !aliasArbiterPrunable.IsNull())
+			{
+				if(aliasArbiterPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
+					nHeight = nExpireHeight;
+			}
+		}
+		if(nHeight == chainActive.Tip()->nHeight)
+		{
+			if (paliasdb->ReadAliasUnprunable(escrow.vchArbiterAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
+			{
+				if(aliasSellerPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
+					nHeight = nExpireHeight;
+			}
 		}
 	}
 	return nHeight;
@@ -1100,9 +1110,7 @@ void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, ve
 
 
 					PutToAliasList(vtxPos, alias);
-					CSyscoinAddress multisigAddress;
-					GetAddress(alias, &multisigAddress);
-					paliasdb->WriteAlias(vchAlias, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos);
+					paliasdb->WriteAlias(vchAlias, vtxPos);
 				}
 			}
 

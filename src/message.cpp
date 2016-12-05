@@ -39,10 +39,12 @@ bool IsMessageOp(int op) {
 
 int GetMessageExpiration(const CMessage& message) {
 	int nHeight = chainActive.Tip()->nHeight;
-	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(message.vchAliasTo));
-	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-		nHeight = ownerAddress.nExpireHeight;
-
+	CAliasUnprunable aliasPrunable;
+	if (paliasdb && paliasdb->ReadAliasUnprunable(message.vchAliasTo, aliasPrunable) && !aliasPrunable.IsNull())
+	{
+		if(aliasPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
+			nHeight = nExpireHeight;
+	}
 	return nHeight;
 }
 

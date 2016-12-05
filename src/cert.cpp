@@ -75,10 +75,12 @@ bool IsCertOp(int op) {
 
 int GetCertExpiration(const CCert& cert) {
 	int nHeight = chainActive.Tip()->nHeight;
-	CSyscoinAddress ownerAddress = CSyscoinAddress(stringFromVch(cert.vchAlias));
-	if(ownerAddress.IsValid() && ownerAddress.isAlias && ownerAddress.nExpireHeight >=  chainActive.Tip()->nHeight)
-		nHeight = ownerAddress.nExpireHeight;
-
+	CAliasUnprunable aliasPrunable;
+	if (paliasdb && paliasdb->ReadAliasUnprunable(cert.vchAlias, aliasPrunable) && !aliasPrunable.IsNull())
+	{
+		if(aliasPrunable.nExpireHeight >= chainActive.Tip()->nHeight)
+			nHeight = nExpireHeight;
+	}
 	return nHeight;
 }
 
