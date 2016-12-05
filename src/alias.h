@@ -275,18 +275,13 @@ public:
 	bool WriteAlias(const std::vector<unsigned char>& name, std::vector<CAliasIndex>& vtxPos) {	
 		return Write(make_pair(std::string("namei"), name), vtxPos);
 	}
-	bool WriteAlias(const std::vector<unsigned char>& name, const CAliasUnprunable &aliasUnprunable, const std::vector<unsigned char>& address, const std::vector<unsigned char>& msaddress, std::vector<CAliasIndex>& vtxPos) {
-		if(address.empty() || msaddress.empty())
+	bool WriteAlias(const std::vector<unsigned char>& name, const CAliasUnprunable &aliasUnprunable, const std::vector<unsigned char>& address, std::vector<CAliasIndex>& vtxPos) {
+		if(address.empty())
 			return false;		
 		if(!Write(make_pair(std::string("namei"), name), vtxPos))
 			return false;
 		if(!ExistsAliasUnprunable(address) && !Write(make_pair(std::string("namea"), address), aliasUnprunable))
 			return false;
-		if(msaddress != address && !ExistsAliasUnprunable(msaddress))
-		{
-			if(!Write(make_pair(std::string("namea"), msaddress), aliasUnprunable))
-				return false;
-		}
 		return true;
 	}
 	bool WriteAliasPayment(const std::vector<unsigned char>& name, std::vector<CAliasPayment>& vtxPaymentPos)

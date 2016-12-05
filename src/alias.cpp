@@ -675,7 +675,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	vector<unsigned char> vchData;
 	vector<unsigned char> vchAlias;
 	vector<unsigned char> vchHash;
-	CSyscoinAddress multisigAddress;
 	CSyscoinAddress prevaddy;
 	int nDataOut;
 	if(op != OP_ALIAS_PAYMENT)
@@ -954,21 +953,16 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5026 - " + _("Invalid redeem script provided in transaction");
 							theAlias.multiSigInfo.SetNull();
 						}
-						else
-						{
-							CScriptID innerID(inner);
-							multisigAddress = CSyscoinAddress(innerID);	
-						}
 					}
 					// if transfer (and not changing password which changes key)
 					if(dbAlias.vchPubKey != theAlias.vchPubKey && !pwChange)
 					{
 						theAlias.vchPassword.clear();
-						CPubKey xferKey  = CPubKey(theAlias.vchPubKey);	
-						CSyscoinAddress myAddress = CSyscoinAddress(xferKey.GetID());
+						CSyscoinAddress myAddress;
+						GetAddress(theAlias, &myAddress);
 						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
 						// we want to avoid aliases with duplicate public keys (addresses)
-						if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
+						if (paliasdb->ExistsAliasUnprunable(vchFromString(myAddress.ToString())))
 						{
 							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 - " + _("An alias already exists with that address, try another public key");
 							theAlias = dbAlias;
@@ -1028,11 +1022,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theAlias.multiSigInfo.SetNull();
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5032 - " + _("Invalid redeem script provided in transaction");
 				}
-				else
-				{
-					CScriptID innerID(inner);
-					multisigAddress = CSyscoinAddress(innerID);
-				}
 			}
 		}
 		else if(op == OP_ALIAS_PAYMENT)
@@ -1067,13 +1056,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		theAlias.nHeight = nHeight;
 		theAlias.txHash = tx.GetHash();
 		PutToAliasList(vtxPos, theAlias);
-		CPubKey PubKey(theAlias.vchPubKey);
-		CSyscoinAddress address(PubKey.GetID());
+		CSyscoinAddress address;
+		GetAddress(theAlias, &address);
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
 		aliasUnprunable.vchAlias = theAlias.vchAlias;
 		aliasUnprunable.nExpireHeight = theAlias.nHeight + theAlias.nRenewal*GetAliasExpirationDepth();
-		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vchFromString(multisigAddress.ToString()), vtxPos))
+		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5035 - " + _("Failed to write to alias DB");
 			return error(errorMessage.c_str());
