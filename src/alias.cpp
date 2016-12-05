@@ -1376,10 +1376,8 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 		return false;
 
 	const CAliasIndex &alias = vtxPos.back();
-	CPubKey PubKey(alias.vchPubKey);
-	CSyscoinAddress address(PubKey.GetID());
-	if(!address.IsValid())
-		return false;
+	CSyscoinAddress address;
+	GetAddress(alias, &address);
 	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	strAddress = address.ToString();
 	safetyLevel = alias.safetyLevel;
