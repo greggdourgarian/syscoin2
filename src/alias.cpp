@@ -1320,7 +1320,7 @@ bool CAliasDB::CleanupDatabase()
 }
 void CleanupSyscoinServiceDatabases()
 {
-	paliasdb->CleanupDatabase();
+	//paliasdb->CleanupDatabase();
 	pofferdb->CleanupDatabase();
 	pescrowdb->CleanupDatabase();
 	pmessagedb->CleanupDatabase();
