@@ -476,7 +476,7 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 		UniValue errorValue = find_value(outerObj, "error");
 		if(errorValue.isObject())
 		{
-			UniValue errorObj - errorValue.get_obj();
+			UniValue errorObj = errorValue.get_obj();
 			UniValue codeValue = find_value(errorObj, "code");
 			UniValue messageValue = find_value(errorObj, "message");
 			if(codeValue.isNum())
