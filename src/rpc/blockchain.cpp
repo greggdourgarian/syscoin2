@@ -833,6 +833,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
     }
     ss << stats.hashBlock;
     CAmount nTotalAmount = 0;
+	CTxDestination address;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         uint256 key;
