@@ -1752,7 +1752,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 	// Buyer/Arbiter signs it
 	vector<string> strKeys;
-	GetPrivateKeysFromScript(escrow.vchRedeemScript, strKeys);
+	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
 	if(strKeys.empty())
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4532 - " + _("No private keys found involved in this escrow"));
 
@@ -2256,7 +2256,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 
     // Seller signs it
 	vector<string> strKeys;
-	GetPrivateKeysFromScript(escrow.vchRedeemScript, strKeys);
+	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
 	if(strKeys.empty())
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4556 - " + _("No private keys found involved in this escrow"));
 
@@ -2664,7 +2664,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	string createEscrowSpendingTx = resCreate.get_str();
 	// Buyer/Arbiter signs it
 	vector<string> strKeys;
-	GetPrivateKeysFromScript(escrow.vchRedeemScript, strKeys);
+	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
 	if(strKeys.empty())
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4568 - " + _("No private keys found involved in this escrow"));
 
@@ -2973,7 +2973,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	UniValue arrayPrivateKeys(UniValue::VARR);
 
 	vector<string> strKeys;
-	GetPrivateKeysFromScript(escrow.vchRedeemScript, strKeys);
+	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
 	if(strKeys.empty())
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4586 - " + _("No private keys found involved in this escrow"));
 
