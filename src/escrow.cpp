@@ -2988,7 +2988,6 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const string& strKey, strKeys) {
 		arrayPrivateKeys.push_back(strKey);
 	}
-	arrayPrivateKeys.push_back(strPrivateKey);
 	arraySignParams.push_back(arrayPrivateKeys);
 	UniValue resSign;
 	try
