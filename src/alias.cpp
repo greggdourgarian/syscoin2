@@ -2935,3 +2935,20 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 
 	return oRes;
 }
+void GetPrivateKeysFromScript(const CScript& script, vector<string> &strKeys)
+{
+    vector<CTxDestination> addrs;
+    int nRequired;
+	txnouttype whichType;
+    ExtractDestinations(script, whichType, addrs, nRequired);
+	BOOST_FOREACH(const CTxDestination& txDest, addrs) {
+		CSyscoinAddress address(txDest);
+		CKeyID keyID;
+		if (!address.GetKeyID(keyID))
+			continue;
+		CKey vchSecret;
+		if (!pwalletMain->GetKey(keyID, vchSecret))
+			continue;
+		strKeys.push_back(CSyscoinSecret(vchSecret).ToString());
+	}
+}
