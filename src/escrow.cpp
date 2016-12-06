@@ -1668,9 +1668,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
-		if(!IsMyAlias(arbiterAlias))
+		if(!IsMyAlias(arbiterAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4530 - " + _("You must own the arbiter alias to complete this transaction"));
-		CPubKey arbiterPubKey = CPubKey(arbiterAlias.vchPubKey);
+		CPubKey arbiterPubKey = CPubKey(arbiterAliasLatest.vchPubKey);
 		CKey vchSecret;
 		if (!pwalletMain->GetKey(arbiterPubKey.GetID(), vchSecret))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Arbiter private key not known"));
@@ -1688,9 +1688,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "buyer")
 	{
-		if(!IsMyAlias(buyerAlias))
+		if(!IsMyAlias(buyerAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4531 - " + _("You must own the buyer alias to complete this transaction"));
-		CPubKey buyerPubKey = CPubKey(buyerAlias.vchPubKey);
+		CPubKey buyerPubKey = CPubKey(buyerAliasLatest.vchPubKey);
 		CKey vchSecret;
 		if (!pwalletMain->GetKey(buyerPubKey.GetID(), vchSecret))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Buyer private key not known"));
@@ -2163,6 +2163,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	{
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4544 - " + _("Could not decode escrow transaction: Invalid response from decoderawtransaction"));
 	}
+	CSyscoinAddress sellerAddress;
 	const UniValue& decodeo = decodeRes.get_obj();
 	const UniValue& vout_value = find_value(decodeo, "vout");
 	if (!vout_value.isArray())
@@ -2238,6 +2239,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			{
 				if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= (nExpectedAmount-nExpectedCommissionAmount))
 				{
+					sellerAddress = aliasAddress;
 					foundSellerPayment = true;
 				}
 			}
@@ -2246,6 +2248,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		{
 			if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= nExpectedAmount)
 			{
+				sellerAddress = aliasAddress;
 				foundSellerPayment = true;
 			}
 		}
@@ -2258,9 +2261,11 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4556 - " + _("Expected commission to affiliate not found in escrow"));
 
     // Seller signs it
-	CPubKey sellerPubKey = CPubKey(sellerAlias.vchPubKey);
+	CKeyID keyID;
+	if (!sellerAddress.GetKeyID(keyID))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 1546 - " + _("Seller address does not refer to a key"));
 	CKey vchSecret;
-	if (!pwalletMain->GetKey(sellerPubKey.GetID(), vchSecret))
+	if (!pwalletMain->GetKey(keyID, vchSecret))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Seller private key not known"));
 	const string &strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
@@ -2599,9 +2604,9 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	string strPrivateKey;
 	if(role == "arbiter")
 	{
-		if(!IsMyAlias(arbiterAlias))
+		if(!IsMyAlias(arbiterAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("You must own the arbiter alias to complete this transaction"));
-		CPubKey arbiterPubKey = CPubKey(arbiterAlias.vchPubKey);
+		CPubKey arbiterPubKey = CPubKey(arbiterAliasLatest.vchPubKey);
 		CKey vchSecret;
 		if (!pwalletMain->GetKey(arbiterPubKey.GetID(), vchSecret))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Arbiter private key not known"));
@@ -2619,9 +2624,9 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	}
 	else if(role == "seller")
 	{
-		if(!IsMyAlias(sellerAlias))
+		if(!IsMyAlias(sellerAliasLatest))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4567 - " + _("You must own the seller alias to complete this transaction"));
-		CPubKey sellerPubKey = CPubKey(sellerAlias.vchPubKey);
+		CPubKey sellerPubKey = CPubKey(sellerAliasLatest.vchPubKey);
 		CKey vchSecret;
 		if (!pwalletMain->GetKey(sellerPubKey.GetID(), vchSecret))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Seller private key not known"));
@@ -2811,21 +2816,15 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		escrow, tx, vtxPos))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4570 - " + _("Could not find a escrow with this key"));
 
-	CAliasIndex sellerAlias, sellerAliasLatest, buyerAlias, buyerAliasLatest;
+	CAliasIndex sellerAlias, sellerAliasLatest;
 	vector<CAliasIndex> aliasVtxPos;
-	CTransaction selleraliastx, buyeraliastx;
+	CTransaction selleraliastx;
 	CPubKey sellerKey;
 	bool isExpired;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
 		sellerAlias.nHeight = vtxPos.front().nHeight;
 		sellerAlias.GetAliasFromList(aliasVtxPos);
-	}
-	aliasVtxPos.clear();
-	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
-	{
-		buyerAlias.nHeight = vtxPos.front().nHeight;
-		buyerAlias.GetAliasFromList(aliasVtxPos);
 	}
  
 	COffer theOffer, linkOffer;
@@ -2967,7 +2966,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		}
 		if(!foundRefundPayment)
 		{
-			CSyscoinAddress aliasAddress(strAddress);
+			buyerAddress = CSyscoinAddress(strAddress);
 			if(aliasAddress.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nExpectedAmount)
 				foundRefundPayment = true;
 		}
@@ -2977,9 +2976,11 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4586 - " + _("Expected refund amount not found"));
 
     // Buyer signs it
-	CPubKey buyerPubKey = CPubKey(buyerAlias.vchPubKey);
+	CKeyID keyID;
+	if (!buyerAddress.GetKeyID(keyID))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1546 - " + _("Buyer address does not refer to a key"));
 	CKey vchSecret;
-	if (!pwalletMain->GetKey(buyerPubKey.GetID(), vchSecret))
+	if (!pwalletMain->GetKey(keyID, vchSecret))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Buyer private key not known"));
 	const string &strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
