@@ -75,6 +75,7 @@ CAuxPow::check (const uint256& hashAuxBlock, int nChainId,
     if (nIndex != 0)
         return error("AuxPow is not a generate");
 
+	// SYSCOIN
     if (parentBlock.nVersion.GetChainId () == nChainId && chainActive.Tip()->nHeight >= SYSCOIN_FORK1)
         return error("Aux POW parent has our chain ID");
 

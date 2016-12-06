@@ -824,7 +824,7 @@ struct CCoinsStats
 static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
 {
     std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
-
+	std::map<std::string, int64> mapUtxo;
     CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
     stats.hashBlock = pcursor->GetBestBlock();
     {
@@ -846,6 +846,13 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
                     stats.nTransactionOutputs++;
                     ss << VARINT(i+1);
                     ss << out;
+					if (ExtractDestination(out.scriptPubKey, address) && out.nValue > 0){
+						std::string myaddress = CSysoinAddress(address).ToString();
+						if(mapUtxo.find(myaddress) == mapUtxo.end())
+							mapUtxo[myaddress] = out.nValue;
+						else
+							mapUtxo[myaddress] += out.nValue;
+					}
                     nTotalAmount += out.nValue;
                 }
             }
@@ -856,6 +863,18 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         }
         pcursor->Next();
     }
+	ofstream outfile;
+	outfile.open("utxo.json", ios::out | ios::trunc );
+	outfile << "[" << endl;
+	bool first = true;
+    for (std::map<std::string, int64>::const_iterator it = mapUtxo.begin(); it != mapUtxo.end(); it++) {
+		if(first != true)
+			outfile << ",";
+		outfile << "[\"" << (*it).first << "\", " << (*it).second << "]" << endl;
+		first = false;
+    }
+	outfile << "]" << endl;
+	outfile.close();
     stats.hashSerialized = ss.GetHash();
     stats.nTotalAmount = nTotalAmount;
     return true;
