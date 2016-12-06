@@ -464,7 +464,35 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 		chain = tr("Bitcoin");
 	else if(m_paymentOption == "ZEC")
 		chain = tr("ZCash");
-	if(reply->error() != QNetworkReply::NoError) {
+	QByteArray bytes = reply->readAll();
+	QString str = QString::fromUtf8(bytes.data(), bytes.size());
+	UniValue outerValue;
+	bool read = outerValue.read(str.toStdString());
+	if (read && outerValue.isObject())
+	{
+		UniValue outerObj = outerValue.get_obj();
+		UniValue errorValue = find_value(outerObj, "error");
+		if(errorValue.isObject())
+		{
+			UniValue errorObj - errorValue.get_obj();
+			UniValue codeValue = find_value(errorObj, "code");
+			UniValue messageValue = find_value(errorObj, "message");
+			if(codeValue.isNum())
+				codeNum = codeValue.get_int();
+			if(messageValue.isStr())
+				errorMessage = messageValue.get_str();
+		}
+	}
+	if(codeNum < 0)
+	{
+		if(codeNum != -27 && message != "transaction already in block chain")
+		{
+			QMessageBox::critical(this, windowTitle(),
+			tr("Could not send raw escrow transaction to the %1 blockchain, error code: %2 message %3: ").arg(chain).arg(codeNum).arg(QString::fromStdString(message)),
+					QMessageBox::Ok, QMessageBox::Ok);
+		}
+	}
+	else if(reply->error() != QNetworkReply::NoError) {
 		if(m_buttontext == tr("Claim Payment"))
 		{
 			ui->releaseButton->setText(m_buttontext);
@@ -556,6 +584,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		chain = tr("Bitcoin");
 	else if(m_paymentOption == "ZEC")
 		chain = tr("ZCash");
+
 	if(reply->error() != QNetworkReply::NoError) {
 
 		ui->extButton->setText(m_buttontext);
