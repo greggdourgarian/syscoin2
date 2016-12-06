@@ -317,11 +317,11 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 
-        genesis = CreateGenesisBlock(1481064184, 10130626, 0x207fffff, 1, 2.5 * COIN);
-		CBlockHeader genesisHeader = genesis.GetBlockHeader();
-		GenerateGenesisBlock(genesisHeader, &hash);
+        genesis = CreateGenesisBlock(1481065031, 6454750, 0x207fffff, 1, 2.5 * COIN);
+		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
+		GenerateGenesisBlock(genesisHeader, &hash);*/
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000011b73841e2787b0889c4109df5a0f7bd79caed7c10450c944a9742d4963"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000099c8edfa68e1eb65434f40334a2d36119795f3f7807e6ebcdda2790aeca"));
         assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
