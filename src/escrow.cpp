@@ -1796,6 +1796,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	if (hex_value.isStr())
 		hex_str = hex_value.get_str();
 
+	if(createEscrowSpendingTx == hex_str)
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4533 - " + _("Could not sign escrow transaction: Signature not added to transaction"));
+
 
 	escrow.ClearEscrow();
 	escrow.op = OP_ESCROW_RELEASE;
@@ -2294,6 +2297,14 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	if (hex_value.isStr())
 		hex_str = hex_value.get_str();
 
+
+	const UniValue& complete_value = find_value(o, "complete");
+	bool bComplete = false;
+	if (complete_value.isBool())
+		bComplete = complete_value.get_bool();
+	if(!bComplete)
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4533 - " + _("Escrow is incomplete"));
+
 	CTransaction rawTransaction;
 	DecodeHexTx(rawTransaction,hex_str);
 	ret.push_back(hex_str);
@@ -2697,6 +2708,9 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	if (hex_value.isStr())
 		hex_str = hex_value.get_str();
 
+	if(createEscrowSpendingTx == hex_str)
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4533 - " + _("Could not sign escrow transaction: Signature not added to transaction"));
+
 	escrow.ClearEscrow();
 	escrow.op = OP_ESCROW_REFUND;
 	escrow.bPaymentAck = false;
@@ -3001,6 +3015,14 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	const UniValue& hex_value = find_value(o, "hex");
 	if (hex_value.isStr())
 		hex_str = hex_value.get_str();
+
+	const UniValue& complete_value = find_value(o, "complete");
+	bool bComplete = false;
+	if (complete_value.isBool())
+		bComplete = complete_value.get_bool();
+	if(!bComplete)
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4533 - " + _("Escrow is incomplete"));
+
 	CTransaction rawTransaction;
 	DecodeHexTx(rawTransaction,hex_str);
 	UniValue ret(UniValue::VARR);
