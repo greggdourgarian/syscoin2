@@ -824,7 +824,7 @@ struct CCoinsStats
 static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
 {
     std::unique_ptr<CCoinsViewCursor> pcursor(view->Cursor());
-	std::map<std::string, int64> mapUtxo;
+	std::map<std::string, CAmount> mapUtxo;
     CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
     stats.hashBlock = pcursor->GetBestBlock();
     {
@@ -867,7 +867,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
 	outfile.open("utxo.json", ios::out | ios::trunc );
 	outfile << "[" << endl;
 	bool first = true;
-    for (std::map<std::string, int64>::const_iterator it = mapUtxo.begin(); it != mapUtxo.end(); it++) {
+    for (std::map<std::string, CAmount>::const_iterator it = mapUtxo.begin(); it != mapUtxo.end(); it++) {
 		if(first != true)
 			outfile << ",";
 		outfile << "[\"" << (*it).first << "\", " << (*it).second << "]" << endl;
