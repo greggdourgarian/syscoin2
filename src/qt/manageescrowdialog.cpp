@@ -126,12 +126,6 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	}
 	else if(status.indexOf("escrow release complete") == 0)
 	{		
-		if(m_exttxid.size() > 0)
-		{
-			ui->extButton->setVisible(true);
-			if(m_redeemTxId.size() > 0)
-				ui->extButton->setEnabled(true);
-		}
 		ui->manageInfo2->setText(tr("The escrow has been successfully claimed by the merchant. The escrow is complete."));
 		ui->refundButton->setEnabled(false);
 		ui->refundButton->setVisible(false);
@@ -163,12 +157,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	else if(status.indexOf("escrow refund complete") == 0)
 	{	
 		
-		if(m_exttxid.size() > 0)
-		{
-			ui->extButton->setVisible(true);
-			if(m_redeemTxId.size() > 0)
-				ui->extButton->setEnabled(true);
-		}	
+	
 		ui->manageInfo2->setText(tr("The escrow has been successfully refunded to the buyer. The escrow is complete."));
 		ui->refundButton->setEnabled(false);
 		ui->refundButton->setVisible(false);
@@ -348,6 +337,11 @@ void ManageEscrowDialog::onLeaveFeedback()
 }
 bool ManageEscrowDialog::CompleteEscrowRelease()
 {
+	QString chain;
+	if(m_paymentOption == "BTC")
+		chain = tr("Bitcoin");
+	else if(m_paymentOption == "ZEC")
+		chain = tr("ZCash");
 	UniValue params(UniValue::VARR);
 	string strMethod = string("escrowcompleterelease");
 	params.push_back(escrow.toStdString());
@@ -356,34 +350,35 @@ bool ManageEscrowDialog::CompleteEscrowRelease()
 	try {
 		UniValue result = tableRPC.execute(strMethod, params);
 
-		if(m_exttxid.size() > 0)
+		
+		const UniValue& resArray = result.get_array();
+		if(resArray.size() > 1)
 		{
-			QMessageBox::information(this, windowTitle(),
-			tr("Escrow release completed successfully! Payment was found on the Bitcoin blockchain Transaction ID <b>%1</b>. You may click on the <b>Check BTC Payment</b> button to check to see if it has confirmed.").arg(m_redeemTxId),
-				QMessageBox::Ok, QMessageBox::Ok);
-		}
-		else
-		{
-			const UniValue& resArray = result.get_array();
-			if(resArray.size() > 1)
+			const UniValue& complete_value = resArray[1];
+			bool bComplete = false;
+			if (complete_value.isStr())
+				bComplete = complete_value.get_str() == "true";
+			if(!bComplete)
 			{
-				const UniValue& complete_value = resArray[1];
-				bool bComplete = false;
-				if (complete_value.isStr())
-					bComplete = complete_value.get_str() == "true";
-				if(!bComplete)
-				{
-					string hex_str = resArray[0].get_str();
-					GUIUtil::setClipboard(QString::fromStdString(hex_str));
-					QMessageBox::information(this, windowTitle(),
-						tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
-							QMessageBox::Ok, QMessageBox::Ok);
-					return true;
-				}
+				string hex_str = resArray[0].get_str();
+				GUIUtil::setClipboard(QString::fromStdString(hex_str));
+				QMessageBox::information(this, windowTitle(),
+					tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
+						QMessageBox::Ok, QMessageBox::Ok);
+				return true;
 			}
-			QMessageBox::information(this, windowTitle(),
-			tr("Escrow release completed successfully! "),
-				QMessageBox::Ok, QMessageBox::Ok);
+			if(m_exttxid.size() > 0)
+			{
+				QMessageBox::information(this, windowTitle(),
+				tr("Escrow release completed successfully! Payment was found on the %1 blockchain Transaction ID <b>%2</b>. You may click on the <b>Check External Payment</b> button to check to see if it has confirmed.").arg(chain).arg(m_redeemTxId),
+					QMessageBox::Ok, QMessageBox::Ok);
+			}
+			else
+			{
+				QMessageBox::information(this, windowTitle(),
+				tr("Escrow release completed successfully! "),
+					QMessageBox::Ok, QMessageBox::Ok);
+			}
 		}
 		return true;
 	}
@@ -404,6 +399,11 @@ bool ManageEscrowDialog::CompleteEscrowRelease()
 }
 bool ManageEscrowDialog::CompleteEscrowRefund()
 {
+	QString chain;
+	if(m_paymentOption == "BTC")
+		chain = tr("Bitcoin");
+	else if(m_paymentOption == "ZEC")
+		chain = tr("ZCash");
 	UniValue params(UniValue::VARR);
 	string strMethod = string("escrowcompleterefund");
 	params.push_back(escrow.toStdString());
@@ -412,14 +412,6 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 	try {
 		UniValue result = tableRPC.execute(strMethod, params);
 
-		if(m_exttxid.size() > 0)
-		{
-			QMessageBox::information(this, windowTitle(),
-			tr("Escrow refund completed successfully! Payment was found on the Bitcoin blockchain Transaction ID <b>%1</b>. You may click on the <b>Check BTC Payment</b> button to check to see if the payment has confirmed.").arg(m_redeemTxId),
-				QMessageBox::Ok, QMessageBox::Ok);
-		}
-		else
-		{
 			const UniValue& resArray = result.get_array();
 			if(resArray.size() > 1)
 			{
@@ -437,10 +429,19 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 					return true;
 				}
 			}
+		if(m_exttxid.size() > 0)
+		{
+			QMessageBox::information(this, windowTitle(),
+			tr("Escrow refund completed successfully! Payment was found on the %1 blockchain Transaction ID <b>%2</b>. You may click on the <b>Check External Payment</b> button to check to see if the payment has confirmed.").arg(chain).arg(m_redeemTxId),
+				QMessageBox::Ok, QMessageBox::Ok);
+		}
+		else
+		{
 			QMessageBox::information(this, windowTitle(),
 			tr("Escrow refund completed successfully!"),
 				QMessageBox::Ok, QMessageBox::Ok);
 		}
+		
 		return true;
 	}
 	catch (UniValue& objError)

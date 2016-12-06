@@ -133,7 +133,7 @@ void MyEscrowListPage::loadAliasList()
 		ui->displayListAlias->setCurrentIndex(currentIndex);
 	settings.setValue("defaultListAlias", oldListAlias);
 }
-bool MyEscrowListPage::lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption)
+bool MyEscrowListPage::lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString,& redeemtxid, QString& paymentOption)
 {
 	QSettings settings;
 	string strMethod = string("escrowinfo");
@@ -167,6 +167,9 @@ bool MyEscrowListPage::lookup(const QString &escrow, QString& address, QString& 
 			const UniValue& paymentOption_Value = find_value(o, "paymentoption_display");
 			if (paymentOption_Value.type() == UniValue::VSTR)
 				paymentOption = QString::fromStdString(paymentOption_Value.get_str());
+			const UniValue& redeemtxid_value = find_value(o, "redeem_txid");
+			if (redeemtxid_value.type() == UniValue::VSTR)
+				redeemtxid = QString::fromStdString(redeemtxid_value.get_str());
 			return true;
 		}
 	}
@@ -395,9 +398,9 @@ void MyEscrowListPage::on_extButton_clicked()
     {
         return;
     }
-	QString address, price, extTxId;
+	QString address, price, extTxId, redeemTxId;
 	QString escrow = selection.at(0).data(EscrowTableModel::EscrowRole).toString();
-	if(!lookup(escrow, address, price, extTxId, m_paymentOption))
+	if(!lookup(escrow, address, price, extTxId, redeemTxId, m_paymentOption))
 	{
         QMessageBox::critical(this, windowTitle(),
         tr("Could not find this escrow, please ensure the escrow has been confirmed by the blockchain: ") + escrow,
@@ -412,9 +415,9 @@ void MyEscrowListPage::on_extButton_clicked()
         return;
 	}
 	if(m_paymentOption == QString("BTC"))
-		CheckPaymentInBTC(extTxId, address, price);
+		CheckPaymentInBTC(redeemTxId.size() > 0? redeemTxId: extTxId, address, price);
 	else if(m_paymentOption == QString("ZEC"))
-		CheckPaymentInZEC(extTxId, address, price);
+		CheckPaymentInZEC(redeemTxId.size() > 0? redeemTxId: extTxId, address, price);
 
 
 }

@@ -36,7 +36,7 @@ public:
     const QString &getReturnValue() const { return returnValue; }
 	void showEvent ( QShowEvent * event );
 	void loadAliasList();
-	bool lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& paymentOption);
+	bool lookup(const QString &escrow, QString& address, QString& price, QString& extTxId, QString& redeemTxId, QString& paymentOption);
 	void CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price);
 	void CheckPaymentInZEC(const QString &strExtTxId, const QString& address, const QString& price);
 private:
