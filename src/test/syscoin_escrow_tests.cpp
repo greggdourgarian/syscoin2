@@ -87,15 +87,10 @@ BOOST_AUTO_TEST_CASE (generate_escrowrefund_invalid)
 	EscrowRefund("node2", "seller", guid);
 	// cant refund already refunded escrow
 	BOOST_CHECK_THROW(CallRPC("node2", "escrowrefund " + guid + " seller"), runtime_error);
-	// noone other than buyer can claim refund
+	// arbiter can also send claim refund to buyer
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "escrowclaimrefund " + guid));
-	UniValue resArray = r.get_array();
-	string strRawTx = resArray[0].get_str();
-	BOOST_CHECK_THROW(CallRPC("node3", "escrowcompleterefund " + guid + " " + strRawTx), runtime_error);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrowclaimrefund " + guid));
-	resArray = r.get_array();
-	strRawTx = resArray[0].get_str();
-	BOOST_CHECK_THROW(CallRPC("node2", "escrowcompleterefund " + guid + " " + strRawTx), runtime_error);
+	// seller cannot
+	BOOST_CHECK_THROW(r = CallRPC("node2", "escrowclaimrefund " + guid), runtime_error);
 
 	EscrowClaimRefund("node1", guid);
 	// cant inititate another refund after claimed already
@@ -119,15 +114,10 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_invalid)
 	EscrowRelease("node1", "buyer", guid);
 	// cant release already released escrow
 	BOOST_CHECK_THROW(CallRPC("node1", "escrowrelease " + guid + " buyer"), runtime_error);
-	// noone other than seller can claim release
+	// arbiter can send release
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "escrowclaimrelease " + guid));
-	UniValue resArray = r.get_array();
-	string strRawTx = resArray[0].get_str();
-	BOOST_CHECK_THROW(CallRPC("node3", "escrowcompleterelease " + guid + " " + strRawTx), runtime_error);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowclaimrelease " + guid));
-	resArray = r.get_array();
-	strRawTx = resArray[0].get_str();
-	BOOST_CHECK_THROW(CallRPC("node1", "escrowcompleterelease " + guid + " " + strRawTx), runtime_error);
+	// buyer cant
+	BOOST_CHECK_THROW(r = CallRPC("node1", "escrowclaimrelease " + guid), runtime_error);
 
 	EscrowClaimRelease("node2", guid);
 	// cant inititate another release after claimed already
@@ -225,11 +215,8 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release)
 	string offerlinkguid = OfferLink("node3", "arbiteralias2", offerguid, commission, description);
 	string guid = EscrowNew("node1", "node2", "buyeralias2", offerlinkguid, qty, message, "arbiteralias2", "selleralias22");
 	EscrowRelease("node1", "buyer", guid);
-	// reseller cant claim escrow, seller must claim it
+	// arbiter can send release
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "escrowclaimrelease " + guid));
-	UniValue resArray = r.get_array();
-	string strRawTx = resArray[0].get_str();
-	BOOST_CHECK_THROW(CallRPC("node3", "escrowcompleterelease " + guid + " " + strRawTx), runtime_error);
 
 	AliasUpdate("node1", "buyeralias2", "changeddata1", "priv");
 	AliasUpdate("node2", "selleralias22", "changeddata1", "priv");
