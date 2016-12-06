@@ -2257,7 +2257,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
     // Seller signs it
 	CPubKey sellerPubKey = CPubKey(sellerAlias.vchPubKey);
 	CKey vchSecret;
-	if (!pwalletMain->GetKey(arbiterPubKey.GetID(), vchSecret))
+	if (!pwalletMain->GetKey(sellerPubKey.GetID(), vchSecret))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Seller private key not known"));
 	const string &strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
@@ -2677,10 +2677,6 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
  	arraySignParams.push_back(arraySignInputs);
 	arrayPrivateKeys.push_back(strPrivateKey);
 	arraySignParams.push_back(arrayPrivateKeys);
-
-	UniValue arraySignParams(UniValue::VARR);
-	UniValue arraySignInputs(UniValue::VARR);
-
 
 	UniValue resSign;
 	try
