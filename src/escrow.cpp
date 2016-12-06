@@ -370,8 +370,6 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const bool &dontaddtodb, 
 	return true;
 }
 bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, const CBlock* block, bool dontaddtodb) {
-	if(!IsSys21Fork(nHeight))
-		return true;
 	if (tx.IsCoinBase())
 		return true;
 	const COutPoint *prevOutput = NULL;

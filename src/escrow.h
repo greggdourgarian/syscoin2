@@ -19,7 +19,6 @@ int IndexOfEscrowOutput(const CTransaction& tx);
 void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string escrowFromOp(int op);
 CScript RemoveEscrowScriptPrefix(const CScript& scriptIn);
-extern bool IsSys21Fork(const uint64_t& nHeight);
 class CEscrow {
 public:
 	std::vector<unsigned char> vchEscrow;

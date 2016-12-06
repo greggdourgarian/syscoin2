@@ -29,9 +29,7 @@ static const unsigned int MAX_ALIAS_UPDATES_PER_BLOCK = 50;
 
 static const unsigned int SAFETY_LEVEL1 = 1;
 static const unsigned int SAFETY_LEVEL2 = 2;
-static const unsigned int SYSCOIN_FORK1 = 321000;
 
-bool IsSys21Fork(const uint64_t& nHeight);
 class CAliasUnprunable
 {
 	public:
@@ -374,7 +372,7 @@ bool IsSyscoinDataOutput(const CTxOut& out);
 bool GetSyscoinData(const CTransaction &tx, std::vector<unsigned char> &vchData, std::vector<unsigned char> &vchHash, int& nOut);
 bool GetSyscoinData(const CScript &scriptPubKey, std::vector<unsigned char> &vchData, std::vector<unsigned char> &vchHash);
 bool IsSysServiceExpired(const uint64_t &nHeight);
-bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight);
+bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight);
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams);
 bool IsSyscoinScript(const CScript& scriptPubKey, int &op, std::vector<std::vector<unsigned char> > &vvchArgs);
 void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut);

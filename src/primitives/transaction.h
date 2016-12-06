@@ -149,7 +149,7 @@ public:
         READWRITE(nValue);
 		// SYSCOIN
 		uint64_t nHeight;
-		if(scriptPubKey.IsUnspendable() && IsInSys21Fork(scriptPubKey, nHeight))
+		if(scriptPubKey.IsUnspendable() && GetHeightToPrune(scriptPubKey, nHeight))
 		{
 			if((nType & SER_GETHASH) || IsSysServiceExpired(nHeight))
 			{

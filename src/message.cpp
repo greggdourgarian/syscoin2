@@ -292,8 +292,6 @@ CScript RemoveMessageScriptPrefix(const CScript& scriptIn) {
 }
 
 bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, const CBlock* block, bool dontaddtodb) {
-	if(!IsSys21Fork(nHeight))
-		return true;	
 	if (tx.IsCoinBase())
 		return true;
 	if (fDebug)

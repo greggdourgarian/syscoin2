@@ -23,7 +23,6 @@ bool DecryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::v
 void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 std::string certFromOp(int op);
 CScript RemoveCertScriptPrefix(const CScript& scriptIn);
-extern bool IsSys21Fork(const uint64_t& nHeight);
 class CCert {
 public:
 	std::vector<unsigned char> vchCert;

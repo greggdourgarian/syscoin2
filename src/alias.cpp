@@ -58,14 +58,7 @@ bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut
     }
 	return false;
 }
-bool IsSys21Fork(const uint64_t& nHeight)
-{
-	if(nHeight <= SYSCOIN_FORK1 && ChainNameFromCommandLine() == CBaseChainParams::MAIN)
-		return false;
-	return true;
-}
-// if its in SYS2.1 fork (returns true) then we look at nHeight for when to prune
-bool IsInSys21Fork(CScript& scriptPubKey, uint64_t &nHeight)
+bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight)
 {
 	vector<unsigned char> vchData;
 	vector<unsigned char> vchHash;
@@ -654,8 +647,6 @@ void updateBans(const vector<unsigned char> &banData)
 	}
 }
 bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, const CBlock* block, bool dontaddtodb) {
-	if(!IsSys21Fork(nHeight))
-		return true;	
 	if (tx.IsCoinBase())
 		return true;
 	if (fDebug)
