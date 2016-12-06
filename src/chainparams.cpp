@@ -318,11 +318,8 @@ public:
 		uint256 hash;
 
         genesis = CreateGenesisBlock(1481065031, 6454750, 0x207fffff, 1, 2.5 * COIN);
-
-		printf("genesis.hashGenesisBlock = %s\n", genesis.GetHash().ToString().c_str());
-		printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000099c8edfa68e1eb65434f40334a2d36119795f3f7807e6ebcdda2790aeca"));
+        assert(consensus.hashGenesisBlock == uint256S("0xe29083ecfaf60f957d0dbd86b63bfeea6e82aaa12f41b70c54062765f187d661"));
         assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
