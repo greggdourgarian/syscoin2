@@ -467,6 +467,8 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 	QByteArray bytes = reply->readAll();
 	QString str = QString::fromUtf8(bytes.data(), bytes.size());
 	UniValue outerValue;
+	int codeNum = 0;
+	string errorMessage;
 	bool read = outerValue.read(str.toStdString());
 	if (read && outerValue.isObject())
 	{
@@ -483,12 +485,13 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 				errorMessage = messageValue.get_str();
 		}
 	}
+	
 	if(codeNum < 0)
 	{
-		if(codeNum != -27 && message != "transaction already in block chain")
+		if(codeNum != -27 && errorMessage != "transaction already in block chain")
 		{
 			QMessageBox::critical(this, windowTitle(),
-			tr("Could not send raw escrow transaction to the %1 blockchain, error code: %2 message %3: ").arg(chain).arg(codeNum).arg(QString::fromStdString(message)),
+			tr("Could not send raw escrow transaction to the %1 blockchain, error code: %2 message %3: ").arg(chain).arg(codeNum).arg(QString::fromStdString(errorMessage)),
 					QMessageBox::Ok, QMessageBox::Ok);
 		}
 	}
