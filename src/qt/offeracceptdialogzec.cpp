@@ -34,15 +34,16 @@ using namespace std;
 #include <QNetworkReply>
 #include "qzecjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QWidget *parent) :
+OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
+    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeZEC->setPixmap(QPixmap(":/images/" + theme + "/about_zec"));
-
+	ui->checkBox->setEnabled(false);
+	ui->escrowEdit->setText(arbiter);
     int zecprecision;
     CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("ZEC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, zecprecision);
 	if(zecPrice > 0)
@@ -80,6 +81,13 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	connect(ui->openZecWalletButton, SIGNAL(clicked()), this, SLOT(openZECWallet()));
 	setupEscrowCheckboxState();
 	
+}
+void OfferAcceptDialogZEC::on_escrowEdit_textChanged(const QString & text)
+{
+	if(ui->escrowEdit->text().size() > 0)
+		ui->checkBox->setEnabled(true);
+	else
+		ui->checkBox->setEnabled(false);
 }
 void OfferAcceptDialogZEC::SetupQRCode(const QString& price)
 {
@@ -135,9 +143,10 @@ OfferAcceptDialogZEC::~OfferAcceptDialogZEC()
 void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 {
 	double total = 0;
-	if(ui->checkBox->isChecked())
+	ui->checkBox->setEnabled(false);
+	if(ui->escrowEdit->text().size() > 0)
 	{
-		ui->escrowEdit->setEnabled(false);
+		ui->checkBox->setEnabled(true);
 		// get new multisig address from escrow service
 		UniValue params(UniValue::VARR);
 		params.push_back(this->alias.toStdString());

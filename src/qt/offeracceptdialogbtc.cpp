@@ -34,15 +34,17 @@ using namespace std;
 #include <QNetworkReply>
 #include "qbtcjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QWidget *parent) :
+OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address)
+    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter)
 {
+	
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeBTC->setPixmap(QPixmap(":/images/" + theme + "/about_btc"));
-
+	ui->checkBox->setEnabled(false);
+	ui->escrowEdit->setText(arbiter);
     int btcprecision;
     CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("BTC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, btcprecision);
 	if(btcPrice > 0)
@@ -79,6 +81,13 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	connect(ui->confirmButton, SIGNAL(clicked()), this, SLOT(tryAcceptOffer()));
 	connect(ui->openBtcWalletButton, SIGNAL(clicked()), this, SLOT(openBTCWallet()));
 	setupEscrowCheckboxState();
+}
+void OfferAcceptDialogBTC::on_escrowEdit_textChanged(const QString & text)
+{
+	if(ui->escrowEdit->text().size() > 0)
+		ui->checkBox->setEnabled(true);
+	else
+		ui->checkBox->setEnabled(false);
 }
 void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
 {
@@ -134,9 +143,10 @@ OfferAcceptDialogBTC::~OfferAcceptDialogBTC()
 void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 {
 	double total = 0;
-	if(ui->checkBox->isChecked())
+	ui->checkBox->setEnabled(false);
+	if(ui->escrowEdit->text().size() > 0)
 	{
-		ui->escrowEdit->setEnabled(false);
+		ui->checkBox->setEnabled(true);
 		// get new multisig address from escrow service
 		UniValue params(UniValue::VARR);
 		params.push_back(this->alias.toStdString());

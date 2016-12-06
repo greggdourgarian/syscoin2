@@ -36,6 +36,7 @@ private:
 	QString offer;
 	QString acceptGuid;
 	QString sellerAlias;
+	QString arbiter;
 	QString address;
 	QString multisigaddress;
 	QString alias;
@@ -54,7 +55,7 @@ private Q_SLOTS:
 	void acceptEscrow();
 	void openBTCWallet();
 	void slotConfirmedFinished(QNetworkReply *);
-	
+	void on_escrowEdit_textChanged(const QString & text);
 };
 
 #endif // OFFERACCEPTDIALOGBTC_H

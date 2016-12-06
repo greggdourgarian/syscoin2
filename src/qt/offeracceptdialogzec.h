@@ -18,7 +18,7 @@ class OfferAcceptDialogZEC : public QDialog
     Q_OBJECT
 
 public:
-    explicit OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QWidget *parent=0);
+    explicit OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QWidget *parent=0);
     ~OfferAcceptDialogZEC();
 	void CheckPaymentInZEC();
     bool getPaymentStatus();
@@ -35,6 +35,7 @@ private:
 	QString qstrPrice;
 	QString title;
 	QString offer;
+	QString arbiter;
 	QString acceptGuid;
 	QString sellerAlias;
 	QString address;
@@ -57,6 +58,7 @@ private Q_SLOTS:
 	void acceptEscrow();
 	void openZECWallet();
 	void slotConfirmedFinished(QNetworkReply *);
+	void on_escrowEdit_textChanged(const QString & text);
 	
 };
 
