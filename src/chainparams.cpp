@@ -15,7 +15,12 @@
 #include <boost/assign/list_of.hpp>
 
 #include "chainparamsseeds.h"
-
+// SYSCOIN includes for gen block
+#include "uint256.h"
+#include "arith_uint256.h"
+#include "hash.h"
+#include "streams.h"
+#include <time.h>
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
@@ -36,7 +41,46 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
     return genesis;
 }
+// SYSCOIN generate block
+	// This will figure out a valid hash and Nonce if you're
+	// creating a different genesis block:
+static bool GenerateGenesisBlock(CBlockHeader &genesisBlock, uint256 *phash)
+{
+    // Write the first 76 bytes of the block header to a double-SHA256 state.
+	genesisBlock.nTime    = time(NULL);
+    CHash256 hasher;
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << genesisBlock;
+    assert(ss.size() == 80);
+    hasher.Write((unsigned char*)&ss[0], 76);
+	arith_uint256 hashTarget = arith_uint256().SetCompact(genesisBlock.nBits);
+    while (true) {
+        
 
+        // Write the last 4 bytes of the block header (the nonce) to a copy of
+        // the double-SHA256 state, and compute the result.
+        CHash256(hasher).Write((unsigned char*)&genesisBlock.nNonce, 4).Finalize((unsigned char*)phash);
+
+        // Return the nonce if the hash has at least some zero bits,
+        // check if it has enough to reach the target
+        if (((uint16_t*)phash)[15] == 0 && UintToArith256(*phash) <= hashTarget)
+            break;
+		genesisBlock.nNonce++;
+		if (genesisBlock.nNonce == 0) {
+			printf("NONCE WRAPPED, incrementing time\n");
+			++genesisBlock.nTime;
+		}
+        // If nothing found after trying for a while, return -1
+        if ((genesisBlock.nNonce & 0xfff) == 0)
+            printf("nonce %08X: hash = %s (target = %s)\n",
+					genesisBlock.nNonce, (*phash).ToString().c_str(),
+					hashTarget.ToString().c_str());
+    }
+	printf("genesis.nTime = %u \n", genesisBlock.nTime);
+	printf("genesis.nNonce = %u \n", genesisBlock.nNonce);
+	printf("Generate hash = %s\n", (*phash).ToString().c_str());
+	printf("genesis.hashMerkleRoot = %s\n", genesisBlock.hashMerkleRoot.ToString().c_str());
+}
 /**
  * Build the genesis block. Note that the output of its generation
  * transaction cannot be spent since it did not originally exist in the
@@ -106,9 +150,11 @@ public:
         pchMessageStart[2] = 0xb4;
         pchMessageStart[3] = 0xd9;
         nDefaultPort = 8369;
-        nPruneAfterHeight = 100000;
-
-        genesis = CreateGenesisBlock(1450473723, 5258726, 0x1e0ffff0, 1, 2.5 * COIN);
+        nPruneAfterHeight = 1000000;
+		uint256 hash;
+		CBlockHeader genesisBlock;
+		GenerateGenesisBlock(genesisBlock, hash);
+        genesis = CreateGenesisBlock(1481060778, 5258726, 0x1e0ffff0, 1, 2.5 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x0000072d66e51ab87de265765cc8bdd2d229a4307c672a1b3d5af692519cf765"));
         assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
@@ -140,7 +186,7 @@ public:
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
 
-        checkpointData = (CCheckpointData) {
+      /*  checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
             ( 11111, uint256S("0x444dbed9c994b2f88ccc8980f8d8952bb699de0a3ccb39633fd373289314c0e7"))
             ( 33333, uint256S("0x627457ac67fe173a66eaeb0f8d310c2b53743e95774a96b71bee44a10e854377"))
@@ -154,7 +200,7 @@ public:
             100000,   // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             1000.0     // * estimated number of transactions per day after checkpoint
-        };
+        };*/
     }
 };
 static CMainParams mainParams;
@@ -196,6 +242,9 @@ public:
         pchMessageStart[3] = 0x07;
         nDefaultPort = 18369;
         nPruneAfterHeight = 1000;
+		uint256 hash;
+		CBlockHeader genesisBlock;
+		GenerateGenesisBlock(genesisBlock, hash);
 
         genesis = CreateGenesisBlock(1450470135, 3161522, 0x1e0ffff0, 1, 2.5 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -280,6 +329,9 @@ public:
         pchMessageStart[3] = 0xda;
         nDefaultPort = 18444;
         nPruneAfterHeight = 1000;
+		uint256 hash;
+		CBlockHeader genesisBlock;
+		GenerateGenesisBlock(genesisBlock, hash);
 
         genesis = CreateGenesisBlock(1450470463, 4203767, 0x207fffff, 1, 2.5 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
