@@ -2260,7 +2260,6 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	if(strKeys.empty())
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4556 - " + _("No private keys found involved in this escrow"));
 
-	const string &strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
  	UniValue arraySignInputs(UniValue::VARR);
