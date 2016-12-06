@@ -153,7 +153,7 @@ public:
         nPruneAfterHeight = 1000000;
 		uint256 hash;
 		CBlockHeader genesisBlock;
-		GenerateGenesisBlock(genesisBlock, hash);
+		GenerateGenesisBlock(genesisBlock, &hash);
         genesis = CreateGenesisBlock(1481060778, 5258726, 0x1e0ffff0, 1, 2.5 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         assert(consensus.hashGenesisBlock == uint256S("0x0000072d66e51ab87de265765cc8bdd2d229a4307c672a1b3d5af692519cf765"));
@@ -244,7 +244,7 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 		CBlockHeader genesisBlock;
-		GenerateGenesisBlock(genesisBlock, hash);
+		GenerateGenesisBlock(genesisBlock, &hash);
 
         genesis = CreateGenesisBlock(1450470135, 3161522, 0x1e0ffff0, 1, 2.5 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -331,7 +331,7 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 		CBlockHeader genesisBlock;
-		GenerateGenesisBlock(genesisBlock, hash);
+		GenerateGenesisBlock(genesisBlock, &hash);
 
         genesis = CreateGenesisBlock(1450470463, 4203767, 0x207fffff, 1, 2.5 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
