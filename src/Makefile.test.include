@@ -41,6 +41,7 @@ SYSCOIN_TESTS =\
   test/syscoin_cert_tests.cpp \
   test/syscoin_message_tests.cpp \
   test/syscoin_escrow_tests.cpp \
+  test/syscoin_snapshot_tests.cpp \
   test/test_syscoin_services.cpp \
   test/test_syscoin_services.h \
   test/arith_uint256_tests.cpp \
