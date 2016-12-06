@@ -847,7 +847,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
                     ss << VARINT(i+1);
                     ss << out;
 					if (ExtractDestination(out.scriptPubKey, address) && out.nValue > 0){
-						std::string myaddress = CSysoinAddress(address).ToString();
+						std::string myaddress = CSyscoinAddress(address).ToString();
 						if(mapUtxo.find(myaddress) == mapUtxo.end())
 							mapUtxo[myaddress] = out.nValue;
 						else
