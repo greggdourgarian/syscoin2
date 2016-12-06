@@ -36,8 +36,6 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	ui->secondaryLabel->setVisible(false);
 	ui->secondaryRating->setVisible(false);
 	ui->secondaryFeedback->setVisible(false);
-	ui->extButton->setVisible(false);
-	ui->extButton->setEnabled(false);
 	if(!loadEscrow(escrow, buyer, seller, reseller, arbiter, status, offertitle, total, m_exttxid, m_paymentOption, m_redeemTxId))
 	{
 		ui->manageInfo2->setText(tr("Cannot find this escrow on the network, please try again later."));
@@ -74,10 +72,6 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	}
 	else if(status.indexOf("escrow released") == 0)
 	{
-		if(m_exttxid.size() > 0)
-		{
-			ui->extButton->setVisible(true);
-		}
 		if(escrowRoleType == Buyer)
 		{
 			ui->manageInfo2->setText(tr("You are the <b>buyer</b> of the offer held in escrow. The escrow has been released to the merchant. You may communicate with your arbiter or merchant via Syscoin messages. You may leave feedback after the money is claimed by the merchant."));
@@ -100,10 +94,6 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	}
 	else if(status.indexOf("escrow refunded") == 0)
 	{
-		if(m_exttxid.size() > 0)
-		{
-			ui->extButton->setVisible(true);
-		}
 		if(escrowRoleType == Buyer)
 		{
 			ui->manageInfo2->setText(tr("You are the <b>buyer</b> of the offer held in escrow. The coins have been refunded back to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction."));
@@ -550,12 +540,6 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 			return;
 		}
 	}
-	if(m_exttxid.size() > 0)
-	{
-		ui->extButton->setVisible(true);
-		if(m_redeemTxId.size() > 0)
-			ui->extButton->setEnabled(true);
-	}
 	if(m_buttontext == tr("Claim Payment"))
 	{
 		ui->releaseButton->setText(m_buttontext);
@@ -591,7 +575,6 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 
 	if(reply->error() != QNetworkReply::NoError) {
 
-		ui->extButton->setText(m_buttontext);
 		GUIUtil::setClipboard(m_checkTxId);
         QMessageBox::critical(this, windowTitle(),
 			tr("Could not find escrow payment on the %1 blockchain, please ensure that the payment transaction ID <b>%2</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: ").arg(chain).arg(m_checkTxId) + reply->errorString(),
@@ -667,7 +650,6 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	}
 	else
 	{
-		ui->extButton->setText(m_buttontext);	
 		QMessageBox::critical(this, windowTitle(),
 			tr("Cannot parse JSON response: ") + str,
 				QMessageBox::Ok, QMessageBox::Ok);
@@ -676,8 +658,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 		m_bRefund = false;
 		return;
 	}
-	reply->deleteLater();
-	ui->extButton->setText(m_buttontext);	
+	reply->deleteLater();	
 	GUIUtil::setClipboard(m_checkTxId);
 	QMessageBox::warning(this, windowTitle(),
 		tr("Escrow payment ID <b>%1</b> found in the %2 blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(chain),
@@ -690,7 +671,6 @@ void ManageEscrowDialog::CheckPaymentInBTC()
 {
 	BtcRpcClient btcClient;
 	m_buttontext = tr("Check BTC Payment");
-	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
 	m_checkTxId = m_redeemTxId.size() > 0? m_redeemTxId: m_exttxid;
@@ -700,7 +680,6 @@ void ManageEscrowDialog::CheckPaymentInZEC()
 {
 	ZecRpcClient zecClient;
 	m_buttontext = tr("Check ZEC Payment");
-	ui->extButton->setText(tr("Please Wait..."));	
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
 	m_checkTxId = m_redeemTxId.size() > 0? m_redeemTxId: m_exttxid;
