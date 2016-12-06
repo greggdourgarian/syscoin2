@@ -1664,12 +1664,17 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	CAliasIndex theAlias;
 	COutPoint outPoint;
 	int numResults=0;
+	string strPrivateKey;
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
 		if(!IsMyAlias(arbiterAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4530 - " + _("You must own the arbiter alias to complete this transaction"));
-		
+		CPubKey arbiterPubKey = CPubKey(arbiterAlias.vchPubKey);
+		CKey vchSecret;
+		if (!pwalletMain->GetKey(arbiterPubKey.GetID(), vchSecret))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Arbiter private key not known"));
+		strPrivateKey = CSyscoinSecret(vchSecret).ToString();			
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outPoint);		
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		CScript scriptPubKeyOrig;
@@ -1685,6 +1690,11 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	{
 		if(!IsMyAlias(buyerAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4531 - " + _("You must own the buyer alias to complete this transaction"));
+		CPubKey buyerPubKey = CPubKey(buyerAlias.vchPubKey);
+		CKey vchSecret;
+		if (!pwalletMain->GetKey(buyerPubKey.GetID(), vchSecret))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Buyer private key not known"));
+		strPrivateKey = CSyscoinSecret(vchSecret).ToString();			
 		numResults  = aliasunspent(buyerAliasLatest.vchAlias, outPoint);
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		CScript scriptPubKeyOrig;
@@ -1754,6 +1764,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
  	UniValue arraySignInputs(UniValue::VARR);
+	UniValue arrayPrivateKeys(UniValue::VARR);
 
  	UniValue signUniValue(UniValue::VOBJ);
  	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
@@ -1763,6 +1774,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
   	arraySignParams.push_back(createEscrowSpendingTx);
  	arraySignInputs.push_back(signUniValue);
  	arraySignParams.push_back(arraySignInputs);
+	arrayPrivateKeys.push_back(strPrivateKey);
+	arraySignParams.push_back(arrayPrivateKeys);
+
 	UniValue resSign;
 	try
 	{
@@ -2241,9 +2255,15 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4556 - " + _("Expected commission to affiliate not found in escrow"));
 
     // Seller signs it
+	CPubKey sellerPubKey = CPubKey(sellerAlias.vchPubKey);
+	CKey vchSecret;
+	if (!pwalletMain->GetKey(arbiterPubKey.GetID(), vchSecret))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Seller private key not known"));
+	const string &strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
  	UniValue arraySignInputs(UniValue::VARR);
+	UniValue arrayPrivateKeys(UniValue::VARR);
 
  	UniValue signUniValue(UniValue::VOBJ);
  	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
@@ -2253,6 +2273,8 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
   	arraySignParams.push_back(HexStr(escrow.rawTx));
  	arraySignInputs.push_back(signUniValue);
  	arraySignParams.push_back(arraySignInputs);
+	arrayPrivateKeys.push_back(strPrivateKey);
+	arraySignParams.push_back(arrayPrivateKeys);
 	UniValue resSign;
 	try
 	{
@@ -2563,11 +2585,16 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	COutPoint outPoint;
 	int numResults = 0;
 	// who is initiating release arbiter or seller?
+	string strPrivateKey;
 	if(role == "arbiter")
 	{
 		if(!IsMyAlias(arbiterAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("You must own the arbiter alias to complete this transaction"));
-		
+		CPubKey arbiterPubKey = CPubKey(arbiterAlias.vchPubKey);
+		CKey vchSecret;
+		if (!pwalletMain->GetKey(arbiterPubKey.GetID(), vchSecret))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Arbiter private key not known"));
+		strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outPoint);		
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		CScript scriptPubKeyOrig;
@@ -2583,7 +2610,11 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	{
 		if(!IsMyAlias(sellerAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4567 - " + _("You must own the seller alias to complete this transaction"));
-		
+		CPubKey sellerPubKey = CPubKey(sellerAlias.vchPubKey);
+		CKey vchSecret;
+		if (!pwalletMain->GetKey(sellerPubKey.GetID(), vchSecret))
+			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Seller private key not known"));
+		strPrivateKey = CSyscoinSecret(vchSecret).ToString();		
 		numResults  = aliasunspent(sellerAliasLatest.vchAlias, outPoint);		
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		CScript scriptPubKeyOrig;
@@ -2634,6 +2665,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
  	UniValue arraySignInputs(UniValue::VARR);
+	UniValue arrayPrivateKeys(UniValue::VARR);
 
  	UniValue signUniValue(UniValue::VOBJ);
  	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
@@ -2643,6 +2675,13 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
   	arraySignParams.push_back(createEscrowSpendingTx);
  	arraySignInputs.push_back(signUniValue);
  	arraySignParams.push_back(arraySignInputs);
+	arrayPrivateKeys.push_back(strPrivateKey);
+	arraySignParams.push_back(arrayPrivateKeys);
+
+	UniValue arraySignParams(UniValue::VARR);
+	UniValue arraySignInputs(UniValue::VARR);
+	UniValue arrayPrivateKeys(UniValue::VARR);
+
 
 	UniValue resSign;
 	try
@@ -2924,9 +2963,15 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4586 - " + _("Expected refund amount not found"));
 
     // Buyer signs it
+	CPubKey buyerPubKey = CPubKey(buyerAlias.vchPubKey);
+	CKey vchSecret;
+	if (!pwalletMain->GetKey(buyerPubKey.GetID(), vchSecret))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4566 - " + _("Buyer private key not known"));
+	const string &strPrivateKey = CSyscoinSecret(vchSecret).ToString();
 	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
  	UniValue arraySignParams(UniValue::VARR);
  	UniValue arraySignInputs(UniValue::VARR);
+	UniValue arrayPrivateKeys(UniValue::VARR);
 
  	UniValue signUniValue(UniValue::VOBJ);
  	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
@@ -2936,6 +2981,8 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
   	arraySignParams.push_back(HexStr(escrow.rawTx));
  	arraySignInputs.push_back(signUniValue);
  	arraySignParams.push_back(arraySignInputs);
+	arrayPrivateKeys.push_back(strPrivateKey);
+	arraySignParams.push_back(arrayPrivateKeys);
 	UniValue resSign;
 	try
 	{
