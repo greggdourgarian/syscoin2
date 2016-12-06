@@ -2901,7 +2901,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	// decode rawTx and check it pays enough and it pays to buyer appropriately
 	// check that right amount is going to be sent to buyer
 	UniValue arrayDecodeParams(UniValue::VARR);
-
+	CSyscoinAddress buyerAddress;
 	arrayDecodeParams.push_back(HexStr(escrow.rawTx));
 	UniValue decodeRes;
 	try
@@ -2967,7 +2967,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		if(!foundRefundPayment)
 		{
 			buyerAddress = CSyscoinAddress(strAddress);
-			if(aliasAddress.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nExpectedAmount)
+			if(buyerAddress.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nExpectedAmount)
 				foundRefundPayment = true;
 		}
 
