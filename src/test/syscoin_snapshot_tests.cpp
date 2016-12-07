@@ -84,7 +84,7 @@ void GetUTXOs(std::vector<PaymentAmount> &paymentAmounts)
 BOOST_AUTO_TEST_CASE (generate_and_verify_snapshot)
 {
 	std::vector<PaymentAmount> paymentAmounts;
-	//GetUTXOs(paymentAmounts);
-	//GenerateSnapShot(paymentAmounts);
+	GetUTXOs(paymentAmounts);
+	GenerateSnapShot(paymentAmounts);
 }
 BOOST_AUTO_TEST_SUITE_END ()
