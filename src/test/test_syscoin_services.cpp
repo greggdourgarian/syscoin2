@@ -193,7 +193,8 @@ void GenerateMainNetBlocks(int nBlocks, const string& node)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "getinfo"));
 	targetHeight = find_value(r.get_obj(), "blocks").get_int() + nBlocks;
 	newHeight = 0;
-	BOOST_CHECK_THROW(r = CallRPC(node, "setgenerate true 1"), runtime_error);
+	const string &sBlocks = strprintf("%d",nBlocks);
+	BOOST_CHECK_THROW(r = CallRPC(node, "generate " + sBlocks), runtime_error);
 	while(newHeight < targetHeight)
 	{
 	  MilliSleep(2000);
@@ -203,7 +204,6 @@ void GenerateMainNetBlocks(int nBlocks, const string& node)
 	  CAmount balance = AmountFromValue(find_value(r.get_obj(), "balance"));
 	  printf("Current block height %d, Target block height %d, balance %f\n", newHeight, targetHeight, ValueFromAmount(balance).get_real()); 
 	}
-	BOOST_CHECK_THROW(r = CallRPC(node, "setgenerate false"), runtime_error);
 	BOOST_CHECK(newHeight >= targetHeight);
 }
 // generate n Blocks, with up to 10 seconds relay time buffer for other nodes to get the blocks.

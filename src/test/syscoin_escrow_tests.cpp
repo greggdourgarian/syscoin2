@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_arbiter)
 	// get arbiter balance after release
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "getinfo"));
 	// 10 mined block subsidy + escrow fee
-	balanceBeforeArbiter += escrowfee;
+	balanceBeforeArbiter += 10*16.15*COIN + escrowfee;
 	CAmount balanceAfterArbiter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBeforeArbiter - balanceAfterArbiter) <= COIN);
 	
