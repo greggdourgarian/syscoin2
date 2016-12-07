@@ -162,10 +162,13 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		catch (UniValue& objError)
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Failed to generate multisig address: %1</font>").arg(QString::fromStdString(find_value(objError, "message").get_str())));
+			ui->checkBox->setEnabled(false);
+			return;
 		}
 		if (!resCreate.isObject())
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</font>"));
+			ui->checkBox->setEnabled(false);
 			return;
 		}
 
@@ -185,6 +188,7 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
+			ui->checkBox->setEnabled(false);
 			return;
 		}
 
@@ -195,6 +199,7 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
+			ui->checkBox->setEnabled(false);
 			return;
 		}
 		qstrPrice = QString::number(total);
