@@ -144,7 +144,7 @@ OfferAcceptDialogBTC::~OfferAcceptDialogBTC()
 {
     delete ui;
 }
-bool OfferAcceptDialogZEC::setupEscrowCheckboxState(bool desiredStateEnabled)
+bool OfferAcceptDialogBTC::setupEscrowCheckboxState(bool desiredStateEnabled)
 {
 	double total = 0;
 	if(desiredStateEnabled)
