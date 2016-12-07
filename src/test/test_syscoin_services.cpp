@@ -37,23 +37,14 @@ void StartNodes()
 void StartMainNetNodes()
 {
 	StopMainNetNodes();
-	printf("Starting 2 nodes in mainnet setup...\n");
+	printf("Starting 1 node in mainnet setup...\n");
 	StartNode("mainnet1", false);
-	StartNode("mainnet2", false);
 }
 void StopMainNetNodes()
 {
 	printf("Stopping mainnet1..\n");
 	try{
 		CallRPC("mainnet1", "stop");
-	}
-	catch(const runtime_error& error)
-	{
-	}	
-	MilliSleep(3000);
-	printf("Stopping mainnet2..\n");
-	try{
-		CallRPC("mainnet2", "stop");
 	}
 	catch(const runtime_error& error)
 	{
@@ -182,15 +173,6 @@ void GenerateMainNetBlocks(int nBlocks, const string& node)
 {
 	int targetHeight, newHeight;
 	UniValue r;
-	string otherNode1 = "mainnet1";
-	if(node == "mainnet1")
-	{
-		otherNode1 = "mainnet2";
-	}
-	else if(node == "mainnet2")
-	{
-		otherNode1 = "mainnet1";
-	}
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "getinfo"));
 	targetHeight = find_value(r.get_obj(), "blocks").get_int() + nBlocks;
 	newHeight = 0;
