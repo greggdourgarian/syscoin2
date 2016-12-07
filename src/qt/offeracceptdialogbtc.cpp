@@ -44,7 +44,11 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeBTC->setPixmap(QPixmap(":/images/" + theme + "/about_btc"));
 	ui->checkBox->setEnabled(false);
-	ui->escrowEdit->setText(arbiter);
+	if(arbiter.size() > 0)
+	{
+		ui->checkBox->setEnabled(true);
+		ui->escrowEdit->setText(arbiter);
+	}
     int btcprecision;
     CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("BTC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, btcprecision);
 	if(btcPrice > 0)
@@ -85,9 +89,9 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 void OfferAcceptDialogBTC::on_escrowEdit_textChanged(const QString & text)
 {
 	if(ui->escrowEdit->text().size() > 0)
-		ui->checkBox->setEnabled(true);
+		ui->checkBox->setChecked(true);
 	else
-		ui->checkBox->setEnabled(false);
+		ui->checkBox->setChecked(false);
 }
 void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
 {
@@ -143,10 +147,9 @@ OfferAcceptDialogBTC::~OfferAcceptDialogBTC()
 void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 {
 	double total = 0;
-	ui->checkBox->setEnabled(false);
 	if(ui->escrowEdit->text().size() > 0)
 	{
-		ui->checkBox->setEnabled(true);
+		ui->checkBox->setChecked(true);
 		// get new multisig address from escrow service
 		UniValue params(UniValue::VARR);
 		params.push_back(this->alias.toStdString());
@@ -162,13 +165,13 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		catch (UniValue& objError)
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Failed to generate multisig address: %1</font>").arg(QString::fromStdString(find_value(objError, "message").get_str())));
-			ui->checkBox->setEnabled(false);
+			ui->checkBox->setChecked(false);
 			return;
 		}
 		if (!resCreate.isObject())
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</font>"));
-			ui->checkBox->setEnabled(false);
+			ui->checkBox->setChecked(false);
 			return;
 		}
 
@@ -188,7 +191,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
-			ui->checkBox->setEnabled(false);
+			ui->checkBox->setChecked(false);
 			return;
 		}
 
@@ -199,7 +202,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
-			ui->checkBox->setEnabled(false);
+			ui->checkBox->setChecked(false);
 			return;
 		}
 		qstrPrice = QString::number(total);
@@ -210,7 +213,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 	else
 	{
 		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
-		ui->escrowEdit->setEnabled(true);
+		ui->escrowEdit->setChecked(true);
 		qstrPrice = priceBtc;
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees upon payment in your BTC wallet for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(address));
 

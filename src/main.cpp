@@ -2856,6 +2856,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     {
         const CTransaction &tx = block.vtx[i];
 		// SYSCOIN inflate and regenerate based on opreturn value set when creating the service(user)
+		// originally the creation tx actually burns the opreturn data fee, but here we account for that burn + inflate supply by that value (so multiple by 2)
 		if(tx.nVersion == GetSyscoinTxVersion())
 		{
 			nSysBlockTx++;

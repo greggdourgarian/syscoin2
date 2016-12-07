@@ -43,7 +43,11 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeZEC->setPixmap(QPixmap(":/images/" + theme + "/about_zec"));
 	ui->checkBox->setEnabled(false);
-	ui->escrowEdit->setText(arbiter);
+	if(arbiter.size() > 0)
+	{
+		ui->checkBox->setEnabled(true);
+		ui->escrowEdit->setText(arbiter);
+	}
     int zecprecision;
     CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("ZEC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, zecprecision);
 	if(zecPrice > 0)
@@ -140,13 +144,12 @@ OfferAcceptDialogZEC::~OfferAcceptDialogZEC()
 {
     delete ui;
 }
-void OfferAcceptDialogZEC::setupEscrowCheckboxState()
+bool OfferAcceptDialogZEC::setupEscrowCheckboxState()
 {
 	double total = 0;
-	ui->checkBox->setEnabled(false);
-	if(ui->escrowEdit->text().size() > 0)
+	bool multisig = false;
+	if(ui->escrowEdit->isEnabled() && ui->escrowEdit->text().size() > 0)
 	{
-		ui->checkBox->setEnabled(true);
 		// get new multisig address from escrow service
 		UniValue params(UniValue::VARR);
 		params.push_back(this->alias.toStdString());
@@ -162,14 +165,12 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		catch (UniValue& objError)
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Failed to generate multisig address: %1</font>").arg(QString::fromStdString(find_value(objError, "message").get_str())));
-			ui->checkBox->setEnabled(false);
-			return;
+			return false;
 		}
 		if (!resCreate.isObject())
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</font>"));
-			ui->checkBox->setEnabled(false);
-			return;
+			return false;
 		}
 
 		const UniValue &o = resCreate.get_obj();
@@ -188,8 +189,7 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
-			ui->checkBox->setEnabled(false);
-			return;
+			return false;
 		}
 
 		if (address_value.isStr())
@@ -199,8 +199,7 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
-			ui->checkBox->setEnabled(false);
-			return;
+			return false;
 		}
 		qstrPrice = QString::number(total);
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(multisigaddress));
@@ -211,12 +210,13 @@ void OfferAcceptDialogZEC::setupEscrowCheckboxState()
 	{
 		convertAddress();
 		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
-		ui->escrowEdit->setEnabled(true);
 		qstrPrice = priceZec;
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via ZCash:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open ZEC Wallet</b> if you are on the desktop and have ZCash Core installed.<br/>3. Pay <b>%4 ZEC</b> to <b>%5</b> using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(this->zaddress));
-
+		SetupQRCode(qstrPrice);
+		return false;
 	}
 	SetupQRCode(qstrPrice);
+	return true;
 }
 void OfferAcceptDialogZEC::convertAddress()
 {
@@ -244,7 +244,9 @@ void OfferAcceptDialogZEC::convertAddress()
 }
 void OfferAcceptDialogZEC::onEscrowCheckBoxChanged(bool toggled)
 {
-	setupEscrowCheckboxState();
+	if(!toggled)
+		ui->escrowEdit->setEnabled(false);
+	ui->checkBox->setChecked(setupEscrowCheckboxState());
 }
 void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 	if(reply->error() != QNetworkReply::NoError) {
