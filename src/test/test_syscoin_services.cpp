@@ -19,6 +19,7 @@ void StartNodes()
 {
 	printf("Stopping any test nodes that are running...\n");
 	StopNodes();
+	StopMainNetNodes();
 	if(boost::filesystem::exists(boost::filesystem::system_complete("node1/regtest")))
 		boost::filesystem::remove_all(boost::filesystem::system_complete("node1/regtest"));
 	MilliSleep(1000);
