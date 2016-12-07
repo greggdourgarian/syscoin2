@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_arbiter)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo arbiteralias1"));
 	balanceBeforeArbiter += escrowfee;
 	CAmount balanceAfterArbiter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK(balanceBeforeArbiter, balanceAfterArbiter);
+	BOOST_CHECK_EQUAL(balanceBeforeArbiter, balanceAfterArbiter);
 	
 
 
