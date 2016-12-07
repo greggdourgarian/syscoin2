@@ -44,7 +44,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 // SYSCOIN generate block
 	// This will figure out a valid hash and Nonce if you're
 	// creating a different genesis block:
-static bool GenerateGenesisBlock(CBlockHeader &genesisBlock, uint256 *phash)
+static void GenerateGenesisBlock(CBlockHeader &genesisBlock, uint256 *phash)
 {
     // Write the first 76 bytes of the block header to a double-SHA256 state.
 	genesisBlock.nTime    = time(NULL);
@@ -317,9 +317,11 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 
-        genesis = CreateGenesisBlock(1481065031, 6454750, 0x207fffff, 1, 2.5 * COIN);
+        genesis = CreateGenesisBlock(1481069381, 6552708, 0x207fffff, 1, 2.5 * COIN);
+		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
+			GenerateGenesisBlock(genesisHeader, &hash);*/
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0xe29083ecfaf60f957d0dbd86b63bfeea6e82aaa12f41b70c54062765f187d661"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00009c4b86251fd571fd424de4e98753ed173335f748b9cf71b10a95f6ea21a3"));
         assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
