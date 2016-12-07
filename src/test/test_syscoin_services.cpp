@@ -50,7 +50,7 @@ void StopMainNetNodes()
 	catch(const runtime_error& error)
 	{
 	}	
-	MilliSleep(3000);
+	MilliSleep(300);
 	printf("Stopping mainnet2..\n");
 	try{
 		CallRPC("mainnet2", "stop");
@@ -69,7 +69,7 @@ void StopNodes()
 	catch(const runtime_error& error)
 	{
 	}	
-	MilliSleep(3000);
+	MilliSleep(300);
 	printf("Stopping node2..\n");
 	try{
 		CallRPC("node2", "stop");
@@ -77,7 +77,7 @@ void StopNodes()
 	catch(const runtime_error& error)
 	{
 	}	
-	MilliSleep(3000);
+	MilliSleep(300);
 	printf("Stopping node3..\n");
 	try{
 		CallRPC("node3", "stop");
@@ -85,7 +85,7 @@ void StopNodes()
 	catch(const runtime_error& error)
 	{
 	}	
-	MilliSleep(3000);
+	MilliSleep(300);
 	printf("Done!\n");
 }
 void StartNode(const string &dataDir, bool regTest)
@@ -96,7 +96,7 @@ void StartNode(const string &dataDir, bool regTest)
 		nodePath += string(" -regtest -debug");
     boost::thread t(runCommand, nodePath);
 	printf("Launching %s, waiting 3 seconds before trying to ping...\n", dataDir.c_str());
-	MilliSleep(3000);
+	MilliSleep(300);
 	while (1)
 	{
 		try{
@@ -106,7 +106,7 @@ void StartNode(const string &dataDir, bool regTest)
 		catch(const runtime_error& error)
 		{
 			printf("Waiting for %s to come online, trying again in 5 seconds...\n", dataDir.c_str());
-			MilliSleep(5000);
+			MilliSleep(500);
 			continue;
 		}
 		break;
@@ -122,7 +122,7 @@ void StopNode (const string &dataDir) {
 	catch(const runtime_error& error)
 	{
 	}
-	MilliSleep(3000);
+	MilliSleep(300);
 }
 
 UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regTest)
