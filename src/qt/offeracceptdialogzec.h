@@ -25,7 +25,7 @@ public:
 	void SetupQRCode(const QString&price);
 	void convertAddress();
 private:
-	void setupEscrowCheckboxState();
+	bool setupEscrowCheckboxState();
 	WalletModel* walletModel;
 	const PlatformStyle *platformStyle;
     Ui::OfferAcceptDialogZEC *ui;
