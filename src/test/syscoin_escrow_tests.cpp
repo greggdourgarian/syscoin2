@@ -144,6 +144,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_arbiter)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "getinfo"));
 	CAmount balanceBeforeArbiter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	EscrowClaimRelease("node2", guid);
+	MilliSleep(2500);
 	// get arbiter balance after release
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "getinfo"));
 	// 10 mined block subsidy + escrow fee
