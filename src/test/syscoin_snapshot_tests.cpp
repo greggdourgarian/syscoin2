@@ -1,7 +1,7 @@
 #include "test/test_syscoin_services.h"
 #include "data/utxo.json.h"
 #include "utiltime.h"
-#include "rpc/server.h"
+#include "rpcserver.h"
 #include <boost/test/unit_test.hpp>
 #include <univalue.h>
 int currentTx = 0;
@@ -81,10 +81,21 @@ void GetUTXOs(std::vector<PaymentAmount> &paymentAmounts)
     }
 	printf("Read %d total utxo sets, rejected %d, valid %d\n", rejectTx+countTx, rejectTx, countTx);
 }
+bool IsMainNetAlreadyCreated()
+{
+	int height;
+	UniValue r;
+	BOOST_CHECK_NO_THROW(r = CallRPC("mainnet1", "getinfo", false));
+	height = find_value(r.get_obj(), "blocks").get_int();
+	return height > 1;
+}
 BOOST_AUTO_TEST_CASE (generate_and_verify_snapshot)
 {
 	std::vector<PaymentAmount> paymentAmounts;
 	GetUTXOs(paymentAmounts);
-	GenerateSnapShot(paymentAmounts);
+	if(!IsMainNetAlreadyCreated())
+	{
+		GenerateSnapShot(paymentAmounts);
+	}
 }
 BOOST_AUTO_TEST_SUITE_END ()
