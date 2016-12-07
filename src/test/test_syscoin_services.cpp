@@ -181,8 +181,8 @@ void GenerateMainNetBlocks(int nBlocks, const string& node)
 	while(newHeight < targetHeight)
 	{
 	  BOOST_CHECK_NO_THROW(r = CallRPC(node, "generate " + sBlocks + " 10000000"));
-	  MilliSleep(2000);
-	  BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "getinfo"));
+	  MilliSleep(1000);
+	  BOOST_CHECK_NO_THROW(r = CallRPC(node, "getinfo"));
 	  newHeight = find_value(r.get_obj(), "blocks").get_int();
 	  BOOST_CHECK_NO_THROW(r = CallRPC(node, "getinfo"));
 	  CAmount balance = AmountFromValue(find_value(r.get_obj(), "balance"));
