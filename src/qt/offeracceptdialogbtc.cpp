@@ -44,9 +44,11 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeBTC->setPixmap(QPixmap(":/images/" + theme + "/about_btc"));
 	ui->checkBox->setEnabled(false);
+	ui->checkBox->setChecked(false);
 	if(arbiter.size() > 0)
 	{
 		ui->checkBox->setEnabled(true);
+		ui->checkBox->setChecked(true);
 		ui->escrowEdit->setText(arbiter);
 	}
     int btcprecision;
@@ -84,7 +86,7 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	connect(ui->checkBox,SIGNAL(clicked(bool)),SLOT(onEscrowCheckBoxChanged(bool)));
 	connect(ui->confirmButton, SIGNAL(clicked()), this, SLOT(tryAcceptOffer()));
 	connect(ui->openBtcWalletButton, SIGNAL(clicked()), this, SLOT(openBTCWallet()));
-	setupEscrowCheckboxState();
+	setupEscrowCheckboxState(ui->checkBox->isChecked());
 }
 void OfferAcceptDialogBTC::on_escrowEdit_textChanged(const QString & text)
 {

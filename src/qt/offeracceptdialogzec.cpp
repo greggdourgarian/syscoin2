@@ -43,9 +43,11 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	QString theme = GUIUtil::getThemeName();
 	ui->aboutShadeZEC->setPixmap(QPixmap(":/images/" + theme + "/about_zec"));
 	ui->checkBox->setEnabled(false);
+	ui->checkBox->setChecked(false);
 	if(arbiter.size() > 0)
 	{
 		ui->checkBox->setEnabled(true);
+		ui->checkBox->setChecked(true);
 		ui->escrowEdit->setText(arbiter);
 	}
     int zecprecision;
@@ -83,7 +85,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	connect(ui->checkBox,SIGNAL(clicked(bool)),SLOT(onEscrowCheckBoxChanged(bool)));
 	connect(ui->confirmButton, SIGNAL(clicked()), this, SLOT(tryAcceptOffer()));
 	connect(ui->openZecWalletButton, SIGNAL(clicked()), this, SLOT(openZECWallet()));
-	setupEscrowCheckboxState();
+	setupEscrowCheckboxState(ui->checkBox->isChecked());
 	
 }
 void OfferAcceptDialogZEC::on_escrowEdit_textChanged(const QString & text)
