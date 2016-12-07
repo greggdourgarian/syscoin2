@@ -89,9 +89,9 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 void OfferAcceptDialogBTC::on_escrowEdit_textChanged(const QString & text)
 {
 	if(ui->escrowEdit->text().size() > 0)
-		ui->checkBox->setChecked(true);
+		ui->checkBox->setEnabled(true);
 	else
-		ui->checkBox->setChecked(false);
+		ui->checkBox->setEnabled(false);
 }
 void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
 {
@@ -144,10 +144,10 @@ OfferAcceptDialogBTC::~OfferAcceptDialogBTC()
 {
     delete ui;
 }
-void OfferAcceptDialogBTC::setupEscrowCheckboxState()
+bool OfferAcceptDialogZEC::setupEscrowCheckboxState(bool desiredStateEnabled)
 {
 	double total = 0;
-	if(ui->escrowEdit->text().size() > 0)
+	if(desiredStateEnabled)
 	{
 		ui->checkBox->setChecked(true);
 		// get new multisig address from escrow service
@@ -165,14 +165,12 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		catch (UniValue& objError)
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Failed to generate multisig address: %1</font>").arg(QString::fromStdString(find_value(objError, "message").get_str())));
-			ui->checkBox->setChecked(false);
-			return;
+			return false;
 		}
 		if (!resCreate.isObject())
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</font>"));
-			ui->checkBox->setChecked(false);
-			return;
+			return false;
 		}
 
 		const UniValue &o = resCreate.get_obj();
@@ -191,8 +189,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
-			ui->checkBox->setChecked(false);
-			return;
+			return false;
 		}
 
 		if (address_value.isStr())
@@ -202,8 +199,7 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		else
 		{
 			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
-			ui->checkBox->setChecked(false);
-			return;
+			return false;
 		}
 		qstrPrice = QString::number(total);
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(multisigaddress));
@@ -215,13 +211,15 @@ void OfferAcceptDialogBTC::setupEscrowCheckboxState()
 		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
 		qstrPrice = priceBtc;
 		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees upon payment in your BTC wallet for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(address));
-
+		SetupQRCode(qstrPrice);
+		return false;
 	}
 	SetupQRCode(qstrPrice);
+	return true;
 }
 void OfferAcceptDialogBTC::onEscrowCheckBoxChanged(bool toggled)
 {
-	setupEscrowCheckboxState();
+	ui->checkBox->setChecked(setupEscrowCheckboxState(toggled));
 }
 void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 	if(reply->error() != QNetworkReply::NoError) {

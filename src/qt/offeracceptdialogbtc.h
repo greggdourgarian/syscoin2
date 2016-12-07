@@ -24,7 +24,7 @@ public:
     bool getPaymentStatus();
 	void SetupQRCode(const QString&price);
 private:
-	void setupEscrowCheckboxState();
+	bool setupEscrowCheckboxState(bool state);
 	WalletModel* walletModel;
 	const PlatformStyle *platformStyle;
     Ui::OfferAcceptDialogBTC *ui;

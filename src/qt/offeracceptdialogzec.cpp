@@ -144,11 +144,10 @@ OfferAcceptDialogZEC::~OfferAcceptDialogZEC()
 {
     delete ui;
 }
-bool OfferAcceptDialogZEC::setupEscrowCheckboxState()
+bool OfferAcceptDialogZEC::setupEscrowCheckboxState(bool desiredStateEnabled)
 {
 	double total = 0;
-	bool multisig = false;
-	if(ui->escrowEdit->isEnabled() && ui->escrowEdit->text().size() > 0)
+	if(desiredStateEnabled)
 	{
 		// get new multisig address from escrow service
 		UniValue params(UniValue::VARR);
@@ -244,9 +243,7 @@ void OfferAcceptDialogZEC::convertAddress()
 }
 void OfferAcceptDialogZEC::onEscrowCheckBoxChanged(bool toggled)
 {
-	if(!toggled)
-		ui->escrowEdit->setEnabled(false);
-	ui->checkBox->setChecked(setupEscrowCheckboxState());
+	ui->checkBox->setChecked(setupEscrowCheckboxState(toggled));
 }
 void OfferAcceptDialogZEC::slotConfirmedFinished(QNetworkReply * reply){
 	if(reply->error() != QNetworkReply::NoError) {
