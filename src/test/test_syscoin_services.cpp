@@ -194,9 +194,10 @@ void GenerateMainNetBlocks(int nBlocks, const string& node)
 	targetHeight = find_value(r.get_obj(), "blocks").get_int() + nBlocks;
 	newHeight = 0;
 	const string &sBlocks = strprintf("%d",nBlocks);
-	BOOST_CHECK_THROW(r = CallRPC(node, "generate " + sBlocks), runtime_error);
+
 	while(newHeight < targetHeight)
 	{
+	  BOOST_CHECK_NO_THROW(r = CallRPC(node, "generate " + sBlocks + " 10000000"));
 	  MilliSleep(2000);
 	  BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "getinfo"));
 	  newHeight = find_value(r.get_obj(), "blocks").get_int();
