@@ -148,7 +148,7 @@ void OptionsModel::Init(bool resetSettings)
         settings.setValue("theme", "");
     if (!settings.contains("defaultAlias"))
         settings.setValue("defaultAlias", "");
-    if (!settings.contains("defaultPegAlias"))
+    if (!settings.contains("defaultPegAlias") || settings.value("defaultPegAlias", "").toString() == "SYS_RATES")
         settings.setValue("defaultPegAlias", "sysrates.peg");
     if (!settings.contains("defaultListAlias"))
         settings.setValue("defaultListAlias", tr("All"));
