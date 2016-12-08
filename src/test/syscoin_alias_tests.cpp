@@ -735,6 +735,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 110"));
 	MilliSleep(2500);
 	StartNode("node3");
+	MilliSleep(2500);
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + escrowguid), runtime_error);
@@ -791,6 +792,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	StartNode("node3");
+	MilliSleep(2500);
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "offerinfo " + offerguid), runtime_error);
@@ -826,6 +828,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
 	MilliSleep(2500);
 	StartNode("node3");
+	MilliSleep(2500);
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "certinfo " + certguid), runtime_error);
