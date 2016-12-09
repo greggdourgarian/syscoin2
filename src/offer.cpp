@@ -1522,6 +1522,19 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 
 			}
+			if(!theOffer.vchCert.empty())
+			{
+				if(theOffer.sCategory.size() > 0 && !boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Offer selling a certificate must use a certificate category");
+					return true;
+				}
+			}
+			else if(theOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Offer not selling a certificate cannot use a certificate category");
+				return true;
+			}
 			// if this offer is linked to a parent update it with parent information
 			if(!theOffer.vchLinkOffer.empty())
 			{

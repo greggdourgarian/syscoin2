@@ -59,11 +59,9 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	GenerateBlocks(5, "node3");
 
 	AliasNew("node1", "node1alias", "password", "node1aliasdata");
-	AliasNew("node1", "node1aalias", "password", "node1aliasdata");
 	AliasNew("node2", "node2alias", "password", "node2aliasdata");
 
 	string certguid1  = CertNew("node1", "node1alias", "title", "data");
-	string certguid1a = CertNew("node1", "node1aalias", "title", "data");
 	string certguid2  = CertNew("node2", "node2alias", "title", "data");
 
 	// generate a good cert offer
@@ -72,25 +70,25 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	string offerguid1 = OfferNew("node1", "node1alias", "certificates>music", "title", "1", "0.05", "description", "USD", certguid1);
 
 	// must use certificates category for certoffer
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1aalias category title 2 0.05 description USD " + certguid1a), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias category title 1 0.05 description USD " + certguid1), runtime_error);
 
 	// should fail: generate a cert offer using a quantity greater than 1
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1aalias certificates title 2 0.05 description USD " + certguid1a), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 2 0.05 description USD " + certguid1), runtime_error);
 
 	// should fail: generate a cert offer using a zero quantity
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew  node1aalias certificates title 0 0.05 description USD " + certguid1a), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew  node1alias certificates title 0 0.05 description USD " + certguid1), runtime_error);
 
 	// should fail: generate a cert offer using an unlimited quantity
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1aalias certificates title -1 0.05 description USD " + certguid1a), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title -1 0.05 description USD " + certguid1), runtime_error);
 
 	// should fail: generate a cert offer using a cert guid you don't own
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 1 0.05 description USD " + certguid2), runtime_error);	
 
 	// should fail: update non cert offer to cert category
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " certificates title 90 0.15 description USD 0 " + certguid1), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " certificates title 1 0.15 description USD 0 " + certguid1), runtime_error);
 
 	// should fail: update non cert offer to cert sub category
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " certificates>music title 90 0.15 description USD 0 " + certguid1), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " certificates>music title 1 0.15 description USD 0 " + certguid1), runtime_error);
 
 	// update cert category to sub category of certificates
 	OfferUpdate("node1", "node1alias", offerguid, "certificates>music", "titlenew", "1", "0.15", "descriptionnew", "USD", false, certguid1);
@@ -103,15 +101,15 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 
 
 	// generate a cert offer if accepting only BTC
-	OfferNew("node1", "node1aalias", "certificates", "title", "1", "0.05", "description", "USD", certguid1a, "BTC");
+	OfferNew("node1", "node1alias", "certificates", "title", "1", "0.05", "description", "USD", certguid1, "BTC");
 	// generate a cert offer if accepting BTC OR SYS
-	OfferNew("node1", "node1aalias", "certificates", "title", "1", "0.05", "description", "USD", certguid1a, "SYS+BTC");
+	OfferNew("node1", "node1alias", "certificates", "title", "1", "0.05", "description", "USD", certguid1, "SYS+BTC");
 
 	// should fail: generate a cert offer using different alias for cert and offer
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 1 0.05 description USD " + certguid1a), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 1 0.05 description USD " + certguid1), runtime_error);
 
 	// should fail: generate a cert offer with invalid payment option
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 1 0.05 description USD " + certguid1a + " BTC+SSS"), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 1 0.05 description USD " + certguid1 + " BTC+SSS"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_offerwhitelists)
 {
