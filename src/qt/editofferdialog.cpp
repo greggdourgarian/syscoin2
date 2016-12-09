@@ -172,7 +172,8 @@ void EditOfferDialog::on_aliasPegEdit_editingFinished()
 	int precision;
 	int nFeePerByte;
 	float fEscrowFee;
-	if(getCurrencyToSYSFromAlias(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(ui->currencyEdit->currentText().toStdString()), nFee, chainActive.Tip()->nHeight, rateList, precision, nFeePerByte, fEscrowFee) == "1")
+	QString currentCurrency = ui->currencyEdit->currentText();
+	if(getCurrencyToSYSFromAlias(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(currentCurrency.toStdString()), nFee, chainActive.Tip()->nHeight, rateList, precision, nFeePerByte, fEscrowFee) == "1")
 	{
 		QMessageBox::warning(this, windowTitle(),
 			tr("Warning: %1 alias not found. No currency information available for %2!").arg(ui->aliasPegEdit->text()).arg(ui->currencyEdit->currentText()),
@@ -184,6 +185,7 @@ void EditOfferDialog::on_aliasPegEdit_editingFinished()
 	{
 		ui->currencyEdit->addItem(QString::fromStdString(rateList[i]));
 	}
+	ui->currencyEdit->setCurrentIndex(ui->currencyEdit->findText(currentCurrency));
 
 }
 void EditOfferDialog::setOfferNotSafeBecauseOfAlias(const QString &alias)
@@ -574,9 +576,9 @@ void EditOfferDialog::loadRow(int row)
 		}
 		if(indexCurrency.isValid())
 		{
-			on_aliasPegEdit_editingFinished();
 			QString currencyStr = indexCurrency.data(OfferTableModel::CurrencyRole).toString();
 			ui->currencyEdit->setCurrentIndex(ui->currencyEdit->findText(currencyStr));
+			on_aliasPegEdit_editingFinished();
 		}
 		if(indexSafeSearch.isValid() && !overrideSafeSearch)
 		{
