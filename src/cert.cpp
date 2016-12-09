@@ -943,8 +943,34 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not encrypt certificate data"));
 			}
 			vchViewData = vchFromString(strCipherViewText);
+
+			// decrypt old view alias data
+			if(!copyCert.vchViewData.empty() && copyCert.vchViewAlias == viewAlias.vchAlias)
+			{
+				string strDecryptedText = "";
+				if(!DecryptMessage(viewAlias.vchPubKey, copyCert.vchViewData, strDecryptedText))
+				{
+					throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not decrypt certificate data"));
+				}
+				if(vchData == vchFromString(strDecryptedText))
+					vchViewData = copyCert.vchViewData;
+			}
 		}	
-		vchData = vchFromString(strCipherText);
+		// decrypt old alias data
+		if(!copyCert.vchData.empty() && copyCert.vchAlias == vchAlias)
+		{
+			string strDecryptedText = "";
+			if(!DecryptMessage(theAlias.vchPubKey, copyCert.vchData, strDecryptedText))
+			{
+				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not decrypt certificate data"));
+			}
+			if(vchData == vchFromString(strDecryptedText))
+				vchData = copyCert.vchData;
+			else
+				vchData = vchFromString(strCipherText);
+		}
+		else
+			vchData = vchFromString(strCipherText);
 	}
 
     if(copyCert.vchTitle != vchTitle)

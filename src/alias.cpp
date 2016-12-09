@@ -2042,7 +2042,21 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Could not encrypt alias private data"));
 		}
-		vchPrivateValue = vchFromString(strCipherText);
+		// decrypt old private value
+		if(!copyAlias.vchPrivateValue.empty() && !transferAlias)
+		{
+			string strDecryptedText = "";
+			if(!DecryptMessage(copyAlias.vchPubKey, copyAlias.vchPrivateValue, strDecryptedText))
+			{
+				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 2511 - " + _("Could not decrypt alias private data"));
+			}
+			if(vchPrivateValue == vchFromString(strDecryptedText))
+				vchPrivateValue = copyAlias.vchPrivateValue;
+			else
+				vchPrivateValue = vchFromString(strCipherText);
+		}
+		else
+			vchPrivateValue = vchFromString(strCipherText);
 	}
 	if(!strPassword.empty())
 	{
