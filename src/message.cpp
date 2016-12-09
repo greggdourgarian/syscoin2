@@ -390,6 +390,16 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3008 - " + _("Message guid in data output does not match guid in transaction");
 			return error(errorMessage.c_str());
 		}
+		if(!IsValidAliasName(theMessage.vchAliasFrom))
+		{
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Alias name does not follow the domain name specification");
+			return error(errorMessage.c_str());
+		}
+		if(!IsValidAliasName(theMessage.vchAliasTo))
+		{
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Alias name does not follow the domain name specification");
+			return error(errorMessage.c_str());
+		}
 		if(op == OP_MESSAGE_ACTIVATE)
 		{
 			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theMessage.vchAliasFrom != vvchPrevAliasArgs[0])
