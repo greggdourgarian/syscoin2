@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	string certguid2  = CertNew("node2", "node2alias", "title", "data");
 
 	// generate a good cert offer
-	string offerguidnoncert = OfferNew("node1", "node1alias", "category", "title", "1", "0.05", "description", "USD");
+	string offerguidnoncert = OfferNew("node1", "node1alias", "category", "title", "10", "0.05", "description", "USD");
 	string offerguid = OfferNew("node1", "node1alias", "certificates", "title", "1", "0.05", "description", "USD", certguid1);
 	string offerguid1 = OfferNew("node1", "node1alias", "certificates>music", "title", "1", "0.05", "description", "USD", certguid1);
 
