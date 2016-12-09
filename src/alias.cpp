@@ -2022,7 +2022,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		if(!pwalletMain->AddKeyPubKey(key, pubKey))	
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5519 - " + _("Please choose a different password"));	
 	}
-	
+	CAliasIndex copyAlias = theAlias;
+	theAlias.ClearAlias();
 	CSyscoinAddress aliasAddress(pubKey.GetID());
 	CKeyID keyID;
 	if (!aliasAddress.GetKeyID(keyID))
@@ -2094,8 +2095,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		scriptPubKeyOrig = GetScriptForDestination(pubKey.GetID());
 
 	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
-	CAliasIndex copyAlias = theAlias;
-	theAlias.ClearAlias();
 	theAlias.nHeight = chainActive.Tip()->nHeight;
 	if(copyAlias.vchPublicValue != vchPublicValue)
 		theAlias.vchPublicValue = vchPublicValue;
