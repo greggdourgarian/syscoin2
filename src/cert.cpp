@@ -883,7 +883,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchViewAlias;
 	if(params.size() >= 8)
 		vchViewAlias = vchFromValue(params[7]);
-printf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
+LogPrintf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 	if(params.size() >= 7)
 		vchCat = vchFromValue(params[6]);
 	bool bPrivate = boost::lexical_cast<int>(params[4].get_str()) == 1? true: false;
@@ -924,7 +924,7 @@ printf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 
 	if(!GetTxOfAlias(vchViewAlias, viewAlias, viewaliastx, true))
 	{
-		printf("cannot find view alias!\n");
+		LogPrintf("cannot find view alias!\n");
 		vchViewAlias.clear();
 	}
 			
@@ -955,7 +955,7 @@ printf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 		string strCipherViewText = "";
 		if(!viewAlias.IsNull())
 		{
-			printf("view alias not null!\n");
+			LogPrintf("view alias not null!\n");
 			string strCipherViewText = "";
 			if(!EncryptMessage(viewAlias.vchPubKey, vchData, strCipherViewText))
 			{
@@ -1004,7 +1004,7 @@ printf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 		theCert.vchViewData = vchViewData;
 	if(copyCert.vchViewAlias != vchViewAlias)
 		theCert.vchViewAlias = vchViewAlias;
-printf("certupdate theCert.vchViewAlias %s\n", stringFromVch(theCert.vchViewAlias).c_str());
+LogPrintf("certupdate theCert.vchViewAlias %s\n", stringFromVch(theCert.vchViewAlias).c_str());
 	if(copyCert.sCategory != vchCat)
 		theCert.sCategory = vchCat;
 	theCert.vchAlias = theAlias.vchAlias;
