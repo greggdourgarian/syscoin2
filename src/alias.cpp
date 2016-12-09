@@ -1783,7 +1783,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		defaultKey = key.GetPubKey();
 		if(!defaultKey.IsFullyValid())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5509 - " + _("Generated public key not fully valid"));
-		if(!pwalletMain->AddKeyPubKey(key, defaultKey))	
+		CKey keyTmp;
+		if(!pwalletMain->GetKey(defaultKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, defaultKey))	
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5510 - " + _("Please choose a different password"));
 	}
 	CScript scriptPubKeyOrig;
@@ -2019,7 +2020,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		
 		if(!pubKey.IsFullyValid())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Generated public key not fully valid"));	
-		if(!pwalletMain->AddKeyPubKey(key, pubKey))	
+		CKey keyTmp;
+		if(!pwalletMain->GetKey(defaultKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, defaultKey))	
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5519 - " + _("Please choose a different password"));	
 	}
 	CAliasIndex copyAlias = theAlias;
