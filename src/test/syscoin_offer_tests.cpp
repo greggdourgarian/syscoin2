@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	// generate a good cert offer
 	string offerguidnoncert = OfferNew("node1", "node1alias", "certificates", "title", "1", "0.05", "description", "USD");
 	string offerguid = OfferNew("node1", "node1alias", "certificates", "title", "1", "0.05", "description", "USD", certguid1);
-	string offerguid1 = OfferNew("node1", "node1alias", "certificates > music", "title", "1", "0.05", "description", "USD", certguid1);
+	string offerguid1 = OfferNew("node1", "node1alias", "certificates>music", "title", "1", "0.05", "description", "USD", certguid1);
 
 	// must use certificates category for certoffer
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1aalias category title 2 0.05 description USD " + certguid1a), runtime_error);
@@ -86,14 +86,21 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	// should fail: generate a cert offer using a cert guid you don't own
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias certificates title 1 0.05 description USD " + certguid2), runtime_error);	
 
+	// should fail: update non cert offer to cert category
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " certificates title 90 0.15 description USD 0 " + certguid1), runtime_error);
+
+	// should fail: update non cert offer to cert sub category
+	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " certificates>music title 90 0.15 description USD 0 " + certguid1), runtime_error);
+
 	// update cert category to sub category of certificates
-	OfferUpdate("node1", "node1alias", offerguid, "certificates > music", "titlenew", "90", "0.15", "descriptionnew", "USD", false, certguid1);
+	OfferUpdate("node1", "node1alias", offerguid, "certificates>music", "titlenew", "90", "0.15", "descriptionnew", "USD", false, certguid1);
 
 	// should fail: try to change non cert offer to cert offer without cert category
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate node1alias " + offerguidnoncert + " category title 90 0.15 description USD 0 " + certguid1), runtime_error);
 
 	// change non cert offer to cert offer
 	OfferUpdate("node1", "node1alias", offerguidnoncert, "certificates", "titlenew", "90", "0.15", "descriptionnew", "USD", false, certguid1);
+
 
 	// generate a cert offer if accepting only BTC
 	OfferNew("node1", "node1aalias", "certificates", "title", "1", "0.05", "description", "USD", certguid1a, "BTC");
