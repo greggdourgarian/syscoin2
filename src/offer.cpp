@@ -1003,13 +1003,13 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Cannot create this offer because the certificate alias does not match the offer alias");
 					return true;
 				}
-				else if(theOffer.sCategory.size() > 0 && !boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates")
+				else if(theOffer.sCategory.size() > 0 && !boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Offer selling a certificat emust use a certificate category");
 					return true;
 				}
 			}
-			else if(theOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates")
+			else if(theOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Offer not selling a certificate cannot use a certificate category");
 				return true;
