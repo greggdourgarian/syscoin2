@@ -2354,8 +2354,8 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1526 - " + _("Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1"));
 	}
 
-	CAliasIndex alias;
-	CTransaction aliastx;
+	CAliasIndex alias, linkAlias;
+	CTransaction aliastx, linkaliastx;
 	const CWalletTx *wtxAliasIn = NULL;
 
 	// this is a syscoind txn
@@ -2372,12 +2372,21 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1528 - " + _("Could not find an alias with this name"));
+	
+	if (!GetTxOfAlias(vchAlias, linkAlias, linkaliastx, true))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1529 - " + _("Could not find an alias with this name"));
 
 	if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1529 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
 	int numResults  = aliasunspent(theOffer.vchAlias, outPoint);	
+	int numResultsLink = 0;
+	if(vchAlias != theOffer.vchAlias)
+	{
+		COutPoint outPointLink;
+		numResultsLink = aliasunspent(vchAlias, outPointLink);	
+	}
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1530 - " + _("This alias is not in your wallet"));
@@ -2455,6 +2464,20 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
 	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
+
+	if(vchAlias != theOffer.vchAlias)
+	{
+		CScript scriptPubKeyAliasLink;
+		if(linkAlias.multiSigInfo.vchAliases.size() > 0)
+			scriptPubKeyOrigLink = CScript(linkAlias.multiSigInfo.vchRedeemScript.begin(), linkAlias.multiSigInfo.vchRedeemScript.end());
+		scriptPubKeyAliasLink << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << linkAlias.vchAlias << linkAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+		scriptPubKeyAliasLink += scriptPubKeyOrigLink;
+		CRecipient aliasRecipientLink;
+		CreateRecipient(scriptPubKeyAliasLink, aliasRecipientLink);
+		for(unsigned int i =numResultsLink;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+			vecSend.push_back(aliasRecipientLink);
+	}
+
 
 
 	CScript scriptData;
