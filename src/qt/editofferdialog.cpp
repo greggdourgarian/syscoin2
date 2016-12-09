@@ -186,9 +186,6 @@ void EditOfferDialog::on_aliasPegEdit_editingFinished()
 		ui->currencyEdit->addItem(QString::fromStdString(rateList[i]));
 	}
 	int currencyIndex = ui->currencyEdit->findText(currentCurrency);
-	QMessageBox::warning(this, windowTitle(),
-		tr("currentCurrency %1 currencyIndex %2").arg(currentCurrency).arg(QString::number(currencyIndex)),
-				QMessageBox::Ok, QMessageBox::Ok);
 	if(currencyIndex >= 0)
 		ui->currencyEdit->setCurrentIndex(currencyIndex);
 
