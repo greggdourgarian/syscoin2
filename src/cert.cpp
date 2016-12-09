@@ -950,19 +950,19 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 				string strDecryptedText = "";
 				if(!DecryptMessage(viewAlias.vchPubKey, copyCert.vchViewData, strDecryptedText))
 				{
-					throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not decrypt certificate data"));
+					throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2512 - " + _("Could not decrypt certificate data"));
 				}
 				if(vchData == vchFromString(strDecryptedText))
 					vchViewData = copyCert.vchViewData;
 			}
 		}	
-		// decrypt old alias data
-		if(!copyCert.vchData.empty() && copyCert.vchAlias == vchAlias)
+		// decrypt old alias data if private
+		if(!copyCert.vchData.empty() && copyCert.vchAlias == vchAlias && copyCert.bPrivate)
 		{
 			string strDecryptedText = "";
 			if(!DecryptMessage(theAlias.vchPubKey, copyCert.vchData, strDecryptedText))
 			{
-				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not decrypt certificate data"));
+				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2513 - " + _("Could not decrypt certificate data"));
 			}
 			if(vchData == vchFromString(strDecryptedText))
 				vchData = copyCert.vchData;
@@ -971,6 +971,10 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		}
 		else
 			vchData = vchFromString(strCipherText);
+	}
+	else if(!viewAlias.IsNull())
+	{
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2513 - " + _("To use view alias functionality you must make your certificate private"));
 	}
 
     if(copyCert.vchTitle != vchTitle)
