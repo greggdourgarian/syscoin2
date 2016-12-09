@@ -494,6 +494,11 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2007 - " + _("Guid in data output doesn't match guid in transaction");
 			return error(errorMessage.c_str());
 		}
+		if(!theCert.vchViewAlias.empty() && !IsValidAliasName(theCert.vchViewAlias]))
+		{
+			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Alias name does not follow the domain name specification");
+			return error(errorMessage.c_str());
+		}
 		switch (op) {
 		case OP_CERT_ACTIVATE:
 			if (theCert.vchCert != vvchArgs[0])
