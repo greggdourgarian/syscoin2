@@ -669,24 +669,10 @@ bool EditOfferDialog::saveCurrentRow()
 		params.push_back(ui->currencyEdit->currentText().toStdString());
 		if(ui->certEdit->currentIndex() > 0)
 		{
-			if(!ui->categoryEdit->currentText().startsWith("certificates"))
-			{
-				QMessageBox::critical(this, windowTitle(),
-				tr("Error creating new Offer: Certificate offers must use a certificate category"),
-					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
-			}
 			params.push_back(ui->certEdit->itemData(ui->certEdit->currentIndex()).toString().toStdString());
 		}
 		else
 		{
-			if(ui->categoryEdit->currentText().startsWith("certificates"))
-			{
-				QMessageBox::critical(this, windowTitle(),
-				tr("Error creating new Offer: offer not selling a certificate yet used certificate as a category"),
-					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
-			}
 			params.push_back("nocert");
 		}
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());

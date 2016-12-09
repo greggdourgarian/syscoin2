@@ -761,7 +761,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	string certguid = arr[1].get_str();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithcertoffer category title 1 0.05 description USD " + certguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithcertoffer certificates title 1 0.05 description USD " + certguid));
 	const UniValue &arr1 = r.get_array();
 	string certofferguid = arr1[1].get_str();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
@@ -774,7 +774,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + offerguid + " category title 1 0.05 description"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
 	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + certofferguid + " category title 1 0.05 description USD 0 " + certguid));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + certofferguid + " certificates title 1 0.05 description USD 0 " + certguid));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));

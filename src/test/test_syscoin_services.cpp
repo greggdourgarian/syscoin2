@@ -266,7 +266,7 @@ void CreateSysBanIfNotExist()
 }
 void CreateSysCategoryIfNotExist()
 {
-	string data = "\"{\\\"categories\\\":[{\\\"cat\\\":\\\"certificates\\\"},{\\\"cat\\\":\\\"wanted\\\"},{\\\"cat\\\":\\\"for sale > general\\\"},{\\\"cat\\\":\\\"for sale > wanted\\\"},{\\\"cat\\\":\\\"services\\\"}]}\"";
+	string data = "\"{\\\"categories\\\":[{\\\"cat\\\":\\\"certificates\\\"},{\\\"cat\\\":\\\"certificates > music\\\"},{\\\"cat\\\":\\\"wanted\\\"},{\\\"cat\\\":\\\"for sale > general\\\"},{\\\"cat\\\":\\\"for sale > wanted\\\"},{\\\"cat\\\":\\\"services\\\"}]}\"";
 	
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg syscategory password " + data));
 	GenerateBlocks(5);
@@ -717,7 +717,7 @@ const string OfferNew(const string& node, const string& aliasname, const string&
 	}
 	CreateSysRatesIfNotExist();
 	UniValue r;
-	string offercreatestr = "offernew " + aliasname + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency  + " " + certguid + " " + paymentoptions + " " + geolocation + " " + safesearch;
+	string offercreatestr = "offernew " + aliasname + " \\\"" + category + "\\\"" + " " + title + " " + qty + " " + price + " " + description + " " + currency  + " " + certguid + " " + paymentoptions + " " + geolocation + " " + safesearch;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, offercreatestr));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
@@ -781,7 +781,7 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 
 	UniValue r;
 	string privatetmp = isPrivate ? "1" : "0";
-	string offerupdatestr = "offerupdate " + aliasname + " " + offerguid + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency + " " + privatetmp + " " + certguid + " " +  geolocation + " " + safesearch + " " + commission + " " + paymentoptions;
+	string offerupdatestr = "offerupdate " + aliasname + " " + offerguid + + " \\\"" + category + "\\\"" + " " + title + " " + qty + " " + price + " " + description + " " + currency + " " + privatetmp + " " + certguid + " " +  geolocation + " " + safesearch + " " + commission + " " + paymentoptions;
 	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, offerupdatestr));
