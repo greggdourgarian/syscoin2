@@ -711,6 +711,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 			}					
 		}
+		if(!theAlias.IsNull())
+		{
 		// Strict check - bug disallowed
 		for (unsigned int i = 0; i < tx.vin.size(); i++) {
 			vector<vector<unsigned char> > vvch;
@@ -725,7 +727,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
 				continue;
 
-			if (IsAliasOp(pop) && theAlias.vchAlias == vvch[0]) {
+			if (IsAliasOp(pop) && vvchArgs[0] == vvch[0]) {
 				prevOp = pop;
 				vvchPrevArgs = vvch;
 				break;
