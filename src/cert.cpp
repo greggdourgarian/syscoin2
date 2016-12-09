@@ -521,6 +521,11 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2011 - " + _("Certificate title too big or is empty");
 				return error(errorMessage.c_str());
 			}
+			if(!boost::algorithm::starts_with(stringFromVch(theCert.sCategory), "certificates"))
+			{
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Must use a certificate category");
+				return true;
+			}
 			break;
 
 		case OP_CERT_UPDATE:
@@ -539,6 +544,11 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2014 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
 			}
+			if(theCert.sCategory.size() > 0 && !boost::algorithm::starts_with(stringFromVch(theCert.sCategory), "certificates"))
+			{
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Must use a certificate category");
+				return true;
+			}
 			break;
 
 		case OP_CERT_TRANSFER:
@@ -551,6 +561,11 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2016 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
+			}
+			if(theCert.sCategory.size() > 0 && !boost::algorithm::starts_with(stringFromVch(theCert.sCategory), "certificates"))
+			{
+				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Must use a certificate category");
+				return true;
 			}
 			break;
 
@@ -955,7 +970,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 				if(vchData == vchFromString(strDecryptedText))
 					vchViewData = copyCert.vchViewData;
 			}
-		}	
+		}
 		// decrypt old alias data if private
 		if(!copyCert.vchData.empty() && copyCert.vchAlias == vchAlias && copyCert.bPrivate)
 		{
