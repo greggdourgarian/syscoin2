@@ -307,11 +307,6 @@ void NewMessageDialog::accept()
                 tr("The entered message \"%1\" is not a valid Syscoin Message.").arg(ui->topicEdit->text()),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
-        case MessageTableModel::DUPLICATE_MESSAGE:
-            QMessageBox::warning(this, windowTitle(),
-                tr("The entered message \"%1\" is already taken.").arg(ui->topicEdit->text()),
-                QMessageBox::Ok, QMessageBox::Ok);
-            break;
         case MessageTableModel::WALLET_UNLOCK_FAILURE:
             QMessageBox::critical(this, windowTitle(),
                 tr("Could not unlock wallet."),

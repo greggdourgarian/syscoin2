@@ -457,11 +457,6 @@ void EditAliasDialog::accept()
                 tr("The entered alias \"%1\" is not a valid Syscoin Alias.").arg(ui->aliasEdit->text()),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
-        case AliasTableModel::DUPLICATE_ALIAS:
-            QMessageBox::warning(this, windowTitle(),
-                tr("The entered alias \"%1\" is already taken.").arg(ui->aliasEdit->text()),
-                QMessageBox::Ok, QMessageBox::Ok);
-            break;
         case AliasTableModel::WALLET_UNLOCK_FAILURE:
             QMessageBox::critical(this, windowTitle(),
                 tr("Could not unlock wallet."),

@@ -609,11 +609,6 @@ void EditCertDialog::accept()
                 tr("The entered cert \"%1\" is not a valid Syscoin Cert.").arg(ui->certEdit->text()),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
-        case CertTableModel::DUPLICATE_CERT:
-            QMessageBox::warning(this, windowTitle(),
-                tr("The entered cert \"%1\" is already taken.").arg(ui->certEdit->text()),
-                QMessageBox::Ok, QMessageBox::Ok);
-            break;
         case CertTableModel::WALLET_UNLOCK_FAILURE:
             QMessageBox::critical(this, windowTitle(),
                 tr("Could not unlock wallet."),

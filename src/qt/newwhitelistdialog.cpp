@@ -115,11 +115,6 @@ void NewWhitelistDialog::accept()
                 tr("The entered entry \"%1\" is not a valid affiliate.").arg(ui->aliasEdit->text()),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
-        case OfferWhitelistTableModel::DUPLICATE_ENTRY:
-            QMessageBox::warning(this, windowTitle(),
-                tr("The entered entry \"%1\" is already taken.").arg(ui->aliasEdit->text()),
-                QMessageBox::Ok, QMessageBox::Ok);
-            break;
         case OfferWhitelistTableModel::WALLET_UNLOCK_FAILURE:
             QMessageBox::critical(this, windowTitle(),
                 tr("Could not unlock wallet."),

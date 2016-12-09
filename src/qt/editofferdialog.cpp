@@ -847,11 +847,6 @@ void EditOfferDialog::accept()
 					tr("The entered offer \"%1\" is not a valid Syscoin Offer.").arg(ui->offerEdit->text()),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
-			case OfferTableModel::DUPLICATE_OFFER:
-				QMessageBox::warning(this, windowTitle(),
-					tr("The entered offer \"%1\" is already taken.").arg(ui->offerEdit->text()),
-					QMessageBox::Ok, QMessageBox::Ok);
-				break;
 			case OfferTableModel::WALLET_UNLOCK_FAILURE:
 				QMessageBox::critical(this, windowTitle(),
 					tr("Could not unlock wallet."),

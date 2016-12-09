@@ -38,6 +38,18 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 	AliasNew("node1", goodname, "password", "a");
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg " + badname + " password 3d"), runtime_error);
 }
+BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
+{
+	printf("Running generate_big_aliaspassword...\n");
+	GenerateBlocks(5);
+	// 256 bytes long
+	string gooddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";	
+	// 257 bytes long
+	string baddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";	
+		
+	AliasNew("node1", "aliasname", gooddata, "a");
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname " + baddata + " 3d"), runtime_error);
+}
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
 	printf("Running generate_aliasupdate...\n");
