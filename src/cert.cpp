@@ -974,7 +974,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	}
 	else if(!viewAlias.IsNull())
 	{
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2513 - " + _("To use view alias functionality you must make your certificate private"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2514 - " + _("To use view alias functionality you must make your certificate private"));
 	}
 
     if(copyCert.vchTitle != vchTitle)
