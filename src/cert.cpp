@@ -590,8 +590,8 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			if(theCert.vchData.empty())
 				theCert.vchData = dbCert.vchData;
 			if(theCert.vchViewAlias.empty())
-				theCert.vchViewAlias = dbCert.vchViewAlias;
-			if(theCert.vchViewData.empty())
+				theCert.vchViewData.clear();	
+			else if(theCert.vchViewData.empty())
 				theCert.vchViewData = dbCert.vchViewData;
 			if(theCert.vchTitle.empty())
 				theCert.vchTitle = dbCert.vchTitle;
@@ -883,7 +883,6 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchViewAlias;
 	if(params.size() >= 8)
 		vchViewAlias = vchFromValue(params[7]);
-LogPrintf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 	if(params.size() >= 7)
 		vchCat = vchFromValue(params[6]);
 	bool bPrivate = boost::lexical_cast<int>(params[4].get_str()) == 1? true: false;
@@ -923,10 +922,8 @@ LogPrintf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2508 - " + _("This alias is not in your wallet"));
 
 	if(!GetTxOfAlias(vchViewAlias, viewAlias, viewaliastx, true))
-	{
-		LogPrintf("cannot find view alias!\n");
-		vchViewAlias.clear();
-	}
+		vchViewAlias = theCert.vchViewAlias;
+	
 			
 	CCert copyCert = theCert;
 	theCert.ClearCert();
@@ -955,7 +952,6 @@ LogPrintf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 		string strCipherViewText = "";
 		if(!viewAlias.IsNull())
 		{
-			LogPrintf("view alias not null!\n");
 			string strCipherViewText = "";
 			if(!EncryptMessage(viewAlias.vchPubKey, vchData, strCipherViewText))
 			{
@@ -1002,9 +998,7 @@ LogPrintf("certupdate vchViewAlias %s\n", stringFromVch(vchViewAlias).c_str());
 		theCert.vchData = vchData;
 	if(copyCert.vchViewData != vchViewData)
 		theCert.vchViewData = vchViewData;
-	if(copyCert.vchViewAlias != vchViewAlias)
-		theCert.vchViewAlias = vchViewAlias;
-LogPrintf("certupdate theCert.vchViewAlias %s\n", stringFromVch(theCert.vchViewAlias).c_str());
+	theCert.vchViewAlias = vchViewAlias;
 	if(copyCert.sCategory != vchCat)
 		theCert.sCategory = vchCat;
 	theCert.vchAlias = theAlias.vchAlias;
@@ -1537,10 +1531,16 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 	entry.push_back(Pair("alias", aliasValue));
 
 	string aliasViewValue = noDifferentStr;
-	if(!cert.vchViewAlias.empty() && cert.vchViewAlias != dbCert.vchViewAlias)
+	if(cert.vchViewAlias != dbCert.vchViewAlias)
 		aliasViewValue = stringFromVch(cert.vchViewAlias);
 
 	entry.push_back(Pair("viewalias", aliasViewValue));
+
+	string aliasViewDataValue = noDifferentStr;
+	if(!cert.vchViewData.empty() && cert.vchViewData != dbCert.vchViewData)
+		aliasViewDataValue = stringFromVch(cert.vchViewData);
+
+	entry.push_back(Pair("viewaliasdata", aliasViewDataValue));
 
 	string categoryValue = noDifferentStr;
 	if(!cert.sCategory.empty() && cert.sCategory != dbCert.sCategory)
