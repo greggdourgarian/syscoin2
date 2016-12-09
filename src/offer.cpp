@@ -2467,7 +2467,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	if(vchAlias != theOffer.vchAlias)
 	{
-		CScript scriptPubKeyAliasLink;
+		CScript scriptPubKeyAliasLink, scriptPubKeyOrigLink;
+		CPubKey currentLinkKey(linkAlias.vchPubKey);
+		scriptPubKeyOrigLink = GetScriptForDestination(currentLinkKey.GetID());
 		if(linkAlias.multiSigInfo.vchAliases.size() > 0)
 			scriptPubKeyOrigLink = CScript(linkAlias.multiSigInfo.vchRedeemScript.begin(), linkAlias.multiSigInfo.vchRedeemScript.end());
 		scriptPubKeyAliasLink << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << linkAlias.vchAlias << linkAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
