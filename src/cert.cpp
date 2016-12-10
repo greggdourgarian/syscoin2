@@ -1243,6 +1243,11 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 	if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2519 - " + _("Failed to read from cert DB"));
 
+	CAliasIndex alias;
+	CTransaction aliastx;
+	if (!GetTxOfAlias(vtxPos.back().vchAlias, alias, aliastx, true))
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2521 - " + _("Failed to read xfer alias from alias DB"));
+
 	if(!BuildCertJson(vtxPos.back(), alias, oCert))
 		oCert.clear();
     return oCert;
