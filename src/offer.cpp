@@ -532,25 +532,24 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1003 - " + _("OfferAccept arguments incorrect size");
 			return error(errorMessage.c_str());
 		}
-		if(!theOffer.IsNull())
+		
+		if(op == OP_OFFER_ACCEPT)
 		{
-			if(op == OP_OFFER_ACCEPT)
+			if(vvchArgs.size() <= 3 || vchHash != vvchArgs[3])
 			{
-				if(vvchArgs.size() <= 3 || vchHash != vvchArgs[3])
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1004 - " + _("Hash provided doesn't match the calculated hash of the data");
-					return true;
-				}
-			}
-			else
-			{
-				if(vvchArgs.size() <= 1 || vchHash != vvchArgs[1])
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1005 - " + _("Hash provided doesn't match the calculated hash of the data");
-					return true;
-				}
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1004 - " + _("Hash provided doesn't match the calculated hash of the data");
+				return true;
 			}
 		}
+		else
+		{
+			if(vvchArgs.size() <= 1 || vchHash != vvchArgs[1])
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1005 - " + _("Hash provided doesn't match the calculated hash of the data");
+				return true;
+			}
+		}
+		
 
 
 		// Strict check - bug disallowed
@@ -567,7 +566,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
 				continue;
 
-			if (!foundAlias && IsAliasOp(pop))
+			if (!foundAlias && IsAliasOp(pop) && theOffer.vchAlias == vvch[0])
 			{
 				foundAlias = true;
 				prevAliasOp = pop;
@@ -2375,7 +2374,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1528 - " + _("Could not find an alias with this name"));
-	if (!GetTxOfAlias(vchAlias, linkAlias, linkaliastx, true))
+	if (!vchAlias.empty() &&  !GetTxOfAlias(vchAlias, linkAlias, linkaliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1530 - " + _("Could not find an alias with this name"));
 
 	if(!IsMyAlias(alias)) {
@@ -2389,7 +2388,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	int numResultsLink = 0;
 	COutPoint outPointLink;
-	if(vchAlias != theOffer.vchAlias)
+	if(!vchAlias.empty() && vchAlias != theOffer.vchAlias)
 	{
 		numResultsLink = aliasunspent(vchAlias, outPointLink);	
 		wtxLinkAliasIn = pwalletMain->GetWalletTx(outPointLink.hash);
@@ -2478,7 +2477,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
-	if(vchAlias != theOffer.vchAlias)
+	if(!vchAlias.empty() && vchAlias != theOffer.vchAlias)
 	{
 		CScript scriptPubKeyAliasLink, scriptPubKeyOrigLink;
 		CPubKey currentLinkKey(linkAlias.vchPubKey);
@@ -2493,9 +2492,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			vecSend.push_back(aliasRecipientLink);
 	}
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0, NULL, wtxLinkAliasIn, outPointLink.n);
+	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0, NULL, wtxLinkAliasIn, outPointLink.n);
 	UniValue res(UniValue::VARR);
-	if(alias.multiSigInfo.vchAliases.size() > 0)
+	if(alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
