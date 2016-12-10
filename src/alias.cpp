@@ -2430,8 +2430,6 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 	uint256 hash;
 	CTransaction tx;
 	int pending = 0;
-	vector<vector<unsigned char> > vvch;
-	int op, nOut;
 	BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet) {
 		pending = 0;
 		// get txn hash, read txn index
@@ -2478,13 +2476,9 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			vNamesI[alias.vchAlias] = alias.nHeight;
 			vNamesO[alias.vchAlias] = oName;	
 		}
-
 	}
-	
-
 	BOOST_FOREACH(const PAIRTYPE(vector<unsigned char>, UniValue)& item, vNamesO)
 		oRes.push_back(item.second);
-
 	return oRes;
 }
 
