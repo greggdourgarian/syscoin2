@@ -826,7 +826,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return error(errorMessage.c_str());
 					}
 					prevaddy = CSyscoinAddress(aliasDest);
-					CPubKey PubKey(vtxPos.back().vchPubKey);	
+					CAliasIndex alias;
+					alias.nHeight = nHeight;
+					alias.GetAliasFromList(vtxPos);
+					CPubKey PubKey(alias.vchPubKey);	
 					CSyscoinAddress destaddy(PubKey.GetID());
 					if(destaddy.ToString() != prevaddy.ToString())
 					{
