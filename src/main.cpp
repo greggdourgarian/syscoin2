@@ -3703,7 +3703,7 @@ CBlockIndex* AddToBlockIndex(const CBlockHeader& block)
     pindexNew->nChainWork = (pindexNew->pprev ? pindexNew->pprev->nChainWork : 0) + GetBlockProof(*pindexNew);
     // SYSCOIN: Add AuxPoW
     if (block.nVersion.IsAuxpow()) {
-        pindexNew->pauxpow.reset(block.auxpow);
+        pindexNew->pauxpow.reset(block.auxpow.get());
         assert(NULL != pindexNew->pauxpow.get());
     }
     pindexNew->RaiseValidity(BLOCK_VALID_TREE);
