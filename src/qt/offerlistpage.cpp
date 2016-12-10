@@ -23,7 +23,6 @@
 #include <QSettings>
 #include <QStandardItemModel>
 #include <boost/algorithm/string.hpp>
-#include "stardelegate.h"
 #include "offer.h"
 using namespace std;
 
@@ -196,7 +195,7 @@ void OfferListPage::setModel(WalletModel* walletModel, OfferTableModel *model)
     ui->tableView->setColumnWidth(11, 100); //seller alias
 	ui->tableView->setColumnWidth(12, 150); //seller rating
     ui->tableView->setColumnWidth(13, 0); //btc only
-	ui->tableView->setItemDelegateForColumn(12, new StarDelegate);
+	
 
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -416,7 +415,7 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 	string alias_str;
 	string safesearch_str;
 	string geolocation_str;
-	int aliasRating, aliasRatingCount;
+	string aliasRating_str;
 	int sold = 0;
 
 	int expired = 0;
@@ -478,7 +477,7 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 			paymentoptions_str = "";
 			alias_peg_str = "";
 			safesearch_str = "";
-			aliasRating = aliasRatingCount = 0;
+			aliasRating_str = "";
 			geolocation_str = "";
 			expired = 0;
 			sold = 0;
@@ -520,12 +519,9 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 			const UniValue& alias_value = find_value(o, "alias");
 			if (alias_value.type() == UniValue::VSTR)
 				alias_str = alias_value.get_str();
-			const UniValue& aliasRating_value = find_value(o, "alias_rating");
-			if (aliasRating_value.type() == UniValue::VNUM)
-				aliasRating = aliasRating_value.get_int();
-			const UniValue& aliasRatingCount_value = find_value(o, "alias_rating_count");
-			if (aliasRatingCount_value.type() == UniValue::VNUM)
-				aliasRatingCount = aliasRatingCount_value.get_int();
+			const UniValue& aliasRating_value = find_value(o, "alias_rating_display");
+			if (aliasRating_value.type() == UniValue::VSTR)
+				aliasRating_str = aliasRating_value.get_str();
 			const UniValue& alias_peg_value = find_value(o, "alias_peg");
 			if (alias_peg_value.type() == UniValue::VSTR)
 				alias_peg_str = alias_peg_value.get_str();
@@ -565,7 +561,7 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 					QString::fromStdString(expired_str), 
 					QString::fromStdString(private_str),
 					QString::fromStdString(alias_str),
-					aliasRating, aliasRatingCount,
+					QString::fromStdString(aliasRating_str),
 					QString::fromStdString(paymentoptions_str),
 					QString::fromStdString(alias_peg_str),
 					QString::fromStdString(safesearch_str),
@@ -582,7 +578,7 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
 					QString::fromStdString(expired_str),
 					QString::fromStdString(private_str), 
 					QString::fromStdString(alias_str), 
-					aliasRating, aliasRatingCount,
+					QString::fromStdString(aliasRating_str),
 					QString::fromStdString(paymentoptions_str),
 					QString::fromStdString(alias_peg_str), 
 					QString::fromStdString(safesearch_str),

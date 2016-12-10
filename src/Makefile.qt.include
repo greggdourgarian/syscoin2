@@ -229,9 +229,6 @@ QT_MOC_CPP = \
   qt/moc_certtablemodel.cpp \
   qt/moc_editcertdialog.cpp \
   qt/moc_mycertlistpage.cpp \
-  qt/moc_stardelegate.cpp \
-  qt/moc_stareditor.cpp \
-  qt/moc_starrating.cpp \
   qt/moc_certlistpage.cpp \
   qt/moc_qcomboboxdelegate.cpp
 
@@ -356,10 +353,7 @@ SYSCOIN_QT_H = \
   qt/editcertdialog.h \
   qt/mycertlistpage.h \
   qt/qcomboboxdelegate.h \
-  qt/certlistpage.h \
-  qt/stardelegate.h \
-  qt/stareditor.h \
-  qt/starrating.h
+  qt/certlistpage.h
 
 RES_ICONS = \
   qt/res/icons/syscoin.ico \

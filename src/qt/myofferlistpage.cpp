@@ -14,7 +14,7 @@
 #include "editofferdialog.h"
 #include "csvmodelwriter.h"
 #include "guiutil.h"
-#include "stardelegate.h"
+
 
 #include <QSortFilterProxyModel>
 #include <QClipboard>
@@ -175,7 +175,7 @@ void MyOfferListPage::setModel(WalletModel *walletModel, OfferTableModel *model)
         ui->tableView->setColumnWidth(11, 100); //seller alias
 		ui->tableView->setColumnWidth(12, 150); //seller rating
         ui->tableView->setColumnWidth(13, 0); //btc only
-		ui->tableView->setItemDelegateForColumn(12, new StarDelegate);
+	
 
         ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -351,7 +351,6 @@ void MyOfferListPage::on_exportButton_clicked()
 	writer.addColumn(tr("Expired"), OfferTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Seller Alias"), OfferTableModel::Alias, Qt::EditRole);
 	writer.addColumn(tr("Seller Rating"), OfferTableModel::AliasRating, OfferTableModel::AliasRatingRole);
-	writer.addColumn(tr("Seller Rating Count"), OfferTableModel::AliasRating, OfferTableModel::AliasRatingCountRole);
 	writer.addColumn(tr("Payment Options"), OfferTableModel::PaymentOptions, Qt::EditRole);
     if(!writer.write())
     {

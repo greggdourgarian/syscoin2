@@ -2842,7 +2842,7 @@ void FindFeedback(const vector<CFeedback> &feedback, int &numBuyerRatings, int &
 		}
 	}
 }
-void GetFeedback(vector<CFeedback> &feedBackSorted, int &avgRating, const FeedbackUser type, const vector<CFeedback>& feedBack)
+void GetFeedback(vector<CFeedback> &feedBackSorted, float &avgRating, const FeedbackUser type, const vector<CFeedback>& feedBack)
 {
 	float nRating = 0;
 	int nRatingCount = 0;
@@ -2862,7 +2862,7 @@ void GetFeedback(vector<CFeedback> &feedBackSorted, int &avgRating, const Feedba
 	{
 		nRating /= nRatingCount;
 	}
-	avgRating = (int)roundf(nRating);
+	avgRating = floor(nRating * 10d) / 10d;
 	if(feedBackSorted.size() > 0)
 		sort(feedBackSorted.begin(), feedBackSorted.end(), feedbacksort());
 
@@ -3358,9 +3358,13 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 
 	float rating = 0;
 	if(alias.nRatingCountAsSeller > 0)
-		rating = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
-	oOffer.push_back(Pair("alias_rating",(int)rating));
+	{
+		rating = alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller;
+		rating = floor(rating * 10d) / 10d;
+	}
+	oOffer.push_back(Pair("alias_rating",rating));
 	oOffer.push_back(Pair("alias_rating_count",(int)alias.nRatingCountAsSeller));
+	oOffer.push_back(Pair("alias_rating_display", strprintf("%.1f/5 (%d %s)", rating, alias.nRatingCountAsSeller, _("Votes"))));
 	oOffer.push_back(Pair("geolocation", stringFromVch(theOffer.vchGeoLocation)));
 	int sold = theOffer.nSold;
 	if(!theOffer.vchLinkOffer.empty())
@@ -3553,7 +3557,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	if (pindex) {
 		sTime = strprintf("%llu", pindex->nTime);
 	}
-	int avgBuyerRating, avgSellerRating;
+	float avgBuyerRating, avgSellerRating;
 	vector<CFeedback> buyerFeedBacks, sellerFeedBacks;
 
 	GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, theOffer.accept.feedback);
@@ -3656,8 +3660,10 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		ratingCount++;
 	if(ratingCount == 0)
 		ratingCount = 1;
-	float totalAvgRating = roundf((avgSellerRating+avgBuyerRating)/(float)ratingCount);
-	oOfferAccept.push_back(Pair("avg_rating", (int)totalAvgRating));
+	float totalAvgRating = (avgSellerRating+avgBuyerRating)/(float)ratingCount;
+	totalAvgRating = floor(totalAvgRating * 10d) / 10d;
+	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
+	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	string strMessage = string("");
 	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");

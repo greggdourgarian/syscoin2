@@ -3488,7 +3488,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if (pindex) {
 		sTime = strprintf("%llu", pindex->nTime);
 	}
-	int avgBuyerRating, avgSellerRating, avgArbiterRating;
+	float avgBuyerRating, avgSellerRating, avgArbiterRating;
 	vector<CFeedback> buyerFeedBacks, sellerFeedBacks, arbiterFeedBacks;
 	GetFeedback(buyerFeedBacks, avgBuyerRating, FEEDBACKBUYER, escrow.feedback);
 	GetFeedback(sellerFeedBacks, avgSellerRating, FEEDBACKSELLER, escrow.feedback);
@@ -3693,8 +3693,10 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("avg_rating_count", (int)ratingCount));
 	if(ratingCount == 0)
 		ratingCount = 1;
-	float totalAvgRating = roundf((avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount);
-	oEscrow.push_back(Pair("avg_rating", (int)totalAvgRating));
+	float totalAvgRating = (avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount;
+	totalAvgRating = floor(totalAvgRating * 10d) / 10d;
+	oEscrow.push_back(Pair("avg_rating", totalAvgRating));
+	oEscrow.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	return true;
 }
 

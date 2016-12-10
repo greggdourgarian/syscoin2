@@ -19,7 +19,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include "rpc/server.h"
-#include "stardelegate.h"
+
 using namespace std;
 extern CRPCTable tableRPC;
 MyAliasListPage::MyAliasListPage(const PlatformStyle *platformStyle, QWidget *parent) :
@@ -314,11 +314,8 @@ void MyAliasListPage::on_exportButton_clicked()
 	writer.addColumn(tr("Expires In"), AliasTableModel::ExpiresIn, Qt::EditRole);
 	writer.addColumn(tr("Expired"), AliasTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Buyer Rating"), AliasTableModel::RatingAsBuyer, AliasTableModel::BuyerRatingRole);
-	writer.addColumn(tr("Buyer Rating Count"), AliasTableModel::RatingAsBuyer, AliasTableModel::BuyerRatingCountRole);
 	writer.addColumn(tr("Seller Rating"), AliasTableModel::RatingAsSeller, AliasTableModel::SellerRatingRole);
-	writer.addColumn(tr("Seller Rating Count"), AliasTableModel::RatingAsSeller, AliasTableModel::SellerRatingCountRole);
 	writer.addColumn(tr("Arbiter Rating"), AliasTableModel::RatingAsArbiter, AliasTableModel::ArbiterRatingRole);
-	writer.addColumn(tr("Arbiter Rating Count"), AliasTableModel::RatingAsArbiter, AliasTableModel::ArbiterRatingCountRole);
     if(!writer.write())
     {
         QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),

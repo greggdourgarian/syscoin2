@@ -2754,19 +2754,31 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	oName.push_back(Pair("safetylevel", alias.safetyLevel ));
 	float ratingAsBuyer = 0;
 	if(alias.nRatingCountAsBuyer > 0)
-		ratingAsBuyer = roundf(alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer);
+	{
+		ratingAsBuyer = alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer;
+		ratingAsBuyer = floor(ratingAsBuyer * 10d) / 10d;
+	}
 	float ratingAsSeller = 0;
 	if(alias.nRatingCountAsSeller > 0)
-		ratingAsSeller = roundf(alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller);
+	{
+		ratingAsSeller = alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller;
+		ratingAsSeller = floor(ratingAsSeller * 10d) / 10d;
+	}
 	float ratingAsArbiter = 0;
 	if(alias.nRatingCountAsArbiter > 0)
-		ratingAsArbiter = roundf(alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter);
-	oName.push_back(Pair("buyer_rating", (int)ratingAsBuyer));
+	{
+		ratingAsArbiter = alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter;
+		ratingAsArbiter = floor(ratingAsArbiter * 10d) / 10d;
+	}
+	oName.push_back(Pair("buyer_rating", ratingAsBuyer));
 	oName.push_back(Pair("buyer_ratingcount", (int)alias.nRatingCountAsBuyer));
-	oName.push_back(Pair("seller_rating", (int)ratingAsSeller));
+	oName.push_back(Pair("buyer_rating_display", strprintf("%.1f/5 (%d %s)", ratingAsBuyer, alias.nRatingCountAsBuyer, _("Votes"))));
+	oName.push_back(Pair("seller_rating", ratingAsSeller));
 	oName.push_back(Pair("seller_ratingcount", (int)alias.nRatingCountAsSeller));
-	oName.push_back(Pair("arbiter_rating", (int)ratingAsArbiter));
+	oName.push_back(Pair("seller_rating_display", strprintf("%.1f/5 (%d %s)", ratingAsSeller, alias.nRatingCountAsSeller, _("Votes"))));
+	oName.push_back(Pair("arbiter_rating", ratingAsArbiter));
 	oName.push_back(Pair("arbiter_ratingcount", (int)alias.nRatingCountAsArbiter));
+	oName.push_back(Pair("arbiter_rating_display", strprintf("%.1f/5 (%d %s)", ratingAsArbiter, alias.nRatingCountAsArbiter, _("Votes"))));
     oName.push_back(Pair("lastupdate_height", nHeight));
 	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{

@@ -240,8 +240,7 @@ bool OfferAcceptInfoDialog::lookup()
 				QString buyerStr = QString::fromStdString(find_value(acceptObj.get_obj(), "buyer").get_str());
 				ui->buyerEdit->setText(buyerStr);
 				ui->paymessageEdit->setText(QString::fromStdString(find_value(acceptObj, "pay_message").get_str()));
-				int avgRating = find_value(acceptObj.get_obj(), "avg_rating").get_int();
-				ui->ratingEdit->setText(tr("%1 Stars").arg(QString::number(avgRating)));
+				ui->ratingEdit->setText(QString::fromStdString(find_value(acceptObj, "avg_rating_display").get_str()));
 				const UniValue &buyerFeedback = find_value(acceptObj.get_obj(), "buyer_feedback").get_array();
 				const UniValue &sellerFeedback = find_value(acceptObj.get_obj(), "seller_feedback").get_array();
 				SetFeedbackUI(buyerFeedback, tr("Buyer"), buyerStr, sellerStr);

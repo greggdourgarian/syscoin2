@@ -20,7 +20,7 @@
 #include <QMenu>
 #include "main.h"
 #include "rpc/server.h"
-#include "stardelegate.h"
+
 using namespace std;
 
 
@@ -112,7 +112,7 @@ void EscrowListPage::setModel(WalletModel* walletModel, EscrowTableModel *model)
     ui->tableView->setColumnWidth(7, 80); //total
 	ui->tableView->setColumnWidth(8, 150); //rating
     ui->tableView->setColumnWidth(9, 50); //status
-	ui->tableView->setItemDelegateForColumn(8, new StarDelegate);
+	
 
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -322,7 +322,8 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
 		string offertitle_str;
 		string total_str;	
 		string buyer_str;
-		int unixTime, rating, ratingcount;
+		string rating_str;
+		int unixTime;
 		QDateTime dateTime;
         params.push_back(ui->lineEditEscrowSearch->text().toStdString());
 		params.push_back(GUID);
@@ -372,7 +373,7 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
 				offertitle_str = "";
 				total_str = "";
 				buyer_str = "";
-				rating = ratingcount = 0;
+				rating_str = "";
 				
 				const UniValue& name_value = find_value(o, "escrow");
 				if (name_value.type() == UniValue::VSTR)
@@ -408,12 +409,10 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
 				const UniValue& status_value = find_value(o, "status");
 				if (status_value.type() == UniValue::VSTR)
 					status_str = status_value.get_str();
-				const UniValue& rating_value = find_value(o, "avg_rating");
-				if (rating_value.type() == UniValue::VNUM)
-					rating = rating_value.get_int();
-				const UniValue& ratingcount_value = find_value(o, "avg_rating_count");
-				if (ratingcount_value.type() == UniValue::VNUM)
-					ratingcount = ratingcount_value.get_int();
+				const UniValue& rating_value = find_value(o, "avg_rating_display");
+				if (rating_value.type() == UniValue::VSTR)
+					rating_str = rating_value.get_str();
+
 
 				unixTime = atoi(time_str.c_str());
 				dateTime.setTime_t(unixTime);
@@ -425,7 +424,7 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
 						QString::fromStdString(offer_str),
 						QString::fromStdString(offertitle_str),
 						QString::fromStdString(total_str),
-						rating, ratingcount, 
+						QString::fromStdString(rating_str),
 						QString::fromStdString(status_str),
 						QString::fromStdString(buyer_str));
 					this->model->updateEntry(QString::fromStdString(name_str), unixTime, QString::fromStdString(time_str),
@@ -434,7 +433,7 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
 						QString::fromStdString(offer_str),
 						QString::fromStdString(offertitle_str),
 						QString::fromStdString(total_str),
-						rating, ratingcount, 
+						QString::fromStdString(rating_str),
 						QString::fromStdString(status_str), 
 						QString::fromStdString(buyer_str), AllEscrow, CT_NEW);	
 			  }

@@ -22,7 +22,7 @@
 #include <QMenu>
 #include "main.h"
 #include "rpc/server.h"
-#include "stardelegate.h"
+
 #include <QSettings>
 using namespace std;
 
@@ -261,12 +261,12 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 		string expires_on_str;
 		string expired_str;
 		int expired = 0;
-		int buyer_rating = 0;
-		int buyer_ratingcount = 0;
-		int seller_rating = 0;
-		int seller_ratingcount = 0;
-		int arbiter_rating = 0;
-		int arbiter_ratingcount = 0;
+		string buyer_rating_str = "";
+		
+		string seller_rating_str = "";
+		
+		string arbiter_rating_str = "";
+		
 		int expires_in = 0;
 		int expires_on = 0;  
         params.push_back(ui->lineEditAliasSearch->text().toStdString());
@@ -316,12 +316,12 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 				expires_in_str = "";
 				expires_on_str = "";
 				expired = 0;
-				buyer_rating = 0;
-				buyer_ratingcount = 0;
-				seller_rating = 0;
-				seller_ratingcount = 0;
-				arbiter_rating = 0;
-				arbiter_ratingcount = 0;
+				buyer_rating_str = "";
+				
+				seller_rating_str = "";
+				
+				arbiter_rating_str = "";
+				
 				expires_in = 0;
 				expires_on = 0;
 
@@ -346,24 +346,16 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 				const UniValue& expired_value = find_value(o, "expired");
 				if (expired_value.type() == UniValue::VNUM)
 					expired = expired_value.get_int();
-				const UniValue& buyer_rating_value = find_value(o, "buyer_rating");
-				if (buyer_rating_value.type() == UniValue::VNUM)
-					buyer_rating = buyer_rating_value.get_int();
-				const UniValue& seller_rating_value = find_value(o, "seller_rating");
-				if (seller_rating_value.type() == UniValue::VNUM)
-					seller_rating = seller_rating_value.get_int();
-				const UniValue& arbiter_rating_value = find_value(o, "arbiter_rating");
-				if (arbiter_rating_value.type() == UniValue::VNUM)
-					arbiter_rating = arbiter_rating_value.get_int();
-				const UniValue& buyer_ratingcount_value = find_value(o, "buyer_ratingcount");
-				if (buyer_ratingcount_value.type() == UniValue::VNUM)
-					buyer_ratingcount = buyer_ratingcount_value.get_int();
-				const UniValue& seller_ratingcount_value = find_value(o, "seller_ratingcount");
-				if (seller_ratingcount_value.type() == UniValue::VNUM)
-					seller_ratingcount = seller_ratingcount_value.get_int();
-				const UniValue& arbiter_ratingcount_value = find_value(o, "arbiter_ratingcount");
-				if (arbiter_ratingcount_value.type() == UniValue::VNUM)
-					arbiter_ratingcount = arbiter_ratingcount_value.get_int();
+				const UniValue& buyer_rating_value = find_value(o, "buyer_rating_display");
+				if (buyer_rating_value.type() == UniValue::VSTR)
+					buyer_rating_str = buyer_rating_value.get_str();
+				const UniValue& seller_rating_value = find_value(o, "seller_rating_display");
+				if (seller_rating_value.type() == UniValue::VSTR)
+					seller_rating_str = seller_rating_value.get_str();
+				const UniValue& arbiter_rating_value = find_value(o, "arbiter_rating_display");
+				if (arbiter_rating_value.type() == UniValue::VSTR)
+					arbiter_rating_str = arbiter_rating_value.get_str();
+				
 				if(expired == 1)
 				{
 					expired_str = "Expired";
@@ -391,21 +383,21 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 						QString::fromStdString(expires_in_str),
 						QString::fromStdString(expired_str),
 						settings.value("safesearch", "").toString(),
-						buyer_rating, buyer_ratingcount,
-						seller_rating, seller_ratingcount,
-						arbiter_rating, arbiter_ratingcount
+						QString::fromStdString(buyer_rating),
+						QString::fromStdString(seller_rating),
+						QString::fromStdString(arbiter_rating)
 						);
 					this->model->updateEntry(QString::fromStdString(name_str),
-						QString::fromStdString(name_str),
 						QString::fromStdString(multisig_str),
+						QString::fromStdString(value_str),
 						QString::fromStdString(privvalue_str),
 						QString::fromStdString(expires_on_str),
 						QString::fromStdString(expires_in_str),
 						QString::fromStdString(expired_str), 
 						settings.value("safesearch", "").toString(), 
-						buyer_rating, buyer_ratingcount,
-						seller_rating, seller_ratingcount,
-						arbiter_rating, arbiter_ratingcount,
+						QString::fromStdString(buyer_rating),
+						QString::fromStdString(seller_rating),
+						QString::fromStdString(arbiter_rating),
 						AllAlias, CT_NEW);	
 			  }
 			  pageMap[currentPage] = make_pair(firstAlias, lastAlias);  
