@@ -423,7 +423,7 @@ public:
 };
 void HandleAcceptFeedback(const CFeedback& feedback, COffer& offer, std::vector<COffer> &vtxPos);
 void FindFeedback(const std::vector<CFeedback> &feedback, int &numBuyerRatings, int &numSellerRatings,int &numArbiterRatings, int &feedbackBuyerCount, int &feedbackSellerCount, int &feedbackArbiterCount);
-void GetFeedback(std::vector<CFeedback> &feedback, int &avgRating, const FeedbackUser type, const std::vector<CFeedback>& feedBack);
+void GetFeedback(std::vector<CFeedback> &feedback, float &avgRating, const FeedbackUser type, const std::vector<CFeedback>& feedBack);
 bool GetAcceptByHash(std::vector<COffer> &offerList,  COfferAccept &ca,  COffer &offer);
 bool GetTxOfOfferAccept(const std::vector<unsigned char> &vchOffer, const std::vector<unsigned char> &vchOfferAccept,
 		COffer &theOffer, COfferAccept &theOfferAccept, CTransaction& tx, bool skipExpiresCheck=false);
