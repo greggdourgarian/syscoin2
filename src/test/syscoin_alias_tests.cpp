@@ -369,8 +369,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "On"), false);
 	
-	// renew alias and now its searchable
-	AliasNew("node1", "aliasexpirebuyback", "passwordnew2", "somedata1", "data1");
+	// renew alias (with same password) and now its searchable
+	AliasNew("node1", "aliasexpirebuyback", "passwordnew1", "somedata1", "data1");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "On"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "On"), true);
 
