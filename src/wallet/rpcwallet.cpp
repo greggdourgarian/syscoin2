@@ -430,7 +430,7 @@ void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fS
     CAmount nFeeRequired;
     std::string strError;
     int nChangePosRet = -1;
-    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !syscoinMultiSigTx, wtxAliasIn, nTxOutAlias, wtxLinkAliasIn, nTxOutLinkAlias, true)) {
+    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !syscoinMultiSigTx, wtxAliasIn, nTxOutAlias, true, wtxLinkAliasIn, nTxOutLinkAlias)) {
         if (!fSubtractFeeFromAmount && nValue + nFeeRequired > pwalletMain->GetBalance())
             strError = strprintf("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!", FormatMoney(nFeeRequired));
         throw runtime_error(strError);
