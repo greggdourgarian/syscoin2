@@ -2473,7 +2473,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 		if (vNamesI.find(alias.vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[alias.vchAlias] || vNamesI[alias.vchAlias] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, tx, pending, oName, strPrivateKey))
+		if(BuildAliasJson(alias, pending, oName, strPrivateKey))
 		{
 			vNamesI[alias.vchAlias] = alias.nHeight;
 			vNamesO[alias.vchAlias] = oName;	
@@ -2708,12 +2708,12 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5528 - " + _("Failed to read from alias DB"));
 
 	UniValue oName(UniValue::VOBJ);
-	if(!BuildAliasJson(alias, tx, 0, oName, strPrivateKey))
+	if(!BuildAliasJson(alias, 0, oName, strPrivateKey))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not find this alias"));
 		
 	return oName;
 }
-bool BuildAliasJson(const CAliasIndex& alias, const CTransaction& aliastx, const int pending, UniValue& oName, const string &strPrivKey)
+bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName, const string &strPrivKey)
 {
 	uint64_t nHeight;
 	int expired = 0;
@@ -2866,7 +2866,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 			continue;
 		UniValue oName(UniValue::VOBJ);
 		oName.push_back(Pair("type", opName));
-		if(BuildAliasJson(txPos2, tx, 0, oName))
+		if(BuildAliasJson(txPos2, 0, oName))
 			oRes.push_back(oName);
 	}
 	
@@ -2928,10 +2928,8 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5531 - " + _("Scan failed"));
 
 	BOOST_FOREACH(const CAliasIndex &alias, nameScan) {
-		if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, aliastx, Params().GetConsensus()))
-			continue;
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, aliastx, 0, oName))
+		if(BuildAliasJson(alias, 0, oName))
 			oRes.push_back(oName);
 	}
 
