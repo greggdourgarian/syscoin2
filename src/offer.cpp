@@ -2493,7 +2493,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			vecSend.push_back(aliasRecipientLink);
 	}
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0, wtxLinkAliasIn, outPointLink.n);
+	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0, true, wtxLinkAliasIn, outPointLink.n);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
 	{
