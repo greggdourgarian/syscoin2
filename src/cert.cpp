@@ -19,7 +19,8 @@
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
+extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
+;
 bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchMessage, string &strCipherText)
 {
 	CMessageCrypter crypter;
@@ -201,42 +202,8 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					continue;
 				}
 
-				if(txPos.safetyLevel >= SAFETY_LEVEL1)
-				{
-					if(aliasArray.empty() && safeSearch)
-					{
-						pcursor->Next();
-						continue;
-					}
-					if(txPos.safetyLevel >= SAFETY_LEVEL2)
-					{
-						pcursor->Next();
-						continue;
-					}
-				}
-				if(aliasArray.empty() && !txPos.safeSearch && safeSearch)
-				{
-					pcursor->Next();
-					continue;
-				}
+
 				if(strCategory.size() > 0 && !boost::algorithm::starts_with(stringFromVch(txPos.sCategory), strCategory))
-				{
-					pcursor->Next();
-					continue;
-				}
-				CAliasIndex theAlias;
-				CTransaction aliastx;
-				if(!GetTxOfAlias(txPos.vchAlias, theAlias, aliastx))
-				{
-					pcursor->Next();
-					continue;
-				}
-				if(aliasArray.empty() && !theAlias.safeSearch && safeSearch)
-				{
-					pcursor->Next();
-					continue;
-				}
-				if(aliasArray.empty() && ((safeSearch && theAlias.safetyLevel > txPos.safetyLevel) || (!safeSearch && theAlias.safetyLevel > SAFETY_LEVEL1)))
 				{
 					pcursor->Next();
 					continue;
@@ -249,15 +216,53 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 						continue;
 					}
 				}
-				if(strRegexp != "")
+				else
 				{
-					const string &cert = stringFromVch(vchMyCert);
-					string title = stringFromVch(txPos.vchTitle);
-					boost::algorithm::to_lower(title);
-					if (!regex_search(title, certparts, cregex) && strRegexp != cert && strRegexpLower != stringFromVch(txPos.vchAlias))
+					if(txPos.safetyLevel >= SAFETY_LEVEL1)
+					{
+						if(safeSearch)
+						{
+							pcursor->Next();
+							continue;
+						}
+						if(txPos.safetyLevel >= SAFETY_LEVEL2)
+						{
+							pcursor->Next();
+							continue;
+						}
+					}
+					if(!txPos.safeSearch && safeSearch)
 					{
 						pcursor->Next();
 						continue;
+					}
+					CAliasIndex theAlias;
+					CTransaction aliastx;
+					if(!GetTxOfAlias(txPos.vchAlias, theAlias, aliastx))
+					{
+						pcursor->Next();
+						continue;
+					}
+					if(!theAlias.safeSearch && safeSearch)
+					{
+						pcursor->Next();
+						continue;
+					}
+					if((safeSearch && theAlias.safetyLevel > txPos.safetyLevel) || (!safeSearch && theAlias.safetyLevel > SAFETY_LEVEL1))
+					{
+						pcursor->Next();
+						continue;
+					}
+					if(strRegexp != "")
+					{
+						const string &cert = stringFromVch(vchMyCert);
+						string title = stringFromVch(txPos.vchTitle);
+						boost::algorithm::to_lower(title);
+						if (!regex_search(title, certparts, cregex) && strRegexp != cert && strRegexpLower != stringFromVch(txPos.vchAlias))
+						{
+							pcursor->Next();
+							continue;
+						}
 					}
 				}
 				certScan.push_back(txPos);
@@ -1309,8 +1314,6 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 		if (!paliasdb->ReadAlias(cert.vchAlias, vtxPos) || vtxPos.empty())
 			continue;
 		const CAliasIndex &alias = vtxPos.back();
-		if(cert.vchAlias != alias.vchAlias)
-				continue;
 		UniValue oCert(UniValue::VOBJ);
 		if(BuildCertJson(cert, alias, oCert, strPrivateKey))
 			oRes.push_back(oCert);

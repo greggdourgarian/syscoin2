@@ -17,7 +17,8 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <functional> 
 using namespace std;
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
+extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
+;
 void PutToMessageList(std::vector<CMessage> &messageList, CMessage& index) {
 	int i = messageList.size() - 1;
 	BOOST_REVERSE_FOREACH(CMessage &o, messageList) {

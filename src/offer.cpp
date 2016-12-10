@@ -24,7 +24,8 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL);
+extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
+;
 bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectOffer(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectCertificate(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
@@ -2357,6 +2358,8 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CAliasIndex alias, linkAlias;
 	CTransaction aliastx, linkaliastx;
 	const CWalletTx *wtxAliasIn = NULL;
+	const CWalletTx *wtxLinkAliasIn = NULL;
+	
 
 	// this is a syscoind txn
 	CWalletTx wtx;
@@ -2372,25 +2375,28 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1528 - " + _("Could not find an alias with this name"));
-	
 	if (!GetTxOfAlias(vchAlias, linkAlias, linkaliastx, true))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1529 - " + _("Could not find an alias with this name"));
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1530 - " + _("Could not find an alias with this name"));
 
 	if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1529 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
 	int numResults  = aliasunspent(theOffer.vchAlias, outPoint);	
-	int numResultsLink = 0;
-	if(vchAlias != theOffer.vchAlias)
-	{
-		COutPoint outPointLink;
-		numResultsLink = aliasunspent(vchAlias, outPointLink);	
-	}
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1530 - " + _("This alias is not in your wallet"));
 
+	int numResultsLink = 0;
+	COutPoint outPointLink;
+	if(vchAlias != theOffer.vchAlias)
+	{
+		numResultsLink = aliasunspent(vchAlias, outPointLink);	
+		wtxLinkAliasIn = pwalletMain->GetWalletTx(outPointLink.hash);
+		if (wtxLinkAliasIn == NULL)
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1531 - " + _("This alias is not in your wallet"));
+
+	}
 	CPubKey currentKey(alias.vchPubKey);
 	scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
 
@@ -2465,6 +2471,13 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
 
+
+	CScript scriptData;
+	scriptData << OP_RETURN << data;
+	CRecipient fee;
+	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
+	vecSend.push_back(fee);
+
 	if(vchAlias != theOffer.vchAlias)
 	{
 		CScript scriptPubKeyAliasLink, scriptPubKeyOrigLink;
@@ -2480,17 +2493,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			vecSend.push_back(aliasRecipientLink);
 	}
 
-
-
-	CScript scriptData;
-	scriptData << OP_RETURN << data;
-	CRecipient fee;
-	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
-	vecSend.push_back(fee);
-
-
-
-	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0, wtxLinkAliasIn, outPointLink.n);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
 	{

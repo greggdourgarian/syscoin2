@@ -2174,7 +2174,7 @@ bool CWallet::FundTransaction(CMutableTransaction& tx, CAmount& nFeeRet, bool ov
 }
 // SYSCOIN
 bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wtxNew, CReserveKey& reservekey, CAmount& nFeeRet,
-                                int& nChangePosInOut, std::string& strFailReason, const CCoinControl* coinControl, bool sign, const CWalletTx* wtxInAlias, int nTxOutAlias, bool sysTx)
+                                int& nChangePosInOut, std::string& strFailReason, const CCoinControl* coinControl, bool sign, const CWalletTx* wtxInAlias, int nTxOutAlias, bool sysTx, const CWalletTx* wtxInLinkAlias, int nTxOutLinkAlias)
 {
     CAmount nValue = 0;
 	// SYSCOIN: get output amount of input transactions for syscoin service calls
@@ -2183,6 +2183,14 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 		if (nTxOutAlias < 0)
 		{
 			strFailReason = _("Can't determine type of alias input into syscoin service transaction");
+            return false;
+		}
+	}
+	if(wtxInLinkAlias != NULL)
+	{
+		if (nTxOutLinkAlias < 0)
+		{
+			strFailReason = _("Can't determine type of linked alias input into syscoin service transaction");
             return false;
 		}
 	}
@@ -2324,6 +2332,8 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 				int64_t nWtxinCredit = 0;
 				if(wtxInAlias != NULL)
 					nWtxinCredit += wtxInAlias->vout[nTxOutAlias].nValue;
+				if(wtxInLinkAlias != NULL)
+					nWtxinCredit += wtxInLinkAlias->vout[nTxOutLinkAlias].nValue;
                 // Choose coins to use
                 set<pair<const CWalletTx*,unsigned int> > setCoins;
                 CAmount nValueIn = 0;
@@ -2339,6 +2349,8 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 					setCoins.begin(), setCoins.end());
 				if(wtxInAlias != NULL)
 					vecCoins.insert(vecCoins.begin(), make_pair(wtxInAlias, nTxOutAlias));
+				if(wtxInLinkAlias != NULL)
+					vecCoins.insert(vecCoins.begin(), make_pair(wtxInLinkAlias, nTxOutLinkAlias));
 				// SYSCOIN
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, vecCoins)
                 {
