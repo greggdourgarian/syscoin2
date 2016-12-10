@@ -3235,21 +3235,17 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 
 	UniValue oOffer(UniValue::VOBJ);
 	vector<unsigned char> vchOffer = vchFromValue(params[0]);
-	string offer = stringFromVch(vchOffer);
-	COffer theOffer;
-	vector<COffer> vtxPos, vtxLinkPos;
-    // get transaction pointed to by offer
-	CTransaction tx;
-	if(!GetTxAndVtxOfOffer( vchOffer, theOffer, tx, vtxPos, true))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1559 - " + _("Failed to read offer transaction from disk"));
+	vector<COffer> vtxPos;
+	if (!pofferdb->ReadOffer(vchOffer, vtxPos) || vtxPos.empty())
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1559 - " + _("Failed to read from offer DB"));
 
 	// check that the seller isn't banned level 2
 	CTransaction aliastx;
 	CAliasIndex alias;
-	if(!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
+	if(!GetTxOfAlias(vtxPos.back().vchAlias, alias, aliastx, true))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1560 - " + _("Could not find the alias associated with this offer"));
 
-	if(!BuildOfferJson(theOffer, alias, oOffer))
+	if(!BuildOfferJson(vtxPos.back(), alias, oOffer))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1561 - " + _("Could not find this offer"));
 
 	return oOffer;

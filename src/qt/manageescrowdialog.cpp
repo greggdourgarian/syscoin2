@@ -918,6 +918,8 @@ EscrowRoleType ManageEscrowDialog::findYourEscrowRoleFromAliases(const QString &
 }
 bool ManageEscrowDialog::isYourAlias(const QString &alias)
 {
+	if(alias.size() <= 0)
+		return false;
 	string strMethod = string("aliasinfo");
     UniValue params(UniValue::VARR); 
 	UniValue result ;

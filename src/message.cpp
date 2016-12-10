@@ -636,8 +636,7 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 	if (!pmessagedb->ReadMessage(vchMessage, vtxPos) || vtxPos.empty())
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3506 - " + _("Failed to read from message DB"));
 
-	const CMessage &message = vtxPos.back();
-	if(!BuildMessageJson(message, oMessage))
+	if(!BuildMessageJson(vtxPos.back(), oMessage))
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3507 - " + _("Could not find this message"));
 
     return oMessage;

@@ -1235,10 +1235,6 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 
     vector<unsigned char> vchCert = vchFromValue(params[0]);
 
-    // look for a transaction with this key, also returns
-    // an cert object if it is found
-    CTransaction tx;
-
 	vector<CCert> vtxPos;
 
 	UniValue oCert(UniValue::VOBJ);
@@ -1247,19 +1243,7 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 	if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2519 - " + _("Failed to read from cert DB"));
 
-	CCert cert = vtxPos.back();
-
-	if (!GetSyscoinTransaction(cert.nHeight, cert.txHash, tx, Params().GetConsensus()))
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2520 - " + _("Failed to read transaction from disk"));
-
-
-	CAliasIndex alias;
-	CTransaction aliastx;
-	if (!GetTxOfAlias(cert.vchAlias, alias, aliastx, true))
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2521 - " + _("Failed to read xfer alias from alias DB"));
-
-
-	if(!BuildCertJson(cert, alias, oCert))
+	if(!BuildCertJson(vtxPos.back(), alias, oCert))
 		oCert.clear();
     return oCert;
 }
