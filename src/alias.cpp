@@ -2692,17 +2692,13 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 	string strPrivateKey;
 	if(params.size() >= 2)
 		strPrivateKey = params[1].get_str();
-	CTransaction tx;
-	CAliasIndex alias;
 
-	// check for alias existence in DB
 	vector<CAliasIndex> vtxPos;
-	bool isExpired = false;
-	if (!GetTxAndVtxOfAlias(vchAlias, alias, tx, vtxPos, isExpired, true))
+	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5528 - " + _("Failed to read from alias DB"));
 
 	UniValue oName(UniValue::VOBJ);
-	if(!BuildAliasJson(alias, 0, oName, strPrivateKey))
+	if(!BuildAliasJson(vtxPos.back(), 0, oName, strPrivateKey))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not find this alias"));
 		
 	return oName;

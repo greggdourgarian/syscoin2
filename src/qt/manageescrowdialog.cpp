@@ -939,13 +939,13 @@ bool ManageEscrowDialog::isYourAlias(const QString &alias)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh cert list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not get alias information: %1").arg(QString::fromStdString(strError)),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
 	{
 		QMessageBox::critical(this, windowTitle(),
-			tr("There was an exception trying to refresh the cert list: ") + QString::fromStdString(e.what()),
+			tr("There was an exception trying to get alias information: ") + QString::fromStdString(e.what()),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}   
 	return false;
