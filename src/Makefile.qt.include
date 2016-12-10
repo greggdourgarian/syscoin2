@@ -664,9 +664,6 @@ SYSCOIN_QT_CPP += \
   qt/editcertdialog.cpp \
   qt/mycertlistpage.cpp \
   qt/qcomboboxdelegate.cpp \
-  qt/stardelegate.cpp \
-  qt/stareditor.cpp \
-  qt/starrating.cpp \
   qt/certlistpage.cpp
 endif
 

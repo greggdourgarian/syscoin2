@@ -108,7 +108,7 @@ void AliasListPage::setModel(WalletModel* walletModel, AliasTableModel *model)
 	ui->tableView->setColumnWidth(5, 150); //buyerrating
 	ui->tableView->setColumnWidth(6, 150); //sellerrrating
 	ui->tableView->setColumnWidth(7, 150); //arbiterrating
-	ui->tableView->setItemDelegate(new StarDelegate);
+	
 
 
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
@@ -383,9 +383,9 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 						QString::fromStdString(expires_in_str),
 						QString::fromStdString(expired_str),
 						settings.value("safesearch", "").toString(),
-						QString::fromStdString(buyer_rating),
-						QString::fromStdString(seller_rating),
-						QString::fromStdString(arbiter_rating)
+						QString::fromStdString(buyer_rating_str),
+						QString::fromStdString(seller_rating_str),
+						QString::fromStdString(arbiter_rating_str)
 						);
 					this->model->updateEntry(QString::fromStdString(name_str),
 						QString::fromStdString(multisig_str),
@@ -395,9 +395,9 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 						QString::fromStdString(expires_in_str),
 						QString::fromStdString(expired_str), 
 						settings.value("safesearch", "").toString(), 
-						QString::fromStdString(buyer_rating),
-						QString::fromStdString(seller_rating),
-						QString::fromStdString(arbiter_rating),
+						QString::fromStdString(buyer_rating_str),
+						QString::fromStdString(seller_rating_str),
+						QString::fromStdString(arbiter_rating_str),
 						AllAlias, CT_NEW);	
 			  }
 			  pageMap[currentPage] = make_pair(firstAlias, lastAlias);  
