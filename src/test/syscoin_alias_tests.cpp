@@ -990,6 +990,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: generate a cert using expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 data 1"), runtime_error);
 	// renew alias with new password after expiry
-	AliasNew("node2", "aliasexpirenode2", "passwordnew4", "somedata")
+	AliasNew("node2", "aliasexpirenode2", "passwordnew4", "somedata");
 }
 BOOST_AUTO_TEST_SUITE_END ()
