@@ -2756,19 +2756,19 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	if(alias.nRatingCountAsBuyer > 0)
 	{
 		ratingAsBuyer = alias.nRatingAsBuyer/(float)alias.nRatingCountAsBuyer;
-		ratingAsBuyer = floor(ratingAsBuyer * 10d) / 10d;
+		ratingAsBuyer = floor(ratingAsBuyer * 10) / 10;
 	}
 	float ratingAsSeller = 0;
 	if(alias.nRatingCountAsSeller > 0)
 	{
 		ratingAsSeller = alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller;
-		ratingAsSeller = floor(ratingAsSeller * 10d) / 10d;
+		ratingAsSeller = floor(ratingAsSeller * 10) / 10;
 	}
 	float ratingAsArbiter = 0;
 	if(alias.nRatingCountAsArbiter > 0)
 	{
 		ratingAsArbiter = alias.nRatingAsArbiter/(float)alias.nRatingCountAsArbiter;
-		ratingAsArbiter = floor(ratingAsArbiter * 10d) / 10d;
+		ratingAsArbiter = floor(ratingAsArbiter * 10) / 10;
 	}
 	oName.push_back(Pair("buyer_rating", ratingAsBuyer));
 	oName.push_back(Pair("buyer_ratingcount", (int)alias.nRatingCountAsBuyer));

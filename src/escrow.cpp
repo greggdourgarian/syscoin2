@@ -3694,7 +3694,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(ratingCount == 0)
 		ratingCount = 1;
 	float totalAvgRating = (avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount;
-	totalAvgRating = floor(totalAvgRating * 10d) / 10d;
+	totalAvgRating = floor(totalAvgRating * 10) / 10;
 	oEscrow.push_back(Pair("avg_rating", totalAvgRating));
 	oEscrow.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	return true;

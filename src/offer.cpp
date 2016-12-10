@@ -2862,7 +2862,7 @@ void GetFeedback(vector<CFeedback> &feedBackSorted, float &avgRating, const Feed
 	{
 		nRating /= nRatingCount;
 	}
-	avgRating = floor(nRating * 10d) / 10d;
+	avgRating = floor(nRating * 10) / 10;
 	if(feedBackSorted.size() > 0)
 		sort(feedBackSorted.begin(), feedBackSorted.end(), feedbacksort());
 
@@ -3360,7 +3360,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	if(alias.nRatingCountAsSeller > 0)
 	{
 		rating = alias.nRatingAsSeller/(float)alias.nRatingCountAsSeller;
-		rating = floor(rating * 10d) / 10d;
+		rating = floor(rating * 10) / 10;
 	}
 	oOffer.push_back(Pair("alias_rating",rating));
 	oOffer.push_back(Pair("alias_rating_count",(int)alias.nRatingCountAsSeller));
@@ -3661,7 +3661,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	if(ratingCount == 0)
 		ratingCount = 1;
 	float totalAvgRating = (avgSellerRating+avgBuyerRating)/(float)ratingCount;
-	totalAvgRating = floor(totalAvgRating * 10d) / 10d;
+	totalAvgRating = floor(totalAvgRating * 10) / 10;
 	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
 	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	string strMessage = string("");
