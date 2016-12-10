@@ -382,10 +382,6 @@ QVariant EscrowTableModel::data(const QModelIndex &index, int role) const
     {
         return rec->rating;
     }
-   else if (role == RatingCountRole)
-    {
-        return rec->ratingcount;
-    }
     return QVariant();
 }
 
@@ -541,7 +537,7 @@ void EscrowTableModel::updateEntry(const QString &escrow, const int itime, const
     priv->updateEntry(escrow, itime, time, seller, arbiter, offer, offertitle, total, rating, status, buyer, type, statusi);
 }
 
-QString EscrowTableModel::addRow(const QString &escrow, const int itime, const QString &time, const QString &seller, const QString &arbiter, const QString &offer, const QString &offertitle, const QString &total, const QString &rating,  const int ratingcount, const QString &status,  const QString &buyer)
+QString EscrowTableModel::addRow(const QString &escrow, const int itime, const QString &time, const QString &seller, const QString &arbiter, const QString &offer, const QString &offertitle, const QString &total, const QString &rating,  const QString &status,  const QString &buyer)
 {
     std::string strEscrow = escrow.toStdString();
     editStatus = OK;
