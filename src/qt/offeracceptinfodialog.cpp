@@ -125,9 +125,9 @@ void OfferAcceptInfoDialog::SetFeedbackUI(const UniValue &feedbackObj, const QSt
 		QLabel *ratingLabel = new QLabel(tr("Rating:"));
 		QLabel *ratingText;
 		if(rating > 0)
-			ratingText = new QLabel( QString("<b>%1 %2</b>").arg(QString::number(rating)).arg(tr("Stars"));
+			ratingText = new QLabel( QString("<b>%1 %2</b>").arg(QString::number(rating)).arg(tr("Stars")));
 		else
-			ratingText = new QLabel( QString("<b>%1</b>").arg(tr("No Rating"));
+			ratingText = new QLabel( QString("<b>%1</b>").arg(tr("No Rating")));
 
 		ratingBox->addWidget(ratingLabel);
 		ratingBox->addWidget(ratingText);
