@@ -831,7 +831,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					alias.GetAliasFromList(vtxPos);
 					CPubKey PubKey(alias.vchPubKey);	
 					CSyscoinAddress destaddy(PubKey.GetID());
-					CAliasInex latestAlias = vtxPos.back();
+					CAliasIndex latestAlias = vtxPos.back();
 					CPubKey PubKeyLatest(latestAlias.vchPubKey);
 					CSyscoinAddress destaddylatest(PubKey.GetID());
 					if(destaddylatest.ToString() != prevaddy.ToString())
