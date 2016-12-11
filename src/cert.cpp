@@ -629,8 +629,9 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			if(op == OP_CERT_TRANSFER)
 			{
 				vector<CAliasIndex> vtxAlias;
+				bool isExpired = false;
 				// check to alias
-				if(!GetVtxOfAlias(theCert.vchLinkAlias, alias, vtxAlias))
+				if(!GetVtxOfAlias(theCert.vchLinkAlias, alias, vtxAlias, isExpired))
 				{
 					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2020 - " + _("Cannot find alias you are transferring to. It may be expired");
 					theCert = dbCert;			
@@ -659,7 +660,8 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 		else
 		{
 			vector<CAliasIndex> vtxAlias;
-			if (!GetVtxOfAlias(theCert.vchAlias, alias, vtxAlias))
+			bool isExpired = false;
+			if (!GetVtxOfAlias(theCert.vchAlias, alias, vtxAlias, isExpired))
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2023 - " + _("Cannot find alias for this certificate. It may be expired");
 				return true;

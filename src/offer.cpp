@@ -997,7 +997,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theOffer.vchLinkAlias.clear();
 					// check for valid alias peg
 					vector<CAliasIndex> vtxAlias;
-					if(!GetVtxOfAlias(theOffer.vchAlias, alias, vtxAlias))
+					bool isExpired = false;
+					if(!GetVtxOfAlias(theOffer.vchAlias, alias, vtxAlias, isExpired))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1058 - " + _("Cannot find alias for this offer. It may be expired");
 						theOffer = dbOffer;
@@ -1013,7 +1014,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		else if(op == OP_OFFER_ACTIVATE)
 		{
 			vector<CAliasIndex> vtxAlias;
-			if(!GetVtxOfAlias(vchAlias, dbAlias, vtxAlias))
+			bool isExpired = false;
+			if(!GetVtxOfAlias(vchAlias, dbAlias, vtxAlias, isExpired))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1060 - " + _("Cannot find alias for this offer. It may be expired");
 				return true;
@@ -1262,7 +1264,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return true;
 			}
 			vector<CAliasIndex> vtxAlias;
-			if(!GetVtxOfAlias(myPriceOffer.vchAlias, alias, vtxAlias))
+			bool isExpired = false;
+			if(!GetVtxOfAlias(myPriceOffer.vchAlias, alias, vtxAlias, isExpired))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1086 - " + _("Cannot find alias for this offer. It may be expired");
 				return true;
@@ -1305,7 +1308,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				linkOffer.nHeight = theOfferAccept.nAcceptHeight;
 				linkOffer.GetOfferFromList(offerVtxPos);
 				vector<CAliasIndex> vtxAlias;
-				if(!GetVtxOfAlias(linkOffer.vchAlias, linkAlias, vtxAlias))
+				bool isExpired = false;
+				if(!GetVtxOfAlias(linkOffer.vchAlias, linkAlias, vtxAlias, isExpired))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1092 - " + _("Cannot find alias for this linked offer. It may be expired");
 					return true;

@@ -426,12 +426,13 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 
     if (!fJustCheck ) {
 		vector<CAliasIndex> vtxAlias;
-		if(!GetVtxOfAlias(theMessage.vchAliasTo, alias, vtxAlias))
+		bool isExpired = false;
+		if(!GetVtxOfAlias(theMessage.vchAliasTo, alias, vtxAlias, isExpired))
 		{
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3012 - " + _("Cannot find alias for the recipient of this message. It may be expired");
 			return true;
 		}
-		if(!GetVtxOfAlias(theMessage.vchAliasFrom, alias, vtxAlias))
+		if(!GetVtxOfAlias(theMessage.vchAliasFrom, alias, vtxAlias, isExpired))
 		{
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3013 - " + _("Cannot find alias for the sender of this message. It may be expired");
 			return true;		

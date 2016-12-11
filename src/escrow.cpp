@@ -659,17 +659,18 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			if (!theEscrow.bPaymentAck)
 			{
 				vector<CAliasIndex> vtxAlias;
-				if(!GetVtxOfAlias(theEscrow.vchBuyerAlias, buyerAlias, vtxAlias))
+				bool isExpired = false;
+				if(!GetVtxOfAlias(theEscrow.vchBuyerAlias, buyerAlias, vtxAlias, isExpired))
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4033 - " + _("Cannot find buyer alias. It may be expired");
 					return true;
 				}
-				if(!GetVtxOfAlias(theEscrow.vchArbiterAlias, arbiterAlias, vtxAlias))
+				if(!GetVtxOfAlias(theEscrow.vchArbiterAlias, arbiterAlias, vtxAlias, isExpired))
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4034 - " + _("Cannot find arbiter alias. It may be expired");
 					return true;
 				}
-				if(!GetVtxOfAlias(theEscrow.vchSellerAlias, sellerAlias, vtxAlias))
+				if(!GetVtxOfAlias(theEscrow.vchSellerAlias, sellerAlias, vtxAlias, isExpired))
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4035 - " + _("Cannot find seller alias. It may be expired");
 					return true;
@@ -726,12 +727,13 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				{
 					CAliasIndex alias;
 					vector<CAliasIndex> vtxAlias;
-					if(!GetVtxOfAlias(theEscrow.vchSellerAlias, alias, vtxAlias))
+					bool isExpired = false;
+					if(!GetVtxOfAlias(theEscrow.vchSellerAlias, alias, vtxAlias, isExpired))
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4041 - " + _("Cannot find seller alias. It may be expired");
 						return true;
 					}
-					if(!GetVtxOfAlias(theEscrow.vchArbiterAlias, alias, vtxAlias))
+					if(!GetVtxOfAlias(theEscrow.vchArbiterAlias, alias, vtxAlias, isExpired))
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4042 - " + _("Cannot find arbiter alias. It may be expired");
 						return true;
@@ -817,12 +819,13 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				{
 					CAliasIndex alias;
 					vector<CAliasIndex> vtxAlias;
-					if(!GetVtxOfAlias(theEscrow.vchBuyerAlias, alias, vtxAlias))
+					bool isExpired = false;
+					if(!GetVtxOfAlias(theEscrow.vchBuyerAlias, alias, vtxAlias, isExpired))
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4051 - " + _("Cannot find buyer alias. It may be expired");
 						return true;
 					}
-					if(!GetVtxOfAlias(theEscrow.vchArbiterAlias, alias, vtxAlias))
+					if(!GetVtxOfAlias(theEscrow.vchArbiterAlias, alias, vtxAlias, isExpired))
 					{
 						errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4052 - " + _("Cannot find arbiter alias. It may be expired");
 						return true;
