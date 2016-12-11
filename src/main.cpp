@@ -2920,8 +2920,17 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return error("ConnectBlock(): CheckInputs on %s failed with %s",
                     tx.GetHash().ToString(), FormatStateMessage(state));
 			// SYSCOIN
-			if (!CheckSyscoinInputs(tx, view, pindex->nHeight))
-				return error("ConnectBlock(): CheckSyscoinInputs on %s failed",tx.GetHash().ToString());	
+			if(fJustCheck)
+			{
+				if (!CheckSyscoinInputs(tx, view, pindex->nHeight))
+					return error("ConnectBlock(): CheckSyscoinInputs on %s failed",tx.GetHash().ToString());
+			}
+			else
+			{
+				if (!AddSyscoinServicesToDB(block, view, pindex->nHeight))
+					return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindexNew->GetBlockHash().ToString());
+			}
+
             control.Add(vChecks);
         }
 
@@ -3292,10 +3301,6 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     LogPrint("bench", "  - Load block from disk: %.2fms [%.2fs]\n", (nTime2 - nTime1) * 0.001, nTimeReadFromDisk * 0.000001);
     {
         CCoinsViewCache view(pcoinsTip);
-		// SYSCOIN update syscoin db
-		if (!AddSyscoinServicesToDB(*pblock, view, pindexNew->nHeight))
-			return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindexNew->GetBlockHash().ToString());
-
         bool rv = ConnectBlock(*pblock, state, pindexNew, view, chainparams);
         GetMainSignals().BlockChecked(*pblock, state);
         if (!rv) {
