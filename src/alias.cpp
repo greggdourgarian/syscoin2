@@ -871,7 +871,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(!vtxPos.empty())
 			{
 				CTxDestination aliasDest;
-				if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
+				if (vvchPrevArgs.size() <= 0 || vvchPrevArgs[0] != vvchArgs[0] || !prevCoins || prevOutput->n >= prevCoins->vout.size() || !ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
 				{
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5017 - " + _("Cannot extract destination of alias input");
 					theAlias = dbAlias;
