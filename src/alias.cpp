@@ -266,9 +266,8 @@ string getCurrencyToSYSFromAlias(const vector<unsigned char> &vchAliasPeg, const
 	// check for alias existence in DB
 	vector<CAliasIndex> vtxPos;
 	CAliasIndex tmpAlias;
-	CTransaction aliastx;
 	bool isExpired;
-	if (!GetTxAndVtxOfAlias(vchAliasPeg, tmpAlias, aliastx, vtxPos, isExpired))
+	if (!GetVtxOfAlias(vchAliasPeg, tmpAlias, vtxPos, isExpired))
 	{
 		if(fDebug)
 			LogPrintf("getCurrencyToSYSFromAlias() Could not find %s alias\n", stringFromVch(vchAliasPeg).c_str());
@@ -761,7 +760,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias peg too long");
 			return error(errorMessage.c_str());
 		}
-		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_NAME_LENGTH)
+		if(theAlias.vchPassword.size() > /*MAX_ENCRYPTED_NAME_LENGTH*/MAX_ENCRYPTED_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5008 - " + _("Alias password too long");
 			return error(errorMessage.c_str());
