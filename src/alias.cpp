@@ -1359,6 +1359,7 @@ bool GetVtxOfAlias(const vector<unsigned char> &vchAlias,
 	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 		return false;
 	txPos = vtxPos.back();
+	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
 		if (!skipExpiresCheck && (nHeight + (txPos.nRenewal*GetAliasExpirationDepth())
