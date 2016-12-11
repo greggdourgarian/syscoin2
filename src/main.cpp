@@ -2864,7 +2864,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return error("ConnectBlock(): CheckInputs on %s failed with %s",
                     tx.GetHash().ToString(), FormatStateMessage(state));
 			// SYSCOIN
-			if (!CheckSyscoinInputs(tx, view, pindex->nHeight, fJustCheck, pindex->nHeight))
+			if (!CheckSyscoinInputs(tx, view, fJustCheck, pindex->nHeight))
 				return error("ConnectBlock(): CheckSyscoinInputs on %s failed",tx.GetHash().ToString());
             control.Add(vChecks);
         }
