@@ -946,18 +946,25 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							theAlias.multiSigInfo.SetNull();
 						}
 					}
-					// if transfer (and not changing password which changes key)
-					if(dbAlias.vchPubKey != theAlias.vchPubKey && !pwChange)
+					// if transfer or change pw
+					if(dbAlias.vchPubKey != theAlias.vchPubKey)
 					{
-						theAlias.vchPassword.clear();
+						// if transfer clear pw
+						if(!pwChange)
+							theAlias.vchPassword.clear();
 						CSyscoinAddress myAddress;
 						GetAddress(theAlias, &myAddress);
+						const vector<unsigned char> &vchAddress = vchFromString(myAddress.ToString());
 						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
 						// we want to avoid aliases with duplicate public keys (addresses)
-						if (paliasdb->ExistsAddress(vchFromString(myAddress.ToString())))
+						if (paliasdb->ExistsAddress(vchAddress))
 						{
-							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 - " + _("An alias already exists with that address, try another public key");
-							theAlias = dbAlias;
+							vector<unsigned char> vchMyAlias;
+							if (paliasdb->ReadAddress(vchAddress, vchMyAlias) && !vchMyAlias.empty() && vchMyAlias != dbAlias.vchAlias)
+							{
+								errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5027 - " + _("An alias already exists with that address, try another public key");
+								theAlias = dbAlias;
+							}
 						}					
 					}
 				}
