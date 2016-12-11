@@ -831,8 +831,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					alias.GetAliasFromList(vtxPos);
 					CPubKey PubKey(alias.vchPubKey);	
 					CSyscoinAddress destaddy(PubKey.GetID());
-					if(destaddy.ToString() != prevaddy.ToString())
+					CAliasInex latestAlias = vtxPos.back();
+					CPubKey PubKeyLatest(latestAlias.vchPubKey);
+					CSyscoinAddress destaddylatest(PubKey.GetID());
+					if(destaddylatest.ToString() != prevaddy.ToString())
 					{
+						LogPrintf("prevaddy.ToString() %s vs destaddylatest.ToString() %s vs destaddy.ToString() %s nHeight %d aliasheight %d backHeight %d\n", prevaddy.ToString()
+							,destaddylatest.ToString(), destaddy.ToString(), nHeight, alias.nHeight, latestAlias.nHeight);
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("You are not the owner of this alias");
 						return error(errorMessage.c_str());
 					}
