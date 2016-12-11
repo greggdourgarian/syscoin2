@@ -3292,6 +3292,10 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     LogPrint("bench", "  - Load block from disk: %.2fms [%.2fs]\n", (nTime2 - nTime1) * 0.001, nTimeReadFromDisk * 0.000001);
     {
         CCoinsViewCache view(pcoinsTip);
+		// SYSCOIN update syscoin db
+		if (!AddSyscoinServicesToDB(*pblock, view, pindexNew->nHeight))
+			return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindexNew->GetBlockHash().ToString());
+
         bool rv = ConnectBlock(*pblock, state, pindexNew, view, chainparams);
         GetMainSignals().BlockChecked(*pblock, state);
         if (!rv) {
@@ -3302,10 +3306,6 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
         mapBlockSource.erase(pindexNew->GetBlockHash());
         nTime3 = GetTimeMicros(); nTimeConnectTotal += nTime3 - nTime2;
         LogPrint("bench", "  - Connect total: %.2fms [%.2fs]\n", (nTime3 - nTime2) * 0.001, nTimeConnectTotal * 0.000001);
-
-		// SYSCOIN update syscoin db
-		if (!AddSyscoinServicesToDB(*pblock, view, pindexNew->nHeight))
-			return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindexNew->GetBlockHash().ToString());
 
         assert(view.Flush());
     }
