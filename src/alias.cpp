@@ -647,7 +647,7 @@ void updateBans(const vector<unsigned char> &banData)
 		}
 	}
 }
-bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, const CBlock* block, bool dontaddtodb) {
+bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {
 	if (tx.IsCoinBase())
 		return true;
 	if (fDebug)
@@ -761,7 +761,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias peg too long");
 			return error(errorMessage.c_str());
 		}
-		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_NAME_LENGTH)
+		if(theAlias.vchPassword.size() > /*MAX_ENCRYPTED_NAME_LENGTH*/9000)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5008 - " + _("Alias password too long");
 			return error(errorMessage.c_str());

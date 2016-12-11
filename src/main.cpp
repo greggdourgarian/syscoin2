@@ -1146,111 +1146,55 @@ std::string FormatStateMessage(const CValidationState &state)
         state.GetRejectCode());
 }
 // SYSCOIN
-bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, int nHeight=0)
+bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, bool fJustCheck, int nHeight=0)
 {
 	vector<vector<unsigned char> > vvchArgs;
 	int op;
 	int nOut;	
-	bool fJustCheck = true;
 	if(nHeight == 0)
 		nHeight = chainActive.Height();
 	string errorMessage;
 	if(tx.nVersion == GetSyscoinTxVersion())
 	{
-		if(tx.nVersion == SYSCOIN_TX_VERSION)
+		bool good = true;
+		for(unsigned int j = 0;j<tx.vout.size();j++)
 		{
-			bool good = true;
-			for(unsigned int j = 0;j<tx.vout.size();j++)
-			{
-				if(!good)
-					break;
-				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
-				{
-					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
-				}
-			}
-			if(good)
-			{
-				if(DecodeCertTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
-				}
-				else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
-				}
-				else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
-				}
-				else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
-				{	
-					good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
-				}
-			}
 			if(!good)
+				break;
+			if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
 			{
-				return false;
+				good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
 			}
-			if(fDebug && !errorMessage.empty())
-				LogPrintf("%s\n", errorMessage.c_str());
 		}
+		if(good)
+		{
+			if(DecodeCertTx(tx, op, nOut, vvchArgs))
+			{
+				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
+			}
+			else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
+			{
+				good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+			}
+			else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
+			{
+				good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+			}
+			else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
+			{	
+				good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
+			}
+		}
+		if(!good)
+		{
+			return false;
+		}
+		if(fDebug && !errorMessage.empty())
+			LogPrintf("%s\n", errorMessage.c_str());
+		
 	}
 	return true;	
 	
-}
-bool AddSyscoinServicesToDB(const CBlock& block, const CCoinsViewCache& inputs, int nHeight)
-{
-	vector<vector<unsigned char> > vvchArgs;
-	int op;
-	int nOut;	
-	bool fJustCheck = false;
-	string errorMessage;
-	// first pass check cert/escrow/alias inputs which are dependent to other services, second pass do the rest
-	for (unsigned int i = 0; i < block.vtx.size(); i++)
-    {
-        const CTransaction &tx = block.vtx[i];
-		if(tx.nVersion == GetSyscoinTxVersion())
-		{	
-			bool good = true;
-			// always do alias first as its dependency to others
-			for(unsigned int j = 0;j<tx.vout.size();j++)
-			{
-				if(!good)
-					break;
-				if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
-				{
-					good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);
-				}
-			}
-			if(good)
-			{
-				if(DecodeCertTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);			
-				}
-				else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckEscrowInputs(tx,  op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-				}
-				else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-				}
-				else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
-				{
-					good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage, &block);		
-				}
-			}
-			if(!good)
-			{			
-				return false;		
-			}
-			if(fDebug && !errorMessage.empty())
-				LogPrintf("%s\n", errorMessage.c_str());
-		}
-	}
-	return true;
 }
 bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const CTransaction& tx, bool fLimitFree,
                               bool* pfMissingInputs, bool fOverrideMempoolLimit, const CAmount& nAbsurdFee,
@@ -1659,7 +1603,7 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
                 __func__, hash.ToString(), FormatStateMessage(state));
         }
 		// SYSCOIN
-        if (!CheckSyscoinInputs(tx, view))
+        if (!CheckSyscoinInputs(tx, view, true))
 			return false;
         // Remove conflicting transactions from the mempool
         BOOST_FOREACH(const CTxMemPool::txiter it, allConflicting)
@@ -2920,17 +2864,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 return error("ConnectBlock(): CheckInputs on %s failed with %s",
                     tx.GetHash().ToString(), FormatStateMessage(state));
 			// SYSCOIN
-			if(fJustCheck)
-			{
-				if (!CheckSyscoinInputs(tx, view, pindex->nHeight))
-					return error("ConnectBlock(): CheckSyscoinInputs on %s failed",tx.GetHash().ToString());
-			}
-			else
-			{
-				if (!AddSyscoinServicesToDB(block, view, pindex->nHeight))
-					return error("ConnectBlock(): AddSyscoinServicesToDB on %s failed", pindex->GetBlockHash().ToString());
-			}
-
+			if (!CheckSyscoinInputs(tx, view, pindex->nHeight, fJustCheck, pindex->nHeight))
+				return error("ConnectBlock(): CheckSyscoinInputs on %s failed",tx.GetHash().ToString());
             control.Add(vChecks);
         }
 
