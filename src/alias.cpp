@@ -717,7 +717,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			vector<vector<unsigned char> > vvch;
 			int pop;
 			prevOutput = &tx.vin[i].prevout;
-			if(!prevOutput)
+			if(!prevOutput || IsAliasOp(prevOp))
 				continue;
 			// ensure inputs are unspent when doing consensus check to add to block
 			prevCoins = inputs.AccessCoins(prevOutput->hash);
