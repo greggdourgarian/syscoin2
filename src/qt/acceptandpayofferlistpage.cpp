@@ -489,7 +489,7 @@ void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString&
 	ui->infoCategory->setText(QString::fromStdString(stringFromVch(offer.sCategory)));
 	ui->infoCurrency->setText(QString::fromStdString(stringFromVch(offer.sCurrencyCode)));
 	ui->aliasPegEdit->setText(aliasPeg);
-	ui->sellerRatingEdit->setText(QString("%1 %2").arg(strRating).arg(tr("Stars"));
+	ui->sellerRatingEdit->setText(QString("%1 %2").arg(strRating).arg(tr("Stars")));
 	ui->infoPrice->setText(price);
 	if(offer.nQty == -1)
 		ui->infoQty->setText(tr("unlimited"));
