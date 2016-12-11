@@ -329,6 +329,20 @@ bool GetTxAndVtxOfCert(const vector<unsigned char> &vchCert,
 
     return true;
 }
+bool GetVtxOfCert(const vector<unsigned char> &vchCert,
+        CCert& txPos, vector<CCert> &vtxPos, bool skipExpiresCheck) {
+    if (!pcertdb->ReadCert(vchCert, vtxPos) || vtxPos.empty())
+        return false;
+    txPos = vtxPos.back();
+    int nHeight = txPos.nHeight;
+    if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetCertExpiration(txPos)) {
+        string cert = stringFromVch(vchCert);
+        LogPrintf("GetTxOfCert(%s) : expired", cert.c_str());
+        return false;
+    }
+
+    return true;
+}
 bool DecodeAndParseCertTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch)
 {
@@ -584,10 +598,8 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 		if(op != OP_CERT_ACTIVATE) 
 		{
 			// if not an certnew, load the cert data from the DB
-			CTransaction certTx;
 			CCert dbCert;
-
-			if(!GetTxAndVtxOfCert(vvchArgs[0], dbCert, certTx, vtxPos))	
+			if(!GetVtxOfCert(vvchArgs[0], dbCert, vtxPos))	
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2018 - " + _("Failed to read from certificate DB");
 				return true;
@@ -619,7 +631,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				// check to alias
 				if(!GetTxOfAlias(theCert.vchLinkAlias, alias, aliasTx))
 				{
-					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2020 - " + _("Cannot find alias you are transfering to. It may be expired");
+					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2020 - " + _("Cannot find alias you are transferring to. It may be expired");
 					theCert = dbCert;			
 				}
 				else

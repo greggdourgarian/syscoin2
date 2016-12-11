@@ -389,6 +389,23 @@ bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer,
 
 	return true;
 }
+bool GetVtxOfOffer(const vector<unsigned char> &vchOffer,
+				  COffer& txPos, vector<COffer> &vtxPos, bool skipExpiresCheck) {
+	if (!pofferdb->ReadOffer(vchOffer, vtxPos) || vtxPos.empty())
+		return false;
+
+	txPos = vtxPos.back();
+	int nHeight = txPos.nHeight;
+
+	if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetOfferExpiration(txPos))
+	{
+		string offer = stringFromVch(vchOffer);
+		if(fDebug)
+			LogPrintf("GetTxOfOffer(%s) : expired", offer.c_str());
+		return false;
+	}
+	return true;
+}
 bool GetTxOfOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsigned char> &vchOfferAccept,
 		COffer &acceptOffer,  COfferAccept &theOfferAccept, CTransaction& tx, bool skipExpiresCheck) {
 	vector<COffer> vtxPos;
@@ -846,10 +863,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		if(op != OP_OFFER_ACTIVATE) {
 			// save serialized offer for later use
 			serializedOffer = theOffer;
-			CTransaction offerTx;
 			// load the offer data from the DB
-
-			if(!GetTxAndVtxOfOffer(vvchArgs[0], theOffer, offerTx, vtxPos))
+			if(!GetVtxOfOffer(vvchArgs[0], theOffer, vtxPos))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1048 - " + _("Failed to read from offer DB");
 				return true;

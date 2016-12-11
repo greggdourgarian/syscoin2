@@ -178,6 +178,7 @@ public:
 
 bool GetTxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx);
 bool GetTxAndVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx, std::vector<CEscrow> &vtxPos);
+bool GetVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, std::vector<CEscrow> &vtxPos);
 void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, std::vector<CEscrow> &vtxPos);
 bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const std::string &strPrivKey="");
 int GetEscrowExpiration(const CEscrow& escrow);

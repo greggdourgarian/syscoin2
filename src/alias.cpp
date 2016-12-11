@@ -831,12 +831,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		bool pwChange = false;
 		bool isExpired = false;
 		CAliasIndex dbAlias;
-		CTransaction aliasTx;
 		string strName = stringFromVch(vvchArgs[0]);
 		boost::algorithm::to_lower(strName);
 		vchAlias = vchFromString(strName);
 		// get the alias from the DB
-		if(!GetTxAndVtxOfAlias(vchAlias, dbAlias, aliasTx, vtxPos, isExpired))	
+		if(!GetVtxOfAlias(vchAlias, dbAlias, vtxPos, isExpired))	
 		{
 			if(op == OP_ALIAS_ACTIVATE)
 			{
@@ -1352,6 +1351,24 @@ bool GetTxAndVtxOfAlias(const vector<unsigned char> &vchAlias,
 
 	if (!GetSyscoinTransaction(nHeight, txPos.txHash, tx, Params().GetConsensus()))
 		return error("GetTxOfAlias() : could not read tx from disk");
+	return true;
+}
+bool GetVtxOfAlias(const vector<unsigned char> &vchAlias, 
+						CAliasIndex& txPos, std::vector<CAliasIndex> &vtxPos, bool &isExpired, bool skipExpiresCheck) {
+	isExpired = false;
+	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
+		return false;
+	txPos = vtxPos.back();
+	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
+	{
+		if (!skipExpiresCheck && (nHeight + (txPos.nRenewal*GetAliasExpirationDepth())
+				< chainActive.Tip()->nHeight)) {
+			string name = stringFromVch(vchAlias);
+			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
+			isExpired = true;
+			return false;
+		}
+	}
 	return true;
 }
 bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {

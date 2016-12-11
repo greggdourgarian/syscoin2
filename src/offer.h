@@ -430,6 +430,8 @@ bool GetTxOfOfferAccept(const std::vector<unsigned char> &vchOffer, const std::v
 bool GetTxOfOffer(const std::vector<unsigned char> &vchOffer, COffer& txPos, CTransaction& tx, bool skipExpiresCheck=false);
 bool GetTxAndVtxOfOffer(const std::vector<unsigned char> &vchOffer,
 				  COffer& txPos, CTransaction& tx, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
+bool GetVtxOfOffer(const std::vector<unsigned char> &vchOffer,
+				  COffer& txPos, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
 std::string GetPaymentOptionsString(const uint32_t paymentOptions);
 CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOptions);
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOfferAccept, const std::string &strPrivKey="");

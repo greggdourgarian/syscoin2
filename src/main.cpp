@@ -2928,7 +2928,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 			else
 			{
 				if (!AddSyscoinServicesToDB(block, view, pindex->nHeight))
-					return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindex->GetBlockHash().ToString());
+					return error("ConnectBlock(): AddSyscoinServicesToDB on %s failed", pindex->GetBlockHash().ToString());
 			}
 
             control.Add(vChecks);

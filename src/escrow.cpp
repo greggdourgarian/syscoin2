@@ -279,7 +279,20 @@ bool GetTxAndVtxOfEscrow(const vector<unsigned char> &vchEscrow,
 
     return true;
 }
+bool GetVtxOfEscrow(const vector<unsigned char> &vchEscrow,
+        CEscrow& txPos, vector<CEscrow> &vtxPos) {
 
+    if (!pescrowdb->ReadEscrow(vchEscrow, vtxPos) || vtxPos.empty())
+        return false;
+    txPos = vtxPos.back();
+    int nHeight = txPos.nHeight;
+   if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos)) {
+        string escrow = stringFromVch(vchEscrow);
+        LogPrintf("GetTxOfEscrow(%s) : expired", escrow.c_str());
+        return false;
+    }
+    return true;
+}
 bool DecodeAndParseEscrowTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch)
 {
@@ -668,8 +681,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 		{
 			// save serialized escrow for later use
 			CEscrow serializedEscrow = theEscrow;
-			CTransaction escrowTx;
-			if(!GetTxAndVtxOfEscrow(vvchArgs[0], theEscrow, escrowTx, vtxPos))
+			if(!GetVtxOfEscrow(vvchArgs[0], theEscrow, vtxPos))
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4036 - " + _("Failed to read from escrow DB");
 				return true;
