@@ -3302,6 +3302,11 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
         mapBlockSource.erase(pindexNew->GetBlockHash());
         nTime3 = GetTimeMicros(); nTimeConnectTotal += nTime3 - nTime2;
         LogPrint("bench", "  - Connect total: %.2fms [%.2fs]\n", (nTime3 - nTime2) * 0.001, nTimeConnectTotal * 0.000001);
+
+		// SYSCOIN update syscoin db
+		if (!AddSyscoinServicesToDB(*pblock, view, pindexNew->nHeight))
+			return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindexNew->GetBlockHash().ToString());
+
         assert(view.Flush());
     }
     int64_t nTime4 = GetTimeMicros(); nTimeFlush += nTime4 - nTime3;
@@ -3318,10 +3323,6 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
 
     for(unsigned int i=0; i < pblock->vtx.size(); i++)
         txChanged.emplace_back(pblock->vtx[i], pindexNew, i);
-	// SYSCOIN update syscoin db
-	CCoinsViewCache view(pcoinsTip);
-	if (!AddSyscoinServicesToDB(*pblock, view, pindexNew->nHeight))
-		return error("ConnectTip(): AddSyscoinServicesToDB on %s failed", pindexNew->GetBlockHash().ToString());
     int64_t nTime6 = GetTimeMicros(); nTimePostConnect += nTime6 - nTime5; nTimeTotal += nTime6 - nTime1;
     LogPrint("bench", "  - Connect postprocess: %.2fms [%.2fs]\n", (nTime6 - nTime5) * 0.001, nTimePostConnect * 0.000001);
     LogPrint("bench", "- Connect block: %.2fms [%.2fs]\n", (nTime6 - nTime1) * 0.001, nTimeTotal * 0.000001);

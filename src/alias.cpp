@@ -712,12 +712,15 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 			}					
 		}
+	}
+	if(fJustCheck || op == OP_ALIAS_UPDATE)
+	{
 		// Strict check - bug disallowed
 		for (unsigned int i = 0; i < tx.vin.size(); i++) {
 			vector<vector<unsigned char> > vvch;
 			int pop;
 			prevOutput = &tx.vin[i].prevout;
-			if(!prevOutput || IsAliasOp(prevOp))
+			if(!prevOutput)
 				continue;
 			// ensure inputs are unspent when doing consensus check to add to block
 			prevCoins = inputs.AccessCoins(prevOutput->hash);
@@ -758,7 +761,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias peg too long");
 			return error(errorMessage.c_str());
 		}
-		if(theAlias.vchPassword.size() > 9000)
+		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_NAME_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5008 - " + _("Alias password too long");
 			return error(errorMessage.c_str());
@@ -816,32 +819,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						return error(errorMessage.c_str());
 					}
 				}
-				
-				if (paliasdb->ReadAlias(vvchArgs[0], vtxPos) && !vtxPos.empty())
-				{
-					CTxDestination aliasDest;
-					if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
-					{
-						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5017 - " + _("Cannot extract destination of alias input");
-						return error(errorMessage.c_str());
-					}
-					prevaddy = CSyscoinAddress(aliasDest);
-					CAliasIndex alias;
-					alias.nHeight = nHeight;
-					alias.GetAliasFromList(vtxPos);
-					CPubKey PubKey(alias.vchPubKey);	
-					CSyscoinAddress destaddy(PubKey.GetID());
-					CAliasIndex latestAlias = vtxPos.back();
-					CPubKey PubKeyLatest(latestAlias.vchPubKey);
-					CSyscoinAddress destaddylatest(PubKey.GetID());
-					if(destaddylatest.ToString() != prevaddy.ToString())
-					{
-						LogPrintf("prevaddy.ToString() %s vs destaddylatest.ToString() %s vs destaddy.ToString() %s nHeight %d aliasheight %d backHeight %d\n", prevaddy.ToString()
-							,destaddylatest.ToString(), destaddy.ToString(), nHeight, alias.nHeight, latestAlias.nHeight);
-						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("You are not the owner of this alias");
-						return error(errorMessage.c_str());
-					}
-				}
 				break;
 		default:
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Alias transaction has unknown op");
@@ -894,6 +871,23 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		{
 			if(!vtxPos.empty())
 			{
+				CTxDestination aliasDest;
+				if (!ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
+				{
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5017 - " + _("Cannot extract destination of alias input");
+					theAlias = dbAlias;
+				}
+				else
+				{
+					prevaddy = CSyscoinAddress(aliasDest);
+					CPubKey PubKey(vtxPos.back().vchPubKey);	
+					CSyscoinAddress destaddy(PubKey.GetID());
+					if(destaddy.ToString() != prevaddy.ToString())
+					{
+						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("You are not the owner of this alias");
+						theAlias = dbAlias;
+					}
+				}
 				if(dbAlias.vchGUID != vvchArgs[1])
 				{
 					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5023 - " + _("Cannot edit this alias, guid mismatch");
