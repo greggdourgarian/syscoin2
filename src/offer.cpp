@@ -428,6 +428,24 @@ bool GetTxOfOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsi
 
 	return true;
 }
+bool GetOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsigned char> &vchOfferAccept,
+		COffer &acceptOffer,  COfferAccept &theOfferAccept,  bool skipExpiresCheck) {
+	vector<COffer> vtxPos;
+	if (!pofferdb->ReadOffer(vchOffer, vtxPos) || vtxPos.empty()) return false;
+	theOfferAccept.SetNull();
+	theOfferAccept.vchAcceptRand = vchOfferAccept;
+	if(!GetAcceptByHash(vtxPos, theOfferAccept, acceptOffer))
+		return false;
+
+	if (!skipExpiresCheck && chainActive.Tip()->nHeight >= GetOfferExpiration(acceptOffer))
+	{
+		string offer = stringFromVch(vchOfferAccept);
+		if(fDebug)
+			LogPrintf("GetTxOfOfferAccept(%s) : expired", offer.c_str());
+		return false;
+	}
+	return true;
+}
 bool DecodeAndParseOfferTx(const CTransaction& tx, int& op, int& nOut,
 		vector<vector<unsigned char> >& vvch)
 {
@@ -916,8 +934,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theOffer.safetyLevel = dbOffer.safetyLevel;
 					if(!theOffer.vchCert.empty())
 					{
-						CTransaction txCert;
-						if (!GetTxOfCert( theOffer.vchCert, theCert, txCert))
+						vector<CCert> vtxCert;
+						if (!GetVTxOfCert( theOffer.vchCert, theCert, vtxCert))
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1050 - " + _("Updating an offer with a cert that does not exist");
 							theOffer.vchCert.clear();
@@ -930,8 +948,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 					if(!theOffer.vchLinkOffer.empty())
 					{
-						CTransaction txLinkedOffer;
-						if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, txLinkedOffer, offerVtxPos))
+						if (!GetVtxOfOffer( theOffer.vchLinkOffer, linkOffer, offerVtxPos))
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1052 - " + _("Linked offer not found. It may be expired");
 							theOffer.vchLinkOffer.clear();
@@ -979,7 +996,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theOffer.vchAlias = theOffer.vchLinkAlias;
 					theOffer.vchLinkAlias.clear();
 					// check for valid alias peg
-					if(!GetTxOfAlias(theOffer.vchAlias, alias, aliasTx))
+					vector<CAliasIndex> vtxAlias;
+					if(!GetVTxOfAlias(theOffer.vchAlias, alias, vtxAlias))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1058 - " + _("Cannot find alias for this offer. It may be expired");
 						theOffer = dbOffer;
@@ -994,7 +1012,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		else if(op == OP_OFFER_ACTIVATE)
 		{
-			if(!GetTxOfAlias(theOffer.vchAlias, alias, aliasTx))
+			vector<CAliasIndex> vtxAlias;
+			if(!GetVtxOfAlias(vchAlias, dbAlias, vtxAlias))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1060 - " + _("Cannot find alias for this offer. It may be expired");
 				return true;
@@ -1007,8 +1026,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			// if we are selling a cert ensure it exists and pubkey's match (to ensure it doesnt get transferred prior to accepting by user)
 			if(!theOffer.vchCert.empty())
 			{
-				CTransaction txCert;
-				if (!GetTxOfCert( theOffer.vchCert, theCert, txCert))
+				vector<CCert> vtxCert;
+				if (!GetVTxOfCert( theOffer.vchCert, theCert, vtxCert))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1062 - " + _("Creating an offer with a cert that does not exist");
 					return true;
@@ -1032,8 +1051,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			// if this is a linked offer activate, then add alias to the whitelist
 			if(!theOffer.vchLinkOffer.empty())
 			{
-				CTransaction txLinkedOffer;
-				if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, txLinkedOffer, offerVtxPos))
+				if (!GetVtxOfOffer( theOffer.vchLinkOffer, linkOffer, offerVtxPos))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1064 - " + _("Linked offer not found. It may be expired");
 					return true;
@@ -1113,14 +1131,14 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 			if(theOfferAccept.bPaymentAck)
 			{
-				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
+				if (!GetOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1073 - " + _("Could not find offer accept from mempool or disk");
 					return true;
 				}
 				if(!acceptOffer.vchLinkOffer.empty())
 				{
-					if(!GetTxAndVtxOfOffer( acceptOffer.vchLinkOffer, linkOffer, linkedTx, offerVtxPos))
+					if(!GetVTxOfOffer( acceptOffer.vchLinkOffer, linkOffer, offerVtxPos))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1074 - " + _("Could not get linked offer");
 						return true;
@@ -1168,7 +1186,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 			else if(!theOfferAccept.feedback.empty())
 			{
-				if (!GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
+				if (!GetOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1079 - " + _("Could not find offer accept from mempool or disk");
 					return true;
@@ -1227,7 +1245,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return true;
 
 			}
-			if (GetTxOfOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept, acceptTx))
+			if (GetOfferAccept(vvchArgs[0], vvchArgs[1], acceptOffer, offerAccept))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1085 - " + _("Offer payment already exists");
 				return true;
@@ -1243,7 +1261,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1087 - " + _("Cannot purchase this private offer, must purchase through an affiliate");
 				return true;
 			}
-			if(!GetTxOfAlias(myPriceOffer.vchAlias, alias, aliasTx))
+			vector<CAliasIndex> vtxAlias;
+			if(!GetVTxOfAlias(myPriceOffer.vchAlias, alias, vtxAlias))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1086 - " + _("Cannot find alias for this offer. It may be expired");
 				return true;
@@ -1251,8 +1270,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			// trying to purchase a cert
 			if(!myPriceOffer.vchCert.empty())
 			{
-				CTransaction txCert;
-				if (!GetTxOfCert( myPriceOffer.vchCert, theCert, txCert))
+				vector<CCert> vtxCert;
+				if (!GetVTxOfCert( myPriceOffer.vchCert, theCert, vtxCert))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1087 - " + _("Cannot sell an expired certificate");
 					return true;
@@ -1278,14 +1297,15 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 			if(!myPriceOffer.vchLinkOffer.empty())
 			{
-				if(!GetTxAndVtxOfOffer( myPriceOffer.vchLinkOffer, linkOffer, linkedTx, offerVtxPos))
+				if(!GetVTxOfOffer( myPriceOffer.vchLinkOffer, linkOffer, offerVtxPos))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1091 - " + _("Could not get linked offer");
 					return true;
 				}
 				linkOffer.nHeight = theOfferAccept.nAcceptHeight;
 				linkOffer.GetOfferFromList(offerVtxPos);
-				if(!GetTxOfAlias(linkOffer.vchAlias, linkAlias, aliasLinkTx))
+				vector<CAliasIndex> vtxAlias;
+				if(!GetVTxOfAlias(linkOffer.vchAlias, linkAlias, vtxAlias))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1092 - " + _("Cannot find alias for this linked offer. It may be expired");
 					return true;
