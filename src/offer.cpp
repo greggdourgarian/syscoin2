@@ -1015,7 +1015,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		{
 			vector<CAliasIndex> vtxAlias;
 			bool isExpired = false;
-			if(!GetVtxOfAlias(vchAlias, dbAlias, vtxAlias, isExpired))
+			CAliasIndex dbAlias;
+			if(!GetVtxOfAlias(theOffer.vchAlias, dbAlias, vtxAlias, isExpired))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1060 - " + _("Cannot find alias for this offer. It may be expired");
 				return true;
