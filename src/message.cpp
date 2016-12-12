@@ -499,7 +499,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     if(!IsMyAlias(aliasFrom)) {
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3501 - " + _("This alias is not yours"));
     }
-	CScript scriptPubKeyAliasOrig, scriptPubKeyOrig;
+	CScript scriptPubKeyAliasOrig, scriptPubKeyAlias, scriptPubKeyOrig;
 	CSyscoinAddress fromAddr;
 	GetAddress(aliasFrom, &fromAddr, scriptPubKeyAliasOrig);
 	COutPoint outPoint;
