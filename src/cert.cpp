@@ -508,7 +508,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate private data too big");
 			return error(errorMessage.c_str());
 		}
-		if(theCert.vchPubData.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+		if(theCert.vchPubData.size() > MAX_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate public data too big");
 			return error(errorMessage.c_str());
