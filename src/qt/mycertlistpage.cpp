@@ -170,10 +170,10 @@ void MyCertListPage::setModel(WalletModel *walletModel, CertTableModel *model)
 
     // Set column widths
     ui->tableView->setColumnWidth(0, 75); //cert
-    ui->tableView->setColumnWidth(1, 300); //title
-    ui->tableView->setColumnWidth(2, 300); //data
-	ui->tableView->setColumnWidth(3, 75); //category
-    ui->tableView->setColumnWidth(4, 75); //private
+    ui->tableView->setColumnWidth(1, 100); //title
+    ui->tableView->setColumnWidth(2, 100); //data
+	ui->tableView->setColumnWidth(3, 200); //pubdata
+	ui->tableView->setColumnWidth(4, 75); //category
     ui->tableView->setColumnWidth(5, 75); //expires on
     ui->tableView->setColumnWidth(6, 75); //expires in
     ui->tableView->setColumnWidth(7, 100); //cert state
@@ -224,7 +224,7 @@ void MyCertListPage::on_editButton_clicked()
     EditCertDialog dlg(EditCertDialog::EditCert);
     dlg.setModel(walletModel, model);
     QModelIndex origIndex = proxyModel->mapToSource(indexes.at(0));
-    dlg.loadRow(origIndex.row(), indexes.at(0).data(CertTableModel::PrivateRole).toString());
+    dlg.loadRow(origIndex.row());
     dlg.exec();
 }
 
@@ -331,13 +331,13 @@ void MyCertListPage::on_exportButton_clicked()
     writer.setModel(proxyModel);
     writer.addColumn(tr("Cert"), CertTableModel::Name, Qt::EditRole);
     writer.addColumn(tr("Title"), CertTableModel::Title, Qt::EditRole);
-	writer.addColumn(tr("Data"), CertTableModel::Data, Qt::EditRole);
+	writer.addColumn(tr("Private Data"), CertTableModel::Data, Qt::EditRole);
+	writer.addColumn(tr("Public Data"), CertTableModel::PubData, Qt::EditRole);
 	writer.addColumn(tr("Category"), CertTableModel::Category, Qt::EditRole);
-	writer.addColumn(tr("Private"), CertTableModel::Data, Qt::EditRole);
 	writer.addColumn(tr("Expires On"), CertTableModel::ExpiresOn, Qt::EditRole);
 	writer.addColumn(tr("Expires In"), CertTableModel::ExpiresIn, Qt::EditRole);
-	writer.addColumn(tr("Expired"), CertTableModel::Expired, Qt::EditRole);
-	writer.addColumn(tr("Alias"), CertTableModel::Alias, Qt::EditRole);
+	writer.addColumn(tr("Status"), CertTableModel::Expired, Qt::EditRole);
+	writer.addColumn(tr("Owner"), CertTableModel::Alias, Qt::EditRole);
     if(!writer.write())
     {
         QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),

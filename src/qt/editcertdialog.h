@@ -30,7 +30,7 @@ public:
     ~EditCertDialog();
 
     void setModel(WalletModel*,CertTableModel *model);
-    void loadRow(int row, const QString &privatecert="");
+    void loadRow(int row);
     void addParentItem(QStandardItemModel * model, const QString& text, const QVariant& data );
     void addChildItem( QStandardItemModel * model, const QString& text, const QVariant& data );
 	void setCertNotSafeBecauseOfAlias(const QString &alias);

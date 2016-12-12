@@ -488,7 +488,7 @@ bool EscrowFilter(const string& node, const string& regex)
 	const UniValue &arr = r.get_array();
 	return !arr.empty();
 }
-const string CertNew(const string& node, const string& alias, const string& title, const string& data, bool privateData, const string& safesearch)
+const string CertNew(const string& node, const string& alias, const string& title, const string& data, const string& pubdata, const string& safesearch)
 {
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -504,7 +504,7 @@ const string CertNew(const string& node, const string& alias, const string& titl
 	}
 	string privateFlag = privateData? "1":"0";
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + title + " " + data + " " + privateFlag + " " + safesearch));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + title + " " + data + " " + pubdata + " " + safesearch));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
 	GenerateBlocks(10, node);
@@ -512,40 +512,25 @@ const string CertNew(const string& node, const string& alias, const string& titl
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
 	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "true");
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-	if(privateData)
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "Yes");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	}
-	else
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "No");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
-	}
+	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "false");
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-	if(privateData)
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "Yes");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	}
-	else
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "No");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
-	}
+	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "false");
 	return guid;
 }
-void CertUpdate(const string& node, const string& guid, const string& alias, const string& title, const string& data, bool privateData, string safesearch)
+void CertUpdate(const string& node, const string& guid, const string& alias, const string& title, const string& data, const string& pubdata, string safesearch)
 {
 	string otherNode1 = "node2";
 	string otherNode2 = "node3";
@@ -561,44 +546,29 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 	}
 	UniValue r;
 	string privateFlag = privateData? "1":" 0";
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + data + " " + privateFlag + " " + safesearch));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + data + " " + pubdata + " " + safesearch));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
 	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "true");
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	if(privateData)
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "Yes");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	}
-	else
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "No");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
-	}
+	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "false");
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	if(privateData)
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "Yes");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	}
-	else
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "private").get_str() == "No");
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
-	}
+	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "false");
 }
 void CertTransfer(const string& node, const string& guid, const string& toalias)
@@ -606,19 +576,14 @@ void CertTransfer(const string& node, const string& guid, const string& toalias)
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	string data = find_value(r.get_obj(), "data").get_str();
+	string pubdata = find_value(r.get_obj(), "pubdata").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certtransfer " + guid + " " + toalias));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
-	bool privateData = find_value(r.get_obj(), "private").get_str() == "Yes";
-	if(privateData)
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	}
-	else
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
-	}
+	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "false");
 }

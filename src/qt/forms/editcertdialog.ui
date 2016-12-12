@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>457</width>
-    <height>474</height>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,6 +76,20 @@
      <item row="5" column="1">
       <layout class="QVBoxLayout" name="verticalLayout_3"/>
      </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Category:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QComboBox" name="categoryEdit">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="7" column="0">
       <widget class="QLabel" name="transferLabel">
        <property name="text">
@@ -99,42 +113,66 @@
        </property>
       </widget>
      </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="viewOnlyLabel">
+       <property name="text">
+        <string>View-Only After Transfer:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QComboBox" name="viewOnlyBox">
+       <item>
+        <property name="text">
+         <string>No</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Yes</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLabel" name="viewOnlyDisclaimer">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="viewLabel">
+       <property name="text">
+        <string>View Alias:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QLineEdit" name="viewAliasEdit"/>
+     </item>
+     <item row="12" column="1">
+      <widget class="QLabel" name="viewAliasDisclaimer">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item row="13" column="0">
       <widget class="QLabel" name="certDataLabel">
        <property name="text">
-        <string>Data:</string>
+        <string>Private Data:</string>
        </property>
       </widget>
      </item>
      <item row="13" column="1">
       <widget class="QTextEdit" name="certDataEdit"/>
      </item>
-     <item row="14" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout_5"/>
-     </item>
-     <item row="15" column="0">
-      <widget class="QLabel" name="privateLabel">
-       <property name="text">
-        <string>Private:</string>
-       </property>
-      </widget>
-     </item>
      <item row="15" column="1">
-      <widget class="QComboBox" name="privateBox">
-       <property name="maxVisibleItems">
-        <number>2</number>
-       </property>
-       <item>
-        <property name="text">
-         <string>Yes</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>No</string>
-        </property>
-       </item>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_5"/>
      </item>
      <item row="16" column="0">
       <widget class="QLabel" name="labelSafeSearch">
@@ -171,65 +209,13 @@
        </item>
       </layout>
      </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_3">
+     <item row="14" column="1">
+      <widget class="QTextEdit" name="certPubDataEdit"/>
+     </item>
+     <item row="14" column="0">
+      <widget class="QLabel" name="certPubDataLabel">
        <property name="text">
-        <string>Category:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QComboBox" name="categoryEdit">
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="viewLabel">
-       <property name="text">
-        <string>View Alias:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1">
-      <widget class="QLineEdit" name="viewAliasEdit"/>
-     </item>
-     <item row="12" column="1">
-      <widget class="QLabel" name="viewAliasDisclaimer">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="viewOnlyLabel">
-       <property name="text">
-        <string>View-Only After Transfer:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QComboBox" name="viewOnlyBox">
-       <item>
-        <property name="text">
-         <string>No</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Yes</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QLabel" name="viewOnlyDisclaimer">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
+        <string>Public Data:</string>
        </property>
       </widget>
      </item>

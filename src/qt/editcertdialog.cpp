@@ -29,15 +29,13 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 	ui->certDataEdit->setEnabled(true);
 	ui->certDataLabel->setVisible(true);
 	ui->certDataEdit->setStyleSheet("color: rgb(0, 0, 0); background-color: rgb(255, 255, 255)");
-	ui->privateLabel->setVisible(true);
-	ui->privateBox->setVisible(true);
 	ui->transferLabel->setVisible(false);
 	ui->transferEdit->setVisible(false);
 	ui->transferDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient of this certificate</font>"));
     ui->transferDisclaimer->setVisible(false);
 	ui->viewAliasEdit->setVisible(true);
 	ui->viewAliasDisclaimer->setVisible(true);
-	ui->viewAliasDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient that you wish to allow reading your certificate data (only useful if certificate is private)</font>"));
+	ui->viewAliasDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient that you wish to allow reading your certificate private data</font>"));
 	ui->viewOnlyDisclaimer->setText(tr("<font color='blue'>Select Yes if you do not want this certificate to be editable/transferable by the recipient</font>"));
 	ui->viewOnlyBox->setVisible(false);
 	ui->viewOnlyLabel->setVisible(false);
@@ -71,8 +69,6 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 		ui->certDataEdit->setVisible(false);
 		ui->certDataEdit->setEnabled(false);
 		ui->certDataLabel->setVisible(false);
-		ui->privateLabel->setVisible(false);
-		ui->privateBox->setVisible(false);
 		ui->transferLabel->setVisible(true);
 		ui->transferEdit->setVisible(true);
 		ui->transferDisclaimer->setVisible(true);
@@ -345,11 +341,12 @@ void EditCertDialog::setModel(WalletModel* walletModel, CertTableModel *model)
 	mapper->addMapping(ui->certEdit, CertTableModel::Name);
     mapper->addMapping(ui->nameEdit, CertTableModel::Title);
 	mapper->addMapping(ui->certDataEdit, CertTableModel::Data);
+	mapper->addMapping(ui->certPubDataEdit, CertTableModel::PubData);
 	mapper->addMapping(ui->categoryEdit, CertTableModel::Category);
     
 }
 
-void EditCertDialog::loadRow(int row, const QString &privatecert)
+void EditCertDialog::loadRow(int row)
 {
     mapper->setCurrentIndex(row);
 	const QModelIndex tmpIndex;
@@ -386,10 +383,6 @@ void EditCertDialog::loadRow(int row, const QString &privatecert)
 			}
 		}
 	}
-	if(privatecert == tr("Yes"))
-		ui->privateBox->setCurrentIndex(0);
-	else
-		ui->privateBox->setCurrentIndex(1);
 
 	loadCert();
 
@@ -431,7 +424,7 @@ bool EditCertDialog::saveCurrentRow()
 		params.push_back(ui->aliasEdit->currentText().toStdString());
 		params.push_back(ui->nameEdit->text().toStdString());
 		params.push_back(ui->certDataEdit->toPlainText().toStdString());
-		params.push_back(ui->privateBox->currentText() == QString("Yes")? "1": "0");
+		params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		if(ui->categoryEdit->currentIndex() >= 0)
 			params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
@@ -488,7 +481,7 @@ bool EditCertDialog::saveCurrentRow()
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->nameEdit->text().toStdString());
 			params.push_back(ui->certDataEdit->toPlainText().toStdString());
-			params.push_back(ui->privateBox->currentText() == QString("Yes")? "1": "0");
+			params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 			params.push_back(ui->safeSearchEdit->currentText().toStdString());
 			if(ui->categoryEdit->currentIndex() >= 0)
 				params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());

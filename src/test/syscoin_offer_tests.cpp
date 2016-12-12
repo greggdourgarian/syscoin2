@@ -62,9 +62,9 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	AliasNew("node1", "node1aliasa", "password", "node1aliasdata");
 	AliasNew("node2", "node2alias", "password", "node2aliasdata");
 
-	string certguid1  = CertNew("node1", "node1alias", "title", "data");
-	string certguid1a  = CertNew("node1", "node1aliasa", "title", "data");
-	string certguid2  = CertNew("node2", "node2alias", "title", "data");
+	string certguid1  = CertNew("node1", "node1alias", "title", "data", "pub");
+	string certguid1a  = CertNew("node1", "node1aliasa", "title", "data", "pub");
+	string certguid2  = CertNew("node2", "node2alias", "title", "data", "pub");
 
 	// generate a good cert offer
 	string offerguidnoncert = OfferNew("node1", "node1alias", "category", "title", "10", "0.05", "description", "USD");
@@ -434,7 +434,7 @@ BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 	AliasNew("node2", "node2alias", "password2", "node2aliasdata");
 	AliasNew("node3", "node3alias", "password3", "node2aliasdata");
 
-	string certguid  = CertNew("node1", "node1alias", "title", "data");
+	string certguid  = CertNew("node1", "node1alias", "title", "data", "pubdata");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certguid));
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_str() == "true");	
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == "node1alias");
@@ -580,8 +580,8 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	AliasNew("node1", "node1alias2", "password", "node1aliasdata");
 	AliasNew("node2", "node2alias2", "password", "node2aliasdata");
 
-	string certguid  = CertNew("node1", "node1alias2", "title", "data");
-	string certguid1  = CertNew("node1", "node1alias2a", "title", "data");
+	string certguid  = CertNew("node1", "node1alias2", "title", "data", "pubdata");
+	string certguid1  = CertNew("node1", "node1alias2a", "title", "data", "pubdata");
 
 	// this leaves 50 blocks remaining before cert expires
 	GenerateBlocks(40);

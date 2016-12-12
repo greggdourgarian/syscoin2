@@ -606,6 +606,8 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			}
 			if(theCert.vchData.empty())
 				theCert.vchData = dbCert.vchData;
+			if(theCert.vchPubData.empty())
+				theCert.vchPubData = dbCert.vchPubData;
 			if(theCert.vchViewAlias.empty())
 				theCert.vchViewData.clear();	
 			else if(theCert.vchViewData.empty())
@@ -703,13 +705,13 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 
 
 UniValue certnew(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() < 3 || params.size() > 7)
+    if (fHelp || params.size() < 4 || params.size() > 7)
         throw runtime_error(
-		"certnew <alias> <title> <data> [private=0] [safe search=Yes] [category=certificates] [viewalias='']\n"
+		"certnew <alias> <title> <private> <public> [safe search=Yes] [category=certificates] [viewalias='']\n"
 						"<alias> An alias you own.\n"
                         "<title> title, 256 characters max.\n"
-                        "<data> data, 1024 characters max.\n"
-						"<private> set to 1 if you only want to make the cert data private, only the owner of the cert can view it. Off by default.\n"
+						"<private> private data, 1024 characters max.\n"
+                        "<public> public data, 1024 characters max.\n"
  						"<safe search> set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).\n"                     
 						"<category> category, 25 characters max. Defaults to certificates\n"
 						"<viewalias> Allow this alias to view certificate private data.\n"
@@ -717,6 +719,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchTitle = vchFromString(params[1].get_str());
     vector<unsigned char> vchData = vchFromString(params[2].get_str());
+	vector<unsigned char> vchPubData = vchFromString(params[3].get_str());
 	vector<unsigned char> vchCat = vchFromString("certificates");
 	// check for alias existence in DB
 	CTransaction aliastx, viewaliastx;
@@ -744,12 +747,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 
 	if(!GetTxOfAlias(vchViewAlias, viewAlias, viewaliastx, true))
 		vchViewAlias.clear();
-	bool bPrivate = false;
 
-	if(params.size() >= 4)
-	{
-		bPrivate = boost::lexical_cast<int>(params[3].get_str()) == 1? true: false;
-	}
 	string strSafeSearch = "Yes";
 	if(params.size() >= 5)
 	{
@@ -773,7 +771,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 
     
 
-	if(bPrivate)
+	if(!vchData.empty())
 	{
 		string strCipherText;
 		if(!EncryptMessage(theAlias.vchPubKey, vchData, strCipherText))
@@ -800,6 +798,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	newCert.sCategory = vchCat;
     newCert.vchTitle = vchTitle;
 	newCert.vchData = vchData;
+	newCert.vchPubData = vchPubData;
 	if(!viewAlias.IsNull())
 	{
 		newCert.vchViewAlias = vchViewAlias;
@@ -807,7 +806,6 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	}
 	newCert.nHeight = chainActive.Tip()->nHeight;
 	newCert.vchAlias = vchAlias;
-	newCert.bPrivate = bPrivate;
 	newCert.safetyLevel = 0;
 	newCert.safeSearch = strSafeSearch == "Yes"? true: false;
 
@@ -882,13 +880,14 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 UniValue certupdate(const UniValue& params, bool fHelp) {
     if (fHelp || params.size() < 5 || params.size() > 8)
         throw runtime_error(
-		"certupdate <guid> <alias> <title> <data> <private> [safesearch=Yes] [category=certificates] [viewalias='']\n"
+		"certupdate <guid> <alias> <title> <private> <public> [safesearch=Yes] [category=certificates] [viewalias='']\n"
                         "Perform an update on an certificate you control.\n"
                         "<guid> certificate guidkey.\n"
 						"<alias> an alias you own to associate with this certificate.\n"
                         "<title> certificate title, 256 characters max.\n"
-                        "<data> certificate data, 1024 characters max.\n"
-						"<private> set to 1 if you only want to make the cert data private, only the owner of the cert can view it.\n"
+                        "<private> private certificate data, 1024 characters max.\n"
+						"<public> public certificate data, 1024 characters max.\n"
+						"<safe search> set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).\n"                     
 						"<category> category, 256 characters max. Defaults to certificates\n"
 						"<viewalias> Allow this alias to view certificate private data.\n"
                         + HelpRequiringPassphrase());
@@ -897,6 +896,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchAlias = vchFromValue(params[1]);
     vector<unsigned char> vchTitle = vchFromValue(params[2]);
     vector<unsigned char> vchData = vchFromValue(params[3]);
+	vector<unsigned char> vchPubData = vchFromValue(params[4]);
 	vector<unsigned char> vchCat = vchFromString("certificates");
 	vector<unsigned char> vchViewData;
 	vector<unsigned char> vchViewAlias;
@@ -904,7 +904,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		vchViewAlias = vchFromValue(params[7]);
 	if(params.size() >= 7)
 		vchCat = vchFromValue(params[6]);
-	bool bPrivate = boost::lexical_cast<int>(params[4].get_str()) == 1? true: false;
+
 	string strSafeSearch = "Yes";
 	if(params.size() >= 6)
 	{
@@ -952,7 +952,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
     // create CERTUPDATE txn keys
     CScript scriptPubKey;
 	// if we want to make data private, encrypt it
-	if(bPrivate)
+	if(!vchData.empty())
 	{
 		vector<unsigned char> vchPubKeyPrivate = theAlias.vchPubKey;
 		if(!vchAlias.empty())
@@ -991,7 +991,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 			}
 		}
 		// decrypt old alias data if private
-		if(!copyCert.vchData.empty() && copyCert.vchAlias == vchAlias && copyCert.bPrivate)
+		if(!copyCert.vchData.empty() && copyCert.vchAlias == vchAlias)
 		{
 			string strDecryptedText = "";
 			if(!DecryptMessage(theAlias.vchPubKey, copyCert.vchData, strDecryptedText))
@@ -1015,6 +1015,8 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		theCert.vchTitle = vchTitle;
 	if(copyCert.vchData != vchData)
 		theCert.vchData = vchData;
+	if(copyCert.vchPubData != vchPubData)
+		theCert.vchPubData = vchPubData;
 	if(copyCert.vchViewData != vchViewData)
 		theCert.vchViewData = vchViewData;
 	theCert.vchViewAlias = vchViewAlias;
@@ -1024,7 +1026,6 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	if(!vchAlias.empty() && vchAlias != theAlias.vchAlias)
 		theCert.vchLinkAlias = vchAlias;
 	theCert.nHeight = chainActive.Tip()->nHeight;
-	theCert.bPrivate = bPrivate;
 	theCert.safeSearch = strSafeSearch == "Yes"? true: false;
 
 	vector<unsigned char> data;
@@ -1135,8 +1136,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2516 - " + _("This alias is not in your wallet"));
 
 	// if cert is private, decrypt the data
-	vector<unsigned char> vchData = theCert.vchData;
-	if(theCert.bPrivate)
+	if(!theCert.vchData.empty())
 	{		
 		string strData = "";
 		string strDecryptedData = "";
@@ -1165,12 +1165,10 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	theCert.nHeight = chainActive.Tip()->nHeight;
 	theCert.vchAlias = fromAlias.vchAlias;
 	theCert.vchLinkAlias = toAlias.vchAlias;
-	theCert.bPrivate = copyCert.bPrivate;
 	theCert.safeSearch = copyCert.safeSearch;
 	theCert.safetyLevel = copyCert.safetyLevel;
 	theCert.bTransferViewOnly = bViewOnly;
-	if(copyCert.vchData != vchData)
-		theCert.vchData = vchData;
+	theCert.vchData = vchData;
 
 	vector<unsigned char> data;
 	theCert.Serialize(data);
@@ -1329,7 +1327,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
     oCert.push_back(Pair("title", stringFromVch(cert.vchTitle)));
 	string strData = stringFromVch(cert.vchData);
 	string strDecrypted = "";
-	if(cert.bPrivate)
+	if(!cert.vchData.empty())
 	{
 		strData = _("Encrypted for owner of certificate private data");
 		if(!cert.vchViewData.empty() && !cert.vchViewAlias.empty())	
@@ -1348,8 +1346,8 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 		}
 	}
     oCert.push_back(Pair("data", strData));
+	oCert.push_back(Pair("pubdata", stringFromVch(cert.vchPubData)));
 	oCert.push_back(Pair("category", stringFromVch(cert.sCategory)));
-	oCert.push_back(Pair("private", cert.bPrivate? "Yes": "No"));
 	oCert.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
 	unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
 	oCert.push_back(Pair("safetylevel", safetyLevel));
@@ -1506,10 +1504,9 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 	entry.push_back(Pair("title", titleValue));
 
 	string strDataValue = "";
-	if(cert.bPrivate)
+	if(cert.vchData.empty())
 	{
-		if(!cert.vchData.empty())
-			strDataValue = _("Encrypted for owner of certificate private data");
+		strDataValue = _("Encrypted for owner of certificate private data");
 		string strDecrypted = "";
 		if(DecryptMessage(dbAlias.vchPubKey, cert.vchData, strDecrypted))
 			strDataValue = strDecrypted;		
@@ -1520,6 +1517,11 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 
 	entry.push_back(Pair("data", dataValue));
 
+	string dataPubValue = noDifferentStr;
+	if(!cert.vchPubData.empty() && cert.vchPubData != dbCert.vchPubData)
+		dataPubValue = stringFromVch(cert.vchPubData);
+
+	entry.push_back(Pair("pubdata", dataPubValue));
 
 	string aliasValue = noDifferentStr;
 	if(!cert.vchLinkAlias.empty() && cert.vchLinkAlias != dbCert.vchAlias)
@@ -1565,11 +1567,6 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 
 	entry.push_back(Pair("safetylevel", safetyLevelValue));
 
-	string privateValue = noDifferentStr;
-	if(cert.bPrivate != dbCert.bPrivate)
-		privateValue = cert.bPrivate? "Yes": "No";
-
-	entry.push_back(Pair("private", privateValue ));
 
 
 }

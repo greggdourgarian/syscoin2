@@ -144,10 +144,10 @@ void CertListPage::setModel(WalletModel* walletModel, CertTableModel *model)
 	ui->tableView->setSortingEnabled(false);
     // Set column widths
     ui->tableView->setColumnWidth(0, 75); //cert
-    ui->tableView->setColumnWidth(1, 300); //title
-    ui->tableView->setColumnWidth(2, 300); //data
-	ui->tableView->setColumnWidth(3, 75); //category
-    ui->tableView->setColumnWidth(4, 75); //private
+    ui->tableView->setColumnWidth(1, 100); //title
+    ui->tableView->setColumnWidth(2, 100); //data
+	ui->tableView->setColumnWidth(3, 200); //pubdata
+	ui->tableView->setColumnWidth(4, 75); //category
     ui->tableView->setColumnWidth(5, 75); //expires on
     ui->tableView->setColumnWidth(6, 75); //expires in
     ui->tableView->setColumnWidth(7, 100); //cert state
@@ -278,12 +278,12 @@ void CertListPage::on_searchCert_clicked(string GUID)
 	string name_str;
 	string value_str;
 	string data_str;
+	string pubdata_str;
 	string category_str;
 	string expires_in_str;
 	string expires_on_str;
 	string alias_str;
 	string expired_str;
-	string private_str;
 	int expired = 0;
 	int expires_in = 0;
 	int expires_on = 0; 
@@ -335,11 +335,11 @@ void CertListPage::on_searchCert_clicked(string GUID)
 			name_str = "";
 			value_str = "";
 			data_str = "";
+			pubdata_str = "";
 			category_str = "";
 			expires_in_str = "";
 			expires_on_str = "";
 			alias_str = "";
-			private_str = "";
 			expired = 0;
 			expires_in = 0;
 			expires_on = 0;
@@ -356,12 +356,12 @@ void CertListPage::on_searchCert_clicked(string GUID)
 			const UniValue& data_value = find_value(o, "data");
 			if (data_value.type() == UniValue::VSTR)
 				data_str = data_value.get_str();
+			const UniValue& pubdata_value = find_value(o, "pubdata");
+			if (pubdata_value.type() == UniValue::VSTR)
+				pubdata_str = pubdata_value.get_str();
 			const UniValue& category_value = find_value(o, "category");
 			if (category_value.type() == UniValue::VSTR)
 				category_str = category_value.get_str();
-			const UniValue& private_value = find_value(o, "private");
-			if (private_value.type() == UniValue::VSTR)
-				private_str = private_value.get_str();
 			const UniValue& alias_value = find_value(o, "alias");
 			if (alias_value.type() == UniValue::VSTR)
 				alias_str = alias_value.get_str();
@@ -380,21 +380,21 @@ void CertListPage::on_searchCert_clicked(string GUID)
 					QString::fromStdString(name_str),
 					QString::fromStdString(value_str),
 					QString::fromStdString(data_str),
+					QString::fromStdString(pubdata_str),
 					QString::fromStdString(category_str),
 					QString::fromStdString(expires_on_str),
 					QString::fromStdString(expires_in_str),
 					QString::fromStdString(expired_str),
-					QString::fromStdString(private_str),
 					QString::fromStdString(alias_str),
 					settings.value("safesearch", "").toString());
 		   this->model->updateEntry(QString::fromStdString(name_str),
 					QString::fromStdString(value_str),
 					QString::fromStdString(data_str),
+					QString::fromStdString(pubdata_str),
 					QString::fromStdString(category_str),
 					QString::fromStdString(expires_on_str),
 					QString::fromStdString(expires_in_str),
 					QString::fromStdString(expired_str), 
-					QString::fromStdString(private_str), 
 					QString::fromStdString(alias_str), 
 					settings.value("safesearch", "").toString(), AllCert, CT_NEW);	
 		  }

@@ -14,19 +14,14 @@ BOOST_AUTO_TEST_CASE (generate_big_certdata)
 	string gooddata = "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";
 	// 1025 bytes long
 	string baddata =  "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
-	string guid = CertNew("node1", "jagcertbig1", "jag", gooddata);
-	// unencrypted we are allowed up to 1108 bytes
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + baddata + " 0"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
+	string guid = CertNew("node1", "jagcertbig1", "jag", gooddata, gooddata);
+	// unencrypted 1025 bytes should cause us to trip 1108 bytes once encrypted
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + baddata + " " + gooddata), runtime_error);
+	// update cert with long pub data
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + gooddata + " " + baddata));
 	MilliSleep(2500);
-	// but unencrypted 1024 bytes should cause us to trip 1108 bytes once encrypted
-	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + baddata + " 1"), runtime_error);
-	// update cert with long data, public (good) vs private (bad)
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + baddata + " 0"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	// trying to update the public cert to a private one with 1024 bytes should fail aswell
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + baddata + " 1"), runtime_error);
+	// trying to update to bad data for pub and priv
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + baddata + " " + baddata), runtime_error);
 
 }
 BOOST_AUTO_TEST_CASE (generate_big_certtitle)
@@ -41,7 +36,7 @@ BOOST_AUTO_TEST_CASE (generate_big_certtitle)
 	// 257 bytes long
 	string badtitle =   "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
 	CertNew("node1", "jagcertbig2", goodtitle, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig2 " + badtitle + " 3d"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig2 " + badtitle + " priv pub"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_certupdate)
 {
@@ -49,7 +44,7 @@ BOOST_AUTO_TEST_CASE (generate_certupdate)
 	AliasNew("node1", "jagcertupdate", "password", "data");
 	string guid = CertNew("node1", "jagcertupdate", "password", "title", "data");
 	// update an cert that isn't yours
-	BOOST_CHECK_THROW(CallRPC("node2", "certupdate " + guid + " jagcertupdate title data 0"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "certupdate " + guid + " jagcertupdate title data pubdata"), runtime_error);
 	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata");
 	// shouldnt update data, just uses prev data because it hasnt changed
 	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata");
@@ -66,9 +61,9 @@ BOOST_AUTO_TEST_CASE (generate_certtransfer)
 	string guid, pvtguid, certtitle, certdata;
 	certtitle = "certtitle";
 	certdata = "certdata";
-	guid = CertNew("node1", "jagcert1", certtitle, certdata);
+	guid = CertNew("node1", "jagcert1", certtitle, certdata, "pubdata");
 	// private cert
-	pvtguid = CertNew("node1", "jagcert1", certtitle, certdata);
+	pvtguid = CertNew("node1", "jagcert1", certtitle, certdata, "pubdata");
 	CertUpdate("node1", pvtguid, "jagcert1", certtitle, certdata, true);
 	UniValue r;
 	CertTransfer("node1", guid, "jagcert2");
@@ -101,9 +96,9 @@ BOOST_AUTO_TEST_CASE (generate_certsafesearch)
 	GenerateBlocks(1);
 	AliasNew("node1", "jagsafesearch1", "password", "changeddata1");
 	// cert is safe to search
-	string certguidsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", false, "Yes");
+	string certguidsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", "public", "Yes");
 	// not safe to search
-	string certguidnotsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", false, "No");
+	string certguidnotsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", "public", "No");
 	// should include result in both safe search mode on and off
 	BOOST_CHECK_EQUAL(CertFilter("node1", certguidsafe, "On"), true);
 	BOOST_CHECK_EQUAL(CertFilter("node1", certguidsafe, "Off"), true);
@@ -140,9 +135,9 @@ BOOST_AUTO_TEST_CASE (generate_certban)
 	UniValue r;
 	GenerateBlocks(1);
 	// cert is safe to search
-	string certguidsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", false, "Yes");
+	string certguidsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", "pub", "Yes");
 	// not safe to search
-	string certguidnotsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", false, "No");
+	string certguidnotsafe = CertNew("node1", "jagsafesearch1", "certtitle", "certdata", "pub", "No");
 	// can't ban on any other node than one that created sysban
 	BOOST_CHECK_THROW(CertBan("node2",certguidnotsafe,SAFETY_LEVEL1), runtime_error);
 	BOOST_CHECK_THROW(CertBan("node3",certguidsafe,SAFETY_LEVEL1), runtime_error);
@@ -195,7 +190,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	AliasNew("node1", "jagprune1", "password", "changeddata1");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data 0"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
@@ -227,7 +222,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	// create a new service
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data 0"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
 	const UniValue &arr1 = r.get_array();
 	string guid1 = arr1[1].get_str();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 70"));
@@ -239,7 +234,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	// give some time to propogate the new blocks across other 2 nodes
 	MilliSleep(2500);
 	// ensure you can still update before expiry
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata 0"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata pubdata1"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	// you can search it still on node1/node2
@@ -253,7 +248,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	// ensure service is still active since its supposed to expire at 100 blocks of non updated services
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata 0"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata pubdata2"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
@@ -266,7 +261,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 25"));
 	MilliSleep(2500);
 	// now it should be expired
-	BOOST_CHECK_THROW(CallRPC("node2",  "certupdate " + guid1 + " jagprune1 newdata1 privdata1 0"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2",  "certupdate " + guid1 + " jagprune1 newdata1 privdata1 pubdata3"), runtime_error);
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), false);
