@@ -2658,10 +2658,9 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	COutPoint outPoint;
 	int numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);	
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
-	CPubKey currentKey(buyerAlias.vchPubKey);
-	scriptPubKeyAliasOrig = GetScriptForDestination(currentKey.GetID());
-	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyAliasOrig = CScript(buyerAlias.multiSigInfo.vchRedeemScript.begin(), buyerAlias.multiSigInfo.vchRedeemScript.end());
+	CSyscoinAddress buyerAddress;
+	GetAddress(buyerAlias, &buyerAddress);
+	scriptPubKeyAliasOrig = GetScriptForDestination(buyerAddress.Get());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAlias.vchAlias  << buyerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyAliasOrig;
 
@@ -2713,17 +2712,13 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
 
     CScript scriptPayment, scriptPubKeyCommission, scriptPubKeyOrig, scriptPubLinkKeyOrig, scriptPaymentCommission;
-	currentKey = CPubKey(theAlias.vchPubKey);
-	CSyscoinAddress currentAddress(currentKey.GetID());
+	CSyscoinAddress currentAddress;
+	GetAddress(theAlias, &currentAddress);
 	scriptPubKeyOrig = 	 GetScriptForDestination(currentAddress.Get());
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
 
-	CPubKey currentLinkKey(theLinkedAlias.vchPubKey);
-	CSyscoinAddress linkAddress(currentLinkKey.GetID());
+	CSyscoinAddress linkAddress;
+	GetAddress(theLinkedAlias, &linkAddress);
 	scriptPubLinkKeyOrig = GetScriptForDestination(linkAddress.Get());
-	if(theLinkedAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubLinkKeyOrig = CScript(theLinkedAlias.multiSigInfo.vchRedeemScript.begin(), theLinkedAlias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAccept << CScript::EncodeOP_N(OP_OFFER_ACCEPT) << vchOffer << vchAccept << vchFromString("0") << vchHashOffer << OP_2DROP << OP_2DROP << OP_DROP;
 	if(!copyOffer.vchLinkOffer.empty())
 	{

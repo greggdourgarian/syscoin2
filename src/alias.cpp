@@ -1980,7 +1980,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	int nRenewal = 1;
 	CWalletTx wtx;
 	CAliasIndex updateAlias;
-	CScript scriptPubKeyOrig;
 
 	string strSafeSearch = "Yes";
 	if(params.size() >= 5)
@@ -2029,8 +2028,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (wtxIn == NULL)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5516 - " + _("This alias is not in your wallet"));
 
-	CPubKey pubKey(theAlias.vchPubKey);	
-	CSyscoinAddress oldAddress(pubKey.GetID());
+	CSyscoinAddress oldAddress;
+	GetAddress(theAlias, &oldAddress);
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
@@ -2116,14 +2115,10 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 			pubkeys.push_back(pubkey);
 			multiSigInfo.vchAliases.push_back(aliasNames[i].get_str());
 		}	
-		scriptPubKeyOrig = GetScriptForMultisig(nMultiSig, pubkeys);
-		std::vector<unsigned char> vchRedeemScript(scriptPubKeyOrig.begin(), scriptPubKeyOrig.end());
+		CScript script = GetScriptForMultisig(nMultiSig, pubkeys);
+		std::vector<unsigned char> vchRedeemScript(script.begin(), script.end());
 		multiSigInfo.vchRedeemScript = vchRedeemScript;
 	}		
-	else
-		scriptPubKeyOrig = GetScriptForDestination(pubKey.GetID());
-
-	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
 	theAlias.nHeight = chainActive.Tip()->nHeight;
 	if(copyAlias.vchPublicValue != vchPublicValue)
 		theAlias.vchPublicValue = vchPublicValue;
@@ -2139,14 +2134,15 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	
-
-	
+	CSyscoinAddress newAddress;
+	GetAddress(theAlias, &newAddress);
 	vector<unsigned char> data;
 	theAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 
-	CScript scriptPubKey;
+	CScript scriptPubKey, scriptPubKeyOrig;
+	scriptPubKeyOrig = GetScriptForDestination(newAddress.Get());
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << copyAlias.vchAlias << copyAlias.vchGUID << vchHashAlias << OP_2DROP << OP_2DROP;
 	scriptPubKey += scriptPubKeyOrig;
 
