@@ -666,7 +666,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	vector<unsigned char> vchData;
 	vector<unsigned char> vchAlias;
 	vector<unsigned char> vchHash;
-	CSyscoinAddress prevaddy;
 	int nDataOut;
 	if(op != OP_ALIAS_PAYMENT)
 	{
@@ -877,9 +876,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				else
 				{
-					prevaddy = CSyscoinAddress(aliasDest);
-					CPubKey PubKey(vtxPos.back().vchPubKey);	
-					CSyscoinAddress destaddy(PubKey.GetID());
+					const CAliasIndex& destAlias = vtxPos.back();
+					CSyscoinAddress prevaddy(aliasDest);	
+					CSyscoinAddress destaddy;
+					GetAddress(destAlias, &destaddy);
 					if(destaddy.ToString() != prevaddy.ToString())
 					{
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("You are not the owner of this alias");
