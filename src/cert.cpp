@@ -505,7 +505,12 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 		}
 		if(theCert.vchData.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 		{
-			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate data too big");
+			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate private data too big");
+			return error(errorMessage.c_str());
+		}
+		if(theCert.vchPubData.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+		{
+			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate public data too big");
 			return error(errorMessage.c_str());
 		}
 		if(!theCert.vchCert.empty() && theCert.vchCert != vvchArgs[0])
