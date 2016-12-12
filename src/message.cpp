@@ -393,30 +393,30 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 		}
 		if(!IsValidAliasName(theMessage.vchAliasFrom))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Alias name does not follow the domain name specification");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3009 - " + _("Alias name does not follow the domain name specification");
 			return error(errorMessage.c_str());
 		}
 		if(!IsValidAliasName(theMessage.vchAliasTo))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 5004 - " + _("Alias name does not follow the domain name specification");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3010 - " + _("Alias name does not follow the domain name specification");
 			return error(errorMessage.c_str());
 		}
 		if(op == OP_MESSAGE_ACTIVATE)
 		{
 			if(!IsAliasOp(prevAliasOp) || vvchPrevAliasArgs.empty() || theMessage.vchAliasFrom != vvchPrevAliasArgs[0])
 			{
-				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3009 - " + _("Alias not provided as input");
+				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3011 - " + _("Alias not provided as input");
 				return error(errorMessage.c_str());
 			}
 			if (theMessage.vchMessage != vvchArgs[0])
 			{
-				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3010 - " + _("Message guid mismatch");
+				errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3012 - " + _("Message guid mismatch");
 				return error(errorMessage.c_str());
 			}
 
 		}
 		else{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3011 - " + _("Message transaction has unknown op");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3013 - " + _("Message transaction has unknown op");
 			return error(errorMessage.c_str());
 		}
 	}
@@ -429,18 +429,18 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 		bool isExpired = false;
 		if(!GetVtxOfAlias(theMessage.vchAliasTo, alias, vtxAlias, isExpired))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3012 - " + _("Cannot find alias for the recipient of this message. It may be expired");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3014 - " + _("Cannot find alias for the recipient of this message. It may be expired");
 			return true;
 		}
 		if(!GetVtxOfAlias(theMessage.vchAliasFrom, alias, vtxAlias, isExpired))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3013 - " + _("Cannot find alias for the sender of this message. It may be expired");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3015 - " + _("Cannot find alias for the sender of this message. It may be expired");
 			return true;		
 		}
 
 		vector<CMessage> vtxPos;
 		if (pmessagedb->ExistsMessage(vvchArgs[0])) {
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3014 - " + _("This message already exists");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3016 - " + _("This message already exists");
 			return true;
 		}      
         // set the message's txn-dependent values
@@ -453,7 +453,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 
 		if(!dontaddtodb && !pmessagedb->WriteMessage(vvchArgs[0], vtxPos))
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3015 - " + _("Failed to write to message DB");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3017 - " + _("Failed to write to message DB");
             return error(errorMessage.c_str());
 		}
 	

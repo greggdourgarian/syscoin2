@@ -819,7 +819,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				break;
 		default:
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Alias transaction has unknown op");
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5017 - " + _("Alias transaction has unknown op");
 				return error(errorMessage.c_str());
 		}
 
@@ -839,13 +839,13 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			{
 				if(!isExpired && !vtxPos.empty())
 				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5020 - " + _("Trying to renew an alias that isn't expired");
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("Trying to renew an alias that isn't expired");
 					return true;
 				}
 			}
 			else if(op == OP_ALIAS_UPDATE)
 			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5021 - " + _("Failed to read from alias DB");
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Failed to read from alias DB");
 				return true;
 			}
 			else if(op == OP_ALIAS_PAYMENT && vtxPos.empty())
@@ -859,7 +859,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			
 			if (fee > tx.vout[nDataOut].nValue) 
 			{
-				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5022 - " + _("Transaction does not pay enough fees");
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5020 - " + _("Transaction does not pay enough fees");
 				return true;
 			}
 		}
@@ -871,7 +871,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				CTxDestination aliasDest;
 				if (vvchPrevArgs.size() <= 0 || vvchPrevArgs[0] != vvchArgs[0] || !prevCoins || prevOutput->n >= prevCoins->vout.size() || !ExtractDestination(prevCoins->vout[prevOutput->n].scriptPubKey, aliasDest))
 				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5017 - " + _("Cannot extract destination of alias input");
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5021 - " + _("Cannot extract destination of alias input");
 					theAlias = dbAlias;
 				}
 				else
@@ -882,7 +882,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					GetAddress(destAlias, &destaddy);
 					if(destaddy.ToString() != prevaddy.ToString())
 					{
-						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5018 - " + _("You are not the owner of this alias");
+						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5022 - " + _("You are not the owner of this alias");
 						theAlias = dbAlias;
 					}
 				}
@@ -2081,7 +2081,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		// encrypt using new key
 		if(!EncryptMessage(vchPubKeyByte, vchPrivateValue, strCipherText))
 		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Could not encrypt alias private data"));
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not encrypt alias private data"));
 		}
 		// decrypt old private value
 		if(!copyAlias.vchPrivateValue.empty() && !transferAlias)
@@ -2089,7 +2089,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 			string strDecryptedText = "";
 			if(!DecryptMessage(copyAlias.vchPubKey, copyAlias.vchPrivateValue, strDecryptedText))
 			{
-				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 2511 - " + _("Could not decrypt alias private data"));
+				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Could not decrypt alias private data"));
 			}
 			if(vchPrivateValue == vchFromString(strDecryptedText))
 				vchPrivateValue = copyAlias.vchPrivateValue;
