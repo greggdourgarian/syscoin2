@@ -3190,7 +3190,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 
 	CAliasIndex arbiterAliasLatest, buyerAliasLatest, sellerAliasLatest, resellerAliasLatest;
 	CTransaction arbiteraliastx, selleraliastx, reselleraliastx, buyeraliastx;
-	CScript buyerScript, sellerScript, arbiterScript. resellerScript;
+	CScript buyerScript, sellerScript, arbiterScript, resellerScript;
 	GetTxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, true);
 	CSyscoinAddress arbiterAddress;
 	GetAddress(arbiterAliasLatest, &arbiterAddress, arbiterScript);
