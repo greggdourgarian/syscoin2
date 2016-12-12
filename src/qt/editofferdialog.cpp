@@ -110,13 +110,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 		if(index >= 0)
 			ui->categoryEdit->setCurrentIndex(index);
 
-		if(ui->certEdit->currentIndex() <= 0)
-		{
-			QMessageBox::warning(this, windowTitle(),
-				tr("Warning: You cannot sell certificate: <b>%1</b> because it is not found in the system. It may have expired!").arg(strCert),
-				QMessageBox::Ok, QMessageBox::Ok);
-		}
-
         break;
 	}
 	aliasChanged(ui->aliasEdit->currentText());
