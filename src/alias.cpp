@@ -1147,6 +1147,21 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_
 		address[0] = CSyscoinAddress(innerID, myAddressType);
 	}
 }
+void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& script,const uint32_t nPaymentOption)
+{
+	if(!address)
+		return;
+	CPubKey aliasPubKey(alias.vchPubKey);
+	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
+	address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
+	script = GetScriptForDestination(address[0].Get());
+	if(alias.multiSigInfo.vchAliases.size() > 0)
+	{
+		script = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
+		CScriptID innerID(script);
+		address[0] = CSyscoinAddress(innerID, myAddressType);
+	}
+}
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
     try {
         CDataStream dsAlias(vchData, SER_NETWORK, PROTOCOL_VERSION);
@@ -2132,14 +2147,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	
 	CSyscoinAddress newAddress;
-	GetAddress(theAlias, &newAddress);
+	CScript scriptPubKeyOrig;
+	GetAddress(theAlias, &newAddress, scriptPubKeyOrig);
 	vector<unsigned char> data;
 	theAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 
-	CScript scriptPubKey, scriptPubKeyOrig;
-	scriptPubKeyOrig = GetScriptForDestination(newAddress.Get());
+	CScript scriptPubKey;
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << copyAlias.vchAlias << copyAlias.vchGUID << vchHashAlias << OP_2DROP << OP_2DROP;
 	scriptPubKey += scriptPubKeyOrig;
 

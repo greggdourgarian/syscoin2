@@ -766,8 +766,8 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
     CScript scriptPubKeyOrig;
 	CSyscoinAddress aliasAddress;
-	GetAddress(theAlias, &aliasAddress);
-	scriptPubKeyOrig = GetScriptForDestination(aliasAddress.Get());
+	GetAddress(theAlias, &aliasAddress, scriptPubKeyOrig);
+
 
     CScript scriptPubKey,scriptPubKeyAlias;
 
@@ -947,8 +947,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	CCert copyCert = theCert;
 	theCert.ClearCert();
 	CSyscoinAddress aliasAddress;
-	GetAddress(theAlias, &aliasAddress);
-	scriptPubKeyOrig = GetScriptForDestination(aliasAddress.Get());
+	GetAddress(theAlias, &aliasAddress, scriptPubKeyOrig);
 
     // create CERTUPDATE txn keys
     CScript scriptPubKey;
@@ -1110,9 +1109,6 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, toAlias, tx, true))
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2512 - " + _("Failed to read transfer alias from DB"));
 
-	CSyscoinAddress sendAddr;
-	GetAddress(toAlias, &sendAddr);
-
     // this is a syscoin txn
     CWalletTx wtx;
     CScript scriptPubKeyOrig, scriptPubKeyFromOrig;
@@ -1136,10 +1132,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	int numResults  = aliasunspent(theCert.vchAlias, outPoint);
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2516 - " + _("This alias is not in your wallet"));
-
-	CSyscoinAddress fromAddr;
-	GetAddress(fromAlias, &fromAddr);
+		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2516 - " + _("This alias is not in your wallet"))
 
 	// if cert is private, decrypt the data
 	vector<unsigned char> vchData = theCert.vchData;
@@ -1161,10 +1154,13 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 		}
 		vchData = vchFromString(strCipherText);
 	}	
+	CSyscoinAddress sendAddr;
+	GetAddress(toAlias, &sendAddr, scriptPubKeyOrig);
+	CSyscoinAddress fromAddr;
+	GetAddress(fromAlias, &fromAddr, scriptPubKeyFromOrig);
+
 	CCert copyCert = theCert;
 	theCert.ClearCert();
-    scriptPubKeyOrig= GetScriptForDestination(sendAddr.Get());
-	scriptPubKeyFromOrig= GetScriptForDestination(fromAddr.Get());
     CScript scriptPubKey;
 	theCert.nHeight = chainActive.Tip()->nHeight;
 	theCert.vchAlias = fromAlias.vchAlias;

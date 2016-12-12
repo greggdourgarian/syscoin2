@@ -386,5 +386,6 @@ void CleanupSyscoinServiceDatabases();
 int aliasunspent(const std::vector<unsigned char> &vchAlias, COutPoint& outpoint);
 bool IsMyAlias(const CAliasIndex& alias);
 void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, const uint32_t nPaymentOption=1);
+void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, CScript& script, const uint32_t nPaymentOption=1);
 void GetPrivateKeysFromScript(const CScript& script, std::vector<std::string> &strKeys);
 #endif // ALIAS_H
