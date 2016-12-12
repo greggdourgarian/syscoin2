@@ -502,7 +502,6 @@ const string CertNew(const string& node, const string& alias, const string& titl
 		otherNode1 = "node1";
 		otherNode2 = "node2";
 	}
-	string privateFlag = privateData? "1":"0";
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + title + " " + data + " " + pubdata + " " + safesearch));
 	const UniValue &arr = r.get_array();
@@ -545,7 +544,6 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 		otherNode2 = "node2";
 	}
 	UniValue r;
-	string privateFlag = privateData? "1":" 0";
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + data + " " + pubdata + " " + safesearch));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
