@@ -760,7 +760,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias peg too long");
 			return error(errorMessage.c_str());
 		}
-		if(theAlias.vchPassword.size() > /*MAX_ENCRYPTED_NAME_LENGTH*/MAX_ENCRYPTED_VALUE_LENGTH)
+		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5008 - " + _("Alias password too long");
 			return error(errorMessage.c_str());
@@ -2657,8 +2657,8 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	bool isExpired = false;
 	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired, true))
 		return 0;
-	CPubKey PubKey(theAlias.vchPubKey);	
-	CSyscoinAddress destaddy(PubKey.GetID());
+	CSyscoinAddress destaddy
+	GetAddress(theAlias, destaddy);
 	CTxDestination aliasDest;
 	CSyscoinAddress prevaddy;
 	int numResults = 0;
