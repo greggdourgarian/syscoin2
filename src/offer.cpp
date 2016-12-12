@@ -3698,9 +3698,9 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		ratingCount++;
 	if(avgBuyerRating > 0)
 		ratingCount++;
-	if(ratingCount == 0)
-		ratingCount = 1;
-	float totalAvgRating = (avgSellerRating+avgBuyerRating)/(float)ratingCount;
+	float totalAvgRating = 0;
+	if(ratingCount > 0)
+		 totalAvgRating = (avgArbiterRating+avgSellerRating+avgBuyerRating)/(float)ratingCount;
 	totalAvgRating = floor(totalAvgRating * 10) / 10;
 	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
 	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
