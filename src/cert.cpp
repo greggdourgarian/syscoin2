@@ -769,7 +769,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	GetAddress(theAlias, &aliasAddress);
 	scriptPubKeyOrig = GetScriptForDestination(aliasAddress.Get());
 
-    CScript scriptPubKey;
+    CScript scriptPubKey,scriptPubKeyAlias;
 
     
 
