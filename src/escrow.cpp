@@ -2595,7 +2595,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outPoint);		
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		CScript scriptPubKeyOrig;
-		scriptPubKeyOrig = GetScriptForDestination(ArbiterAddressPayment.Get());
+		scriptPubKeyOrig = GetScriptForDestination(arbiterAddressPayment.Get());
 		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
 		vchLinkAlias = arbiterAliasLatest.vchAlias;
@@ -3226,7 +3226,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		vchLinkAlias = buyerAliasLatest.vchAlias;
 		theAlias = buyerAliasLatest;
 		if(!resellerAliasLatest.IsNull())
-			sellerKey = resellerKey;
+			sellerAddress = resellerAddress;
 	}
 	else if(role == "seller")
 	{
@@ -3253,7 +3253,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		scriptPubKeyAlias += scriptPubKeyAliasOrig;
 		vchLinkAlias = resellerAliasLatest.vchAlias;
 		theAlias = resellerAliasLatest;
-		sellerKey = resellerKey;
+		sellerAddress = resellerAddress;
 	}
 	else if(role == "arbiter")
 	{
