@@ -2657,7 +2657,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	bool isExpired = false;
 	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired, true))
 		return 0;
-	CSyscoinAddress destaddy
+	CSyscoinAddress destaddy;
 	GetAddress(theAlias, destaddy);
 	CTxDestination aliasDest;
 	CSyscoinAddress prevaddy;
