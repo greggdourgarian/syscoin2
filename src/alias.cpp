@@ -759,7 +759,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias peg too long");
 			return error(errorMessage.c_str());
 		}
-		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+		if(theAlias.vchPassword.size() > MAX_ENCRYPTED_NAME_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5008 - " + _("Alias password too long");
 			return error(errorMessage.c_str());
