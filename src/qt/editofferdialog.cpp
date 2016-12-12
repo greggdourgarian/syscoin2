@@ -751,24 +751,10 @@ bool EditOfferDialog::saveCurrentRow()
 			params.push_back(ui->privateEdit->currentText() == QString("Yes")? "1": "0");
 			if(ui->certEdit->currentIndex() > 0)
 			{
-				if(!ui->categoryEdit->currentText().startsWith("certificates"))
-				{
-					QMessageBox::critical(this, windowTitle(),
-					tr("Error updating Offer: Certificate offers must use a certificate category"),
-						QMessageBox::Ok, QMessageBox::Ok);
-					return false;
-				}
 				params.push_back(ui->certEdit->itemData(ui->certEdit->currentIndex()).toString().toStdString());
 			}
 			else
 			{
-				if(ui->categoryEdit->currentText().startsWith("certificates"))
-				{
-					QMessageBox::critical(this, windowTitle(),
-					tr("Error updating Offer: offer not selling a certificate yet used certificate as a category"),
-						QMessageBox::Ok, QMessageBox::Ok);
-					return false;
-				}
 				params.push_back("nocert");
 			}
 
