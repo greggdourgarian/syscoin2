@@ -154,22 +154,14 @@ static bool CreateSyscoinTransactions(const CWallet *wallet, const CWalletTx& wt
 	TransactionRecord sub(hash, nTime);
 	if(!CreateSyscoinTransactionRecord(sub, op, vvchArgs, wtx, type))
 		return false;
-	
-	BOOST_FOREACH(const CTxOut& txout, wtx.vout)
-	{
-		isminetype mine = wallet->IsMine(txout);
-		if(mine)
-		{
-			sub.idx = parts.size(); // sequence number
-			if(type == RECV)
-				sub.credit = nNet;
-			else if(type == SEND)
-				sub.debit = nNet;
-			parts.append(sub);
-			return true;		
-		}
-	}
-	return false;
+
+	sub.idx = parts.size();
+	if(type == RECV)
+		sub.credit = nNet;
+	else if(type == SEND)
+		sub.debit = nNet;
+	parts.append(sub);	
+	return true;
 }
 /* Return positive answer if transaction should be shown in list.
  */
