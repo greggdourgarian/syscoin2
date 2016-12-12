@@ -280,14 +280,14 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
         {
             strError = find_value(objError, "message").get_str();
             QMessageBox::critical(this, windowTitle(),
-            tr("Error searching Alias: \"%1\"").arg(QString::fromStdString(strError)),
+            tr("Error searching alias: ")  + QString::fromStdString(strError),
                 QMessageBox::Ok, QMessageBox::Ok);
             return;
         }
         catch(std::exception& e)
         {
             QMessageBox::critical(this, windowTitle(),
-                tr("General exception when searchig alias"),
+                tr("General exception when searching alias"),
                 QMessageBox::Ok, QMessageBox::Ok);
             return;
         }
@@ -401,7 +401,7 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 						AllAlias, CT_NEW);	
 			  }
 			  pageMap[currentPage] = make_pair(firstAlias, lastAlias);  
-			  ui->labelPage->setText(tr("Current Page: <b>%1</b>").arg(currentPage+1));
+			  ui->labelPage->setText(tr("Current Page: ") + QString("<b>%1</b>").arg(currentPage+1));
             
          }   
         else

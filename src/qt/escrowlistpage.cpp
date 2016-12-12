@@ -439,7 +439,7 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
 			  }
 
   		  pageMap[currentPage] = make_pair(firstEscrow, lastEscrow);  
-		  ui->labelPage->setText(tr("Current Page: <b>%1</b>").arg(currentPage+1));          
+		  ui->labelPage->setText(tr("Current Page: ") + QString("<b>%1</b>").arg(currentPage+1));
          }   
         else
         {

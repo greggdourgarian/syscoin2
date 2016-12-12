@@ -22,23 +22,23 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 
 	ui->transferEdit->setVisible(false);
 	ui->transferLabel->setVisible(false);
-	ui->aliasPegDisclaimer->setText(tr("<font color='blue'>Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.</font>"));
-	ui->transferDisclaimer->setText(tr("<font color='red'>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias</font>"));
+	ui->aliasPegDisclaimer->setText(QString("<font color='blue'>") + tr("Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.") + QString("</font>"));
+	ui->transferDisclaimer->setText(QString("<font color='red'>") + tr("Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setVisible(false);
-	ui->safeSearchDisclaimer->setText(tr("<font color='blue'>Is this alias safe to search? Anything that can be considered offensive to someone should be set to <b>No</b> here. If you do create an alias that is offensive and do not set this option to <b>No</b> your alias will be banned!</font>"));
+	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to <b>No</b> here. If you do create an alias that is offensive and do not set this option to <b>No</b> your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
 	ui->expiryEdit->addItem(tr("1 Year"),"1");
 	ui->expiryEdit->addItem(tr("2 Years"),"2");
 	ui->expiryEdit->addItem(tr("3 Years"),"3");
 	ui->expiryEdit->addItem(tr("4 Years"),"4");
 	ui->expiryEdit->addItem(tr("5 Years"),"5");
-	ui->expiryDisclaimer->setText(tr("<font color='blue'>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</font>"));
-    ui->privateDisclaimer->setText(tr("<font color='blue'>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</font>"));
-	ui->passwordDisclaimer->setText(tr("<font color='blue'>Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.</font>"));
-	ui->publicDisclaimer->setText(tr("<font color='blue'>This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.</font>"));
-	ui->reqsigsDisclaimer->setText(tr("<font color='blue'>The number of required signatures ensures that not one person can control this alias and anything service that this alias uses (certificates, messages, offers).</font>"));
-	ui->acceptCertTransfersDisclaimer->setText(tr("<font color='blue'>Would you like to accept certificates transferred to this alias? Select <b>Yes</b> otherwise if you want to block others from sending certificates to this alias select <b>No</b>.</font>"));
-	ui->multisigTitle->setText(tr("<font color='blue'>Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the <b>Sign Multisig Tx</b> button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.</font>"));
+	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.") + QString("</font>"));
+    ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
+	ui->passwordDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.") + QString("</font>"));
+	ui->publicDisclaimer->setText(QString("<font color='blue'>") + tr("This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.") + QString("</font>"));
+	ui->reqsigsDisclaimer->setText(QString("<font color='blue'>") + tr("The number of required signatures ensures that not one person can control this alias and anything service that this alias uses (certificates, messages, offers, escrows).") + QString("</font>"));
+	ui->acceptCertTransfersDisclaimer->setText(QString("<font color='blue'>") + tr("Would you like to accept certificates transferred to this alias? Select 'Yes' otherwise if you want to block others from sending certificates to this alias select 'No'.") + QString("</font>"));	
+	ui->multisigTitle->setText(QString("<font color='blue'>") + tr("Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the 'Sign Multisig Tx' button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.") + QString("</font>"));
 	ui->reqSigsEdit->setValidator( new QIntValidator(0, 50, this) );
 	connect(ui->reqSigsEdit, SIGNAL(textChanged(QString)), this, SLOT(reqSigsChanged()));
 	QString defaultPegAlias;
@@ -92,7 +92,7 @@ void EditAliasDialog::reqSigsChanged()
 {
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(tr("<font color='blue'>This is a <b>%1</b> of <b>%2</b> multisig alias (<b>%3</b> is assumed to also be a signer)</font>").arg(ui->reqSigsEdit->text()).arg(QString::number(ui->multisigList->count()+1)).arg(ui->aliasEdit->text()));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::loadAliasDetails()
@@ -138,7 +138,7 @@ void EditAliasDialog::loadAliasDetails()
 	}  
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(tr("<font color='blue'>This is a <b>%1</b> of <b>%2</b> multisig alias (<b>%3</b> is assumed to also be a signer)</font>").arg(ui->reqSigsEdit->text()).arg(QString::number(ui->multisigList->count()+1)).arg(ui->aliasEdit->text()));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::on_cancelButton_clicked()
@@ -158,7 +158,7 @@ void EditAliasDialog::on_addButton_clicked()
 	}
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(tr("<font color='blue'>This is a <b>%1</b> of <b>%2</b> multisig alias (<b>%3</b> is assumed to also be a signer)</font>").arg(ui->reqSigsEdit->text()).arg(QString::number(ui->multisigList->count()+1)).arg(ui->aliasEdit->text()));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::on_deleteButton_clicked()
@@ -169,7 +169,7 @@ void EditAliasDialog::on_deleteButton_clicked()
 
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(tr("<font color='blue'>This is a <b>%1</b> of <b>%2</b> multisig alias (<b>%3</b> is assumed to also be a signer)</font>").arg(ui->reqSigsEdit->text()).arg(QString::number(ui->multisigList->count()+1)).arg(ui->aliasEdit->text()));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 
@@ -287,7 +287,7 @@ bool EditAliasDialog::saveCurrentRow()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error creating new Alias: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error creating new Alias: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			break;
 		}
@@ -355,7 +355,7 @@ bool EditAliasDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-				tr("Error updating Alias: \"%1\"").arg(QString::fromStdString(strError)),
+				tr("Error updating Alias: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
@@ -421,7 +421,7 @@ bool EditAliasDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-                tr("Error transferring Alias: \"%1\"").arg(QString::fromStdString(strError)),
+                tr("Error transferring Alias: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
@@ -454,7 +454,7 @@ void EditAliasDialog::accept()
             break;
         case AliasTableModel::INVALID_ALIAS:
             QMessageBox::warning(this, windowTitle(),
-                tr("The entered alias \"%1\" is not a valid Syscoin Alias.").arg(ui->aliasEdit->text()),
+				tr("The entered alias is not a valid Syscoin alias. Alias: ") + ui->aliasEdit->text(),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
         case AliasTableModel::WALLET_UNLOCK_FAILURE:

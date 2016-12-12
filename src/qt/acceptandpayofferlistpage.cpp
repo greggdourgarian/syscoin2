@@ -61,7 +61,7 @@ AcceptandPayOfferListPage::AcceptandPayOfferListPage(const PlatformStyle *platfo
 	connect(ui->lookupButton, SIGNAL(clicked()), this, SLOT(lookup()));
 	connect(ui->offeridEdit, SIGNAL(textChanged(QString)), this, SLOT(resetState()));
 	ui->notesEdit->setStyleSheet("color: rgb(0, 0, 0); background-color: rgb(255, 255, 255)");
-	ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an Alias. You may right-click on the notes section and include your public or private profile information from this alias for the merchant</font>"));
+	ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an Alias. You may right-click on the notes section and include your public or private profile information from this alias for the merchant") + QString("</font>"));
 	m_netwManager = new QNetworkAccessManager(this);
 	m_placeholderImage.load(":/images/" + theme + "/imageplaceholder");
 
@@ -154,7 +154,7 @@ bool AcceptandPayOfferListPage::getProfileData(QString& publicData, QString& pri
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could get alias profile data: %1").arg(QString::fromStdString(strError)),
+			tr("Could get alias profile data: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -164,7 +164,7 @@ bool AcceptandPayOfferListPage::getProfileData(QString& publicData, QString& pri
 				QMessageBox::Ok, QMessageBox::Ok);
 	}  
 	QMessageBox::critical(this, windowTitle(),
-		tr("Couldn't find alias %1 in the database").arg(ui->aliasEdit->currentText()),
+		tr("Couldn't find alias in the database: ") + ui->aliasEdit->currentText(),
 			QMessageBox::Ok, QMessageBox::Ok);
 	return false;
 }
@@ -219,7 +219,7 @@ void AcceptandPayOfferListPage::loadAliases()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh alias list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh alias list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -303,7 +303,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 	if(sysPrice == 0)
 	{
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(ui->infoCurrency->text())
+			tr("Could not find currency in the rates peg for this offer. Currency: ") + ui->infoCurrency->text()
                 ,QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	
@@ -326,7 +326,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 	if(sysPrice == 0)
 	{
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(ui->infoCurrency->text())
+			tr("Could not find currency in the rates peg for this offer. Currency: ") + ui->infoCurrency->text()
                 ,QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	

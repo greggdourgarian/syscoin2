@@ -303,7 +303,7 @@ void CertListPage::on_searchCert_clicked(string GUID)
     {
         strError = find_value(objError, "message").get_str();
         QMessageBox::critical(this, windowTitle(),
-        tr("Error searching Certificate: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error searching Certificate: ") + QString::fromStdString(strError),
             QMessageBox::Ok, QMessageBox::Ok);
         return;
     }
@@ -399,7 +399,7 @@ void CertListPage::on_searchCert_clicked(string GUID)
 					settings.value("safesearch", "").toString(), AllCert, CT_NEW);	
 		  }
 		  pageMap[currentPage] = make_pair(firstCert, lastCert);  
-		  ui->labelPage->setText(tr("Current Page: <b>%1</b>").arg(currentPage+1));
+		  ui->labelPage->setText(tr("Current Page: ") + QString("<b>%1</b>").arg(currentPage+1));
 	} 
     else
     {

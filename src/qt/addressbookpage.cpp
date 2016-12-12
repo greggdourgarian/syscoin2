@@ -289,8 +289,8 @@ void AddressBookPage::on_exportButton_clicked()
     writer.addColumn(tr("Address"), AddressTableModel::Address, Qt::EditRole);
 
     if(!writer.write()) {
-        QMessageBox::critical(this, tr("Exporting Failed"),
-            tr("There was an error trying to save the address list to %1. Please try again.").arg(filename));
+		QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file: ") + filename,
+                              QMessageBox::Abort, QMessageBox::Abort);
     }
 }
 
