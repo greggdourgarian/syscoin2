@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE (generate_big_certdata)
 	// unencrypted 1025 bytes should cause us to trip 1108 bytes once encrypted
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + baddata + " " + gooddata), runtime_error);
 	// update cert with long pub data
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + gooddata + " " + baddata));
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + gooddata + " " + baddata), runtime_error);
 	MilliSleep(2500);
 	// trying to update to bad data for pub and priv
 	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + baddata + " " + baddata), runtime_error);
@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE (generate_big_certtitle)
 	string gooddata = "asdfadsdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
 	// 257 bytes long
 	string badtitle =   "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
-	CertNew("node1", "jagcertbig2", goodtitle, "a");
+	CertNew("node1", "jagcertbig2", goodtitle, "a", "pub");
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig2 " + badtitle + " priv pub"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_certupdate)
@@ -45,9 +45,9 @@ BOOST_AUTO_TEST_CASE (generate_certupdate)
 	string guid = CertNew("node1", "jagcertupdate", "password", "title", "data");
 	// update an cert that isn't yours
 	BOOST_CHECK_THROW(CallRPC("node2", "certupdate " + guid + " jagcertupdate title data pubdata"), runtime_error);
-	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata");
+	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata", "pub1");
 	// shouldnt update data, just uses prev data because it hasnt changed
-	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata");
+	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata", "pub2");
 
 }
 BOOST_AUTO_TEST_CASE (generate_certtransfer)
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (generate_certtransfer)
 	guid = CertNew("node1", "jagcert1", certtitle, certdata, "pubdata");
 	// private cert
 	pvtguid = CertNew("node1", "jagcert1", certtitle, certdata, "pubdata");
-	CertUpdate("node1", pvtguid, "jagcert1", certtitle, certdata, true);
+	CertUpdate("node1", pvtguid, "jagcert1", certtitle, certdata, "pub3");
 	UniValue r;
 	CertTransfer("node1", guid, "jagcert2");
 	CertTransfer("node1", pvtguid, "jagcert3");
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (generate_certtransfer)
 	// update xferred cert
 	certdata = "newdata";
 	certtitle = "newtitle";
-	CertUpdate("node2", guid, "jagcert2", certtitle, certdata);
+	CertUpdate("node2", guid, "jagcert2", certtitle, certdata, "public");
 
 	// retransfer cert
 	CertTransfer("node2", guid, "jagcert3");
@@ -112,8 +112,8 @@ BOOST_AUTO_TEST_CASE (generate_certsafesearch)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certguidnotsafe));
 
 	// reverse the rolls
-	CertUpdate("node1", certguidsafe, "jagsafesearch1", "certtitle", "certdata", false, "No");
-	CertUpdate("node1", certguidnotsafe,  "jagsafesearch1", "certtitle", "certdata", false, "Yes");
+	CertUpdate("node1", certguidsafe, "jagsafesearch1", "certtitle", "certdata", "pub", "No");
+	CertUpdate("node1", certguidnotsafe,  "jagsafesearch1", "certtitle", "certdata", "pub1", "Yes");
 
 	// should include result in both safe search mode on and off
 	BOOST_CHECK_EQUAL(CertFilter("node1", certguidsafe, "Off"), true);
