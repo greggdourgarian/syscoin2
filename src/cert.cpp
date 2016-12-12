@@ -1132,7 +1132,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	int numResults  = aliasunspent(theCert.vchAlias, outPoint);
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2516 - " + _("This alias is not in your wallet"))
+		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2516 - " + _("This alias is not in your wallet"));
 
 	// if cert is private, decrypt the data
 	vector<unsigned char> vchData = theCert.vchData;
