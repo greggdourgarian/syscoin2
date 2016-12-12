@@ -499,6 +499,8 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     if(!IsMyAlias(aliasFrom)) {
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3501 - " + _("This alias is not yours"));
     }
+	CSyscoinAddress fromAddr;
+	GetAddress(aliasFrom, &fromAddr);
 	COutPoint outPoint;
 	int numResults  = aliasunspent(aliasFrom.vchAlias, outPoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
@@ -506,24 +508,22 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3502 - " + _("This alias is not in your wallet"));
 	CScript scriptPubKeyOrig, scriptPubKeyAliasOrig, scriptPubKey, scriptPubKeyAlias;
 
-	CPubKey FromPubKey = CPubKey(aliasFrom.vchPubKey);
-	scriptPubKeyAliasOrig = GetScriptForDestination(FromPubKey.GetID());
-	if(aliasFrom.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyAliasOrig = CScript(aliasFrom.multiSigInfo.vchRedeemScript.begin(), aliasFrom.multiSigInfo.vchRedeemScript.end());
+	scriptPubKeyAliasOrig = GetScriptForDestination(fromAddr.Get());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << aliasFrom.vchAlias <<  aliasFrom.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyAliasOrig;		
 
 
 	if(!GetTxOfAlias(vchFromString(strToAddress), aliasTo, aliastx, true))
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3503 - " + _("Failed to read to alias from alias DB"));
-	CPubKey ToPubKey = CPubKey(aliasTo.vchPubKey);
+	CSyscoinAddress toAddr;
+	GetAddress(aliasTo, &toAddr);
 
 
     // gather inputs
 	vector<unsigned char> vchMessage = vchFromString(GenerateSyscoinGuid());
     // this is a syscoin transaction
     CWalletTx wtx;
-	scriptPubKeyOrig= GetScriptForDestination(ToPubKey.GetID());
+	scriptPubKeyOrig= GetScriptForDestination(toAddr.Get());
 
 	vector<unsigned char> vchMessageByte;
 	if(bHex)

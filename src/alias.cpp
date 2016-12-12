@@ -2052,10 +2052,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	}
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
-	CSyscoinAddress aliasAddress(pubKey.GetID());
-	CKeyID keyID;
-	if (!aliasAddress.GetKeyID(keyID))
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Alias address does not refer to a key"));
+	CPubKey pubKey(copyAlias.vchPubKey);
 	CKey vchSecret;
 	if(vchPubKeyByte.empty())
 	{

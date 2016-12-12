@@ -1737,13 +1737,12 @@ UniValue offernew(const UniValue& params, bool fHelp) {
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
-	CPubKey currentOfferKey(alias.vchPubKey);
-	scriptPubKeyOrig= GetScriptForDestination(currentOfferKey.GetID());
+	CSyscoinAddress aliasAddress;
+	GetAddress(alias, &aliasAddress);
+	scriptPubKeyOrig= GetScriptForDestination(aliasAddress.Get());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACTIVATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
-	if(alias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << alias.vchAlias << alias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 
@@ -1881,13 +1880,12 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
     uint256 hash = Hash(data.begin(), data.end());
 
     vector<unsigned char> vchHashOffer = vchFromValue(hash.GetHex());
-	CPubKey aliasKey(alias.vchPubKey);
-	scriptPubKeyOrig = GetScriptForDestination(aliasKey.GetID());
+	CSyscoinAddress aliasAddress;
+	GetAddress(alias, &aliasAddress);
+	scriptPubKeyOrig= GetScriptForDestination(aliasAddress.Get());
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACTIVATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
-	if(alias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << alias.vchAlias << alias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 
@@ -1999,9 +1997,9 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1513 - " + _("This alias is not in your wallet"));
 
-
-	CPubKey currentKey(theAlias.vchPubKey);
-	scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
+	CSyscoinAddress aliasAddress;
+	GetAddress(theAlias, &aliasAddress);
+	scriptPubKeyOrig= GetScriptForDestination(aliasAddress.Get());
 
 
 	COfferLinkWhitelistEntry foundEntry;
@@ -2024,8 +2022,6 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << theAlias.vchAlias << theAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 
@@ -2118,8 +2114,9 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1518 - " + _("This alias is not in your wallet"));
 
-	CPubKey currentKey(theAlias.vchPubKey);
-	scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
+	CSyscoinAddress aliasAddress;
+	GetAddress(theAlias, &aliasAddress);
+	scriptPubKeyOrig= GetScriptForDestination(aliasAddress.Get());
 
 	// create OFFERUPDATE txn keys
 	COfferLinkWhitelistEntry foundEntry;
@@ -2137,8 +2134,6 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << theAlias.vchAlias << theAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 
@@ -2226,8 +2221,9 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1524 - " + _("This alias is not in your wallet"));
 
-	CPubKey currentKey(theAlias.vchPubKey);
-	scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
+	CSyscoinAddress aliasAddress;
+	GetAddress(theAlias, &aliasAddress);
+	scriptPubKeyOrig= GetScriptForDestination(aliasAddress.Get());
 
 	theOffer.ClearOffer();
 	theOffer.nHeight = chainActive.Tip()->nHeight;
@@ -2247,8 +2243,6 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_UPDATE) << vchOffer << vchHashOffer << OP_2DROP << OP_DROP;
 	scriptPubKey += scriptPubKeyOrig;
 	CScript scriptPubKeyAlias;
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << theAlias.vchAlias << theAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 
@@ -2436,8 +2430,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1531 - " + _("This alias is not in your wallet"));
 
 	}
-	CPubKey currentKey(alias.vchPubKey);
-	scriptPubKeyOrig = GetScriptForDestination(currentKey.GetID());
+	CSyscoinAddress aliasAddress;
+	GetAddress(alias, &aliasAddress);
+	scriptPubKeyOrig= GetScriptForDestination(aliasAddress.Get());
 
 	// create OFFERUPDATE, ALIASUPDATE txn keys
 	CScript scriptPubKey;
@@ -2501,8 +2496,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKey, recipient);
 	vecSend.push_back(recipient);
 	CScript scriptPubKeyAlias;
-	if(alias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(alias.multiSigInfo.vchRedeemScript.begin(), alias.multiSigInfo.vchRedeemScript.end());
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << alias.vchAlias << alias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 	CRecipient aliasRecipient;
@@ -2520,10 +2513,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if(!vchAlias.empty() && vchAlias != theOffer.vchAlias)
 	{
 		CScript scriptPubKeyAliasLink, scriptPubKeyOrigLink;
-		CPubKey currentLinkKey(linkAlias.vchPubKey);
-		scriptPubKeyOrigLink = GetScriptForDestination(currentLinkKey.GetID());
-		if(linkAlias.multiSigInfo.vchAliases.size() > 0)
-			scriptPubKeyOrigLink = CScript(linkAlias.multiSigInfo.vchRedeemScript.begin(), linkAlias.multiSigInfo.vchRedeemScript.end());
+		CSyscoinAddress linkAliasAddress;
+		GetAddress(linkAlias, &linkAliasAddress);
+		scriptPubKeyOrigLink= GetScriptForDestination(linkAliasAddress.Get());
 		scriptPubKeyAliasLink << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << linkAlias.vchAlias << linkAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAliasLink += scriptPubKeyOrigLink;
 		CRecipient aliasRecipientLink;
@@ -2955,12 +2947,8 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CTransaction buyeraliastx, selleraliastx;
 
 	GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx, true);
-	CPubKey buyerKey(buyerAlias.vchPubKey);
-	CSyscoinAddress buyerAddress(buyerKey.GetID());
-
 	GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
-	CPubKey sellerKey(sellerAlias.vchPubKey);
-	CSyscoinAddress sellerAddress(sellerKey.GetID());
+
 
 	CScript scriptPubKeyAlias;
 	CScript scriptPubKey,scriptPubKeyOrig;
@@ -3023,10 +3011,10 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1550 - " + _("Buyer alias is not in your wallet"));
+		CSyscoinAddress buyerAddress;
+		GetAddress(buyerAlias, &buyerAddress);
+		scriptPubKeyOrig= GetScriptForDestination(buyerAddress.Get());
 
-		scriptPubKeyOrig= GetScriptForDestination(buyerKey.GetID());
-		if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
-			scriptPubKeyOrig = CScript(buyerAlias.multiSigInfo.vchRedeemScript.begin(), buyerAlias.multiSigInfo.vchRedeemScript.end());
 		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAlias.vchAlias << buyerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
 		scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
@@ -3045,12 +3033,12 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1551 - " + _("Seller alias is not in your wallet"));
 
-		scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
-		if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
-			scriptPubKeyOrig = CScript(sellerAlias.multiSigInfo.vchRedeemScript.begin(), sellerAlias.multiSigInfo.vchRedeemScript.end());
+		CSyscoinAddress sellerAddress;
+		GetAddress(sellerAlias, &sellerAddress);
+		scriptPubKeyOrig= GetScriptForDestination(sellerAddress.Get());
+
 		scriptPubKeyAlias = CScript() <<  CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAlias.vchAlias << sellerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
-		scriptPubKeyOrig= GetScriptForDestination(buyerKey.GetID());
 
 	}
 	else
@@ -3154,8 +3142,8 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	else
 		GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
 
-	CPubKey sellerKey(sellerAlias.vchPubKey);
-	CSyscoinAddress sellerAddress(sellerKey.GetID());
+	CSyscoinAddress sellerAddress;
+	GetAddress(sellerAlias, &sellerAddress);
 
 	COffer tmpOffer;
 	if (!GetTxOfOfferAccept(theOffer.vchOffer, vchAcceptRand, tmpOffer, theOfferAccept, tx, true))
@@ -3166,10 +3154,8 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	
 
 	GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx, true);
-	CPubKey buyerKey(buyerAlias.vchPubKey);
-	CSyscoinAddress buyerAddress(buyerKey.GetID());
-
-
+	CSyscoinAddress buyerAddress;
+	GetAddress(buyerAlias, &buyerAddress);
 
 	CScript scriptPubKeyAlias;
 	CScript scriptPubKey,scriptPubKeyBuyer, scriptPubKeyOrig, scriptPubKeyBuyerOrig;
@@ -3195,13 +3181,10 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1558 - " + _("Seller alias is not in your wallet"));
 
-	scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
-	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(sellerAlias.multiSigInfo.vchRedeemScript.begin(), sellerAlias.multiSigInfo.vchRedeemScript.end());
+	scriptPubKeyOrig= GetScriptForDestination(sellerAddress.Get());
 	scriptPubKeyAlias = CScript() <<  CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAlias.vchAlias << sellerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
-	scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
-	scriptPubKeyBuyerOrig= GetScriptForDestination(buyerKey.GetID());
+	scriptPubKeyBuyerOrig= GetScriptForDestination(buyerAddress.Get());
 
 
 	vector<unsigned char> data;
