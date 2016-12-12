@@ -1199,12 +1199,6 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 		theOffer.linkWhitelist.GetLinkEntryByHash(buyeralias.vchAlias, foundEntry);
 
 	}
-	CPubKey ArbiterPubKey(arbiteralias.vchPubKey);
-	CPubKey SellerPubKey(selleralias.vchPubKey);
-	CPubKey BuyerPubKey(buyeralias.vchPubKey);
-	CScript scriptArbiter = GetScriptForDestination(ArbiterPubKey.GetID());
-	CScript scriptSeller = GetScriptForDestination(SellerPubKey.GetID());
-	CScript scriptBuyer = GetScriptForDestination(BuyerPubKey.GetID());
 	UniValue arrayParams(UniValue::VARR);
 	UniValue arrayOfKeys(UniValue::VARR);
 
@@ -1961,10 +1955,8 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	COutPoint outPoint;
 	int numResults  = aliasunspent(sellerAliasLatest.vchAlias, outPoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
-	CScript scriptPubKeyOrig;
-	scriptPubKeyOrig = GetScriptForDestination(sellerAddressPayment.Get());
 	CScript scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
-	scriptPubKeyAlias += scriptPubKeyOrig;
+	scriptPubKeyAlias += sellerScript;
 
 	escrow.ClearEscrow();
 	escrow.bPaymentAck = true;
@@ -1978,7 +1970,6 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
 
     CScript scriptPubKeyOrigBuyer, scriptPubKeyOrigArbiter;
-	scriptPubKeyArbiter= GetScriptForDestination(arbiterAddressPayment.Get());
 
     scriptPubKeyOrigBuyer << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
     scriptPubKeyOrigBuyer += buyerScript;

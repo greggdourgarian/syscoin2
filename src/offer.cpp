@@ -2711,7 +2711,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	{
 		scriptPayment = scriptPubKeyOrig;
 	}
-	scriptPubKeyAccept += GetScriptForDestination(currentAddress.Get());
+	scriptPubKeyAccept += scriptPubKeyOrig;
 	scriptPubKeyPayment += scriptPayment;
 	scriptPubKeyCommission += scriptPaymentCommission;
 
