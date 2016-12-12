@@ -2030,6 +2030,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 	CSyscoinAddress oldAddress;
 	GetAddress(theAlias, &oldAddress);
+	CPubKey pubKey(theAlias.vchPubKey);	
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
@@ -2052,7 +2053,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	}
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
-	CPubKey pubKey(copyAlias.vchPubKey);
 	CKey vchSecret;
 	if(vchPubKeyByte.empty())
 	{
