@@ -2721,7 +2721,6 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	{
 		scriptPayment = scriptPubKeyOrig;
 	}
-	currentAddress = CSyscoinAddress(currentKey.GetID());
 	scriptPubKeyAccept += GetScriptForDestination(currentAddress.Get());
 	scriptPubKeyPayment += scriptPayment;
 	scriptPubKeyCommission += scriptPaymentCommission;
@@ -2948,7 +2947,11 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 	GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx, true);
 	GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
+	CSyscoinAddress buyerAddress;
+	GetAddress(buyerAlias, &buyerAddress);
 
+	CSyscoinAddress sellerAddress;
+	GetAddress(sellerAlias, &sellerAddress);
 
 	CScript scriptPubKeyAlias;
 	CScript scriptPubKey,scriptPubKeyOrig;
@@ -3011,13 +3014,9 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1550 - " + _("Buyer alias is not in your wallet"));
-		CSyscoinAddress buyerAddress;
-		GetAddress(buyerAlias, &buyerAddress);
 		scriptPubKeyOrig= GetScriptForDestination(buyerAddress.Get());
-
 		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAlias.vchAlias << buyerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += scriptPubKeyOrig;
-		scriptPubKeyOrig= GetScriptForDestination(sellerKey.GetID());
 	}
 	// seller
 	else if(foundSellerKey)
@@ -3032,9 +3031,6 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 		if (wtxAliasIn == NULL)
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1551 - " + _("Seller alias is not in your wallet"));
-
-		CSyscoinAddress sellerAddress;
-		GetAddress(sellerAlias, &sellerAddress);
 		scriptPubKeyOrig= GetScriptForDestination(sellerAddress.Get());
 
 		scriptPubKeyAlias = CScript() <<  CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAlias.vchAlias << sellerAlias.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
@@ -3057,7 +3053,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 
 	scriptPubKey << CScript::EncodeOP_N(OP_OFFER_ACCEPT) << theOffer.vchOffer << theOfferAccept.vchAcceptRand << vchFromString("1") << vchHashOffer << OP_2DROP <<  OP_2DROP << OP_DROP;
-	scriptPubKey += scriptPubKeyOrig;
+	scriptPubKey += GetScriptForDestination(sellerAddress.Get());
 	CreateRecipient(scriptPubKey, recipient);
 	CreateRecipient(scriptPubKeyAlias, recipientAlias);
 
