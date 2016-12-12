@@ -1968,22 +1968,22 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 	}
 	
-	if(!IsMyAlias(sellerAlias))
+	if(!IsMyAlias(sellerAliasLatest))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4537 - " + _("You must own the seller alias to complete this transaction"));
 	COutPoint outPoint;
-	int numResults  = aliasunspent(sellerAlias.vchAlias, outPoint);	
+	int numResults  = aliasunspent(sellerAliasLatest.vchAlias, outPoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	CScript scriptPubKeyOrig;
 	scriptPubKeyOrig = GetScriptForDestination(sellerKey.GetID());
-	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
-		scriptPubKeyOrig = CScript(sellerAlias.multiSigInfo.vchRedeemScript.begin(), sellerAlias.multiSigInfo.vchRedeemScript.end());
-	CScript scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAlias.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
+	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
+		scriptPubKeyOrig = CScript(sellerAlias.multiSigInfo.vchRedeemScript.begin(), sellerAliasLatest.multiSigInfo.vchRedeemScript.end());
+	CScript scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyOrig;
 
 	escrow.ClearEscrow();
 	escrow.bPaymentAck = true;
 	escrow.nHeight = chainActive.Tip()->nHeight;
-	escrow.vchLinkAlias = sellerAlias.vchAlias;
+	escrow.vchLinkAlias = sellerAliasLatest.vchAlias;
 
 	vector<unsigned char> data;
 	escrow.Serialize(data);
@@ -2017,15 +2017,15 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
-	CreateFeeRecipient(scriptData, sellerAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
+	CreateFeeRecipient(scriptData, sellerAliasLatest.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, sellerAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
-	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
+	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
