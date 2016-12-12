@@ -1439,13 +1439,13 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				else
 				{
-					CSyscoinAddress destaddy;
+					
 					if (!ExtractDestination(tx.vout[nOutPayment].scriptPubKey, payDest))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1109 - " + _("Could not extract payment destination from scriptPubKey");
 						return true;
 					}
-					destaddy = CSyscoinAddress(payDest);
+					CSyscoinAddress destaddy(payDest);
 					CSyscoinAddress aliasaddy;
 					GetAddress(alias, &aliasaddy);
 					if(aliasaddy.ToString() != destaddy.ToString())
@@ -1461,10 +1461,10 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1111 - " + _("Cannot extract destination from output script");
 				return true;
 			}
-			CPubKey pubKey(alias.vchPubKey);
-			CSyscoinAddress aliasaddy(pubKey.GetID());
-			aliasDest = aliasaddy.Get();
-			if(!(aliasDest == dest))
+			CSyscoinAddress destaddy(dest);
+			CSyscoinAddress aliasaddy;
+			GetAddress(alias, &aliasaddy);
+			if(aliasaddy.ToString() != destaddy.ToString())
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1112 - " + _("Payment address does not match merchant address");
 				return true;
