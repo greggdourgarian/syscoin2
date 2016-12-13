@@ -49,7 +49,7 @@ MyWhitelistOfferDialog::MyWhitelistOfferDialog(const PlatformStyle *platformStyl
     ui->labelExplanation->setText(tr("You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here."));
 	
     // Context menu actions
-	QAction *copyAction = new QAction(tr("&Copy Alias"), this);
+	QAction *copyAction = new QAction(tr("Copy Alias"), this);
     // Build context menu
     contextMenu = new QMenu();
     contextMenu->addAction(copyAction);

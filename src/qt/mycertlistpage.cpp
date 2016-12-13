@@ -55,10 +55,10 @@ MyCertListPage::MyCertListPage(const PlatformStyle *platformStyle, QWidget *pare
 	
     // Context menu actions
     QAction *copyCertAction = new QAction(ui->copyCert->text(), this);
-    QAction *copyCertValueAction = new QAction(tr("&Copy Title"), this);
-    QAction *editAction = new QAction(tr("&Edit"), this);
-    QAction *transferCertAction = new QAction(tr("&Transfer"), this);
-	QAction *sellCertAction = new QAction(tr("&Sell"), this);
+    QAction *copyCertValueAction = new QAction(tr("Copy Title"), this);
+    QAction *editAction = new QAction(tr("Edit"), this);
+    QAction *transferCertAction = new QAction(tr("Transfer"), this);
+	QAction *sellCertAction = new QAction(tr("Sell"), this);
 
     // Build context menu
     contextMenu = new QMenu();

@@ -56,10 +56,10 @@ MyOfferListPage::MyOfferListPage(const PlatformStyle *platformStyle, QWidget *pa
 	
     // Context menu actions
     QAction *copyOfferAction = new QAction(ui->copyOffer->text(), this);
-    QAction *copyOfferValueAction = new QAction(tr("&Copy Title"), this);
-	QAction *copyOfferDescriptionAction = new QAction(tr("&Copy Description"), this);
-    QAction *editAction = new QAction(tr("&Edit"), this);
-	QAction *editWhitelistAction = new QAction(tr("&Manage Affiliates"), this);
+    QAction *copyOfferValueAction = new QAction(tr("Copy Title"), this);
+	QAction *copyOfferDescriptionAction = new QAction(tr("Copy Description"), this);
+    QAction *editAction = new QAction(tr("Edit"), this);
+	QAction *editWhitelistAction = new QAction(tr("Manage Affiliates"), this);
     // Build context menu
     contextMenu = new QMenu();
     contextMenu->addAction(copyOfferAction);

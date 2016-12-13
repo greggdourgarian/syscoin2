@@ -61,10 +61,10 @@ AcceptedOfferListPage::AcceptedOfferListPage(const PlatformStyle *platformStyle,
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_detailButton_clicked()));
     // Context menu actions
     QAction *copyOfferAction = new QAction(ui->copyOffer->text(), this);
-    QAction *copyOfferValueAction = new QAction(tr("&Copy OfferAccept ID"), this);
-	QAction *detailsAction = new QAction(tr("&Details"), this);
-	QAction *messageAction = new QAction(tr("&Message Merchant"), this);
-	QAction *feedbackAction = new QAction(tr("&Leave Feedback For Merchant"), this);
+    QAction *copyOfferValueAction = new QAction(tr("Copy OfferAccept ID"), this);
+	QAction *detailsAction = new QAction(tr("Details"), this);
+	QAction *messageAction = new QAction(tr("Message Merchant"), this);
+	QAction *feedbackAction = new QAction(tr("Leave Feedback For Merchant"), this);
 
     // Build context menu
     contextMenu = new QMenu();

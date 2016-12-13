@@ -57,7 +57,7 @@ AliasListPage::AliasListPage(const PlatformStyle *platformStyle, QWidget *parent
 	
     // Context menu actions
     QAction *copyAliasAction = new QAction(ui->copyAlias->text(), this);
-	QAction *messageAction = new QAction(tr("&Send Msg"), this);
+	QAction *messageAction = new QAction(tr("Send Msg"), this);
 
     // Build context menu
     contextMenu = new QMenu();

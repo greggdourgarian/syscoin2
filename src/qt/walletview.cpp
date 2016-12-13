@@ -60,7 +60,8 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
 	certView = new CertView(platformStyle, certListPage);
 	offerView = new OfferView(platformStyle, offerListPage);
     vbox->addWidget(transactionView);
-    QPushButton *exportButton = new QPushButton(tr("&Export"), this);
+	// SYSCOIN
+    QPushButton *exportButton = new QPushButton(tr("Export"), this);
     exportButton->setToolTip(tr("Export the data in the current tab to a file"));
     if (platformStyle->getImagesOnButtons()) {
 		// SYSCOIN

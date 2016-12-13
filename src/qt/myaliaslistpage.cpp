@@ -62,8 +62,8 @@ MyAliasListPage::MyAliasListPage(const PlatformStyle *platformStyle, QWidget *pa
 	
     // Context menu actions
     QAction *copyAliasAction = new QAction(ui->copyAlias->text(), this);
-    QAction *editAction = new QAction(tr("&Edit"), this);
-    QAction *transferAliasAction = new QAction(tr("&Transfer"), this);
+    QAction *editAction = new QAction(tr("Edit"), this);
+    QAction *transferAliasAction = new QAction(tr("Transfer"), this);
 
     // Build context menu
     contextMenu = new QMenu();

@@ -66,8 +66,8 @@ EditWhitelistOfferDialog::EditWhitelistOfferDialog(const PlatformStyle *platform
     ui->labelExplanation->setText(tr("These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer."));
 	
     // Context menu actions
-    QAction *removeAction = new QAction(tr("&Remove"), this);
-	QAction *copyAction = new QAction(tr("&Copy Alias"), this);
+    QAction *removeAction = new QAction(tr("Remove"), this);
+	QAction *copyAction = new QAction(tr("Copy Alias"), this);
     // Build context menu
     contextMenu = new QMenu();
     contextMenu->addAction(copyAction);

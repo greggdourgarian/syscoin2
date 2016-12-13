@@ -45,7 +45,7 @@ CertListPage::CertListPage(const PlatformStyle *platformStyle, QWidget *parent) 
 	
     // Context menu actions
     QAction *copyCertAction = new QAction(ui->copyCert->text(), this);
-    QAction *copyCertValueAction = new QAction(tr("&Copy Value"), this);
+    QAction *copyCertValueAction = new QAction(tr("Copy Value"), this);
 
 
     // Build context menu

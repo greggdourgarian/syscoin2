@@ -61,11 +61,11 @@ OfferListPage::OfferListPage(const PlatformStyle *platformStyle, OfferView *pare
 	
     // Context menu actions
     QAction *copyOfferAction = new QAction(ui->copyOffer->text(), this);
-    QAction *copyOfferValueAction = new QAction(tr("&Copy Title"), this);
-	QAction *copyOfferDescriptionAction = new QAction(tr("&Copy Description"), this);
-	QAction *resellAction = new QAction(tr("&Resell"), this);
-	QAction *purchaseAction = new QAction(tr("&Purchase"), this);
-	QAction *messageSellerAction = new QAction(tr("&Message Seller"), this);
+    QAction *copyOfferValueAction = new QAction(tr("Copy Title"), this);
+	QAction *copyOfferDescriptionAction = new QAction(tr("Copy Description"), this);
+	QAction *resellAction = new QAction(tr("Resell"), this);
+	QAction *purchaseAction = new QAction(tr("Purchase"), this);
+	QAction *messageSellerAction = new QAction(tr("Message Seller"), this);
 
     // Build context menu
     contextMenu = new QMenu();

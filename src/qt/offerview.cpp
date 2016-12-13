@@ -37,11 +37,11 @@ OfferView::OfferView(const PlatformStyle *platformStyle, QStackedWidget *parent)
 	myAcceptedOfferListPage = new MyAcceptedOfferListPage(platformStyle);
 	acceptedOfferListPage = new AcceptedOfferListPage(platformStyle);
 	QString theme = GUIUtil::getThemeName();
-	tabWidget->addTab(myOfferListPage, tr("&Selling"));
-	tabWidget->addTab(myAcceptedOfferListPage, tr("S&old"));
-	tabWidget->addTab(acceptedOfferListPage, tr("&My Purchases"));
+	tabWidget->addTab(myOfferListPage, tr("Selling"));
+	tabWidget->addTab(myAcceptedOfferListPage, tr("Sold"));
+	tabWidget->addTab(acceptedOfferListPage, tr("My Purchases"));
 	tabWidget->addTab(offerListPage, tr("Search"));
-	tabWidget->addTab(acceptandPayOfferListPage, tr("&Buy"));
+	tabWidget->addTab(acceptandPayOfferListPage, tr("Buy"));
 	tabWidget->setTabIcon(0, QIcon(":/icons/" + theme + "/cart"));
 	tabWidget->setTabIcon(1, QIcon(":/icons/" + theme + "/cart"));
 	tabWidget->setTabIcon(2, QIcon(":/icons/" + theme + "/cart"));

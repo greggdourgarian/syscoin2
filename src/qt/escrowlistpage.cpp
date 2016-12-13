@@ -56,8 +56,8 @@ EscrowListPage::EscrowListPage(const PlatformStyle *platformStyle, QWidget *pare
 	
     // Context menu actions
     QAction *copyEscrowAction = new QAction(ui->copyEscrow->text(), this);
-    QAction *copyOfferAction = new QAction(tr("&Copy Offer ID"), this);
-	QAction *detailsAction = new QAction(tr("&Details"), this);
+    QAction *copyOfferAction = new QAction(tr("Copy Offer ID"), this);
+	QAction *detailsAction = new QAction(tr("Details"), this);
 	QAction *manageAction = new QAction(tr("Manage Escrow"), this);
 	QAction *ackAction = new QAction(tr("Acknowledge Payment"), this);
 
