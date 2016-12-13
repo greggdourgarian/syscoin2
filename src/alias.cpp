@@ -1772,6 +1772,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 8)
 		nTime = chainActive.Tip()->nTime+boost::lexical_cast<uint64_t>(params[7].get_str());
+	if(nTime < (chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS))
+		nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
     int nMultiSig = 1;
 	if(params.size() >= 9)
 		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
@@ -2013,9 +2015,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	}
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 9)
-	{
 		nTime = chainActive.Tip()->nTime+boost::lexical_cast<uint64_t>(params[8].get_str());
-	}
+	if(nTime < (chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS))
+		nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
     int nMultiSig = 1;
 	if(params.size() >= 10)
 		nMultiSig = boost::lexical_cast<int>(params[9].get_str());
