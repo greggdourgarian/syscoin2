@@ -1697,14 +1697,14 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 4 > params.size() || 10 < params.size())
 		throw runtime_error(
-		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire] [nrequired=0] [\"alias\",...]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
 						"<private value> alias private profile data, 1024 chars max. Will be private and readable by owner only.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
-						"<expire> String. Time in seconds. Future time when to expire alias. Min is current time + 31536000 (1 year). Max is current time + 157680000 (5 years). Defaults to 1 year.\n"	
+						"<expire> String. Time in seconds. Future time when to expire alias. Min is 31536000 (1 year). Max is 157680000 (5 years). Defaults to 1 year.\n"	
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<aliases>     For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -1771,7 +1771,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	}
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 8)
-		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
+		nTime = chainActive.Tip()->nTime+boost::lexical_cast<uint64_t>(params[7].get_str());
     int nMultiSig = 1;
 	if(params.size() >= 9)
 		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
@@ -1954,7 +1954,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || 3 > params.size() || 11 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
+		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
@@ -1963,7 +1963,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<toalias_pubkey> receiver syscoin alias pub key, if transferring alias.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
-						"<expire> String. Time in seconds. Future time when to expire alias. Min is current time + 31536000 (1 year). Max is current time + 157680000 (5 years). Defaults to 1 year.\n"		
+						"<expire> String. Time in seconds. Future time when to expire alias. Min is 31536000 (1 year). Max is 157680000 (5 years). Defaults to 1 year.\n"		
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<aliases>     For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -2014,7 +2014,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 9)
 	{
-		nTime = boost::lexical_cast<uint64_t>(params[8].get_str());
+		nTime = chainActive.Tip()->nTime+boost::lexical_cast<uint64_t>(params[8].get_str());
 	}
     int nMultiSig = 1;
 	if(params.size() >= 10)
