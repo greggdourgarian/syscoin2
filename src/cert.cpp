@@ -1145,20 +1145,20 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	if(!theCert.vchData.empty())
 	{		
 		string strData = "";
-		string strDecryptedData = "";
-		string strCipherText;
+		string strCipherText = "";
 		
 		// decrypt using old key
 		if(DecryptMessage(fromAlias.vchPubKey, theCert.vchData, strData))
-			strDecryptedData = strData;
-		else
-			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2520 - " + _("Could not decrypt certificate data"));
-		// encrypt using new key
-		if(!EncryptMessage(toAlias.vchPubKey, vchFromString(strDecryptedData), strCipherText))
 		{
-			throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2521 - " + _("Could not encrypt certificate data"));
+			// encrypt using new key
+			if(!EncryptMessage(toAlias.vchPubKey, vchFromString(strData), strCipherText))
+			{
+				throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2521 - " + _("Could not encrypt certificate data"));
+			}
+			vchData = vchFromString(strCipherText);
 		}
-		vchData = vchFromString(strCipherText);
+		else
+			vchData = theCert.vchData;	
 	}	
 	CSyscoinAddress sendAddr;
 	GetAddress(toAlias, &sendAddr, scriptPubKeyOrig);
