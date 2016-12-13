@@ -2312,11 +2312,10 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 		{
 			UniValue oList(UniValue::VOBJ);
 			oList.push_back(Pair("alias", stringFromVch(entry.aliasLinkVchRand)));
-			int expires_in = 0;
 			uint64_t nHeight = theAlias.nHeight;
 			if (!GetSyscoinTransaction(nHeight, txAlias.GetHash(), txAlias, Params().GetConsensus()))
 				continue;
-			uint64_t expires_in =  txAlias.nExpireTime - chainActive.Tip()->nTime;
+			uint64_t expires_in = theAlias.nExpireTime - chainActive.Tip()->nTime;
 			if(expires_in < -1)
 				expires_in = -1; 
 			oList.push_back(Pair("expires_in",expires_in));
