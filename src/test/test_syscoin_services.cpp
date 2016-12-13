@@ -319,6 +319,7 @@ void CertBan(const string& node, const string& cert, int severity)
 void ExpireAlias(const string& alias)
 {
 	UniValue r;
+	int64_t expiryTime;
 	try
 	{
 		r = CallRPC("node1", "aliasinfo " + alias);
@@ -329,7 +330,7 @@ void ExpireAlias(const string& alias)
 	}
 	if(r.isObject())
 	{
-		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
+		expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node1", cmd, true, false));
 	}
@@ -341,9 +342,8 @@ void ExpireAlias(const string& alias)
 	{
 		r = NullUniValue;
 	}
-	if(r.isObject())
+	if(r.isObject() && expiryTime > 0)
 	{
-		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node2", cmd, true, false));
 	}
@@ -355,9 +355,8 @@ void ExpireAlias(const string& alias)
 	{
 		r = NullUniValue;
 	}
-	if(r.isObject())
+	if(r.isObject() && expiryTime > 0)
 	{
-		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node3", cmd, true, false));
 	}
