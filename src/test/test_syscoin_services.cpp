@@ -127,8 +127,7 @@ UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regT
 		path += " ";
 	path += commandWithArgs;
 	string rawJson = CallExternal(path);
-	if(!rawJson.empty())
-		val.read(rawJson);
+    val.read(rawJson);
 	return val;
 }
 int fsize(FILE *fp){
