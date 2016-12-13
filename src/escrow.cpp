@@ -1270,6 +1270,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(params.size() >= 7 && !params[6].get_str().empty() && params[6].get_str() != "NONE")
 	{
 		paymentOptions = params[6].get_str();
+		boost::algorithm::to_upper(paymentOptions);
 	}
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOptions))

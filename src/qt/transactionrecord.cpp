@@ -155,6 +155,20 @@ static bool CreateSyscoinTransactions(const CWallet *wallet, const CWalletTx& wt
 	if(!CreateSyscoinTransactionRecord(sub, op, vvchArgs, wtx, type))
 		return false;
 
+	BOOST_FOREACH(const CTxOut& txout, wtx.vout)
+	{
+		isminetype mine = wallet->IsMine(txout);
+		if(mine)
+		{
+			sub.idx = parts.size(); // sequence number
+			if(type == RECV)
+				sub.credit = nNet;
+			else if(type == SEND)
+				sub.debit = nNet;
+			parts.append(sub);
+			return true;		
+		}
+	}
 	sub.idx = parts.size();
 	if(type == RECV)
 		sub.credit = nNet;

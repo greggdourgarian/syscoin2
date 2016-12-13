@@ -1673,6 +1673,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	if(params.size() >= 9 && !params[8].get_str().empty() && params[8].get_str() != "NONE")
 	{
 		paymentOptions = params[8].get_str();
+		boost::algorithm::to_upper(paymentOptions);
 	}
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOptions))
@@ -2368,6 +2369,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
 	{
 		paymentOptions = params[13].get_str();
+		boost::algorithm::to_upper(paymentOptions);
 	}
 	if(!ValidatePaymentOptionsString(paymentOptions))
 	{
@@ -2579,6 +2581,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	if(params.size() >= 6 && !params[5].get_str().empty() && params[5].get_str() != "NONE")
 	{
 		paymentOptions = params[5].get_str();
+		boost::algorithm::to_upper(paymentOptions);
 	}
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOptions))
