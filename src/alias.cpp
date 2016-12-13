@@ -849,13 +849,17 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		if(!vchData.empty())
 		{
 			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);	
-			uint64_t nTimeExpiry = theAlias.nExpireTime - chainActive[nHeight-1]->nTime;
-			float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
-			if(fYears < 1)
-				fYears = 1;
-			else if(fYears > 5)
-				fYears = 5;
-			fee *= fYears*fYears;
+			// if this is an alias update get expire time and figure out if alias update pays enough fees for updating expiry
+			if(!theAlias.IsNull())
+			{
+				uint64_t nTimeExpiry = theAlias.nExpireTime - chainActive[nHeight-1]->nTime;
+				float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
+				if(fYears < 1)
+					fYears = 1;
+				else if(fYears > 5)
+					fYears = 5;
+				fee *= fYears*fYears;
+			}
 			if (fee > tx.vout[nDataOut].nValue) 
 			{
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5020 - " + _("Transaction does not pay enough fees");
