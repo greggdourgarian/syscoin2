@@ -262,12 +262,12 @@ void EditCertDialog::setCertNotSafeBecauseOfAlias(const QString &alias)
 {
 	ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText("No"));
 	ui->safeSearchEdit->setEnabled(false);
-	ui->safeSearchDisclaimer->setText(QString("<font color='red'><b>%1</b>").arg(alias) + tr(" is not safe to search so this setting can only be set to No") + QString("</font>"));
+	ui->safeSearchDisclaimer->setText(QString("<font color='red'><b>%1</b>").arg(alias) + tr(" is not safe to search so this setting can only be set to 'No'") + QString("</font>"));
 }
 void EditCertDialog::resetSafeSearch()
 {
 	ui->safeSearchEdit->setEnabled(true);
-	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this cert safe to search? Anything that can be considered offensive to someone should be set to <b>No</b> here. If you do create a cert that is offensive and do not set this option to <b>No</b> your cert will be banned!") + QString("</font>"));
+	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this cert safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create a cert that is offensive and do not set this option to 'No' your cert will be banned!") + QString("</font>"));
 	
 }
 void EditCertDialog::loadAliases()

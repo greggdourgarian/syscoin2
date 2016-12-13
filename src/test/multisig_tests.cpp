@@ -162,8 +162,7 @@ BOOST_AUTO_TEST_CASE(multisig_IsStandard)
 
     CScript one_of_four;
     one_of_four << OP_1 << ToByteVector(key[0].GetPubKey()) << ToByteVector(key[1].GetPubKey()) << ToByteVector(key[2].GetPubKey()) << ToByteVector(key[3].GetPubKey()) << OP_4 << OP_CHECKMULTISIG;
-    // SYSCOIN
-	BOOST_CHECK(::IsStandard(one_of_four, whichType));
+	BOOST_CHECK_THROW(::IsStandard(one_of_four, whichType), runtime_error);
 
     CScript malformed[6];
     malformed[0] << OP_3 << ToByteVector(key[0].GetPubKey()) << ToByteVector(key[1].GetPubKey()) << OP_2 << OP_CHECKMULTISIG;

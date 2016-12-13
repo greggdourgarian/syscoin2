@@ -25,7 +25,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->aliasPegDisclaimer->setText(QString("<font color='blue'>") + tr("Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.") + QString("</font>"));
 	ui->transferDisclaimer->setText(QString("<font color='red'>") + tr("Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setVisible(false);
-	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to <b>No</b> here. If you do create an alias that is offensive and do not set this option to <b>No</b> your alias will be banned!") + QString("</font>"));
+	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
 	ui->expiryEdit->addItem(tr("1 Year"),"1");
 	ui->expiryEdit->addItem(tr("2 Years"),"2");

@@ -187,7 +187,7 @@ void EditOfferDialog::setOfferNotSafeBecauseOfAlias(const QString &alias)
 {
 	ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText("No"));
 	ui->safeSearchEdit->setEnabled(false);
-	ui->safeSearchDisclaimer->setText(QString("<font color='red'><b>%1</b>").arg(alias) + tr(" is not safe to search so this setting can only be set to No") + QString("</font>"));
+	ui->safeSearchDisclaimer->setText(QString("<font color='red'><b>%1</b>").arg(alias) + tr(" is not safe to search so this setting can only be set to 'No'") + QString("</font>"));
 	overrideSafeSearch = true;
 }
 void EditOfferDialog::resetSafeSearch()
