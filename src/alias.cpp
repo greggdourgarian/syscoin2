@@ -2343,8 +2343,8 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	entry.push_back(Pair("acceptcerttransfers", acceptTransfersValue));
 
 	string expireValue = noDifferentStr;
-	if(alias.nRenewal != dbAlias.nRenewal)
-		expireValue = strprintf("%d", alias.nRenewal);
+	if(alias.nExpiryTime != dbAlias.nExpiryTime)
+		expireValue = strprintf("%d", alias.nExpiryTime);
 
 	entry.push_back(Pair("renewal", expireValue));
 
@@ -2736,7 +2736,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	uint64_t nHeight;
 	int expired = 0;
 	uint64_t expires_in = 0;
-	uint64_t expired_block = 0;
+	uint64_t expired_time = 0;
 	nHeight = alias.nHeight;
 	oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
 
