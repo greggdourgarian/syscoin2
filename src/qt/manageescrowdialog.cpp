@@ -45,7 +45,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	}
 
 	escrowRoleType = findYourEscrowRoleFromAliases(buyer, seller, reseller, arbiter);
-	ui->manageInfo->setText(tr("You are managing escrow ID") + QString(" <b>%1</b>. ").arg(escrow) + tr("Offer:") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1</b>. ").arg(total) + tr("The buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:") + QString(" <b>%1</b>, ").arg(reseller.size() == 0? seller: reseller) + QString("arbiter:") + tr(" <b>%1</b>.").arg(arbiter));
+	ui->manageInfo->setText(tr("You are managing escrow ID") + QString(" <b>%1</b>. ").arg(escrow) + tr("Offer:") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1</b>. ").arg(total) + tr("The buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:") + QString(" <b>%1</b>, ").arg(reseller.size() == 0? seller: reseller) + tr("arbiter:") + QString(" <b>%1</b>.").arg(arbiter));
 	if(escrowRoleType == None)
 	{
 		ui->manageInfo2->setText(tr("You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases."));
