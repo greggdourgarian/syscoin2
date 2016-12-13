@@ -223,7 +223,19 @@ void GenerateBlocks(int nBlocks, const string& node)
   while(height != newHeight)
   {
 	  MilliSleep(100);
-	  BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "getinfo"));
+	  try
+	  {
+		r = CallRPC(otherNode1, "getinfo");
+	  }
+	  catch(runtime_error &e)
+	  {
+		r = NullUniValue;
+	  }
+	  if(!r.isObject())
+	  {
+		 height = newHeight;
+		 break;
+	  }
 	  height = find_value(r.get_obj(), "blocks").get_int();
 	  timeoutCounter++;
 	  if(timeoutCounter > 300)
@@ -235,7 +247,19 @@ void GenerateBlocks(int nBlocks, const string& node)
   while(height != newHeight)
   {
 	  MilliSleep(100);
-	  BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "getinfo"));
+	  try
+	  {
+		r = CallRPC(otherNode2, "getinfo");
+	  }
+	  catch(runtime_error &e)
+	  {
+		r = NullUniValue;
+	  }
+	  if(!r.isObject())
+	  {
+		 height = newHeight;
+		 break;
+	  }
 	  height = find_value(r.get_obj(), "blocks").get_int();
 	  timeoutCounter++;
 	  if(timeoutCounter > 300)
@@ -305,7 +329,7 @@ void ExpireAlias(const string& alias)
 	}
 	if(r.isObject())
 	{
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node1", cmd, true, false));
@@ -320,7 +344,7 @@ void ExpireAlias(const string& alias)
 	}
 	if(r.isObject())
 	{
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node2", cmd, true, false));
