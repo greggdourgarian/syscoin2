@@ -301,6 +301,7 @@ void ExpireAlias(const string& alias)
 	}
 	catch(runtime_error &e)
 	{
+		r.SetNull();
 	}
 	if(r.isObject())
 	{
@@ -315,6 +316,7 @@ void ExpireAlias(const string& alias)
 	}
 	catch(runtime_error &e)
 	{
+		r.SetNull();
 	}
 	if(r.isObject())
 	{
@@ -329,6 +331,7 @@ void ExpireAlias(const string& alias)
 	}
 	catch(runtime_error &e)
 	{
+		r.SetNull();
 	}
 	if(r.isObject())
 	{
@@ -345,6 +348,7 @@ void ExpireAlias(const string& alias)
 	}
 	catch(runtime_error &e)
 	{
+		r.SetNull();
 	}
 	if(r.isObject())
 	{
@@ -356,6 +360,7 @@ void ExpireAlias(const string& alias)
 	}
 	catch(runtime_error &e)
 	{
+		r.SetNull();
 	}
 	if(r.isObject())
 	{
@@ -367,6 +372,7 @@ void ExpireAlias(const string& alias)
 	}
 	catch(runtime_error &e)
 	{
+		r.SetNull();
 	}
 	if(r.isObject())
 	{
