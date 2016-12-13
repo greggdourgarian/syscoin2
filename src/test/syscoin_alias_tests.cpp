@@ -385,6 +385,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback1", "On"), false);
 
 	StartNode("node3");
+	ExpireAlias("aliasexpirebuyback1");
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback1", "On"), false);
@@ -405,6 +406,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	StartNode("node3");
+	ExpireAlias("aliasexpirebuyback2");
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
