@@ -2315,7 +2315,7 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 			uint64_t nHeight = theAlias.nHeight;
 			if (!GetSyscoinTransaction(nHeight, txAlias.GetHash(), txAlias, Params().GetConsensus()))
 				continue;
-			uint64_t expires_in = theAlias.nExpireTime - chainActive.Tip()->nTime;
+			int64_t expires_in = theAlias.nExpireTime - chainActive.Tip()->nTime;
 			if(expires_in < -1)
 				expires_in = -1; 
 			oList.push_back(Pair("expires_in",expires_in));
@@ -3276,8 +3276,8 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 
 	uint64_t nHeight;
 	int expired;
-	uint64_t expires_in;
-	uint64_t expired_time;
+	int64_t expires_in;
+	int64_t expired_time;
 
 	expired = 0;
 	expires_in = 0;

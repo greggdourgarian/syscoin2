@@ -1363,13 +1363,13 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("viewalias", stringFromVch(cert.vchViewAlias)));
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
-	uint64_t expired_time = GetCertExpiration(cert);
+	int64_t expired_time = GetCertExpiration(cert);
 	int expired = 0;
     if(expired_time <= chainActive.Tip()->nTime)
 	{
 		expired = 1;
 	}  
-	uint64_t expires_in = expired_time - chainActive.Tip()->nTime;
+	int64_t expires_in = expired_time - chainActive.Tip()->nTime;
 	if(expires_in < -1)
 		expires_in = -1;
 

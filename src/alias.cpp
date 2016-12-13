@@ -2577,7 +2577,7 @@ UniValue aliasaffiliates(const UniValue& params, bool fHelp) {
 					UniValue oList(UniValue::VOBJ);
 					oList.push_back(Pair("offer", stringFromVch(vchOffer)));
 					oList.push_back(Pair("alias", stringFromVch(entry.aliasLinkVchRand)));
-					uint64_t expires_in =  theAlias.nExpireTime - chainActive.Tip()->nTime;
+					int64_t expires_in =  theAlias.nExpireTime - chainActive.Tip()->nTime;
 					if(expires_in < -1)
 						expires_in = -1; 
 					oList.push_back(Pair("expires_in",expires_in));
@@ -2735,8 +2735,8 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 {
 	uint64_t nHeight;
 	int expired = 0;
-	uint64_t expires_in = 0;
-	uint64_t expired_time = 0;
+	int64_t expires_in = 0;
+	int64_t expired_time = 0;
 	nHeight = alias.nHeight;
 	oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
 

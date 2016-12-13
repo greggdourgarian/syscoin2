@@ -3554,7 +3554,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
-	uint64_t expired_time = GetEscrowExpiration(escrow);
+	int64_t expired_time = GetEscrowExpiration(escrow);
 	int expired = 0;
     if(expired_time <= chainActive.Tip()->nTime)
 	{
