@@ -336,7 +336,7 @@ void ExpireAlias(const string& alias)
 	}
 	try
 	{
-		r = CallRPC("node2", "aliasinfo " + alias);
+		r = CallRPC("node2", "getinfo");
 		if(expiryTime > 0)
 		{
 			string cmd = strprintf("setmocktime %lld", expiryTime);
@@ -349,7 +349,7 @@ void ExpireAlias(const string& alias)
 	}
 	try
 	{
-		r = CallRPC("node3", "aliasinfo " + alias);
+		r = CallRPC("node3", "getinfo");
 		if(expiryTime > 0)
 		{
 			string cmd = strprintf("setmocktime %lld", expiryTime);
