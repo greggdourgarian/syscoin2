@@ -841,7 +841,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasexpire2 certtitle certdata pubdata"));
 	const UniValue &array3 = r.get_array();
 	string certgoodguid = array3[1].get_str();	
-	// expire aliasexpire and aliasexpirednode2 aliases
+	// expire aliasexpirednode2 and everything before
 	ExpireAlias("aliasexpirednode2");
 	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire passwordnew somedata"));
