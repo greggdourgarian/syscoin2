@@ -293,21 +293,21 @@ void ExpireAlias(const string& alias)
 {
 	UniValue r;
 	r = CallRPC("node1", "aliasinfo " + alias);
-	if(r.get_obj())
+	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
 		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		BOOST_CHECK_NO_THROW(r = CallRPC("node1", "setmocktime " + expiryTime));
 	}
 	r = CallRPC("node2", "aliasinfo " + alias);
-	if(r.get_obj())
+	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
 		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
 		BOOST_CHECK_NO_THROW(r = CallRPC("node1", "setmocktime " + expiryTime));
 	}
 	r = CallRPC("node3", "aliasinfo " + alias);
-	if(r.get_obj())
+	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
 		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
@@ -316,17 +316,17 @@ void ExpireAlias(const string& alias)
 	GenerateBlocks(5);
 	// ensure alias is expired
 	r = CallRPC("node1", "aliasinfo " + alias);
-	if(r.get_obj())
+	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
 	r = CallRPC("node2", "aliasinfo " + alias);
-	if(r.get_obj())
+	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
 	r = CallRPC("node3", "aliasinfo " + alias);
-	if(r.get_obj())
+	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
