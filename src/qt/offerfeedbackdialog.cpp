@@ -29,7 +29,7 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
 		ui->primaryFeedback->setVisible(false);
 		return;
 	}
-	ui->manageInfo->setText(tr("This offer payment was for Offer ID") + QString(" <b>%1</b> ").arg(offer) + tr("for") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1 %2 (%3 SYS)</b>.").arg(total).arg(currency).arg(systotal) + tr("Buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:" + QString(" <b>%1</b> ").arg(seller));
+	ui->manageInfo->setText(tr("This offer payment was for Offer ID") + QString(" <b>%1</b> ").arg(offer) + tr("for") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1 %2 (%3 SYS)</b>.").arg(total).arg(currency).arg(systotal) + tr("Buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:") + QString(" <b>%1</b> ").arg(seller));
 	OfferType offerType = findYourOfferRoleFromAliases(buyer, seller);
 	
 	if(offerType == None)
