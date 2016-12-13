@@ -295,7 +295,13 @@ void CertBan(const string& node, const string& cert, int severity)
 void ExpireAlias(const string& alias)
 {
 	UniValue r;
-	r = CallRPC("node1", "aliasinfo " + alias);
+	try
+	{
+		r = CallRPC("node1", "aliasinfo " + alias);
+	}
+	catch(runtime_error &e)
+	{
+	}
 	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
@@ -303,7 +309,13 @@ void ExpireAlias(const string& alias)
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node1", cmd, true, false));
 	}
-	r = CallRPC("node2", "aliasinfo " + alias);
+	try
+	{
+		r = CallRPC("node2", "aliasinfo " + alias);
+	}
+	catch(runtime_error &e)
+	{
+	}
 	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
@@ -311,7 +323,13 @@ void ExpireAlias(const string& alias)
 		string cmd = strprintf("setmocktime %lld", expiryTime);
 		BOOST_CHECK_NO_THROW(CallRPC("node2", cmd, true, false));
 	}
-	r = CallRPC("node3", "aliasinfo " + alias);
+	try
+	{
+		r = CallRPC("node3", "aliasinfo " + alias);
+	}
+	catch(runtime_error &e)
+	{
+	}
 	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
@@ -321,17 +339,35 @@ void ExpireAlias(const string& alias)
 	}
 	GenerateBlocks(5);
 	// ensure alias is expired
-	r = CallRPC("node1", "aliasinfo " + alias);
+	try
+	{
+		r = CallRPC("node1", "aliasinfo " + alias);
+	}
+	catch(runtime_error &e)
+	{
+	}
 	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
-	r = CallRPC("node2", "aliasinfo " + alias);
+	try
+	{
+		r = CallRPC("node2", "aliasinfo " + alias);
+	}
+	catch(runtime_error &e)
+	{
+	}
 	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
-	r = CallRPC("node3", "aliasinfo " + alias);
+	try
+	{
+		r = CallRPC("node3", "aliasinfo " + alias);
+	}
+	catch(runtime_error &e)
+	{
+	}
 	if(r.isObject())
 	{
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
