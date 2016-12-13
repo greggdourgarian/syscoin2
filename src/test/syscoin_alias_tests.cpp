@@ -396,16 +396,17 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	// run the test with node3 offline to test pruning with renewing alias twice
 	StopNode("node3");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback2 passwordnew5 data"));
+	GenerateBlocks(5);
 	ExpireAlias("aliasexpirebuyback2");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	// renew second time
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback2 passwordnew6 data"));
+	GenerateBlocks(5);
 	ExpireAlias("aliasexpirebuyback2");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	StartNode("node3");
-	ExpireAlias("aliasexpirebuyback2");
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
 	MilliSleep(2500);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
