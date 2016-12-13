@@ -193,6 +193,7 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
     if (isValid)
     {
         CTxDestination dest = address.Get();
+		address.Set(dest, CChainParams::ADDRESS_SYS);
         string currentAddress = address.ToString();
 		// SYSCOIN v1 addy compatibility
 		CSyscoinAddress v1addr;
@@ -202,9 +203,12 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
 			ret.push_back(Pair("address", v1addr.ToString()));
 		else
 			ret.push_back(Pair("address", currentAddress));
+		CSyscoinAddress zaddr;
+		zaddr.Set(dest, CChainParams::ADDRESS_ZEC);
+		ret.push_back(Pair("zaddress", zaddr.ToString()));
 		// SYSCOIN alias from address
-		v1addr = CSyscoinAddress(currentAddress);
-		ret.push_back(Pair("alias", v1addr.aliasName));	
+		address = CSyscoinAddress(address.ToString());
+		ret.push_back(Pair("alias", address.aliasName));	
 
         CScript scriptPubKey = GetScriptForDestination(dest);
 		// SYSCOIN

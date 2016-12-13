@@ -308,37 +308,49 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 				return;
 			}
 		}
-		UniValue outputsValue = find_value(resultObj, "vout");
-		if (outputsValue.isArray())
+		if(m_strAddress.size() > 0)
 		{
-			UniValue outputs = outputsValue.get_array();
-			for (unsigned int idx = 0; idx < outputs.size(); idx++) {
-				const UniValue& output = outputs[idx].get_obj();	
-				UniValue paymentValue = find_value(output, "value");
-				UniValue scriptPubKeyObj = find_value(output, "scriptPubKey").get_obj();
-				UniValue addressesValue = find_value(scriptPubKeyObj, "addresses");
-				if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
-				{
-					UniValue addressValue = addressesValue.get_array()[0];
-					if(addressValue.get_str() == m_strAddress.toStdString())
+			UniValue outputsValue = find_value(resultObj, "vout");
+			if (outputsValue.isArray())
+			{
+				UniValue outputs = outputsValue.get_array();
+				for (unsigned int idx = 0; idx < outputs.size(); idx++) {
+					const UniValue& output = outputs[idx].get_obj();	
+					UniValue paymentValue = find_value(output, "value");
+					UniValue scriptPubKeyObj = find_value(output, "scriptPubKey").get_obj();
+					UniValue addressesValue = find_value(scriptPubKeyObj, "addresses");
+					if(addressesValue.isArray() &&  addressesValue.get_array().size() == 1)
 					{
-						if(paymentValue.isNum())
+						UniValue addressValue = addressesValue.get_array()[0];
+						if(addressValue.get_str() == m_strAddress.toStdString())
 						{
-							valueAmount += paymentValue.get_real();
-							if(valueAmount >= dblPrice)
+							if(paymentValue.isNum())
 							{
-								ui->extButton->setText(m_buttonText);
-								ui->extButton->setEnabled(true);
-								QMessageBox::information(this, windowTitle(),
-									tr("Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain,
-									QMessageBox::Ok, QMessageBox::Ok);
-								return;
+								valueAmount += paymentValue.get_real();
+								if(valueAmount >= dblPrice)
+								{
+									ui->extButton->setText(m_buttonText);
+									ui->extButton->setEnabled(true);
+									QMessageBox::information(this, windowTitle(),
+										tr("Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: ") + chain,
+										QMessageBox::Ok, QMessageBox::Ok);
+									return;
+								}
 							}
 						}
+							
 					}
-						
 				}
 			}
+		}
+		else
+		{
+				ui->extButton->setText(m_buttonText);
+				ui->extButton->setEnabled(true);
+				QMessageBox::information(this, windowTitle(),
+					tr("Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain,
+					QMessageBox::Ok, QMessageBox::Ok);
+				return;
 		}
 	}
 	else
@@ -415,9 +427,9 @@ void MyEscrowListPage::on_extButton_clicked()
         return;
 	}
 	if(m_paymentOption == QString("BTC"))
-		CheckPaymentInBTC(redeemTxId.size() > 0? redeemTxId: extTxId, address, price);
+		CheckPaymentInBTC(redeemTxId.size() > 0? redeemTxId: extTxId, redeemTxId.size() > 0? "": address, price);
 	else if(m_paymentOption == QString("ZEC"))
-		CheckPaymentInZEC(redeemTxId.size() > 0? redeemTxId: extTxId, address, price);
+		CheckPaymentInZEC(redeemTxId.size() > 0? redeemTxId: extTxId, redeemTxId.size() > 0? "": address, price);
 
 
 }

@@ -356,20 +356,21 @@ bool ManageEscrowDialog::CompleteEscrowRelease()
 					tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
 						QMessageBox::Ok, QMessageBox::Ok);
 				return true;
-			}
-			if(m_exttxid.size() > 0)
-			{
-				QMessageBox::information(this, windowTitle(),
-					tr("Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: ") + chain,
-					QMessageBox::Ok, QMessageBox::Ok);
-			}
-			else
-			{
-				QMessageBox::information(this, windowTitle(),
-				tr("Escrow release completed successfully! "),
-					QMessageBox::Ok, QMessageBox::Ok);
-			}
+			}	
 		}
+		if(m_exttxid.size() > 0)
+		{
+			QMessageBox::information(this, windowTitle(),
+				tr("Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: ") + chain,
+				QMessageBox::Ok, QMessageBox::Ok);
+		}
+		else
+		{
+			QMessageBox::information(this, windowTitle(),
+			tr("Escrow release completed successfully! "),
+				QMessageBox::Ok, QMessageBox::Ok);
+		}
+		ManageEscrowDialog::accept();
 		return true;
 	}
 	catch (UniValue& objError)
@@ -402,27 +403,27 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 	try {
 		UniValue result = tableRPC.execute(strMethod, params);
 
-			const UniValue& resArray = result.get_array();
-			if(resArray.size() > 1)
+		const UniValue& resArray = result.get_array();
+		if(resArray.size() > 1)
+		{
+			const UniValue& complete_value = resArray[1];
+			bool bComplete = false;
+			if (complete_value.isStr())
+				bComplete = complete_value.get_str() == "true";
+			if(!bComplete)
 			{
-				const UniValue& complete_value = resArray[1];
-				bool bComplete = false;
-				if (complete_value.isStr())
-					bComplete = complete_value.get_str() == "true";
-				if(!bComplete)
-				{
-					string hex_str = resArray[0].get_str();
-					GUIUtil::setClipboard(QString::fromStdString(hex_str));
-					QMessageBox::information(this, windowTitle(),
-						tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
-							QMessageBox::Ok, QMessageBox::Ok);
-					return true;
-				}
+				string hex_str = resArray[0].get_str();
+				GUIUtil::setClipboard(QString::fromStdString(hex_str));
+				QMessageBox::information(this, windowTitle(),
+					tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
+						QMessageBox::Ok, QMessageBox::Ok);
+				return true;
 			}
+		}
 		if(m_exttxid.size() > 0)
 		{
 			QMessageBox::information(this, windowTitle(),
-				tr("Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: ") + chain,
+				tr("Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: ") + chain,
 				QMessageBox::Ok, QMessageBox::Ok);
 		}
 		else
@@ -431,7 +432,7 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 			tr("Escrow refund completed successfully!"),
 				QMessageBox::Ok, QMessageBox::Ok);
 		}
-		
+		ManageEscrowDialog::accept();
 		return true;
 	}
 	catch (UniValue& objError)
@@ -503,7 +504,7 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 		reply->deleteLater();
 		return;
 	}
-	
+	reply->deleteLater();
 	if(m_buttontext == tr("Claim Payment"))
 	{
 		if(!CompleteEscrowRelease())
@@ -518,7 +519,6 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 				ui->refundButton->setText(m_buttontext);
 				ui->refundButton->setEnabled(true);	
 			}
-			reply->deleteLater();
 			return;
 		}
 	}
@@ -536,7 +536,6 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 				ui->refundButton->setText(m_buttontext);
 				ui->refundButton->setEnabled(true);	
 			}
-			reply->deleteLater();
 			return;
 		}
 	}
@@ -550,7 +549,6 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 		ui->refundButton->setText(m_buttontext);
 		ui->refundButton->setEnabled(false);	
 	}
-	reply->deleteLater();
 }
 void ManageEscrowDialog::SendRawTxBTC()
 {
@@ -637,14 +635,6 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 					return;
 				}
 				
-				GUIUtil::setClipboard(m_checkTxId);
-				QMessageBox::information(this, windowTitle(),
-					tr("Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: ") + timestamp.toString(Qt::SystemLocaleShortDate) + tr(" chain: ") + chain + tr(" confirmations: ") + QString::number(confirmations),
-					QMessageBox::Ok, QMessageBox::Ok);	
-				m_bRelease = false;
-				m_bRefund = false;
-				reply->deleteLater();
-				return;
 			}
 		}
 	}
@@ -670,7 +660,6 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 void ManageEscrowDialog::CheckPaymentInBTC()
 {
 	BtcRpcClient btcClient;
-	m_buttontext = tr("Check BTC Payment");
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
 	m_checkTxId = m_redeemTxId.size() > 0? m_redeemTxId: m_exttxid;
@@ -679,7 +668,7 @@ void ManageEscrowDialog::CheckPaymentInBTC()
 void ManageEscrowDialog::CheckPaymentInZEC()
 {
 	ZecRpcClient zecClient;
-	m_buttontext = tr("Check ZEC Payment");
+
 	QNetworkAccessManager *nam = new QNetworkAccessManager(this);  
 	connect(nam, SIGNAL(finished(QNetworkReply *)), this, SLOT(slotConfirmedFinishedCheck(QNetworkReply *)));
 	m_checkTxId = m_redeemTxId.size() > 0? m_redeemTxId: m_exttxid;
@@ -740,8 +729,7 @@ void ManageEscrowDialog::doRelease(const QString &rawTx)
 			}
 			else
 			{
-				if(CompleteEscrowRelease())
-					ManageEscrowDialog::accept();
+				CompleteEscrowRelease();
 			}
 		}
 		else
@@ -840,8 +828,7 @@ void ManageEscrowDialog::doRefund(const QString &rawTx)
 			}
 			else
 			{
-				if(CompleteEscrowRefund())
-					ManageEscrowDialog::accept();
+				CompleteEscrowRefund();
 			}
 		}
 		else

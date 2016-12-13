@@ -173,6 +173,7 @@ bool EscrowInfoDialog::lookup()
 				ui->exttxidLabel->setVisible(true);
 				ui->exttxidEdit->setText(exttxidStr);
 			}
+			ui->redeemTxidEdit->setText(QString::fromStdString(find_value(result.get_obj(), "redeem_txid").get_str()));
 			ui->guidEdit->setText(QString::fromStdString(find_value(result.get_obj(), "escrow").get_str()));
 			ui->offerEdit->setText(QString::fromStdString(find_value(result.get_obj(), "offer").get_str()));
 			
