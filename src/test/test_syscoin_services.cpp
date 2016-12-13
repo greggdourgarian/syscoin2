@@ -289,6 +289,48 @@ void CertBan(const string& node, const string& cert, int severity)
 	CallRPC(node, "aliasupdate sysrates.peg sysban " + data);
 	GenerateBlocks(5);
 }
+void ExpireAlias(const string& alias)
+{
+	UniValue r;
+	r = CallRPC("node1", "aliasinfo " + alias);
+	if(r.get_obj())
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
+		BOOST_CHECK_NO_THROW(r = CallRPC("node1", "setmocktime " + expiryTime));
+	}
+	r = CallRPC("node2", "aliasinfo " + alias);
+	if(r.get_obj())
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
+		BOOST_CHECK_NO_THROW(r = CallRPC("node1", "setmocktime " + expiryTime));
+	}
+	r = CallRPC("node3", "aliasinfo " + alias);
+	if(r.get_obj())
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+		int64_t expiryTime = find_value(r.get_obj(), "expires_on").get_int64();
+		BOOST_CHECK_NO_THROW(r = CallRPC("node1", "setmocktime " + expiryTime));
+	}
+	GenerateBlocks(5);
+	// ensure alias is expired
+	r = CallRPC("node1", "aliasinfo " + alias);
+	if(r.get_obj())
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	}
+	r = CallRPC("node2", "aliasinfo " + alias);
+	if(r.get_obj())
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	}
+	r = CallRPC("node3", "aliasinfo " + alias);
+	if(r.get_obj())
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	}
+}
 string AliasNew(const string& node, const string& aliasname, const string& password, const string& pubdata, string privdata, string safesearch, string numreq, string multisig)
 {
 	string otherNode1 = "node2";
