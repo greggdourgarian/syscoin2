@@ -407,7 +407,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	StartNode("node3");
 	ExpireAlias("aliasexpirebuyback2");
-	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node3");
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "On"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node3", "aliasexpirebuyback2", "On"), false);
@@ -641,15 +641,14 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprune password data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
+	GenerateBlocks(5, "node1");
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune", "Off"), true);
 	// then we let the service expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 100"));
+	ExpireAlias("aliasprune");
 	StartNode("node2");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	ExpireAlias("aliasprune");
+	GenerateBlocks(5, "node2");
 	// now we shouldn't be able to search it
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune", "Off"), false);
 	// and it should say its expired
@@ -664,31 +663,23 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	StopNode("node3");
 	// create a new service
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprune1 password data"));
-	// make 89 blocks (10 get mined with new)
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 79"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	// give some time to propogate the new blocks across other 2 nodes
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasprune1 newdata privdata"));
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "Off"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "Off"), true);
-	// generate 89 more blocks (10 get mined from update)
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 89"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// ensure service is still active since its supposed to expire at 100 blocks of non updated services
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasprune1 newdata1 privdata"));
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "Off"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "Off"), true);
-
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 125"));
-	MilliSleep(2500);
+	ExpireAlias("aliasprune1");
 	// now it should be expired
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasprune1 newdata2 privdata"), runtime_error);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "Off"), false);
@@ -698,8 +689,8 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 
 	StartNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
-	MilliSleep(2500);
+	ExpireAlias("aliasprune");
+	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasinfo aliasprune1"), runtime_error);
 	BOOST_CHECK_EQUAL(AliasFilter("node3", "aliasprune1", "Off"), false);
@@ -716,34 +707,26 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasprunewithoffer password somedata"));
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasprunewithoffer1 password somedata"));
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasprunewithoffer2 password somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 25"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithoffer category title 1 0.05 description USD"));
 	const UniValue &arr = r.get_array();
 	string offerguid = arr[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasprunewithoffer2 " + offerguid + " 1 message aliasprunewithoffer1"));
 	const UniValue &array = r.get_array();
 	string escrowguid = array[1].get_str();	
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowrelease " + escrowguid + " buyer"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowclaimrelease " + escrowguid));
 	UniValue retArray = r.get_array();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "escrowcompleterelease " + escrowguid + " " + retArray[0].get_str()));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 110"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	// last created alias should have furthest expiry
+	ExpireAlias("aliasprunewithoffer2");
 	StartNode("node3");
-	MilliSleep(2500);
+	ExpireAlias("aliasprunewithoffer2");
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + escrowguid), runtime_error);
@@ -760,47 +743,32 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	StopNode("node3");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprunewithcertoffer password somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew sysrates.peg aliasprunewithcertoffer2 password somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 20"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
 	MilliSleep(2500);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasprunewithcertoffer jag1 data pubdata"));
 	const UniValue &arr = r.get_array();
 	string certguid = arr[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithcertoffer certificates title 1 0.05 description USD " + certguid));
 	const UniValue &arr1 = r.get_array();
 	string certofferguid = arr1[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithcertoffer category title 1 0.05 description USD"));
 	const UniValue &arr2 = r.get_array();
 	string offerguid = arr2[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + offerguid + " category title 1 0.05 description"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + certofferguid + " certificates title 1 0.05 description USD 0 " + certguid));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept aliasprunewithcertoffer2 " + certofferguid + " 1 message"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept aliasprunewithcertoffer2 " + offerguid + " 1 message"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node2");
+	ExpireAlias("aliasprunewithcertoffer2");
 	StartNode("node3");
-	MilliSleep(2500);
+	ExpireAlias("aliasprunewithcertoffer2");
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "offerinfo " + offerguid), runtime_error);
@@ -818,25 +786,19 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	StopNode("node3");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprunewithcert password somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew sysrates.peg aliasprunewithcert2 password somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasprunewithcert jag1 data pubdata"));
 	const UniValue &arr = r.get_array();
 	string certguid = arr[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasprunewithcert newdata privdata pubdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certguid + " aliasprunewithcert2"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 110"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	ExpireAlias("aliasprunewithcert2");
 	StartNode("node3");
-	MilliSleep(2500);
+	ExpireAlias("aliasprunewithcert2");
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "certinfo " + certguid), runtime_error);
@@ -851,12 +813,12 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 
-	string aliasexpirepubkey = AliasNew("node1", "aliasexpire", "password", "somedata");
+	AliasNew("node1", "aliasexpire", "password", "somedata");
 	AliasNew("node1", "aliasexpire0", "password", "somedata");
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "password", "somedata");
 	AliasNew("node2", "aliasexpirednode2", "password", "somedata");
-	GenerateBlocks(20);
+	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
 	GenerateBlocks(5);
 	string offerguid = OfferNew("node1", "aliasexpire0", "category", "title", "100", "0.01", "description", "USD");
@@ -867,32 +829,26 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire2 passwordnew somedata"));
 	const UniValue &array1 = r.get_array();
 	string aliasexpire2pubkey = array1[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire0"));
 	const UniValue &array = r.get_array();
 	string escrowguid = array[1].get_str();	
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
-
-
+	GenerateBlocks(5, "node2");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasexpire2node2 passwordnew somedata"));
 	const UniValue &array2 = r.get_array();
 	string aliasexpire2node2pubkey = array2[1].get_str();	
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 10"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node2");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasexpire2 certtitle certdata pubdata"));
 	const UniValue &array3 = r.get_array();
 	string certgoodguid = array3[1].get_str();	
 	// expire aliasexpire and aliasexpirenode2 aliases
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 10"));
-	MilliSleep(2500);
-
+	AliasExpire("aliasexpirenode2");
+	AliasNew("node1", "aliasexpire", "password", "somedata");
+	AliasNew("node2", "aliasexpire1", "password", "somedata");
 
 	UniValue pkr = CallRPC("node2", "generatepublickey");
 	if (pkr.type() != UniValue::VARR)
@@ -928,35 +884,27 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// keep alive for later calls
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1 privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1","generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata pubdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " category title 100 0.05 description"));
-	// expire the escrow
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 30"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1","generate 35"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 
 	StartNode("node3");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
-	MilliSleep(2500); 
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire0 newdata1 privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1 privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
+	AliasExpire("aliasexpirenode2");
+	
+	GenerateBlocks(5, "node3");
+	GenerateBlocks(5, "node2");
+	GenerateBlocks(5, "node1");
 	// ensure node3 can see (not pruned) expired escrows that aren't complete or refunded yet
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + escrowguid));
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
+	AliasNew("node1", "aliasexpire", "password", "somedata");
+	AliasNew("node1", "aliasexpire0", "password", "somedata");
+	AliasNew("node1", "aliasexpire2", "password", "somedata");
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata pubdata"));
@@ -964,8 +912,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
 
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 70"));
-	MilliSleep(2500);
+	AliasExpire("aliasexpire2");
 	// should fail: update cert with expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"), runtime_error);
 	// should fail: xfer an cert with expired alias
@@ -973,16 +920,15 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: xfer an cert to an expired alias even though transferring cert is good
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpire1"), runtime_error);
 
-
+	AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata")
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirenode2"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certgoodguid));
 	// ensure it got transferred
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirenode2");
 
-	GenerateBlocks(110);
+	AliasExpire("aliasexpirenode2");
 	// should fail: generate a cert using expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 data pubdata"), runtime_error);
 	// renew alias with new password after expiry

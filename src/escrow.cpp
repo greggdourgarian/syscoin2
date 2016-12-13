@@ -58,19 +58,12 @@ uint64_t GetEscrowExpiration(const CEscrow& escrow) {
 	CAliasUnprunable aliasBuyerPrunable,aliasSellerPrunable,aliasArbiterPrunable;
 	if(paliasdb)
 	{
-		// all 3 aliases need to be expired for escrow to expire
 		if (paliasdb->ReadAliasUnprunable(escrow.vchBuyerAlias, aliasBuyerPrunable) && !aliasBuyerPrunable.IsNull())
 			nTime = aliasBuyerPrunable.nExpireTime;
-		// buyer is expired, try arbiter
+		// buyer is expired try seller
 		if(nTime <= chainActive.Tip()->nTime)
 		{
-			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasArbiterPrunable) && !aliasArbiterPrunable.IsNull())
-				nTime = aliasArbiterPrunable.nExpireTime;
-		}
-		// buyer and arbiter are expired try seller
-		if(nTime <= chainActive.Tip()->nTime)
-		{
-			if (paliasdb->ReadAliasUnprunable(escrow.vchArbiterAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
+			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
 				nTime = aliasSellerPrunable.nExpireTime;
 		}
 	}
