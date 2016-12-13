@@ -817,7 +817,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	AliasNew("node1", "aliasexpire0", "password", "somedata");
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirenode2", "password", "somedata");
-	AliasNew("node2", "aliasexpirednode2", "password", "somedata");
+	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirednode2", "password", "somedata");
 	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
 	GenerateBlocks(5);
@@ -832,7 +832,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirenode2 " + offerguid + " 1 message aliasexpire0"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire0"));
 	const UniValue &array = r.get_array();
 	string escrowguid = array[1].get_str();	
 	GenerateBlocks(5, "node2");
@@ -845,8 +845,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasexpire2 certtitle certdata pubdata"));
 	const UniValue &array3 = r.get_array();
 	string certgoodguid = array3[1].get_str();	
-	// expire aliasexpire and aliasexpirenode2 aliases
-	ExpireAlias("aliasexpirenode2");
+	// expire aliasexpire and aliasexpirednode2 aliases
+	ExpireAlias("aliasexpirednode2");
 	GenerateBlocks(5, "node2");
 	AliasNew("node1", "aliasexpire", "password", "somedata");
 	AliasNew("node1", "aliasexpire0", "password", "somedata");
@@ -872,7 +872,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 category title 1 0.05 description USD nocert"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpirenode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpirednode2"), runtime_error);
 	// should fail: send message from expired alias to non-expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpire"), runtime_error);
 	// should fail: send message from non-expired alias to expired alias
@@ -895,7 +895,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node1");
 
 	StartNode("node3");
-	ExpireAlias("aliasexpirenode2");
+	ExpireAlias("aliasexpirednode2");
 	
 	GenerateBlocks(5, "node3");
 	GenerateBlocks(5, "node2");
@@ -905,7 +905,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
-	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata"));
+	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirednode2", "passwordnew3", "somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata pubdata"));
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 
@@ -919,18 +919,18 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: xfer an cert to an expired alias even though transferring cert is good
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpire1"), runtime_error);
 
-	AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata");
+	AliasNew("node2", "aliasexpirednode2", "passwordnew3", "somedata");
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirenode2"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirednode2"));
 	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certgoodguid));
 	// ensure it got transferred
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirenode2");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirednode2");
 
-	ExpireAlias("aliasexpirenode2");
+	ExpireAlias("aliasexpirednode2");
 	// should fail: generate a cert using expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 data pubdata"), runtime_error);
 	// renew alias with new password after expiry
-	AliasNew("node2", "aliasexpirenode2", "passwordnew4", "somedata");
+	AliasNew("node2", "aliasexpirednode2", "passwordnew4", "somedata");
 }
 BOOST_AUTO_TEST_SUITE_END ()
