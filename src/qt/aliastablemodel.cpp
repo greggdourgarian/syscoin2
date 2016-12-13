@@ -85,8 +85,8 @@ public:
 			string seller_rating = "";
 			string arbiter_rating = "";
 			string safesearch_str;
-			int expires_in = 0;
-			int expires_on = 0;
+			int64_t expires_in = 0;
+			int64_t expires_on = 0;
 			
 			int lastupdate_height = 0;
 			try {
@@ -140,10 +140,10 @@ public:
 							privvalue_str = privvalue_value.get_str();
 						const UniValue& expires_on_value = find_value(o, "expires_on");
 						if (expires_on_value.type() == UniValue::VNUM)
-							expires_on = expires_on_value.get_int();
+							expires_on = expires_on_value.get_int64();
 						const UniValue& expires_in_value = find_value(o, "expires_in");
 						if (expires_in_value.type() == UniValue::VNUM)
-							expires_in = expires_in_value.get_int();
+							expires_in = expires_in_value.get_int64();
 						const UniValue& expired_value = find_value(o, "expired");
 						if (expired_value.type() == UniValue::VNUM)
 							expired = expired_value.get_int();

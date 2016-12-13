@@ -26,7 +26,7 @@ static const unsigned int MAX_ENCRYPTED_VALUE_LENGTH = MAX_VALUE_LENGTH + 85;
 static const unsigned int MAX_ENCRYPTED_NAME_LENGTH = MAX_NAME_LENGTH + 85;
 static const unsigned int MAX_ALIAS_UPDATES_PER_BLOCK = 5;
 
-
+static const uint64_t ONE_YEAR_IN_SECONDS = 31536000;
 static const unsigned int SAFETY_LEVEL1 = 1;
 static const unsigned int SAFETY_LEVEL2 = 2;
 
@@ -34,7 +34,7 @@ class CAliasUnprunable
 {
 	public:
 	std::vector<unsigned char> vchGUID;
-    uint64_t nExpireHeight;
+    uint64_t nExpireTime;
 	CAliasUnprunable() {
         SetNull();
     }
@@ -43,19 +43,19 @@ class CAliasUnprunable
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
 		READWRITE(vchGUID);
-		READWRITE(VARINT(nExpireHeight));
+		READWRITE(VARINT(nExpireTime));
 	}
 
     inline friend bool operator==(const CAliasUnprunable &a, const CAliasUnprunable &b) {
         return (
 		a.vchGUID == b.vchGUID
-		&& a.nExpireHeight == b.nExpireHeight
+		&& a.nExpireTime == b.nExpireTime
         );
     }
 
     inline CAliasUnprunable operator=(const CAliasUnprunable &b) {
 		vchGUID = b.vchGUID;
-		nExpireHeight = b.nExpireHeight;
+		nExpireTime = b.nExpireTime;
         return *this;
     }
 
@@ -63,8 +63,8 @@ class CAliasUnprunable
         return !(a == b);
     }
 
-    inline void SetNull() { vchGUID.clear(); nExpireHeight = 0;}
-    inline bool IsNull() const { return (vchGUID.empty() && nExpireHeight == 0 ); }
+    inline void SetNull() { vchGUID.clear(); nExpireTime = 0;}
+    inline bool IsNull() const { return (vchGUID.empty() && nExpireTime == 0 ); }
 };
 class CAliasPayment {
 public:
@@ -149,6 +149,7 @@ public:
 	std::vector<unsigned char> vchGUID;
     uint256 txHash;
     uint64_t nHeight;
+	uint64_t nExpireTime;
 	std::vector<unsigned char> vchAliasPeg;
     std::vector<unsigned char> vchPublicValue;
 	std::vector<unsigned char> vchPrivateValue;
@@ -156,7 +157,6 @@ public:
 	std::vector<unsigned char> vchPassword;
 	CMultiSigAliasInfo multiSigInfo;
 	unsigned char safetyLevel;
-	unsigned char nRenewal;
 	unsigned int nRatingAsBuyer;
 	unsigned int nRatingCountAsBuyer;
 	unsigned int nRatingAsSeller;
@@ -214,7 +214,7 @@ public:
 		READWRITE(vchAliasPeg);
 		READWRITE(vchGUID);
 		READWRITE(VARINT(safetyLevel));
-		READWRITE(VARINT(nRenewal));
+		READWRITE(VARINT(nExpireTime));
 		READWRITE(safeSearch);
 		READWRITE(acceptCertTransfers);
 		READWRITE(multiSigInfo);
@@ -226,7 +226,7 @@ public:
 		READWRITE(VARINT(nRatingCountAsArbiter));
 	}
     friend bool operator==(const CAliasIndex &a, const CAliasIndex &b) {
-		return (a.vchPassword ==b.vchPassword && a.acceptCertTransfers == b.acceptCertTransfers && a.multiSigInfo == b.multiSigInfo && a.nRenewal == b.nRenewal && a.vchGUID == b.vchGUID && a.vchAlias == b.vchAlias && a.nRatingCountAsArbiter == b.nRatingCountAsArbiter && a.nRatingAsArbiter == b.nRatingAsArbiter && a.nRatingCountAsSeller == b.nRatingCountAsSeller && a.nRatingAsSeller == b.nRatingAsSeller && a.nRatingCountAsBuyer == b.nRatingCountAsBuyer && a.nRatingAsBuyer == b.nRatingAsBuyer && a.safetyLevel == b.safetyLevel && a.safeSearch == b.safeSearch && a.nHeight == b.nHeight && a.txHash == b.txHash && a.vchPublicValue == b.vchPublicValue && a.vchPrivateValue == b.vchPrivateValue && a.vchPubKey == b.vchPubKey);
+		return (a.vchPassword ==b.vchPassword && a.acceptCertTransfers == b.acceptCertTransfers && a.multiSigInfo == b.multiSigInfo && a.nExpireTime == b.nExpireTime && a.vchGUID == b.vchGUID && a.vchAlias == b.vchAlias && a.nRatingCountAsArbiter == b.nRatingCountAsArbiter && a.nRatingAsArbiter == b.nRatingAsArbiter && a.nRatingCountAsSeller == b.nRatingCountAsSeller && a.nRatingAsSeller == b.nRatingAsSeller && a.nRatingCountAsBuyer == b.nRatingCountAsBuyer && a.nRatingAsBuyer == b.nRatingAsBuyer && a.safetyLevel == b.safetyLevel && a.safeSearch == b.safeSearch && a.nHeight == b.nHeight && a.txHash == b.txHash && a.vchPublicValue == b.vchPublicValue && a.vchPrivateValue == b.vchPrivateValue && a.vchPubKey == b.vchPubKey);
     }
 
     friend bool operator!=(const CAliasIndex &a, const CAliasIndex &b) {
@@ -234,7 +234,7 @@ public:
     }
     CAliasIndex operator=(const CAliasIndex &b) {
 		vchGUID = b.vchGUID;
-		nRenewal = b.nRenewal;
+		nExpireTime = b.nExpireTime;
 		vchAlias = b.vchAlias;
 		vchAliasPeg = b.vchAliasPeg;
         txHash = b.txHash;
@@ -255,8 +255,8 @@ public:
 		nRatingCountAsArbiter = b.nRatingCountAsArbiter;
         return *this;
     }   
-    void SetNull() {vchAliasPeg.clear();vchPassword.clear(); acceptCertTransfers = true; multiSigInfo.SetNull(); nRenewal = 0; vchGUID.clear(); vchAlias.clear(); nRatingCountAsBuyer = 0; nRatingAsBuyer = 0; nRatingCountAsSeller = 0; nRatingAsSeller = 0; nRatingCountAsArbiter = 0; nRatingAsArbiter = 0; safetyLevel = 0; safeSearch = true; txHash.SetNull(); nHeight = 0; vchPublicValue.clear(); vchPrivateValue.clear(); vchPubKey.clear(); }
-    bool IsNull() const { return (vchAliasPeg.empty() && vchPassword.empty() && acceptCertTransfers && multiSigInfo.IsNull() && nRenewal == 0 && vchGUID.empty() && vchAlias.empty() && nRatingCountAsBuyer == 0 && nRatingAsBuyer == 0 && nRatingCountAsArbiter == 0 && nRatingAsArbiter == 0 && nRatingCountAsSeller == 0 && nRatingAsSeller == 0 && safetyLevel == 0 && safeSearch && nHeight == 0 && txHash.IsNull() && vchPublicValue.empty() && vchPrivateValue.empty() && vchPubKey.empty()); }
+    void SetNull() {vchAliasPeg.clear();vchPassword.clear(); acceptCertTransfers = true; multiSigInfo.SetNull(); nExpireTime = 0; vchGUID.clear(); vchAlias.clear(); nRatingCountAsBuyer = 0; nRatingAsBuyer = 0; nRatingCountAsSeller = 0; nRatingAsSeller = 0; nRatingCountAsArbiter = 0; nRatingAsArbiter = 0; safetyLevel = 0; safeSearch = true; txHash.SetNull(); nHeight = 0; vchPublicValue.clear(); vchPrivateValue.clear(); vchPubKey.clear(); }
+    bool IsNull() const { return (vchAliasPeg.empty() && vchPassword.empty() && acceptCertTransfers && multiSigInfo.IsNull() && nExpireTime == 0 && vchGUID.empty() && vchAlias.empty() && nRatingCountAsBuyer == 0 && nRatingAsBuyer == 0 && nRatingCountAsArbiter == 0 && nRatingAsArbiter == 0 && nRatingCountAsSeller == 0 && nRatingAsSeller == 0 && safetyLevel == 0 && safeSearch && nHeight == 0 && txHash.IsNull() && vchPublicValue.empty() && vchPrivateValue.empty() && vchPubKey.empty()); }
 	bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
 	void Serialize(std::vector<unsigned char>& vchData);
@@ -367,14 +367,13 @@ std::string getCurrencyToSYSFromAlias(const std::vector<unsigned char> &vchAlias
 std::string aliasFromOp(int op);
 std::string GenerateSyscoinGuid();
 bool IsAliasOp(int op);
-int GetAliasExpirationDepth();
 CScript RemoveAliasScriptPrefix(const CScript& scriptIn);
 int GetSyscoinDataOutput(const CTransaction& tx);
 bool IsSyscoinDataOutput(const CTxOut& out);
 bool GetSyscoinData(const CTransaction &tx, std::vector<unsigned char> &vchData, std::vector<unsigned char> &vchHash, int& nOut);
 bool GetSyscoinData(const CScript &scriptPubKey, std::vector<unsigned char> &vchData, std::vector<unsigned char> &vchHash);
-bool IsSysServiceExpired(const uint64_t &nHeight);
-bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight);
+bool IsSysServiceExpired(const uint64_t &nTime);
+bool GetTimeToPrune(const CScript& scriptPubKey, uint64_t &nTime);
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams);
 bool IsSyscoinScript(const CScript& scriptPubKey, int &op, std::vector<std::vector<unsigned char> > &vvchArgs);
 void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut);

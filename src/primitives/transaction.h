@@ -148,10 +148,10 @@ public:
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         READWRITE(nValue);
 		// SYSCOIN
-		uint64_t nHeight;
-		if(scriptPubKey.IsUnspendable() && GetHeightToPrune(scriptPubKey, nHeight))
+		uint64_t nTime;
+		if(scriptPubKey.IsUnspendable() && GetTimeToPrune(scriptPubKey, nTime))
 		{
-			if((nType & SER_GETHASH) || IsSysServiceExpired(nHeight))
+			if((nType & SER_GETHASH) || IsSysServiceExpired(nTime))
 			{
 				CScript tmp = CScript() << OP_RETURN;
 				READWRITE(*(CScriptBase*)(&tmp));

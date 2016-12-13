@@ -179,5 +179,5 @@ bool GetVtxOfCert(const std::vector<unsigned char> &vchCert,
 					   CCert& txPos, std::vector<CCert> &vtxPos, bool skipExpiresCheck=false);
 void PutToCertList(std::vector<CCert> &certList, CCert& index);
 bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oName, const std::string &strPrivKey="");
-int GetCertExpiration(const CCert& cert);
+uint64_t GetCertExpiration(const CCert& cert);
 #endif // CERT_H

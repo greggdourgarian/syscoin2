@@ -243,7 +243,6 @@ CSyscoinAddress::CSyscoinAddress() {
 	aliasName = "";
 	safeSearch = false;
 	safetyLevel = 0;
-	nExpireHeight = 0;
 	vchRedeemScript.clear();
 	vchPubKey.clear();
 }
@@ -252,7 +251,6 @@ CSyscoinAddress::CSyscoinAddress(const CTxDestination &dest, CChainParams::Addre
 	isAlias = false;
 	safeSearch = false;
 	safetyLevel = 0;
-	nExpireHeight = 0;
 	aliasName = "";
 	vchRedeemScript.clear();
 	vchPubKey.clear();
@@ -267,7 +265,7 @@ CSyscoinAddress::CSyscoinAddress(const std::string& strAddress) {
 	{
 	
 		std::string strAliasAddress;
-		if(GetAddressFromAlias(strAddress, strAliasAddress, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
+		if(GetAddressFromAlias(strAddress, strAliasAddress, safetyLevel, safeSearch, vchRedeemScript, vchPubKey))
 		{
 			SetString(strAliasAddress);
 			aliasName = strAddress;
@@ -281,7 +279,7 @@ CSyscoinAddress::CSyscoinAddress(const std::string& strAddress) {
 		
 		std::string strAliasAddress = strAddress;
 		SetString(strAliasAddress);
-		if(GetAliasFromAddress(strAliasAddress, aliasName, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
+		if(GetAliasFromAddress(strAliasAddress, aliasName, safetyLevel, safeSearch, vchRedeemScript, vchPubKey))
 		{
 			SetString(strAliasAddress);
 			isAlias = true;
@@ -297,7 +295,7 @@ CSyscoinAddress::CSyscoinAddress(const char* pszAddress) {
 	{
 		
 		std::string strAliasAddress;
-		if(GetAddressFromAlias(std::string(pszAddress), strAliasAddress, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
+		if(GetAddressFromAlias(std::string(pszAddress), strAliasAddress, safetyLevel, safeSearch, vchRedeemScript, vchPubKey))
 		{
 			SetString(strAliasAddress);
 			aliasName = std::string(pszAddress);
@@ -309,7 +307,7 @@ CSyscoinAddress::CSyscoinAddress(const char* pszAddress) {
 		
 		std::string strAliasAddress = std::string(pszAddress);
 		SetString(strAliasAddress);
-		if(GetAliasFromAddress(strAliasAddress, aliasName, safetyLevel, safeSearch, nExpireHeight, vchRedeemScript, vchPubKey))
+		if(GetAliasFromAddress(strAliasAddress, aliasName, safetyLevel, safeSearch, vchRedeemScript, vchPubKey))
 		{
 			isAlias = true;
 		}	

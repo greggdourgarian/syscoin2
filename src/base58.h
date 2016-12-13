@@ -106,7 +106,6 @@ public:
 	// SYSCOIN
 	bool isAlias;
 	unsigned char safetyLevel;
-	int64_t nExpireHeight;
 	bool safeSearch;
 	std::string aliasName;
 	std::vector<unsigned char> vchRedeemScript;

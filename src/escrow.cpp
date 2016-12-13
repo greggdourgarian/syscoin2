@@ -53,28 +53,28 @@ int64_t GetEscrowArbiterFee(int64_t escrowValue, float fEscrowFee) {
 		nFee = DEFAULT_MIN_RELAY_TX_FEE;
 	return nFee;
 }
-int GetEscrowExpiration(const CEscrow& escrow) {
-	int nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
+uint64_t GetEscrowExpiration(const CEscrow& escrow) {
+	uint64_t nTime = chainActive.Tip()->nHeight + 1;
 	CAliasUnprunable aliasBuyerPrunable,aliasSellerPrunable,aliasArbiterPrunable;
 	if(paliasdb)
 	{
 		// all 3 aliases need to be expired for escrow to expire
 		if (paliasdb->ReadAliasUnprunable(escrow.vchBuyerAlias, aliasBuyerPrunable) && !aliasBuyerPrunable.IsNull())
-			nHeight = aliasBuyerPrunable.nExpireHeight;
+			nTime = aliasBuyerPrunable.nExpireTime;
 		// buyer is expired, try arbiter
-		if(nHeight <= chainActive.Tip()->nHeight)
+		if(nTime <= chainActive.Tip()->nTime)
 		{
 			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasArbiterPrunable) && !aliasArbiterPrunable.IsNull())
-				nHeight = aliasArbiterPrunable.nExpireHeight;
+				nTime = aliasArbiterPrunable.nExpireTime;
 		}
 		// buyer and arbiter are expired try seller
-		if(nHeight <= chainActive.Tip()->nHeight)
+		if(nTime <= chainActive.Tip()->nTime)
 		{
 			if (paliasdb->ReadAliasUnprunable(escrow.vchArbiterAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
-				nHeight = aliasSellerPrunable.nExpireHeight;
+				nTime = aliasSellerPrunable.nExpireTime;
 		}
 	}
-	return nHeight;
+	return nTime;
 }
 
 
@@ -153,7 +153,7 @@ bool CEscrowDB::CleanupDatabase()
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
-  				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos))
 					EraseEscrow(vchMyEscrow);	
             }
             pcursor->Next();
@@ -187,7 +187,7 @@ bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const s
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
-  				if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -252,7 +252,7 @@ bool GetTxOfEscrow(const vector<unsigned char> &vchEscrow,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos)) {
+    if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos)) {
         string escrow = stringFromVch(vchEscrow);
         LogPrintf("GetTxOfEscrow(%s) : expired", escrow.c_str());
         return false;
@@ -269,7 +269,7 @@ bool GetTxAndVtxOfEscrow(const vector<unsigned char> &vchEscrow,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-   if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos)) {
+   if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos)) {
         string escrow = stringFromVch(vchEscrow);
         LogPrintf("GetTxOfEscrow(%s) : expired", escrow.c_str());
         return false;
@@ -286,7 +286,7 @@ bool GetVtxOfEscrow(const vector<unsigned char> &vchEscrow,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-   if (chainActive.Tip()->nHeight >= GetEscrowExpiration(txPos)) {
+   if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos)) {
         string escrow = stringFromVch(vchEscrow);
         LogPrintf("GetTxOfEscrow(%s) : expired", escrow.c_str());
         return false;
@@ -3554,9 +3554,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
-	int expired_block = GetEscrowExpiration(escrow);
+	uint64_t expired_time = GetEscrowExpiration(escrow);
 	int expired = 0;
-    if(expired_block <= chainActive.Tip()->nHeight)
+    if(expired_time <= chainActive.Tip()->nTime)
 	{
 		expired = 1;
 	}

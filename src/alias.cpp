@@ -59,7 +59,7 @@ bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut
     }
 	return false;
 }
-bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight)
+bool GetTimeToPrune(const CScript& scriptPubKey, uint64_t &nTime)
 {
 	vector<unsigned char> vchData;
 	vector<unsigned char> vchHash;
@@ -78,7 +78,7 @@ bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight)
 		if(alias.vchAlias == vchFromString("sysrates.peg") || alias.vchAlias == vchFromString("sysban") || alias.vchAlias == vchFromString("syscategory"))
 		{
 			// setting to the tip means we don't prune this data, we keep it
-			nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
+			nTime = chainActive.Tip()->nTime + 1;
 			return true;
 		}
 		CAliasUnprunable aliasUnprunable;
@@ -88,9 +88,9 @@ bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight)
 		{	
 			// if we are renewing alias then prune based on expiry of alias in tx
 			if(!alias.vchGUID.empty() && aliasUnprunable.vchGUID != alias.vchGUID)
-				nHeight = alias.nHeight + (alias.nRenewal*GetAliasExpirationDepth());
+				nTime = alias.nExpireTime;
 			else
-				nHeight = aliasUnprunable.nExpireHeight;
+				nTime = aliasUnprunable.nExpireTime;
 			
 			return true;				
 		}
@@ -98,38 +98,38 @@ bool GetHeightToPrune(const CScript& scriptPubKey, uint64_t &nHeight)
 		else
 		{
 			// setting to the tip means we don't prune this data, we keep it
-			nHeight = chainActive.Tip()->nHeight + GetAliasExpirationDepth();
+			nTime = chainActive.Tip()->nTime + 1;
 			return true;
 		}
 	}
 	else if(offer.UnserializeFromData(vchData, vchHash))
 	{
-		nHeight = GetOfferExpiration(offer);
+		nTime = GetOfferExpiration(offer);
 		return true; 
 	}
 	else if(cert.UnserializeFromData(vchData, vchHash))
 	{
-		nHeight = GetCertExpiration(cert);
+		nTime = GetCertExpiration(cert);
 		return true; 
 	}
 	else if(escrow.UnserializeFromData(vchData, vchHash))
 	{
-		nHeight = GetEscrowExpiration(escrow);
+		nTime = GetEscrowExpiration(escrow);
 		return true;
 	}
 	else if(message.UnserializeFromData(vchData, vchHash))
 	{
-		nHeight = GetMessageExpiration(message);
+		nTime = GetMessageExpiration(message);
 		return true;
 	}
 
 	return false;
 }
-bool IsSysServiceExpired(const uint64_t &nHeight)
+bool IsSysServiceExpired(const uint64_t &nTime)
 {
 	if(!chainActive.Tip() || fTxIndex)
 		return false;
-	return (chainActive.Tip()->nHeight >= nHeight);
+	return (chainActive.Tip()->nTime >= nTime);
 
 }
 bool IsSyscoinScript(const CScript& scriptPubKey, int &op, vector<vector<unsigned char> > &vvchArgs)
@@ -769,11 +769,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5009 - " + _("Bad alias height");
 			return error(errorMessage.c_str());
 		}
-		if(!theAlias.IsNull() && (theAlias.nRenewal > 5 || theAlias.nRenewal < 1))
-		{
-			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5010 - " + _("Expiration must be within 1 to 5 years");
-			return error(errorMessage.c_str());
-		}
 
 		switch (op) {
 			case OP_ALIAS_PAYMENT:
@@ -853,10 +848,14 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		if(!vchData.empty())
 		{
-			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);			
-			if(theAlias.nRenewal > 1)
-				fee *= theAlias.nRenewal*theAlias.nRenewal;
-			
+			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);	
+			uint64_t nTimeExpiry = theAlias.nExpireTime - chainActive[nHeight-1]->nTime;
+			float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
+			if(fYears < 1)
+				fYears = 1;
+			else if(fYears > 5)
+				fYears = 5;
+			fee *= fYears*fYears;
 			if (fee > tx.vout[nDataOut].nValue) 
 			{
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5020 - " + _("Transaction does not pay enough fees");
@@ -1059,7 +1058,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		GetAddress(theAlias, &address);
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
-		aliasUnprunable.nExpireHeight = theAlias.nHeight + theAlias.nRenewal*GetAliasExpirationDepth();
+		aliasUnprunable.nExpireTime = theAlias.nExpireTime;
 		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5035 - " + _("Failed to write to alias DB");
@@ -1206,8 +1205,6 @@ void CAliasIndex::Serialize(vector<unsigned char>& vchData) {
 bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const string& strRegexp, bool safeSearch, 
 		unsigned int nMax,
 		vector<CAliasIndex>& nameScan) {
-	int nMaxAge  = GetAliasExpirationDepth();
-
 	// regexp
 	using namespace boost::xpressive;
 	smatch nameparts;
@@ -1235,7 +1232,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
-  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= (txPos.nRenewal*nMaxAge))
+  				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
 					pcursor->Next();
 					continue;
@@ -1277,17 +1274,9 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
     return true;
 }
 
-int GetAliasExpirationDepth() {
-	#ifdef ENABLE_DEBUGRPC
-    return 1440;
-  #else
-    return 525600;
-  #endif
-}
 // TODO: need to cleanout CTxOuts (transactions stored on disk) which have data stored in them after expiry, erase at same time on startup so pruning can happen properly
 bool CAliasDB::CleanupDatabase()
 {
-	int nMaxAge  = GetAliasExpirationDepth();
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
 	vector<CAliasIndex> vtxPos;
@@ -1309,7 +1298,7 @@ bool CAliasDB::CleanupDatabase()
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
-  				if ((chainActive.Tip()->nHeight - txPos.nHeight) >= (txPos.nRenewal*nMaxAge))
+  				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
 					EraseAlias(vchMyAlias);
 				} 
@@ -1339,8 +1328,7 @@ bool GetTxOfAlias(const vector<unsigned char> &vchAlias,
 	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
-		if (!skipExpiresCheck && (nHeight + (txPos.nRenewal*GetAliasExpirationDepth())
-				< chainActive.Tip()->nHeight)) {
+		if (!skipExpiresCheck && chainActive.Tip()->nTime >= txPos.nExpireTime) {
 			string name = stringFromVch(vchAlias);
 			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
 			return false;
@@ -1361,8 +1349,7 @@ bool GetTxAndVtxOfAlias(const vector<unsigned char> &vchAlias,
 	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
-		if (!skipExpiresCheck && (nHeight + (txPos.nRenewal*GetAliasExpirationDepth())
-				< chainActive.Tip()->nHeight)) {
+		if (!skipExpiresCheck && chainActive.Tip()->nTime >= txPos.nExpireTime) {
 			string name = stringFromVch(vchAlias);
 			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
 			isExpired = true;
@@ -1383,8 +1370,7 @@ bool GetVtxOfAlias(const vector<unsigned char> &vchAlias,
 	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
-		if (!skipExpiresCheck && (nHeight + (txPos.nRenewal*GetAliasExpirationDepth())
-				< chainActive.Tip()->nHeight)) {
+		if (!skipExpiresCheck && chainActive.Tip()->nTime >= txPos.nExpireTime) {
 			string name = stringFromVch(vchAlias);
 			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
 			isExpired = true;
@@ -1393,7 +1379,7 @@ bool GetVtxOfAlias(const vector<unsigned char> &vchAlias,
 	}
 	return true;
 }
-bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
+bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, unsigned char& safetyLevel, bool& safeSearch, std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
 
 	string strLowerAlias = strAlias;
 	boost::algorithm::to_lower(strLowerAlias);
@@ -1411,7 +1397,6 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	const CAliasIndex &alias = vtxPos.back();
 	CSyscoinAddress address;
 	GetAddress(alias, &address);
-	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	strAddress = address.ToString();
 	safetyLevel = alias.safetyLevel;
 	safeSearch = alias.safeSearch;
@@ -1420,7 +1405,7 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 	return true;
 }
 
-bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch, int64_t& nExpireHeight,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
+bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
 
 	const vector<unsigned char> &vchAddress = vchFromValue(strAddress);
 	if (!paliasdb || !paliasdb->ExistsAddress(vchAddress))
@@ -1440,7 +1425,6 @@ bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, u
 	if (vtxPos.size() < 1)
 		return false;
 	const CAliasIndex &alias = vtxPos.back();
-	nExpireHeight = alias.nHeight + alias.nRenewal*GetAliasExpirationDepth();
 	safetyLevel = alias.safetyLevel;
 	safeSearch = alias.safeSearch;
 	vchRedeemScript = alias.multiSigInfo.vchRedeemScript;
@@ -1713,14 +1697,14 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 4 > params.size() || 10 < params.size())
 		throw runtime_error(
-		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=1] [nrequired=0] [\"alias\",...]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire] [nrequired=0] [\"alias\",...]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
 						"<private value> alias private profile data, 1024 chars max. Will be private and readable by owner only.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
-						"<expire> Number of years before expiry. It affects the fees you pay, the cheapest being 1 year. The more years you specify the more fees you pay. Max is 5 years, Min is 1 year. Defaults to 1 year.\n"	
+						"<expire> String. Time in seconds. Future time when to expire alias. Min is current time + 31536000 (1 year). Max is current time + 157680000 (5 years). Defaults to 1 year.\n"	
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<aliases>     For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -1776,7 +1760,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	string strPrivateValue = params.size()>=5?params[4].get_str():"";
 	string strSafeSearch = "Yes";
 	string strAcceptCertTransfers = "Yes";
-	int nRenewal = 1;
+
 	if(params.size() >= 6)
 	{
 		strSafeSearch = params[5].get_str();
@@ -1785,8 +1769,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		strAcceptCertTransfers = params[6].get_str();
 	}
+	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 8)
-		nRenewal = boost::lexical_cast<int>(params[7].get_str());
+		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
     int nMultiSig = 1;
 	if(params.size() >= 9)
 		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
@@ -1886,7 +1871,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchPubKey = vchPubKey;
 	newAlias.vchPublicValue = vchPublicValue;
 	newAlias.vchPrivateValue = vchPrivateValue;
-	newAlias.nRenewal = nRenewal;
+	newAlias.nExpireTime = nExpireTime;
 	newAlias.vchPassword = vchFromString(strPassword);
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
@@ -1913,8 +1898,13 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
-	if(nRenewal > 1)
-		fee.nAmount *= nRenewal*nRenewal;
+	uint64_t nTimeExpiry = nTime - chainActive.Tip()->nTime;
+	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
+	if(fYears < 1)
+		fYears = 1;
+	else if(fYears > 5)
+		fYears = 5;
+	fee.nAmount *= fYears*fYears;
 
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
@@ -1973,7 +1963,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<toalias_pubkey> receiver syscoin alias pub key, if transferring alias.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
-						"<expire> Number of years before expiry. It affects the fees you pay, the cheapest being 1 year. The more years you specify the more fees you pay. Max is 5 years, Min is 1 year. Defaults to 1 year.\n"	
+						"<expire> String. Time in seconds. Future time when to expire alias. Min is current time + 31536000 (1 year). Max is current time + 157680000 (5 years). Defaults to 1 year.\n"		
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<aliases>     For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -1992,7 +1982,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	string strPrivateValue = params.size()>=4 && params[3].get_str().size() > 0?params[3].get_str():"";
 	vchPrivateValue = vchFromString(strPrivateValue);
 	vector<unsigned char> vchPubKeyByte;
-	int nRenewal = 1;
+	
 	CWalletTx wtx;
 	CAliasIndex updateAlias;
 
@@ -2021,9 +2011,10 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		strAcceptCertTransfers = params[7].get_str();
 	}
+	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 9)
 	{
-		nRenewal = boost::lexical_cast<int>(params[8].get_str());
+		nTime = boost::lexical_cast<uint64_t>(params[8].get_str());
 	}
     int nMultiSig = 1;
 	if(params.size() >= 10)
@@ -2142,7 +2133,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
-	theAlias.nRenewal = nRenewal;
+	theAlias.nExpireTime = nExpireTime;
 	theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	
@@ -2169,8 +2160,13 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, copyAlias.vchAliasPeg,  chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
-	if(nRenewal > 1)
-		fee.nAmount *=  nRenewal*nRenewal;
+	uint64_t nTimeExpiry = nTime - chainActive.Tip()->nTime;
+	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
+	if(fYears < 1)
+		fYears = 1;
+	else if(fYears > 5)
+		fYears = 5;
+	fee.nAmount *= fYears*fYears;
 	
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
@@ -2581,12 +2577,10 @@ UniValue aliasaffiliates(const UniValue& params, bool fHelp) {
 					UniValue oList(UniValue::VOBJ);
 					oList.push_back(Pair("offer", stringFromVch(vchOffer)));
 					oList.push_back(Pair("alias", stringFromVch(entry.aliasLinkVchRand)));
-					int expires_in = 0;
-					if(nHeight + (theAlias.nRenewal*GetAliasExpirationDepth()) - chainActive.Tip()->nHeight > 0)
-					{
-						expires_in = nHeight + (theAlias.nRenewal*GetAliasExpirationDepth())  - chainActive.Tip()->nHeight;
-					}  
-					oList.push_back(Pair("expiresin",expires_in));
+					uint64_t expires_in =  theAlias.nExpireTime - chainActive.Tip()->nTime;
+					if(expires_in < -1)
+						expires_in = -1; 
+					oList.push_back(Pair("expires_in",expires_in));
 					oList.push_back(Pair("offer_discount_percentage", strprintf("%d%%", entry.nDiscountPct)));
 					vOfferO[vchOffer] = oList;	
 				}  
@@ -2741,8 +2735,8 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 {
 	uint64_t nHeight;
 	int expired = 0;
-	int expires_in = 0;
-	int expired_block = 0;
+	uint64_t expires_in = 0;
+	uint64_t expired_block = 0;
 	nHeight = alias.nHeight;
 	oName.push_back(Pair("name", stringFromVch(alias.vchAlias)));
 
@@ -2816,12 +2810,12 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
     oName.push_back(Pair("lastupdate_height", nHeight));
 	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{
-		expired_block = nHeight + (alias.nRenewal*GetAliasExpirationDepth());
-		if(expired_block <= chainActive.Tip()->nHeight)
+		expired_time = alias.nExpireTime;
+		if(expired_time <= chainActive.Tip()->nTime)
 		{
 			expired = 1;
 		}  
-		expires_in = expired_block - chainActive.Tip()->nHeight;
+		expires_in = expired_time - chainActive.Tip()->nTime;
 		if(expires_in < -1)
 			expires_in = -1;
 	}
@@ -2832,7 +2826,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 		expired_block = -1;
 	}
 	oName.push_back(Pair("expires_in", expires_in));
-	oName.push_back(Pair("expires_on", expired_block));
+	oName.push_back(Pair("expires_on", expired_time));
 	oName.push_back(Pair("expired", expired));
 	oName.push_back(Pair("pending", pending));
 	UniValue msInfo(UniValue::VOBJ);

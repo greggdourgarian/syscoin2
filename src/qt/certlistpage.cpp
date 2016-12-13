@@ -285,8 +285,8 @@ void CertListPage::on_searchCert_clicked(string GUID)
 	string alias_str;
 	string expired_str;
 	int expired = 0;
-	int expires_in = 0;
-	int expires_on = 0; 
+	int64_t expires_in = 0;
+	int64_t expires_on = 0; 
     params.push_back(ui->lineEditCertSearch->text().toStdString());
 	params.push_back(GUID);
 	params.push_back(settings.value("safesearch", "").toString().toStdString());
@@ -367,10 +367,10 @@ void CertListPage::on_searchCert_clicked(string GUID)
 				alias_str = alias_value.get_str();
 			const UniValue& expires_on_value = find_value(o, "expires_on");
 			if (expires_on_value.type() == UniValue::VNUM)
-				expires_on = expires_on_value.get_int();
+				expires_on = expires_on_value.get_int64();
 			const UniValue& expires_in_value = find_value(o, "expires_in");
 			if (expires_in_value.type() == UniValue::VNUM)
-				expires_in = expires_in_value.get_int();
+				expires_in = expires_in_value.get_int64();
 
 			expired_str = "Valid";
 			expires_in_str = strprintf("%d Blocks", expires_in);
