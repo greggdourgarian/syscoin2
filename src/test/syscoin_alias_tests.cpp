@@ -846,7 +846,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	const UniValue &array3 = r.get_array();
 	string certgoodguid = array3[1].get_str();	
 	// expire aliasexpire and aliasexpirenode2 aliases
-	AliasExpire("aliasexpirenode2");
+	ExpireAlias("aliasexpirenode2");
 	AliasNew("node1", "aliasexpire", "password", "somedata");
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 
@@ -893,7 +893,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node1");
 
 	StartNode("node3");
-	AliasExpire("aliasexpirenode2");
+	ExpireAlias("aliasexpirenode2");
 	
 	GenerateBlocks(5, "node3");
 	GenerateBlocks(5, "node2");
@@ -912,7 +912,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
 
-	AliasExpire("aliasexpire2");
+	ExpireAlias("aliasexpire2");
 	// should fail: update cert with expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"), runtime_error);
 	// should fail: xfer an cert with expired alias
@@ -920,7 +920,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: xfer an cert to an expired alias even though transferring cert is good
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpire1"), runtime_error);
 
-	AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata")
+	AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata");
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirenode2"));
 	GenerateBlocks(5, "node1");
@@ -928,7 +928,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// ensure it got transferred
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirenode2");
 
-	AliasExpire("aliasexpirenode2");
+	ExpireAlias("aliasexpirenode2");
 	// should fail: generate a cert using expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 data pubdata"), runtime_error);
 	// renew alias with new password after expiry
