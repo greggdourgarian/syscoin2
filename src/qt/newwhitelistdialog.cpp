@@ -83,7 +83,7 @@ bool NewWhitelistDialog::saveCurrentRow()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-		tr("Error creating new affiliate: " + QString::fromStdString(strError),
+		tr("Error creating new affiliate: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
