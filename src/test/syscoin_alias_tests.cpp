@@ -844,10 +844,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// expire aliasexpire and aliasexpirednode2 aliases
 	ExpireAlias("aliasexpirednode2");
 	GenerateBlocks(5, "node2");
-	AliasNew("node1", "aliasexpire", "password", "somedata");
-	AliasNew("node1", "aliasexpire0", "password", "somedata");
-	AliasNew("node2", "aliasexpire1", "password", "somedata");
-
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire passwordnew somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire0 passwordnew somedata"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasexpire1 passwordnew somedata"));
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
 	UniValue pkr = CallRPC("node2", "generatepublickey");
 	if (pkr.type() != UniValue::VARR)
 		throw runtime_error("Could not parse rpc results");
