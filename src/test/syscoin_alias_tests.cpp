@@ -847,7 +847,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	string certgoodguid = array3[1].get_str();	
 	// expire aliasexpire and aliasexpirenode2 aliases
 	ExpireAlias("aliasexpirenode2");
+	GenerateBlocks(5, "node2");
 	AliasNew("node1", "aliasexpire", "password", "somedata");
+	AliasNew("node1", "aliasexpire0", "password", "somedata");
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 
 	UniValue pkr = CallRPC("node2", "generatepublickey");
@@ -902,9 +904,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + escrowguid));
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
-	AliasNew("node1", "aliasexpire", "password", "somedata");
-	AliasNew("node1", "aliasexpire0", "password", "somedata");
-	AliasNew("node1", "aliasexpire2", "password", "somedata");
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirenode2", "passwordnew3", "somedata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata pubdata"));
