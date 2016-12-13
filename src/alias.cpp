@@ -1871,7 +1871,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchPubKey = vchPubKey;
 	newAlias.vchPublicValue = vchPublicValue;
 	newAlias.vchPrivateValue = vchPrivateValue;
-	newAlias.nExpireTime = nExpireTime;
+	newAlias.nExpireTime = nTime;
 	newAlias.vchPassword = vchFromString(strPassword);
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
@@ -2133,7 +2133,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
-	theAlias.nExpireTime = nExpireTime;
+	theAlias.nExpireTime = nTime;
 	theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	
