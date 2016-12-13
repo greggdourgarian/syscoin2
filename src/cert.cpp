@@ -1002,6 +1002,8 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 			{
 				if(vchData == vchFromString(strDecryptedText))
 					vchData = copyCert.vchData;
+				else
+					vchData = vchFromString(strCipherText);
 			}
 			else
 				vchData = vchFromString(strCipherText);
