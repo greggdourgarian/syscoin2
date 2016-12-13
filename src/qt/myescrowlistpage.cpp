@@ -330,7 +330,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 								ui->extButton->setText(m_buttonText);
 								ui->extButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain),
+									tr("Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain,
 									QMessageBox::Ok, QMessageBox::Ok);
 								return;
 							}
