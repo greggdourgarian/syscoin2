@@ -31,12 +31,12 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 	ui->certDataEdit->setStyleSheet("color: rgb(0, 0, 0); background-color: rgb(255, 255, 255)");
 	ui->transferLabel->setVisible(false);
 	ui->transferEdit->setVisible(false);
-	ui->transferDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient of this certificate</font>"));
+	ui->transferDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the alias of the recipient of this certificate") + QString("</font>"));
     ui->transferDisclaimer->setVisible(false);
 	ui->viewAliasEdit->setVisible(true);
 	ui->viewAliasDisclaimer->setVisible(true);
-	ui->viewAliasDisclaimer->setText(tr("<font color='blue'>Enter the alias of the recipient that you wish to allow reading your certificate private data</font>"));
-	ui->viewOnlyDisclaimer->setText(tr("<font color='blue'>Select Yes if you do not want this certificate to be editable/transferable by the recipient</font>"));
+	ui->viewAliasDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the alias of the recipient that you wish to allow reading your certificate private data") + QString("</font>"));
+	ui->viewOnlyDisclaimer->setText(QString("<font color='blue'>") + tr("Select Yes if you do not want this certificate to be editable/transferable by the recipient") + QString("</font>"));
 	ui->viewOnlyBox->setVisible(false);
 	ui->viewOnlyLabel->setVisible(false);
 	ui->viewOnlyDisclaimer->setVisible(false);
@@ -236,26 +236,26 @@ void EditCertDialog::aliasChanged(const QString& alias)
 
 			if(expired != 0)
 			{
-				ui->aliasDisclaimer->setText(tr("<font color='red'>This alias has expired, please choose another one</font>"));					
+				ui->aliasDisclaimer->setText(QString("<font color='red'>") + tr("This alias has expired, please choose another one") + QString("</font>"));				
 			}
 			else
-				ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this certificate</font>"));	
+				ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this certificate") + QString("</font>"));
 		}
 		else
 		{
 			resetSafeSearch();
-			ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this certificate</font>"));	
+			ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this certificate") + QString("</font>"));
 		}
 	}
 	catch (UniValue& objError)
 	{
 		resetSafeSearch();
-		ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this certificate</font>"));	
+		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this certificate") + QString("</font>"));
 	}
 	catch(std::exception& e)
 	{
 		resetSafeSearch();
-		ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this certificate</font>"));	
+		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this certificate") + QString("</font>"));
 	}  
 }
 void EditCertDialog::setCertNotSafeBecauseOfAlias(const QString &alias)
@@ -315,7 +315,7 @@ void EditCertDialog::loadAliases()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh alias list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh alias list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -460,7 +460,7 @@ bool EditCertDialog::saveCurrentRow()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error creating new Cert: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error creating new Cert: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			break;
 		}
@@ -517,7 +517,7 @@ bool EditCertDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-				tr("Error updating Cert: \"%1\"").arg(QString::fromStdString(strError)),
+				tr("Error updating Cert: ") + (QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
@@ -566,7 +566,7 @@ bool EditCertDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-                tr("Error transferring Cert: \"%1\"").arg(QString::fromStdString(strError)),
+                tr("Error transferring Cert: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
@@ -599,7 +599,7 @@ void EditCertDialog::accept()
             break;
         case CertTableModel::INVALID_CERT:
             QMessageBox::warning(this, windowTitle(),
-                tr("The entered cert \"%1\" is not a valid Syscoin Cert.").arg(ui->certEdit->text()),
+                tr("The entered cert is not a valid Syscoin cert."),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
         case CertTableModel::WALLET_UNLOCK_FAILURE:

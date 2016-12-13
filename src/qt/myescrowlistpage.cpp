@@ -303,7 +303,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 				ui->extButton->setText(m_buttonText);
 				ui->extButton->setEnabled(true);
 				QMessageBox::critical(this, windowTitle(),
-					tr("Payment transaction found but it has not been confirmed by the %1 blockchain yet! Please try again later.").arg(chain),
+					tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
 						QMessageBox::Ok, QMessageBox::Ok);
 				return;
 			}
@@ -330,7 +330,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 								ui->extButton->setText(m_buttonText);
 								ui->extButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction ID %1 was found in the %2 blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your %3 wallet and seeing the funds in your account.").arg(m_strExtTxId).arg(chain).arg(chain),
+									tr("Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain),
 									QMessageBox::Ok, QMessageBox::Ok);
 								return;
 							}
@@ -355,7 +355,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 	ui->extButton->setText(m_buttonText);
 	ui->extButton->setEnabled(true);
 	QMessageBox::warning(this, windowTitle(),
-		tr("Payment not found in the %1 blockchain! Please try again later").arg(chain),
+		tr("Payment not found in the blockchain! Please try again later. Chain: ") + chain,
 			QMessageBox::Ok, QMessageBox::Ok);	
 }
 void MyEscrowListPage::CheckPaymentInBTC(const QString &strExtTxId, const QString& address, const QString& price)
@@ -466,7 +466,7 @@ void MyEscrowListPage::on_ackButton_clicked()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error acknowledging escrow payment: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error acknowledging escrow payment: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 		}
 		catch(std::exception& e)
@@ -577,7 +577,7 @@ void MyEscrowListPage::on_exportButton_clicked()
 	writer.addColumn("Status", EscrowTableModel::Status, Qt::EditRole);
     if(!writer.write())
     {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
+		QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file: ") + filename,
                               QMessageBox::Abort, QMessageBox::Abort);
     }
 }

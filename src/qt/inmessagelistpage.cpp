@@ -236,7 +236,7 @@ void InMessageListPage::on_exportButton_clicked()
 	writer.addColumn(tr("Message"), MessageTableModel::Message, Qt::EditRole);
     if(!writer.write())
     {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
+		QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file: ") + filename,
                               QMessageBox::Abort, QMessageBox::Abort);
     }
 }

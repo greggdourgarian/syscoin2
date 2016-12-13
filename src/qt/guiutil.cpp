@@ -133,8 +133,7 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
 	// SYSCOIN
-    widget->setPlaceholderText(QObject::tr("Enter a Syscoin address (e.g. %1 or johnsmith)").arg(
-        QString::fromStdString(DummyAddress(Params()))));
+    widget->setPlaceholderText(QObject::tr("Enter a Syscoin address e.g. johnsmith or ") +  QString::fromStdString(DummyAddress(Params())));
 #endif
 	// SYSCOIN can be an alias, so this check is invalid
     // widget->setValidator(new SyscoinAddressEntryValidator(parent));

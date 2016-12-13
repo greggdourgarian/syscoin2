@@ -30,8 +30,8 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
     ui->setupUi(this);
 	ui->aliasPegEdit->setEnabled(false);
 	
-	ui->aliasPegDisclaimer->setText(tr("<font color='blue'>You may change the alias rate peg through your alias settings.</font>"));
-	ui->privateDisclaimer->setText(tr("<font color='blue'>Choose if you would like the offer to be private or publicly listed on the marketplace.</font>"));
+	ui->aliasPegDisclaimer->setText(QString("<font color='blue'>") + tr("You may change the alias rate peg through your alias settings") + QString("</font>"));
+	ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("Choose if you would like the offer to be private or publicly listed on the marketplace") + QString("</font>"));
 	ui->offerLabel->setVisible(true);
 	ui->offerEdit->setVisible(true);
 	ui->offerEdit->setEnabled(false);
@@ -46,9 +46,9 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 	ui->privateEdit->setEnabled(true);
 	ui->currencyEdit->addItem(QString("USD"));
 
-	ui->geolocationDisclaimer->setText(tr("<font color='blue'>If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information.</font>"));
-	ui->currencyDisclaimer->setText(tr("<font color='blue'>You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected.</font>"));
-	ui->paymentOptionsDisclaimer->setText(tr("<font color='blue'>Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: <b>SYS+BTC+ZEC</b>. For SYS and ZEC: <b>SYS+ZEC</b>. Please note that in order spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.</font>"));
+	ui->geolocationDisclaimer->setText(QString("<font color='blue'>") + tr("If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information") + QString("</font>"));
+	ui->currencyDisclaimer->setText(QString("<font color='blue'>") + tr("You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected") + QString("</font>"));
+	ui->paymentOptionsDisclaimer->setText(QString("<font color='blue'>") + tr("Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: 'SYS+BTC+ZEC'. For SYS and ZEC: 'SYS+ZEC'. Please note that in order spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.") + QString("</font>"));
 	cert = strCert;
 	ui->certEdit->clear();
 	ui->certEdit->addItem(tr("Select Certificate (optional)"));
@@ -90,7 +90,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 			ui->commissionEdit->setVisible(true);
 			ui->commissionDisclaimer->setVisible(true);
 			ui->commissionEdit->setText(commission);
-			ui->commissionDisclaimer->setText(tr("<font color='blue'>Enter the <b>percentage</b> amount(without the % sign) that you would like to mark-up the price to.</font>"));
+			ui->commissionDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the 'percentage' amount(without the % sign) that you would like to mark-up the price to") + QString("</font>"));
 		 }
         break;
     case NewCertOffer:
@@ -169,7 +169,7 @@ void EditOfferDialog::on_aliasPegEdit_editingFinished()
 	if(getCurrencyToSYSFromAlias(vchFromString(ui->aliasPegEdit->text().toStdString()), vchFromString(currentCurrency.toStdString()), nFee, chainActive.Tip()->nHeight, rateList, precision, nFeePerByte, fEscrowFee) == "1")
 	{
 		QMessageBox::warning(this, windowTitle(),
-			tr("Warning: %1 alias not found. No currency information available for %2!").arg(ui->aliasPegEdit->text()).arg(ui->currencyEdit->currentText()),
+			tr("Warning: alias peg not found. No currency information available for ") + ui->currencyEdit->currentText(),
 				QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
@@ -187,13 +187,14 @@ void EditOfferDialog::setOfferNotSafeBecauseOfAlias(const QString &alias)
 {
 	ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText("No"));
 	ui->safeSearchEdit->setEnabled(false);
-	ui->safeSearchDisclaimer->setText(tr("<font color='red'><b>%1</b> is not safe to search so this setting can only be set to No").arg(alias));
+	ui->safeSearchDisclaimer->setText(QString("<font color='red'><b>%1</b>").arg(alias) + tr(" is not safe to search so this setting can only be set to No") + QString("</font>"));
 	overrideSafeSearch = true;
 }
 void EditOfferDialog::resetSafeSearch()
 {
 	ui->safeSearchEdit->setEnabled(true);
-	ui->safeSearchDisclaimer->setText(tr("<font color='blue'>Is this offer safe to search? Anything that can be considered offensive to someone should be set to <b>No</b> here. If you do create an offer that is offensive and do not set this option to <b>No</b> your offer will be banned aswell as possibly your store alias!</font>"));
+	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this offer safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an offer that is offensive and do not set this option to 'No' your offer will be banned aswell as possibly your store alias!") + QString("</font>"));
+		
 	
 }
 void EditOfferDialog::aliasChanged(const QString& alias)
@@ -247,28 +248,28 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 
 			if(expired != 0)
 			{
-				ui->aliasDisclaimer->setText(tr("<font color='red'>This alias has expired, please choose another one</font>"));					
+				ui->aliasDisclaimer->setText(QString("<font color='red'>") + tr("This alias has expired, please choose another one") + QString("</font>"));				
 			}
 			else
-				ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));
+				ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));		
 			ui->aliasPegEdit->setText(QString::fromStdString(alias_peg));
 			on_aliasPegEdit_editingFinished();
 		}
 		else
 		{
 			resetSafeSearch();
-			ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));	
+			ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 		}
 	}
 	catch (UniValue& objError)
 	{
 		resetSafeSearch();
-		ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));	
+		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 	}
 	catch(std::exception& e)
 	{
 		resetSafeSearch();
-		ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));	
+		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 	}  
 	loadCerts(alias);
 }
@@ -279,11 +280,11 @@ void EditOfferDialog::certChanged(int index)
 		ui->qtyEdit->setText("1");
 		ui->qtyEdit->setEnabled(false);
 		ui->aliasEdit->setEnabled(false);
-		ui->aliasDisclaimer->setText(tr("<font color='blue'>This will automatically use the alias which owns the certificate you are selling</font>"));
+		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("This will automatically use the alias which owns the certificate you are selling") + QString("</font>"));
 	}
 	else if(index == 0)
 	{
-		ui->aliasDisclaimer->setText(tr("<font color='blue'>Select an alias to own this offer</font>"));
+		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 		ui->qtyEdit->setEnabled(true);
 		ui->aliasEdit->setEnabled(true);
 	}
@@ -426,7 +427,7 @@ void EditOfferDialog::loadCerts(const QString &alias)
 						if ( index != -1 ) 
 						{
 						    ui->aliasEdit->setCurrentIndex(index);
-							ui->aliasDisclaimer->setText(tr("<font color='blue'>This will automatically use the alias which owns the certificate you are selling</font>"));
+							ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("This will automatically use the alias which owns the certificate you are selling") + QString("</font>"));
 						}
 						
 					}
@@ -439,7 +440,7 @@ void EditOfferDialog::loadCerts(const QString &alias)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh cert list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh cert list: ") + (QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -512,7 +513,7 @@ void EditOfferDialog::loadAliases()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh alias list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh alias list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -647,7 +648,7 @@ bool EditOfferDialog::saveCurrentRow()
 		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
 		 if (ui->aliasPegEdit->text() != defaultPegAlias) {
 			QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Alias Peg"),
-                 tr("Warning: Are you sure you wish to choose this alias as your offer peg? By default the system peg is <b>%1</b>").arg(defaultPegAlias),
+                 tr("Warning: Are you sure you wish to choose this alias as your offer peg? By default the system peg is") + QString(" <b>%1</b>").arg(defaultPegAlias),
                  QMessageBox::Yes|QMessageBox::Cancel,
                  QMessageBox::Cancel);
 			if(retval == QMessageBox::Cancel)
@@ -704,14 +705,14 @@ bool EditOfferDialog::saveCurrentRow()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error creating new Offer: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error creating new Offer: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			break;
 		}
 		catch(std::exception& e)
 		{
 			QMessageBox::critical(this, windowTitle(),
-				tr("General exception creating new Offer: \"%1\"").arg(QString::fromStdString(e.what())),
+				tr("General exception creating new Offer: ") + QString::fromStdString(e.what()),
 				QMessageBox::Ok, QMessageBox::Ok);
 			break;
 		}							
@@ -721,7 +722,7 @@ bool EditOfferDialog::saveCurrentRow()
 		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
 		 if (ui->aliasPegEdit->text() != defaultPegAlias) {
 			QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Alias Peg"),
-                 tr("Warning: Are you sure you wish to choose this alias as your offer peg? By default the system peg is <b>%1</b>").arg(defaultPegAlias),
+                 tr("Warning: Are you sure you wish to choose this alias as your offer peg? By default the system peg is") + QString(" <b>%1</b>").arg(defaultPegAlias),
                  QMessageBox::Yes|QMessageBox::Cancel,
                  QMessageBox::Cancel);
 			if(retval == QMessageBox::Cancel)
@@ -786,14 +787,14 @@ bool EditOfferDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-				tr("Error updating Offer: \"%1\"").arg(QString::fromStdString(strError)),
+				tr("Error updating Offer: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
 			catch(std::exception& e)
 			{
 				QMessageBox::critical(this, windowTitle(),
-					tr("General exception updating Offer: \"%1\"").arg(QString::fromStdString(e.what())),
+					tr("General exception updating Offer: ") + QString::fromStdString(e.what()),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}	
@@ -827,7 +828,7 @@ void EditOfferDialog::accept()
 				break;
 			case OfferTableModel::INVALID_OFFER:
 				QMessageBox::warning(this, windowTitle(),
-					tr("The entered offer \"%1\" is not a valid Syscoin Offer.").arg(ui->offerEdit->text()),
+					tr("The entered offer is not a valid Syscoin offer"),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			case OfferTableModel::WALLET_UNLOCK_FAILURE:

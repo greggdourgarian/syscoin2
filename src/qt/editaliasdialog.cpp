@@ -92,7 +92,7 @@ void EditAliasDialog::reqSigsChanged()
 {
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::loadAliasDetails()
@@ -138,7 +138,7 @@ void EditAliasDialog::loadAliasDetails()
 	}  
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::on_cancelButton_clicked()
@@ -158,7 +158,7 @@ void EditAliasDialog::on_addButton_clicked()
 	}
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::on_deleteButton_clicked()
@@ -169,7 +169,7 @@ void EditAliasDialog::on_deleteButton_clicked()
 
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a ") + QString("<b>%1</b>").arg(ui->reqSigsEdit->text()) + tr(" of ") + QString("<b>%1</b>").arg(QString::number(ui->multisigList->count()+1)) + tr(" multisig alias. ") + QString("<b>%1</b>").arg(ui->aliasEdit->text()) + QString(" is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
 	}
 }
 

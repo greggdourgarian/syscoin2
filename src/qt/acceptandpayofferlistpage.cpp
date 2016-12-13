@@ -275,7 +275,7 @@ void AcceptandPayOfferListPage::updateCaption()
 {	
 	if(this->offerPaid)
 	{
-		ui->labelExplanation->setText(tr("<font color='green'>You have successfully paid for this offer!</font>"));
+		ui->labelExplanation->setText(QString("<font color='green'>") + tr("You have successfully paid for this offer!") + QString("</font>"));
 	}
 	else
 	{
@@ -352,7 +352,7 @@ void AcceptandPayOfferListPage::acceptOffer()
 	if(ui->notesEdit->toPlainText().size() <= 0 && !isOfferCert)
 	{
 		QMessageBox::information(this, windowTitle(),
-			tr("Please enter pertinent information required to the offer in the <b>Notes</b> field (address, e-mail address, shipping notes, etc)."),
+			tr("Please enter pertinent information required to the offer in the 'Notes' field (address, e-mail address, shipping notes, etc)."),
 			QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}

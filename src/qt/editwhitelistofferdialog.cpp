@@ -188,7 +188,7 @@ void EditWhitelistOfferDialog::on_removeButton_clicked()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not remove this entry: %1").arg(QString::fromStdString(strError)),
+			tr("Could not remove this entry: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 
 	}
@@ -243,7 +243,7 @@ void EditWhitelistOfferDialog::on_removeAllButton_clicked()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not clear the affiliate list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not clear the affiliate list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 
 	}
@@ -299,7 +299,7 @@ void EditWhitelistOfferDialog::on_refreshButton_clicked()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh the affiliate list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh the affiliate list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 
 	}
@@ -357,7 +357,7 @@ void EditWhitelistOfferDialog::on_exportButton_clicked()
 	
     if(!writer.write())
     {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
+		QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file: ") + filename,
                               QMessageBox::Abort, QMessageBox::Abort);
     }
 }

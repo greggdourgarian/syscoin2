@@ -435,7 +435,7 @@ void OfferListPage::on_searchOffer_clicked(string GUID)
     {
         strError = find_value(objError, "message").get_str();
         QMessageBox::critical(this, windowTitle(),
-        tr("Error searching Offer: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error searching Offer: ") + QString::fromStdString(strError),
             QMessageBox::Ok, QMessageBox::Ok);
 		selectionChanged();
         return;

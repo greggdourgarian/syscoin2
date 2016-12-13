@@ -29,7 +29,7 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
 		ui->primaryFeedback->setVisible(false);
 		return;
 	}
-	ui->manageInfo->setText(tr("This offer payment was for Offer ID: <b>%1</b> for <b>%2</b> totaling <b>%3 %4 (%5 SYS)</b>. The buyer is <b>%6</b>, merchant is <b>%7</b>").arg(offer).arg(offertitle).arg(total).arg(currency).arg(systotal).arg(buyer).arg(seller));
+	ui->manageInfo->setText(tr("This offer payment was for Offer ID") + QString(" <b>%1</b> ").arg(offer) + tr("for") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1 %2 (%3 SYS)</b>.").arg(total).arg(currency).arg(systotal) + tr("Buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:" + QString(" <b>%1</b> ").arg(seller));
 	OfferType offerType = findYourOfferRoleFromAliases(buyer, seller);
 	
 	if(offerType == None)
@@ -43,12 +43,12 @@ OfferFeedbackDialog::OfferFeedbackDialog(WalletModel* model, const QString &offe
 	if(offerType == Buyer)
 	{
 		ui->primaryLabel->setText("Choose a rating for the merchant (1-5) or leave at 0 for no rating. Below please give feedback to the merchant.");
-		ui->manageInfo2->setText(tr("You are the <b>buyer</b> of this offer, please send feedback and rate the merchant once you have confirmed that you have recieved the item as per the description of the offer."));
+		ui->manageInfo2->setText(tr("You are the 'buyer' of this offer, please send feedback and rate the merchant once you have confirmed that you have recieved the item as per the description of the offer."));
 	}
 	else if(offerType == Seller)
 	{
 		ui->primaryLabel->setText("Choose a rating for the buyer (1-5) or leave at 0 for no rating. Below please give feedback to the buyer.");
-		ui->manageInfo2->setText(tr("You are the <b>merchant</b> of this offer, you may leave feedback and rate the buyer once you confirmed you have recieved full payment from buyer and you have ship the goods (if its for a physical good)."));
+		ui->manageInfo2->setText(tr("You are the 'merchant' of this offer, you may leave feedback and rate the buyer once you confirmed you have recieved full payment from buyer and you have ship the goods (if its for a physical good)."));
 	}
 }
 bool OfferFeedbackDialog::lookup(const QString &offer, const QString &acceptGuid, QString &buyer, QString &seller, QString &offertitle, QString &currency, QString &total, QString &systotal)
@@ -140,7 +140,7 @@ void OfferFeedbackDialog::on_feedbackButton_clicked()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-        tr("Error sending feedback: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error sending feedback: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -184,7 +184,7 @@ bool OfferFeedbackDialog::isYourAlias(const QString &alias)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could find alias: %1").arg(QString::fromStdString(strError)),
+			tr("Could find alias: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)

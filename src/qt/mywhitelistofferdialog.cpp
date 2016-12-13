@@ -157,7 +157,7 @@ void MyWhitelistOfferDialog::on_refreshButton_clicked()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh the affiliate list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh the affiliate list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 
 	}
@@ -192,7 +192,7 @@ void MyWhitelistOfferDialog::on_exportButton_clicked()
 	
     if(!writer.write())
     {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
+		QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file: ") + filename,
                               QMessageBox::Abort, QMessageBox::Abort);
     }
 }

@@ -67,7 +67,7 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	string strCurrencyCode = currencyCode.toStdString();
 	ui->bitcoinInstructionLabel->setText(tr("After paying for this item, please enter the Bitcoin Transaction ID and click on the confirm button below."));
 
-	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
+	ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox") + QString("</font>"));
 	ui->escrowDisclaimer->setVisible(true);
 	if (!platformStyle->getImagesOnButtons())
 	{
@@ -99,7 +99,7 @@ void OfferAcceptDialogBTC::SetupQRCode(const QString& price)
 {
 
 #ifdef USE_QRCODE
-	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
+	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID: ") + this->offer;
 	SendCoinsRecipient info;
 	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->address;
 	info.label = this->sellerAlias;
@@ -166,12 +166,12 @@ bool OfferAcceptDialogBTC::setupEscrowCheckboxState(bool desiredStateEnabled)
 		}
 		catch (UniValue& objError)
 		{
-			ui->escrowDisclaimer->setText(tr("<font color='red'>Failed to generate multisig address: %1</font>").arg(QString::fromStdString(find_value(objError, "message").get_str())));
+			ui->escrowDisclaimer->setText(QString("<font color='red'>") + tr("Failed to generate multisig address: ") + QString::fromStdString(find_value(objError, "message").get_str()) + QString("</font>"));
 			return false;
 		}
 		if (!resCreate.isObject())
 		{
-			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</font>"));
+			ui->escrowDisclaimer->setText(QString("<font color='red'>") + tr("Could not generate escrow multisig address: Invalid response from generateescrowmultisig") + QString("</font>"));
 			return false;
 		}
 
@@ -190,7 +190,7 @@ bool OfferAcceptDialogBTC::setupEscrowCheckboxState(bool desiredStateEnabled)
 		}
 		else
 		{
-			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find redeem script in response</font>"));
+			ui->escrowDisclaimer->setText(QString("<font color='red'>") + tr("Could not create escrow transaction: could not find redeem script in response") + QString("</font>"));
 			return false;
 		}
 
@@ -200,19 +200,19 @@ bool OfferAcceptDialogBTC::setupEscrowCheckboxState(bool desiredStateEnabled)
 		}
 		else
 		{
-			ui->escrowDisclaimer->setText(tr("<font color='red'>Could not create escrow transaction: could not find multisig address in response</font>"));
+			ui->escrowDisclaimer->setText(QString("<font color='red'>") + tr("Could not create escrow transaction: could not find multisig address in response") + QString("</font>"));
 			return false;
 		}
 		qstrPrice = QString::number(total);
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(multisigaddress));
-		ui->escrowDisclaimer->setText(tr("<font color='green'>Escrow created successfully! Please fund using BTC address <b>%1</b></font>").arg(multisigaddress));
+		ui->acceptMessage->setTextui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via Bitcoin:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>" + tr("2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 BTC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(multisigaddress) + tr("using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
+		ui->escrowDisclaimer->setText(QString("<font color='green'>") + tr("Escrow created successfully! Please fund using BTC address ") + QString("<b>%1</b></font>").arg(multisigaddress));
 
 	}
 	else
 	{
-		ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the <b>Use Escrow</b> checkbox</font>"));
+		ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox") + QString("</font>"));
 		qstrPrice = priceBtc;
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? Follow the steps below to successfully pay via Bitcoin:<br/><br/>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the <b>Use Escrow</b> checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.<br/>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on <b>Open BTC Wallet</b> if you are on the desktop and have Bitcoin Core installed.<br/>3. Pay <b>%4 BTC</b> to <b>%5</b> using your Bitcoin wallet. Please enable dynamic fees upon payment in your BTC wallet for confirmation in a timely manner.<br/>4. Enter the Transaction ID and then click on the <b>Confirm Payment</b> button once you have paid.").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(address));
+		ui->acceptMessage->setTextui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via Bitcoin:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>" + tr("2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 BTC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(address) + tr("using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
 		SetupQRCode(qstrPrice);
 		return false;
 	}
@@ -274,7 +274,7 @@ void OfferAcceptDialogBTC::slotConfirmedFinished(QNetworkReply * reply){
 								ui->confirmButton->setText(m_buttonText);
 								ui->confirmButton->setEnabled(true);
 								QMessageBox::information(this, windowTitle(),
-									tr("Transaction ID %1 was found in the Bitcoin blockchain! Full payment has been detected.").arg(ui->exttxidEdit->text().trimmed()),
+									tr("Transaction was found in the Bitcoin blockchain! Full payment has been detected. TXID: ") + ui->exttxidEdit->text().trimmed(),
 									QMessageBox::Ok, QMessageBox::Ok);
 								reply->deleteLater();
 								if(ui->checkBox->isChecked())
@@ -407,7 +407,7 @@ void OfferAcceptDialogBTC::acceptOffer(){
 		{
 			strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error accepting offer: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error accepting offer: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			return;
 		}
@@ -493,7 +493,7 @@ void OfferAcceptDialogBTC::acceptEscrow()
 		{
 			strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error creating escrow: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error creating escrow: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			return;
 		}
@@ -510,7 +510,7 @@ void OfferAcceptDialogBTC::acceptEscrow()
 }
 void OfferAcceptDialogBTC::openBTCWallet()
 {
-	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID %1").arg(this->offer);
+	QString message = tr("Payment on Syscoin Decentralized Marketplace. Offer ID: ") + this->offer;
 	SendCoinsRecipient info;
 	info.address = this->multisigaddress.size() > 0? this->multisigaddress: this->address;
 	info.label = this->sellerAlias;

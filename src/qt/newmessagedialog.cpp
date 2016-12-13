@@ -28,7 +28,7 @@ NewMessageDialog::NewMessageDialog(Mode mode, const QString &to, const QString &
 	{
 		ui->topicEdit->setText(title);
 	}
-	ui->hexDisclaimer->setText(tr("<font color='blue'>Choose Yes if you are sending a Hex string as a message such as a raw transaction for multisignature signing purposes. To compress the message this will convert the message data from hex to binary and send it to the recipient. The outgoing message field will not be utilized to save space.</font>"));
+	ui->hexDisclaimer->setText(QString("<font color='blue'>") + tr("Choose 'Yes' if you are sending a Hex string as a message such as a raw transaction for multisignature signing purposes. To compress the message this will convert the message data from hex to binary and send it to the recipient. The outgoing message field will not be utilized to save space.") + QString("</font>"));
 	
 	QSettings settings;
 	QString defaultMessageAlias;
@@ -39,7 +39,7 @@ NewMessageDialog::NewMessageDialog(Mode mode, const QString &to, const QString &
         setWindowTitle(tr("New Message"));   
 		ui->replyEdit->setVisible(false);
 		ui->replyLabel->setVisible(false);
-		ui->fromDisclaimer->setText(tr("<font color='blue'>Select an Alias</font>"));
+		ui->fromDisclaimer->setText(QString("<font color='blue'>") + tr("Select an Alias") + QString("</font>"));
 		defaultMessageAlias = settings.value("defaultAlias", "").toString();
 		aliasIndex = ui->aliasEdit->findText(defaultMessageAlias);
 		if(aliasIndex >= 0)
@@ -113,7 +113,7 @@ void NewMessageDialog::loadAliases()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh alias list: %1").arg(QString::fromStdString(strError)),
+			tr("Could not refresh alias list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -215,7 +215,7 @@ bool NewMessageDialog::saveCurrentRow()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error creating new message: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error creating new message: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			break;
 		}
@@ -272,7 +272,7 @@ bool NewMessageDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-				tr("Error replying to message: \"%1\"").arg(QString::fromStdString(strError)),
+				tr("Error replying to message: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
@@ -304,7 +304,7 @@ void NewMessageDialog::accept()
             break;
         case MessageTableModel::INVALID_MESSAGE:
             QMessageBox::warning(this, windowTitle(),
-                tr("The entered message \"%1\" is not a valid Syscoin Message.").arg(ui->topicEdit->text()),
+                tr("The entered message is not a valid Syscoin message"),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
         case MessageTableModel::WALLET_UNLOCK_FAILURE:

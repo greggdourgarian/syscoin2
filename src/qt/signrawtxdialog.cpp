@@ -17,9 +17,9 @@ SignRawTxDialog::SignRawTxDialog(QWidget* parent) :
     ui(new Ui::SignRawTxDialog)
 {
 	ui->setupUi(this);
-	ui->rawTxDisclaimer->setText(tr("<font color='blue'>Sign a raw syscoin transaction and send it to the network if it is complete with all required signatures. Enter the raw hex encoded transaction below.</font>")); 
-	ui->decodeTxDisclaimer->setText(tr("<font color='blue'>Once you enter a valid raw transaction in the general section this area will become populated with the raw transaction information including any syscoin related service information so you will know what the transaction is doing before signing and potentially sending it to the network.</font>"));
-	ui->decodeSysTxDisclaimer->setText(tr("<font color='blue'>The area below is to display syscoin specific information regarding this transaction. Currently there is nothing to display.</font>")); 
+	ui->rawTxDisclaimer->setText(QString("<font color='blue'>") + tr("Sign a raw syscoin transaction and send it to the network if it is complete with all required signatures. Enter the raw hex encoded transaction below") + QString("</font>"));
+	ui->decodeTxDisclaimer->setText(QString("<font color='blue'>") + tr("Once you enter a valid raw transaction in the general section this area will become populated with the raw transaction information including any syscoin related service information so you will know what the transaction is doing before signing and potentially sending it to the network.") + QString("</font>"));
+	ui->decodeSysTxDisclaimer->setText(QString("<font color='blue'>") + tr("The area below is to display syscoin specific information regarding this transaction. Currently there is nothing to display") + QString("</font>"));
 	connect(ui->rawTxEdit, SIGNAL(textChanged()), this, SLOT(rawTxChanged()));
 }
 void SignRawTxDialog::setRawTxEdit()
@@ -42,7 +42,7 @@ void SignRawTxDialog::setRawTxEdit()
 	catch (UniValue& objError)
 	{
 		string strError = find_value(objError, "message").get_str();
-		ui->rawTxDecodeEdit->setText(tr("Error creating decoding raw transaction: \"%1\"").arg(QString::fromStdString(strError)));
+		ui->rawTxDecodeEdit->setText(tr("Error creating decoding raw transaction: ") + QString::fromStdString(strError));
 	}
 	catch(std::exception& e)
 	{
@@ -68,12 +68,12 @@ void SignRawTxDialog::setRawSysTxEdit()
 		QString formattedJsonString = doc.toJson(QJsonDocument::Indented);
 
 		ui->rawSysTxDecodeEdit->setPlainText(formattedJsonString);
-		ui->decodeSysTxDisclaimer->setText(tr("<font color='blue'>The area below is to display syscoin specific information regarding this transaction.</font>"));
+		ui->decodeSysTxDisclaimer->setText(QString("<font color='blue'>") + tr("The area below is to display syscoin specific information regarding this transaction") + QString("</font>"));
 	}
 	catch (UniValue& objError)
 	{
 		string strError = find_value(objError, "message").get_str();
-		ui->rawSysTxDecodeEdit->setText(tr("Error creating decoding raw syscoin transaction: \"%1\"").arg(QString::fromStdString(strError)));
+		ui->rawSysTxDecodeEdit->setText(tr("Error creating decoding raw syscoin transaction: ") + QString::fromStdString(strError));
 	}
 	catch(std::exception& e)
 	{
@@ -82,7 +82,7 @@ void SignRawTxDialog::setRawSysTxEdit()
 }
 void SignRawTxDialog::rawTxChanged()
 {
-	ui->decodeSysTxDisclaimer->setText(tr("<font color='blue'>The area below is to display syscoin specific information regarding this transaction. Currently there is nothing to display.</font>"));
+	ui->decodeSysTxDisclaimer->setText(QString("<font color='blue'>") + tr("The area below is to display syscoin specific information regarding this transaction. Currently there is nothing to display") + QString("</font>"));
 	setRawTxEdit();
 	setRawSysTxEdit();
 }
@@ -131,7 +131,7 @@ bool SignRawTxDialog::saveCurrentRow()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-		tr("Error creating updating multisig alias: \"%1\"").arg(QString::fromStdString(strError)),
+		tr("Error creating updating multisig alias: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)

@@ -20,7 +20,7 @@ NewWhitelistDialog::NewWhitelistDialog(const QString &offerGUID, QWidget *parent
 {
     ui->setupUi(this);
 	ui->offerGUIDLabel->setText(offerGUID);
-	ui->discountDisclaimer->setText(tr("<font color='blue'>Enter the alias and discount level of your affiliate. This is a percentage of price for your offer you want to allow your affiliate to purchase your offer for. Typically given to wholesalers or for special arrangements with an affiliate. </font>"));
+	ui->discountDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the alias and discount level of your affiliate. This is a percentage of price for your offer you want to allow your affiliate to purchase your offer for. Typically given to wholesalers or for special arrangements with an affiliate.") + QString("</font>"));
 }
 
 NewWhitelistDialog::~NewWhitelistDialog()
@@ -83,13 +83,13 @@ bool NewWhitelistDialog::saveCurrentRow()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-		tr("Error creating new affiliate: \"%1\"").arg(QString::fromStdString(strError)),
+		tr("Error creating new affiliate: " + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
 	{
 		QMessageBox::critical(this, windowTitle(),
-			tr("General exception creating new affiliate: \"%1\"").arg(QString::fromStdString(e.what())),
+			tr("General exception creating new affiliate: ") + QString::fromStdString(e.what()),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}							
 
@@ -112,7 +112,7 @@ void NewWhitelistDialog::accept()
             break;
         case OfferWhitelistTableModel::INVALID_ENTRY:
             QMessageBox::warning(this, windowTitle(),
-                tr("The entered entry \"%1\" is not a valid affiliate.").arg(ui->aliasEdit->text()),
+                tr("The entered entry is not a valid affiliate"),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
         case OfferWhitelistTableModel::WALLET_UNLOCK_FAILURE:

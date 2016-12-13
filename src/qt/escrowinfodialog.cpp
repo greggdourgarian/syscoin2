@@ -77,7 +77,7 @@ void EscrowInfoDialog::SetFeedbackUI(const UniValue &escrowFeedback, const QStri
 		int user =  find_value(feedbackObj, "feedbackuser").get_int();
 		string feedback =  find_value(feedbackObj, "feedback").get_str();
 		QString time =  QString::fromStdString(find_value(feedbackObj, "time").get_str());
-		QGroupBox *groupBox = new QGroupBox(tr("%1 Feedback #%2").arg(userType).arg(QString::number(i+1)));
+		QGroupBox *groupBox = new QGroupBox(QString("%1 ").arg(userType) + tr("Feedback #") + QString("%2").arg(QString::number(i+1)));
 		QTextEdit *feedbackText;
 		if(feedback.size() > 0)
 			feedbackText = new QTextEdit(QString::fromStdString(feedback));
@@ -91,7 +91,7 @@ void EscrowInfoDialog::SetFeedbackUI(const UniValue &escrowFeedback, const QStri
 		int unixTime = time.toInt();
 		dateTime.setTime_t(unixTime);
 		time = dateTime.toString();	
-		QLabel *timeText = new QLabel(tr("<b>%1</b>").arg(time));
+		QLabel *timeText = new QLabel(QString("<b>%1</b>").arg(time));
 		timeBox->addWidget(timeLabel);
 		timeBox->addWidget(timeText);
 		timeBox->addStretch(1);
@@ -103,17 +103,17 @@ void EscrowInfoDialog::SetFeedbackUI(const UniValue &escrowFeedback, const QStri
 		QString userStr = "";
 		if(user == FEEDBACKBUYER)
 		{
-			userStr = tr("%1 (Buyer)").arg(buyer);
+			userStr = QString("%1 ").arg(buyer) + tr("(Buyer)");
 		}
 		else if(user == FEEDBACKSELLER)
 		{
-			userStr = tr("%1 (Merchant)").arg(seller);
+			userStr = QString("%1 ").arg(seller) + tr("(Merchant)"); 
 		}
 		else if(user == FEEDBACKARBITER)
 		{
-			userStr = tr("%1 (Arbiter)").arg(arbiter);
+			userStr = QString("%1 ").arg(arbiter) + tr("(Arbiter)");
 		}
-		QLabel *userText = new QLabel(tr("<b>%1</b>").arg(userStr));
+		QLabel *userText = new QLabel(QString("<b>%1</b>").arg(userStr));
 		userBox->addWidget(userLabel);
 		userBox->addWidget(userText);
 		userBox->addStretch(1);

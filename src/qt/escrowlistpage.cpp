@@ -175,7 +175,7 @@ void EscrowListPage::on_ackButton_clicked()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error acknowledging escrow payment: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error acknowledging escrow payment: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 		}
 		catch(std::exception& e)
@@ -335,7 +335,7 @@ void EscrowListPage::on_searchEscrow_clicked(string GUID)
         {
             strError = find_value(objError, "message").get_str();
             QMessageBox::critical(this, windowTitle(),
-            tr("Error searching Escrow: \"%1\"").arg(QString::fromStdString(strError)),
+            tr("Error searching Escrow: ") + QString::fromStdString(strError),
                 QMessageBox::Ok, QMessageBox::Ok);
             return;
         }

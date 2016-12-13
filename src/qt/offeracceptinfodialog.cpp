@@ -83,7 +83,7 @@ void OfferAcceptInfoDialog::SetFeedbackUI(const UniValue &feedbackObj, const QSt
 		int user =  find_value(feedbackValue, "feedbackuser").get_int();
 		string feedback =  find_value(feedbackValue, "feedback").get_str();
 		QString time =  QString::fromStdString(find_value(feedbackValue, "time").get_str());
-		QGroupBox *groupBox = new QGroupBox(tr("%1 Feedback #%2").arg(userType).arg(QString::number(i+1)));
+		QGroupBox *groupBox = new QGroupBox(QString("%1 ").arg(userType) + tr("Feedback #") + QString("%1").arg(QString::number(i+1)));
 		QTextEdit *feedbackText;
 		if(feedback.size() > 0)
 			feedbackText = new QTextEdit(QString::fromStdString(feedback));
@@ -109,13 +109,13 @@ void OfferAcceptInfoDialog::SetFeedbackUI(const UniValue &feedbackObj, const QSt
 		QString userStr = "";
 		if(user == FEEDBACKBUYER)
 		{
-			userStr = tr("%1 (Buyer)").arg(buyer);
+			userStr = QString("%1").arg(buyer) + tr("(Buyer)");
 		}
 		else if(user == FEEDBACKSELLER)
 		{
-			userStr = tr("%1 (Merchant)").arg(seller);
+			userStr = QString("%1").arg(seller) + tr("(Merchant)");
 		}
-		QLabel *userText = new QLabel(tr("<b>%1</b>").arg(userStr));
+		QLabel *userText = new QLabel(QString("<b>%1</b>").arg(userStr));
 		userBox->addWidget(userLabel);
 		userBox->addWidget(userText);
 		userBox->addStretch(1);

@@ -54,15 +54,16 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	if(sysPrice == 0)
 	{
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not find currency <b>%1</b> in the rates peg for this offer").arg(QString::fromStdString(strCurrencyCode))
+			tr("Could not find currency in the rates peg for this offer. Currency: ") + QString::fromStdString(strCurrencyCode)
                 ,QMessageBox::Ok, QMessageBox::Ok);
 		reject();
 		return;
 	}
 	strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
 	QString strTotalSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()*quantity.toUInt()));
-	ui->escrowDisclaimer->setText(tr("<font color='blue'>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant.</font>"));
-	ui->acceptMessage->setText(tr("Are you sure you want to purchase <b>%1</b> of <b>%2</b> from merchant <b>%3</b>? You will be charged <b>%4 %5 (%6 SYS)</b>").arg(quantity).arg(title).arg(sellerAlias).arg(qstrPrice).arg(currencyCode).arg(strTotalSYSPrice));
+	ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant") + QString("</font>"));
+		
+	ui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("You will be charged") + QString(" <b>%1 %2 (%3 SYS)</b>").arg(qstrPrice).arg(currencyCode).arg(strTotalSYSPrice)));
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_ZEC))
 	{
 		ui->acceptZecButton->setEnabled(true);
@@ -216,7 +217,7 @@ void OfferAcceptDialog::acceptOffer()
 		{
 			strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error accepting offer: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error accepting offer: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			return;
 		}
@@ -301,7 +302,7 @@ void OfferAcceptDialog::acceptEscrow()
 		{
 			strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error creating escrow: \"%1\"").arg(QString::fromStdString(strError)),
+			tr("Error creating escrow: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			return;
 		}

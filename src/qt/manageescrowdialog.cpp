@@ -45,7 +45,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	}
 
 	escrowRoleType = findYourEscrowRoleFromAliases(buyer, seller, reseller, arbiter);
-	ui->manageInfo->setText(tr("You are managing escrow ID: <b>%1</b> of an offer for <b>%2</b> totalling <b>%3</b>. The buyer is <b>%4</b>, merchant is <b>%5</b> and arbiter is <b>%6</b>").arg(escrow).arg(offertitle).arg(total).arg(buyer).arg(reseller.size() == 0? seller: reseller).arg(arbiter));
+	ui->manageInfo->setText(tr("You are managing escrow ID") + QString(" <b>%1</b>. ").arg(escrow) + tr("Offer:") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1</b>. ").arg(total) + tr("The buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:") + QString(" <b>%1</b>, ").arg(reseller.size() == 0? seller: reseller) + QString("arbiter:") + tr(" <b>%1</b>.").arg(arbiter));
 	if(escrowRoleType == None)
 	{
 		ui->manageInfo2->setText(tr("You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases."));
@@ -56,17 +56,17 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	{
 		if(escrowRoleType == Buyer)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>buyer</b> of the offer held in escrow, you may release the coins to the merchant once you have confirmed that you have recieved the item as per the description of the offer."));
+			ui->manageInfo2->setText(tr("You are the 'buyer' of the offer held in escrow, you may release the coins to the merchant once you have confirmed that you have recieved the item as per the description of the offer."));
 			ui->refundButton->setEnabled(false);
 		}
 		else if(escrowRoleType == Seller)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>merchant</b> of the offer held in escrow, you may refund the coins back to the buyer."));
+			ui->manageInfo2->setText(tr("You are the 'merchant' of the offer held in escrow, you may refund the coins back to the buyer."));
 			ui->releaseButton->setEnabled(false);
 		}
 		else if(escrowRoleType == Arbiter)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>arbiter</b> of the offer held in escrow, you may refund the coins back to the buyer if you have evidence that the merchant did not honour the agreement to ship the offer item. You may also release the coins to the merchant if the buyer has not released in a timely manor. You may use Syscoin messages to communicate with the buyer and merchant to ensure you have adequate proof for your decision."));
+			ui->manageInfo2->setText(tr("You are the 'arbiter' of the offer held in escrow, you may refund the coins back to the buyer if you have evidence that the merchant did not honour the agreement to ship the offer item. You may also release the coins to the merchant if the buyer has not released in a timely manor. You may use Syscoin messages to communicate with the buyer and merchant to ensure you have adequate proof for your decision."));
 		}
 
 	}
@@ -74,20 +74,20 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	{
 		if(escrowRoleType == Buyer)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>buyer</b> of the offer held in escrow. The escrow has been released to the merchant. You may communicate with your arbiter or merchant via Syscoin messages. You may leave feedback after the money is claimed by the merchant."));
+			ui->manageInfo2->setText(tr("You are the 'buyer' of the offer held in escrow. The escrow has been released to the merchant. You may communicate with your arbiter or merchant via Syscoin messages. You may leave feedback after the money is claimed by the merchant."));
 			ui->refundButton->setEnabled(false);
 			ui->releaseButton->setEnabled(false);
 		}
 		else if(escrowRoleType == Seller)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>merchant</b> of the offer held in escrow. The payment of coins have been released to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction."));
+			ui->manageInfo2->setText(tr("You are the 'merchant' of the offer held in escrow. The payment of coins have been released to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction."));
 			ui->releaseButton->setText(tr("Claim Payment"));
 			ui->refundButton->setEnabled(false);
 
 		}
 		else if(escrowRoleType == Arbiter)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>arbiter</b> of the offer held in escrow. The escrow has been released to the merchant. You may re-release this escrow if there are any problems claiming the coins by the merchant. If you were the one to release the coins you will recieve a commission as soon as the merchant claims his payment. You may leave feedback after the money is claimed by the merchant."));
+			ui->manageInfo2->setText(tr("You are the 'arbiter' of the offer held in escrow. The escrow has been released to the merchant. You may re-release this escrow if there are any problems claiming the coins by the merchant. If you were the one to release the coins you will recieve a commission as soon as the merchant claims his payment. You may leave feedback after the money is claimed by the merchant."));
 			releaseWarningStr = tr("Warning: Payment has already been released, are you sure you wish to re-release payment to the merchant?");
 			ui->refundButton->setEnabled(false);
 		}
@@ -96,20 +96,20 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	{
 		if(escrowRoleType == Buyer)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>buyer</b> of the offer held in escrow. The coins have been refunded back to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction."));
+			ui->manageInfo2->setText(tr("You are the 'buyer' of the offer held in escrow. The coins have been refunded back to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction."));
 			ui->refundButton->setText(tr("Claim Refund"));
 			ui->releaseButton->setEnabled(false);
 		}
 		else if(escrowRoleType == Seller)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>merchant</b> of the offer held in escrow. The escrow has been refunded back to the buyer. You may leave feedback after the money is claimed by the buyer."));
+			ui->manageInfo2->setText(tr("You are the 'merchant' of the offer held in escrow. The escrow has been refunded back to the buyer. You may leave feedback after the money is claimed by the buyer."));
 			ui->refundButton->setEnabled(false);
 			ui->releaseButton->setEnabled(false);
 
 		}
 		else if(escrowRoleType == Arbiter)
 		{
-			ui->manageInfo2->setText(tr("You are the <b>arbiter</b> of the offer held in escrow. The escrow has been refunded back to the buyer. You may re-issue a refund if there are any problems claiming the coins by the buyer. If you were the one to refund the coins you will recieve a commission as soon as the buyer claims his refund. You may leave feedback after the money is claimed by the buyer."));
+			ui->manageInfo2->setText(tr("You are the 'arbiter' of the offer held in escrow. The escrow has been refunded back to the buyer. You may re-issue a refund if there are any problems claiming the coins by the buyer. If you were the one to refund the coins you will recieve a commission as soon as the buyer claims his refund. You may leave feedback after the money is claimed by the buyer."));
 			ui->releaseButton->setEnabled(false);
 			refundWarningStr = tr("Warning: Payment has already been refunded, are you sure you wish to re-refund payment back to the buyer?");	
 		}
@@ -315,7 +315,7 @@ void ManageEscrowDialog::onLeaveFeedback()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-        tr("Error sending feedback: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error sending feedback: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -360,7 +360,7 @@ bool ManageEscrowDialog::CompleteEscrowRelease()
 			if(m_exttxid.size() > 0)
 			{
 				QMessageBox::information(this, windowTitle(),
-				tr("Escrow release completed successfully! Payment was found on the %1 blockchain Transaction ID <b>%2</b>. You may click on the <b>Check External Payment</b> button to check to see if it has confirmed.").arg(chain).arg(m_redeemTxId),
+					tr("Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: ") + chain,
 					QMessageBox::Ok, QMessageBox::Ok);
 			}
 			else
@@ -376,7 +376,7 @@ bool ManageEscrowDialog::CompleteEscrowRelease()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-        tr("Error completing release: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error completing release: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -422,7 +422,7 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 		if(m_exttxid.size() > 0)
 		{
 			QMessageBox::information(this, windowTitle(),
-			tr("Escrow refund completed successfully! Payment was found on the %1 blockchain Transaction ID <b>%2</b>. You may click on the <b>Check External Payment</b> button to check to see if the payment has confirmed.").arg(chain).arg(m_redeemTxId),
+				tr("Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: ") + chain,
 				QMessageBox::Ok, QMessageBox::Ok);
 		}
 		else
@@ -438,7 +438,7 @@ bool ManageEscrowDialog::CompleteEscrowRefund()
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-        tr("Error completing refund: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error completing refund: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -482,7 +482,7 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 		if(codeNum != -27 && errorMessage != "transaction already in block chain")
 		{
 			QMessageBox::critical(this, windowTitle(),
-			tr("Could not send raw escrow transaction to the %1 blockchain, error code: %2 message %3: ").arg(chain).arg(codeNum).arg(QString::fromStdString(errorMessage)),
+				tr("Could not send raw escrow transaction to the blockchain. Chain: ") + chain + QString(" error code: %1 message %2: ").arg(codeNum).arg(QString::fromStdString(errorMessage)),
 					QMessageBox::Ok, QMessageBox::Ok);
 		}
 	}
@@ -498,7 +498,7 @@ void ManageEscrowDialog::slotConfirmedFinished(QNetworkReply * reply){
 			ui->refundButton->setEnabled(true);	
 		}
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not send raw escrow transaction to the %1 blockchain, error: ").arg(chain) + reply->errorString(),
+			tr("Could not send raw escrow transaction to the blockchain, error: ") + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
 		return;
@@ -577,7 +577,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 
 		GUIUtil::setClipboard(m_checkTxId);
         QMessageBox::critical(this, windowTitle(),
-			tr("Could not find escrow payment on the %1 blockchain, please ensure that the payment transaction ID <b>%2</b> has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: ").arg(chain).arg(m_checkTxId) + reply->errorString(),
+			tr("Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: ") + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
 		reply->deleteLater();
 		m_bRelease = false;
@@ -639,7 +639,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 				
 				GUIUtil::setClipboard(m_checkTxId);
 				QMessageBox::information(this, windowTitle(),
-					tr("Escrow payment ID <b>%1</b> found at <b>%2</b> in the %3 blockchain and has <b>%4</b> confirmations. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(timestamp.toString(Qt::SystemLocaleShortDate)).arg(chain).arg(QString::number(confirmations)),
+					tr("Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: ") + timestamp.toString(Qt::SystemLocaleShortDate) + tr(" chain: ") + chain + tr(" confirmations: ") + QString::number(confirmations),
 					QMessageBox::Ok, QMessageBox::Ok);	
 				m_bRelease = false;
 				m_bRefund = false;
@@ -661,7 +661,7 @@ void ManageEscrowDialog::slotConfirmedFinishedCheck(QNetworkReply * reply){
 	reply->deleteLater();	
 	GUIUtil::setClipboard(m_checkTxId);
 	QMessageBox::warning(this, windowTitle(),
-		tr("Escrow payment ID <b>%1</b> found in the %2 blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference.").arg(m_checkTxId).arg(chain),
+		tr("Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: ") + chain,
 			QMessageBox::Ok, QMessageBox::Ok);	
 	m_bRelease = false;
 	m_bRefund = false;
@@ -773,7 +773,7 @@ void ManageEscrowDialog::doRelease(const QString &rawTx)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-        tr("Error releasing escrow: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error releasing escrow: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -873,7 +873,7 @@ void ManageEscrowDialog::doRefund(const QString &rawTx)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-        tr("Error refunding escrow: \"%1\"").arg(QString::fromStdString(strError)),
+        tr("Error refunding escrow: ") + QString::fromStdString(strError),
 			QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
@@ -941,7 +941,7 @@ bool ManageEscrowDialog::isYourAlias(const QString &alias)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not get alias information: %1").arg(QString::fromStdString(strError)),
+			tr("Could not get alias information: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)
