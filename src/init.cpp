@@ -1378,7 +1378,8 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                     LOCK(cs_main);
                     CBlockIndex* tip = chainActive.Tip();
                     RPCNotifyBlockChange(true, tip);
-                    if (tip && tip->nTime > GetAdjustedTime() + 2 * 60 * 60) {
+					// SYSCOIN
+                    if (!GetBoolArg("-regtest", false) && tip && tip->nTime > GetAdjustedTime() + 2 * 60 * 60) {
                         strLoadError = _("The block database contains a block which appears to be from the future. "
                                 "This may be due to your computer's date and time being set incorrectly. "
                                 "Only rebuild the block database if you are sure that your computer's date and time are correct");
