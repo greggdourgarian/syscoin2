@@ -72,7 +72,7 @@ bool GetTimeToPrune(const CScript& scriptPubKey, uint64_t &nTime)
 	CMessage message;
 	CEscrow escrow;
 	CCert cert;
-	nHeight = 0;
+	nTime = 0;
 	if(alias.UnserializeFromData(vchData, vchHash))
 	{
 		if(alias.vchAlias == vchFromString("sysrates.peg") || alias.vchAlias == vchFromString("sysban") || alias.vchAlias == vchFromString("syscategory"))
