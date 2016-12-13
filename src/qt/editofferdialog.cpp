@@ -440,7 +440,7 @@ void EditOfferDialog::loadCerts(const QString &alias)
 	{
 		string strError = find_value(objError, "message").get_str();
 		QMessageBox::critical(this, windowTitle(),
-			tr("Could not refresh cert list: ") + (QString::fromStdString(strError),
+			tr("Could not refresh cert list: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 	}
 	catch(std::exception& e)

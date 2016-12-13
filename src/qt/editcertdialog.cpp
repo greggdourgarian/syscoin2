@@ -517,7 +517,7 @@ bool EditCertDialog::saveCurrentRow()
 			{
 				string strError = find_value(objError, "message").get_str();
 				QMessageBox::critical(this, windowTitle(),
-				tr("Error updating Cert: ") + (QString::fromStdString(strError),
+				tr("Error updating Cert: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
 				break;
 			}
