@@ -1305,7 +1305,7 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
 				const CAliasIndex &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
-					servicesCleaned++
+					servicesCleaned++;
 					EraseAlias(vchMyAlias);
 				} 
 				
