@@ -1793,7 +1793,11 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CPubKey defaultKey ;
 	CAliasIndex oldAlias;
 	CTransaction oldTx;
-	if(GetTxOfAlias(vchAlias, oldAlias, oldTx, true) && IsMyAlias(oldAlias))
+	bool isExpired;
+	bool aliasExists = GetTxOfAlias(vchAlias, oldAlias, oldTx, true, isExpired);
+	if(!isExpired)
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("This alias already exists"));
+	if(aliasExists && IsMyAlias(oldAlias))
 	{
 		defaultKey = CPubKey(oldAlias.vchPubKey);	
 	}
