@@ -44,6 +44,8 @@ public Q_SLOTS:
 	void on_addButton_clicked();
 	void on_deleteButton_clicked();
 	void reqSigsChanged();
+	void expiryChanged(const QString& alias);
+	void onCustomExpireCheckBoxChanged(bool toggled);
 private:
     bool saveCurrentRow();
 
