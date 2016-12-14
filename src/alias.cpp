@@ -1317,8 +1317,9 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-void CleanupSyscoinServiceDatabases(int &numServicesCleaned)
+bool CleanupSyscoinServiceDatabases(int &numServicesCleaned)
 {
+	CValidationState state;
 	if(pofferdb)
 		pofferdb->CleanupDatabase(numServicesCleaned);
 	if(pescrowdb)
@@ -1331,26 +1332,36 @@ void CleanupSyscoinServiceDatabases(int &numServicesCleaned)
 		paliasdb->CleanupDatabase(numServicesCleaned);
 	if(paliasdb)
 	{
+		if (!paliasdb->Flush())
+			return AbortNode(state, "Failed to write to alias database");
 		delete paliasdb;
 		paliasdb = NULL;
 	}
 	if(pofferdb)
 	{
+		if (!pofferdb->Flush())
+			return AbortNode(state, "Failed to write to offer database");
 		delete pofferdb;
 		pofferdb = NULL;
 	}
 	if(pcertdb)
 	{
+		if (!pcertdb->Flush())
+			return AbortNode(state, "Failed to write to cert database");
 		delete pcertdb;
 		pcertdb = NULL;
 	}
 	if(pescrowdb)
 	{
+		if (!pescrowdb->Flush())
+			return AbortNode(state, "Failed to write to escrow database");
 		delete pescrowdb;
 		pescrowdb = NULL;
 	}
 	if(pmessagedb)
 	{
+		if (!pmessagedb->Flush())
+			return AbortNode(state, "Failed to write to message database");
 		delete pmessagedb;
 		pmessagedb = NULL;
 	}
