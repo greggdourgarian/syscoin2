@@ -217,6 +217,8 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"), runtime_error);
 	GenerateBlocks(5, "node1");
 	// create a new service
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg jagprune1 password1 temp data"));
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
 	const UniValue &arr1 = r.get_array();
 	string guid1 = arr1[1].get_str();

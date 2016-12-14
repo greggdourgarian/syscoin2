@@ -255,10 +255,9 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "aliasupdate sysrates.peg arbiteralias333 data"));
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
-	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", false, "nocert", "location");
-	
 	GenerateBlocks(5, "node3");
-	MilliSleep(2500);
+	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", false, "nocert", "location");
+	GenerateBlocks(5, "node2");
 	EscrowClaimRelease("node2", guid);
 	// restore EUR peg
 	data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":2695.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"precision\\\":2}]}";
@@ -281,104 +280,51 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew buyeraliasprune " + offerguid + " 1 message selleraliasprune"));
 	const UniValue &arr1 = r.get_array();
 	string guid1 = arr1[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
-	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node2");
+	GenerateBlocks(5, "node1");
+
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 45"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// ensure you can still update because escrow hasn't been completed yet
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
+	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowrelease " + guid1 + " buyer"));
-	MilliSleep(1000);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
+	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 35"));
-	MilliSleep(2500);
-	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
-	// give some time to propogate the new blocks across other 2 nodes
-	MilliSleep(2500);
-	// ensure you can still update because escrow hasn't been completed yet
-	// this should claim the release and complete the escrow because buyer calls it
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
+	GenerateBlocks(5, "node1");
+
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowclaimrelease " + guid1));
 	UniValue retArray = r.get_array();
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "escrowcompleterelease " + guid1 + " " + retArray[0].get_str()));
-	MilliSleep(1000);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 35"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));	
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	
 	// leave some feedback (escrow is complete but not expired yet)
 	BOOST_CHECK_NO_THROW(CallRPC("node1",  "escrowfeedback " + guid1 + " seller 1 2 3 4"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 45"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
-	// ensure dependent services don't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg selleraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg buyeraliasprune data"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate selleraliasprune " + offerguid + " category title 100 0.05 description"));	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 25"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 25"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+
 	// try to leave feedback it should let you because aliases not expired
 	BOOST_CHECK_NO_THROW(CallRPC("node2",  "escrowfeedback " + guid1 + " buyer 1 2 3 4"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	// and it should say its expired
+	GenerateBlocks(5, "node2");
+
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrowinfo " + guid1));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 40"));
-	MilliSleep(2500);
+	ExpireAlias("buyeraliasprune");
 	StartNode("node3");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
-	MilliSleep(5000);
-	// node3 should find the service because the aliases aren't expired
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + guid1));
-	BOOST_CHECK_EQUAL(EscrowFilter("node3", guid1), true);
+	ExpireAlias("buyeraliasprune");
+	GenerateBlocks(5, "node3");
+	// node3 shouldn't find the service
+	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + guid1), runtime_error);
+	BOOST_CHECK_EQUAL(EscrowFilter("node3", guid1), false);
+	// cannot leave feedback on expired escrow
+	BOOST_CHECK_THROW(CallRPC("node2",  "escrowfeedback " + guid1 + " buyer 1 2 3 4"), runtime_error);
 }
 
 BOOST_AUTO_TEST_SUITE_END ()
