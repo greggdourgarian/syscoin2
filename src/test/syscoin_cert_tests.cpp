@@ -193,87 +193,60 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
+	GenerateBlocks(5, "node1");
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), true);
-	// then we let the service expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
-	MilliSleep(2500);
 	// make sure our offer alias doesn't expire
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
-	// then we let the service expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 50"));
+	ExpireAlias("jagprune1");
 	StartNode("node2");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), true);
+	ExpireAlias("jagprune1");
+	GenerateBlocks(5, "node2");
+
+	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), false);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + guid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 
-	// node2 should find the service
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "certinfo " + guid));
-	BOOST_CHECK_EQUAL(CertFilter("node2", guid, "Off"), true);
+	// should be pruned
+	BOOST_CHECK_THROW(CallRPC("node2", "offerinfo " + guid), runtime_error);
 
 	// stop node3
 	StopNode("node3");
-	// make sure our offer alias doesn't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
+	// should fail: already expired alias
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"), runtime_error);
+	GenerateBlocks(5, "node1");
 	// create a new service
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
 	const UniValue &arr1 = r.get_array();
 	string guid1 = arr1[1].get_str();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 70"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	// give some time to propogate the new blocks across other 2 nodes
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata pubdata1"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), true);
 	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "Off"), true);
 	// make sure our offer alias doesn't expire
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 75"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	// ensure service is still active since its supposed to expire at 100 blocks of non updated services
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata pubdata2"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 5"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	// you can search it still on node1/node2
-	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), true);
-	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "Off"), true);
-
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "generate 100"));
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 25"));
-	MilliSleep(2500);
+	GenerateBlocks(5, "node1");
+	ExpireAlias("jagprune1");
 	// now it should be expired
-	BOOST_CHECK_THROW(CallRPC("node2",  "certupdate " + guid1 + " jagprune1 newdata1 privdata1 pubdata3"), runtime_error);
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "generate 5"));
-	MilliSleep(2500);
+	BOOST_CHECK_THROW(CallRPC("node1",  "certupdate " + guid1 + " jagprune1 newdata1 privdata1 pubdata3"), runtime_error);
+	GenerateBlocks(5, "node1");
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), false);
 	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "Off"), false);
 	// and it should say its expired
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "certinfo " + guid1));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-
+	GenerateBlocks(5, "node1");
 	StartNode("node3");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "generate 5"));
-	MilliSleep(2500);
+	ExpireAlias("jagprune1");
+	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "certinfo " + guid1), runtime_error);
 	BOOST_CHECK_EQUAL(CertFilter("node3", guid1, "Off"), false);
