@@ -20,7 +20,7 @@
 #define CLIENT_VERSION_BUILD 0
 
 //! Set to true for release, false for prerelease or test build
-#define CLIENT_VERSION_IS_RELEASE false
+#define CLIENT_VERSION_IS_RELEASE true
 
 /**
  * Copyright year (2009-this)
@@ -51,7 +51,7 @@
 #include <string>
 #include <vector>
 // SYSCOIN
-static const std::string SYSCOIN_CLIENT_VERSION = "2.10RC8";
+static const std::string SYSCOIN_CLIENT_VERSION = "2.10RC9";
 static const int CLIENT_VERSION =
                            1000000 * CLIENT_VERSION_MAJOR
                          +   10000 * CLIENT_VERSION_MINOR
