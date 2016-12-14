@@ -362,7 +362,7 @@ void AliasListPage::on_searchAlias_clicked(string GUID)
 					int reqsigs = reqsigsValue.get_int();
 					multisig_str = reqsigs > 0? "Yes": "No";
 				}
-				const QString& dateTimeString = dateTimeStr(expires_on);		
+				const QString& dateTimeString = GUIUtil::dateTimeStr(expires_on);		
 				model->addRow(AliasTableModel::Alias,
 						QString::fromStdString(name_str),
 						QString::fromStdString(multisig_str),

@@ -364,7 +364,7 @@ void CertListPage::on_searchCert_clicked(string GUID)
 				expires_on = expires_on_value.get_int64();
 
 			expired_str = "Valid";
-		   const QString& dateTimeString = dateTimeStr(expires_on);
+		   const QString& dateTimeString = GUIUtil::dateTimeStr(expires_on);
 		   model->addRow(CertTableModel::Cert,
 					QString::fromStdString(name_str),
 					QString::fromStdString(value_str),

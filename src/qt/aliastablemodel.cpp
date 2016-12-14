@@ -175,7 +175,7 @@ public:
 							expired_str = "Valid";
 						}
 
-						const QString& dateTimeString = dateTimeStr(expires_on);	
+						const QString& dateTimeString = GUIUtil::dateTimeStr(expires_on);	
 						updateEntry(QString::fromStdString(name_str), QString::fromStdString(multisig_str), QString::fromStdString(value_str), QString::fromStdString(privvalue_str), dateTimeString,QString::fromStdString(expired_str), QString::fromStdString(safesearch_str),QString::fromStdString(buyer_rating), QString::fromStdString(seller_rating), QString::fromStdString(arbiter_rating), type, CT_NEW); 
 					}
 				}
