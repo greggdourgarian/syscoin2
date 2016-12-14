@@ -917,6 +917,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpire1"), runtime_error);
 
 	AliasNew("node2", "aliasexpire2", "passwordnew3", "somedata");
+	// should pass: cert alias not owned by node1
+	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirednode2"), runtime_error);
+	ExpireAlias("aliasexpire2");
+
+	AliasNew("node1", "aliasexpire2", "passwordnew3", "somedata");
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirednode2"));
 	GenerateBlocks(5, "node1");
