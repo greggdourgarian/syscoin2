@@ -35,7 +35,7 @@ void StartNodes()
 	StartNode("node1");
 	StartNode("node2");
 	StartNode("node3");
-	StartNode("node4");
+	StartNode("node4", true, "-txindex");
 
 }
 void StartMainNetNodes()
@@ -91,12 +91,14 @@ void StopNodes()
 	}
 	printf("Done!\n");
 }
-void StartNode(const string &dataDir, bool regTest)
+void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 {
     boost::filesystem::path fpath = boost::filesystem::system_complete("../syscoind");
 	string nodePath = fpath.string() + string(" -datadir=") + dataDir;
 	if(regTest)
 		nodePath += string(" -regtest -debug");
+	if(!extraArgs.empty())
+		nodePath += string(" ") + extraargs;
     boost::thread t(runCommand, nodePath);
 	printf("Launching %s, waiting 3 seconds before trying to ping...\n", dataDir.c_str());
 	MilliSleep(3000);
