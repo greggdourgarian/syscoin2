@@ -28,10 +28,14 @@ void StartNodes()
 	MilliSleep(1000);
 	if(boost::filesystem::exists(boost::filesystem::system_complete("node3/regtest")))
 		boost::filesystem::remove_all(boost::filesystem::system_complete("node3/regtest"));
-	printf("Starting 3 nodes in a regtest setup...\n");
+	MilliSleep(1000);
+	if(boost::filesystem::exists(boost::filesystem::system_complete("node4/regtest")))
+		boost::filesystem::remove_all(boost::filesystem::system_complete("node4/regtest"));
+	printf("Starting 4 nodes in a regtest setup...\n");
 	StartNode("node1");
 	StartNode("node2");
 	StartNode("node3");
+	StartNode("node4");
 
 }
 void StartMainNetNodes()
@@ -77,6 +81,14 @@ void StopNodes()
 	{
 	}	
 	MilliSleep(3000);
+	MilliSleep(3000);
+	printf("Stopping node4..\n");
+	try{
+		CallRPC("node4", "stop");
+	}
+	catch(const runtime_error& error)
+	{
+	}
 	printf("Done!\n");
 }
 void StartNode(const string &dataDir, bool regTest)
