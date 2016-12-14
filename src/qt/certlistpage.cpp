@@ -280,12 +280,9 @@ void CertListPage::on_searchCert_clicked(string GUID)
 	string data_str;
 	string pubdata_str;
 	string category_str;
-	string expires_in_str;
-	string expires_on_str;
 	string alias_str;
 	string expired_str;
 	int expired = 0;
-	int64_t expires_in = 0;
 	int64_t expires_on = 0; 
     params.push_back(ui->lineEditCertSearch->text().toStdString());
 	params.push_back(GUID);
@@ -337,11 +334,8 @@ void CertListPage::on_searchCert_clicked(string GUID)
 			data_str = "";
 			pubdata_str = "";
 			category_str = "";
-			expires_in_str = "";
-			expires_on_str = "";
 			alias_str = "";
 			expired = 0;
-			expires_in = 0;
 			expires_on = 0;
 
 			const UniValue& name_value = find_value(o, "cert");
@@ -368,22 +362,16 @@ void CertListPage::on_searchCert_clicked(string GUID)
 			const UniValue& expires_on_value = find_value(o, "expires_on");
 			if (expires_on_value.type() == UniValue::VNUM)
 				expires_on = expires_on_value.get_int64();
-			const UniValue& expires_in_value = find_value(o, "expires_in");
-			if (expires_in_value.type() == UniValue::VNUM)
-				expires_in = expires_in_value.get_int64();
 
 			expired_str = "Valid";
-			expires_in_str = strprintf("%d Blocks", expires_in);
-			expires_on_str = strprintf("Block %d", expires_on);
-		  
+		   const QString& dateTimeString = dateTimeStr(expires_on);
 		   model->addRow(CertTableModel::Cert,
 					QString::fromStdString(name_str),
 					QString::fromStdString(value_str),
 					QString::fromStdString(data_str),
 					QString::fromStdString(pubdata_str),
 					QString::fromStdString(category_str),
-					QString::fromStdString(expires_on_str),
-					QString::fromStdString(expires_in_str),
+					dateTimeString,
 					QString::fromStdString(expired_str),
 					QString::fromStdString(alias_str),
 					settings.value("safesearch", "").toString());
@@ -392,8 +380,7 @@ void CertListPage::on_searchCert_clicked(string GUID)
 					QString::fromStdString(data_str),
 					QString::fromStdString(pubdata_str),
 					QString::fromStdString(category_str),
-					QString::fromStdString(expires_on_str),
-					QString::fromStdString(expires_in_str),
+					dateTimeString,
 					QString::fromStdString(expired_str), 
 					QString::fromStdString(alias_str), 
 					settings.value("safesearch", "").toString(), AllCert, CT_NEW);	

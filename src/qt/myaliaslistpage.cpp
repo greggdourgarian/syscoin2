@@ -311,7 +311,6 @@ void MyAliasListPage::on_exportButton_clicked()
     writer.addColumn(tr("Alias"), AliasTableModel::Name, Qt::EditRole);
 	writer.addColumn(tr("Multisignature"), AliasTableModel::Multisig, Qt::EditRole);
 	writer.addColumn(tr("Expires On"), AliasTableModel::ExpiresOn, Qt::EditRole);
-	writer.addColumn(tr("Expires In"), AliasTableModel::ExpiresIn, Qt::EditRole);
 	writer.addColumn(tr("Expired"), AliasTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Buyer Rating"), AliasTableModel::RatingAsBuyer, AliasTableModel::BuyerRatingRole);
 	writer.addColumn(tr("Seller Rating"), AliasTableModel::RatingAsSeller, AliasTableModel::SellerRatingRole);

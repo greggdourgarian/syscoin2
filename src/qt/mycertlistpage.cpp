@@ -335,7 +335,6 @@ void MyCertListPage::on_exportButton_clicked()
 	writer.addColumn(tr("Public Data"), CertTableModel::PubData, Qt::EditRole);
 	writer.addColumn(tr("Category"), CertTableModel::Category, Qt::EditRole);
 	writer.addColumn(tr("Expires On"), CertTableModel::ExpiresOn, Qt::EditRole);
-	writer.addColumn(tr("Expires In"), CertTableModel::ExpiresIn, Qt::EditRole);
 	writer.addColumn(tr("Status"), CertTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Owner"), CertTableModel::Alias, Qt::EditRole);
     if(!writer.write())

@@ -126,9 +126,7 @@ void MyWhitelistOfferDialog::on_refreshButton_clicked()
 			this->model->clear();
 			string offer_str = "";
 			string alias_str = "";
-			string expiresin_str = "";
 			string offer_discount_percentage_str = "";
-			int64_t expiresin = 0;
 			const UniValue &arr = result.get_array();
 		    for (unsigned int idx = 0; idx < arr.size(); idx++) {
 			    const UniValue& input = arr[idx];
@@ -141,15 +139,11 @@ void MyWhitelistOfferDialog::on_refreshButton_clicked()
 				const UniValue& alias_value = find_value(o, "alias");
 				if (alias_value.type() == UniValue::VSTR)
 					alias_str = alias_value.get_str();
-				const UniValue& expiresin_value = find_value(o, "expires_in");
-				if (expiresin_value.type() == UniValue::VNUM)
-					expiresin = expiresin_value.get_int64();
 				const UniValue& offer_discount_percentage_value = find_value(o, "offer_discount_percentage");
 				if (offer_discount_percentage_value.type() == UniValue::VSTR)
 					offer_discount_percentage_str = offer_discount_percentage_value.get_str();
-				expiresin_str = strprintf("%d Blocks", expiresin);
-				model->addRow(QString::fromStdString(offer_str), QString::fromStdString(alias_str), QString::fromStdString(expiresin_str), QString::fromStdString(offer_discount_percentage_str));
-				model->updateEntry(QString::fromStdString(offer_str), QString::fromStdString(alias_str), QString::fromStdString(expiresin_str), QString::fromStdString(offer_discount_percentage_str), CT_NEW); 
+				model->addRow(QString::fromStdString(offer_str), QString::fromStdString(alias_str),  QString::fromStdString(offer_discount_percentage_str));
+				model->updateEntry(QString::fromStdString(offer_str), QString::fromStdString(alias_str),  QString::fromStdString(offer_discount_percentage_str), CT_NEW); 
 			}
 		}
 	}

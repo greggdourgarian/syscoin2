@@ -25,14 +25,13 @@ public:
         Name = 0,   /**< alias name */
 		Multisig = 1,
 		ExpiresOn = 2,
-		ExpiresIn = 3,
-		Expired = 4,
-		RatingAsBuyer = 5,
-		RatingAsSeller = 6,
-		RatingAsArbiter = 7,
-		SafeSearch = 8,
-		Value = 9,  /**< Alias value */
-		PrivValue = 10,
+		Expired = 3,
+		RatingAsBuyer = 4,
+		RatingAsSeller = 5,
+		RatingAsArbiter = 6,
+		SafeSearch = 7,
+		Value = 8,  /**< Alias value */
+		PrivValue = 9,
 		NUMBER_OF_COLUMNS
     };
 
@@ -73,7 +72,7 @@ public:
     /* Add an alias to the model.
        Returns the added alias on success, and an empty string otherwise.
      */
-    QString addRow(const QString &type, const QString &alias, const QString &multisig,const QString &value, const QString &privvalue, const QString &expires_on,const QString &expires_in, const QString &expired, const QString &safesearch,const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating);
+    QString addRow(const QString &type, const QString &alias, const QString &multisig,const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch,const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating);
 
     /* Look up row index of an alias in the model.
        Return -1 if not found.
@@ -96,7 +95,7 @@ private:
 public Q_SLOTS:
     /* Update alias list from core.
      */
-    void updateEntry(const QString &alias, const QString &multisig,const QString &value, const QString &privvalue, const QString &expires_on,const QString &expires_in, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating, AliasModelType type, int status);
+    void updateEntry(const QString &alias, const QString &multisig,const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating, AliasModelType type, int status);
 
     friend class AliasTablePriv;
 };
