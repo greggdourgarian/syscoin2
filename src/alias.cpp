@@ -1279,7 +1279,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 }
 
 // TODO: need to cleanout CTxOuts (transactions stored on disk) which have data stored in them after expiry, erase at same time on startup so pruning can happen properly
-bool CAliasDB::CleanupDatabase()
+bool CAliasDB::CleanupDatabase(int &servicesCleaned)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -1297,6 +1297,7 @@ bool CAliasDB::CleanupDatabase()
 				}
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
+					servicesCleaned++;
 					EraseAlias(vchMyAlias);
 					pcursor->Next();
 					continue;
@@ -1304,6 +1305,7 @@ bool CAliasDB::CleanupDatabase()
 				const CAliasIndex &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
+					servicesCleaned++
 					EraseAlias(vchMyAlias);
 				} 
 				
@@ -1315,18 +1317,18 @@ bool CAliasDB::CleanupDatabase()
     }
 	return true;
 }
-void CleanupSyscoinServiceDatabases()
+void CleanupSyscoinServiceDatabases(int &numServicesCleaned)
 {
 	if(pofferdb)
-		pofferdb->CleanupDatabase();
+		pofferdb->CleanupDatabase(numServicesCleaned);
 	if(pescrowdb)
-		pescrowdb->CleanupDatabase();
+		pescrowdb->CleanupDatabase(numServicesCleaned);
 	if(pmessagedb)
-		pmessagedb->CleanupDatabase();
+		pmessagedb->CleanupDatabase(numServicesCleaned);
 	if(pcertdb)
-		pcertdb->CleanupDatabase();
+		pcertdb->CleanupDatabase(numServicesCleaned);
 	if(paliasdb)
-		paliasdb->CleanupDatabase();
+		paliasdb->CleanupDatabase(numServicesCleaned);
 	if(paliasdb)
 	{
 		delete paliasdb;

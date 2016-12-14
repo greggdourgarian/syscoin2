@@ -96,7 +96,7 @@ void CMessage::Serialize(vector<unsigned char>& vchData) {
 	vchData = vector<unsigned char>(dsMessage.begin(), dsMessage.end());
 
 }
-bool CMessageDB::CleanupDatabase()
+bool CMessageDB::CleanupDatabase(int &servicesCleaned)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -109,6 +109,7 @@ bool CMessageDB::CleanupDatabase()
             	const vector<unsigned char> &vchMyMessage= key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
+					servicesCleaned++;
 					EraseMessage(vchMyMessage);
 					pcursor->Next();
 					continue;
@@ -116,6 +117,7 @@ bool CMessageDB::CleanupDatabase()
 				const CMessage &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= GetMessageExpiration(txPos))
 				{
+					servicesCleaned++;
 					EraseMessage(vchMyMessage);
 				} 
 				

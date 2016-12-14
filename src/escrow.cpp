@@ -126,7 +126,7 @@ void CEscrow::Serialize(vector<unsigned char>& vchData) {
 	vchData = vector<unsigned char>(dsEscrow.begin(), dsEscrow.end());
 
 }
-bool CEscrowDB::CleanupDatabase()
+bool CEscrowDB::CleanupDatabase(int &servicesCleaned)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -141,13 +141,17 @@ bool CEscrowDB::CleanupDatabase()
             	const vector<unsigned char> &vchMyEscrow= key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
+					servicesCleaned++;
 					EraseEscrow(vchMyEscrow);
 					pcursor->Next();
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos))
+				{
+					servicesCleaned++;
 					EraseEscrow(vchMyEscrow);	
+				}
             }
             pcursor->Next();
         } catch (std::exception &e) {

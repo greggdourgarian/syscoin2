@@ -119,7 +119,7 @@ public:
 
 	bool ScanRecvMessages(const std::vector<unsigned char>& vchMessage, const std::vector<std::string>& keyWordArray,unsigned int nMax,
         std::vector<CMessage> & messageScan);
-	bool CleanupDatabase();
+	bool CleanupDatabase(int &servicesCleaned);
 
 };
 

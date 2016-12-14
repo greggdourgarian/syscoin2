@@ -226,8 +226,10 @@ void Shutdown()
 		// SYSCOIN
 		if(!fTxIndex)
 		{
+			int servicesCleaned = 0;
 			LogPrintf("%s: Cleaning up Syscoin Databases...\n", __func__);
-			CleanupSyscoinServiceDatabases();
+			CleanupSyscoinServiceDatabases(servicesCleaned);
+			LogPrintf("%s: Cleanup finished! Removed %d expired services...\n", __func__, servicesCleaned);
 		}
         if (pcoinsTip != NULL) {
             FlushStateToDisk();

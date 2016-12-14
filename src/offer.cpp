@@ -144,7 +144,7 @@ void COffer::Serialize(vector<unsigned char> &vchData) {
     dsOffer << *this;
 	vchData = vector<unsigned char>(dsOffer.begin(), dsOffer.end());
 }
-bool COfferDB::CleanupDatabase()
+bool COfferDB::CleanupDatabase(int &servicesCleaned)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -157,6 +157,7 @@ bool COfferDB::CleanupDatabase()
             	const vector<unsigned char> &vchMyOffer = key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
+					servicesCleaned++;
 					EraseOffer(vchMyOffer);
 					pcursor->Next();
 					continue;
@@ -164,6 +165,7 @@ bool COfferDB::CleanupDatabase()
 				const COffer &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
 				{
+					servicesCleaned++;
 					EraseOffer(vchMyOffer);
 				} 
 				

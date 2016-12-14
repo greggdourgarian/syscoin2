@@ -138,7 +138,7 @@ void CCert::Serialize( vector<unsigned char> &vchData) {
 	vchData = vector<unsigned char>(dsCert.begin(), dsCert.end());
 
 }
-bool CCertDB::CleanupDatabase()
+bool CCertDB::CleanupDatabase(int &servicesCleaned)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -151,6 +151,7 @@ bool CCertDB::CleanupDatabase()
             	const vector<unsigned char> &vchMyCert= key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty()){
+					servicesCleaned++;
 					EraseCert(vchMyCert);
 					pcursor->Next();
 					continue;
@@ -158,6 +159,7 @@ bool CCertDB::CleanupDatabase()
 				const CCert &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= GetCertExpiration(txPos))
 				{
+					servicesCleaned++;
 					EraseCert(vchMyCert);
 				} 
 				
