@@ -38,7 +38,6 @@ CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
 extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0);
-extern bool AbortNode(CValidationState& state, const std::string& strMessage, const std::string& userMessage="");
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
 	if(nHeight < 0 || nHeight > chainActive.Height())
@@ -1317,9 +1316,8 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CleanupSyscoinServiceDatabases(int &numServicesCleaned)
+void CleanupSyscoinServiceDatabases(int &numServicesCleaned)
 {
-	CValidationState state;
 	if(pofferdb != NULL)
 		pofferdb->CleanupDatabase(numServicesCleaned);
 	if(pescrowdb!= NULL)
@@ -1333,35 +1331,35 @@ bool CleanupSyscoinServiceDatabases(int &numServicesCleaned)
 	if(paliasdb != NULL)
 	{
 		if (!paliasdb->Flush())
-			return AbortNode(state, "Failed to write to alias database");
+			LogPrintf("Failed to write to alias database!");
 		delete paliasdb;
 		paliasdb = NULL;
 	}
 	if(pofferdb != NULL)
 	{
 		if (!pofferdb->Flush())
-			return AbortNode(state, "Failed to write to offer database");
+			LogPrintf("Failed to write to offer database!");
 		delete pofferdb;
 		pofferdb = NULL;
 	}
 	if(pcertdb != NULL)
 	{
 		if (!pcertdb->Flush())
-			return AbortNode(state, "Failed to write to cert database");
+			LogPrintf("Failed to write to cert database!");
 		delete pcertdb;
 		pcertdb = NULL;
 	}
 	if(pescrowdb != NULL)
 	{
 		if (!pescrowdb->Flush())
-			return AbortNode(state, "Failed to write to escrow database");
+			LogPrintf("Failed to write to escrow database!");
 		delete pescrowdb;
 		pescrowdb = NULL;
 	}
 	if(pmessagedb != NULL)
 	{
 		if (!pmessagedb->Flush())
-			return AbortNode(state, "Failed to write to message database");
+			LogPrintf("Failed to write to message database!");
 		delete pmessagedb;
 		pmessagedb = NULL;
 	}
