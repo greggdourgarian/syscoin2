@@ -916,6 +916,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: xfer an cert to an expired alias even though transferring cert is good
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpire1"), runtime_error);
 
+	AliasNew("node2", "aliasexpire2", "passwordnew3", "somedata");
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirednode2"));
 	GenerateBlocks(5, "node1");
@@ -923,7 +924,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// ensure it got transferred
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirednode2");
 
-	ExpireAlias("aliasexpirednode2");
+	ExpireAlias("aliasexpire2");
 	// should fail: generate a cert using expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 data pubdata"), runtime_error);
 	// renew alias with new password after expiry
