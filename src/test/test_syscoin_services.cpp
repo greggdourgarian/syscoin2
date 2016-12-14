@@ -98,7 +98,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	if(regTest)
 		nodePath += string(" -regtest -debug");
 	if(!extraArgs.empty())
-		nodePath += string(" ") + extraargs;
+		nodePath += string(" ") + extraArgs;
     boost::thread t(runCommand, nodePath);
 	printf("Launching %s, waiting 3 seconds before trying to ping...\n", dataDir.c_str());
 	MilliSleep(3000);
