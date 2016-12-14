@@ -2633,6 +2633,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nPrice = linkOffer.GetPrice(foundEntry);
 		nCommission = theOffer.GetPrice() - nPrice;
+		if(nCommission < 0)
+			nCommission = 0;
 	}
 	COutPoint outPoint;
 	int numResults  = aliasunspent(buyerAlias.vchAlias, outPoint);	
@@ -2729,7 +2731,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	{
 		vecSend.push_back(paymentRecipient);
 		vecSend.push_back(acceptRecipient);
-		if(!copyOffer.vchLinkOffer.empty())
+		if(!copyOffer.vchLinkOffer.empty() && nTotalCommission > 0)
 			vecSend.push_back(paymentCommissionRecipient);
 	}
 	else

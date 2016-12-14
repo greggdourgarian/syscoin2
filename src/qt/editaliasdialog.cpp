@@ -36,7 +36,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expireTimeEdit->setText("31536000");
 	ui->expireTimeEdit->setEnabled(false);
 
-	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.") + QString("</font>"));
+	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias.") + QString("</font>"));
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
 	ui->passwordDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.") + QString("</font>"));
 	ui->publicDisclaimer->setText(QString("<font color='blue'>") + tr("This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.") + QString("</font>"));

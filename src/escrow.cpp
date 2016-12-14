@@ -1621,6 +1621,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	{
 		linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 		nCommission = theOffer.GetPrice() - linkOffer.GetPrice(foundEntry);
+		if(nCommission < 0)
+			nCommission = 0;
 	}
 	CAmount nExpectedCommissionAmount, nExpectedAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
@@ -1711,7 +1713,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		// if linked offer send commission to affiliate
 		if(!theOffer.vchLinkOffer.empty())
 		{
-			createAddressUniValue.push_back(Pair(resellerAddressPayment.ToString(), ValueFromAmount(nExpectedCommissionAmount)));
+			if(nExpectedCommissionAmount > 0)
+				createAddressUniValue.push_back(Pair(resellerAddressPayment.ToString(), ValueFromAmount(nExpectedCommissionAmount)));
 			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount-nExpectedCommissionAmount)));
 		}
 		else
@@ -1723,7 +1726,8 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		// if linked offer send commission to affiliate
 		if(!theOffer.vchLinkOffer.empty())
 		{
-			createAddressUniValue.push_back(Pair(resellerAddressPayment.ToString(), ValueFromAmount(nExpectedCommissionAmount)));
+			if(nExpectedCommissionAmount > 0)
+				createAddressUniValue.push_back(Pair(resellerAddressPayment.ToString(), ValueFromAmount(nExpectedCommissionAmount)));
 			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount-nExpectedCommissionAmount)));
 		}
 		else
@@ -2242,7 +2246,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4556 - " + _("Expected payment amount not found in escrow"));
 	if(!foundFeePayment)
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4557 - " + _("Expected fee payment to arbiter or buyer not found in escrow"));
-	if(!theOffer.vchLinkOffer.empty() && !foundCommissionPayment)
+	if(!theOffer.vchLinkOffer.empty() && !foundCommissionPayment && nExpectedCommissionAmount > 0)
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4558 - " + _("Expected commission to affiliate not found in escrow"));
 
     // Seller signs it
