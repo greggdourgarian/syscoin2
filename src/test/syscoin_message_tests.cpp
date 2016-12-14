@@ -57,9 +57,10 @@ BOOST_AUTO_TEST_CASE (generate_messagepruning)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "messagenew subject title messageprune1 messageprune2"));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
-	ExpireAlias("messageprune1");
+	// messages expire by checking the recipient alias
+	ExpireAlias("messageprune2");
 	StartNode("node2");
-	ExpireAlias("messageprune1");
+	ExpireAlias("messageprune2");
 	GenerateBlocks(5, "node2");
 	// node1 will have the service still (its just expired)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "messageinfo " + guid));

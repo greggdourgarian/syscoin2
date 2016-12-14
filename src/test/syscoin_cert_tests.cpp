@@ -198,6 +198,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), true);
 	// make sure our offer alias doesn't expire
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
+	GenerateBlocks(5, "node1");
 	ExpireAlias("jagprune1");
 	StartNode("node2");
 	ExpireAlias("jagprune1");
