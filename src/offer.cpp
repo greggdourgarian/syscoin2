@@ -2301,7 +2301,7 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 	CTransaction tx;
 	COffer theOffer;
 	vector<COffer> myVtxPos;
-	if (!GetTxAndVtxOfOffer( vchOffer, theOffer, tx, myVtxPos))
+	if (!GetTxAndVtxOfOffer( vchOffer, theOffer, tx, myVtxPos, true))
 		throw runtime_error("could not find an offer with this guid");
 
 	for(unsigned int i=0;i<theOffer.linkWhitelist.entries.size();i++) {
@@ -2313,12 +2313,7 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 			UniValue oList(UniValue::VOBJ);
 			oList.push_back(Pair("alias", stringFromVch(entry.aliasLinkVchRand)));
 			uint64_t nHeight = theAlias.nHeight;
-			if (!GetSyscoinTransaction(nHeight, txAlias.GetHash(), txAlias, Params().GetConsensus()))
-				continue;
-			int64_t expires_in = theAlias.nExpireTime - chainActive.Tip()->nTime;
-			if(expires_in < -1)
-				expires_in = -1; 
-			oList.push_back(Pair("expires_in",expires_in));
+			oList.push_back(Pair("expires_on",theAlias.nExpireTime));
 			oList.push_back(Pair("offer_discount_percentage", strprintf("%d%%", entry.nDiscountPct)));
 			oRes.push_back(oList);
 		}

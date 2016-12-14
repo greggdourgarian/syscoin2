@@ -175,9 +175,8 @@ void MyCertListPage::setModel(WalletModel *walletModel, CertTableModel *model)
 	ui->tableView->setColumnWidth(3, 200); //pubdata
 	ui->tableView->setColumnWidth(4, 75); //category
     ui->tableView->setColumnWidth(5, 75); //expires on
-    ui->tableView->setColumnWidth(6, 75); //expires in
-    ui->tableView->setColumnWidth(7, 100); //cert state
-    ui->tableView->setColumnWidth(8, 0); //owner
+    ui->tableView->setColumnWidth(6, 100); //cert state
+    ui->tableView->setColumnWidth(7, 0); //owner
 
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
