@@ -1317,7 +1317,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	COfferLinkWhitelistEntry foundEntry;
 	CAliasIndex theLinkedAlias, reselleralias;
 	CAmount nCommission;
-	COfferLinkWhitelistEntry foundEntry;
 	if(!theOffer.vchLinkOffer.empty())
 	{
 		
