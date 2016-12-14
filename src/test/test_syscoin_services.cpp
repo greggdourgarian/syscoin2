@@ -35,7 +35,9 @@ void StartNodes()
 	StartNode("node1");
 	StartNode("node2");
 	StartNode("node3");
-	StartNode("node4", true, "-txindex=1");
+	StartNode("node4", true, "-txindex");
+	StopNode("node4");
+	StartNode("node4", true, "-txindex");
 
 }
 void StartMainNetNodes()
