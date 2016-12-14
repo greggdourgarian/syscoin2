@@ -101,12 +101,12 @@ void AliasListPage::setModel(WalletModel* walletModel, AliasTableModel *model)
 
     // Set column widths
     ui->tableView->setColumnWidth(0, 500); //alias name
-	ui->tableView->setColumnWidth(1, 50); //multisig
-    ui->tableView->setColumnWidth(2, 75); //expires on
+	ui->tableView->setColumnWidth(1, 100); //multisig
+    ui->tableView->setColumnWidth(2, 150); //expires on
     ui->tableView->setColumnWidth(3, 75); //expired status
 	ui->tableView->setColumnWidth(4, 150); //buyerrating
 	ui->tableView->setColumnWidth(5, 150); //sellerrrating
-	ui->tableView->setColumnWidth(6, 150); //arbiterrating
+	ui->tableView->setColumnWidth(6, 0); //arbiterrating
 	
 
 
