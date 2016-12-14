@@ -35,7 +35,7 @@ void StartNodes()
 	StartNode("node1");
 	StartNode("node2");
 	StartNode("node3");
-	StartNode("node4", true, "-txindex");
+	StartNode("node4", true, "-txindex=1");
 
 }
 void StartMainNetNodes()
@@ -100,7 +100,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	if(!extraArgs.empty())
 		nodePath += string(" ") + extraArgs;
     boost::thread t(runCommand, nodePath);
-	printf("Launching %s, waiting 3 seconds before trying to ping...\n", dataDir.c_str());
+	printf("Launching %s, waiting 3 seconds before trying to ping...\n", nodePath.c_str());
 	MilliSleep(3000);
 	while (1)
 	{
