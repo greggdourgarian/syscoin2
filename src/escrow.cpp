@@ -1316,10 +1316,11 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CScript scriptPubKeyAlias, scriptPubKeyAliasOrig;
 	COfferLinkWhitelistEntry foundEntry;
 	CAliasIndex theLinkedAlias, reselleralias;
-
+	CAmount nCommission;
+	COfferLinkWhitelistEntry foundEntry;
 	if(!theOffer.vchLinkOffer.empty())
 	{
-
+		
 		CTransaction tmpTx;
 		vector<COffer> offerTmpVtxPos;
 		if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkedOffer, tmpTx, offerTmpVtxPos, true))
@@ -1332,10 +1333,13 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		if(linkedOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkedOffer.sCategory), "wanted"))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4518 - " + _("Cannot purchase a wanted offer"));
 
+		linkedOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
+
 		reselleralias = selleralias;
 		selleralias = theLinkedAlias;
-
 	}
+	else
+		theOffer.linkWhitelist.GetLinkEntryByHash(buyeralias.vchAlias, foundEntry);
 
 	if(!IsMyAlias(buyeralias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4519 - " + _("You must own the buyer alias to complete this transaction"));
