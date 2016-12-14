@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>497</width>
-    <height>497</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,7 +121,24 @@
      <item row="7" column="1">
       <widget class="QComboBox" name="expiryEdit"/>
      </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Expire Time:</string>
+       </property>
+      </widget>
+     </item>
      <item row="8" column="1">
+      <widget class="QLineEdit" name="expireTimeEdit"/>
+     </item>
+     <item row="9" column="1">
+      <widget class="QCheckBox" name="customExpireBox">
+       <property name="text">
+        <string>Use Custom Expire Time</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
       <widget class="QLabel" name="expiryDisclaimer">
        <property name="text">
         <string/>
@@ -131,7 +148,7 @@
        </property>
       </widget>
      </item>
-     <item row="13" column="1">
+     <item row="16" column="1">
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>

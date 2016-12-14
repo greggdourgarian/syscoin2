@@ -23,15 +23,18 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->transferEdit->setVisible(false);
 	ui->transferLabel->setVisible(false);
 	ui->aliasPegDisclaimer->setText(QString("<font color='blue'>") + tr("Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.") + QString("</font>"));
+	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Choose a standard expire time for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter a time (in seconds) for how long the alias should be valid for. It must be between 1 and 5 years in length.") + QString("</font>"));
 	ui->transferDisclaimer->setText(QString("<font color='red'>") + tr("Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setVisible(false);
 	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
-	ui->expiryEdit->addItem(tr("1 Year"),"1");
-	ui->expiryEdit->addItem(tr("2 Years"),"2");
-	ui->expiryEdit->addItem(tr("3 Years"),"3");
-	ui->expiryEdit->addItem(tr("4 Years"),"4");
-	ui->expiryEdit->addItem(tr("5 Years"),"5");
+	ui->expiryEdit->addItem(tr("1 Year"),QVariant(31536000));
+	ui->expiryEdit->addItem(tr("2 Years"),QVariant(63072000));
+	ui->expiryEdit->addItem(tr("3 Years"),QVariant(94608000));
+	ui->expiryEdit->addItem(tr("4 Years"),QVariant(126144000));
+	ui->expiryEdit->addItem(tr("5 Years"),QVariant(157680000));
+	ui->expireTimeEdit->setEnabled(false);
+
 	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.") + QString("</font>"));
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
 	ui->passwordDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.") + QString("</font>"));
@@ -41,6 +44,8 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->multisigTitle->setText(QString("<font color='blue'>") + tr("Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the 'Sign Multisig Tx' button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.") + QString("</font>"));
 	ui->reqSigsEdit->setValidator( new QIntValidator(0, 50, this) );
 	connect(ui->reqSigsEdit, SIGNAL(textChanged(QString)), this, SLOT(reqSigsChanged()));
+	connect(ui->customExpireBox,SIGNAL(clicked(bool)),SLOT(onCustomExpireCheckBoxChanged(bool)));
+	connect(ui->expiryEdit,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(expiryChanged(const QString&)));
 	QString defaultPegAlias;
 	QSettings settings;
 	switch(mode)
@@ -87,6 +92,15 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 EditAliasDialog::~EditAliasDialog()
 {
     delete ui;
+}
+void EditAliasDialog::onCustomExpireCheckBoxChanged(bool toggled)
+{
+	ui->expireTimeEdit->setEnabled(toggled);
+}
+void EditAliasDialog::expiryChanged(const QString& alias)
+{
+	int expiry = expiryEdit->itemData(expiryEdit->currentIndex()).toInt();
+	ui->expireTimeEdit->setText(QString::number(expiry));
 }
 void EditAliasDialog::reqSigsChanged()
 {
@@ -248,7 +262,7 @@ bool EditAliasDialog::saveCurrentRow()
 		params.push_back(ui->privateEdit->toPlainText().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
-		params.push_back(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString().toStdString());
+		params.push_back(ui->aliasExpiryEdit->text().trimmed().toStdString());
 		if(ui->multisigList->count() > 0)
 		{
 			params.push_back(ui->reqSigsEdit->text().toStdString());
@@ -313,7 +327,7 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back("");
 			params.push_back(ui->passwordEdit->text().toStdString());	
 			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
-			params.push_back(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString().toStdString());
+			params.push_back(ui->aliasExpiryEdit->text().trimmed().toStdString());
 			if(ui->multisigList->count() > 0)
 			{
 				params.push_back(ui->reqSigsEdit->text().toStdString());
@@ -380,7 +394,7 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(ui->transferEdit->text().toStdString());
 			params.push_back(ui->passwordEdit->text().toStdString());	
 			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
-			params.push_back(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString().toStdString());
+			params.push_back(ui->aliasExpiryEdit->text().trimmed().toStdString());
 			if(ui->multisigList->count() > 0)
 			{
 				params.push_back(ui->reqSigsEdit->text().toStdString());
