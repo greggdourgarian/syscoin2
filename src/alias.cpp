@@ -1792,12 +1792,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
 	CPubKey defaultKey ;
 	CAliasIndex oldAlias;
-	CTransaction oldTx;
+	vector<CAliasIndex> vtxPos;
 	bool isExpired;
-	bool aliasExists = GetTxOfAlias(vchAlias, oldAlias, oldTx, true, isExpired);
-	if(!isExpired)
+	bool aliasExists = GetVtxOfAlias(vchAlias, oldAlias, vtxPos, isExpired);
+	if(aliasExists && !isExpired)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("This alias already exists"));
-	if(aliasExists && IsMyAlias(oldAlias))
+	if(IsMyAlias(oldAlias))
 	{
 		defaultKey = CPubKey(oldAlias.vchPubKey);	
 	}
