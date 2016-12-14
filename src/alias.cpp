@@ -855,9 +855,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 				if(fYears < 1)
 					fYears = 1;
-				else if(fYears > 5)
-					fYears = 5;
-				fee *= fYears*fYears;
+				fee *= powf(1.5,fYears);
+
+				// ensure aliases are good for atleast an hour
+				if(nTimeExpiry < 3600)
+					theAlias.nExpireTime = chainActive[nHeight-1]->nTime+3600;
 			}
 			if (fee > tx.vout[nDataOut].nValue) 
 			{
@@ -1750,7 +1752,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 						"<private value> alias private profile data, 1024 chars max. Will be private and readable by owner only.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
-						"<expire> String. Time in seconds. Future time when to expire alias. Min is 31536000 (1 year). Max is 157680000 (5 years). Defaults to 1 year.\n"	
+						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<aliases>     For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -1818,8 +1820,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 8)
 		nTime = chainActive.Tip()->nTime+boost::lexical_cast<uint64_t>(params[7].get_str());
-	if(nTime < (chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS))
-		nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
     int nMultiSig = 1;
 	if(params.size() >= 9)
 		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
@@ -1954,9 +1954,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 	if(fYears < 1)
 		fYears = 1;
-	else if(fYears > 5)
-		fYears = 5;
-	fee.nAmount *= fYears*fYears;
+	fee.nAmount *= powf(1.5,fYears);
+
 
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
@@ -2015,7 +2014,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<toalias_pubkey> receiver syscoin alias pub key, if transferring alias.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
-						"<expire> String. Time in seconds. Future time when to expire alias. Min is 31536000 (1 year). Max is 157680000 (5 years). Defaults to 1 year.\n"		
+						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 1.5^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<aliases>     For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -2066,8 +2065,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 9)
 		nTime = chainActive.Tip()->nTime+boost::lexical_cast<uint64_t>(params[8].get_str());
-	if(nTime < (chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS))
-		nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
+
     int nMultiSig = 1;
 	if(params.size() >= 10)
 		nMultiSig = boost::lexical_cast<int>(params[9].get_str());
@@ -2216,9 +2214,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 	if(fYears < 1)
 		fYears = 1;
-	else if(fYears > 5)
-		fYears = 5;
-	fee.nAmount *= fYears*fYears;
+	fee.nAmount *= powf(1.5,fYears);
 	
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
