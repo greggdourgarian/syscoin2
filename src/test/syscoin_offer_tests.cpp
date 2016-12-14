@@ -757,8 +757,8 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 
 	// stop node3
 	StopNode("node3");
-	// make sure our offer alias doesn't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"));
+	// should fail: already expired alias
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"), runtime_error);
 	GenerateBlocks(5, "node1");
 	// create a new service
 	AliasNew("node1", "pruneoffer", "password", "changeddata1");
