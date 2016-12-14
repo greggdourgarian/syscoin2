@@ -851,7 +851,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			// if this is an alias update get expire time and figure out if alias update pays enough fees for updating expiry
 			if(!theAlias.IsNull())
 			{
-				uint64_t nTimeExpiry = theAlias.nExpireTime - chainActive[nHeight-1]->nTime;
+				int nHeightTmp = nHeight;
+				if(nHeightTmp > chainActive.Height())
+					nHeightTmp = chainActive.Height();
+				uint64_t nTimeExpiry = theAlias.nExpireTime - chainActive[nHeightTmp]->nTime;
 				float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 				if(fYears < 1)
 					fYears = 1;
@@ -859,7 +862,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 				// ensure aliases are good for atleast an hour
 				if(nTimeExpiry < 3600)
-					theAlias.nExpireTime = chainActive[nHeight-1]->nTime+3600;
+					theAlias.nExpireTime = chainActive[nHeightTmp]->nTime+3600;
 			}
 			if (fee > tx.vout[nDataOut].nValue) 
 			{
