@@ -33,6 +33,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expiryEdit->addItem(tr("3 Years"),QVariant(94608000));
 	ui->expiryEdit->addItem(tr("4 Years"),QVariant(126144000));
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(157680000));
+	ui->expireTimeEdit->setText("31536000");
 	ui->expireTimeEdit->setEnabled(false);
 
 	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.") + QString("</font>"));
