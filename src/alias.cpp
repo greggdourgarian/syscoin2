@@ -1317,11 +1317,42 @@ bool CAliasDB::CleanupDatabase()
 }
 void CleanupSyscoinServiceDatabases()
 {
-	pofferdb->CleanupDatabase();
-	pescrowdb->CleanupDatabase();
-	pmessagedb->CleanupDatabase();
-	pcertdb->CleanupDatabase();
-	paliasdb->CleanupDatabase();
+	if(pofferdb)
+		pofferdb->CleanupDatabase();
+	if(pescrowdb)
+		pescrowdb->CleanupDatabase();
+	if(pmessagedb)
+		pmessagedb->CleanupDatabase();
+	if(pcertdb)
+		pcertdb->CleanupDatabase();
+	if(paliasdb)
+		paliasdb->CleanupDatabase();
+	if(paliasdb)
+	{
+		delete paliasdb;
+		paliasdb = NULL;
+	}
+	if(pofferdb)
+	{
+		delete pofferdb;
+		pofferdb = NULL;
+	}
+	if(pcertdb)
+	{
+		delete pcertdb;
+		pcertdb = NULL;
+	}
+	if(pescrowdb)
+	{
+		delete pescrowdb;
+		pescrowdb = NULL;
+	}
+	if(pmessagedb)
+	{
+		delete pmessagedb;
+		pmessagedb = NULL;
+	}
+
 }
 bool GetTxOfAlias(const vector<unsigned char> &vchAlias, 
 				  CAliasIndex& txPos, CTransaction& tx, bool skipExpiresCheck) {
