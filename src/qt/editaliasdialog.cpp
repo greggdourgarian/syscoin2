@@ -99,7 +99,7 @@ void EditAliasDialog::onCustomExpireCheckBoxChanged(bool toggled)
 }
 void EditAliasDialog::expiryChanged(const QString& alias)
 {
-	int expiry = expiryEdit->itemData(expiryEdit->currentIndex()).toInt();
+	int expiry = ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toInt();
 	ui->expireTimeEdit->setText(QString::number(expiry));
 }
 void EditAliasDialog::reqSigsChanged()
