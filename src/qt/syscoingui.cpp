@@ -272,19 +272,19 @@ void SyscoinGUI::createActions()
 
 	// SYSCOIN
 	QString theme = GUIUtil::getThemeName();
-	overviewAction = new QAction(platformStyle->SingleColorIcon(":/icons/" + theme + "/overview"), tr("&Overview"), this);
+	overviewAction = new QAction(platformStyle->SingleColorIcon(":/icons/" + theme + "/overview"), tr("Overview"), this);
     overviewAction->setStatusTip(tr("Show general overview of wallet"));
     overviewAction->setToolTip(overviewAction->statusTip());
     overviewAction->setCheckable(true);
-    overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
+    overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_0));
     tabGroup->addAction(overviewAction);
 
 	// SYSCION
-    sendCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"), tr("&Send"), this);
+    sendCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/" + theme + "/send"), tr("Send"), this);
     sendCoinsAction->setStatusTip(tr("Send coins to a Syscoin address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
-    sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
+    sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
     tabGroup->addAction(sendCoinsAction);
 
 	// SYSCOIN
@@ -293,11 +293,11 @@ void SyscoinGUI::createActions()
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
 	// SYSCOIN
-    receiveCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/" + theme + "/receiving_addresses"), tr("&Receive"), this);
+    receiveCoinsAction = new QAction(platformStyle->SingleColorIcon(":/icons/" + theme + "/receiving_addresses"), tr("Receive"), this);
     receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and syscoin: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
-    receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
+    receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(receiveCoinsAction);
 
 	// SYSCOIN
@@ -310,44 +310,44 @@ void SyscoinGUI::createActions()
     historyAction->setStatusTip(tr("Browse transaction history"));
     historyAction->setToolTip(historyAction->statusTip());
     historyAction->setCheckable(true);
-    historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
+    historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     tabGroup->addAction(historyAction);
 
 	// SYSCOIN
-	aliasListAction = new QAction(QIcon(":/icons/" + theme + "/alias"), tr("A&liases"), this);
+	aliasListAction = new QAction(QIcon(":/icons/" + theme + "/alias"), tr("Aliases"), this);
     aliasListAction->setStatusTip(tr("Manage aliases"));
     aliasListAction->setToolTip(aliasListAction->statusTip());
     aliasListAction->setCheckable(true);
-    aliasListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    aliasListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(aliasListAction);
 
-    messageListAction = new QAction(QIcon(":/icons/" + theme + "/message"), tr("&Messages"), this);
+    messageListAction = new QAction(QIcon(":/icons/" + theme + "/message"), tr("Messages"), this);
     messageListAction->setStatusTip(tr("Messages"));
     messageListAction->setToolTip(messageListAction->statusTip());
     messageListAction->setCheckable(true);
-    messageListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    messageListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(messageListAction);
 
-    offerListAction = new QAction(QIcon(":/icons/" + theme + "/cart"), tr("&Marketplace"), this);
+    offerListAction = new QAction(QIcon(":/icons/" + theme + "/cart"), tr("Marketplace"), this);
     offerListAction->setStatusTip(tr("Manage offers"));
     offerListAction->setToolTip(offerListAction->statusTip());
     offerListAction->setCheckable(true);
-    offerListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
+    offerListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
     tabGroup->addAction(offerListAction);
 
 	
-    certListAction = new QAction(QIcon(":/icons/" + theme + "/cert"), tr("&Certificates"), this);
+    certListAction = new QAction(QIcon(":/icons/" + theme + "/cert"), tr("Certificates"), this);
     certListAction->setStatusTip(tr("Manage Certificates"));
     certListAction->setToolTip(certListAction->statusTip());
     certListAction->setCheckable(true);
-    certListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_0));
+    certListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     tabGroup->addAction(certListAction);
 
-    escrowListAction = new QAction(QIcon(":/icons/" + theme + "/escrow"), tr("&Escrow"), this);
+    escrowListAction = new QAction(QIcon(":/icons/" + theme + "/escrow"), tr("Escrow"), this);
     escrowListAction->setStatusTip(tr("Escrows with offers"));
     escrowListAction->setToolTip(escrowListAction->statusTip());
     escrowListAction->setCheckable(true);
-    escrowListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    escrowListAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
     tabGroup->addAction(escrowListAction);
 
     // Hide buttons until we fixed the issues (win and mac)
