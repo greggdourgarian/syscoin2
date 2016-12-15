@@ -23,7 +23,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->transferEdit->setVisible(false);
 	ui->transferLabel->setVisible(false);
 	ui->aliasPegDisclaimer->setText(QString("<font color='blue'>") + tr("Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.") + QString("</font>"));
-	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Choose a standard expire time for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter a time (in seconds) for how long the alias should be valid for. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.") + QString("</font>"));
+	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Choose a standard expire time for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter a time (in seconds) for how long the alias should be valid for. The entered timestamp is added to the last valid blocktime to determine an expiry date. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setText(QString("<font color='red'>") + tr("Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setVisible(false);
 	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
@@ -37,7 +37,6 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expireTimeEdit->setText("86400");
 	ui->expireTimeEdit->setEnabled(false);
 
-	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias.") + QString("</font>"));
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
 	ui->passwordDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.") + QString("</font>"));
 	ui->publicDisclaimer->setText(QString("<font color='blue'>") + tr("This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.") + QString("</font>"));
