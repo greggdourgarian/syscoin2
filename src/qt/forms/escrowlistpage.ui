@@ -104,7 +104,7 @@
         <string>Copy the currently selected escrow to the system clipboard</string>
        </property>
        <property name="text">
-        <string>Copy Escrow ID</string>
+        <string>&amp;Copy Escrow ID</string>
        </property>
       </widget>
      </item>

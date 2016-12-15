@@ -43,7 +43,7 @@
         <string>Refresh message list</string>
        </property>
        <property name="text">
-        <string>Refresh</string>
+        <string>&amp;Refresh</string>
        </property>
       </widget>
      </item>
@@ -69,7 +69,7 @@
         <string>Copy the currently selected message to the system clipboard</string>
        </property>
        <property name="text">
-        <string>Copy Msg ID</string>
+        <string>&amp;Copy Msg ID</string>
        </property>
       </widget>
      </item>
@@ -102,7 +102,7 @@
         <string>Export the data in the current tab to a file</string>
        </property>
        <property name="text">
-        <string>Export</string>
+        <string>&amp;Export</string>
        </property>
       </widget>
      </item>

@@ -63,7 +63,7 @@
    <item row="2" column="0">
     <widget class="QPushButton" name="finishButton">
      <property name="text">
-      <string>Finish</string>
+      <string>&amp;Finish</string>
      </property>
     </widget>
    </item>

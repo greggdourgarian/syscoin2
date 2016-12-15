@@ -104,7 +104,7 @@
         <string>Copy the currently selected alias to the system clipboard</string>
        </property>
        <property name="text">
-        <string>Copy Alias ID</string>
+        <string>&amp;Copy Alias ID</string>
        </property>
       </widget>
      </item>

@@ -57,7 +57,7 @@
         <string>Create a new address</string>
        </property>
        <property name="text">
-        <string>New</string>
+        <string>&amp;New</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -70,7 +70,7 @@
         <string>Copy the currently selected address to the system clipboard</string>
        </property>
        <property name="text">
-        <string>Copy</string>
+        <string>&amp;Copy</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -83,7 +83,7 @@
         <string>Delete the currently selected address from the list</string>
        </property>
        <property name="text">
-        <string>Delete</string>
+        <string>&amp;Delete</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -109,7 +109,7 @@
         <string>Export the data in the current tab to a file</string>
        </property>
        <property name="text">
-        <string>Export</string>
+        <string>&amp;Export</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -125,7 +125,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Close</string>
+        <string>C&amp;lose</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>

@@ -98,7 +98,7 @@
         <string>Refresh your list of offers</string>
        </property>
        <property name="text">
-        <string>Refresh</string>
+        <string>&amp;Refresh</string>
        </property>
       </widget>
      </item>
@@ -108,7 +108,7 @@
         <string>Create a new offer</string>
        </property>
        <property name="text">
-        <string>New Offer</string>
+        <string>&amp;New Offer</string>
        </property>
       </widget>
      </item>
@@ -118,7 +118,7 @@
         <string>Copy the currently selected offer to the system clipboard</string>
        </property>
        <property name="text">
-        <string>Copy Offer ID</string>
+        <string>&amp;Copy Offer ID</string>
        </property>
       </widget>
      </item>
@@ -138,7 +138,7 @@
         <string>Manage affiliates for this offer</string>
        </property>
        <property name="text">
-        <string>Manage Affiliates</string>
+        <string>&amp;Manage Affiliates</string>
        </property>
       </widget>
      </item>
@@ -161,7 +161,7 @@
         <string>Export the data in the current tab to a file</string>
        </property>
        <property name="text">
-        <string>Export</string>
+        <string>&amp;Export</string>
        </property>
       </widget>
      </item>

@@ -72,7 +72,7 @@
      <item>
       <widget class="QPushButton" name="btnCopyURI">
        <property name="text">
-        <string>Copy URI</string>
+        <string>Copy &amp;URI</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -82,7 +82,7 @@
      <item>
       <widget class="QPushButton" name="btnCopyAddress">
        <property name="text">
-        <string>Copy Address</string>
+        <string>Copy &amp;Address</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -92,7 +92,7 @@
      <item>
       <widget class="QPushButton" name="btnSaveAs">
        <property name="text">
-        <string>Save Image...</string>
+        <string>&amp;Save Image...</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
