@@ -41,7 +41,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	dateTime = dateTime.addYears(1);
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(dateTime.toTime_t()));
 	// TODO for testnet
-	ui->expireTimeEdit->setText(QDateTime::currentDateTimeUtc().addSecs(3600).toString());
+	ui->expireTimeEdit->setText(QDateTime::currentDateTimeUtc().addSecs(3600).toTime_t().toString());
 	//ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toString());
 	ui->expireTimeEdit->setEnabled(false);
 
