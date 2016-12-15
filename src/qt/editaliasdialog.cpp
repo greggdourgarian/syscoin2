@@ -41,7 +41,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	dateTime = dateTime.addYears(1);
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(dateTime.toTime_t()));
 	// TODO for testnet
-	ui->expireTimeEdit->setText(QDateTime::currentDateTimeUtc().addSecs(3600).toTime_t().toString());
+	ui->expireTimeEdit->setText(QString::number(QDateTime::currentDateTimeUtc().addSecs(3600).toTime_t()));
 	//ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toString());
 	ui->expireTimeEdit->setEnabled(false);
 
@@ -108,7 +108,7 @@ void EditAliasDialog::onCustomExpireCheckBoxChanged(bool toggled)
 }
 void EditAliasDialog::expiryChanged(const QString& alias)
 {
-	ui->expireTimeEdit->setText(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString());
+	ui->expireTimeEdit->setText(QString::number(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex())));
 }
 void EditAliasDialog::reqSigsChanged()
 {
