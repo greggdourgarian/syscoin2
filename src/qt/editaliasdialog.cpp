@@ -240,6 +240,15 @@ bool EditAliasDialog::saveCurrentRow()
 		model->editStatus = AliasTableModel::WALLET_UNLOCK_FAILURE;
         return false;
     }
+	if(ui->expireTimeEdit->text().trimmed().toInt() > 157680000)
+	{
+        QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Alias with large expiration"),
+                 tr("Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may use spend a large amount of coins in doing so!") + "<br><br>" + tr("Are you sure you wish to continue?"),
+                 QMessageBox::Yes|QMessageBox::Cancel,
+                 QMessageBox::Cancel);
+        if(retval == QMessageBox::Cancel)
+			return;
+	}
 	if(expiredStr == "Expired")
 	{
 		mode = NewAlias;
