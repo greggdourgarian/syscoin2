@@ -41,7 +41,8 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	dateTime = dateTime.addYears(1);
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(dateTime.toTime_t()));
 	// TODO for testnet
-	ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toString());
+	ui->expireTimeEdit->setText(QDateTime::currentDateTimeUtc().addSecs(3600).toString());
+	//ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toString());
 	ui->expireTimeEdit->setEnabled(false);
 
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
