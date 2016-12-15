@@ -101,7 +101,7 @@ void EditAliasDialog::onCustomExpireCheckBoxChanged(bool toggled)
 }
 void EditAliasDialog::expiryChanged(const QString& alias)
 {
-	int expiry = ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toInt();
+	uint32_t expiry = ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toInt();
 	ui->expireTimeEdit->setText(QString::number(expiry));
 }
 void EditAliasDialog::reqSigsChanged()
@@ -241,7 +241,8 @@ bool EditAliasDialog::saveCurrentRow()
 		model->editStatus = AliasTableModel::WALLET_UNLOCK_FAILURE;
         return false;
     }
-	if(ui->expireTimeEdit->text().trimmed().toInt() > 157680000)
+	uint32_t expiryFiveYear = ui->expiryEdit->itemData(4).toInt();
+	if(ui->expireTimeEdit->text().trimmed().toInt() > expiryFiveYear)
 	{
         QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Alias with large expiration"),
                  tr("Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!") + "<br><br>" + tr("Are you sure you wish to continue?"),
