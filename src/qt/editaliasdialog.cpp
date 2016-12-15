@@ -37,6 +37,8 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(unixTime+157680000));
 	ui->expireTimeEdit->setText(QString::number(unixTime+31536000));
 	ui->expireTimeEdit->setEnabled(false);
+	// TODO this is testnet specific
+	ui->expireTimeEdit->setText(QString::number(unixTime+86400));
 
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
 	ui->passwordDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.") + QString("</font>"));
