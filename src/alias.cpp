@@ -858,7 +858,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 				if(fYears < 1)
 					fYears = 1;
-				fee *= powf(1.75,fYears);
+				fee *= powf(1.888,fYears);
 
 				// ensure aliases are good for atleast an hour
 				if(nTimeExpiry < 3600)
@@ -1957,7 +1957,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 	if(fYears < 1)
 		fYears = 1;
-	fee.nAmount *= powf(1.75,fYears);
+	fee.nAmount *= powf(1.888,fYears);
 
 
 	vecSend.push_back(fee);
@@ -2217,7 +2217,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 	if(fYears < 1)
 		fYears = 1;
-	fee.nAmount *= powf(1.75,fYears);
+	fee.nAmount *= powf(1.888,fYears);
 	
 	vecSend.push_back(fee);
 	CCoinControl coinControl;
