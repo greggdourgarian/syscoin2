@@ -29,7 +29,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->transferDisclaimer->setVisible(false);
 	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
-	QDateTime dateTime;	
+	QDateTime dateTime = QDateTime::currentDateTimeUtc();	
 	uint32_t unixTime = dateTime.toTime_t();
 	ui->expiryEdit->addItem(tr("1 Year"),QVariant(unixTime+31536000));
 	ui->expiryEdit->addItem(tr("2 Years"),QVariant(unixTime+63072000));
