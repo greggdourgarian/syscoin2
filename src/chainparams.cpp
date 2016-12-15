@@ -152,7 +152,7 @@ public:
         nDefaultPort = 8369;
         nPruneAfterHeight = 1000000;
 		uint256 hash;
-		genesis = CreateGenesisBlock(1481063960, 5396327, 0x1e0ffff0, 1, 2.5 * COIN);
+		genesis = CreateGenesisBlock(1481063960, 5396327, 0x1e0ffff0, 1, 8.88 * COIN);
 		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
 		GenerateGenesisBlock(genesisHeader, &hash);*/
        
@@ -177,7 +177,7 @@ public:
 		base58Prefixes[SECRET_KEY_SYS] = std::vector<unsigned char>(1,191);
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
-
+		
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -245,7 +245,7 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 
-        genesis = CreateGenesisBlock(1481064094, 5262243, 0x1e0ffff0, 1, 2.5 * COIN);
+        genesis = CreateGenesisBlock(1481064094, 5262243, 0x1e0ffff0, 1, 8.88 * COIN);
 		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
 		GenerateGenesisBlock(genesisHeader, &hash);*/
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -255,23 +255,22 @@ public:
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
-        base58Prefixes[SECRET_KEY]     = std::vector<unsigned char>(1,128);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,111);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
 
-        base58Prefixes[PUBKEY_ADDRESS_ZEC] = {0x1C,0xB8};
-		base58Prefixes[SCRIPT_ADDRESS_ZEC] = {0x1C,0xBD};
-		base58Prefixes[PUBKEY_ADDRESS_SYS] = std::vector<unsigned char>(1,63);
-        
-		base58Prefixes[SECRET_KEY_SYS] = std::vector<unsigned char>(1,191);
-        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
-        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[PUBKEY_ADDRESS_ZEC] = std::vector<unsigned char>(0x1C,0xB8);
+        base58Prefixes[PUBKEY_ADDRESS_SYS] = std::vector<unsigned char>(1,65);
+        base58Prefixes[SCRIPT_ADDRESS_ZEC] = std::vector<unsigned char>(0x1C,0xBD);
+        base58Prefixes[SECRET_KEY_SYS] =     std::vector<unsigned char>(1,193);
+
+        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xCF).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x83)(0x94).convert_to_container<std::vector<unsigned char> >();
 
 
         fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
-		// TODO: switch back to false
-        fRequireStandard = true;
+        fRequireStandard = false;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = true;
 
@@ -318,7 +317,7 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 
-        genesis = CreateGenesisBlock(1481069381, 6552708, 0x207fffff, 1, 2.5 * COIN);
+        genesis = CreateGenesisBlock(1481069381, 6552708, 0x207fffff, 1, 8.88 * COIN);
 		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
 			GenerateGenesisBlock(genesisHeader, &hash);*/
         consensus.hashGenesisBlock = genesis.GetHash();
