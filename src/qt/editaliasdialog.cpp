@@ -247,7 +247,7 @@ bool EditAliasDialog::saveCurrentRow()
                  QMessageBox::Yes|QMessageBox::Cancel,
                  QMessageBox::Cancel);
         if(retval == QMessageBox::Cancel)
-			return;
+			return false;
 	}
 	if(expiredStr == "Expired")
 	{
