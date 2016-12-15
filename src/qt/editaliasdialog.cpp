@@ -30,19 +30,19 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
 	QDateTime dateTime = QDateTime::currentDateTimeUtc();	
-	dateTime.addYears(1);
+	dateTime = dateTime.addYears(1);
 	uint32_t unixTime = dateTime.toTime_t();
 	ui->expiryEdit->addItem(tr("1 Year"),QVariant(unixTime));
-	dateTime.addYears(1);
+	dateTime = dateTime.addYears(1);
 	unixTime = dateTime.toTime_t();
 	ui->expiryEdit->addItem(tr("2 Years"),QVariant(unixTime));
-	dateTime.addYears(1);
+	dateTime = dateTime.addYears(1);
 	unixTime = dateTime.toTime_t();
 	ui->expiryEdit->addItem(tr("3 Years"),QVariant(unixTime));
-	dateTime.addYears(1);
+	dateTime = dateTime.addYears(1);
 	unixTime = dateTime.toTime_t();
 	ui->expiryEdit->addItem(tr("4 Years"),QVariant(unixTime));
-	dateTime.addYears(1);
+	dateTime = dateTime.addYears(1);
 	unixTime = dateTime.toTime_t();
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(unixTime));
 
