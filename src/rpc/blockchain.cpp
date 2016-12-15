@@ -31,6 +31,7 @@
 #include <mutex>
 #include <condition_variable>
 using namespace std;
+
 struct CUpdatedBlock
 {
     uint256 hash;
@@ -831,7 +832,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         stats.nHeight = mapBlockIndex.find(stats.hashBlock)->second->nHeight;
     }
     ss << stats.hashBlock;
-    CAmount nTotalAmount = 0;
+    CAmount nTotalAmount = AmountFromValue(BALANCE);
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         uint256 key;
@@ -856,7 +857,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         pcursor->Next();
     }
     stats.hashSerialized = ss.GetHash();
-    stats.nTotalAmount = nTotalAmount-AmountFromValue(30*MCOIN);
+    stats.nTotalAmount = nTotalAmount;
     return true;
 }
 
