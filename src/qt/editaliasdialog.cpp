@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include "rpc/server.h"
+#include <QDateTime>
 using namespace std;
 
 extern CRPCTable tableRPC;
