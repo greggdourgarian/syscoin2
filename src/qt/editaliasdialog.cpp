@@ -47,7 +47,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expiryEdit->addItem(tr("5 Years"),QVariant(unixTime));
 
 	// TODO for testnet
-	ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toInt());
+	ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toString());
 	ui->expireTimeEdit->setEnabled(false);
 
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
@@ -113,8 +113,7 @@ void EditAliasDialog::onCustomExpireCheckBoxChanged(bool toggled)
 }
 void EditAliasDialog::expiryChanged(const QString& alias)
 {
-	uint32_t expiry = ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toInt();
-	ui->expireTimeEdit->setText(QString::number(expiry));
+	ui->expireTimeEdit->setText(ui->expiryEdit->itemData(ui->expiryEdit->currentIndex()).toString());
 }
 void EditAliasDialog::reqSigsChanged()
 {
