@@ -152,13 +152,13 @@ public:
         nDefaultPort = 8369;
         nPruneAfterHeight = 1000000;
 		uint256 hash;
-		genesis = CreateGenesisBlock(1481063960, 5396327, 0x1e0ffff0, 1, 8.88 * COIN);
+		genesis = CreateGenesisBlock(1481766668, 5486119, 0x1e0ffff0, 1, 8.88 * COIN);
 		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
 		GenerateGenesisBlock(genesisHeader, &hash);*/
        
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000000222a285327c110cc999bbd4f7b6f65a16a2a30901b21bdd008f572a174"));
-        assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000284314053c52b605095a1ddb7926b4ef0f348a6923749b65cc4c85b8f8f"));
+        assert(genesis.hashMerkleRoot == uint256S("0x68519c429727677424e712d467bf835a88f52bc648dc491155a9da18b0ec3ffd"));
 
         vSeeds.push_back(CDNSSeedData("seed1.syscoin.org", "seed1.syscoin.org"));
         vSeeds.push_back(CDNSSeedData("seed2.syscoin.org", "seed2.syscoin.org"));
@@ -245,12 +245,12 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 
-        genesis = CreateGenesisBlock(1481064094, 5262243, 0x1e0ffff0, 1, 8.88 * COIN);
+        genesis = CreateGenesisBlock(1481766788, 5360303, 0x1e0ffff0, 1, 8.88 * COIN);
 		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
 		GenerateGenesisBlock(genesisHeader, &hash);*/
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000f4bd8a880776f4dd9cfb945ef0f99c2d66eff5238c4f1a2d8b5d91f612a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000790e2439c71e102414f0c42b1107ac1fd661b802577f502cc0720d86e73"));
+        assert(genesis.hashMerkleRoot == uint256S("0x68519c429727677424e712d467bf835a88f52bc648dc491155a9da18b0ec3ffd"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -266,7 +266,19 @@ public:
 
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xCF).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x83)(0x94).convert_to_container<std::vector<unsigned char> >();
+/*        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,0);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
+        base58Prefixes[SECRET_KEY]     = std::vector<unsigned char>(1,128);
 
+        base58Prefixes[PUBKEY_ADDRESS_ZEC] = {0x1C,0xB8};
+		base58Prefixes[SCRIPT_ADDRESS_ZEC] = {0x1C,0xBD};
+		base58Prefixes[PUBKEY_ADDRESS_SYS] = std::vector<unsigned char>(1,63);
+        
+		base58Prefixes[SECRET_KEY_SYS] = std::vector<unsigned char>(1,191);
+        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
+		fRequireStandard = true;
+		*/
 
         fMiningRequiresPeers = true;
         fDefaultConsistencyChecks = false;
@@ -317,12 +329,12 @@ public:
         nPruneAfterHeight = 1000;
 		uint256 hash;
 
-        genesis = CreateGenesisBlock(1481069381, 6552708, 0x207fffff, 1, 8.88 * COIN);
+        genesis = CreateGenesisBlock(1481766878, 6582433, 0x207fffff, 1, 8.88 * COIN);
 		/*CBlockHeader genesisHeader = genesis.GetBlockHeader();
 			GenerateGenesisBlock(genesisHeader, &hash);*/
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00009c4b86251fd571fd424de4e98753ed173335f748b9cf71b10a95f6ea21a3"));
-        assert(genesis.hashMerkleRoot == uint256S("0x5215c5a2af9b63f2550b635eb2b354bb13645fd8fa31275394eb161944303065"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00001b7a561561ce82a5e2e7df4b500fba958e1d63ff3261729874441f64ba96"));
+        assert(genesis.hashMerkleRoot == uint256S("0x68519c429727677424e712d467bf835a88f52bc648dc491155a9da18b0ec3ffd"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
