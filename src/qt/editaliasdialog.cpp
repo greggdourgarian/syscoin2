@@ -31,21 +31,15 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expiryEdit->clear();
 	QDateTime dateTime = QDateTime::currentDateTimeUtc();	
 	dateTime = dateTime.addYears(1);
-	uint32_t unixTime = dateTime.toTime_t();
-	ui->expiryEdit->addItem(tr("1 Year"),QVariant(unixTime));
+	ui->expiryEdit->addItem(tr("1 Year"),QVariant(dateTime.toTime_t()));
 	dateTime = dateTime.addYears(1);
-	unixTime = dateTime.toTime_t();
-	ui->expiryEdit->addItem(tr("2 Years"),QVariant(unixTime));
+	ui->expiryEdit->addItem(tr("2 Years"),QVariant(dateTime.toTime_t()));
 	dateTime = dateTime.addYears(1);
-	unixTime = dateTime.toTime_t();
-	ui->expiryEdit->addItem(tr("3 Years"),QVariant(unixTime));
+	ui->expiryEdit->addItem(tr("3 Years"),QVariant(dateTime.toTime_t()));
 	dateTime = dateTime.addYears(1);
-	unixTime = dateTime.toTime_t();
-	ui->expiryEdit->addItem(tr("4 Years"),QVariant(unixTime));
+	ui->expiryEdit->addItem(tr("4 Years"),QVariant(dateTime.toTime_t()));
 	dateTime = dateTime.addYears(1);
-	unixTime = dateTime.toTime_t();
-	ui->expiryEdit->addItem(tr("5 Years"),QVariant(unixTime));
-
+	ui->expiryEdit->addItem(tr("5 Years"),QVariant(dateTime.toTime_t()));
 	// TODO for testnet
 	ui->expireTimeEdit->setText(ui->expiryEdit->itemData(0).toString());
 	ui->expireTimeEdit->setEnabled(false);
