@@ -923,14 +923,6 @@ if test x$enable_wallet != xno; then
 else
   AC_MSG_RESULT(no)
 fi
-dnl enable debug rpc
-AC_MSG_CHECKING([if debug rpc should be enabled])
-if test x$use_debugrpc != xno; then
-  AC_MSG_RESULT(yes)
-  AC_DEFINE_UNQUOTED([ENABLE_DEBUGRPC],[1],[Define to 1 to enable debug RPC functions])
-
-else
-  AC_MSG_RESULT(no)
 fi
 dnl enable upnp support
 AC_MSG_CHECKING([whether to build with support for UPnP])
@@ -1025,10 +1017,9 @@ AM_CONDITIONAL([TARGET_DARWIN], [test x$TARGET_OS = xdarwin])
 AM_CONDITIONAL([BUILD_DARWIN], [test x$BUILD_OS = xdarwin])
 AM_CONDITIONAL([TARGET_WINDOWS], [test x$TARGET_OS = xwindows])
 AM_CONDITIONAL([ENABLE_WALLET],[test x$enable_wallet = xyes])
-AM_CONDITIONAL([ENABLE_DEBUGRPC],[test x$use_debugrpc = xyes])
 AM_CONDITIONAL([ENABLE_TESTS],[test x$BUILD_TEST = xyes])
 AM_CONDITIONAL([ENABLE_QT],[test x$syscoin_enable_qt = xyes])
-AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$BUILD_TEST_QT = xyes])
+AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$BUILD_TEST_QT = xno])
 AM_CONDITIONAL([ENABLE_BENCH],[test x$use_bench = xno])
 AM_CONDITIONAL([USE_QRCODE], [test x$use_qr = xyes])
 AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
