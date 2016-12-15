@@ -23,18 +23,19 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->transferEdit->setVisible(false);
 	ui->transferLabel->setVisible(false);
 	ui->aliasPegDisclaimer->setText(QString("<font color='blue'>") + tr("Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.") + QString("</font>"));
-	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Choose a standard expire time for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter a time (in seconds) for how long the alias should be valid for. The entered timestamp is added to the last valid blocktime to determine an expiry date. It is exponentially more expensive per year, calculation is FEERATE*(1.888^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.") + QString("</font>"));
+	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Choose a standard expiration time for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setText(QString("<font color='red'>") + tr("Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setVisible(false);
 	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
-	ui->expiryEdit->addItem(tr("1 Year"),QVariant(31536000));
-	ui->expiryEdit->addItem(tr("2 Years"),QVariant(63072000));
-	ui->expiryEdit->addItem(tr("3 Years"),QVariant(94608000));
-	ui->expiryEdit->addItem(tr("4 Years"),QVariant(126144000));
-	ui->expiryEdit->addItem(tr("5 Years"),QVariant(157680000));
-	// TODO fix to 31536000
-	ui->expireTimeEdit->setText("86400");
+	QDateTime dateTime;	
+	uint32_t unixTime = dateTime.getTime_t();
+	ui->expiryEdit->addItem(tr("1 Year"),QVariant(unixTime+31536000));
+	ui->expiryEdit->addItem(tr("2 Years"),QVariant(unixTime+63072000));
+	ui->expiryEdit->addItem(tr("3 Years"),QVariant(unixTime+94608000));
+	ui->expiryEdit->addItem(tr("4 Years"),QVariant(unixTime+126144000));
+	ui->expiryEdit->addItem(tr("5 Years"),QVariant(unixTime+157680000));
+	ui->expireTimeEdit->setText(QString::number(unixTime+31536000));
 	ui->expireTimeEdit->setEnabled(false);
 
     ui->privateDisclaimer->setText(QString("<font color='blue'>") + tr("This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.") + QString("</font>"));
@@ -243,7 +244,7 @@ bool EditAliasDialog::saveCurrentRow()
 	if(ui->expireTimeEdit->text().trimmed().toInt() > 157680000)
 	{
         QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Alias with large expiration"),
-                 tr("Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may use spend a large amount of coins in doing so!") + "<br><br>" + tr("Are you sure you wish to continue?"),
+                 tr("Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!") + "<br><br>" + tr("Are you sure you wish to continue?"),
                  QMessageBox::Yes|QMessageBox::Cancel,
                  QMessageBox::Cancel);
         if(retval == QMessageBox::Cancel)

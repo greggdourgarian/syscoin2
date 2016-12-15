@@ -31,7 +31,6 @@
 #include <mutex>
 #include <condition_variable>
 using namespace std;
-
 struct CUpdatedBlock
 {
     uint256 hash;
@@ -857,7 +856,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         pcursor->Next();
     }
     stats.hashSerialized = ss.GetHash();
-    stats.nTotalAmount = nTotalAmount;
+    stats.nTotalAmount = nTotalAmount-AmountFromValue(30*MCOIN);
     return true;
 }
 
