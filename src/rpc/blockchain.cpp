@@ -857,6 +857,8 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         pcursor->Next();
     }
     stats.hashSerialized = ss.GetHash();
+	if(nTotalAmount < 0)
+		nTotalAmount = 0;
     stats.nTotalAmount = nTotalAmount;
     return true;
 }
