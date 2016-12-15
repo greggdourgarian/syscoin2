@@ -832,7 +832,7 @@ static bool GetUTXOStats(CCoinsView *view, CCoinsStats &stats)
         stats.nHeight = mapBlockIndex.find(stats.hashBlock)->second->nHeight;
     }
     ss << stats.hashBlock;
-    CAmount nTotalAmount = AmountFromValue(BALANCE);
+    CAmount nTotalAmount = nBalance;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         uint256 key;
