@@ -55,7 +55,7 @@
         <string>Pay with Syscoin</string>
        </property>
        <property name="text">
-        <string>&amp;Pay with SYS</string>
+        <string>Pay with SYS</string>
        </property>
       </widget>
      </item>

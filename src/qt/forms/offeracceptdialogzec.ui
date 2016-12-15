@@ -79,7 +79,7 @@
         <string>Confirm this payment on the Bitcoin blockchain</string>
        </property>
        <property name="text">
-        <string>&amp;Confirm Payment</string>
+        <string>Confirm Payment</string>
        </property>
       </widget>
      </item>

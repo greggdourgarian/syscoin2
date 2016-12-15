@@ -39,7 +39,7 @@
     <item row="0" column="0">
      <widget class="QLabel" name="payToLabel">
       <property name="text">
-       <string>Pay &amp;To:</string>
+       <string>Pay To:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -120,7 +120,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="labellLabel">
       <property name="text">
-       <string>&amp;Label:</string>
+       <string>Label:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -140,7 +140,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="amountLabel">
       <property name="text">
-       <string>A&amp;mount:</string>
+       <string>Amount:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -161,7 +161,7 @@
          <string>The fee will be deducted from the amount being sent. The recipient will receive less syscoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</string>
         </property>
         <property name="text">
-         <string>S&amp;ubtract fee from amount</string>
+         <string>Subtract fee from amount</string>
         </property>
        </widget>
       </item>
@@ -675,7 +675,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="amountLabel_is">
       <property name="text">
-       <string>A&amp;mount:</string>
+       <string>Amount:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1204,7 +1204,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="amountLabel_s">
       <property name="text">
-       <string>A&amp;mount:</string>
+       <string>Amount:</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

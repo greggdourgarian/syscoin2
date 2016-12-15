@@ -122,7 +122,7 @@
           <string>Lookup the OfferID from the blockchain DB</string>
          </property>
          <property name="text">
-          <string>&amp;Lookup Offer</string>
+          <string>Lookup Offer</string>
          </property>
         </widget>
        </item>
@@ -394,7 +394,7 @@
       <string>Purchase this offer</string>
      </property>
      <property name="text">
-      <string>&amp;Accept Offer</string>
+      <string>Accept Offer</string>
      </property>
     </widget>
    </item>

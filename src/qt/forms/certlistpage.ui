@@ -122,7 +122,7 @@
         <string>Copy the currently selected cert to the system clipboard</string>
        </property>
        <property name="text">
-        <string>&amp;Copy Certificate ID</string>
+        <string>Copy Certificate ID</string>
        </property>
       </widget>
      </item>

@@ -80,7 +80,7 @@
         <string>Refresh certificate list</string>
        </property>
        <property name="text">
-        <string>&amp;Refresh</string>
+        <string>Refresh</string>
        </property>
       </widget>
      </item>
@@ -90,7 +90,7 @@
         <string>Create a new certificate</string>
        </property>
        <property name="text">
-        <string>&amp;New Certificate</string>
+        <string>New Certificate</string>
        </property>
       </widget>
      </item>
@@ -100,7 +100,7 @@
         <string>Copy the currently selected certificate to the system clipboard</string>
        </property>
        <property name="text">
-        <string>&amp;Copy Certificate ID</string>
+        <string>Copy Certificate ID</string>
        </property>
       </widget>
      </item>
@@ -153,7 +153,7 @@
         <string>Export the data in the current tab to a file</string>
        </property>
        <property name="text">
-        <string>&amp;Export</string>
+        <string>Export</string>
        </property>
       </widget>
      </item>
