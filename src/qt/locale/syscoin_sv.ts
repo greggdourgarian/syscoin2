@@ -1,5 +1,283 @@
 <TS language="sv" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    <message>
+        <source>Pay Offer</source>
+        <translation>pay erbjudande</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Erbjudandet ID:</translation>
+    </message>
+    <message>
+        <source>The value associated with this offer.</source>
+        <translation>Värdet associerat med detta erbjudande.</translation>
+    </message>
+    <message>
+        <source>Lookup the OfferID from the blockchain DB</source>
+        <translation>Slå upp OfferID från blockchain DB</translation>
+    </message>
+    <message>
+        <source>&amp;Lookup Offer</source>
+        <translation>&amp; Lookup erbjudande</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Kvantitet:</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>Notes:</source>
+        <translation>Anmärkningar:</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>Erbjudande Detaljer</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Handelsfartyg:</translation>
+    </message>
+    <message>
+        <source>Merchant Rating:</source>
+        <translation>Butiksbetyg:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Titel:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategori:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Pris:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Valuta:</translation>
+    </message>
+    <message>
+        <source>Alias for Exchange Rate Peg:</source>
+        <translation>Alias ​​för växelkurs:</translation>
+    </message>
+    <message>
+        <source>Quantity Remaining:</source>
+        <translation>Antal återstod:</translation>
+    </message>
+    <message>
+        <source>Quantity Sold:</source>
+        <translation>Kvantitet Sålt:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Beskrivning:</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Köp detta erbjudande</translation>
+    </message>
+    <message>
+        <source>&amp;Accept Offer</source>
+        <translation>&amp;Acceptera erbjudande</translation>
+    </message>
+    <message>
+        <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
+        <translation>Köp ett erbjudande, kommer mynt användas från ditt saldo för att slutföra transaktionen</translation>
+    </message>
+    <message>
+        <source>Click to open image in browser...</source>
+        <translation>Klicka för att öppna bilden i webbläsare ...</translation>
+    </message>
+    <message>
+        <source>Use Public Profile</source>
+        <translation>Använd allmän profil</translation>
+    </message>
+    <message>
+        <source>Use Private Profile</source>
+        <translation>Använd Privat profil</translation>
+    </message>
+    <message>
+        <source>Confirm Public Profile Inclusion</source>
+        <translation>Bekräfta allmän profil Inclusion</translation>
+    </message>
+    <message>
+        <source>Warning: You have already appended profile information to the notes for this purchase!</source>
+        <translation>Varning: Du har redan bifogade profilinformation till noterna för detta köp!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Är du säker på att du vill fortsätta?</translation>
+    </message>
+    <message>
+        <source>Confirm Private Profile Inclusion</source>
+        <translation>Bekräfta Privat profil integration</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to get the alias profile data: </source>
+        <translation>Det fanns ett undantag försöka få alias profildata:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
+    </message>
+    <message>
+        <source>Purchase this offer, coins will be used from your balance to complete the transaction</source>
+        <translation>Köp detta erbjudande, kommer mynt användas från ditt saldo för att slutföra transaktionen</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept this offer!</source>
+        <translation>Ogiltig mängd när man försöker att acceptera detta erbjudande!</translation>
+    </message>
+    <message>
+        <source>Please choose an alias before purchasing this offer.</source>
+        <translation>Välj ett alias innan du köper detta erbjudande.</translation>
+    </message>
+    <message>
+        <source>Waiting for confirmation on the purchase of this offer</source>
+        <translation>Väntar på bekräftelse på inköp av detta erbjudande</translation>
+    </message>
+    <message>
+        <source>Could not find this offer, please ensure the offer has been confirmed by the blockchain: </source>
+        <translation>Det gick inte att hitta detta erbjudande, vänligen se till att erbjudandet har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this offer, please ensure the offer has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta erbjudande, vänligen se till att erbjudandet har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>URI has been already handled</source>
+        <translation>URI har redan hanterat</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>obegränsat</translation>
+    </message>
+</context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>Accepted Offers</source>
+        <translation>Godkända erbjudanden</translation>
+    </message>
+    <message>
+        <source>Refresh accepted offer list</source>
+        <translation>Uppdatera accepterad erbjudande lista</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopiera erbjudande ID</translation>
+    </message>
+    <message>
+        <source>Details of the selected accepted offer</source>
+        <translation>Detaljer för den valda accepterade erbjudandet</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Send message to the seller</source>
+        <translation>Skicka meddelande till säljaren</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Skicka msg till Säljare</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Lämna feedback</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
+        <translation>Dessa är erbjudanden du har köpt. Erbjudande operationer tar 2-5 minuter för att bli aktiva. Högerklicka på ett erbjudande om att visa mer information såsom det meddelande som du skickas till säljaren, kvantitet, datum, etc. Du kan välja vilka alias för att visa försäljningsinformation för att använda rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>Copy OfferAccept ID</source>
+        <translation>Kopiera OfferAccept ID</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Export erbjudande Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer ID</source>
+        <translation>erbjudandet ID</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>acceptera ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>Höjd</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Pris</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>Valuta</translation>
+    </message>
+    <message>
+        <source>Qty</source>
+        <translation>st</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Total</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>Säljare</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Köpare</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -41,6 +319,174 @@
         <source>&amp;Delete</source>
         <translation>&amp;Radera</translation>
     </message>
+    <message>
+        <source>Choose the address to send coins to</source>
+        <translation>Välj en adress att sända betalning till</translation>
+    </message>
+    <message>
+        <source>Choose the address to receive coins with</source>
+        <translation>Välj en adress att ta emot betalning till</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation>V&amp;älj</translation>
+    </message>
+    <message>
+        <source>Sending addresses</source>
+        <translation>Avsändaradresser</translation>
+    </message>
+    <message>
+        <source>Receiving addresses</source>
+        <translation>Mottagaradresser</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Detta är dina Syscoin-adresser för att skicka betalningar. Kolla alltid summan och den mottagande adressen innan du skickar Syscoins.</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Detta är dina Syscoin-adresser för att ta emot betalningar. Det rekommenderas att använda en ny mottagningsadress för varje transaktion.</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Address</source>
+        <translation>&amp;Kopiera adress</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Label</source>
+        <translation>Kopiera &amp;etikett</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Ändra</translation>
+    </message>
+    <message>
+        <source>Export Address List</source>
+        <translation>Exportera adresslistan</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikett</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adress</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    <message>
+        <source>Label</source>
+        <translation>Etikett</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adress</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(ingen etikett)</translation>
+    </message>
+</context>
+<context>
+    <name>AliasListPage</name>
+    <message>
+        <source>Aliases</source>
+        <translation>alias</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected alias to the system clipboard</source>
+        <translation>Kopiera markerade alias till Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Alias ID</source>
+        <translation>&amp; Kopiera Alias ​​ID</translation>
+    </message>
+    <message>
+        <source>Send Msg</source>
+        <translation>Skicka Msg</translation>
+    </message>
+    <message>
+        <source>Sign Multisig Tx</source>
+        <translation>Underteckna Multisig Tx</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Aliases. Select Safe Search from wallet options if you wish to omit potentially offensive Aliases(On by default)</source>
+        <translation>Sök efter Syscoin Alias. Välj Safesearch från plånbok alternativ om du vill utelämna potentiellt stötande Alias ​​(On standard)</translation>
+    </message>
+    <message>
+        <source>Enter search term, regex accepted (ie: ^name returns all Aliases starting with 'name'). Empty will search for all.</source>
+        <translation>Ange sökord, regex accepteras (dvs. ^ namn returnerar alla Alias ​​börjar med "namn"). Tom kommer att söka efter alla.</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from aliasfilter command</source>
+        <translation>Fel: Ogiltigt svar från aliasfilter kommandot</translation>
+    </message>
+</context>
+<context>
+    <name>AliasTableModel</name>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Multisignature</source>
+        <translation>Multisignature</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Går ut om</translation>
+    </message>
+    <message>
+        <source>Alias Status</source>
+        <translation>alias Status</translation>
+    </message>
+    <message>
+        <source>Buyer Rating</source>
+        <translation>köparen Betyg</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>säljaren betyg</translation>
+    </message>
+    <message>
+        <source>Arbiter Rating</source>
+        <translation>Arbiter Betyg</translation>
+    </message>
+</context>
+<context>
+    <name>AliasView</name>
+    <message>
+        <source>My Aliases</source>
+        <translation>mina Alias</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
+    </message>
 </context>
 <context>
     <name>AskPassphraseDialog</name>
@@ -60,6 +506,90 @@
         <source>Repeat new passphrase</source>
         <translation>Upprepa nytt lösenord</translation>
     </message>
+    <message>
+        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
+        <translation>Ange plånbokens nya lösenord. &lt;br/&gt; Använd ett lösenord på &lt;b&gt;tio eller fler slumpmässiga tecken,&lt;/b&gt; eller &lt;b&gt;åtta eller fler ord.&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>Encrypt wallet</source>
+        <translation>Kryptera plånbok</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Denna operation behöver din plånboks lösenord för att låsa upp plånboken.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet</source>
+        <translation>Lås upp plånbok</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Denna operation behöver din plånboks lösenord för att dekryptera plånboken.</translation>
+    </message>
+    <message>
+        <source>Decrypt wallet</source>
+        <translation>Dekryptera plånbok</translation>
+    </message>
+    <message>
+        <source>Change passphrase</source>
+        <translation>Ändra lösenord</translation>
+    </message>
+    <message>
+        <source>Enter the old passphrase and new passphrase to the wallet.</source>
+        <translation>Ge det gamla lösenordet och det nya lösenordet för plånboken.</translation>
+    </message>
+    <message>
+        <source>Confirm wallet encryption</source>
+        <translation>Bekräfta kryptering av plånbok</translation>
+    </message>
+    <message>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SYSCOINS&lt;/b&gt;!</source>
+        <translation>VARNING: Om du krypterar din plånbok och glömmer ditt lösenord, kommer du att &lt;b&gt;FÖRLORA ALLA DINA TILLGÅNGAR&lt;/b&gt;!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Är du säker på att du vill kryptera din plånbok?</translation>
+    </message>
+    <message>
+        <source>Wallet encrypted</source>
+        <translation>Plånboken är krypterad</translation>
+    </message>
+    <message>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation>VIKTIGT: Alla tidigare säkerhetskopior du har gjort av plånbokens fil ska ersättas med den nya genererade, krypterade plånboks filen. Av säkerhetsskäl kommer tidigare säkerhetskopior av den okrypterade plånboks filen blir oanvändbara när du börjar använda en ny, krypterad plånbok.</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed</source>
+        <translation>Kryptering av plånbok misslyckades</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Kryptering av plånbok misslyckades på grund av ett internt fel. Din plånbok blev inte krypterad.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>De angivna lösenorden överensstämmer inte.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock failed</source>
+        <translation>Upplåsning av plånbok misslyckades</translation>
+    </message>
+    <message>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Lösenordet för dekryptering av plånbok var felaktig.</translation>
+    </message>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>Dekryptering av plånbok misslyckades</translation>
+    </message>
+    <message>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Plånbokens lösenord har ändrats.</translation>
+    </message>
+    <message>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Varning: Caps Lock är påslaget!</translation>
+    </message>
 </context>
 <context>
     <name>BanTableModel</name>
@@ -73,316 +603,96 @@
     </message>
 </context>
 <context>
-    <name>SyscoinGUI</name>
+    <name>CertListPage</name>
     <message>
-        <source>Sign &amp;message...</source>
-        <translation>Signera &amp;meddelande...</translation>
+        <source>Certificates</source>
+        <translation>certifikat</translation>
     </message>
     <message>
-        <source>Synchronizing with network...</source>
-        <translation>Synkroniserar med nätverk...</translation>
+        <source>All Certificates</source>
+        <translation>alla certifikat</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Översikt</translation>
+        <source>Search</source>
+        <translation>Sök</translation>
     </message>
     <message>
-        <source>Node</source>
-        <translation>Nod</translation>
+        <source>Copy the currently selected cert to the system clipboard</source>
+        <translation>Kopiera valda cert till Urklipp</translation>
     </message>
     <message>
-        <source>Show general overview of wallet</source>
-        <translation>Visa generell översikt av plånboken</translation>
+        <source>&amp;Copy Certificate ID</source>
+        <translation>&amp; Kopiera certifikat ID</translation>
     </message>
     <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Transaktioner</translation>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
     </message>
     <message>
-        <source>Browse transaction history</source>
-        <translation>Bläddra i transaktionshistorik</translation>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
     </message>
     <message>
-        <source>E&amp;xit</source>
-        <translation>&amp;Avsluta</translation>
+        <source>Search for Syscoin Certificates. Select Safe Search from wallet options if you wish to omit potentially offensive Certificates(On by default)</source>
+        <translation>Sök efter Syscoin certifikat. Välj Safesearch från plånbok alternativ om du vill utelämna potentiellt stötande certifikat (On standard)</translation>
     </message>
     <message>
-        <source>Quit application</source>
-        <translation>Avsluta programmet</translation>
+        <source>Enter search term, regex accepted (ie: ^name returns all Certificates starting with 'name'). Empty will search for all.</source>
+        <translation>Ange sökord, regex accepteras (dvs. ^ namn returnerar alla certifikat som börjar med "namn"). Tom kommer att söka efter alla.</translation>
     </message>
     <message>
-        <source>&amp;About %1</source>
-        <translation>&amp;Om %1</translation>
+        <source>certificates</source>
+        <translation>certifikat</translation>
     </message>
     <message>
-        <source>Show information about %1</source>
-        <translation>Visa information om %1</translation>
+        <source>General exception when searching certficiates</source>
+        <translation>Allmänt undantag när du söker certficiates</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation>Om &amp;Qt</translation>
+        <source>Error: Invalid response from certfilter command</source>
+        <translation>Fel: Ogiltigt svar från certfilter kommandot</translation>
     </message>
+</context>
+<context>
+    <name>CertTableModel</name>
     <message>
-        <source>Show information about Qt</source>
-        <translation>Visa information om Qt</translation>
+        <source>Cert</source>
+        <translation>cert</translation>
     </message>
     <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Alternativ...</translation>
+        <source>Title</source>
+        <translation>Titel</translation>
     </message>
     <message>
-        <source>Modify configuration options for %1</source>
-        <translation>Ändra konfigurationsalternativ för %1</translation>
+        <source>Status</source>
+        <translation>Status</translation>
     </message>
     <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Kryptera plånbok...</translation>
+        <source>Category</source>
+        <translation>Kategori</translation>
     </message>
     <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Säkerhetskopiera plånbok...</translation>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
     </message>
     <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Byt lösenord...</translation>
+        <source>Expires In</source>
+        <translation>Går ut om</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>Av&amp;sändaradresser...</translation>
+        <source>Owner</source>
+        <translation>Ägare</translation>
     </message>
+</context>
+<context>
+    <name>CertView</name>
     <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>Mottaga&amp;radresser...</translation>
+        <source>My Certificates</source>
+        <translation>Mina certifikat</translation>
     </message>
     <message>
-        <source>Open &amp;URI...</source>
-        <translation>Öppna &amp;URI...</translation>
-    </message>
-    <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Återindexerar block på disken...</translation>
-    </message>
-    <message>
-        <source>Send coins to a Syscoin address</source>
-        <translation>Skicka syscoins till en Syscoin-adress</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Säkerhetskopiera plånboken till en annan plats</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Byt lösenfras för kryptering av plånbok</translation>
-    </message>
-    <message>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Debug-fönster</translation>
-    </message>
-    <message>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Öppna debug- och diagnostikkonsolen</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Verifiera meddelande...</translation>
-    </message>
-    <message>
-        <source>Syscoin</source>
-        <translation>Syscoin</translation>
-    </message>
-    <message>
-        <source>Wallet</source>
-        <translation>Plånbok</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Skicka</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ta emot</translation>
-    </message>
-    <message>
-        <source>&amp;Show / Hide</source>
-        <translation>&amp;Visa / Göm</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Visa eller göm huvudfönstret</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Kryptera de privata nycklar som tillhör din plånbok</translation>
-    </message>
-    <message>
-        <source>Sign messages with your Syscoin addresses to prove you own them</source>
-        <translation>Signera meddelanden med din Syscoin-adress för att bevisa att du äger dem</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
-        <translation>Verifiera meddelanden för att vara säker på att de var signerade med specificerade Syscoin-adresser</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Arkiv</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Inställningar</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Hjälp</translation>
-    </message>
-    <message>
-        <source>Tabs toolbar</source>
-        <translation>Verktygsfält för tabbar</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and syscoin: URIs)</source>
-        <translation>Begär betalning (genererar QR-koder och syscoin-URI)</translation>
-    </message>
-    <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Visa listan av använda avsändaradresser och etiketter</translation>
-    </message>
-    <message>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation>Visa listan av använda mottagningsadresser och etiketter</translation>
-    </message>
-    <message>
-        <source>Open a syscoin: URI or payment request</source>
-        <translation>Öppna en syscoin: URI eller betalningsbegäran</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>&amp;Kommandoradsalternativ</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Syscoin network</source>
-        <translation><numerusform>%n aktiva anslutningar till Syscoin-nätverket.</numerusform><numerusform>%n aktiva anslutningar till Syscoin-nätverket.</numerusform></translation>
-    </message>
-    <message>
-        <source>Indexing blocks on disk...</source>
-        <translation>Indexerar block på disken...</translation>
-    </message>
-    <message>
-        <source>Processing blocks on disk...</source>
-        <translation>Bearbetar block på disken...</translation>
-    </message>
-    <message>
-        <source>No block source available...</source>
-        <translation>Ingen block-källa tillgänglig...</translation>
-    </message>
-    <message numerus="yes">
-        <source>Processed %n block(s) of transaction history.</source>
-        <translation><numerusform>Bearbetade %n block av transaktionshistoriken.</numerusform><numerusform>Bearbetade %n block av transaktionshistoriken.</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n timme</numerusform><numerusform>%n timmar</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s)</source>
-        <translation><numerusform>%n dag</numerusform><numerusform>%n dagar</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s)</source>
-        <translation><numerusform>%n vecka</numerusform><numerusform>%n veckor</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation>%1 och %2</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s)</source>
-        <translation><numerusform>%n år</numerusform><numerusform>%n år</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 behind</source>
-        <translation>%1 efter</translation>
-    </message>
-    <message>
-        <source>Last received block was generated %1 ago.</source>
-        <translation>Senast mottagna block genererades för %1 sen.</translation>
-    </message>
-    <message>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation>Transaktioner efter denna kommer inte ännu vara synliga.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Fel</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Varning</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Information</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>Uppdaterad</translation>
-    </message>
-    <message>
-        <source>Show the %1 help message to get a list with possible Syscoin command-line options</source>
-        <translation>Visa %1 hjälpmeddelande för att få en lista med möjliga Syscoin kommandoradsalternativ.</translation>
-    </message>
-    <message>
-        <source>%1 client</source>
-        <translation>%1-klient</translation>
-    </message>
-    <message>
-        <source>Catching up...</source>
-        <translation>Hämtar senaste...</translation>
-    </message>
-    <message>
-        <source>Date: %1
-</source>
-        <translation>Datum: %1
-</translation>
-    </message>
-    <message>
-        <source>Amount: %1
-</source>
-        <translation>Belopp: %1
-</translation>
-    </message>
-    <message>
-        <source>Type: %1
-</source>
-        <translation>Typ: %1
-</translation>
-    </message>
-    <message>
-        <source>Label: %1
-</source>
-        <translation>Etikett: %1
-</translation>
-    </message>
-    <message>
-        <source>Address: %1
-</source>
-        <translation>Adress: %1
-</translation>
-    </message>
-    <message>
-        <source>Sent transaction</source>
-        <translation>Transaktion skickad</translation>
-    </message>
-    <message>
-        <source>Incoming transaction</source>
-        <translation>Inkommande transaktion</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Denna plånbok är &lt;b&gt;krypterad&lt;/b&gt; och för närvarande &lt;b&gt;olåst&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Denna plånbok är &lt;b&gt;krypterad&lt;/b&gt; och för närvarande &lt;b&gt;låst&lt;/b&gt;</translation>
+        <source>Search</source>
+        <translation>Sök</translation>
     </message>
 </context>
 <context>
@@ -402,10 +712,6 @@
     <message>
         <source>Amount:</source>
         <translation>Belopp:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Prioritet:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -460,8 +766,84 @@
         <translation>Bekräftad</translation>
     </message>
     <message>
-        <source>Priority</source>
-        <translation>Prioritet</translation>
+        <source>Copy address</source>
+        <translation>Kopiera adress</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopiera etikett</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopiera belopp</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopiera transaktions ID</translation>
+    </message>
+    <message>
+        <source>Lock unspent</source>
+        <translation>Lås ospenderat</translation>
+    </message>
+    <message>
+        <source>Unlock unspent</source>
+        <translation>Lås upp ospenderat</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopiera kvantitet</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopiera avgift</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopiera efter avgift</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopiera byte</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopiera damm</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopiera växel</translation>
+    </message>
+    <message>
+        <source>(%1 locked)</source>
+        <translation>(%1 låst)</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>ja</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>nej</translation>
+    </message>
+    <message>
+        <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
+        <translation>Denna etikett blir röd om någon mottagaren får ett belopp som är mindre än den aktuella dammgränsen.</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 satoshi(s) per input.</source>
+        <translation>Kan variera +/- %1 satoshi per inmatning.</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(Ingen etikett)</translation>
+    </message>
+    <message>
+        <source>change from %1 (%2)</source>
+        <translation>växel från %1 (%2)</translation>
+    </message>
+    <message>
+        <source>(change)</source>
+        <translation>(växel)</translation>
     </message>
 </context>
 <context>
@@ -485,6 +867,806 @@
     <message>
         <source>&amp;Address</source>
         <translation>&amp;Adress</translation>
+    </message>
+    <message>
+        <source>New receiving address</source>
+        <translation>Ny mottagaradress</translation>
+    </message>
+    <message>
+        <source>New sending address</source>
+        <translation>Ny avsändaradress</translation>
+    </message>
+    <message>
+        <source>Edit receiving address</source>
+        <translation>Redigera mottagaradress</translation>
+    </message>
+    <message>
+        <source>Edit sending address</source>
+        <translation>Redigera avsändaradress</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is not a valid Syscoin address.</source>
+        <translation>Den angivna adressen "%1" är inte en giltig Syscoin-adress.</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>Den angivna adressen "%1" finns redan i adressboken.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Plånboken kunde inte låsas upp.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>Misslyckades med generering av ny nyckel.</translation>
+    </message>
+</context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>Edit Alias</source>
+        <translation>Redigera Alias</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Generell</translation>
+    </message>
+    <message>
+        <source>&amp;Alias:</source>
+        <translation>&amp;Alias:</translation>
+    </message>
+    <message>
+        <source>The alias name.</source>
+        <translation>Aliasnamnet.</translation>
+    </message>
+    <message>
+        <source>Public Profile:</source>
+        <translation>Offentlig profil:</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Säker sökning:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nej</translation>
+    </message>
+    <message>
+        <source>Expiry:</source>
+        <translation>Upphörande:</translation>
+    </message>
+    <message>
+        <source>Miscellaneous</source>
+        <translation>Diverse</translation>
+    </message>
+    <message>
+        <source>Private Profile:</source>
+        <translation>Privat profil:</translation>
+    </message>
+    <message>
+        <source>Transfer To (Public Key):</source>
+        <translation>Transfer till (Public Key):</translation>
+    </message>
+    <message>
+        <source>Accept Certificate Transfers:</source>
+        <translation>Acceptera certifikat Transfer:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation>Lösenord:</translation>
+    </message>
+    <message>
+        <source>Alias Rate Peg:</source>
+        <translation>Alias ​​Rate Peg:</translation>
+    </message>
+    <message>
+        <source>Multi-Signature</source>
+        <translation>Multi-signatur</translation>
+    </message>
+    <message>
+        <source>Number of Required Signatures: </source>
+        <translation>Antalet nödvändiga signaturer:</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Lägg till</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>Radera</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>1 Year</source>
+        <translation>1 år</translation>
+    </message>
+    <message>
+        <source>2 Years</source>
+        <translation>2 år</translation>
+    </message>
+    <message>
+        <source>3 Years</source>
+        <translation>3 år</translation>
+    </message>
+    <message>
+        <source>4 Years</source>
+        <translation>4 år</translation>
+    </message>
+    <message>
+        <source>5 Years</source>
+        <translation>5 år</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>nytt Alias</translation>
+    </message>
+    <message>
+        <source>Edit Data Alias</source>
+        <translation>Redigera data Alias</translation>
+    </message>
+    <message>
+        <source>Transfer Alias</source>
+        <translation>överföra Alias</translation>
+    </message>
+    <message>
+        <source>Enter an alias</source>
+        <translation>Ange ett alias</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>Empty name for Alias not allowed. Please try again</source>
+        <translation>Tom namn Alias ​​inte tillåtet. Var god försök igen</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception creating new Alias</source>
+        <translation>Allmänt undantag skapa nya Alias</translation>
+    </message>
+    <message>
+        <source>General exception updating Alias</source>
+        <translation>Allmänt undantag uppdatering Alias</translation>
+    </message>
+    <message>
+        <source>General exception transferring Alias</source>
+        <translation>Allmänt undantag överföra Alias</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Plånboken kunde inte låsas upp.</translation>
+    </message>
+</context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Edit Cert</source>
+        <translation>Redigera Cert</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>Certifikat:</translation>
+    </message>
+    <message>
+        <source>The value associated with this certificate.</source>
+        <translation>Värdet associerat med detta certifikat.</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Titel:</translation>
+    </message>
+    <message>
+        <source>The certificate name.</source>
+        <translation>Certifikatet namn.</translation>
+    </message>
+    <message>
+        <source>Transfer To:</source>
+        <translation>Överföra till:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nej</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Säker sökning:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategori:</translation>
+    </message>
+    <message>
+        <source>View Alias:</source>
+        <translation>Visa Alias:</translation>
+    </message>
+    <message>
+        <source>View-Only After Transfer:</source>
+        <translation>Visa-Only Efter Transfer:</translation>
+    </message>
+    <message>
+        <source>New Cert</source>
+        <translation>nytt Cert</translation>
+    </message>
+    <message>
+        <source>Transfer Cert</source>
+        <translation>överföra Cert</translation>
+    </message>
+    <message>
+        <source>certificates</source>
+        <translation>certifikat</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to fetch certificate information: </source>
+        <translation>Det var ett undantag som försöker hämta certifikatinformation:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
+    </message>
+    <message>
+        <source>Confirm Certificate Renewal</source>
+        <translation>Bekräfta Certificate Förnyelse</translation>
+    </message>
+    <message>
+        <source>Warning: This certificate is already expired!</source>
+        <translation>Varning: Detta intyg är redan gått ut!</translation>
+    </message>
+    <message>
+        <source>Do you want to create a new one with the same information?</source>
+        <translation>Vill du skapa en ny med samma information?</translation>
+    </message>
+    <message>
+        <source>Empty name for Cert not allowed. Please try again</source>
+        <translation>Tom namn för Cert inte tillåtet. Var god försök igen</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception creating new Cert</source>
+        <translation>Allmänt undantag skapa nya Cert</translation>
+    </message>
+    <message>
+        <source>General exception updating Cert</source>
+        <translation>Allmänt undantag uppdatering Cert</translation>
+    </message>
+    <message>
+        <source>General exception transferring Cert</source>
+        <translation>Allmänt undantag överföra Cert</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Plånboken kunde inte låsas upp.</translation>
+    </message>
+</context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>Edit Offer</source>
+        <translation>Redigera erbjudande</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Generell</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>Erbjudande:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Titel:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategori:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Pris:</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Kvantitet:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Beskrivning:</translation>
+    </message>
+    <message>
+        <source>Payment Options:</source>
+        <translation>Betalningsalternativ:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Valuta:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>Certifikat:</translation>
+    </message>
+    <message>
+        <source>Root Offer:</source>
+        <translation>Root Erbjudande:</translation>
+    </message>
+    <message>
+        <source>Miscellaneous</source>
+        <translation>Diverse</translation>
+    </message>
+    <message>
+        <source>Seller Alias:</source>
+        <translation>Säljare Alias:</translation>
+    </message>
+    <message>
+        <source>Alias Rate Peg:</source>
+        <translation>Alias ​​Rate Peg:</translation>
+    </message>
+    <message>
+        <source>Private:</source>
+        <translation>Privat:</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nej</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Säker sökning:</translation>
+    </message>
+    <message>
+        <source>Geolocation:</source>
+        <translation>Geolocation:</translation>
+    </message>
+    <message>
+        <source>Commission:</source>
+        <translation>Provision:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>Select Certificate (optional)</source>
+        <translation>Välj certifikat (tillval)</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>nytt erbjudande</translation>
+    </message>
+    <message>
+        <source>Edit Linked Offer</source>
+        <translation>Redigera kombinationserbjudande</translation>
+    </message>
+    <message>
+        <source>New Offer(Certificate)</source>
+        <translation>Nytt erbjudande (Certificate)</translation>
+    </message>
+    <message>
+        <source>certificates</source>
+        <translation>certifikat</translation>
+    </message>
+    <message>
+        <source>Could not find this offer, please ensure offer has been confirmed by the blockchain</source>
+        <translation>Det gick inte att hitta detta erbjudande, har du se erbjudande bekräftats av blockchain</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this offer, please ensure offer has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta erbjudande, vänligen se erbjudandet har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the cert list: </source>
+        <translation>Det var ett undantag som försöker uppdatera cert lista:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>obegränsat</translation>
+    </message>
+    <message>
+        <source>Confirm Offer Renewal</source>
+        <translation>Bekräfta erbjudande Förnyelse</translation>
+    </message>
+    <message>
+        <source>Warning: This offer is already expired!</source>
+        <translation>Varning: Detta erbjudande redan gått ut!</translation>
+    </message>
+    <message>
+        <source>Do you want to create a new one with the same information?</source>
+        <translation>Vill du skapa en ny med samma information?</translation>
+    </message>
+    <message>
+        <source>Empty name for Offer not allowed. Please try again</source>
+        <translation>Tom namn för Erbjudandet inte tillåtet. Var god försök igen</translation>
+    </message>
+    <message>
+        <source>Confirm Alias Peg</source>
+        <translation>Bekräfta Alias ​​Peg</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Plånboken kunde inte låsas upp.</translation>
+    </message>
+</context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>Manage Affiliates</source>
+        <translation>hantera Affiliates</translation>
+    </message>
+    <message>
+        <source>Refresh affiliate list</source>
+        <translation>Uppdatera affiliate lista</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Add a new affiliate</source>
+        <translation>Lägg till en ny affiliate</translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation>&amp;Lägg till</translation>
+    </message>
+    <message>
+        <source>Remove an affiliate</source>
+        <translation>Ta bort en affiliate</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Ta bort</translation>
+    </message>
+    <message>
+        <source>Remove all affiliates</source>
+        <translation>Ta bort alla medlemsförbund</translation>
+    </message>
+    <message>
+        <source>Remove All</source>
+        <translation>Ta bort allt</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
+        <translation>Dessa är dotterbolag för ditt erbjudande. Affiliate verksamhet tar 2-5 minuter för att bli aktiva. Du kan ange rabattnivåer för varje dotterbolag eller kontroll som kan sälja ditt erbjudande.</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Entry removed successfully!</source>
+        <translation>Entry bort framgångsrikt!</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to remove this entry: </source>
+        <translation>Det fanns ett undantag att försöka ta bort denna post:</translation>
+    </message>
+    <message>
+        <source>Affiliate list cleared successfully!</source>
+        <translation>Affiliate lista rensas med framgång!</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to clear the affiliate list: </source>
+        <translation>Det var ett undantag som försöker rensa affiliate lista:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the affiliate list: </source>
+        <translation>Det var ett undantag som försöker uppdatera affiliate lista:</translation>
+    </message>
+    <message>
+        <source>Export Affiliate Data</source>
+        <translation>Export Affiliate Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Expires</source>
+        <translation>Utgår</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Rabatt</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>Escrow Info</source>
+        <translation>depositions info</translation>
+    </message>
+    <message>
+        <source>&amp;General</source>
+        <translation>&amp;Allmän</translation>
+    </message>
+    <message>
+        <source>Escrow Details</source>
+        <translation>depositions Detaljer</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Erbjudandet ID:</translation>
+    </message>
+    <message>
+        <source>TXID:</source>
+        <translation>TXID:</translation>
+    </message>
+    <message>
+        <source>Offer Title:</source>
+        <translation>Erbjudandet Titel:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>Höjd:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>Tid:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Pris:</translation>
+    </message>
+    <message>
+        <source>Escrow Fee:</source>
+        <translation>Escrow Fee:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Totalt:</translation>
+    </message>
+    <message>
+        <source>Average Rating:</source>
+        <translation>Betyg i genomsnitt:</translation>
+    </message>
+    <message>
+        <source>Shipping &amp; Contact Information:</source>
+        <translation>Frakt &amp; Kontaktuppgifter:</translation>
+    </message>
+    <message>
+        <source>External TXID:</source>
+        <translation>Extern TXID:</translation>
+    </message>
+    <message>
+        <source>&amp;Buyer Feedback</source>
+        <translation>&amp; Köparen Feedback</translation>
+    </message>
+    <message>
+        <source>&amp;Seller Feedback</source>
+        <translation>&amp; Säljare Feedback</translation>
+    </message>
+    <message>
+        <source>&amp;Arbiter Feedback</source>
+        <translation>&amp; Arbiter Feedback</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>No Feedback Found</source>
+        <translation>Ingen Feedback Hittat</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Köpare</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>Säljare</translation>
+    </message>
+    <message>
+        <source>Arbiter</source>
+        <translation>Arbiter</translation>
+    </message>
+    <message>
+        <source>No Feedback</source>
+        <translation>Ingen feedback</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>Från:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation>Betyg:</translation>
+    </message>
+    <message>
+        <source>SYS</source>
+        <translation>SYS</translation>
+    </message>
+    <message>
+        <source>Could not find this escrow, please ensure the escrow has been confirmed by the blockchain</source>
+        <translation>Det gick inte att hitta denna spärrade, se till det spärrade har bekräftats av blockchain</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this escrow, please ensure the escrow has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta spärrade, se till det spärrade har bekräftats av blockchain:</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowListPage</name>
+    <message>
+        <source>Escrows</source>
+        <translation>escrows</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected escrow to the system clipboard</source>
+        <translation>Kopiera valda spärrade till Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Escrow ID</source>
+        <translation>&amp; Kopiera Escrow ID</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Manage Escrow</source>
+        <translation>hantera Escrow</translation>
+    </message>
+    <message>
+        <source>Acknowledge Payment</source>
+        <translation>erkänna Betalning</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Escrows.</source>
+        <translation>Sök efter Syscoin escrows.</translation>
+    </message>
+    <message>
+        <source>Enter search term. Search for arbiter/seller or escrow GUID. Empty will search for all.</source>
+        <translation>Ange sökord. Sök efter domaren / säljare eller spärrade GUID. Tom kommer att söka efter alla.</translation>
+    </message>
+    <message>
+        <source>Confirm Escrow Acknowledgement</source>
+        <translation>Bekräfta Escrow Bekräftelse</translation>
+    </message>
+    <message>
+        <source>Warning: You are about to acknowledge this payment from the buyer. If you are shipping an item, please communicate a tracking number to the buyer via a Syscoin message.</source>
+        <translation>Varning: Du är på väg att erkänna denna betalning från köparen. Om du skickar ett objekt, vänligen meddela ett spårningsnummer till köparen via ett Syscoin meddelande.</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to acknowledge this payment?</source>
+        <translation>Är du säker på att du vill bekräfta denna betalning?</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception acknowledging escrow payment</source>
+        <translation>Allmänt undantag erkänner depositions betalning</translation>
+    </message>
+    <message>
+        <source>General exception when searching escrow</source>
+        <translation>Allmänt undantag när du söker spärrade</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from escrowfilter command</source>
+        <translation>Fel: Ogiltigt svar från escrowfilter kommandot</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowTableModel</name>
+    <message>
+        <source>Escrow</source>
+        <translation>spärrade</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Tid</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>Säljare</translation>
+    </message>
+    <message>
+        <source>Arbiter</source>
+        <translation>Arbiter</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Köpare</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>Erbjudande</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Total</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>Betyg</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowView</name>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
     </message>
 </context>
 <context>
@@ -515,6 +1697,10 @@
     <message>
         <source>version</source>
         <translation>version</translation>
+    </message>
+    <message>
+        <source>Syscoin Client</source>
+        <translation>Syscoin Klient</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -566,6 +1752,57 @@
     </message>
 </context>
 <context>
+    <name>InMessageListPage</name>
+    <message>
+        <source>These are Syscoin messages you have received. You can choose which aliases to view related messages using the dropdown to the right.</source>
+        <translation>Dessa är Syscoin meddelanden som du har tagit emot. Du kan välja vilka alias för att visa relaterade meddelanden med hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>New Msg</source>
+        <translation>nya Msg</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Export Message Data</source>
+        <translation>Export meddelandedata</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>GUID</source>
+        <translation>GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Tid</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Från</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Till</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>Ämne</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Meddelande</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
+<context>
     <name>Intro</name>
     <message>
         <source>Welcome</source>
@@ -609,6 +1846,2035 @@
     </message>
 </context>
 <context>
+    <name>ManageEscrowDialog</name>
+    <message>
+        <source>Manage Your Escrow</source>
+        <translation>Hantera din Escrow</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>Release this escrow to the seller</source>
+        <translation>Släpp denna depositions till säljaren</translation>
+    </message>
+    <message>
+        <source>Release Escrow</source>
+        <translation>frisättning Escrow</translation>
+    </message>
+    <message>
+        <source>Refund this escrow back to the buyer</source>
+        <translation>Återbetala denna depositions tillbaka till köparen</translation>
+    </message>
+    <message>
+        <source>Refund Escrow</source>
+        <translation>återbetalning Escrow</translation>
+    </message>
+    <message>
+        <source> Stars</source>
+        <translation>stjärnor</translation>
+    </message>
+    <message>
+        <source>Cannot find this escrow on the network, please try again later.</source>
+        <translation>Det går inte att hitta denna spärrade på nätet, försök igen senare.</translation>
+    </message>
+    <message>
+        <source>You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases.</source>
+        <translation>Du kan inte hantera detta spärrade eftersom du inte äger en av antingen köparen, säljaren eller skiljedomare alias.</translation>
+    </message>
+    <message>
+        <source>Claim Payment</source>
+        <translation>anspråk Betalning</translation>
+    </message>
+    <message>
+        <source>Warning: Payment has already been released, are you sure you wish to re-release payment to the merchant?</source>
+        <translation>Varning: Betalning har redan släppts, är du säker på att du vill återutgivning betalning till handlaren?</translation>
+    </message>
+    <message>
+        <source>Claim Refund</source>
+        <translation>krav återbetalning</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>Erbjudande:</translation>
+    </message>
+    <message>
+        <source>Warning: Payment has already been refunded, are you sure you wish to re-refund payment back to the buyer?</source>
+        <translation>Varning: Betalning har redan återbetalats, är du säker på att du vill åter återbetalning betalning tillbaka till köparen?</translation>
+    </message>
+    <message>
+        <source>The escrow has been successfully claimed by the merchant. The escrow is complete.</source>
+        <translation>Depositions har framgångsrikt hävdat handlaren. Det spärrade är klar.</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Lämna feedback</translation>
+    </message>
+    <message>
+        <source>The escrow has been successfully refunded to the buyer. The escrow is complete.</source>
+        <translation>Depositions har framgångsrikt återbetalas till köparen. Det spärrade är klar.</translation>
+    </message>
+    <message>
+        <source>The escrow status was not recognized. Please contact the Syscoin team.</source>
+        <translation>Depositions status kunde inte identifieras. Vänligen kontakta Syscoin laget.</translation>
+    </message>
+    <message>
+        <source>arbiter</source>
+        <translation>arbiter</translation>
+    </message>
+    <message>
+        <source>seller</source>
+        <translation>säljare</translation>
+    </message>
+    <message>
+        <source>reseller</source>
+        <translation>återförsäljare</translation>
+    </message>
+    <message>
+        <source>buyer</source>
+        <translation>köpare</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>ingen</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Thank you for your feedback!</source>
+        <translation>Tack för din feedback!</translation>
+    </message>
+    <message>
+        <source>General exception sending feedbackescrow</source>
+        <translation>Allmänt undantag sändande feedbackescrow</translation>
+    </message>
+    <message>
+        <source>Bitcoin</source>
+        <translation>Bitcoin</translation>
+    </message>
+    <message>
+        <source>ZCash</source>
+        <translation>ZCash</translation>
+    </message>
+    <message>
+        <source>Escrow release completed successfully! </source>
+        <translation>Escrow frigivning slutförts!</translation>
+    </message>
+    <message>
+        <source>General exception completing release</source>
+        <translation>Allmänt undantag fullborda frigöring</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully!</source>
+        <translation>Escrow återbetalning slutförts!</translation>
+    </message>
+    <message>
+        <source>General exception completing refund</source>
+        <translation>Allmänt undantag slutföra återbetalning</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON results</source>
+        <translation>Det går inte att tolka JSON resultat</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Det går inte att tolka JSON svar:</translation>
+    </message>
+    <message>
+        <source>Check BTC Payment</source>
+        <translation>Ta BTC Betalning</translation>
+    </message>
+    <message>
+        <source>Check ZEC Payment</source>
+        <translation>Ta ZEC Betalning</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Escrow released successfully!</source>
+        <translation>Spärrade släppt framgångsrikt!</translation>
+    </message>
+    <message>
+        <source>General exception releasing escrow</source>
+        <translation>Allmänt undantag frigördepositions</translation>
+    </message>
+    <message>
+        <source>Confirm Escrow Release</source>
+        <translation>Bekräfta Escrow Release</translation>
+    </message>
+    <message>
+        <source>Escrow refunded successfully!</source>
+        <translation>Spärrade betalas framgångsrikt!</translation>
+    </message>
+    <message>
+        <source>General exception refunding escrow</source>
+        <translation>Allmänt undantag återbetalning depositions</translation>
+    </message>
+    <message>
+        <source>Confirm Escrow Refund</source>
+        <translation>Bekräfta Escrow återbetalning</translation>
+    </message>
+</context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message Info</source>
+        <translation>meddelande info</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>Från:</translation>
+    </message>
+    <message>
+        <source>The value associated with this message.</source>
+        <translation>Värdet associerat med detta meddelande.</translation>
+    </message>
+    <message>
+        <source>To:</source>
+        <translation>Till:</translation>
+    </message>
+    <message>
+        <source>The message name.</source>
+        <translation>Meddelandet namn.</translation>
+    </message>
+    <message>
+        <source>Topic:</source>
+        <translation>Ämne:</translation>
+    </message>
+    <message>
+        <source>Message:</source>
+        <translation>Meddelande:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>Tid:</translation>
+    </message>
+</context>
+<context>
+    <name>MessageListPage</name>
+    <message>
+        <source>Message List</source>
+        <translation>meddelande~~POS=TRUNC</translation>
+    </message>
+    <message>
+        <source>Refresh message list</source>
+        <translation>Uppdatera meddelandelista</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Send a new message</source>
+        <translation>Skicka ett nytt meddelande</translation>
+    </message>
+    <message>
+        <source>New Msg</source>
+        <translation>nya Msg</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected message to the system clipboard</source>
+        <translation>Kopiera valda meddelandet till systemets Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Msg ID</source>
+        <translation>&amp; Kopiera Msg ID</translation>
+    </message>
+    <message>
+        <source>Get message details</source>
+        <translation>Få meddelandeinformation</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+</context>
+<context>
+    <name>MessageTableModel</name>
+    <message>
+        <source>GUID</source>
+        <translation>GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Tid</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Från</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Till</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>Ämne</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Meddelande</translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulär</translation>
+    </message>
+    <message>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Syscoin network after a connection is established, but this process has not completed yet. This means that recent transactions will not be visible, and the balance will not be up-to-date until this process has completed.</source>
+        <translation>Informationen som visas kan vara föråldrad. Plånboken synkroniseras automatiskt med Syscoin nätverket efter en anslutning har upprättats, men denna process har inte slutfört ännu. Detta innebär att nyligen genomförda transaktioner inte kommer att vara synlig, och balansen kommer att vara up-to-date förrän denna process har slutförts.</translation>
+    </message>
+    <message>
+        <source>Spending syscoins may not be possible during that phase!</source>
+        <translation>Utgifterna syscoins får inte vara möjligt under denna fas!</translation>
+    </message>
+    <message>
+        <source>Amount of blocks left</source>
+        <translation>Mängd block kvar</translation>
+    </message>
+    <message>
+        <source>unknown...</source>
+        <translation>okänd...</translation>
+    </message>
+    <message>
+        <source>Last block time</source>
+        <translation>Sista blocktid</translation>
+    </message>
+    <message>
+        <source>Progress</source>
+        <translation>Framsteg</translation>
+    </message>
+    <message>
+        <source>~</source>
+        <translation>~</translation>
+    </message>
+    <message>
+        <source>Progress increase per Hour</source>
+        <translation>Framsteg ökning per timme</translation>
+    </message>
+    <message>
+        <source>calculating...</source>
+        <translation>beräknande...</translation>
+    </message>
+    <message>
+        <source>Estimated time left until synced</source>
+        <translation>Beräknad tid kvar tills synkroniseras</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Göm</translation>
+    </message>
+    <message>
+        <source>Unknown. Syncing Headers...</source>
+        <translation>Okänd. Synkronisera Headers ...</translation>
+    </message>
+</context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>My Accepted Offers</source>
+        <translation>Mina Godkända erbjudanden</translation>
+    </message>
+    <message>
+        <source>Refresh your accepted offer list</source>
+        <translation>Uppdatera din accepterade listan erbjudande</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopiera erbjudande ID</translation>
+    </message>
+    <message>
+        <source>Details of the currently accepted offer</source>
+        <translation>Uppgifter om den nuvarande accepterade erbjudandet</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Acknowledge Payment</source>
+        <translation>erkänna Betalning</translation>
+    </message>
+    <message>
+        <source>Send message to buyer</source>
+        <translation>Skicka meddelande till köparen</translation>
+    </message>
+    <message>
+        <source>Send Msg To Buyer</source>
+        <translation>Skicka msg till köparen</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Lämna feedback</translation>
+    </message>
+    <message>
+        <source>Check payment for this offer from an external chain</source>
+        <translation>Kontrollera betalning för detta erbjudande från en extern kedja</translation>
+    </message>
+    <message>
+        <source>Check External Payment</source>
+        <translation>Kontrollera extern Betalning</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
+        <translation>Dessa är erbjudanden du har sålt till andra. Erbjudande operationer tar 2-5 minuter för att bli aktiva. Högerklicka på ett erbjudande för mer info inklusive köpare meddelande, kvantitet, datum, etc. Du kan välja vilka alias för att visa försäljningsinformation för att använda rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>Copy OfferAccept ID</source>
+        <translation>Kopiera OfferAccept ID</translation>
+    </message>
+    <message>
+        <source>Message Buyer</source>
+        <translation>meddelande köparen</translation>
+    </message>
+    <message>
+        <source>Leave Feedback For Buyer</source>
+        <translation>Lämna feedback för köparen</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+    <message>
+        <source>Could not find this offer purchase, please ensure it has been confirmed by the blockchain: </source>
+        <translation>Det gick inte att hitta detta erbjudande köp, se till att det har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this offer purchase, please ensure it has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta erbjudande köp, se till att det har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>Could not find this offer, please ensure the offer has been confirmed by the blockchain: </source>
+        <translation>Det gick inte att hitta detta erbjudande, vänligen se till att erbjudandet har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this offer, please ensure the has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta erbjudande, vänligen se till att har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>Failed to generate ZCash address, please close this screen and try again</source>
+        <translation>Det gick inte att generera ZCash adress, vänligen stänga den här skärmen och försök igen</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to generate ZCash address, please close this screen and try again: </source>
+        <translation>Det fanns ett undantag försöker generera ZCash adress, vänligen stänga den här skärmen och försök igen:</translation>
+    </message>
+    <message>
+        <source>Confirm Payment Acknowledgement</source>
+        <translation>Bekräfta betalningen Bekräftelse</translation>
+    </message>
+    <message>
+        <source>Warning: You are about to acknowledge this payment from the buyer. If you are shipping an item, please communicate a tracking number to the buyer via a Syscoin message.</source>
+        <translation>Varning: Du är på väg att erkänna denna betalning från köparen. Om du skickar ett objekt, vänligen meddela ett spårningsnummer till köparen via ett Syscoin meddelande.</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to acknowledge this payment?</source>
+        <translation>Är du säker på att du vill bekräfta denna betalning?</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception acknowledging offer payment</source>
+        <translation>Allmänt undantag erkänner erbjudande betalning</translation>
+    </message>
+    <message>
+        <source>Bitcoin</source>
+        <translation>Bitcoin</translation>
+    </message>
+    <message>
+        <source>ZCash</source>
+        <translation>ZCash</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Fel att göra begäran:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON results</source>
+        <translation>Det går inte att tolka JSON resultat</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Det går inte att tolka JSON svar:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>This payment was not done using another coin, please select an offer that was accepted by paying with another blockchain.</source>
+        <translation>Denna betalning gjordes inte med en annan mynt, välj ett erbjudande som accepterades genom att betala med en annan blockchain.</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Export erbjudande Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer ID</source>
+        <translation>erbjudandet ID</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>acceptera ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>Höjd</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Pris</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>Valuta</translation>
+    </message>
+    <message>
+        <source>Qty</source>
+        <translation>st</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Total</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>Säljare</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Köpare</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>My Aliases</source>
+        <translation>mina Alias</translation>
+    </message>
+    <message>
+        <source>Refresh alias list</source>
+        <translation>Refresh alias lista</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Create a new alias</source>
+        <translation>Skapa ett nytt alias</translation>
+    </message>
+    <message>
+        <source>&amp;New Alias</source>
+        <translation>&amp; New Alias</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected alias to the system clipboard</source>
+        <translation>Kopiera markerade alias till Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Alias ID</source>
+        <translation>&amp; Kopiera Alias ​​ID</translation>
+    </message>
+    <message>
+        <source>Edit selected alias</source>
+        <translation>Redigera valda alias</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Redigera</translation>
+    </message>
+    <message>
+        <source>Transfer selected alias</source>
+        <translation>Överför valda alias</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>Överföring</translation>
+    </message>
+    <message>
+        <source>Create a new public key used for transferring aliases</source>
+        <translation>Skapa en ny publik nyckel som används för överföring av alias</translation>
+    </message>
+    <message>
+        <source>New Public Key</source>
+        <translation>New Public Key</translation>
+    </message>
+    <message>
+        <source>Open list of affiliates associated with this alias</source>
+        <translation>Öppna listan över dotterbolag i samband med detta alias</translation>
+    </message>
+    <message>
+        <source>Affiliations</source>
+        <translation>anknytningar</translation>
+    </message>
+    <message>
+        <source>Sign Multisig Tx</source>
+        <translation>Underteckna Multisig Tx</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
+        <translation>Dessa är dina registrerade Syscoin Alias. Alias ​​operationer (skapa, uppdatera, överföring) tar 2-5 minuter för att bli aktiva.</translation>
+    </message>
+    <message>
+        <source>You cannot edit this alias because it has expired</source>
+        <translation>Du kan inte redigera alias eftersom det har gått ut</translation>
+    </message>
+    <message>
+        <source>This alias is still pending, click the refresh button once the alias confirms and try again</source>
+        <translation>Detta alias är ännu inte avgjort, klicka på uppdateringsknappen när alias bekräftar och försök igen</translation>
+    </message>
+    <message>
+        <source>You cannot transfer this alias because it has expired</source>
+        <translation>Du kan inte överföra detta alias, eftersom det har gått ut</translation>
+    </message>
+    <message>
+        <source>New Public Key For Alias Transfer</source>
+        <translation>New Public Key för Alias ​​Transfer</translation>
+    </message>
+    <message>
+        <source> has been copied to your clipboard! IMPORTANT: This key is for one-time use only! Do not re-use public keys for multiple aliases or transfers.</source>
+        <translation>har kopierats till Urklipp! VIKTIGT: Denna knapp är endast engångsbruk! Återanvänd inte använda publika nycklar för flera alias eller överföringar.</translation>
+    </message>
+    <message>
+        <source>Could not generate a new public key!</source>
+        <translation>Det gick inte att generera en ny publik nyckel!</translation>
+    </message>
+    <message>
+        <source>Export Alias Data</source>
+        <translation>Export Alias ​​Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Multisignature</source>
+        <translation>Multisignature</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Går ut om</translation>
+    </message>
+    <message>
+        <source>Expired</source>
+        <translation>Utgånget</translation>
+    </message>
+    <message>
+        <source>Buyer Rating</source>
+        <translation>köparen Betyg</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>säljaren betyg</translation>
+    </message>
+    <message>
+        <source>Arbiter Rating</source>
+        <translation>Arbiter Betyg</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+</context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>My Certificates</source>
+        <translation>Mina certifikat</translation>
+    </message>
+    <message>
+        <source>Refresh certificate list</source>
+        <translation>Uppdatera certifikatlistan</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Create a new certificate</source>
+        <translation>Skapa ett nytt certifikat</translation>
+    </message>
+    <message>
+        <source>&amp;New Certificate</source>
+        <translation>&amp; New Certificate</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected certificate to the system clipboard</source>
+        <translation>Kopiera valda certifikatet till Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Certificate ID</source>
+        <translation>&amp; Kopiera certifikat ID</translation>
+    </message>
+    <message>
+        <source>Edit selected certificate</source>
+        <translation>Redigera valt certifikat</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Redigera</translation>
+    </message>
+    <message>
+        <source>Transfer selected certificate</source>
+        <translation>Transfer valt certifikat</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>Överföring</translation>
+    </message>
+    <message>
+        <source>Sell selected certificate</source>
+        <translation>Sälja valt certifikat</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Sälja</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
+        <translation>Dessa är dina registrerade Syscoin certifikat. Certifikatåtgärder (skapa, uppdatera, överföring) tar 2-5 minuter att bli aktiva. Du kan välja vilka alias för att visa relaterade certifikat med hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+    <message>
+        <source>You cannot sell this certificate because it has expired</source>
+        <translation>Du kan inte sälja detta certifikat eftersom det har gått ut</translation>
+    </message>
+    <message>
+        <source>You cannot edit this certificate because it has expired</source>
+        <translation>Du kan inte redigera detta certifikat eftersom det har gått ut</translation>
+    </message>
+    <message>
+        <source>You cannot transfer this certificate because it has expired</source>
+        <translation>Du kan inte överföra detta certifikat eftersom det har gått ut</translation>
+    </message>
+    <message>
+        <source>Export Certificate Data</source>
+        <translation>Exportcertifikat Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>cert</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>Ägare</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>Kategori</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Går ut om</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+</context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>My Escrow List</source>
+        <translation>Min Escrow Lista</translation>
+    </message>
+    <message>
+        <source>Show Completed/ Refunded/Expired Escrows</source>
+        <translation>Show completed / återbetalas / passerat escrows</translation>
+    </message>
+    <message>
+        <source>Refresh your list of escrows</source>
+        <translation>Uppdatera listan över escrows</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected escrow to the system clipboard</source>
+        <translation>Kopiera valda spärrade till Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Escrow ID</source>
+        <translation>&amp; Kopiera Escrow ID</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Release selected escrow to merchant</source>
+        <translation>Frigöra valda spärrade till handlaren</translation>
+    </message>
+    <message>
+        <source>Manage Escrow</source>
+        <translation>hantera Escrow</translation>
+    </message>
+    <message>
+        <source>Acknowledge Payment</source>
+        <translation>erkänna Betalning</translation>
+    </message>
+    <message>
+        <source>Check External Payment</source>
+        <translation>Kontrollera extern Betalning</translation>
+    </message>
+    <message>
+        <source>Send message to buyer</source>
+        <translation>Skicka meddelande till köparen</translation>
+    </message>
+    <message>
+        <source>Send Msg To Buyer</source>
+        <translation>Skicka msg till köparen</translation>
+    </message>
+    <message>
+        <source>Send message to seller</source>
+        <translation>Skicka meddelande till säljaren</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Skicka msg till Säljare</translation>
+    </message>
+    <message>
+        <source>Send message to arbiter</source>
+        <translation>Skicka meddelande till Arbiter</translation>
+    </message>
+    <message>
+        <source>Send Msg To Arbiter</source>
+        <translation>Skicka msg till Arbiter</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
+        <translation>Dessa är dina registrerade Syscoin escrows. Spärrade operationer (skapa, release, återbetalning, komplett) tar 2-5 minuter för att bli aktiva. Du kan välja vilka alias för att visa relaterade escrows hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+    <message>
+        <source>Bitcoin</source>
+        <translation>Bitcoin</translation>
+    </message>
+    <message>
+        <source>ZCash</source>
+        <translation>ZCash</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Fel att göra begäran:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON results</source>
+        <translation>Det går inte att tolka JSON resultat</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Det går inte att tolka JSON svar:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Could not find this escrow, please ensure the escrow has been confirmed by the blockchain: </source>
+        <translation>Det gick inte att hitta denna spärrade, se till det spärrade har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>This payment was not done using another coin, please select an escrow that was created by paying with another blockchain.</source>
+        <translation>Denna betalning gjordes inte med en annan mynt, välj en depositions som skapades genom att betala med en annan blockchain.</translation>
+    </message>
+    <message>
+        <source>Confirm Escrow Acknowledgement</source>
+        <translation>Bekräfta Escrow Bekräftelse</translation>
+    </message>
+    <message>
+        <source>Warning: You are about to acknowledge this payment from the buyer. If you are shipping an item, please communicate a tracking number to the buyer via a Syscoin message.</source>
+        <translation>Varning: Du är på väg att erkänna denna betalning från köparen. Om du skickar ett objekt, vänligen meddela ett spårningsnummer till köparen via ett Syscoin meddelande.</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to acknowledge this payment?</source>
+        <translation>Är du säker på att du vill bekräfta denna betalning?</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception acknowledging escrow payment</source>
+        <translation>Allmänt undantag erkänner depositions betalning</translation>
+    </message>
+    <message>
+        <source>Export Escrow Data</source>
+        <translation>Export Escrow Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+</context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>My Offers</source>
+        <translation>Mina erbjudanden</translation>
+    </message>
+    <message>
+        <source>Show Sold Out/ Expired Offers</source>
+        <translation>Visa Slutsåld / Utgångna erbjudanden</translation>
+    </message>
+    <message>
+        <source>Show Digital Offers Only</source>
+        <translation>Visa Digital erbjuder endast</translation>
+    </message>
+    <message>
+        <source>Refresh your list of offers</source>
+        <translation>Uppdatera listan över erbjudanden</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Create a new offer</source>
+        <translation>Skapa ett nytt erbjudande</translation>
+    </message>
+    <message>
+        <source>&amp;New Offer</source>
+        <translation>&amp; Nytt erbjudande</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopiera erbjudande ID</translation>
+    </message>
+    <message>
+        <source>Edit selected offer</source>
+        <translation>Redigera utvalda erbjudande</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Redigera</translation>
+    </message>
+    <message>
+        <source>Manage affiliates for this offer</source>
+        <translation>Hantera dotterbolag för detta erbjudande</translation>
+    </message>
+    <message>
+        <source>&amp;Manage Affiliates</source>
+        <translation>Och hantera Affiliates</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
+        <translation>Dessa är dina registrerade Syscoin erbjudanden. Erbjudande operationer (skapa, uppdatera) tar 2-5 minuter för att bli aktiva. Du kan välja vilka alias för att visa relaterade erbjudanden med hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>Manage Affiliates</source>
+        <translation>hantera Affiliates</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+    <message>
+        <source>You cannot edit this offer because it has expired</source>
+        <translation>Du kan inte redigera detta erbjudande eftersom det har gått ut</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Export erbjudande Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>Erbjudande</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>cert</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivning</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>Kategori</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Pris</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>Valuta</translation>
+    </message>
+    <message>
+        <source>Qty</source>
+        <translation>st</translation>
+    </message>
+    <message>
+        <source>Sold</source>
+        <translation>Såld</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Privat</translation>
+    </message>
+    <message>
+        <source>Expired</source>
+        <translation>Utgånget</translation>
+    </message>
+    <message>
+        <source>Seller Alias</source>
+        <translation>säljaren Alias</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>säljaren betyg</translation>
+    </message>
+    <message>
+        <source>Payment Options</source>
+        <translation>betalnings~~POS=TRUNC</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+</context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    <message>
+        <source>Offer</source>
+        <translation>Erbjudande</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Rabatt</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Går ut om</translation>
+    </message>
+</context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>My Offer Affiliates</source>
+        <translation>Mitt erbjudande Affiliates</translation>
+    </message>
+    <message>
+        <source>Refresh your affiliate list for this offer</source>
+        <translation>Uppdatera din affiliate lista för detta erbjudande</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Uppdatera</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportera</translation>
+    </message>
+    <message>
+        <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
+        <translation>Du är en affiliate för dessa erbjudanden. Affiliate verksamhet tar 2-5 minuter för att bli aktiva. Ägaren av erbjudandet kan lägga till dig som sin affiliate lista och din affiliate inträde kommer att dyka upp här.</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the affiliate list: </source>
+        <translation>Det var ett undantag som försöker uppdatera affiliate lista:</translation>
+    </message>
+    <message>
+        <source>Export Affiliate Data</source>
+        <translation>Export Affiliate Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>Erbjudande</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Expires</source>
+        <translation>Utgår</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Rabatt</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>New Message</source>
+        <translation>Nytt meddelande</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>Från:</translation>
+    </message>
+    <message>
+        <source>To:</source>
+        <translation>Till:</translation>
+    </message>
+    <message>
+        <source>The message name.</source>
+        <translation>Meddelandet namn.</translation>
+    </message>
+    <message>
+        <source>Topic:</source>
+        <translation>Ämne:</translation>
+    </message>
+    <message>
+        <source>Original Message:</source>
+        <translation>Ursprungligt meddelande:</translation>
+    </message>
+    <message>
+        <source>Your Message:</source>
+        <translation>Ditt meddelande:</translation>
+    </message>
+    <message>
+        <source>Hex Data:</source>
+        <translation>Hex Data:</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nej</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>Reply Message</source>
+        <translation>svarsmeddelande</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
+    </message>
+    <message>
+        <source>Empty message not allowed. Please try again</source>
+        <translation>Tomt meddelande inte tillåtet. Var god försök igen</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception creating new message</source>
+        <translation>Allmänt undantag skapa nytt meddelande</translation>
+    </message>
+    <message>
+        <source>General exception replying to message</source>
+        <translation>Allmänt undantag svara på meddelandet</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Plånboken kunde inte låsas upp.</translation>
+    </message>
+</context>
+<context>
+    <name>NewWhitelistDialog</name>
+    <message>
+        <source>Add Affiliate</source>
+        <translation>lägga Affiliate</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>Erbjudande</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Rabatt</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>New affiliate added successfully!</source>
+        <translation>Nya affiliate lagts till!</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Plånboken kunde inte låsas upp.</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialog</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Acceptera Syscoin Offer</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>Pay With ZEC</source>
+        <translation>Betala med ZEC</translation>
+    </message>
+    <message>
+        <source>Pay with Bitcoin</source>
+        <translation>Betala med Bitcoin</translation>
+    </message>
+    <message>
+        <source>Pay with BTC</source>
+        <translation>Betala med BTC</translation>
+    </message>
+    <message>
+        <source>Pay with Syscoin</source>
+        <translation>Betala med Syscoin</translation>
+    </message>
+    <message>
+        <source>&amp;Pay with SYS</source>
+        <translation>&amp; Betala med SYS</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>användning Escrow</translation>
+    </message>
+    <message>
+        <source>Pay Escrow</source>
+        <translation>pay Escrow</translation>
+    </message>
+    <message>
+        <source>Pay For Item</source>
+        <translation>Betala för punkt</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Ogiltig mängd när man försöker att acceptera erbjudandet!</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Allmänt undantag när de tar emot erbjudandet</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Ogiltig mängd när man försöker skapa spärrade!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Allmänt undantag när du skapar spärrade</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Acceptera Syscoin Offer</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>Open your local Bitcoin client</source>
+        <translation>Öppna din lokala Bitcoin klient</translation>
+    </message>
+    <message>
+        <source>Open BTC Wallet</source>
+        <translation>Öppen BTC Wallet</translation>
+    </message>
+    <message>
+        <source>Confirm this payment on the Bitcoin blockchain</source>
+        <translation>Bekräfta betalning på Bitcoin blockchain</translation>
+    </message>
+    <message>
+        <source>&amp;Confirm Payment</source>
+        <translation>&amp; Bekräfta betalningen</translation>
+    </message>
+    <message>
+        <source>Bitcoin TXID:</source>
+        <translation>Bitcoin TXID:</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>användning Escrow</translation>
+    </message>
+    <message>
+        <source>Could not find BTC currency in the rates peg for this offer</source>
+        <translation>Kunde inte hitta BTC valuta i priset peg för detta erbjudande</translation>
+    </message>
+    <message>
+        <source>After paying for this item, please enter the Bitcoin Transaction ID and click on the confirm button below.</source>
+        <translation>Efter att ha betalat för denna post, ange Bitcoin transaktions-ID och klicka på bekräftelseknappen nedan.</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>URI:n är för lång, försöka minska texten för etikett / meddelande.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Fel vid skapande av QR-kod från URI.</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Fel att göra begäran:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON results</source>
+        <translation>Det går inte att tolka JSON resultat</translation>
+    </message>
+    <message>
+        <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
+        <translation>Det gick inte att generera spärrade multisig adress: Ogiltigt svar från generateescrowmultisig</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta lösa skript som svar</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>till</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Det går inte att tolka JSON svar:</translation>
+    </message>
+    <message>
+        <source>Payment not found in the Bitcoin blockchain! Please try again later</source>
+        <translation>Betalning inte i Bitcoin blockchain! Försök igen senare</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Please enter a valid Bitcoin Transaction ID into the input box and try again</source>
+        <translation>Ange ett giltigt Bitcoin transaktions-id i rutan och försök igen</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Ogiltig mängd när man försöker att acceptera erbjudandet!</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Allmänt undantag när de tar emot erbjudandet</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Ogiltig mängd när man försöker skapa spärrade!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Allmänt undantag när du skapar spärrade</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Acceptera Syscoin Offer</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>Open your local Bitcoin client</source>
+        <translation>Öppna din lokala Bitcoin klient</translation>
+    </message>
+    <message>
+        <source>Open ZEC Wallet</source>
+        <translation>Öppen ZEC Wallet</translation>
+    </message>
+    <message>
+        <source>Confirm this payment on the Bitcoin blockchain</source>
+        <translation>Bekräfta betalning på Bitcoin blockchain</translation>
+    </message>
+    <message>
+        <source>&amp;Confirm Payment</source>
+        <translation>&amp; Bekräfta betalningen</translation>
+    </message>
+    <message>
+        <source>ZCash TXID:</source>
+        <translation>ZCash TXID:</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>användning Escrow</translation>
+    </message>
+    <message>
+        <source>Could not find ZEC currency in the rates peg for this offer</source>
+        <translation>Kunde inte hitta ZEC valuta i priset peg för detta erbjudande</translation>
+    </message>
+    <message>
+        <source>After paying for this item, please enter the ZCash Transaction ID and click on the confirm button below.</source>
+        <translation>Efter att ha betalat för denna post, ange ZCash transaktions-ID och klicka på bekräftelseknappen nedan.</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>URI:n är för lång, försöka minska texten för etikett / meddelande.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Fel vid skapande av QR-kod från URI.</translation>
+    </message>
+    <message>
+        <source>Failed to generate ZCash address, please close this screen and try again</source>
+        <translation>Det gick inte att generera ZCash adress, vänligen stänga den här skärmen och försök igen</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to generate ZCash address, please close this screen and try again: </source>
+        <translation>Det fanns ett undantag försöker generera ZCash adress, vänligen stänga den här skärmen och försök igen:</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Fel att göra begäran:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON results</source>
+        <translation>Det går inte att tolka JSON resultat</translation>
+    </message>
+    <message>
+        <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
+        <translation>Det gick inte att generera spärrade multisig adress: Ogiltigt svar från generateescrowmultisig</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta lösa skript som svar</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>till</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Det går inte att tolka JSON svar:</translation>
+    </message>
+    <message>
+        <source>Payment not found in the ZCash blockchain! Please try again later</source>
+        <translation>Betalning som inte finns i ZCash blockchain! Försök igen senare</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Please enter a valid ZCash Transaction ID into the input box and try again</source>
+        <translation>Ange ett giltigt ZCash transaktions-id i rutan och försök igen</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Ogiltig mängd när man försöker att acceptera erbjudandet!</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Allmänt undantag när de tar emot erbjudandet</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Ogiltig mängd när man försöker skapa spärrade!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Allmänt undantag när du skapar spärrade</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>Offer Accept Info</source>
+        <translation>Erbjuda Acceptera Info</translation>
+    </message>
+    <message>
+        <source>Payment Information</source>
+        <translation>Betalningsinformation</translation>
+    </message>
+    <message>
+        <source>Payment Details</source>
+        <translation>Betalningsinformation</translation>
+    </message>
+    <message>
+        <source>Buyer:</source>
+        <translation>Köpare:</translation>
+    </message>
+    <message>
+        <source>Payment ID:</source>
+        <translation>Betalning ID:</translation>
+    </message>
+    <message>
+        <source>External TXID:</source>
+        <translation>Extern TXID:</translation>
+    </message>
+    <message>
+        <source>TXID:</source>
+        <translation>TXID:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>Höjd:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>Tid:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Pris:</translation>
+    </message>
+    <message>
+        <source>Discount:</source>
+        <translation>Rabatt:</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Kvantitet:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Totalt:</translation>
+    </message>
+    <message>
+        <source>Payment Status:</source>
+        <translation>Betalningsstatus:</translation>
+    </message>
+    <message>
+        <source>Average Rating:</source>
+        <translation>Betyg i genomsnitt:</translation>
+    </message>
+    <message>
+        <source>Shipping &amp; Contact Information:</source>
+        <translation>Frakt &amp; Kontaktuppgifter:</translation>
+    </message>
+    <message>
+        <source>Offer Information</source>
+        <translation>erbjuda information</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>Erbjudande Detaljer</translation>
+    </message>
+    <message>
+        <source>Offer Title:</source>
+        <translation>Erbjudandet Titel:</translation>
+    </message>
+    <message>
+        <source>Commission:</source>
+        <translation>Provision:</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Erbjudandet ID:</translation>
+    </message>
+    <message>
+        <source>Root Offer ID:</source>
+        <translation>Root erbjudande ID:</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Handelsfartyg:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>Certifikat:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>köparen Feedback</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>säljare Feedback</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>No Feedback Found</source>
+        <translation>Ingen Feedback Hittat</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Köpare</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>Säljare</translation>
+    </message>
+    <message>
+        <source>No Feedback</source>
+        <translation>Ingen feedback</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>Från:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation>Betyg:</translation>
+    </message>
+    <message>
+        <source>Could not find this offer, please ensure offer has been confirmed by the blockchain</source>
+        <translation>Det gick inte att hitta detta erbjudande, har du se erbjudande bekräftats av blockchain</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this offer, please ensure offer has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta erbjudande, vänligen se erbjudandet har bekräftats av blockchain:</translation>
+    </message>
+    <message>
+        <source>Could not find this offer purchase, please ensure it has been confirmed by the blockchain</source>
+        <translation>Det gick inte att hitta detta erbjudande köp, se till att det har bekräftats av blockchain</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to locate this offer purchase, please ensure it has been confirmed by the blockchain: </source>
+        <translation>Det fanns ett undantag försöker hitta detta erbjudande köp, se till att det har bekräftats av blockchain:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    <message>
+        <source>Offer ID</source>
+        <translation>erbjudandet ID</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>acceptera ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>Höjd</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Pris</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>Valuta</translation>
+    </message>
+    <message>
+        <source>Qty</source>
+        <translation>st</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>Total</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>Säljare</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Köpare</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+</context>
+<context>
+    <name>OfferEscrowDialog</name>
+    <message>
+        <source>Payment In Escrow</source>
+        <translation>Betalning I Escrow</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation>&amp;Yta</translation>
+    </message>
+    <message>
+        <source>Please click Finish</source>
+        <translation>Klicka på Slutför</translation>
+    </message>
+</context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    <message>
+        <source>Leave Offer Feedback</source>
+        <translation>Lämna ett anbud Feedback</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>Leave feedback on this offer purchase</source>
+        <translation>Lämna synpunkter på detta erbjudande köp</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Lämna feedback</translation>
+    </message>
+    <message>
+        <source> Stars</source>
+        <translation>stjärnor</translation>
+    </message>
+    <message>
+        <source>Cannot find this offer purchase on the network, please try again later.</source>
+        <translation>Det går inte att hitta detta erbjudande köp på nätet, försök igen senare.</translation>
+    </message>
+    <message>
+        <source>Buyer:</source>
+        <translation>Köpare:</translation>
+    </message>
+    <message>
+        <source>You cannot leave feedback this offer purchase because you do not own either the buyer or merchant aliases.</source>
+        <translation>Du kan inte lämna feedback detta erbjudande köpet eftersom du inte äger antingen köparen eller handelsfartyg alias.</translation>
+    </message>
+    <message>
+        <source>Thank you for your feedback!</source>
+        <translation>Tack för din feedback!</translation>
+    </message>
+    <message>
+        <source>General exception sending offeracceptfeedback</source>
+        <translation>Allmänt undantag skickar offeracceptfeedback</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh get alias: </source>
+        <translation>Det fanns ett undantag försöker uppdatera get alias:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferListPage</name>
+    <message>
+        <source>Search Offers</source>
+        <translation>Search erbjuder</translation>
+    </message>
+    <message>
+        <source>All Categories</source>
+        <translation>alla kategorier</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopiera erbjudande ID</translation>
+    </message>
+    <message>
+        <source>Resell this offer for a commission</source>
+        <translation>Sälja detta erbjudande för en provision</translation>
+    </message>
+    <message>
+        <source>Resell</source>
+        <translation>sälja</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Köp detta erbjudande</translation>
+    </message>
+    <message>
+        <source>Purchase</source>
+        <translation>Inköp</translation>
+    </message>
+    <message>
+        <source>Send message to seller</source>
+        <translation>Skicka meddelande till säljaren</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Skicka msg till Säljare</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Offers (double click on one to purchase). Select Safe Search from wallet options if you wish to omit potentially offensive Offers(On by default)</source>
+        <translation>Sök efter Syscoin erbjudanden (dubbelklicka på en att köpa). Välj Safesearch från plånbok alternativ om du vill utelämna potentiellt stötande erbjudanden (On standard)</translation>
+    </message>
+    <message>
+        <source>Enter search term, regex accepted (ie: ^name returns all Offer's starting with 'name'). Empty will search for all.</source>
+        <translation>Ange sökord, regex accepteras (dvs. ^ namn åter alla Erbjudandets börjar med "namn"). Tom kommer att söka efter alla.</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>obegränsat</translation>
+    </message>
+    <message>
+        <source>Sorry, you cannot not resell this offer, it is sold out!</source>
+        <translation>Tyvärr kan du inte inte sälja detta erbjudande är det slutsålt!</translation>
+    </message>
+    <message>
+        <source>Sorry, you cannot not purchase this offer, it is sold out!</source>
+        <translation>Tyvärr kan du inte inte köpa detta erbjudande är det slutsålt!</translation>
+    </message>
+    <message>
+        <source>General exception when searching offer</source>
+        <translation>Allmänt undantag när du söker erbjudande</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from offerfilter command</source>
+        <translation>Fel: Ogiltigt svar från offerfilter kommandot</translation>
+    </message>
+</context>
+<context>
+    <name>OfferPayDialog</name>
+    <message>
+        <source>Pay For Item</source>
+        <translation>Betala för punkt</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation>&amp;Yta</translation>
+    </message>
+    <message>
+        <source>Please click Finish</source>
+        <translation>Klicka på Slutför</translation>
+    </message>
+</context>
+<context>
+    <name>OfferTableModel</name>
+    <message>
+        <source>Offer</source>
+        <translation>Erbjudande</translation>
+    </message>
+    <message>
+        <source>Certificate</source>
+        <translation>Certifikat</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Beskrivning</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>Kategori</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>Pris</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>Valuta</translation>
+    </message>
+    <message>
+        <source>Qty</source>
+        <translation>st</translation>
+    </message>
+    <message>
+        <source>Sold</source>
+        <translation>Såld</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Privat</translation>
+    </message>
+    <message>
+        <source>Seller Alias</source>
+        <translation>säljaren Alias</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>Betyg</translation>
+    </message>
+    <message>
+        <source>Payment Options</source>
+        <translation>betalnings~~POS=TRUNC</translation>
+    </message>
+</context>
+<context>
+    <name>OfferView</name>
+    <message>
+        <source>Sold</source>
+        <translation>Såld</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Sök</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
+    <message>
+        <source>Alias</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>Rabatt</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Går ut om</translation>
+    </message>
+</context>
+<context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
@@ -626,6 +3892,10 @@
         <source>Select payment request file</source>
         <translation>Välj betalningsbegäransfil</translation>
     </message>
+    <message>
+        <source>Select payment request file to open</source>
+        <translation>Välj betalningsbegäransfil att öppna</translation>
+    </message>
 </context>
 <context>
     <name>OptionsDialog</name>
@@ -636,14 +3906,6 @@
     <message>
         <source>&amp;Main</source>
         <translation>&amp;Allmänt</translation>
-    </message>
-    <message>
-        <source>Automatically start %1 after logging in to the system.</source>
-        <translation>Starta %1 automatiskt efter inloggningen.</translation>
-    </message>
-    <message>
-        <source>&amp;Start %1 on system login</source>
-        <translation>&amp;Starta %1 vid systemlogin</translation>
     </message>
     <message>
         <source>Size of &amp;database cache</source>
@@ -674,12 +3936,84 @@
         <translation>Minimera istället för att stänga programmet när fönstret stängs. När detta alternativ är aktiverat stängs programmet endast genom att välja Stäng i menyn.</translation>
     </message>
     <message>
+        <source>The user interface language can be set here. This setting will take effect after restarting Syscoin Core.</source>
+        <translation>Gränssnittets språk kan väljas här. Denna inställning träder i kraft efter omstart av Syscoin Core.</translation>
+    </message>
+    <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
         <translation>Tredjeparts URL:er (t.ex. en blockutforskare) som finns i transaktionstabben som ett menyval i sammanhanget. %s i URL:en ersätts med tansaktionshashen. Flera URL:er är separerade med vertikala streck |.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
         <translation>Tredjeparts transaktions-URL:er</translation>
+    </message>
+    <message>
+        <source>&amp;Preferences</source>
+        <translation>&amp; Inställningar</translation>
+    </message>
+    <message>
+        <source>User Interface Theme:</source>
+        <translation>Användargränssnitt Tema:</translation>
+    </message>
+    <message>
+        <source>The user interface theme can be set here. This setting will take effect after restarting Syscoin Core.</source>
+        <translation>Användargränssnittet tema kan ställas in här. Denna inställning träder i kraft när du startar Syscoin kärnan.</translation>
+    </message>
+    <message>
+        <source>Default Alias:</source>
+        <translation>Standard Alias:</translation>
+    </message>
+    <message>
+        <source>Default Peg Alias:</source>
+        <translation>Standard Peg Alias:</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Säker sökning:</translation>
+    </message>
+    <message>
+        <source>On</source>
+        <translation>På</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Av</translation>
+    </message>
+    <message>
+        <source>DirectBTC</source>
+        <translation>DirectBTC</translation>
+    </message>
+    <message>
+        <source>BTC End Point:</source>
+        <translation>BTC Slutpunkt</translation>
+    </message>
+    <message>
+        <source>BTC RPC Login:</source>
+        <translation>BTC RPC inloggning:</translation>
+    </message>
+    <message>
+        <source>BTC RPC Password:</source>
+        <translation>BTC RPC Lösenord:</translation>
+    </message>
+    <message>
+        <source>Test Connection</source>
+        <translation>Testa anslutning</translation>
+    </message>
+    <message>
+        <source>DirectZEC</source>
+        <translation>DirectZEC</translation>
+    </message>
+    <message>
+        <source>ZEC End Point:</source>
+        <translation>ZEC Slutpunkt</translation>
+    </message>
+    <message>
+        <source>ZEC RPC Login:</source>
+        <translation>ZEC RPC inloggning:</translation>
+    </message>
+    <message>
+        <source>ZEC RPC Password:</source>
+        <translation>ZEC RPC Lösenord:</translation>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -696,6 +4030,14 @@
     <message>
         <source>&amp;Network</source>
         <translation>&amp;Nätverk</translation>
+    </message>
+    <message>
+        <source>Automatically start Syscoin Core after logging in to the system.</source>
+        <translation>Kör Syscoin Core automatiskt vid systeminloggning.</translation>
+    </message>
+    <message>
+        <source>&amp;Start Syscoin Core on system login</source>
+        <translation>&amp;Kör Syscoin Core vid systeminloggning</translation>
     </message>
     <message>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
@@ -810,10 +4152,6 @@
         <translation>Användargränssnittets &amp;språk: </translation>
     </message>
     <message>
-        <source>The user interface language can be set here. This setting will take effect after restarting %1.</source>
-        <translation>Användargränssnittets språk kan ställas in här. Denna inställning träder i kraft efter en omstart av %1.</translation>
-    </message>
-    <message>
         <source>&amp;Unit to show amounts in:</source>
         <translation>&amp;Måttenhet att visa belopp i: </translation>
     </message>
@@ -834,8 +4172,32 @@
         <translation>&amp;Avbryt</translation>
     </message>
     <message>
+        <source>shade</source>
+        <translation>skugga</translation>
+    </message>
+    <message>
+        <source>solid</source>
+        <translation>fast form</translation>
+    </message>
+    <message>
+        <source>white</source>
+        <translation>vit</translation>
+    </message>
+    <message>
         <source>default</source>
         <translation>standard</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Kommunikationsfel med %1: %2</translation>
+    </message>
+    <message>
+        <source>Connection successfully established!</source>
+        <translation>Anslutning framgångsrikt etablerat!</translation>
     </message>
     <message>
         <source>none</source>
@@ -862,6 +4224,64 @@
         <translation>Den angivna proxy-adressen är ogiltig.</translation>
     </message>
 </context>
+<context>
+    <name>OptionsModel</name>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+</context>
+<context>
+    <name>OutMessageListPage</name>
+    <message>
+        <source>These are Syscoin messages you have sent. You can choose which aliases to view related messages using the dropdown to the right.</source>
+        <translation>Dessa är Syscoin meddelanden som du har skickat. Du kan välja vilka alias för att visa relaterade meddelanden med hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>New Msg</source>
+        <translation>nya Msg</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>detaljer</translation>
+    </message>
+    <message>
+        <source>Export Message Data</source>
+        <translation>Export meddelandedata</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>GUID</source>
+        <translation>GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Tid</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Från</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Till</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>Ämne</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Meddelande</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>error exporterar</translation>
+    </message>
+    </context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -938,6 +4358,97 @@
     </message>
 </context>
 <context>
+    <name>PaymentServer</name>
+    <message>
+        <source>Payment request error</source>
+        <translation>Fel vid betalningsbegäran</translation>
+    </message>
+    <message>
+        <source>Cannot start syscoin: click-to-pay handler</source>
+        <translation>Kan inte starta syscoin: klicka-och-betala handhavare</translation>
+    </message>
+    <message>
+        <source>URI handling</source>
+        <translation>URI hantering</translation>
+    </message>
+    <message>
+        <source>Payment request fetch URL is invalid: %1</source>
+        <translation>Betalningsbegärans hämta URL är felaktig: %1</translation>
+    </message>
+    <message>
+        <source>Invalid payment address %1</source>
+        <translation>Felaktig betalningsadress %1</translation>
+    </message>
+    <message>
+        <source>URI cannot be parsed! This can be caused by an invalid Syscoin address or malformed URI parameters.</source>
+        <translation>URI går inte att tolkas! Detta kan orsakas av en ogiltig Syscoin-adress eller felaktiga URI parametrar.</translation>
+    </message>
+    <message>
+        <source>Payment request file handling</source>
+        <translation>Hantering av betalningsbegäransfil</translation>
+    </message>
+    <message>
+        <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
+        <translation>Betalningsbegäransfilen kan inte läsas! Detta kan orsakas av en felaktig betalningsbegäransfil.</translation>
+    </message>
+    <message>
+        <source>Payment request rejected</source>
+        <translation>Betalningsbegäran avslogs</translation>
+    </message>
+    <message>
+        <source>Payment request network doesn't match client network.</source>
+        <translation>Betalningsbegärans nätverk matchar inte klientens nätverk.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Betalningsbegäran löpte ut.</translation>
+    </message>
+    <message>
+        <source>Payment request is not initialized.</source>
+        <translation>Betalningsbegäran är inte initierad.</translation>
+    </message>
+    <message>
+        <source>Unverified payment requests to custom payment scripts are unsupported.</source>
+        <translation>Overifierade betalningsbegärningar till specialbetalningsskript stöds inte.</translation>
+    </message>
+    <message>
+        <source>Invalid payment request.</source>
+        <translation>Ogiltig betalningsbegäran.</translation>
+    </message>
+    <message>
+        <source>Requested payment amount of %1 is too small (considered dust).</source>
+        <translation>Begärd betalning av %1 är för liten (betraktas som damm).</translation>
+    </message>
+    <message>
+        <source>Refund from %1</source>
+        <translation>Återbetalning från %1</translation>
+    </message>
+    <message>
+        <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
+        <translation>Betalningsbegäran %1 är för stor (%2 bytes, tillåten %3 bytes)</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Kommunikationsfel med %1: %2</translation>
+    </message>
+    <message>
+        <source>Payment request cannot be parsed!</source>
+        <translation>Betalningsbegäran kan inte behandlas!</translation>
+    </message>
+    <message>
+        <source>Bad response from server %1</source>
+        <translation>Dåligt svar från server %1</translation>
+    </message>
+    <message>
+        <source>Network request error</source>
+        <translation>Fel vid närverksbegäran</translation>
+    </message>
+    <message>
+        <source>Payment acknowledged</source>
+        <translation>Betalningen bekräftad</translation>
+    </message>
+</context>
+<context>
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
@@ -951,16 +4462,16 @@
         <source>Ping Time</source>
         <translation>Pingtid</translation>
     </message>
+    <message>
+        <source>NodeId</source>
+        <translation>NodeId</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Amount</source>
         <translation>Mängd</translation>
-    </message>
-    <message>
-        <source>Enter a Syscoin address (e.g. %1)</source>
-        <translation>Ange en Syscoin-adress (t.ex. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -989,6 +4500,33 @@
     <message>
         <source>%1 ms</source>
         <translation>%1 ms</translation>
+    </message>
+    <message>
+        <source>%1 and %2</source>
+        <translation>%1 och %2</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+</context>
+<context>
+    <name>QRImageWidget</name>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>&amp;Spara Bild...</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Image</source>
+        <translation>&amp;Kopiera Bild</translation>
+    </message>
+    <message>
+        <source>Save QR Code</source>
+        <translation>Spara QR-kod</translation>
+    </message>
+    <message>
+        <source>PNG Image (*.png)</source>
+        <translation>PNG-bild (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1352,6 +4890,18 @@
         <source>Remove</source>
         <translation>Ta bort</translation>
     </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopiera etikett</translation>
+    </message>
+    <message>
+        <source>Copy message</source>
+        <translation>Kopiera meddelande</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopiera belopp</translation>
+    </message>
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
@@ -1370,6 +4920,104 @@
     <message>
         <source>&amp;Save Image...</source>
         <translation>&amp;Spara Bild...</translation>
+    </message>
+    <message>
+        <source>Request payment to %1</source>
+        <translation>Begär betalning till %1</translation>
+    </message>
+    <message>
+        <source>Payment information</source>
+        <translation>Betalningsinformation</translation>
+    </message>
+    <message>
+        <source>URI</source>
+        <translation>URI</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adress</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Mängd</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikett</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Meddelande</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>URI:n är för lång, försöka minska texten för etikett / meddelande.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Fel vid skapande av QR-kod från URI.</translation>
+    </message>
+</context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikett</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Meddelande</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(Ingen etikett)</translation>
+    </message>
+    <message>
+        <source>(no message)</source>
+        <translation>(inget meddelande)</translation>
+    </message>
+    <message>
+        <source>(no amount requested)</source>
+        <translation>(Ingen begärda beloppet)</translation>
+    </message>
+    <message>
+        <source>Requested</source>
+        <translation>Begärda</translation>
+    </message>
+</context>
+<context>
+    <name>ResellOfferDialog</name>
+    <message>
+        <source>Resell Offer</source>
+        <translation>sälja ett anbud</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>Erbjudande:</translation>
+    </message>
+    <message>
+        <source>Affiliate Markup:</source>
+        <translation>Affiliate Markup:</translation>
+    </message>
+    <message>
+        <source>Enter Markup or Markdown(negative amount) percentage amount(without the % sign). You cannot give more of a discount than the rebate you were provided to Re-sell.</source>
+        <translation>Ange Markup eller Wiki (negativt belopp) procentbelopp (utan% tecken). Du kan inte ge mer av en rabatt än rabatten du lämnades att sälja.</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Beskrivning:</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
     </message>
 </context>
 <context>
@@ -1405,10 +5053,6 @@
     <message>
         <source>Amount:</source>
         <translation>Belopp:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Prioritet:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -1522,6 +5166,110 @@
         <source>S&amp;end</source>
         <translation>&amp;Skicka</translation>
     </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopiera kvantitet</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopiera belopp</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopiera avgift</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopiera efter avgift</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopiera byte</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopiera damm</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopiera växel</translation>
+    </message>
+    <message>
+        <source>%1 to %2</source>
+        <translation>%1 till %2</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Är du säker på att du vill skicka?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>adderad som transaktionsavgift</translation>
+    </message>
+    <message>
+        <source>Total Amount %1</source>
+        <translation>Total summa %1</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>eller</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Bekräfta skickade mynt</translation>
+    </message>
+    <message>
+        <source>The recipient address is not valid. Please recheck.</source>
+        <translation>Mottagarens adress är ogiltig. Kontrollera igen.</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>Det betalade beloppet måste vara större än 0.</translation>
+    </message>
+    <message>
+        <source>The amount exceeds your balance.</source>
+        <translation>Värdet överstiger ditt saldo.</translation>
+    </message>
+    <message>
+        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
+        <translation>Totalvärdet överstiger ditt saldo när transaktionsavgiften %1 är pålagd.</translation>
+    </message>
+    <message>
+        <source>Duplicate address found: addresses should only be used once each.</source>
+        <translation>Duplicerad adress upptäckt: adresser skall endast användas en gång var.</translation>
+    </message>
+    <message>
+        <source>Transaction creation failed!</source>
+        <translation>Transaktionen gick inte att skapa!</translation>
+    </message>
+    <message>
+        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Transaktionen avslogs! Detta kan hända om några av mynten i plånboken redan spenderats, t.ex om du använt en kopia av wallet.dat och mynt spenderades i kopian men inte markerats som spenderade här.</translation>
+    </message>
+    <message>
+        <source>A fee higher than %1 is considered an absurdly high fee.</source>
+        <translation>En avgift som är högre än %1 anses vara en orimligt hög avgift.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Betalningsbegäran löpte ut.</translation>
+    </message>
+    <message>
+        <source>Pay only the required fee of %1</source>
+        <translation>Betala endast den nödvändiga avgiften på %1</translation>
+    </message>
+    <message>
+        <source>Warning: Invalid Syscoin address</source>
+        <translation>Varning: Felaktig Syscoinadress</translation>
+    </message>
+    <message>
+        <source>Warning: Unknown change address</source>
+        <translation>Varning: Okänd växeladress</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(Ingen etikett)</translation>
+    </message>
 </context>
 <context>
     <name>SendCoinsEntry</name>
@@ -1601,6 +5349,17 @@
         <source>Memo:</source>
         <translation>PM:</translation>
     </message>
+    <message>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Ange ett namn för den här adressen och lägg till den i din adressbok</translation>
+    </message>
+</context>
+<context>
+    <name>SendConfirmationDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
 </context>
 <context>
     <name>ShutdownWindow</name>
@@ -1611,6 +5370,49 @@
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
         <translation>Stäng inte av datorn förrän denna ruta försvinner.</translation>
+    </message>
+</context>
+<context>
+    <name>SignRawTxDialog</name>
+    <message>
+        <source>Sign Raw Transaction</source>
+        <translation>Underteckna Raw transaktion</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Generell</translation>
+    </message>
+    <message>
+        <source>Decode</source>
+        <translation>Avkoda</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Annullera</translation>
+    </message>
+    <message>
+        <source>General exception decoding raw transaction</source>
+        <translation>Allmänt undantag avkodning rå transaktion</translation>
+    </message>
+    <message>
+        <source>General exception decoding raw syscoin transaction</source>
+        <translation>Allmänt undantag avkodning rå syscoin transaktion</translation>
+    </message>
+    <message>
+        <source>Transaction was completed successfully!</source>
+        <translation>Affären slutfördes framgångsrikt!</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>General exception creating sending raw alias update transaction</source>
+        <translation>Allmänt undantag skapar skicka rå alias uppdateringstransaktion</translation>
     </message>
 </context>
 <context>
@@ -1699,12 +5501,405 @@
         <source>Reset all verify message fields</source>
         <translation>Rensa alla fält</translation>
     </message>
+    <message>
+        <source>Click "Sign Message" to generate signature</source>
+        <translation>Klicka "Signera Meddelande" för att få en signatur</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>Den angivna adressen är ogiltig.</translation>
+    </message>
+    <message>
+        <source>Please check the address and try again.</source>
+        <translation>Vad god kontrollera adressen och försök igen.</translation>
+    </message>
+    <message>
+        <source>The entered address does not refer to a key.</source>
+        <translation>Den angivna adressen refererar inte till en nyckel.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Upplåsningen av plånboken avbröts.</translation>
+    </message>
+    <message>
+        <source>Private key for the entered address is not available.</source>
+        <translation>Privata nyckel för den angivna adressen är inte tillgänglig.</translation>
+    </message>
+    <message>
+        <source>Message signing failed.</source>
+        <translation>Signeringen av meddelandet misslyckades.</translation>
+    </message>
+    <message>
+        <source>Message signed.</source>
+        <translation>Meddelandet är signerat.</translation>
+    </message>
+    <message>
+        <source>The signature could not be decoded.</source>
+        <translation>Signaturen kunde inte avkodas.</translation>
+    </message>
+    <message>
+        <source>Please check the signature and try again.</source>
+        <translation>Kontrollera signaturen och försök igen.</translation>
+    </message>
+    <message>
+        <source>The signature did not match the message digest.</source>
+        <translation>Signaturen matchade inte meddelandesammanfattningen.</translation>
+    </message>
+    <message>
+        <source>Message verification failed.</source>
+        <translation>Meddelandet verifikation misslyckades.</translation>
+    </message>
+    <message>
+        <source>Message verified.</source>
+        <translation>Meddelandet är verifierad.</translation>
+    </message>
 </context>
 <context>
     <name>SplashScreen</name>
     <message>
         <source>[testnet]</source>
         <translation>[testnet]</translation>
+    </message>
+</context>
+<context>
+    <name>SyscoinGUI</name>
+    <message>
+        <source>Sign &amp;message...</source>
+        <translation>Signera &amp;meddelande...</translation>
+    </message>
+    <message>
+        <source>Synchronizing with network...</source>
+        <translation>Synkroniserar med nätverk...</translation>
+    </message>
+    <message>
+        <source>&amp;Overview</source>
+        <translation>&amp;Översikt</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Nod</translation>
+    </message>
+    <message>
+        <source>Show general overview of wallet</source>
+        <translation>Visa generell översikt av plånboken</translation>
+    </message>
+    <message>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Transaktioner</translation>
+    </message>
+    <message>
+        <source>Browse transaction history</source>
+        <translation>Bläddra i transaktionshistorik</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>&amp;Avsluta</translation>
+    </message>
+    <message>
+        <source>Quit application</source>
+        <translation>Avsluta programmet</translation>
+    </message>
+    <message>
+        <source>Show information about %1</source>
+        <translation>Visa information om %1</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt</source>
+        <translation>Om &amp;Qt</translation>
+    </message>
+    <message>
+        <source>Show information about Qt</source>
+        <translation>Visa information om Qt</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Alternativ...</translation>
+    </message>
+    <message>
+        <source>Modify configuration options for %1</source>
+        <translation>Ändra konfigurationsalternativ för %1</translation>
+    </message>
+    <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Kryptera plånbok...</translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Säkerhetskopiera plånbok...</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Byt lösenord...</translation>
+    </message>
+    <message>
+        <source>&amp;Sending addresses...</source>
+        <translation>Av&amp;sändaradresser...</translation>
+    </message>
+    <message>
+        <source>&amp;Receiving addresses...</source>
+        <translation>Mottaga&amp;radresser...</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Öppna &amp;URI...</translation>
+    </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Återindexerar block på disken...</translation>
+    </message>
+    <message>
+        <source>Send coins to a Syscoin address</source>
+        <translation>Skicka syscoins till en Syscoin-adress</translation>
+    </message>
+    <message>
+        <source>Backup wallet to another location</source>
+        <translation>Säkerhetskopiera plånboken till en annan plats</translation>
+    </message>
+    <message>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Byt lösenfras för kryptering av plånbok</translation>
+    </message>
+    <message>
+        <source>&amp;Debug window</source>
+        <translation>&amp;Debug-fönster</translation>
+    </message>
+    <message>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Öppna debug- och diagnostikkonsolen</translation>
+    </message>
+    <message>
+        <source>&amp;Verify message...</source>
+        <translation>&amp;Verifiera meddelande...</translation>
+    </message>
+    <message>
+        <source>Syscoin</source>
+        <translation>Syscoin</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Plånbok</translation>
+    </message>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;Skicka</translation>
+    </message>
+    <message>
+        <source>&amp;Receive</source>
+        <translation>&amp;Ta emot</translation>
+    </message>
+    <message>
+        <source>&amp;Show / Hide</source>
+        <translation>&amp;Visa / Göm</translation>
+    </message>
+    <message>
+        <source>Show or hide the main Window</source>
+        <translation>Visa eller göm huvudfönstret</translation>
+    </message>
+    <message>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Kryptera de privata nycklar som tillhör din plånbok</translation>
+    </message>
+    <message>
+        <source>Sign messages with your Syscoin addresses to prove you own them</source>
+        <translation>Signera meddelanden med din Syscoin-adress för att bevisa att du äger dem</translation>
+    </message>
+    <message>
+        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
+        <translation>Verifiera meddelanden för att vara säker på att de var signerade med specificerade Syscoin-adresser</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Arkiv</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>&amp;Inställningar</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Hjälp</translation>
+    </message>
+    <message>
+        <source>Tabs toolbar</source>
+        <translation>Verktygsfält för tabbar</translation>
+    </message>
+    <message>
+        <source>Request payments (generates QR codes and syscoin: URIs)</source>
+        <translation>Begär betalning (genererar QR-koder och syscoin-URI)</translation>
+    </message>
+    <message>
+        <source>Show the list of used sending addresses and labels</source>
+        <translation>Visa listan av använda avsändaradresser och etiketter</translation>
+    </message>
+    <message>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation>Visa listan av använda mottagningsadresser och etiketter</translation>
+    </message>
+    <message>
+        <source>Open a syscoin: URI or payment request</source>
+        <translation>Öppna en syscoin: URI eller betalningsbegäran</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>&amp;Kommandoradsalternativ</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s) to Syscoin network</source>
+        <translation><numerusform>%n aktiva anslutningar till Syscoin-nätverket.</numerusform><numerusform>%n aktiva anslutningar till Syscoin-nätverket.</numerusform></translation>
+    </message>
+    <message>
+        <source>Indexing blocks on disk...</source>
+        <translation>Indexerar block på disken...</translation>
+    </message>
+    <message>
+        <source>Processing blocks on disk...</source>
+        <translation>Bearbetar block på disken...</translation>
+    </message>
+    <message>
+        <source>No block source available...</source>
+        <translation>Ingen block-källa tillgänglig...</translation>
+    </message>
+    <message numerus="yes">
+        <source>Processed %n block(s) of transaction history.</source>
+        <translation><numerusform>Bearbetade %n block av transaktionshistoriken.</numerusform><numerusform>Bearbetade %n block av transaktionshistoriken.</numerusform></translation>
+    </message>
+    <message>
+        <source>%1 behind</source>
+        <translation>%1 efter</translation>
+    </message>
+    <message>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Senast mottagna block genererades för %1 sen.</translation>
+    </message>
+    <message>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Transaktioner efter denna kommer inte ännu vara synliga.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fel</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Varning</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Up to date</source>
+        <translation>Uppdaterad</translation>
+    </message>
+    <message>
+        <source>A&amp;liases</source>
+        <translation>A &amp; hålla kontakt</translation>
+    </message>
+    <message>
+        <source>Manage aliases</source>
+        <translation>hantera alias</translation>
+    </message>
+    <message>
+        <source>&amp;Messages</source>
+        <translation>&amp; Meddelanden</translation>
+    </message>
+    <message>
+        <source>Messages</source>
+        <translation>meddelanden</translation>
+    </message>
+    <message>
+        <source>&amp;Marketplace</source>
+        <translation>&amp;Marknad</translation>
+    </message>
+    <message>
+        <source>Manage offers</source>
+        <translation>Hantera erbjudanden</translation>
+    </message>
+    <message>
+        <source>&amp;Certificates</source>
+        <translation>&amp; Certifikat</translation>
+    </message>
+    <message>
+        <source>Manage Certificates</source>
+        <translation>Hantera certifikat</translation>
+    </message>
+    <message>
+        <source>&amp;Escrow</source>
+        <translation>&amp; Escrow</translation>
+    </message>
+    <message>
+        <source>Escrows with offers</source>
+        <translation>Escrows med erbjudanden</translation>
+    </message>
+    <message>
+        <source>&amp;About Syscoin Core</source>
+        <translation>&amp;Om Syscoin Core</translation>
+    </message>
+    <message>
+        <source>Show the %1 help message to get a list with possible Syscoin command-line options</source>
+        <translation>Visa %1 hjälpmeddelande för att få en lista med möjliga Syscoin kommandoradsalternativ.</translation>
+    </message>
+    <message>
+        <source>%1 client</source>
+        <translation>%1-klient</translation>
+    </message>
+    <message>
+        <source>Catching up...</source>
+        <translation>Hämtar senaste...</translation>
+    </message>
+    <message>
+        <source>Date: %1
+</source>
+        <translation>Datum: %1
+</translation>
+    </message>
+    <message>
+        <source>Amount: %1
+</source>
+        <translation>Belopp: %1
+</translation>
+    </message>
+    <message>
+        <source>Type: %1
+</source>
+        <translation>Typ: %1
+</translation>
+    </message>
+    <message>
+        <source>Label: %1
+</source>
+        <translation>Etikett: %1
+</translation>
+    </message>
+    <message>
+        <source>Address: %1
+</source>
+        <translation>Adress: %1
+</translation>
+    </message>
+    <message>
+        <source>Sent transaction</source>
+        <translation>Transaktion skickad</translation>
+    </message>
+    <message>
+        <source>Incoming transaction</source>
+        <translation>Inkommande transaktion</translation>
+    </message>
+    <message>
+        <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
+        <translation>HD nyckelgenerering är &lt;b&gt; aktiverade &lt;/ b&gt;</translation>
+    </message>
+    <message>
+        <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
+        <translation>HD nyckelgenerering är &lt;b&gt; avaktiverad &lt;/ b&gt;</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
+        <translation>Denna plånbok är &lt;b&gt;krypterad&lt;/b&gt; och för närvarande &lt;b&gt;olåst&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
+        <translation>Denna plånbok är &lt;b&gt;krypterad&lt;/b&gt; och för närvarande &lt;b&gt;låst&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1715,10 +5910,667 @@
     </message>
 </context>
 <context>
+    <name>TransactionDesc</name>
+    <message>
+        <source>Open until %1</source>
+        <translation>Öppet till %1</translation>
+    </message>
+    <message>
+        <source>%1/offline</source>
+        <translation>%1/nerkopplad</translation>
+    </message>
+    <message>
+        <source>in memory pool</source>
+        <translation>i minne pool</translation>
+    </message>
+    <message>
+        <source>not in memory pool</source>
+        <translation>inte finns i minnet pool</translation>
+    </message>
+    <message>
+        <source>abandoned</source>
+        <translation>övergiven</translation>
+    </message>
+    <message>
+        <source>%1/unconfirmed</source>
+        <translation>%1/obekräftade</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 bekräftelser</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, har inte lyckats skickas ännu</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation>Källa</translation>
+    </message>
+    <message>
+        <source>Generated</source>
+        <translation>Genererad</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Från</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>okänd</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Till</translation>
+    </message>
+    <message>
+        <source>own address</source>
+        <translation>egen adress</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>granska-bara</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>etikett</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation>Kredit</translation>
+    </message>
+    <message>
+        <source>not accepted</source>
+        <translation>inte accepterad</translation>
+    </message>
+    <message>
+        <source>Debit</source>
+        <translation>Belasta</translation>
+    </message>
+    <message>
+        <source>Total debit</source>
+        <translation>Total skuld</translation>
+    </message>
+    <message>
+        <source>Total credit</source>
+        <translation>Total kredit</translation>
+    </message>
+    <message>
+        <source>Transaction fee</source>
+        <translation>Transaktionsavgift</translation>
+    </message>
+    <message>
+        <source>Net amount</source>
+        <translation>Nettobelopp</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Meddelande</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Kommentar</translation>
+    </message>
+    <message>
+        <source>Transaction ID</source>
+        <translation>Transaktions-ID</translation>
+    </message>
+    <message>
+        <source>Transaction total size</source>
+        <translation>Transaktion totala storleken</translation>
+    </message>
+    <message>
+        <source>Output index</source>
+        <translation>output index</translation>
+    </message>
+    <message>
+        <source>Merchant</source>
+        <translation>Handlare</translation>
+    </message>
+    <message>
+        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Genererade mynt måste vänta %1 block innan de kan användas. När du skapade detta block sändes det till nätverket för att läggas till i blockkedjan. Om blocket inte kommer in i kedjan kommer dess status att ändras till "accepteras inte" och kommer ej att gå att spendera. Detta kan ibland hända om en annan nod genererar ett block nästan samtidigt som dig.</translation>
+    </message>
+    <message>
+        <source>Debug information</source>
+        <translation>Debug information</translation>
+    </message>
+    <message>
+        <source>Transaction</source>
+        <translation>Transaktion</translation>
+    </message>
+    <message>
+        <source>Inputs</source>
+        <translation>Inputs</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Mängd</translation>
+    </message>
+    <message>
+        <source>true</source>
+        <translation>sant</translation>
+    </message>
+    <message>
+        <source>false</source>
+        <translation>falsk</translation>
+    </message>
+</context>
+<context>
     <name>TransactionDescDialog</name>
+    <message>
+        <source>Transaction details</source>
+        <translation>Transaktionsdetaljer</translation>
+    </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Den här panelen visar en detaljerad beskrivning av transaktionen</translation>
+    </message>
+    </context>
+<context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikett</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Öppet till %1</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Nerkopplad</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Okonfirmerade</translation>
+    </message>
+    <message>
+        <source>Abandoned</source>
+        <translation>Övergiven</translation>
+    </message>
+    <message>
+        <source>Confirming (%1 of %2 recommended confirmations)</source>
+        <translation>Konfirmerar (%1 of %2 konfirmeringar)</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Bekräftad (%1 bekräftelser)</translation>
+    </message>
+    <message>
+        <source>Conflicted</source>
+        <translation>Konflikterade</translation>
+    </message>
+    <message>
+        <source>Immature (%1 confirmations, will be available after %2)</source>
+        <translation>Omogen (%1 konfirmeringar, blir tillgänglig efter %2)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Det här blocket togs inte emot av några andra noder och kommer antagligen inte att bli godkänt.</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Genererad men inte accepterad</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Mottagen med</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Mottaget från</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Skickad till</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Betalning till dig själv</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Genererade</translation>
+    </message>
+    <message>
+        <source>Alias Activated</source>
+        <translation>alias Aktiverad</translation>
+    </message>
+    <message>
+        <source>Alias Payment Sent</source>
+        <translation>Alias ​​betalning skickas</translation>
+    </message>
+    <message>
+        <source>Alias Payment Received</source>
+        <translation>Alias ​​Betalning mottagen</translation>
+    </message>
+    <message>
+        <source>Alias Transferred</source>
+        <translation>alias Överfört</translation>
+    </message>
+    <message>
+        <source>Alias Updated</source>
+        <translation>alias Uppdaterad</translation>
+    </message>
+    <message>
+        <source>Alias Received</source>
+        <translation>alias emot</translation>
+    </message>
+    <message>
+        <source>Offer Activated</source>
+        <translation>erbjudandet Aktiverad</translation>
+    </message>
+    <message>
+        <source>Offer Updated</source>
+        <translation>erbjudandet Uppdaterad</translation>
+    </message>
+    <message>
+        <source>Offer Accepted</source>
+        <translation>Erbjudandet Godkända</translation>
+    </message>
+    <message>
+        <source>Offer Accept Acknowledged</source>
+        <translation>Erbjudandet emot Bekräftat</translation>
+    </message>
+    <message>
+        <source>Offer Accept Received</source>
+        <translation>Erbjuder Acceptera mottagen</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback</source>
+        <translation>Erbjuda Acceptera Feedback</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback Received</source>
+        <translation>Erbjudandet emot omdömmen mottagna</translation>
+    </message>
+    <message>
+        <source>Cert. Activated</source>
+        <translation>Cert. aktiverad</translation>
+    </message>
+    <message>
+        <source>Cert. Updated</source>
+        <translation>Cert. Uppdaterad</translation>
+    </message>
+    <message>
+        <source>Cert. Transferred</source>
+        <translation>Cert. Överförd</translation>
+    </message>
+    <message>
+        <source>Cert. Received</source>
+        <translation>Cert. Fick</translation>
+    </message>
+    <message>
+        <source>Escrow Activated</source>
+        <translation>spärrade Aktiverad</translation>
+    </message>
+    <message>
+        <source>Escrow Acknowledged</source>
+        <translation>spärrade Bekräftade</translation>
+    </message>
+    <message>
+        <source>Escrow Released</source>
+        <translation>spärrade Släppt</translation>
+    </message>
+    <message>
+        <source>Escrow Release Received</source>
+        <translation>Depositions Release emot</translation>
+    </message>
+    <message>
+        <source>Escrow Refunded</source>
+        <translation>Escrow återbetalas</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback</source>
+        <translation>spärrade Feedback</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback Received</source>
+        <translation>Spärrade omdömmen mottagna</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Received</source>
+        <translation>Depositions återbetalning emot</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Complete</source>
+        <translation>Depositions återbetalning Komplett</translation>
+    </message>
+    <message>
+        <source>Escrow Release Complete</source>
+        <translation>Escrow Release Complete</translation>
+    </message>
+    <message>
+        <source>Message Sent</source>
+        <translation>Meddelande skickat</translation>
+    </message>
+    <message>
+        <source>Message Received</source>
+        <translation>Meddelande mottaget</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>granska-bara</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>(n/a)</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(Ingen etikett)</translation>
+    </message>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Transaktionsstatus. Håll muspekaren över för att se antal bekräftelser.</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Tidpunkt då transaktionen mottogs.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Transaktionstyp.</translation>
+    </message>
+    <message>
+        <source>Whether or not a watch-only address is involved in this transaction.</source>
+        <translation>Anger om granska-bara--adresser är involverade i denna transaktion.</translation>
+    </message>
+    <message>
+        <source>User-defined intent/purpose of the transaction.</source>
+        <translation>Användardefinierat syfte/ändamål för transaktionen.</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Belopp draget eller tillagt till balans.</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Alla</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Idag</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>Denna vecka</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Denna månad</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Föregående månad</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Det här året</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Period...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Mottagen med</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Skickad till</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Till dig själv</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Genererade</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Övriga</translation>
+    </message>
+    <message>
+        <source>Alias Activated</source>
+        <translation>alias Aktiverad</translation>
+    </message>
+    <message>
+        <source>Alias Payment Sent</source>
+        <translation>Alias ​​betalning skickas</translation>
+    </message>
+    <message>
+        <source>Alias Payment Received</source>
+        <translation>Alias ​​Betalning mottagen</translation>
+    </message>
+    <message>
+        <source>Alias Updated</source>
+        <translation>alias Uppdaterad</translation>
+    </message>
+    <message>
+        <source>Alias Transferred</source>
+        <translation>alias Överfört</translation>
+    </message>
+    <message>
+        <source>Alias Received</source>
+        <translation>alias emot</translation>
+    </message>
+    <message>
+        <source>Offer Activated</source>
+        <translation>erbjudandet Aktiverad</translation>
+    </message>
+    <message>
+        <source>Offer Updated</source>
+        <translation>erbjudandet Uppdaterad</translation>
+    </message>
+    <message>
+        <source>Offer Accepted</source>
+        <translation>Erbjudandet Godkända</translation>
+    </message>
+    <message>
+        <source>Offer Accept Acknowledged</source>
+        <translation>Erbjudandet emot Bekräftat</translation>
+    </message>
+    <message>
+        <source>Offer Accept Received</source>
+        <translation>Erbjuder Acceptera mottagen</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback</source>
+        <translation>Erbjuda Acceptera Feedback</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback Received</source>
+        <translation>Erbjudandet emot omdömmen mottagna</translation>
+    </message>
+    <message>
+        <source>Certificate Activated</source>
+        <translation>certifikat Aktiverad</translation>
+    </message>
+    <message>
+        <source>Certificate Updated</source>
+        <translation>certifikat Uppdaterad</translation>
+    </message>
+    <message>
+        <source>Certificate Transferred</source>
+        <translation>certifikat Överfört</translation>
+    </message>
+    <message>
+        <source>Certificate Received</source>
+        <translation>certifikat mottagna</translation>
+    </message>
+    <message>
+        <source>Escrow Activated</source>
+        <translation>spärrade Aktiverad</translation>
+    </message>
+    <message>
+        <source>Escrow Acknowledged</source>
+        <translation>spärrade Bekräftade</translation>
+    </message>
+    <message>
+        <source>Escrow Released</source>
+        <translation>spärrade Släppt</translation>
+    </message>
+    <message>
+        <source>Escrow Release Received</source>
+        <translation>Depositions Release emot</translation>
+    </message>
+    <message>
+        <source>Escrow Refunded</source>
+        <translation>Escrow återbetalas</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Complete</source>
+        <translation>Depositions återbetalning Komplett</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Received</source>
+        <translation>Depositions återbetalning emot</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback</source>
+        <translation>spärrade Feedback</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback Received</source>
+        <translation>Spärrade omdömmen mottagna</translation>
+    </message>
+    <message>
+        <source>Escrow Release Complete</source>
+        <translation>Escrow Release Complete</translation>
+    </message>
+    <message>
+        <source>Message Sent</source>
+        <translation>Meddelande skickat</translation>
+    </message>
+    <message>
+        <source>Message Received</source>
+        <translation>Meddelande mottaget</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Sök efter adress eller etikett </translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Minsta mängd</translation>
+    </message>
+    <message>
+        <source>Abandon transaction</source>
+        <translation>överge transaktionen</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>Kopiera adress</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopiera etikett</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopiera belopp</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopiera transaktions ID</translation>
+    </message>
+    <message>
+        <source>Copy raw transaction</source>
+        <translation>Kopiera rå transaktion</translation>
+    </message>
+    <message>
+        <source>Copy full transaction details</source>
+        <translation>Kopiera hela transaktionsuppgifter</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>Ändra etikett</translation>
+    </message>
+    <message>
+        <source>Show transaction details</source>
+        <translation>Visa transaktionsdetaljer</translation>
+    </message>
+    <message>
+        <source>Export Transaction History</source>
+        <translation>Exportera Transaktionshistoriken</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Kommaseparerad fil (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Bekräftad</translation>
+    </message>
+    <message>
+        <source>Watch-only</source>
+        <translation>Granska-bara</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Datum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikett</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adress</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Exporting Failed</source>
+        <translation>Exporteringen misslyckades</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the transaction history to %1.</source>
+        <translation>Det inträffade ett fel när transaktionshistoriken skulle sparas till %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Successful</source>
+        <translation>Exporteringen lyckades</translation>
+    </message>
+    <message>
+        <source>The transaction history was successfully saved to %1.</source>
+        <translation>Transaktionshistoriken sparades utan problem till %1.</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Intervall:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>till</translation>
     </message>
 </context>
 <context>
@@ -1726,6 +6578,63 @@
     <message>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>&amp;Enhet att visa belopp i. Klicka för att välja annan enhet.</translation>
+    </message>
+</context>
+<context>
+    <name>WalletFrame</name>
+    <message>
+        <source>No wallet has been loaded.</source>
+        <translation>Ingen plånbok har laddats in.</translation>
+    </message>
+</context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Skicka pengar</translation>
+    </message>
+    <message>
+        <source>Could not sign multisig transaction: Invalid response from signrawtransaction</source>
+        <translation>Det gick inte att logga multisig transaktion: Ogiltigt svar från signrawtransaction</translation>
+    </message>
+    <message>
+        <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that hasn't yet signed.</source>
+        <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Could not decode signed transaction!</source>
+        <translation>Det gick inte att avkoda signerade transaktions!</translation>
+    </message>
+</context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Säkerhetskopiera Plånbok</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Plånboks-data (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>Säkerhetskopiering misslyckades</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the wallet data to %1.</source>
+        <translation>Det inträffade ett fel när plånbokens data skulle sparas till %1.</translation>
+    </message>
+    <message>
+        <source>Backup Successful</source>
+        <translation>Säkerhetskopiering lyckades</translation>
+    </message>
+    <message>
+        <source>The wallet data was successfully saved to %1.</source>
+        <translation>Plånbokens data sparades utan problem till %1.</translation>
     </message>
 </context>
 <context>
@@ -1839,10 +6748,6 @@
         <translation>Exekvera kommando när en plånbokstransaktion ändras (%s i cmd är ersatt av TxID)</translation>
     </message>
     <message>
-        <source>Force relay of transactions from whitelisted peers even they violate local relay policy (default: %d)</source>
-        <translation>Vidarebefodra alltid transaktioner från vitlistade noder även om de bryter mot lokala reläpolicyn (förvalt: %d)</translation>
-    </message>
-    <message>
         <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
         <translation>Maximalt tillåten median-peer tidsoffset justering. Lokalt perspektiv av tiden kan bli påverkad av partners, framåt eller bakåt denna tidsrymd. (förvalt: %u sekunder)</translation>
     </message>
@@ -1853,10 +6758,6 @@
     <message>
         <source>Please check that your computer's date and time are correct! If your clock is wrong, %s will not work properly.</source>
         <translation>Vänligen kolla så att din dators datum och tid är korrekt! Om din klocka går fel kommer %s inte att fungera korrekt.</translation>
-    </message>
-    <message>
-        <source>Please contribute if you find %s useful. Visit %s for further information about the software.</source>
-        <translation>Var snäll och bidra om du finner %s användbar. Besök %s för mer information om mjukvaran.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
@@ -1933,10 +6834,6 @@
     <message>
         <source>Connection options:</source>
         <translation>Anslutningsalternativ:</translation>
-    </message>
-    <message>
-        <source>Copyright (C) %i-%i</source>
-        <translation>Copyright (C) %i-%i</translation>
     </message>
     <message>
         <source>Corrupted block database detected</source>
@@ -2051,10 +6948,6 @@
         <translation>Plats för authcookie (förvalt: datamapp)</translation>
     </message>
     <message>
-        <source>Minimum bytes per sigop in transactions we relay and mine (default: %u)</source>
-        <translation>Minimum antal byte per sigop i transaktioner som vi reläar och bryter (förvalt: %u)</translation>
-    </message>
-    <message>
         <source>Not enough file descriptors available.</source>
         <translation>Inte tillräckligt med filbeskrivningar tillgängliga.</translation>
     </message>
@@ -2095,20 +6988,12 @@
         <translation>Sätt databasens cachestorlek i megabyte (%d till %d, förvalt: %d)</translation>
     </message>
     <message>
-        <source>Set maximum block cost (default: %d)</source>
-        <translation>Sätt maximal blockkostnad (förvalt: %d)</translation>
-    </message>
-    <message>
         <source>Set maximum block size in bytes (default: %d)</source>
         <translation>Sätt maximal blockstorlek i byte (förvalt: %d)</translation>
     </message>
     <message>
         <source>Specify wallet file (within data directory)</source>
         <translation>Ange plånboksfil (inom datakatalogen)</translation>
-    </message>
-    <message>
-        <source>The source code is available from %s.</source>
-        <translation>Källkoden är tillgänglig från %s.</translation>
     </message>
     <message>
         <source>Unable to bind to %s on this computer. %s is probably already running.</source>
@@ -2351,6 +7236,10 @@
         <translation>Det går inte att binda till %s på den här datorn (bind returnerade felmeddelande %s)</translation>
     </message>
     <message>
+        <source>Updating an offer with a cert that does not exist</source>
+        <translation>Uppdatering ett erbjudande med en cert som inte finns</translation>
+    </message>
+    <message>
         <source>Upgrade wallet to latest format on startup</source>
         <translation>Uppgradera plånbok till senaste formatet vid uppstart</translation>
     </message>
@@ -2369,6 +7258,42 @@
     <message>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
         <translation>Ska allt göras i endast block-läge (förval: %u)</translation>
+    </message>
+    <message>
+        <source>Whitelist entries were added or removed</source>
+        <translation>Vitlista poster till eller tas bort</translation>
+    </message>
+    <message>
+        <source>Whitelist is already empty</source>
+        <translation>Vitlista är redan tom</translation>
+    </message>
+    <message>
+        <source>Whitelist was cleared</source>
+        <translation>Vitlista rensades</translation>
+    </message>
+    <message>
+        <source>Wrong alias input provided in this certificate transaction</source>
+        <translation>Fel alias ingång i detta intyg transaktion</translation>
+    </message>
+    <message>
+        <source>You are not the owner of this alias</source>
+        <translation>Du är inte ägaren av detta alias</translation>
+    </message>
+    <message>
+        <source>You must own the arbiter alias to complete this transaction</source>
+        <translation>Du måste äga Arbiter alias för att slutföra denna transaktion</translation>
+    </message>
+    <message>
+        <source>You must own the buyer alias to complete this transaction</source>
+        <translation>Du måste äga köparen alias för att slutföra denna transaktion</translation>
+    </message>
+    <message>
+        <source>You must own the reseller alias to complete this transaction</source>
+        <translation>Du måste äga återförsäljare alias för att slutföra denna transaktion</translation>
+    </message>
+    <message>
+        <source>You must own the seller alias to complete this transaction</source>
+        <translation>Du måste äga säljaren alias för att slutföra denna transaktion</translation>
     </message>
     <message>
         <source>Zapping all transactions from wallet...</source>
@@ -2407,8 +7332,88 @@
         <translation>-paytxfee är väldigt högt satt! Det här är avgiften du kommer betala om du skickar en transaktion.</translation>
     </message>
     <message>
+        <source>Alias multisig too big, reduce the number of signatures required for this alias and try again</source>
+        <translation>Alias ​​multisig alltför stor, minska antalet underskrifter som krävs för detta alias och försök igen</translation>
+    </message>
+    <message>
+        <source>Cannot create this offer because the certificate alias does not match the offer alias</source>
+        <translation>Det går inte att skapa detta erbjudande eftersom certifikatet alias inte matchar erbjudande alias</translation>
+    </message>
+    <message>
+        <source>Cannot find the alias you are trying to offer affiliate list. It may be expired</source>
+        <translation>Det går inte att hitta det alias du försöker erbjuda affiliate listan. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this linked offer because the certificate has been transferred or it is linked to another offer</source>
+        <translation>Det går inte att köpa denna kombinationserbjudande eftersom certifikatet har överförts eller det är kopplat till ett annat erbjudande</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this offer because the certificate has been transferred or it is linked to another offer</source>
+        <translation>Det går inte att köpa detta erbjudande eftersom certifikatet har överförts eller det är kopplat till ett annat erbjudande</translation>
+    </message>
+    <message>
+        <source>Cannot unserialize data inside of this transaction relating to a certificate</source>
+        <translation>Kan inte unserialize uppgifter insidan av denna transaktion om ett certifikat</translation>
+    </message>
+    <message>
+        <source>Cannot unserialize data inside of this transaction relating to a message</source>
+        <translation>Kan inte unserialize uppgifter insidan av denna transaktion om ett meddelande</translation>
+    </message>
+    <message>
+        <source>Cannot unserialize data inside of this transaction relating to an escrow</source>
+        <translation>Kan inte unserialize data i denna transaktion som avser ett spärrat</translation>
+    </message>
+    <message>
+        <source>Cannot update multisig alias because required signatures is greator than the amount of signatures provided</source>
+        <translation>Kan inte uppdatera multisig alias eftersom krävs underskrifter är greator än mängden underskrifter tillhandahålls</translation>
+    </message>
+    <message>
+        <source>Cannot update this offer because the certificate alias does not match the linked offer alias</source>
+        <translation>Kan inte uppdatera detta erbjudande eftersom certifikatet alias inte matchar kombinationserbjudande alias</translation>
+    </message>
+    <message>
+        <source>Cannot update this offer because the certificate alias does not match the offer alias</source>
+        <translation>Kan inte uppdatera detta erbjudande eftersom certifikatet alias inte matchar erbjudande alias</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: Invalid response from createrawtransaction</source>
+        <translation>Det gick inte att skapa spärrade transaktion: Ogiltigt svar från createrawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta lösa skript som svar</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid response from decoderawtransaction</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltigt svar från decoderawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: One or more of the multisig addresses do not refer to an alias</source>
+        <translation>Det gick inte att avkoda spärrade transaktionen: En eller flera av de multisig adresser inte hänvisa till ett alias</translation>
+    </message>
+    <message>
+        <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
+        <translation>Det gick inte att generera spärrade multisig adress: Ogiltigt svar från generateescrowmultisig</translation>
+    </message>
+    <message>
+        <source>Could not send raw transaction: Invalid response from sendrawtransaction</source>
+        <translation>Det gick inte att skicka rå transaktion: Ogiltigt svar från sendrawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not sign escrow transaction: Invalid response from signrawtransaction</source>
+        <translation>Det gick inte att logga spärrade transaktion: Ogiltigt svar från signrawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not sign multisig transaction: Invalid response from signrawtransaction</source>
+        <translation>Det gick inte att logga multisig transaktion: Ogiltigt svar från signrawtransaction</translation>
+    </message>
+    <message>
         <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
         <translation>Håll inte transaktioner i minnespoolen längre än &lt;n&gt; timmar (förvalt: %u)</translation>
+    </message>
+    <message>
+        <source>Expected amount of escrow does not match what is held in escrow. Expected amount: </source>
+        <translation>Förväntade mängden spärrade matchar inte vad hålls i depositionsavtal. Förväntade mängden:</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
@@ -2419,6 +7424,34 @@
         <translation>Hur grundlig blockverifikationen vid -checkblocks är (0-4, förvalt: %u)</translation>
     </message>
     <message>
+        <source>Invalid Syscoin Identity. Must follow the domain name spec of 3 to 64 characters with no preceding or trailing dashes and a TLD of 2 to 6 characters</source>
+        <translation>Ogiltig Syscoin identitet. Måste följa domännamnet spec 3 till 64 tecken utan föregående eller efterföljande streck och en toppdomän på 2 till 6 tecken</translation>
+    </message>
+    <message>
+        <source>Invalid Syscoin Identity. Must follow the domain name spec of 3 to 64 characters with no preceding or trailing dashes</source>
+        <translation>Ogiltig Syscoin identitet. Måste följa domännamnet spec 3 till 64 tecken utan föregående eller efterföljande streck</translation>
+    </message>
+    <message>
+        <source>Invalid Syscoin Identity. Please enter a password atleast 4 characters long</source>
+        <translation>Ogiltig Syscoin identitet. Ange ett lösenord minst 4 tecken långt</translation>
+    </message>
+    <message>
+        <source>Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1</source>
+        <translation>Ogiltig pris- och / eller kvantitetsvärden. Kvantitet måste vara mindre än 4294967296 och större än eller lika med -1</translation>
+    </message>
+    <message>
+        <source>Invalid quantity value, must be less than 4294967296 and greater than or equal to -1</source>
+        <translation>Ogiltigt storhetsvärde, måste vara mindre än 4294967296 och större än eller lika med -1</translation>
+    </message>
+    <message>
+        <source>Invalid rating value, must be less than or equal to 5 and greater than or equal to 0</source>
+        <translation>Ogiltigt rating värde, måste vara mindre än eller lika med 5 och större än eller lika med 0</translation>
+    </message>
+    <message>
+        <source>Invalid rating, must be less than or equal to 5 and greater than or equal to 0</source>
+        <translation>Ogiltig rating, måste vara mindre än eller lika med 5 och större än eller lika med 0</translation>
+    </message>
+    <message>
         <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
         <translation>Upprätthåll ett fullständigt transaktionsindex, som används av getrawtransaction rpc-anrop (förval: %u)</translation>
     </message>
@@ -2427,12 +7460,32 @@
         <translation>Antal sekunder att hindra klienter som missköter sig från att ansluta (förvalt: %u)</translation>
     </message>
     <message>
+        <source>Offer guid in the data output does not match the guid in the transaction</source>
+        <translation>Erbjudandet guid i utdata matchar inte guid i transaktionen</translation>
+    </message>
+    <message>
         <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
         <translation>Skriv ut avlusningsinformation (förvalt: %u, att ange &lt;category&gt; är frivilligt)</translation>
     </message>
     <message>
         <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
         <translation>Stöd filtrering av block och transaktioner med bloomfilter (standard: %u)</translation>
+    </message>
+    <message>
+        <source>Syscoin is open source software produced by a global network of developers. By downloading, distributing and using Syscoin and the Syscoin network you release the developers involved in the Syscoin Project past, present, and future from any and all liability. You are responsible for your creations on the Syscoin network. You agree that the developers of the Syscoin Project carry no responsibility for the actions/data or entities of *any* definition created on the network by yourself or others on the network to which you may be exposed.</source>
+        <translation>Syscoin är öppen källkod som produceras av ett globalt nätverk av utvecklare. Genom att ladda ner, distribuera och använda Syscoin och Syscoin nätverk du släpper utvecklarna involverade i Syscoin Project dåtid, nutid och framtid från allt ansvar. Du är ansvarig för dina skapelser på Syscoin nätverket. Du samtycker till att utvecklarna av Syscoin Project bär inget ansvar för de åtgärder / data eller enheter * alla * definition skapas på nätet själv eller andra på nätet som du kan utsättas för.</translation>
+    </message>
+    <message>
+        <source>The Syscoin alias you are trying to use for this transaction is invalid or has been updated and not confirmed yet! Please wait a block and try again...</source>
+        <translation>Den Syscoin alias du försöker använda för den här transaktionen är ogiltig eller har uppdaterats och inte bekräftat ännu! Vänta ett block och försök igen ...</translation>
+    </message>
+    <message>
+        <source>The developers of the Syscoin Project do not have the power to modify data on the Syscoin network, it is backed by an immutable blockchain, which you further acknowledge through use of Syscoin, the Syscoin network, and Syscoin services. If you do not agree to these terms, please refrain from using Syscoin and its related services.</source>
+        <translation>Utvecklarna av Syscoin Project har inte befogenhet att ändra data på Syscoin nätverket, är det backas upp av en oföränderlig blockchain, som du ytterligare bekräfta genom att använda Syscoin, den Syscoin nätverket och Syscoin tjänster. Om du inte accepterar dessa villkor, vänligen avstå från att använda Syscoin och dess relaterade tjänster.</translation>
+    </message>
+    <message>
+        <source>This resold offer must be of higher price than the original offer including any discount</source>
+        <translation>Detta säljs vidare erbjudande måste vara högre pris än det ursprungliga erbjudandet inklusive rabatt</translation>
     </message>
     <message>
         <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
@@ -2455,8 +7508,16 @@
         <translation>Använd separat SOCKS5 proxy för att nå kollegor via dolda tjänster i Tor (förvalt: -%s)</translation>
     </message>
     <message>
+        <source>User selected payment option not found in list of accepted offer payment options</source>
+        <translation>Användaren väljer betalningsalternativ som inte finns i listan över godkända erbjuda betalningsalternativ</translation>
+    </message>
+    <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
         <translation>Användarnamn och hashat lösenord för JSON-RPC-anslutningar. Fältet &lt;userpw&gt; kommer i formatet: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. Ett kanoniskt pythonskript finns inkluderat i share/rpcuser. Detta alternativ kan anges flera gånger</translation>
+    </message>
+    <message>
+        <source>Warning: This transaction sends coins to an address or alias you do not own</source>
+        <translation>Varning: Denna transaktion sänder mynt till en adress eller alias som du inte äger</translation>
     </message>
     <message>
         <source>Warning: Unknown block versions being mined! It's possible unknown rules are in effect</source>
@@ -2467,12 +7528,756 @@
         <translation>Varning: Plånboksfilen var korrupt, datat har räddats! Den ursprungliga %s har sparas som %s i %s. Om ditt saldo eller transaktioner är felaktiga bör du återställa från en säkerhetskopia.</translation>
     </message>
     <message>
+        <source>You must be either the arbiter, buyer or seller to leave feedback on this escrow</source>
+        <translation>Du måste vara antingen domaren, köpare eller säljare att lämna feedback på den här depositions</translation>
+    </message>
+    <message>
+        <source>You must be either the buyer or seller to leave feedback on this offer purchase</source>
+        <translation>Du måste vara antingen köparen eller säljaren att lämna synpunkter på detta erbjudande köp</translation>
+    </message>
+    <message>
         <source>(default: %s)</source>
         <translation>(förvalt: %s)</translation>
     </message>
     <message>
+        <source>&lt;No Difference Detected&gt;</source>
+        <translation>&lt;Ingen skillnad upptäckt&gt;</translation>
+    </message>
+    <message>
+        <source>Alias Guid input mismatch</source>
+        <translation>Alias ​​Guid ingångsobalans</translation>
+    </message>
+    <message>
+        <source>Alias address does not refer to a key</source>
+        <translation>Aliasadress refererar inte till en nyckel</translation>
+    </message>
+    <message>
+        <source>Alias arguments incorrect size</source>
+        <translation>Alias ​​argument felaktig storlek</translation>
+    </message>
+    <message>
+        <source>Alias input guid mismatch</source>
+        <translation>Alias ​​ingångs guid mismatch</translation>
+    </message>
+    <message>
+        <source>Alias input mismatch</source>
+        <translation>Aliasingångsobalans</translation>
+    </message>
+    <message>
+        <source>Alias input to this transaction not found</source>
+        <translation>Alias ​​bidrag till denna transaktion inte hittas</translation>
+    </message>
+    <message>
+        <source>Alias name does not follow the domain name specification</source>
+        <translation>Alias ​​följer inte domännamnet specifikation</translation>
+    </message>
+    <message>
+        <source>Alias not found when trying to update</source>
+        <translation>Alias ​​hittades inte när man försöker uppdatera</translation>
+    </message>
+    <message>
+        <source>Alias not provided as input</source>
+        <translation>Alias ​​inte som indata</translation>
+    </message>
+    <message>
+        <source>Alias password too long</source>
+        <translation>Alias ​​lösenord för lång</translation>
+    </message>
+    <message>
+        <source>Alias peg too long</source>
+        <translation>Alias ​​peg för lång</translation>
+    </message>
+    <message>
+        <source>Alias private value too big</source>
+        <translation>Alias ​​privat värde för stort</translation>
+    </message>
+    <message>
+        <source>Alias public value too big</source>
+        <translation>Alias ​​offentligt värde för stort</translation>
+    </message>
+    <message>
+        <source>Alias transaction has unknown op</source>
+        <translation>Alias ​​transaktionen har okänd op</translation>
+    </message>
+    <message>
         <source>Always query for peer addresses via DNS lookup (default: %u)</source>
         <translation>Sök alltid efter klientadresser med DNS sökningen (förvalt: %u)</translation>
+    </message>
+    <message>
+        <source>An alias already exists with that address, try another public key</source>
+        <translation>Ett alias finns redan med den adressen, prova en annan publik nyckel</translation>
+    </message>
+    <message>
+        <source>BTC Transaction ID specified was already used to pay for an offer</source>
+        <translation>BTC transaktions-ID anges redan används för att betala för en offert</translation>
+    </message>
+    <message>
+        <source>Bad alias height</source>
+        <translation>Dålig alias höjd</translation>
+    </message>
+    <message>
+        <source>Buyer address does not refer to a key</source>
+        <translation>Köparen adress refererar inte till en nyckel</translation>
+    </message>
+    <message>
+        <source>Buyer alias is not in your wallet</source>
+        <translation>Köparen alias är inte i din plånbok</translation>
+    </message>
+    <message>
+        <source>Can only claim a refunded escrow</source>
+        <translation>Kan bara göra anspråk på en återbetalas depositions</translation>
+    </message>
+    <message>
+        <source>Can only claim a released escrow</source>
+        <translation>Kan bara göra anspråk på en släppt spärrade</translation>
+    </message>
+    <message>
+        <source>Can only refund an active escrow</source>
+        <translation>Kan bara återbetala en aktiv spärrat</translation>
+    </message>
+    <message>
+        <source>Can only release an active escrow</source>
+        <translation>Kan bara släppa en aktiv spärrat</translation>
+    </message>
+    <message>
+        <source>Can't determine type of alias input into syscoin service transaction</source>
+        <translation>Det går inte att avgöra typ av alias bidrag till syscoin tjänstetransaktion</translation>
+    </message>
+    <message>
+        <source>Cannot change category to wanted</source>
+        <translation>Det går inte att ändra kategori till önskad</translation>
+    </message>
+    <message>
+        <source>Cannot edit or transfer this certificate. It is view-only.</source>
+        <translation>Det går inte att redigera eller överföra detta certifikat. Det är skrivskyddad.</translation>
+    </message>
+    <message>
+        <source>Cannot edit this alias, guid mismatch</source>
+        <translation>Det går inte att ändra detta alias, guid mismatch</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 arbiter feedbacks</source>
+        <translation>Får inte överstiga 10 skiljedomare kopplingar</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 buyer feedbacks</source>
+        <translation>Får inte överstiga 10 köparen återkopplingar</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 seller feedbacks</source>
+        <translation>Får inte överstiga 10 säljare kopplingar</translation>
+    </message>
+    <message>
+        <source>Cannot extract destination from output script</source>
+        <translation>Det går inte att extrahera destination från utgångs script</translation>
+    </message>
+    <message>
+        <source>Cannot extract destination of alias input</source>
+        <translation>Det går inte att extrahera destination alias ingång</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for the recipient of this message. It may be expired</source>
+        <translation>Kan inte hitta alias för mottagaren av detta meddelande. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for the sender of this message. It may be expired</source>
+        <translation>Kan inte hitta alias för avsändaren av brevet. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this certificate. It may be expired</source>
+        <translation>Kan inte hitta alias för detta certifikat. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this linked offer. It may be expired</source>
+        <translation>Kan inte hitta alias för detta kombinationserbjudande. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this offer. It may be expired</source>
+        <translation>Kan inte hitta alias för detta erbjudande. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find alias you are transfering to. It may be expired</source>
+        <translation>Det går inte att hitta alias du överföra till. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find arbiter alias. It may be expired</source>
+        <translation>Det går inte att hitta domaren alias. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find buyer alias. It may be expired</source>
+        <translation>Det går inte att hitta köpare alias. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find linked offer for this escrow</source>
+        <translation>Kan inte hitta kombinationserbjudande för denna spärrade</translation>
+    </message>
+    <message>
+        <source>Cannot find offer for this escrow. It may be expired</source>
+        <translation>Kan inte hitta bud på detta spärrade. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find seller alias. It may be expired</source>
+        <translation>Det går inte att hitta säljare alias. Det kan ha upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Cannot find this alias in the parent offer affiliate list</source>
+        <translation>Det går inte att hitta detta alias i moder erbjudandet affiliate lista</translation>
+    </message>
+    <message>
+        <source>Cannot have accept information on offer activation</source>
+        <translation>Det går inte att ha acceptera information om erbjudandet aktivering</translation>
+    </message>
+    <message>
+        <source>Cannot have accept information on offer update</source>
+        <translation>Det går inte att ha acceptera information om erbjudandet uppdatering</translation>
+    </message>
+    <message>
+        <source>Cannot leave empty feedback</source>
+        <translation>Det går inte att lämna tomt återkoppling</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow activation</source>
+        <translation>Det går inte att lämna feedback i depositions aktivering</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow refund</source>
+        <translation>Det går inte att lämna feedback i deposition återbetalning</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow release</source>
+        <translation>Det går inte att lämna feedback i depositions frisättning</translation>
+    </message>
+    <message>
+        <source>Cannot link to a wanted offer</source>
+        <translation>Det går inte att länka till en önskad erbjudande</translation>
+    </message>
+    <message>
+        <source>Cannot link to an offer that is already linked to another offer</source>
+        <translation>Det går inte att länka till ett erbjudande som redan är kopplad till ett annat erbjudande</translation>
+    </message>
+    <message>
+        <source>Cannot only leave one feedback per transaction</source>
+        <translation>Kan inte bara lämna en återkoppling per transaktion</translation>
+    </message>
+    <message>
+        <source>Cannot purchase a wanted offer</source>
+        <translation>Det går inte att köpa en önskad erbjudande</translation>
+    </message>
+    <message>
+        <source>Cannot purchase certificates with Bitcoins</source>
+        <translation>Det går inte att köpa certifikat med Bitcoins</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this private offer, must purchase through an affiliate</source>
+        <translation>Det går inte att köpa denna privata erbjudande måste köpa via en affiliate</translation>
+    </message>
+    <message>
+        <source>Cannot read payments from alias DB</source>
+        <translation>Kan inte läsa betalningar från alias DB</translation>
+    </message>
+    <message>
+        <source>Cannot refund an escrow that is already released</source>
+        <translation>Det går inte att återbetala en depositions som redan är släppt</translation>
+    </message>
+    <message>
+        <source>Cannot release an escrow that is already refunded</source>
+        <translation>Det går inte att släppa en depositions som redan återbetalas</translation>
+    </message>
+    <message>
+        <source>Cannot sell an expired certificate</source>
+        <translation>Det går inte att sälja ett utgånget certifikat</translation>
+    </message>
+    <message>
+        <source>Cannot send yourself feedback</source>
+        <translation>Det går inte att skicka dig återkoppling</translation>
+    </message>
+    <message>
+        <source>Cannot unserialize data inside of this transaction relating to an offer</source>
+        <translation>Kan inte unserialize data i denna transaktion som avser ett erbjudande</translation>
+    </message>
+    <message>
+        <source>Certificate already exists</source>
+        <translation>Certifikat finns redan</translation>
+    </message>
+    <message>
+        <source>Certificate arguments incorrect size</source>
+        <translation>Certifikat argument felaktig storlek</translation>
+    </message>
+    <message>
+        <source>Certificate category too big</source>
+        <translation>Certifikat kategori för stort</translation>
+    </message>
+    <message>
+        <source>Certificate data too big</source>
+        <translation>Certifikatdata för stor</translation>
+    </message>
+    <message>
+        <source>Certificate guid mismatch</source>
+        <translation>guid mismatch certifikat</translation>
+    </message>
+    <message>
+        <source>Certificate hex guid too long</source>
+        <translation>Certifikat hex guid för lång</translation>
+    </message>
+    <message>
+        <source>Certificate linked alias not allowed in activate</source>
+        <translation>Certifikat kopplade alias som inte är tillåtna i aktivera</translation>
+    </message>
+    <message>
+        <source>Certificate title too big or is empty</source>
+        <translation>Certifikat titel för stor eller är tom</translation>
+    </message>
+    <message>
+        <source>Certificate title too big</source>
+        <translation>Certifikat titel för stor</translation>
+    </message>
+    <message>
+        <source>Certificate transaction has unknown op</source>
+        <translation>Certifikat transaktionen har okänd op</translation>
+    </message>
+    <message>
+        <source>Commission destination does not match affiliate address</source>
+        <translation>Kommissionens destination matchar inte affiliate-adress</translation>
+    </message>
+    <message>
+        <source>Commission must between -90 and 100</source>
+        <translation>Kommissionen måste mellan -90 och 100</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2009-%i The Syscoin Core Developers</source>
+        <translation>Copyright (C) 2009-%i Syscoin Core Utvecklarna</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: Invalid response from createescrow</source>
+        <translation>Det gick inte att skapa spärrade transaktion: Ogiltigt svar från createescrow</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Cannot find VOUT from transaction</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Kan inte hitta VOUT från transaktions</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid VOUT value</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltigt VOUT värde</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid address</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltig adress</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid addresses</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltiga adresser</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid number of signatures</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltigt antal underskrifter</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid scriptPubKey value</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltigt scriptPubKey värde</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid type</source>
+        <translation>Det gick inte att avkoda spärrade transaktion: Ogiltig typ</translation>
+    </message>
+    <message>
+        <source>Could not decode external payment transaction</source>
+        <translation>Det gick inte att avkoda externa betalningstransaktion</translation>
+    </message>
+    <message>
+        <source>Could not decode transaction</source>
+        <translation>Det gick inte att avkoda transaktion</translation>
+    </message>
+    <message>
+        <source>Could not decrypt certificate data</source>
+        <translation>Det gick inte att dekryptera certifikatdata</translation>
+    </message>
+    <message>
+        <source>Could not determine key from password</source>
+        <translation>Det gick inte att avgöra nyckeln från lösenord</translation>
+    </message>
+    <message>
+        <source>Could not encrypt alias password</source>
+        <translation>Det gick inte att kryptera alias lösenord</translation>
+    </message>
+    <message>
+        <source>Could not encrypt alias private data</source>
+        <translation>Det gick inte att kryptera alias privata uppgifter</translation>
+    </message>
+    <message>
+        <source>Could not encrypt certificate data</source>
+        <translation>Det gick inte att kryptera data certifikat</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message data for receiver</source>
+        <translation>Det gick inte att kryptera data meddelande till mottagaren</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message data for sender</source>
+        <translation>Det gick inte att kryptera data meddelande till avsändaren</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message to seller</source>
+        <translation>Det gick inte att kryptera meddelande till säljaren</translation>
+    </message>
+    <message>
+        <source>Could not encrypt private alias value!</source>
+        <translation>Det gick inte att kryptera privata alias värde!</translation>
+    </message>
+    <message>
+        <source>Could not extract commission destination from scriptPubKey</source>
+        <translation>Det gick inte att extrahera provision destination från scriptPubKey</translation>
+    </message>
+    <message>
+        <source>Could not extract payment destination from scriptPubKey</source>
+        <translation>Det gick inte att extrahera betalning destination från scriptPubKey</translation>
+    </message>
+    <message>
+        <source>Could not find a certificate with this key</source>
+        <translation>Det gick inte att hitta ett certifikat med denna nyckel</translation>
+    </message>
+    <message>
+        <source>Could not find a escrow with this key</source>
+        <translation>Det gick inte att hitta en depositions med denna nyckel</translation>
+    </message>
+    <message>
+        <source>Could not find a linked offer with this guid</source>
+        <translation>Det gick inte att hitta ett kombinationserbjudande med denna guid</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this guid</source>
+        <translation>Det gick inte att hitta ett alias med denna guid</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this identifier</source>
+        <translation>Det gick inte att hitta ett alias med denna identifierare</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this name</source>
+        <translation>Det gick inte att hitta ett alias med detta namn</translation>
+    </message>
+    <message>
+        <source>Could not find an offer with this guid</source>
+        <translation>Det gick inte att hitta ett erbjudande med denna guid</translation>
+    </message>
+    <message>
+        <source>Could not find an offer with this identifier</source>
+        <translation>Det gick inte att hitta ett erbjudande med denna identifierare</translation>
+    </message>
+    <message>
+        <source>Could not find buyer alias with this name</source>
+        <translation>Det gick inte att hitta köpare alias med detta namn</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the peg alias</source>
+        <translation>Det gick inte att hitta valuta i PEG alias</translation>
+    </message>
+    <message>
+        <source>Could not find multisig alias with the name: </source>
+        <translation>Kunde inte hitta multisig alias med namnet:</translation>
+    </message>
+    <message>
+        <source>Could not find offer accept from mempool or disk</source>
+        <translation>Kunde inte hitta erbjudandet acceptera från mempool eller disk</translation>
+    </message>
+    <message>
+        <source>Could not find seller alias with this identifier</source>
+        <translation>Det gick inte att hitta säljare alias med denna identifierare</translation>
+    </message>
+    <message>
+        <source>Could not find the alias associated with this offer</source>
+        <translation>Kunde inte hitta alias i samband med detta erbjudande</translation>
+    </message>
+    <message>
+        <source>Could not find the certificate alias</source>
+        <translation>Det gick inte att hitta certifikat alias</translation>
+    </message>
+    <message>
+        <source>Could not find this alias</source>
+        <translation>Det gick inte att hitta detta alias</translation>
+    </message>
+    <message>
+        <source>Could not find this escrow</source>
+        <translation>Det gick inte att hitta denna depositions</translation>
+    </message>
+    <message>
+        <source>Could not find this message</source>
+        <translation>Kunde inte hitta meddelandet</translation>
+    </message>
+    <message>
+        <source>Could not find this offer purchase</source>
+        <translation>Det gick inte att hitta detta erbjudande köp</translation>
+    </message>
+    <message>
+        <source>Could not find this offer</source>
+        <translation>Kunde inte hitta detta erbjudande</translation>
+    </message>
+    <message>
+        <source>Could not get linked offer</source>
+        <translation>Det gick inte att få kombinationserbjudande</translation>
+    </message>
+    <message>
+        <source>Could not sign escrow transaction: Signature not added to transaction</source>
+        <translation>Det gick inte att logga spärrade transaktion: Signatur inte lagt till transaktion</translation>
+    </message>
+    <message>
+        <source>Could not sign multisig transaction: </source>
+        <translation>Det gick inte att logga multisig transaktion:</translation>
+    </message>
+    <message>
+        <source>Could not validate payment options string</source>
+        <translation>Det gick inte att validera betalningsalternativ sträng</translation>
+    </message>
+    <message>
+        <source>Could not validate the payment options value</source>
+        <translation>Det gick inte att validera betalningsalternativ värde</translation>
+    </message>
+    <message>
+        <source>Creating an offer with a cert that does not exist</source>
+        <translation>Skapa ett erbjudande med en cert som inte finns</translation>
+    </message>
+    <message>
+        <source>Discount must be between 0 and 99</source>
+        <translation>Rabatt måste vara mellan 0 och 99</translation>
+    </message>
+    <message>
+        <source>Encrypted for alias owner</source>
+        <translation>Krypteras för alias ägare</translation>
+    </message>
+    <message>
+        <source>Encrypted for owner of certificate private data</source>
+        <translation>Krypteras för ägare av certifikat privata data</translation>
+    </message>
+    <message>
+        <source>Encrypted for owner of offer</source>
+        <translation>Krypteras för ägare av erbjudande</translation>
+    </message>
+    <message>
+        <source>Encrypted for recipient of message</source>
+        <translation>Krypteras för mottagaren av meddelandet</translation>
+    </message>
+    <message>
+        <source>Escrow Guid mismatch</source>
+        <translation>Depositions Guid mismatch</translation>
+    </message>
+    <message>
+        <source>Escrow already acknowledged</source>
+        <translation>Spärrade redan erkänt</translation>
+    </message>
+    <message>
+        <source>Escrow already exists</source>
+        <translation>Escrow redan existerar</translation>
+    </message>
+    <message>
+        <source>Escrow arguments incorrect size</source>
+        <translation>Spärrade argument fel storlek</translation>
+    </message>
+    <message>
+        <source>Escrow feedback was given</source>
+        <translation>Spärrade återkoppling gavs</translation>
+    </message>
+    <message>
+        <source>Escrow guid in data output doesn't match guid in transaction</source>
+        <translation>Depositions guid i datautgång inte matchar guid i transaktionen</translation>
+    </message>
+    <message>
+        <source>Escrow guid too big</source>
+        <translation>Depositions guid för stor</translation>
+    </message>
+    <message>
+        <source>Escrow is incomplete</source>
+        <translation>Escrow är ofullständig</translation>
+    </message>
+    <message>
+        <source>Escrow not found when trying to update</source>
+        <translation>Spärrade hittades inte när man försöker uppdatera</translation>
+    </message>
+    <message>
+        <source>Escrow offer guid too long</source>
+        <translation>Depositions erbjudande guid för lång</translation>
+    </message>
+    <message>
+        <source>Escrow redeem script too long</source>
+        <translation>Spärrade lösa skript för lång</translation>
+    </message>
+    <message>
+        <source>Escrow refund status too large</source>
+        <translation>Escrow återbetalning status för stor</translation>
+    </message>
+    <message>
+        <source>Escrow release status too large</source>
+        <translation>Escrow frigör status för stor</translation>
+    </message>
+    <message>
+        <source>Escrow transaction has unknown op</source>
+        <translation>Spärrade transaktionen har okänd op</translation>
+    </message>
+    <message>
+        <source>Expected commission to affiliate not found in escrow</source>
+        <translation>Förväntad provision till affiliate hittades inte i depositions</translation>
+    </message>
+    <message>
+        <source>Expected fee payment to arbiter or buyer not found in escrow</source>
+        <translation>Förväntad avgift betalning till domaren eller köpare hittades inte i depositions</translation>
+    </message>
+    <message>
+        <source>Expected payment amount not found in escrow</source>
+        <translation>Förväntad betalningsbelopp som inte finns i depositions</translation>
+    </message>
+    <message>
+        <source>Expected refund amount not found</source>
+        <translation>Förväntad bidragsbelopp hittades inte</translation>
+    </message>
+    <message>
+        <source>Expiration must be within 1 to 5 years</source>
+        <translation>Utandning måste vara inom ett till fem år</translation>
+    </message>
+    <message>
+        <source>External Transaction ID specified was already used to pay for an offer</source>
+        <translation>Extern transaktions-ID anges redan används för att betala för en offert</translation>
+    </message>
+    <message>
+        <source>External chain payment cannot be made with this offer</source>
+        <translation>Extern kedja betalning kan inte göras med detta erbjudande</translation>
+    </message>
+    <message>
+        <source>External chain payment txid missing</source>
+        <translation>Extern kedja betalning TXID saknas</translation>
+    </message>
+    <message>
+        <source>External payment cannot be paid with SYS</source>
+        <translation>Extern betalning kan inte betalas med SYS</translation>
+    </message>
+    <message>
+        <source>External payment missing transaction ID</source>
+        <translation>Extern betalning saknas transaktions-ID</translation>
+    </message>
+    <message>
+        <source>Failed to BTC Transaction ID to DB</source>
+        <translation>Det gick inte att BTC transaktions-ID till DB</translation>
+    </message>
+    <message>
+        <source>Failed to External Transaction ID to DB</source>
+        <translation>Det gick inte att extern transaktion ID DB</translation>
+    </message>
+    <message>
+        <source>Failed to find escrow transaction</source>
+        <translation>Det gick inte att hitta spärrade transaktion</translation>
+    </message>
+    <message>
+        <source>Failed to read alias from alias DB</source>
+        <translation>Det gick inte att läsa alias från alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to read alias transaction</source>
+        <translation>Det gick inte att läsa alias transaktion</translation>
+    </message>
+    <message>
+        <source>Failed to read arbiter alias from DB</source>
+        <translation>Det gick inte att läsa skiljedomare alias från DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from alias DB</source>
+        <translation>Det gick inte att läsa från alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from cert DB</source>
+        <translation>Det gick inte att läsa från cert DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from certificate DB</source>
+        <translation>Det gick inte att läsa från certifikat DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from escrow DB</source>
+        <translation>Det gick inte att läsa från spärrade DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from message DB</source>
+        <translation>Det gick inte att läsa från meddelande DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from offer DB</source>
+        <translation>Det gick inte att läsa från erbjudandet DB</translation>
+    </message>
+    <message>
+        <source>Failed to read offer transaction from disk</source>
+        <translation>Det gick inte att läsa erbjuda transaktion från disk</translation>
+    </message>
+    <message>
+        <source>Failed to read to alias from alias DB</source>
+        <translation>Det gick inte att läsa till alias från alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to read transaction from disk</source>
+        <translation>Det gick inte att läsa transaktion från disk</translation>
+    </message>
+    <message>
+        <source>Failed to read transfer alias from DB</source>
+        <translation>Det gick inte att läsa överföring alias från DB</translation>
+    </message>
+    <message>
+        <source>Failed to read xfer alias from alias DB</source>
+        <translation>Det gick inte att läsa xfer alias från alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to write payment to alias DB</source>
+        <translation>Det gick inte att skriva betalning till alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to alias DB</source>
+        <translation>Det gick inte att skriva till alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to certifcate DB</source>
+        <translation>Det gick inte att skriva till certifcate DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to escrow DB</source>
+        <translation>Det gick inte att skriva till escrow DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to message DB</source>
+        <translation>Det gick inte att skriva till meddelande DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer DB</source>
+        <translation>Det gick inte att skriva att erbjuda DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer link to DB</source>
+        <translation>Det gick inte att skriva att erbjuda länkar till DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer to DB</source>
+        <translation>Det gick inte att skriva att erbjuda DB</translation>
+    </message>
+    <message>
+        <source>Feedback must leave a message</source>
+        <translation>Återkoppling måste lämna ett meddelande</translation>
+    </message>
+    <message>
+        <source>Feedback too long</source>
+        <translation>Återkoppling för lång</translation>
+    </message>
+    <message>
+        <source>Generated public key not fully valid</source>
+        <translation>Genererade publika nyckeln inte helt giltig</translation>
+    </message>
+    <message>
+        <source>Guid in data output doesn't match guid in transaction</source>
+        <translation>Guid i datautgång inte matchar guid i transaktionen</translation>
+    </message>
+    <message>
+        <source>Guid in data output doesn't match guid in tx</source>
+        <translation>Guid i datautgång inte matchar guid i tx</translation>
+    </message>
+    <message>
+        <source>Guid mismatch</source>
+        <translation>guid mismatch</translation>
+    </message>
+    <message>
+        <source>Hash provided doesn't match the calculated hash of the data</source>
+        <translation>Hash matchar inte den beräknade hash av data</translation>
     </message>
     <message>
         <source>How many blocks to check at startup (default: %u, 0 = all)</source>
@@ -2485,6 +8290,66 @@
     <message>
         <source>Invalid -proxy address: '%s'</source>
         <translation>Ogiltig -proxy adress: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid aliases used for escrow transaction</source>
+        <translation>Ogiltiga alias används för spärrade transaktion</translation>
+    </message>
+    <message>
+        <source>Invalid feedback transaction</source>
+        <translation>Ogiltig återkopplingstransaktion</translation>
+    </message>
+    <message>
+        <source>Invalid number of escrow feedbacks provided</source>
+        <translation>Ogiltigt antal spärrade kopplingar tillhandahålls</translation>
+    </message>
+    <message>
+        <source>Invalid offer buyer alias</source>
+        <translation>Ogiltiga erbjudande köparens alias</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow activate</source>
+        <translation>Ogiltig op, bör vara spärrade aktivera</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow complete</source>
+        <translation>Ogiltig op bör spärrade komplett</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow refund</source>
+        <translation>Ogiltig op, bör vara spärrade återbetalning</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow release</source>
+        <translation>Ogiltig op, bör vara spärrade frisättning</translation>
+    </message>
+    <message>
+        <source>Invalid payment option specified</source>
+        <translation>Ogiltig betalningsalternativ som anges</translation>
+    </message>
+    <message>
+        <source>Invalid payment option</source>
+        <translation>Ogiltig betalningsalternativ</translation>
+    </message>
+    <message>
+        <source>Invalid quantity value. Quantity must be less than 4294967296.</source>
+        <translation>Ogiltig mängd värde. Kvantitet måste vara mindre än 4294967296.</translation>
+    </message>
+    <message>
+        <source>Invalid rating value</source>
+        <translation>Ogiltigt rating värde</translation>
+    </message>
+    <message>
+        <source>Invalid redeem script provided in transaction</source>
+        <translation>Ogiltig lösa skript tillhandahålls i transaktionen</translation>
+    </message>
+    <message>
+        <source>Linked offer alias does not exist on the root offer affiliate list</source>
+        <translation>Kombinationserbjudande alias existerar inte på roten erbjudandet affiliate lista</translation>
+    </message>
+    <message>
+        <source>Linked offer not found. It may be expired</source>
+        <translation>Kombinationserbjudande hittades inte. Det kan ha upphört att gälla</translation>
     </message>
     <message>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
@@ -2511,8 +8376,264 @@
         <translation>Maximal sändningsbuffert per anslutning, &lt;n&gt;*1000 byte (förvalt: %u)</translation>
     </message>
     <message>
+        <source>Message arguments incorrect size</source>
+        <translation>Meddelande argument felaktig storlek</translation>
+    </message>
+    <message>
+        <source>Message guid in data output does not match guid in transaction</source>
+        <translation>Meddelande guid i datautgång inte matchar guid i transaktionen</translation>
+    </message>
+    <message>
+        <source>Message guid mismatch</source>
+        <translation>Meddelande guid mismatch</translation>
+    </message>
+    <message>
+        <source>Message subject too long</source>
+        <translation>Ärende för lång</translation>
+    </message>
+    <message>
+        <source>Message too long</source>
+        <translation>Meddelande för lång</translation>
+    </message>
+    <message>
+        <source>Message transaction guid too big</source>
+        <translation>Meddelandetransaktion guid för stor</translation>
+    </message>
+    <message>
+        <source>Message transaction has unknown op</source>
+        <translation>Meddelandetransaktion har okänd op</translation>
+    </message>
+    <message>
+        <source>No private keys found involved in this escrow</source>
+        <translation>Inga privata nycklar hittades inblandade i denna depositions</translation>
+    </message>
+    <message>
+        <source>Non-Syscoin transaction found</source>
+        <translation>Icke-Syscoin transaktion hittades</translation>
+    </message>
+    <message>
+        <source>Not enough quantity left in this offer for this purchase</source>
+        <translation>Inte tillräcklig mängd kvar i detta erbjudande för detta köp</translation>
+    </message>
+    <message>
+        <source>Offer accept hex guid too long</source>
+        <translation>Erbjudandet acceptera hex guid för lång</translation>
+    </message>
+    <message>
+        <source>Offer alias mismatch</source>
+        <translation>Erbjudandet alias mismatch</translation>
+    </message>
+    <message>
+        <source>Offer already exists</source>
+        <translation>Erbjudandet finns redan</translation>
+    </message>
+    <message>
+        <source>Offer arguments incorrect size</source>
+        <translation>Erbjudande argument felaktig storlek</translation>
+    </message>
+    <message>
+        <source>Offer category cannot be empty</source>
+        <translation>Erbjudandet kategori kan inte vara tom</translation>
+    </message>
+    <message>
+        <source>Offer category too long</source>
+        <translation>Erbjudande kategori för lång</translation>
+    </message>
+    <message>
+        <source>Offer curreny too long</source>
+        <translation>Erbjudandet curreny för lång</translation>
+    </message>
+    <message>
+        <source>Offer description too long</source>
+        <translation>Erbjudandet beskrivning för lång</translation>
+    </message>
+    <message>
+        <source>Offer geolocation too long</source>
+        <translation>Erbjudandet geolokalisering för lång</translation>
+    </message>
+    <message>
+        <source>Offer guid too long</source>
+        <translation>Erbjudandet guid för lång</translation>
+    </message>
+    <message>
+        <source>Offer has too many affiliate entries, only one allowed per transaction</source>
+        <translation>Erbjudandet har alltför många affiliate anteckningar, endast en tillåts per transaktion</translation>
+    </message>
+    <message>
+        <source>Offer input and offer guid mismatch</source>
+        <translation>Erbjuda ingång och erbjuda guid mismatch</translation>
+    </message>
+    <message>
+        <source>Offer link guid hash too long</source>
+        <translation>Erbjudandet länk guid hash för lång</translation>
+    </message>
+    <message>
+        <source>Offer payment already acknowledged</source>
+        <translation>Erbjudandet betalning redan erkänt</translation>
+    </message>
+    <message>
+        <source>Offer payment already exists</source>
+        <translation>Erbjudandet betalning redan existerar</translation>
+    </message>
+    <message>
+        <source>Offer payment does not include enough commission to affiliate</source>
+        <translation>Erbjudandet betalning inkluderar inte tillräckligt provision till affiliate</translation>
+    </message>
+    <message>
+        <source>Offer payment does not pay enough according to the offer price</source>
+        <translation>Erbjudandet betalning inte betalar tillräckligt enligt anbudspriset</translation>
+    </message>
+    <message>
+        <source>Offer payment does not specify the correct payment amount</source>
+        <translation>Erbjudandet betalning inte ange korrekta beloppet</translation>
+    </message>
+    <message>
+        <source>Offer payment message cannot be empty</source>
+        <translation>Erbjudandet betalningsmeddelande kan inte vara tom</translation>
+    </message>
+    <message>
+        <source>Offer price must be greater than 0</source>
+        <translation>Anbudspriset måste vara större än 0</translation>
+    </message>
+    <message>
+        <source>Offer purchase transaction of wrong type</source>
+        <translation>Erbjudandet köpet av fel typ</translation>
+    </message>
+    <message>
+        <source>Offer title cannot be empty</source>
+        <translation>Erbjudandet titel kan inte vara tom</translation>
+    </message>
+    <message>
+        <source>Offer title too long</source>
+        <translation>Erbjudandet titel för lång</translation>
+    </message>
+    <message>
+        <source>Offer transaction has unknown op</source>
+        <translation>Erbjudandet transaktionen har okänd op</translation>
+    </message>
+    <message>
+        <source>OfferAccept arguments incorrect size</source>
+        <translation>OfferAccept argument felaktig storlek</translation>
+    </message>
+    <message>
+        <source>Offeraccept object cannot be empty</source>
+        <translation>Offeraccept objekt kan inte vara tom</translation>
+    </message>
+    <message>
+        <source>Offeraccept transaction with guid too big</source>
+        <translation>Offeraccept transaktion med guid för stor</translation>
+    </message>
+    <message>
+        <source>Only arbiter can leave this feedback</source>
+        <translation>Endast domaren kan lämna denna feedback</translation>
+    </message>
+    <message>
+        <source>Only arbiter can refund an escrow after it has already been refunded</source>
+        <translation>Endast domaren kan återbetala ett spärrat efter att den redan har återbetalas</translation>
+    </message>
+    <message>
+        <source>Only arbiter can release an escrow after it has already been released</source>
+        <translation>Endast domaren kan frigöra ett spärrat efter att den redan har släppts</translation>
+    </message>
+    <message>
+        <source>Only arbiter or buyer can initiate an escrow release</source>
+        <translation>Endast domaren eller köparen kan initiera ett spärrat frigör</translation>
+    </message>
+    <message>
+        <source>Only arbiter or seller can initiate an escrow refund</source>
+        <translation>Endast domaren eller säljare kan initiera ett spärrat återbetalning</translation>
+    </message>
+    <message>
+        <source>Only buyer can claim an escrow refund</source>
+        <translation>Endast köparen kan göra anspråk på ett spärrat återbetalning</translation>
+    </message>
+    <message>
+        <source>Only buyer can leave the seller feedback</source>
+        <translation>Endast köparen kan lämna säljaren återkoppling</translation>
+    </message>
+    <message>
+        <source>Only buyer can leave this feedback</source>
+        <translation>Endast köparen kan lämna denna feedback</translation>
+    </message>
+    <message>
+        <source>Only merchant can acknowledge offer payment</source>
+        <translation>Endast köpman kan erkänna erbjuda betalning</translation>
+    </message>
+    <message>
+        <source>Only merchant of this offer can leave feedback for this purchase</source>
+        <translation>Endast köpman av detta erbjudande kan lämna feedback för detta köp</translation>
+    </message>
+    <message>
+        <source>Only root merchant can acknowledge offer payment</source>
+        <translation>Endast root köpman kan erkänna erbjuda betalning</translation>
+    </message>
+    <message>
+        <source>Only seller can acknowledge an escrow payment</source>
+        <translation>Endast säljaren kan erkänna ett spärrat betalning</translation>
+    </message>
+    <message>
+        <source>Only seller can claim an escrow release</source>
+        <translation>Endast säljaren kan göra anspråk på ett spärrat frigör</translation>
+    </message>
+    <message>
+        <source>Only seller can leave the buyer feedback</source>
+        <translation>Endast säljaren kan lämna köparen återkoppling</translation>
+    </message>
+    <message>
+        <source>Only seller can leave this feedback</source>
+        <translation>Endast säljaren kan lämna denna feedback</translation>
+    </message>
+    <message>
+        <source>Password cannot be empty</source>
+        <translation>Lösenord kan inte vara tomt</translation>
+    </message>
+    <message>
+        <source>Password is incorrect</source>
+        <translation>Lösenord är inkorrekt</translation>
+    </message>
+    <message>
+        <source>Payment address does not match merchant address</source>
+        <translation>Betalningsadress matchar inte köpman adress</translation>
+    </message>
+    <message>
+        <source>Payment destination does not match merchant address</source>
+        <translation>Betalning destination matchar inte köpman adress</translation>
+    </message>
+    <message>
+        <source>Payment message length cannot exceed 1024 characters</source>
+        <translation>Betalning meddelandelängd får inte överstiga 1024 tecken</translation>
+    </message>
+    <message>
+        <source>Payment message too long</source>
+        <translation>Betalning meddelande för lång</translation>
+    </message>
+    <message>
+        <source>Please choose a different password</source>
+        <translation>Välj ett annat lösenord</translation>
+    </message>
+    <message>
         <source>Prepend debug output with timestamp (default: %u)</source>
         <translation>Skriv ut tidsstämpel i avlusningsinformationen (förvalt: %u)</translation>
+    </message>
+    <message>
+        <source>Private key for buyer address is not known</source>
+        <translation>Privata nyckeln för köparen adress är inte känd</translation>
+    </message>
+    <message>
+        <source>Private key for seller address is not known</source>
+        <translation>Privata nyckeln för säljaren adress är inte känd</translation>
+    </message>
+    <message>
+        <source>Quantity must be 1 for a digital offer</source>
+        <translation>Antal måste vara ett för en digital erbjudande</translation>
+    </message>
+    <message>
+        <source>Quantity must be greater than or equal to -1</source>
+        <translation>Kvantitet måste vara större än eller lika med -1</translation>
+    </message>
+    <message>
+        <source>Quantity must be less than 4294967296</source>
+        <translation>Kvantitet måste vara mindre än 4294967296</translation>
     </message>
     <message>
         <source>Relay and mine data carrier transactions (default: %u)</source>
@@ -2523,12 +8644,20 @@
         <translation>Reläa icke-P2SH multisig (förvalt: %u)</translation>
     </message>
     <message>
-        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
-        <translation>Sätt storleken på nyckelpoolen till &lt;n&gt; (förvalt: %u)</translation>
+        <source>Scan failed</source>
+        <translation>skanna misslyckades</translation>
     </message>
     <message>
-        <source>Set minimum block size in bytes (default: %u)</source>
-        <translation>Sätt minsta blockstorlek i byte (standard: %u)</translation>
+        <source>Seller address does not refer to a key</source>
+        <translation>Säljaren adress refererar inte till en nyckel</translation>
+    </message>
+    <message>
+        <source>Seller alias is not in your wallet</source>
+        <translation>Säljaren alias är inte i din plånbok</translation>
+    </message>
+    <message>
+        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
+        <translation>Sätt storleken på nyckelpoolen till &lt;n&gt; (förvalt: %u)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>
@@ -2551,12 +8680,72 @@
         <translation>Spendera okonfirmerad växel när transaktioner sänds (förvalt: %u)</translation>
     </message>
     <message>
+        <source>Starting network threads...</source>
+        <translation>Utgångsnätverkstrådar ...</translation>
+    </message>
+    <message>
+        <source>The alias you are transferring to does not accept certificate transfers</source>
+        <translation>Alias ​​du överför till accepterar inte överföringar certifikat</translation>
+    </message>
+    <message>
+        <source>This alias entry already exists on affiliate list</source>
+        <translation>Detta alias posten redan finns på affiliate lista</translation>
+    </message>
+    <message>
+        <source>This alias entry was not found on affiliate list</source>
+        <translation>Detta alias post hittades inte på affiliate lista</translation>
+    </message>
+    <message>
+        <source>This alias is not in your wallet</source>
+        <translation>Detta alias är inte i din plånbok</translation>
+    </message>
+    <message>
+        <source>This alias is not yours</source>
+        <translation>Detta alias är inte din</translation>
+    </message>
+    <message>
+        <source>This message already exists</source>
+        <translation>Detta meddelande finns redan</translation>
+    </message>
+    <message>
         <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
         <translation>Tröskelvärde för att koppla ifrån klienter som missköter sig (förvalt: %u)</translation>
     </message>
     <message>
+        <source>Too many affiliates for this offer</source>
+        <translation>Alltför många affiliates för detta erbjudande</translation>
+    </message>
+    <message>
+        <source>Transaction does not pay enough fees</source>
+        <translation>Transaktionen inte betalar tillräckligt avgifter</translation>
+    </message>
+    <message>
+        <source>Trying to accept a linked offer but could not find parent offer</source>
+        <translation>Att försöka acceptera ett kombinationserbjudande, men kunde inte hitta förälder erbjudande</translation>
+    </message>
+    <message>
+        <source>Trying to renew an alias that isn't expired</source>
+        <translation>Att försöka förnya ett alias som inte har upphört att gälla</translation>
+    </message>
+    <message>
+        <source>Unknown feedback user type</source>
+        <translation>Okänd användarfeedback typ</translation>
+    </message>
+    <message>
         <source>Unknown network specified in -onlynet: '%s'</source>
         <translation>Okänt nätverk som anges i -onlynet: '%s'</translation>
+    </message>
+    <message>
+        <source>acknowledged</source>
+        <translation>erkänd</translation>
+    </message>
+    <message>
+        <source>failed to read alias from alias DB</source>
+        <translation>misslyckats med att läsa alias från alias DB</translation>
+    </message>
+    <message>
+        <source>feedback</source>
+        <translation>återkoppling</translation>
     </message>
     <message>
         <source>Insufficient funds</source>

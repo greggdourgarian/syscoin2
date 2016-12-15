@@ -1,5 +1,251 @@
 <TS language="sk" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    <message>
+        <source>Pay Offer</source>
+        <translation>pay Ponuka</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>ID ponuky:</translation>
+    </message>
+    <message>
+        <source>The value associated with this offer.</source>
+        <translation>Hodnota spojená s kanálmi.</translation>
+    </message>
+    <message>
+        <source>Lookup the OfferID from the blockchain DB</source>
+        <translation>Vyhľadávaním OfferID z blockchain DB</translation>
+    </message>
+    <message>
+        <source>&amp;Lookup Offer</source>
+        <translation>&amp; Vyhľadávanie Ponuka</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Množstvo:</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>alias:</translation>
+    </message>
+    <message>
+        <source>Notes:</source>
+        <translation>Poznámky:</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>ponuka Podrobnosti</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Obchodník:</translation>
+    </message>
+    <message>
+        <source>Merchant Rating:</source>
+        <translation>Obchodník Hodnotenie:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Názov:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategória:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>cena:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>mena:</translation>
+    </message>
+    <message>
+        <source>Alias for Exchange Rate Peg:</source>
+        <translation>Alias ​​pre zavesenie výmenného kurzu:</translation>
+    </message>
+    <message>
+        <source>Quantity Remaining:</source>
+        <translation>Množstvo Zostávajúce:</translation>
+    </message>
+    <message>
+        <source>Quantity Sold:</source>
+        <translation>Predané množstvo:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Popis:</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Kúpte si túto ponuku</translation>
+    </message>
+    <message>
+        <source>&amp;Accept Offer</source>
+        <translation>&amp; Prijať ponuku</translation>
+    </message>
+    <message>
+        <source>Click to open image in browser...</source>
+        <translation>Kliknutím otvoríte obrázok v prehliadači ...</translation>
+    </message>
+    <message>
+        <source>Use Public Profile</source>
+        <translation>Použiť verejný profil</translation>
+    </message>
+    <message>
+        <source>Use Private Profile</source>
+        <translation>Použiť súkromný profil</translation>
+    </message>
+    <message>
+        <source>Confirm Public Profile Inclusion</source>
+        <translation>Potvrdiť verejný profil Zahrnutie</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Ste si istí, že chcete pokračovať?</translation>
+    </message>
+    <message>
+        <source>Confirm Private Profile Inclusion</source>
+        <translation>Potvrdiť súkromný profil Zahrnutie</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to get the alias profile data: </source>
+        <translation>Tam bola výnimka snaží dostať dáta alias profilu:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Tam bola výnimka sa snaží aktualizovať zoznam alias:</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept this offer!</source>
+        <translation>Neplatný množstvo, keď sa snažia prijať túto ponuku!</translation>
+    </message>
+    <message>
+        <source>Please choose an alias before purchasing this offer.</source>
+        <translation>Pred zakúpením túto ponuku Vyberte alias.</translation>
+    </message>
+    <message>
+        <source>Waiting for confirmation on the purchase of this offer</source>
+        <translation>Čaká na potvrdenie o kúpe tejto ponuky</translation>
+    </message>
+    <message>
+        <source>URI has been already handled</source>
+        <translation>URI už bolo manipulované</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>neobmedzený</translation>
+    </message>
+</context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>Accepted Offers</source>
+        <translation>prijímané ponuky</translation>
+    </message>
+    <message>
+        <source>Refresh accepted offer list</source>
+        <translation>Refresh prijal ponuku zoznamu</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopírovať ID ponuky</translation>
+    </message>
+    <message>
+        <source>Details of the selected accepted offer</source>
+        <translation>Podrobnosti o vybranej prijatej ponuky</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Send message to the seller</source>
+        <translation>Odoslať správu predajcovia</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Poslať správa predávajúcemu</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>zanechať komentár</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Export ponúknuť Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer ID</source>
+        <translation>ID ponuky</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>prijať ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>výška</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>cena</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>mena</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>celkom</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>predavač</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -41,6 +287,158 @@
         <source>&amp;Delete</source>
         <translation>&amp;Zmazať</translation>
     </message>
+    <message>
+        <source>Choose the address to send coins to</source>
+        <translation>Zvoľte adresu kam poslať coins</translation>
+    </message>
+    <message>
+        <source>Choose the address to receive coins with</source>
+        <translation>Zvoľte adresu na ktorú prijať coins</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation>Vybrať</translation>
+    </message>
+    <message>
+        <source>Sending addresses</source>
+        <translation>Adresa odoslania</translation>
+    </message>
+    <message>
+        <source>Receiving addresses</source>
+        <translation>Adresa prijatia</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Toto sú Vaše Syscoin adresy pre posielanie platieb. Vždy skontrolujte množstvo a prijímaciu adresu pred poslaním coins.</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Toto sú vaše Syscoin adresy pre prijímanie platieb. Odporúča sa použiť novú prijímaciu adresu pre každú transakciu.</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Address</source>
+        <translation>&amp;Kopírovať adresu</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Label</source>
+        <translation>Kopírovať &amp;popis</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Upraviť</translation>
+    </message>
+    <message>
+        <source>Export Address List</source>
+        <translation>Exportovať zoznam adries</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresa</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    <message>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresa</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(bez popisu)</translation>
+    </message>
+</context>
+<context>
+    <name>AliasListPage</name>
+    <message>
+        <source>Aliases</source>
+        <translation>prezývky</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected alias to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybrané alias do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Alias ID</source>
+        <translation>&amp; Kopírovať Alias ​​ID</translation>
+    </message>
+    <message>
+        <source>Send Msg</source>
+        <translation>poslať správa</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Aliases. Select Safe Search from wallet options if you wish to omit potentially offensive Aliases(On by default)</source>
+        <translation>Hľadať Syscoin aliasov. Vyberte Bezpečné vyhľadávanie z možností peňaženky, ak si prajete vynechať potenciálne nevhodných aliasov (v predvolenom nastavení)</translation>
+    </message>
+    <message>
+        <source>Enter search term, regex accepted (ie: ^name returns all Aliases starting with 'name'). Empty will search for all.</source>
+        <translation>Zadajte hľadaný výraz, regulárny výraz Prijatý (tj ^ názov vráti všetky aliasov začínajúce na 'name'). Prázdne bude hľadať pre všetkých.</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from aliasfilter command</source>
+        <translation>Chyba: neplatná odpoveď z velenia aliasfilter</translation>
+    </message>
+</context>
+<context>
+    <name>AliasTableModel</name>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>V vyprší</translation>
+    </message>
+    <message>
+        <source>Alias Status</source>
+        <translation>alias Status</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>Predávajúci Rating</translation>
+    </message>
+    </context>
+<context>
+    <name>AliasView</name>
+    <message>
+        <source>My Aliases</source>
+        <translation>moje aliasov</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
+    </message>
 </context>
 <context>
     <name>AskPassphraseDialog</name>
@@ -60,6 +458,90 @@
         <source>Repeat new passphrase</source>
         <translation>Zopakujte nové heslo</translation>
     </message>
+    <message>
+        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
+        <translation>Zadajte nové heslo k peňaženke.&lt;br/&gt;Prosím použite heslo s dĺžkou aspoň &lt;b&gt;10 alebo viac náhodných znakov&lt;/b&gt;, alebo &lt;b&gt;8 alebo viac slov&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>Encrypt wallet</source>
+        <translation>Zašifrovať peňaženku</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Táto operácia potrebuje heslo k vašej peňaženke aby ju mohla dešifrovať.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet</source>
+        <translation>Odomknúť peňaženku</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Táto operácia potrebuje heslo k vašej peňaženke na dešifrovanie peňaženky.</translation>
+    </message>
+    <message>
+        <source>Decrypt wallet</source>
+        <translation>Dešifrovať peňaženku</translation>
+    </message>
+    <message>
+        <source>Change passphrase</source>
+        <translation>Zmena hesla</translation>
+    </message>
+    <message>
+        <source>Enter the old passphrase and new passphrase to the wallet.</source>
+        <translation>Zadajte staré a nové heslo k peňaženke.</translation>
+    </message>
+    <message>
+        <source>Confirm wallet encryption</source>
+        <translation>Potvrďte šifrovanie peňaženky</translation>
+    </message>
+    <message>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SYSCOINS&lt;/b&gt;!</source>
+        <translation>Varovanie: Ak zašifrujete peňaženku a stratíte heslo, &lt;b&gt;STRATÍTE VŠETKY VAŠE SYSCOINY&lt;/b&gt;!⏎</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Ste si istí, že si želáte zašifrovať peňaženku?</translation>
+    </message>
+    <message>
+        <source>Wallet encrypted</source>
+        <translation>Peňaženka zašifrovaná</translation>
+    </message>
+    <message>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation>DÔLEŽITÉ: Všetky doterajšie záložné kópie peňaženky ktoré ste zhotovili by mali byť nahradené novým zašifrovaným súborom s peňaženkou. Z bezpečnostných dôvodov sa predchádzajúce kópie nezašifrovanej peňaženky stanú neužitočné keď začnete používať novú zašifrovanú peňaženku.</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed</source>
+        <translation>Šifrovanie peňaženky zlyhalo</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Šifrovanie peňaženky zlyhalo kôli internej chybe. Vaša peňaženka nebola zašifrovaná.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Zadané heslá nesúhlasia.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock failed</source>
+        <translation>Odomykanie peňaženky zlyhalo</translation>
+    </message>
+    <message>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Zadané heslo pre dešifrovanie peňaženky bolo nesprávne.</translation>
+    </message>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>Zlyhalo šifrovanie peňaženky.</translation>
+    </message>
+    <message>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Heslo k peňaženke bolo úspešne zmenené.</translation>
+    </message>
+    <message>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Varovanie: Caps Lock je zapnutý</translation>
+    </message>
 </context>
 <context>
     <name>BanTableModel</name>
@@ -73,292 +555,96 @@
     </message>
 </context>
 <context>
-    <name>SyscoinGUI</name>
+    <name>CertListPage</name>
     <message>
-        <source>Sign &amp;message...</source>
-        <translation>Podpísať &amp;správu...</translation>
-    </message>
-    <message>
-        <source>Synchronizing with network...</source>
-        <translation>Synchronizácia so sieťou...</translation>
+        <source>Certificates</source>
+        <translation>certifikáty</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Prehľad</translation>
+        <source>All Certificates</source>
+        <translation>všetky certifikáty</translation>
     </message>
     <message>
-        <source>Node</source>
-        <translation>Uzol</translation>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
     </message>
     <message>
-        <source>Show general overview of wallet</source>
-        <translation>Zobraziť celkový prehľad o peňaženke</translation>
+        <source>Copy the currently selected cert to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybraného cert do systémovej schránky</translation>
     </message>
     <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Transakcie</translation>
+        <source>&amp;Copy Certificate ID</source>
+        <translation>&amp; Kopírovať ID certifikátu</translation>
     </message>
     <message>
-        <source>Browse transaction history</source>
-        <translation>Prechádzať históriu transakcií</translation>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
     </message>
     <message>
-        <source>E&amp;xit</source>
-        <translation>U&amp;končiť</translation>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
     </message>
     <message>
-        <source>Quit application</source>
-        <translation>Ukončiť program</translation>
+        <source>Search for Syscoin Certificates. Select Safe Search from wallet options if you wish to omit potentially offensive Certificates(On by default)</source>
+        <translation>Hľadať Syscoin certifikáty. Vyberte Bezpečné vyhľadávanie z možností peňaženky, ak si prajete vynechať potenciálne nevhodných certifikáty (v predvolenom nastavení)</translation>
     </message>
     <message>
-        <source>&amp;About %1</source>
-        <translation>&amp;O %1</translation>
+        <source>Enter search term, regex accepted (ie: ^name returns all Certificates starting with 'name'). Empty will search for all.</source>
+        <translation>Zadajte hľadaný výraz, regulárny výraz Prijatý (tj ^ názov vráti všetky certifikáty začínajúce na 'name'). Prázdne bude hľadať pre všetkých.</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation>O &amp;Qt</translation>
+        <source>certificates</source>
+        <translation>certifikáty</translation>
     </message>
     <message>
-        <source>Show information about Qt</source>
-        <translation>Zobrazit informácie o Qt</translation>
+        <source>General exception when searching certficiates</source>
+        <translation>Všeobecná výnimka pri vyhľadávaní certficiates</translation>
     </message>
     <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Možnosti...</translation>
+        <source>Error: Invalid response from certfilter command</source>
+        <translation>Chyba: neplatná odpoveď z velenia certfilter</translation>
+    </message>
+</context>
+<context>
+    <name>CertTableModel</name>
+    <message>
+        <source>Cert</source>
+        <translation>cert</translation>
     </message>
     <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Zašifrovať Peňaženku...</translation>
+        <source>Title</source>
+        <translation>nadpis</translation>
     </message>
     <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Zálohovať peňaženku...</translation>
+        <source>Status</source>
+        <translation>Stav</translation>
     </message>
     <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Zmena Hesla...</translation>
+        <source>Category</source>
+        <translation>kategórie</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>&amp;Odosielajúce adresy ...</translation>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>&amp;Prijímajúce adresy...</translation>
+        <source>Expires In</source>
+        <translation>V vyprší</translation>
     </message>
     <message>
-        <source>Open &amp;URI...</source>
-        <translation>Otvoriť &amp;URI...</translation>
+        <source>Owner</source>
+        <translation>majiteľ</translation>
+    </message>
+</context>
+<context>
+    <name>CertView</name>
+    <message>
+        <source>My Certificates</source>
+        <translation>moje Certifikáty</translation>
     </message>
     <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Preindexúvam bloky na disku...</translation>
-    </message>
-    <message>
-        <source>Send coins to a Syscoin address</source>
-        <translation>Poslať syscoins na adresu</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Zálohovať peňaženku na iné miesto</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Zmeniť heslo použité na šifrovanie peňaženky</translation>
-    </message>
-    <message>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Okno pre ladenie</translation>
-    </message>
-    <message>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Otvor konzolu pre ladenie a diagnostiku</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>O&amp;veriť správu...</translation>
-    </message>
-    <message>
-        <source>Syscoin</source>
-        <translation>Syscoin</translation>
-    </message>
-    <message>
-        <source>Wallet</source>
-        <translation>Peňaženka</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Odoslať</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Prijať</translation>
-    </message>
-    <message>
-        <source>&amp;Show / Hide</source>
-        <translation>Zobraziť / skryť</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Zobraziť alebo skryť hlavné okno</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Zašifruj súkromné kľúče ktoré patria do vašej peňaženky</translation>
-    </message>
-    <message>
-        <source>Sign messages with your Syscoin addresses to prove you own them</source>
-        <translation>Podpísať správu s vašou adresou Syscoin aby ste preukázali že ju vlastníte</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
-        <translation>Overiť či správa bola podpísaná uvedenou Syscoin adresou</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Súbor</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Nastavenia</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Pomoc</translation>
-    </message>
-    <message>
-        <source>Tabs toolbar</source>
-        <translation>Lišta záložiek</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and syscoin: URIs)</source>
-        <translation>Vyžiadať platby (vygeneruje QR kódy a syscoin: URI)</translation>
-    </message>
-    <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Zobraziť zoznam použitých adries odosielateľa a ich popisy</translation>
-    </message>
-    <message>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation>Zobraziť zoznam použitých prijímacích adries a ich popisov</translation>
-    </message>
-    <message>
-        <source>Open a syscoin: URI or payment request</source>
-        <translation>Otvoriť syscoin URI alebo výzvu k platbe</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>Možnosti príkazového riadku</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Syscoin network</source>
-        <translation><numerusform>%n aktívne pripojenie do siete Syscoin</numerusform><numerusform>%n aktívne pripojenia do siete Syscoin</numerusform><numerusform>%n aktívnych pripojení do siete Syscoin</numerusform></translation>
-    </message>
-    <message>
-        <source>No block source available...</source>
-        <translation>Nedostupný zdroj blokov...</translation>
-    </message>
-    <message numerus="yes">
-        <source>Processed %n block(s) of transaction history.</source>
-        <translation><numerusform>Spracovaných %n blok transakčnej histórie.</numerusform><numerusform>Spracovaných %n bloky transakčnej histórie.</numerusform><numerusform>Spracovaných %n blokov transakčnej histórie.</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n hodina</numerusform><numerusform>%n hodiny</numerusform><numerusform>%n hodín</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s)</source>
-        <translation><numerusform>%n deň</numerusform><numerusform>%n dni</numerusform><numerusform>%n dní</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s)</source>
-        <translation><numerusform>%n týždeň</numerusform><numerusform>%n týždne</numerusform><numerusform>%n týždňov</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation> %1 a  %2</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s)</source>
-        <translation><numerusform>%n rok</numerusform><numerusform>%n roky</numerusform><numerusform>%n rokov</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 behind</source>
-        <translation>%1 pozadu</translation>
-    </message>
-    <message>
-        <source>Last received block was generated %1 ago.</source>
-        <translation>Posledný prijatý blok bol vygenerovaný pred %1.</translation>
-    </message>
-    <message>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation>Transakcie po tomto čase ešte nebudú viditeľné.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Chyba</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Upozornenie</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Informácia</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>Aktualizovaný</translation>
-    </message>
-    <message>
-        <source>Catching up...</source>
-        <translation>Sťahujem...</translation>
-    </message>
-    <message>
-        <source>Date: %1
-</source>
-        <translation>Dátum: %1
-</translation>
-    </message>
-    <message>
-        <source>Amount: %1
-</source>
-        <translation>Suma: %1
-</translation>
-    </message>
-    <message>
-        <source>Type: %1
-</source>
-        <translation>Typ: %1
-</translation>
-    </message>
-    <message>
-        <source>Label: %1
-</source>
-        <translation>Popis: %1
-</translation>
-    </message>
-    <message>
-        <source>Address: %1
-</source>
-        <translation>Adresa: %1
-</translation>
-    </message>
-    <message>
-        <source>Sent transaction</source>
-        <translation>Odoslané transakcie</translation>
-    </message>
-    <message>
-        <source>Incoming transaction</source>
-        <translation>Prijatá transakcia</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Peňaženka je &lt;b&gt;zašifrovaná&lt;/b&gt; a momentálne &lt;b&gt;odomknutá&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Peňaženka je &lt;b&gt;zašifrovaná&lt;/b&gt; a momentálne &lt;b&gt;zamknutá&lt;/b&gt;</translation>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
     </message>
 </context>
 <context>
@@ -378,10 +664,6 @@
     <message>
         <source>Amount:</source>
         <translation>Suma:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Priorita:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -436,8 +718,84 @@
         <translation>Potvrdené</translation>
     </message>
     <message>
-        <source>Priority</source>
-        <translation>Priorita</translation>
+        <source>Copy address</source>
+        <translation>Kopírovať adresu</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopírovať popis</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopírovať sumu</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopírovať ID transakcie</translation>
+    </message>
+    <message>
+        <source>Lock unspent</source>
+        <translation>Uzamknúť neminuté</translation>
+    </message>
+    <message>
+        <source>Unlock unspent</source>
+        <translation>Odomknúť neminuté</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopírovať množstvo</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopírovať poplatok</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopírovať za poplatok</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopírovať bajty</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopírovať prach</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopírovať zmenu</translation>
+    </message>
+    <message>
+        <source>(%1 locked)</source>
+        <translation>(%1 zamknutých)</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>áno</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>nie</translation>
+    </message>
+    <message>
+        <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
+        <translation>Táto značka sčervená prípadné príjemca dostane sumu menšiu ako aktuálne prahom prachu.</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 satoshi(s) per input.</source>
+        <translation>Môže sa líšiť o +/- %1 satoshi pre každý vstup</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(bez popisu)</translation>
+    </message>
+    <message>
+        <source>change from %1 (%2)</source>
+        <translation>zmena od %1 (%2)</translation>
+    </message>
+    <message>
+        <source>(change)</source>
+        <translation>(zmena)</translation>
     </message>
 </context>
 <context>
@@ -461,6 +819,642 @@
     <message>
         <source>&amp;Address</source>
         <translation>&amp;Adresa</translation>
+    </message>
+    <message>
+        <source>New receiving address</source>
+        <translation>Nová adresa pre prijímanie</translation>
+    </message>
+    <message>
+        <source>New sending address</source>
+        <translation>Nová adresa pre odoslanie</translation>
+    </message>
+    <message>
+        <source>Edit receiving address</source>
+        <translation>Upraviť prijímacie adresy</translation>
+    </message>
+    <message>
+        <source>Edit sending address</source>
+        <translation>Upraviť odosielaciu adresu</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is not a valid Syscoin address.</source>
+        <translation>Vložená adresa "%1" nieje platnou adresou syscoin.</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>Vložená adresa "%1" sa už nachádza v adresári.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Nepodarilo sa odomknúť peňaženku.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>Generovanie nového kľúča zlyhalo.</translation>
+    </message>
+</context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>Edit Alias</source>
+        <translation>upraviť Alias</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Všeobecné</translation>
+    </message>
+    <message>
+        <source>&amp;Alias:</source>
+        <translation>&amp; Alias:</translation>
+    </message>
+    <message>
+        <source>The alias name.</source>
+        <translation>Názov aliasu.</translation>
+    </message>
+    <message>
+        <source>Public Profile:</source>
+        <translation>Verejný profil:</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Bezpečné vyhľadávanie:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Áno</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>nie</translation>
+    </message>
+    <message>
+        <source>Expiry:</source>
+        <translation>Doba použiteľnosti:</translation>
+    </message>
+    <message>
+        <source>Private Profile:</source>
+        <translation>Súkromný profil:</translation>
+    </message>
+    <message>
+        <source>Transfer To (Public Key):</source>
+        <translation>Prevod do (Public Key):</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>1 Year</source>
+        <translation>1 rok</translation>
+    </message>
+    <message>
+        <source>2 Years</source>
+        <translation>2 roky</translation>
+    </message>
+    <message>
+        <source>3 Years</source>
+        <translation>3 roky</translation>
+    </message>
+    <message>
+        <source>4 Years</source>
+        <translation>4 roky</translation>
+    </message>
+    <message>
+        <source>5 Years</source>
+        <translation>5 rokov</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>nový Alias</translation>
+    </message>
+    <message>
+        <source>Edit Data Alias</source>
+        <translation>Úprava dát Alias</translation>
+    </message>
+    <message>
+        <source>Transfer Alias</source>
+        <translation>preneste Alias</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>alias:</translation>
+    </message>
+    <message>
+        <source>Empty name for Alias not allowed. Please try again</source>
+        <translation>Prázdny názov pre Alias ​​nie je povolené. Prosím skúste znova</translation>
+    </message>
+    <message>
+        <source>General exception creating new Alias</source>
+        <translation>Všeobecná výnimka pri vytváraní novej Alias</translation>
+    </message>
+    <message>
+        <source>General exception updating Alias</source>
+        <translation>Všeobecná výnimka aktualizácie Alias</translation>
+    </message>
+    <message>
+        <source>General exception transferring Alias</source>
+        <translation>Všeobecná výnimka prenos Alias</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Nepodarilo sa odomknúť peňaženku.</translation>
+    </message>
+</context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Edit Cert</source>
+        <translation>editovať Cert</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>alias:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>certifikát:</translation>
+    </message>
+    <message>
+        <source>The value associated with this certificate.</source>
+        <translation>Hodnota spojená s týmto certifikátom.</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Názov:</translation>
+    </message>
+    <message>
+        <source>The certificate name.</source>
+        <translation>Meno certifikátu.</translation>
+    </message>
+    <message>
+        <source>Transfer To:</source>
+        <translation>Prenos k:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Áno</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>nie</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Bezpečné vyhľadávanie:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategória:</translation>
+    </message>
+    <message>
+        <source>New Cert</source>
+        <translation>new Cert</translation>
+    </message>
+    <message>
+        <source>Transfer Cert</source>
+        <translation>preneste Cert</translation>
+    </message>
+    <message>
+        <source>certificates</source>
+        <translation>certifikáty</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Tam bola výnimka sa snaží aktualizovať zoznam alias:</translation>
+    </message>
+    <message>
+        <source>Empty name for Cert not allowed. Please try again</source>
+        <translation>Prázdny názov pre Cert nie je povolené. Prosím skúste znova</translation>
+    </message>
+    <message>
+        <source>General exception creating new Cert</source>
+        <translation>Všeobecná výnimka pri vytváraní novej Cert</translation>
+    </message>
+    <message>
+        <source>General exception updating Cert</source>
+        <translation>Všeobecná výnimka aktualizácie Cert</translation>
+    </message>
+    <message>
+        <source>General exception transferring Cert</source>
+        <translation>Všeobecná výnimka prenos Cert</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Nepodarilo sa odomknúť peňaženku.</translation>
+    </message>
+</context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>Edit Offer</source>
+        <translation>edit Ponuka</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Všeobecné</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>ponuka:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Názov:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Kategória:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>cena:</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Množstvo:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Popis:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>mena:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>certifikát:</translation>
+    </message>
+    <message>
+        <source>Seller Alias:</source>
+        <translation>Predajca Alias:</translation>
+    </message>
+    <message>
+        <source>Private:</source>
+        <translation>Súkromné:</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>nie</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Áno</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Bezpečné vyhľadávanie:</translation>
+    </message>
+    <message>
+        <source>Geolocation:</source>
+        <translation>Geolocation:</translation>
+    </message>
+    <message>
+        <source>Commission:</source>
+        <translation>Komisia:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>Select Certificate (optional)</source>
+        <translation>Vyberte certifikát (voliteľne)</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>Nová ponuka</translation>
+    </message>
+    <message>
+        <source>New Offer(Certificate)</source>
+        <translation>Nová ponuka (Certificate)</translation>
+    </message>
+    <message>
+        <source>certificates</source>
+        <translation>certifikáty</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the cert list: </source>
+        <translation>Tam bol výnimkou pokusu o obnovenie zoznamu cert:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Tam bola výnimka sa snaží aktualizovať zoznam alias:</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>neobmedzený</translation>
+    </message>
+    <message>
+        <source>Empty name for Offer not allowed. Please try again</source>
+        <translation>Prázdny názov pre Ponukou nie je povolené. Prosím skúste znova</translation>
+    </message>
+    <message>
+        <source>Confirm Alias Peg</source>
+        <translation>Potvrdiť alias Peg</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Nepodarilo sa odomknúť peňaženku.</translation>
+    </message>
+</context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>Manage Affiliates</source>
+        <translation>správa Pobočky</translation>
+    </message>
+    <message>
+        <source>Refresh affiliate list</source>
+        <translation>Obnoviť zoznam pobočka</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Add a new affiliate</source>
+        <translation>Pridajte novú pobočku</translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation>&amp; Pridať</translation>
+    </message>
+    <message>
+        <source>Remove an affiliate</source>
+        <translation>Odstránenie pobočku</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Odstrániť</translation>
+    </message>
+    <message>
+        <source>Remove all affiliates</source>
+        <translation>Odstráňte všetky pobočky</translation>
+    </message>
+    <message>
+        <source>Remove All</source>
+        <translation>Odobrať všetky</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>Entry removed successfully!</source>
+        <translation>Vstup bol úspešne odstránený!</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to remove this entry: </source>
+        <translation>Tam bola výnimka sa snaží odstrániť túto položku:</translation>
+    </message>
+    <message>
+        <source>Affiliate list cleared successfully!</source>
+        <translation>Zoznam pobočka úspešne vymazaný!</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to clear the affiliate list: </source>
+        <translation>Tam bola výnimka sa snaží vymazať zoznam partnerský:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the affiliate list: </source>
+        <translation>Tam bol výnimkou pokusu o obnovenie zoznamu partnerský:</translation>
+    </message>
+    <message>
+        <source>Export Affiliate Data</source>
+        <translation>Export dát Partnerský</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>zľava</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>Escrow Info</source>
+        <translation>Podmienené Info</translation>
+    </message>
+    <message>
+        <source>&amp;General</source>
+        <translation>a všeobecný</translation>
+    </message>
+    <message>
+        <source>Escrow Details</source>
+        <translation>Podmienené Podrobnosti</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>ID ponuky:</translation>
+    </message>
+    <message>
+        <source>TXID:</source>
+        <translation>TXID:</translation>
+    </message>
+    <message>
+        <source>Offer Title:</source>
+        <translation>Ponuka Názov:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>výška:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>čas:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>cena:</translation>
+    </message>
+    <message>
+        <source>Escrow Fee:</source>
+        <translation>Úschovy poplatok:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Celkovo:</translation>
+    </message>
+    <message>
+        <source>Average Rating:</source>
+        <translation>Priemerné hodnotenie:</translation>
+    </message>
+    <message>
+        <source>Shipping &amp; Contact Information:</source>
+        <translation>Dodávky Kontaktné informácie:</translation>
+    </message>
+    <message>
+        <source>&amp;Buyer Feedback</source>
+        <translation>Kupujúci &amp; Feedback</translation>
+    </message>
+    <message>
+        <source>&amp;Seller Feedback</source>
+        <translation>A predávajúci Spätná väzba</translation>
+    </message>
+    <message>
+        <source>&amp;Arbiter Feedback</source>
+        <translation>&amp; Arbiter Feedback</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>No Feedback Found</source>
+        <translation>Žiadne názory Našli</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>predavač</translation>
+    </message>
+    <message>
+        <source>Arbiter</source>
+        <translation>rozhodca</translation>
+    </message>
+    <message>
+        <source>No Feedback</source>
+        <translation>Nie Spätná väzba</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>od:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation>hodnotenie:</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowListPage</name>
+    <message>
+        <source>Escrows</source>
+        <translation>escrows</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected escrow to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybraného escrow do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Escrow ID</source>
+        <translation>&amp; Kopírovať Podmienené ID</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Manage Escrow</source>
+        <translation>správa úschov</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Escrows.</source>
+        <translation>Hľadať Syscoin escrows.</translation>
+    </message>
+    <message>
+        <source>Enter search term. Search for arbiter/seller or escrow GUID. Empty will search for all.</source>
+        <translation>Zadajte hľadaný výraz. Vyhľadávať rozhodcu / predávajúceho alebo Escrow GUID. Prázdne bude hľadať pre všetkých.</translation>
+    </message>
+    <message>
+        <source>General exception when searching escrow</source>
+        <translation>Všeobecná výnimka pri vyhľadávaní escrow</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from escrowfilter command</source>
+        <translation>Chyba: neplatná odpoveď z velenia escrowfilter</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowTableModel</name>
+    <message>
+        <source>Escrow</source>
+        <translation>podmienená</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>čas</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>predavač</translation>
+    </message>
+    <message>
+        <source>Arbiter</source>
+        <translation>rozhodca</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>ponuka</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>celkom</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>Rating</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowView</name>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
     </message>
 </context>
 <context>
@@ -491,6 +1485,10 @@
     <message>
         <source>version</source>
         <translation>verzia</translation>
+    </message>
+    <message>
+        <source>Syscoin Client</source>
+        <translation>Syscoin Client</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -532,6 +1530,57 @@
         <source>Show splash screen on startup (default: %u)</source>
         <translation>Zobraziť uvítaciu obrazovku pri štarte (predvolené: %u)</translation>
     </message>
+    <message>
+        <source>Reset all settings changed in the GUI</source>
+        <translation>Obnoviť všetky nastavenia zmenené v GUI</translation>
+    </message>
+</context>
+<context>
+    <name>InMessageListPage</name>
+    <message>
+        <source>New Msg</source>
+        <translation>Nová správa</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Export Message Data</source>
+        <translation>Export dát správy</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>GUID</source>
+        <translation>GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>čas</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>od</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Pre</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>predmet</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Správa</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
     </context>
 <context>
     <name>Intro</name>
@@ -565,6 +1614,1571 @@
     </message>
 </context>
 <context>
+    <name>ManageEscrowDialog</name>
+    <message>
+        <source>Manage Your Escrow</source>
+        <translation>Upravte svoj úschov</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>Release this escrow to the seller</source>
+        <translation>Uvoľnenie tejto Escrow predajcovia</translation>
+    </message>
+    <message>
+        <source>Release Escrow</source>
+        <translation>release Podmienené</translation>
+    </message>
+    <message>
+        <source>Refund this escrow back to the buyer</source>
+        <translation>Uhradí túto Escrow späť na kupujúceho</translation>
+    </message>
+    <message>
+        <source>Refund Escrow</source>
+        <translation>náhrada Podmienené</translation>
+    </message>
+    <message>
+        <source> Stars</source>
+        <translation>hviezdy</translation>
+    </message>
+    <message>
+        <source>Cannot find this escrow on the network, please try again later.</source>
+        <translation>Nemožno nájsť tento escrow v sieti, skúste to znova neskôr.</translation>
+    </message>
+    <message>
+        <source>You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases.</source>
+        <translation>Nemôžete riadiť tento escrow, pretože nevlastníte jeden z prvkov kupujúceho, obchodníka alebo arbitra aliasov.</translation>
+    </message>
+    <message>
+        <source>Claim Payment</source>
+        <translation>žiadosti o platbu</translation>
+    </message>
+    <message>
+        <source>Claim Refund</source>
+        <translation>nárok Vrátenie</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>ponuka:</translation>
+    </message>
+    <message>
+        <source>The escrow has been successfully claimed by the merchant. The escrow is complete.</source>
+        <translation>Escrow bol úspešne nárokované obchodníka. Escrow je kompletný.</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>zanechať komentár</translation>
+    </message>
+    <message>
+        <source>The escrow has been successfully refunded to the buyer. The escrow is complete.</source>
+        <translation>Escrow bola úspešne vrátená kupujúcemu. Escrow je kompletný.</translation>
+    </message>
+    <message>
+        <source>The escrow status was not recognized. Please contact the Syscoin team.</source>
+        <translation>Stav Escrow nebola rozpoznaná. Obráťte sa na tím Syscoin.</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>žiadne</translation>
+    </message>
+    <message>
+        <source>Thank you for your feedback!</source>
+        <translation>Ďakujeme vám za vašu reakciu!</translation>
+    </message>
+    <message>
+        <source>General exception sending feedbackescrow</source>
+        <translation>Všeobecná výnimka odosielanie feedbackescrow</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Nemožno analyzovať JSON odpoveď:</translation>
+    </message>
+    <message>
+        <source>Check BTC Payment</source>
+        <translation>Skontrolujte BTC Platba</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Prosím čakajte...</translation>
+    </message>
+    <message>
+        <source>Escrow released successfully!</source>
+        <translation>Podmienená úspešne prepustený!</translation>
+    </message>
+    <message>
+        <source>General exception releasing escrow</source>
+        <translation>Všeobecná výnimka uvoľnenie escrow</translation>
+    </message>
+    <message>
+        <source>Escrow refunded successfully!</source>
+        <translation>Podmienená vrátená úspešne!</translation>
+    </message>
+    <message>
+        <source>General exception refunding escrow</source>
+        <translation>Všeobecná výnimka refundácie escrow</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message Info</source>
+        <translation>Info Message</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>od:</translation>
+    </message>
+    <message>
+        <source>The value associated with this message.</source>
+        <translation>Hodnota spojená s touto správou.</translation>
+    </message>
+    <message>
+        <source>To:</source>
+        <translation>komu:</translation>
+    </message>
+    <message>
+        <source>The message name.</source>
+        <translation>Meno správa.</translation>
+    </message>
+    <message>
+        <source>Topic:</source>
+        <translation>téma:</translation>
+    </message>
+    <message>
+        <source>Message:</source>
+        <translation>Správa:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>čas:</translation>
+    </message>
+</context>
+<context>
+    <name>MessageListPage</name>
+    <message>
+        <source>Message List</source>
+        <translation>zoznam správ</translation>
+    </message>
+    <message>
+        <source>Refresh message list</source>
+        <translation>Obnoviť zoznam správ</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Send a new message</source>
+        <translation>Poslať novú správu</translation>
+    </message>
+    <message>
+        <source>New Msg</source>
+        <translation>Nová správa</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected message to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybratú správu do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Msg ID</source>
+        <translation>&amp; Kopírovať Msg ID</translation>
+    </message>
+    <message>
+        <source>Get message details</source>
+        <translation>Získať podrobnosti správy</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+</context>
+<context>
+    <name>MessageTableModel</name>
+    <message>
+        <source>GUID</source>
+        <translation>GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>čas</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>od</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Pre</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>predmet</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Správa</translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    <message>
+        <source>Form</source>
+        <translation>Forma</translation>
+    </message>
+    <message>
+        <source>Last block time</source>
+        <translation>Čas posledného bloku</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Skryť</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>My Accepted Offers</source>
+        <translation>prijmem Ponuky</translation>
+    </message>
+    <message>
+        <source>Refresh your accepted offer list</source>
+        <translation>Osviežte si prijal ponuku zoznamu</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopírovať ID ponuky</translation>
+    </message>
+    <message>
+        <source>Details of the currently accepted offer</source>
+        <translation>Podrobnosti o aktuálne prijatej ponuky</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Send message to buyer</source>
+        <translation>Poslať správu kupci</translation>
+    </message>
+    <message>
+        <source>Send Msg To Buyer</source>
+        <translation>Poslať správa kupujúcemu</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>zanechať komentár</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Chyba vytvárania požiadavke:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Nemožno analyzovať JSON odpoveď:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Prosím čakajte...</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Export ponúknuť Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer ID</source>
+        <translation>ID ponuky</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>prijať ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>výška</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>cena</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>mena</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>celkom</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>predavač</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>My Aliases</source>
+        <translation>moje aliasov</translation>
+    </message>
+    <message>
+        <source>Refresh alias list</source>
+        <translation>Obnoviť zoznam alias</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Create a new alias</source>
+        <translation>Vytvoriť nový alias</translation>
+    </message>
+    <message>
+        <source>&amp;New Alias</source>
+        <translation>&amp; Nový Alias</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected alias to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybrané alias do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Alias ID</source>
+        <translation>&amp; Kopírovať Alias ​​ID</translation>
+    </message>
+    <message>
+        <source>Edit selected alias</source>
+        <translation>Úprava vybraných alias</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>editovať</translation>
+    </message>
+    <message>
+        <source>Transfer selected alias</source>
+        <translation>Prenos vybraný alias</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>prevod</translation>
+    </message>
+    <message>
+        <source>Create a new public key used for transferring aliases</source>
+        <translation>Vytvoriť nový verejný kľúč použitý pre prenos aliasov</translation>
+    </message>
+    <message>
+        <source>New Public Key</source>
+        <translation>New Public Key</translation>
+    </message>
+    <message>
+        <source>Open list of affiliates associated with this alias</source>
+        <translation>Otvoriť zoznam pobočiek spojená s týmto aliasom</translation>
+    </message>
+    <message>
+        <source>Affiliations</source>
+        <translation>medzinárodná spolupráca</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
+        <translation>To sú vaše registrované Syscoin aliasov. Alias ​​operácie (vytváranie, aktualizácia, prenos) trvať 2-5 minút, aby sa stal aktívnym.</translation>
+    </message>
+    <message>
+        <source>You cannot edit this alias because it has expired</source>
+        <translation>Nemôžete upraviť tento alias, pretože uplynul</translation>
+    </message>
+    <message>
+        <source>This alias is still pending, click the refresh button once the alias confirms and try again</source>
+        <translation>Tento alias stále prebieha, kliknite na tlačidlo Aktualizovať, akonáhle alias potvrdzuje a skúste to znova</translation>
+    </message>
+    <message>
+        <source>You cannot transfer this alias because it has expired</source>
+        <translation>Nemožno previesť túto prezývku pretože jeho skončenia platnosti</translation>
+    </message>
+    <message>
+        <source>New Public Key For Alias Transfer</source>
+        <translation>Nový verejný kľúč pre Alias ​​prevod</translation>
+    </message>
+    <message>
+        <source> has been copied to your clipboard! IMPORTANT: This key is for one-time use only! Do not re-use public keys for multiple aliases or transfers.</source>
+        <translation>bola skopírovaná do schránky! Dôležité: Tento kľúč je určený iba na jednorazové! Nepoužívajte znovu použiť verejné kľúče pre viac aliasov alebo prevodov.</translation>
+    </message>
+    <message>
+        <source>Could not generate a new public key!</source>
+        <translation>Nemožno vygenerovať nový verejný kľúč!</translation>
+    </message>
+    <message>
+        <source>Export Alias Data</source>
+        <translation>Export dát Alias</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>V vyprší</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>Predávajúci Rating</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+</context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>My Certificates</source>
+        <translation>moje Certifikáty</translation>
+    </message>
+    <message>
+        <source>Refresh certificate list</source>
+        <translation>Obnoviť zoznam certifikátov</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Create a new certificate</source>
+        <translation>Vytvoriť nový certifikát</translation>
+    </message>
+    <message>
+        <source>&amp;New Certificate</source>
+        <translation>&amp; Nový certifikát</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected certificate to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybraný certifikát do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Certificate ID</source>
+        <translation>&amp; Kopírovať ID certifikátu</translation>
+    </message>
+    <message>
+        <source>Edit selected certificate</source>
+        <translation>Úprava vybraný certifikát</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>editovať</translation>
+    </message>
+    <message>
+        <source>Transfer selected certificate</source>
+        <translation>Prenos zvolený certifikát</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>prevod</translation>
+    </message>
+    <message>
+        <source>Sell selected certificate</source>
+        <translation>Navrhujeme vybraný certifikát</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>Predať</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+    <message>
+        <source>You cannot sell this certificate because it has expired</source>
+        <translation>Nemôžete predávať tento certifikát, pretože uplynul</translation>
+    </message>
+    <message>
+        <source>You cannot edit this certificate because it has expired</source>
+        <translation>Nemôžete upraviť tento certifikát, pretože jeho skončenia platnosti</translation>
+    </message>
+    <message>
+        <source>You cannot transfer this certificate because it has expired</source>
+        <translation>Nemožno preniesť tento certifikát, pretože uplynul</translation>
+    </message>
+    <message>
+        <source>Export Certificate Data</source>
+        <translation>Export dát certifikátu</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>cert</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>majiteľ</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>kategórie</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>V vyprší</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+</context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>My Escrow List</source>
+        <translation>Môj Podmienené Zoznam</translation>
+    </message>
+    <message>
+        <source>Show Completed/ Refunded/Expired Escrows</source>
+        <translation>Show completed / Vrátený / Uplynutá platnosť escrows</translation>
+    </message>
+    <message>
+        <source>Refresh your list of escrows</source>
+        <translation>Osviežiť svoj zoznam escrows</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected escrow to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybraného escrow do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Escrow ID</source>
+        <translation>&amp; Kopírovať Podmienené ID</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Release selected escrow to merchant</source>
+        <translation>Uvoľnite Výber úschovy k obchodníkovi</translation>
+    </message>
+    <message>
+        <source>Manage Escrow</source>
+        <translation>správa úschov</translation>
+    </message>
+    <message>
+        <source>Send message to buyer</source>
+        <translation>Poslať správu kupci</translation>
+    </message>
+    <message>
+        <source>Send Msg To Buyer</source>
+        <translation>Poslať správa kupujúcemu</translation>
+    </message>
+    <message>
+        <source>Send message to seller</source>
+        <translation>Odoslať správu predajcovia</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Poslať správa predávajúcemu</translation>
+    </message>
+    <message>
+        <source>Send message to arbiter</source>
+        <translation>Poslať správu na arbitra</translation>
+    </message>
+    <message>
+        <source>Send Msg To Arbiter</source>
+        <translation>Poslať správa Ak chcete arbiter</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Chyba vytvárania požiadavke:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Nemožno analyzovať JSON odpoveď:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Prosím čakajte...</translation>
+    </message>
+    <message>
+        <source>Export Escrow Data</source>
+        <translation>Export dát Podmienené</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+</context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>My Offers</source>
+        <translation>Moje ponuky</translation>
+    </message>
+    <message>
+        <source>Show Sold Out/ Expired Offers</source>
+        <translation>Show vypredané / platnosť vypršala</translation>
+    </message>
+    <message>
+        <source>Show Digital Offers Only</source>
+        <translation>Show Digital ponuky Len</translation>
+    </message>
+    <message>
+        <source>Refresh your list of offers</source>
+        <translation>Aktualizujte zoznam ponúk</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Create a new offer</source>
+        <translation>Vytvoriť novú ponuku</translation>
+    </message>
+    <message>
+        <source>&amp;New Offer</source>
+        <translation>&amp; Novú ponuku</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopírovať ID ponuky</translation>
+    </message>
+    <message>
+        <source>Edit selected offer</source>
+        <translation>Úprava Výber ponuku</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>editovať</translation>
+    </message>
+    <message>
+        <source>Manage affiliates for this offer</source>
+        <translation>Správa pobočky pre túto ponuku</translation>
+    </message>
+    <message>
+        <source>&amp;Manage Affiliates</source>
+        <translation>&amp; Správa Pobočky</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>Manage Affiliates</source>
+        <translation>správa Pobočky</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+    <message>
+        <source>You cannot edit this offer because it has expired</source>
+        <translation>Nemôžete upravovať túto ponuku, pretože uplynul</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Export ponúknuť Data</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>ponuka</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>cert</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>popis</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>kategórie</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>cena</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>mena</translation>
+    </message>
+    <message>
+        <source>Sold</source>
+        <translation>Predané</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Súkromné</translation>
+    </message>
+    <message>
+        <source>Seller Alias</source>
+        <translation>Predávajúci Alias</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>Predávajúci Rating</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+</context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    <message>
+        <source>Offer</source>
+        <translation>ponuka</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>zľava</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>V vyprší</translation>
+    </message>
+</context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>My Offer Affiliates</source>
+        <translation>Moje Ponuka Pobočky</translation>
+    </message>
+    <message>
+        <source>Refresh your affiliate list for this offer</source>
+        <translation>Osviežte svoj zoznam partnerský tejto ponuky</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Obnoviť</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportovať...</translation>
+    </message>
+    <message>
+        <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
+        <translation>Ste affiliate pre tieto ponuky. Partnerské operácia trvať 2-5 minút, aby sa stal aktívnym. Majiteľ ponuky môžu pridať, aby jeho partnerský zoznamu a váš partnerský vstup sa budú zobrazovať tu.</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the affiliate list: </source>
+        <translation>Tam bol výnimkou pokusu o obnovenie zoznamu partnerský:</translation>
+    </message>
+    <message>
+        <source>Export Affiliate Data</source>
+        <translation>Export dát Partnerský</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>ponuka</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>zľava</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>New Message</source>
+        <translation>Nová správa</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>od:</translation>
+    </message>
+    <message>
+        <source>To:</source>
+        <translation>komu:</translation>
+    </message>
+    <message>
+        <source>The message name.</source>
+        <translation>Meno správa.</translation>
+    </message>
+    <message>
+        <source>Topic:</source>
+        <translation>téma:</translation>
+    </message>
+    <message>
+        <source>Original Message:</source>
+        <translation>Pôvodná správa:</translation>
+    </message>
+    <message>
+        <source>Your Message:</source>
+        <translation>Tvoja správa:</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nie</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Áno</translation>
+    </message>
+    <message>
+        <source>Reply Message</source>
+        <translation>reply Message</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Tam bola výnimka sa snaží aktualizovať zoznam alias:</translation>
+    </message>
+    <message>
+        <source>Empty message not allowed. Please try again</source>
+        <translation>Prázdna správa nie je povolené. Prosím skúste znova</translation>
+    </message>
+    <message>
+        <source>General exception creating new message</source>
+        <translation>Všeobecná výnimka vytvorenie novej správy</translation>
+    </message>
+    <message>
+        <source>General exception replying to message</source>
+        <translation>Všeobecná výnimka odpoveď na správu</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Nepodarilo sa odomknúť peňaženku.</translation>
+    </message>
+</context>
+<context>
+    <name>NewWhitelistDialog</name>
+    <message>
+        <source>Add Affiliate</source>
+        <translation>Pridať Zaregistrujte</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>ponuka</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>zľava</translation>
+    </message>
+    <message>
+        <source>New affiliate added successfully!</source>
+        <translation>Nová pobočka úspešne pridaný!</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Nepodarilo sa odomknúť peňaženku.</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialog</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Prijať Syscoin Ponuka</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>Pay with Bitcoin</source>
+        <translation>Platiť sa Bitcoin</translation>
+    </message>
+    <message>
+        <source>Pay with BTC</source>
+        <translation>Platiť sa BTC</translation>
+    </message>
+    <message>
+        <source>Pay with Syscoin</source>
+        <translation>Platiť sa Syscoin</translation>
+    </message>
+    <message>
+        <source>&amp;Pay with SYS</source>
+        <translation>&amp; Plaťte SYS</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>použiť Podmienené</translation>
+    </message>
+    <message>
+        <source>Pay Escrow</source>
+        <translation>pay Podmienené</translation>
+    </message>
+    <message>
+        <source>Pay For Item</source>
+        <translation>Platiť za položku</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Neplatný množstvo, keď sa snažia prijať ponuku!</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Všeobecná výnimka pri prijímaní ponuku</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Neplatný množstvo Pri pokuse o vytvorenie escrow!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Všeobecná výnimka pri vytváraní escrow</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Prijať Syscoin Ponuka</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>Open your local Bitcoin client</source>
+        <translation>Otvorenie miestneho klienta Bitcoin</translation>
+    </message>
+    <message>
+        <source>Open BTC Wallet</source>
+        <translation>Otvorená BTC Wallet</translation>
+    </message>
+    <message>
+        <source>Confirm this payment on the Bitcoin blockchain</source>
+        <translation>Potvrdiť túto platbu na Bitcoin blockchain</translation>
+    </message>
+    <message>
+        <source>&amp;Confirm Payment</source>
+        <translation>&amp; Potvrdzujúci platbu</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>použiť Podmienené</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>Výsledné URI príliš dlhé, skráť text pre názov / správu.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Chyba v zakódovaní URI do QR kódu</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Chyba vytvárania požiadavke:</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Nemožno vytvoriť Escrow transakciu: nemožno nájsť vykúpiť skript v reakcii</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>do</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Nemožno analyzovať JSON odpoveď:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Prosím čakajte...</translation>
+    </message>
+    <message>
+        <source>Please enter a valid Bitcoin Transaction ID into the input box and try again</source>
+        <translation>Zadajte platné Bitcoin ID transakcie do vstupného poľa a skúste to znova</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Neplatný množstvo, keď sa snažia prijať ponuku!</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Všeobecná výnimka pri prijímaní ponuku</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Neplatný množstvo Pri pokuse o vytvorenie escrow!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Všeobecná výnimka pri vytváraní escrow</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Prijať Syscoin Ponuka</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>Open your local Bitcoin client</source>
+        <translation>Otvorenie miestneho klienta Bitcoin</translation>
+    </message>
+    <message>
+        <source>Confirm this payment on the Bitcoin blockchain</source>
+        <translation>Potvrdiť túto platbu na Bitcoin blockchain</translation>
+    </message>
+    <message>
+        <source>&amp;Confirm Payment</source>
+        <translation>&amp; Potvrdzujúci platbu</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>použiť Podmienené</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>Výsledné URI príliš dlhé, skráť text pre názov / správu.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Chyba v zakódovaní URI do QR kódu</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Chyba vytvárania požiadavke:</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Nemožno vytvoriť Escrow transakciu: nemožno nájsť vykúpiť skript v reakcii</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>do</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Nemožno analyzovať JSON odpoveď:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Prosím čakajte...</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Neplatný množstvo, keď sa snažia prijať ponuku!</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Všeobecná výnimka pri prijímaní ponuku</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Neplatný množstvo Pri pokuse o vytvorenie escrow!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Všeobecná výnimka pri vytváraní escrow</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>Offer Accept Info</source>
+        <translation>Ponúkame Accept Informácie</translation>
+    </message>
+    <message>
+        <source>Buyer:</source>
+        <translation>Kupec:</translation>
+    </message>
+    <message>
+        <source>TXID:</source>
+        <translation>TXID:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>výška:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>čas:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>cena:</translation>
+    </message>
+    <message>
+        <source>Discount:</source>
+        <translation>zľava:</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Množstvo:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Celkovo:</translation>
+    </message>
+    <message>
+        <source>Average Rating:</source>
+        <translation>Priemerné hodnotenie:</translation>
+    </message>
+    <message>
+        <source>Shipping &amp; Contact Information:</source>
+        <translation>Dodávky Kontaktné informácie:</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>ponuka Podrobnosti</translation>
+    </message>
+    <message>
+        <source>Offer Title:</source>
+        <translation>Ponuka Názov:</translation>
+    </message>
+    <message>
+        <source>Commission:</source>
+        <translation>Komisia:</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>ID ponuky:</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Obchodník:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>certifikát:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>No Feedback Found</source>
+        <translation>Žiadne názory Našli</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>predavač</translation>
+    </message>
+    <message>
+        <source>No Feedback</source>
+        <translation>Nie Spätná väzba</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>od:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation>hodnotenie:</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    <message>
+        <source>Offer ID</source>
+        <translation>ID ponuky</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>prijať ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>výška</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>cena</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>mena</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>celkom</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>predavač</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+</context>
+<context>
+    <name>OfferEscrowDialog</name>
+    <message>
+        <source>Payment In Escrow</source>
+        <translation>Platba v úschove</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation>&amp;Skončiť</translation>
+    </message>
+    <message>
+        <source>Please click Finish</source>
+        <translation>Prosím kliknite na tlačidlo Dokončiť</translation>
+    </message>
+</context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    <message>
+        <source>Leave Offer Feedback</source>
+        <translation>Nechať Ponuka spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>zanechať komentár</translation>
+    </message>
+    <message>
+        <source> Stars</source>
+        <translation>hviezdy</translation>
+    </message>
+    <message>
+        <source>Buyer:</source>
+        <translation>Kupec:</translation>
+    </message>
+    <message>
+        <source>Thank you for your feedback!</source>
+        <translation>Ďakujeme vám za vašu reakciu!</translation>
+    </message>
+    <message>
+        <source>General exception sending offeracceptfeedback</source>
+        <translation>Všeobecnú výnimku odosielanie offeracceptfeedback</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh get alias: </source>
+        <translation>Tam bola výnimka sa snaží obnoviť get alias:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferListPage</name>
+    <message>
+        <source>Search Offers</source>
+        <translation>hľadania ponúk</translation>
+    </message>
+    <message>
+        <source>All Categories</source>
+        <translation>Všetky kategórie</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Kopírovať ID ponuky</translation>
+    </message>
+    <message>
+        <source>Resell this offer for a commission</source>
+        <translation>Predávať túto ponuku za províziu</translation>
+    </message>
+    <message>
+        <source>Resell</source>
+        <translation>predávať</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Kúpte si túto ponuku</translation>
+    </message>
+    <message>
+        <source>Purchase</source>
+        <translation>nákup</translation>
+    </message>
+    <message>
+        <source>Send message to seller</source>
+        <translation>Odoslať správu predajcovia</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Poslať správa predávajúcemu</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Offers (double click on one to purchase). Select Safe Search from wallet options if you wish to omit potentially offensive Offers(On by default)</source>
+        <translation>Hľadanie Syscoin Ponuka (dvojklik na jeden ku kúpe). Vyberte Bezpečné vyhľadávanie z možností peňaženky, ak si prajete vynechať potenciálne nevhodných ponúk (v predvolenom nastavení)</translation>
+    </message>
+    <message>
+        <source>Enter search term, regex accepted (ie: ^name returns all Offer's starting with 'name'). Empty will search for all.</source>
+        <translation>Zadajte hľadaný výraz, regulárny výraz Prijatý (tj ^ názov vráti všetky Ponuka je začínajúce na 'name'). Prázdne bude hľadať pre všetkých.</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>neobmedzený</translation>
+    </message>
+    <message>
+        <source>Sorry, you cannot not resell this offer, it is sold out!</source>
+        <translation>Je nám ľúto, nemožno ani predávať túto ponuku, to je vypredané!</translation>
+    </message>
+    <message>
+        <source>Sorry, you cannot not purchase this offer, it is sold out!</source>
+        <translation>Je nám ľúto, nemožno ani kúpiť túto ponuku, to je vypredané!</translation>
+    </message>
+    <message>
+        <source>General exception when searching offer</source>
+        <translation>Všeobecná výnimka pri vyhľadávaní ponuku</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from offerfilter command</source>
+        <translation>Chyba: neplatná odpoveď z velenia offerfilter</translation>
+    </message>
+</context>
+<context>
+    <name>OfferPayDialog</name>
+    <message>
+        <source>Pay For Item</source>
+        <translation>Platiť za položku</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation>&amp;Skončiť</translation>
+    </message>
+    <message>
+        <source>Please click Finish</source>
+        <translation>Prosím kliknite na tlačidlo Dokončiť</translation>
+    </message>
+</context>
+<context>
+    <name>OfferTableModel</name>
+    <message>
+        <source>Offer</source>
+        <translation>ponuka</translation>
+    </message>
+    <message>
+        <source>Certificate</source>
+        <translation>certifikát</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>nadpis</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>popis</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>kategórie</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>cena</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>mena</translation>
+    </message>
+    <message>
+        <source>Sold</source>
+        <translation>Predané</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Súkromné</translation>
+    </message>
+    <message>
+        <source>Seller Alias</source>
+        <translation>Predávajúci Alias</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>Rating</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferView</name>
+    <message>
+        <source>Sold</source>
+        <translation>Predané</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>Vyhľadanie</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
+    <message>
+        <source>Alias</source>
+        <translation>prezývka</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>zľava</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>V vyprší</translation>
+    </message>
+</context>
+<context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
@@ -581,6 +3195,10 @@
     <message>
         <source>Select payment request file</source>
         <translation>Vyberte súbor s výzvou k platbe</translation>
+    </message>
+    <message>
+        <source>Select payment request file to open</source>
+        <translation>Vyberte ktorý súbor s výzvou k platbe otvoriť</translation>
     </message>
 </context>
 <context>
@@ -622,12 +3240,44 @@
         <translation>Minimalizovať namiesto ukončenia aplikácie keď sa okno zavrie. Keď je zvolená táto možnosť, aplikácia sa zavrie len po zvolení Ukončiť v menu.</translation>
     </message>
     <message>
+        <source>The user interface language can be set here. This setting will take effect after restarting Syscoin Core.</source>
+        <translation>Tu sa dá nastaviť jazyk užívateľského rozhrania. Toto nastavenie bude účinné po reštartovaní Jadra Syscoin.</translation>
+    </message>
+    <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
         <translation>URL tretích strán (napr. prehliadač blockchain) ktoré sa zobrazujú v záložke transakcií ako položky kontextového menu. %s v URL je nahradené hash-om transakcie. Viaceré URL sú oddelené zvislou čiarou |.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
         <translation>URL transakcií s tretími stranami</translation>
+    </message>
+    <message>
+        <source>&amp;Preferences</source>
+        <translation>a predvoľby</translation>
+    </message>
+    <message>
+        <source>User Interface Theme:</source>
+        <translation>Užívateľské rozhranie Téma:</translation>
+    </message>
+    <message>
+        <source>The user interface theme can be set here. This setting will take effect after restarting Syscoin Core.</source>
+        <translation>Téma Užívateľské rozhranie možno nastaviť tu. Toto nastavenie sa prejaví až po reštartovaní Syscoin Core.</translation>
+    </message>
+    <message>
+        <source>Default Peg Alias:</source>
+        <translation>Predvolené Peg Alias:</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Bezpečné vyhľadávanie:</translation>
+    </message>
+    <message>
+        <source>On</source>
+        <translation>na</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>preč</translation>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -644,6 +3294,14 @@
     <message>
         <source>&amp;Network</source>
         <translation>&amp;Sieť</translation>
+    </message>
+    <message>
+        <source>Automatically start Syscoin Core after logging in to the system.</source>
+        <translation>Automaticky spustiť Jadro Syscoin po prihlásení do systému</translation>
+    </message>
+    <message>
+        <source>&amp;Start Syscoin Core on system login</source>
+        <translation>&amp;Spustiť Syscoin pri spustení systému správy okien</translation>
     </message>
     <message>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
@@ -770,8 +3428,28 @@
         <translation>Zrušiť</translation>
     </message>
     <message>
+        <source>shade</source>
+        <translation>odtieň</translation>
+    </message>
+    <message>
+        <source>solid</source>
+        <translation>tuhý</translation>
+    </message>
+    <message>
+        <source>white</source>
+        <translation>biely</translation>
+    </message>
+    <message>
         <source>default</source>
         <translation>predvolené</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Prosím čakajte...</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Chyba komunikácie s %1: %2 </translation>
     </message>
     <message>
         <source>none</source>
@@ -798,6 +3476,60 @@
         <translation>Zadaná proxy adresa je neplatná.</translation>
     </message>
 </context>
+<context>
+    <name>OptionsModel</name>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+</context>
+<context>
+    <name>OutMessageListPage</name>
+    <message>
+        <source>New Msg</source>
+        <translation>Nová správa</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>podrobnosti</translation>
+    </message>
+    <message>
+        <source>Export Message Data</source>
+        <translation>Export dát správy</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>GUID</source>
+        <translation>GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>čas</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>od</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Pre</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>predmet</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Správa</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Chyba pri exporte</translation>
+    </message>
+    </context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -874,6 +3606,97 @@
     </message>
 </context>
 <context>
+    <name>PaymentServer</name>
+    <message>
+        <source>Payment request error</source>
+        <translation>Chyba pri vyžiadaní platby</translation>
+    </message>
+    <message>
+        <source>Cannot start syscoin: click-to-pay handler</source>
+        <translation>Nedá sa spustiť obslužný program syscoin: click-to-pay zaplatiť kliknutím</translation>
+    </message>
+    <message>
+        <source>URI handling</source>
+        <translation>Spracovanie URI</translation>
+    </message>
+    <message>
+        <source>Payment request fetch URL is invalid: %1</source>
+        <translation>URL pre stiahnutie výzvy na zaplatenie je neplatné: %1</translation>
+    </message>
+    <message>
+        <source>Invalid payment address %1</source>
+        <translation>Neplatná adresa platby %1</translation>
+    </message>
+    <message>
+        <source>URI cannot be parsed! This can be caused by an invalid Syscoin address or malformed URI parameters.</source>
+        <translation>URI sa nedá analyzovať! To môže byť spôsobené neplatnou Syscoin adresou alebo zle upravenými vlastnosťami URI.</translation>
+    </message>
+    <message>
+        <source>Payment request file handling</source>
+        <translation>Obsluha súboru s požiadavkou na platbu</translation>
+    </message>
+    <message>
+        <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
+        <translation>Súbor s výzvou na zaplatenie sa nedá čítať alebo spracovať! To môže byť spôsobené aj neplatným súborom s výzvou.</translation>
+    </message>
+    <message>
+        <source>Payment request rejected</source>
+        <translation>Požiadavka na platbu zamietnutá</translation>
+    </message>
+    <message>
+        <source>Payment request network doesn't match client network.</source>
+        <translation>Sieť požiadavky na platbu nie je zhodná so sieťou klienta.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Vypršala platnosť požiadavky na platbu.</translation>
+    </message>
+    <message>
+        <source>Payment request is not initialized.</source>
+        <translation>Požiadavka na platbu nie je inicializovaná</translation>
+    </message>
+    <message>
+        <source>Unverified payment requests to custom payment scripts are unsupported.</source>
+        <translation>Program nepodporuje neoverené platobné výzvy na vlastná skripty.</translation>
+    </message>
+    <message>
+        <source>Invalid payment request.</source>
+        <translation>Chybná požiadavka na platbu.</translation>
+    </message>
+    <message>
+        <source>Requested payment amount of %1 is too small (considered dust).</source>
+        <translation>Požadovaná platba sumy  %1 je príliš malá (považovaná za prach).</translation>
+    </message>
+    <message>
+        <source>Refund from %1</source>
+        <translation>Vrátenie z  %1</translation>
+    </message>
+    <message>
+        <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
+        <translation>Požiadavka na platbu %1 je príliš veľká (%2 bajtov, povolené je %3 bajtov).</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Chyba komunikácie s %1: %2 </translation>
+    </message>
+    <message>
+        <source>Payment request cannot be parsed!</source>
+        <translation>Požiadavka na platbu nemôže byť analyzovaná!</translation>
+    </message>
+    <message>
+        <source>Bad response from server %1</source>
+        <translation>Zlá odpoveď zo servera %1</translation>
+    </message>
+    <message>
+        <source>Network request error</source>
+        <translation>Chyba požiadavky siete</translation>
+    </message>
+    <message>
+        <source>Payment acknowledged</source>
+        <translation>Platba potvrdená</translation>
+    </message>
+</context>
+<context>
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
@@ -887,16 +3710,12 @@
         <source>Ping Time</source>
         <translation>Čas odozvy</translation>
     </message>
-</context>
+    </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Amount</source>
         <translation>Suma</translation>
-    </message>
-    <message>
-        <source>Enter a Syscoin address (e.g. %1)</source>
-        <translation>Zadajte syscoin adresu (napr. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -925,6 +3744,33 @@
     <message>
         <source>%1 ms</source>
         <translation>%1 ms</translation>
+    </message>
+    <message>
+        <source>%1 and %2</source>
+        <translation> %1 a  %2</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+</context>
+<context>
+    <name>QRImageWidget</name>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>Uložiť obrázok...</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Image</source>
+        <translation>Kopírovať obrázok</translation>
+    </message>
+    <message>
+        <source>Save QR Code</source>
+        <translation>Ukladanie QR kódu</translation>
+    </message>
+    <message>
+        <source>PNG Image (*.png)</source>
+        <translation>PNG obrázok (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1061,6 +3907,10 @@
     <message>
         <source>Ping Time</source>
         <translation>Čas odozvy</translation>
+    </message>
+    <message>
+        <source>The duration of a currently outstanding ping.</source>
+        <translation>Čas trvania v súčasnej dobe vynikajúci ping.</translation>
     </message>
     <message>
         <source>Ping Wait</source>
@@ -1265,6 +4115,18 @@
         <source>Remove</source>
         <translation>Odstrániť</translation>
     </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopírovať popis</translation>
+    </message>
+    <message>
+        <source>Copy message</source>
+        <translation>Kopírovať správu</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopírovať sumu</translation>
+    </message>
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
@@ -1283,6 +4145,92 @@
     <message>
         <source>&amp;Save Image...</source>
         <translation>Uložiť obrázok...</translation>
+    </message>
+    <message>
+        <source>Request payment to %1</source>
+        <translation>Vyžiadať platbu pre %1</translation>
+    </message>
+    <message>
+        <source>Payment information</source>
+        <translation>Informácia o platbe</translation>
+    </message>
+    <message>
+        <source>URI</source>
+        <translation>URI</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresa</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Suma</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Správa</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>Výsledné URI príliš dlhé, skráť text pre názov / správu.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Chyba v zakódovaní URI do QR kódu</translation>
+    </message>
+</context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Dátum</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Správa</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(bez popisu)</translation>
+    </message>
+    <message>
+        <source>(no message)</source>
+        <translation>(žiadna správa)</translation>
+    </message>
+    </context>
+<context>
+    <name>ResellOfferDialog</name>
+    <message>
+        <source>Resell Offer</source>
+        <translation>predávať Ponuka</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>ponuka:</translation>
+    </message>
+    <message>
+        <source>Affiliate Markup:</source>
+        <translation>Partnerský Markup:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Popis:</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>alias:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Tam bola výnimka sa snaží aktualizovať zoznam alias:</translation>
     </message>
 </context>
 <context>
@@ -1318,10 +4266,6 @@
     <message>
         <source>Amount:</source>
         <translation>Suma:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Priorita:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -1435,6 +4379,102 @@
         <source>S&amp;end</source>
         <translation>&amp;Odoslať</translation>
     </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopírovať množstvo</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopírovať sumu</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopírovať poplatok</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopírovať za poplatok</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopírovať bajty</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopírovať prach</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopírovať zmenu</translation>
+    </message>
+    <message>
+        <source>%1 to %2</source>
+        <translation>%1 do %2</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Určite to chcete odoslať?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>pridané ako transakčný poplatok</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>alebo</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Potvrdiť odoslanie syscoins</translation>
+    </message>
+    <message>
+        <source>The recipient address is not valid. Please recheck.</source>
+        <translation>Adresa príjemcu je neplatná. Prosím, overte ju.</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>Suma na úhradu musí byť väčšia ako 0.</translation>
+    </message>
+    <message>
+        <source>The amount exceeds your balance.</source>
+        <translation>Suma je vyššia ako Váš zostatok.</translation>
+    </message>
+    <message>
+        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
+        <translation>Suma celkom prevyšuje Váš zostatok ak sú započítané %1 transakčné poplatky.</translation>
+    </message>
+    <message>
+        <source>Duplicate address found: addresses should only be used once each.</source>
+        <translation>Našla sa duplicitná adresa: každú adresu je možné použiť len raz.</translation>
+    </message>
+    <message>
+        <source>Transaction creation failed!</source>
+        <translation>Vytvorenie transakcie zlyhalo!</translation>
+    </message>
+    <message>
+        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Transakcia bola zamietnutá! Toto sa môže stať ak niektoré coins vo vašej peňaženke už boli minuté, ako keď použijete kópiu wallet.dat a coins boli minuté z kópie ale neoznačené ako minuté tu.</translation>
+    </message>
+    <message>
+        <source>A fee higher than %1 is considered an absurdly high fee.</source>
+        <translation>Poplatok vyšší ako %1 je považovaný za šialene vysoký.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Vypršala platnosť požiadavky na platbu.</translation>
+    </message>
+    <message>
+        <source>Warning: Invalid Syscoin address</source>
+        <translation>Varovanie: Nesprávna Syscoin adresa</translation>
+    </message>
+    <message>
+        <source>Warning: Unknown change address</source>
+        <translation>Varovanie: Neznáma adresa pre výdavok</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(bez popisu)</translation>
+    </message>
 </context>
 <context>
     <name>SendCoinsEntry</name>
@@ -1514,6 +4554,17 @@
         <source>Memo:</source>
         <translation>Poznámka:</translation>
     </message>
+    <message>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Vložte popis pre túto adresu aby sa pridala do adresára</translation>
+    </message>
+</context>
+<context>
+    <name>SendConfirmationDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>Áno</translation>
+    </message>
 </context>
 <context>
     <name>ShutdownWindow</name>
@@ -1523,6 +4574,21 @@
     </message>
 </context>
 <context>
+    <name>SignRawTxDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Všeobecné</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Zrušiť</translation>
+    </message>
+    </context>
+<context>
     <name>SignVerifyMessageDialog</name>
     <message>
         <source>Signatures - Sign / Verify a Message</source>
@@ -1531,6 +4597,10 @@
     <message>
         <source>&amp;Sign Message</source>
         <translation>&amp;Podpísať Správu</translation>
+    </message>
+    <message>
+        <source>You can sign messages/agreements with your addresses to prove you can receive syscoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation>Môžete sa prihlásiť správ / dohody so svojimi adresami dokázať, môžete získať syscoins odoslanej na ne. Dávajte pozor, aby ste podpísať nič nejasnú alebo náhodné, pretože phishingové útoky môžu pokúsiť prinútiť vás k podpisu vašu identitu k nim. podpisovať iba plne detailné vyjadrenie súhlasíte s.</translation>
     </message>
     <message>
         <source>The Syscoin address to sign the message with</source>
@@ -1585,6 +4655,10 @@
         <translation>O&amp;veriť správu...</translation>
     </message>
     <message>
+        <source>Enter the receiver's address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
+        <translation>Zadajte adresu prijímača, správy (zabezpečiť skopírovanie riadkov, medzery, tabulátory atď presne) a podpis dole na overenie správy. Dávajte pozor, aby ste čítať viac do podpisu, než to, čo je v podpísanom samotnej správy, aby sa vyhli oklamať útoku man-in-the-middle. Všimnite si, že to len dokazuje podpisu strana dostane s adresou, nemôže preukázať sendership akejkoľvek transakcie!</translation>
+    </message>
+    <message>
         <source>The Syscoin address the message was signed with</source>
         <translation>Adresa Syscoin, ktorou bola podpísaná správa</translation>
     </message>
@@ -1600,12 +4674,373 @@
         <source>Reset all verify message fields</source>
         <translation>Obnoviť všetky polia v overiť správu</translation>
     </message>
+    <message>
+        <source>Click "Sign Message" to generate signature</source>
+        <translation>Kliknite "Podpísať Správu" na získanie podpisu</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>Zadaná adresa je neplatná.</translation>
+    </message>
+    <message>
+        <source>Please check the address and try again.</source>
+        <translation>Prosím skontrolujte adresu a skúste znova.</translation>
+    </message>
+    <message>
+        <source>The entered address does not refer to a key.</source>
+        <translation>Vložená adresa nezodpovedá žiadnemu kľúcu.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Odomknutie peňaženky bolo zrušené.</translation>
+    </message>
+    <message>
+        <source>Private key for the entered address is not available.</source>
+        <translation>Súkromný kľúč pre vložená adresu nieje k dispozícii.</translation>
+    </message>
+    <message>
+        <source>Message signing failed.</source>
+        <translation>Podpísanie správy zlyhalo.</translation>
+    </message>
+    <message>
+        <source>Message signed.</source>
+        <translation>Správa podpísaná.</translation>
+    </message>
+    <message>
+        <source>The signature could not be decoded.</source>
+        <translation>Podpis nie je možné dekódovať.</translation>
+    </message>
+    <message>
+        <source>Please check the signature and try again.</source>
+        <translation>Prosím skontrolujte podpis a skúste znova.</translation>
+    </message>
+    <message>
+        <source>The signature did not match the message digest.</source>
+        <translation>Podpis sa nezhoduje so zhrnutím správy</translation>
+    </message>
+    <message>
+        <source>Message verification failed.</source>
+        <translation>Overenie správy zlyhalo.</translation>
+    </message>
+    <message>
+        <source>Message verified.</source>
+        <translation>Správa overená.</translation>
+    </message>
 </context>
 <context>
     <name>SplashScreen</name>
     <message>
         <source>[testnet]</source>
         <translation>[testovacia sieť]</translation>
+    </message>
+</context>
+<context>
+    <name>SyscoinGUI</name>
+    <message>
+        <source>Sign &amp;message...</source>
+        <translation>Podpísať &amp;správu...</translation>
+    </message>
+    <message>
+        <source>Synchronizing with network...</source>
+        <translation>Synchronizácia so sieťou...</translation>
+    </message>
+    <message>
+        <source>&amp;Overview</source>
+        <translation>&amp;Prehľad</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Uzol</translation>
+    </message>
+    <message>
+        <source>Show general overview of wallet</source>
+        <translation>Zobraziť celkový prehľad o peňaženke</translation>
+    </message>
+    <message>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Transakcie</translation>
+    </message>
+    <message>
+        <source>Browse transaction history</source>
+        <translation>Prechádzať históriu transakcií</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>U&amp;končiť</translation>
+    </message>
+    <message>
+        <source>Quit application</source>
+        <translation>Ukončiť program</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt</source>
+        <translation>O &amp;Qt</translation>
+    </message>
+    <message>
+        <source>Show information about Qt</source>
+        <translation>Zobrazit informácie o Qt</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Možnosti...</translation>
+    </message>
+    <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Zašifrovať Peňaženku...</translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Zálohovať peňaženku...</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Zmena Hesla...</translation>
+    </message>
+    <message>
+        <source>&amp;Sending addresses...</source>
+        <translation>&amp;Odosielajúce adresy ...</translation>
+    </message>
+    <message>
+        <source>&amp;Receiving addresses...</source>
+        <translation>&amp;Prijímajúce adresy...</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Otvoriť &amp;URI...</translation>
+    </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Preindexúvam bloky na disku...</translation>
+    </message>
+    <message>
+        <source>Send coins to a Syscoin address</source>
+        <translation>Poslať syscoins na adresu</translation>
+    </message>
+    <message>
+        <source>Backup wallet to another location</source>
+        <translation>Zálohovať peňaženku na iné miesto</translation>
+    </message>
+    <message>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Zmeniť heslo použité na šifrovanie peňaženky</translation>
+    </message>
+    <message>
+        <source>&amp;Debug window</source>
+        <translation>&amp;Okno pre ladenie</translation>
+    </message>
+    <message>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Otvor konzolu pre ladenie a diagnostiku</translation>
+    </message>
+    <message>
+        <source>&amp;Verify message...</source>
+        <translation>O&amp;veriť správu...</translation>
+    </message>
+    <message>
+        <source>Syscoin</source>
+        <translation>Syscoin</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Peňaženka</translation>
+    </message>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;Odoslať</translation>
+    </message>
+    <message>
+        <source>&amp;Receive</source>
+        <translation>&amp;Prijať</translation>
+    </message>
+    <message>
+        <source>&amp;Show / Hide</source>
+        <translation>Zobraziť / skryť</translation>
+    </message>
+    <message>
+        <source>Show or hide the main Window</source>
+        <translation>Zobraziť alebo skryť hlavné okno</translation>
+    </message>
+    <message>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Zašifruj súkromné kľúče ktoré patria do vašej peňaženky</translation>
+    </message>
+    <message>
+        <source>Sign messages with your Syscoin addresses to prove you own them</source>
+        <translation>Podpísať správu s vašou adresou Syscoin aby ste preukázali že ju vlastníte</translation>
+    </message>
+    <message>
+        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
+        <translation>Overiť či správa bola podpísaná uvedenou Syscoin adresou</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Súbor</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>&amp;Nastavenia</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Pomoc</translation>
+    </message>
+    <message>
+        <source>Tabs toolbar</source>
+        <translation>Lišta záložiek</translation>
+    </message>
+    <message>
+        <source>Request payments (generates QR codes and syscoin: URIs)</source>
+        <translation>Vyžiadať platby (vygeneruje QR kódy a syscoin: URI)</translation>
+    </message>
+    <message>
+        <source>Show the list of used sending addresses and labels</source>
+        <translation>Zobraziť zoznam použitých adries odosielateľa a ich popisy</translation>
+    </message>
+    <message>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation>Zobraziť zoznam použitých prijímacích adries a ich popisov</translation>
+    </message>
+    <message>
+        <source>Open a syscoin: URI or payment request</source>
+        <translation>Otvoriť syscoin URI alebo výzvu k platbe</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>Možnosti príkazového riadku</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s) to Syscoin network</source>
+        <translation><numerusform>%n aktívne pripojenie do siete Syscoin</numerusform><numerusform>%n aktívne pripojenia do siete Syscoin</numerusform><numerusform>%n aktívnych pripojení do siete Syscoin</numerusform></translation>
+    </message>
+    <message>
+        <source>No block source available...</source>
+        <translation>Nedostupný zdroj blokov...</translation>
+    </message>
+    <message numerus="yes">
+        <source>Processed %n block(s) of transaction history.</source>
+        <translation><numerusform>Spracovaných %n blok transakčnej histórie.</numerusform><numerusform>Spracovaných %n bloky transakčnej histórie.</numerusform><numerusform>Spracovaných %n blokov transakčnej histórie.</numerusform></translation>
+    </message>
+    <message>
+        <source>%1 behind</source>
+        <translation>%1 pozadu</translation>
+    </message>
+    <message>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Posledný prijatý blok bol vygenerovaný pred %1.</translation>
+    </message>
+    <message>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Transakcie po tomto čase ešte nebudú viditeľné.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Upozornenie</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informácia</translation>
+    </message>
+    <message>
+        <source>Up to date</source>
+        <translation>Aktualizovaný</translation>
+    </message>
+    <message>
+        <source>A&amp;liases</source>
+        <translation>A &amp; udržuje spojenie</translation>
+    </message>
+    <message>
+        <source>Manage aliases</source>
+        <translation>správa aliasov</translation>
+    </message>
+    <message>
+        <source>&amp;Messages</source>
+        <translation>&amp; Správy</translation>
+    </message>
+    <message>
+        <source>Messages</source>
+        <translation>správy</translation>
+    </message>
+    <message>
+        <source>&amp;Marketplace</source>
+        <translation>&amp; Marketplace</translation>
+    </message>
+    <message>
+        <source>Manage offers</source>
+        <translation>správa ponúk</translation>
+    </message>
+    <message>
+        <source>&amp;Certificates</source>
+        <translation>&amp; Certifikáty</translation>
+    </message>
+    <message>
+        <source>Manage Certificates</source>
+        <translation>správa certifikátov</translation>
+    </message>
+    <message>
+        <source>&amp;Escrow</source>
+        <translation>&amp; Podmienené</translation>
+    </message>
+    <message>
+        <source>Escrows with offers</source>
+        <translation>Escrows s ponukami</translation>
+    </message>
+    <message>
+        <source>&amp;About Syscoin Core</source>
+        <translation>O jadre Syscoin</translation>
+    </message>
+    <message>
+        <source>Catching up...</source>
+        <translation>Sťahujem...</translation>
+    </message>
+    <message>
+        <source>Date: %1
+</source>
+        <translation>Dátum: %1
+</translation>
+    </message>
+    <message>
+        <source>Amount: %1
+</source>
+        <translation>Suma: %1
+</translation>
+    </message>
+    <message>
+        <source>Type: %1
+</source>
+        <translation>Typ: %1
+</translation>
+    </message>
+    <message>
+        <source>Label: %1
+</source>
+        <translation>Popis: %1
+</translation>
+    </message>
+    <message>
+        <source>Address: %1
+</source>
+        <translation>Adresa: %1
+</translation>
+    </message>
+    <message>
+        <source>Sent transaction</source>
+        <translation>Odoslané transakcie</translation>
+    </message>
+    <message>
+        <source>Incoming transaction</source>
+        <translation>Prijatá transakcia</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
+        <translation>Peňaženka je &lt;b&gt;zašifrovaná&lt;/b&gt; a momentálne &lt;b&gt;odomknutá&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
+        <translation>Peňaženka je &lt;b&gt;zašifrovaná&lt;/b&gt; a momentálne &lt;b&gt;zamknutá&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1616,10 +5051,587 @@
     </message>
 </context>
 <context>
+    <name>TransactionDesc</name>
+    <message>
+        <source>Open until %1</source>
+        <translation>Otvorené do %1</translation>
+    </message>
+    <message>
+        <source>%1/offline</source>
+        <translation>%1/offline</translation>
+    </message>
+    <message>
+        <source>in memory pool</source>
+        <translation>vo fonde pamäti</translation>
+    </message>
+    <message>
+        <source>not in memory pool</source>
+        <translation>nie je v pamäti bazéne</translation>
+    </message>
+    <message>
+        <source>%1/unconfirmed</source>
+        <translation>%1/nepotvrdené</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 potvrdení</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stav</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, ešte nebola úspešne odoslaná</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Dátum</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation>Zdroj</translation>
+    </message>
+    <message>
+        <source>Generated</source>
+        <translation>Vygenerované</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>od</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>neznámy</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Pre</translation>
+    </message>
+    <message>
+        <source>own address</source>
+        <translation>vlastná adresa</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>Iba sledovanie</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>popis</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation>Kredit</translation>
+    </message>
+    <message>
+        <source>not accepted</source>
+        <translation>neprijaté</translation>
+    </message>
+    <message>
+        <source>Debit</source>
+        <translation>Debet</translation>
+    </message>
+    <message>
+        <source>Total debit</source>
+        <translation>Debit spolu</translation>
+    </message>
+    <message>
+        <source>Total credit</source>
+        <translation>Kredit spolu</translation>
+    </message>
+    <message>
+        <source>Transaction fee</source>
+        <translation>Transakčný poplatok</translation>
+    </message>
+    <message>
+        <source>Net amount</source>
+        <translation>Suma netto</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Správa</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Komentár</translation>
+    </message>
+    <message>
+        <source>Transaction ID</source>
+        <translation>ID transakcie</translation>
+    </message>
+    <message>
+        <source>Merchant</source>
+        <translation>Kupec</translation>
+    </message>
+    <message>
+        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Vygenerované mince musia dospieť %1 blokov kým môžu byť minuté. Keď vytvoríte tento blok, bude rozoslaný do siete aby bol akceptovaný do reťaze blokov. Ak sa nedostane do reťazca, jeho stav sa zmení na "zamietnutý" a nebude sa dať minúť. Toto sa môže občas stať ak iný uzol vytvorí blok približne v rovnakom čase.</translation>
+    </message>
+    <message>
+        <source>Debug information</source>
+        <translation>Ladiace informácie</translation>
+    </message>
+    <message>
+        <source>Transaction</source>
+        <translation>Transakcie</translation>
+    </message>
+    <message>
+        <source>Inputs</source>
+        <translation>Vstupy</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Suma</translation>
+    </message>
+    <message>
+        <source>true</source>
+        <translation>pravda</translation>
+    </message>
+    <message>
+        <source>false</source>
+        <translation>nepravda</translation>
+    </message>
+</context>
+<context>
     <name>TransactionDescDialog</name>
+    <message>
+        <source>Transaction details</source>
+        <translation>Detaily transakcie</translation>
+    </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Táto časť obrazovky zobrazuje detailný popis transakcie</translation>
+    </message>
+    </context>
+<context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Dátum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Otvorené do %1</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Offline</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Nepotvrdené</translation>
+    </message>
+    <message>
+        <source>Confirming (%1 of %2 recommended confirmations)</source>
+        <translation> Potvrdzuje sa ( %1 z  %2 odporúčaných potvrdení)</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Potvrdené (%1 potvrdení)</translation>
+    </message>
+    <message>
+        <source>Conflicted</source>
+        <translation>V rozpore</translation>
+    </message>
+    <message>
+        <source>Immature (%1 confirmations, will be available after %2)</source>
+        <translation>Nezrelé (%1 potvrdení, bude k dispozícii po %2)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Ten blok nebol prijatý žiadnou inou nódou a pravdepodobne nebude akceptovaný!</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Vygenerované ale neakceptované</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Prijaté s</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Prijaté od:</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Odoslané na</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Platba sebe samému</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Vyťažené</translation>
+    </message>
+    <message>
+        <source>Alias Activated</source>
+        <translation>alias Activated</translation>
+    </message>
+    <message>
+        <source>Alias Transferred</source>
+        <translation>alias Prenesená</translation>
+    </message>
+    <message>
+        <source>Alias Updated</source>
+        <translation>alias Aktualizované</translation>
+    </message>
+    <message>
+        <source>Alias Received</source>
+        <translation>alias Prijaté</translation>
+    </message>
+    <message>
+        <source>Offer Activated</source>
+        <translation>ponuka Activated</translation>
+    </message>
+    <message>
+        <source>Offer Updated</source>
+        <translation>ponuka Aktualizované</translation>
+    </message>
+    <message>
+        <source>Offer Accepted</source>
+        <translation>prijatie ponuky</translation>
+    </message>
+    <message>
+        <source>Offer Accept Received</source>
+        <translation>Ponúkame prijímať</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback</source>
+        <translation>Ponúkame Accept spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback Received</source>
+        <translation>Ponuka Prijmi obdržané komentáre</translation>
+    </message>
+    <message>
+        <source>Cert. Activated</source>
+        <translation>Cert. aktivovanej</translation>
+    </message>
+    <message>
+        <source>Cert. Updated</source>
+        <translation>Cert. aktualizované</translation>
+    </message>
+    <message>
+        <source>Cert. Transferred</source>
+        <translation>Cert. prestúpil</translation>
+    </message>
+    <message>
+        <source>Cert. Received</source>
+        <translation>Cert. prijatej</translation>
+    </message>
+    <message>
+        <source>Escrow Activated</source>
+        <translation>podmienená Activated</translation>
+    </message>
+    <message>
+        <source>Escrow Released</source>
+        <translation>podmienená Vydané</translation>
+    </message>
+    <message>
+        <source>Escrow Refunded</source>
+        <translation>Podmienené refundovaná</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback</source>
+        <translation>Podmienená spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Received</source>
+        <translation>Podmienené vrátenie dane udelená</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Complete</source>
+        <translation>Podmienené Vrátenie Complete</translation>
+    </message>
+    <message>
+        <source>Message Sent</source>
+        <translation>Správa poslaná</translation>
+    </message>
+    <message>
+        <source>Message Received</source>
+        <translation>správa prijatá</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>Iba sledovanie</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>(n/a)</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(bez popisu)</translation>
+    </message>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Status transakcie. Pohybujte myšou nad týmto poľom a zjaví sa počet potvrdení.</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Dátum a čas prijatia transakcie.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Typ transakcie.</translation>
+    </message>
+    <message>
+        <source>Whether or not a watch-only address is involved in this transaction.</source>
+        <translation>Či sú ale nie sú, adresy iba na sledovanie zahrnuté v tejto transakcii.</translation>
+    </message>
+    <message>
+        <source>User-defined intent/purpose of the transaction.</source>
+        <translation>Užívateľom definovaný zámer / účel transakcie.</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Suma pridaná alebo odobraná k zostatku.</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Všetko</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Dnes</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>Tento týždeň</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Tento mesiac</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Minulý mesiac</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Tento rok</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Rozsah...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Prijaté s</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Odoslané na</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Samému sebe</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Vyťažené</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Iné</translation>
+    </message>
+    <message>
+        <source>Alias Activated</source>
+        <translation>alias Activated</translation>
+    </message>
+    <message>
+        <source>Alias Updated</source>
+        <translation>alias Aktualizované</translation>
+    </message>
+    <message>
+        <source>Alias Transferred</source>
+        <translation>alias Prenesená</translation>
+    </message>
+    <message>
+        <source>Alias Received</source>
+        <translation>alias Prijaté</translation>
+    </message>
+    <message>
+        <source>Offer Activated</source>
+        <translation>ponuka Activated</translation>
+    </message>
+    <message>
+        <source>Offer Updated</source>
+        <translation>ponuka Aktualizované</translation>
+    </message>
+    <message>
+        <source>Offer Accepted</source>
+        <translation>prijatie ponuky</translation>
+    </message>
+    <message>
+        <source>Offer Accept Received</source>
+        <translation>Ponúkame prijímať</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback</source>
+        <translation>Ponúkame Accept spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback Received</source>
+        <translation>Ponuka Prijmi obdržané komentáre</translation>
+    </message>
+    <message>
+        <source>Certificate Activated</source>
+        <translation>certifikát Activated</translation>
+    </message>
+    <message>
+        <source>Certificate Updated</source>
+        <translation>certifikát Aktualizované</translation>
+    </message>
+    <message>
+        <source>Certificate Transferred</source>
+        <translation>certifikát Prenesená</translation>
+    </message>
+    <message>
+        <source>Certificate Received</source>
+        <translation>certifikát obdržal</translation>
+    </message>
+    <message>
+        <source>Escrow Activated</source>
+        <translation>podmienená Activated</translation>
+    </message>
+    <message>
+        <source>Escrow Released</source>
+        <translation>podmienená Vydané</translation>
+    </message>
+    <message>
+        <source>Escrow Refunded</source>
+        <translation>Podmienené refundovaná</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Complete</source>
+        <translation>Podmienené Vrátenie Complete</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Received</source>
+        <translation>Podmienené vrátenie dane udelená</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback</source>
+        <translation>Podmienená spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Message Sent</source>
+        <translation>Správa poslaná</translation>
+    </message>
+    <message>
+        <source>Message Received</source>
+        <translation>správa prijatá</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Vložte adresu alebo popis pre vyhľadávanie</translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Min množstvo</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>Kopírovať adresu</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopírovať popis</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopírovať sumu</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopírovať ID transakcie</translation>
+    </message>
+    <message>
+        <source>Copy raw transaction</source>
+        <translation>Kópia surové transakcie</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>Editovať popis</translation>
+    </message>
+    <message>
+        <source>Show transaction details</source>
+        <translation>Zobraziť podrobnosti transakcie</translation>
+    </message>
+    <message>
+        <source>Export Transaction History</source>
+        <translation>Exportovať históriu transakcií</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Čiarkou oddelovaný súbor (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Potvrdené</translation>
+    </message>
+    <message>
+        <source>Watch-only</source>
+        <translation>Iba sledovanie</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Dátum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Popis</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresa</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Exporting Failed</source>
+        <translation>Export zlyhal</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the transaction history to %1.</source>
+        <translation>Vyskytla sa chyba pri pokuse o uloženie histórie transakcií do %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Successful</source>
+        <translation>Export úspešný</translation>
+    </message>
+    <message>
+        <source>The transaction history was successfully saved to %1.</source>
+        <translation>História transakciá bola úspešne uložená do %1.</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Rozsah:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>do</translation>
     </message>
 </context>
 <context>
@@ -1627,6 +5639,51 @@
     <message>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>Jednotka pre zobrazovanie súm. Kliknite pre zvolenie inej jednotky.</translation>
+    </message>
+</context>
+<context>
+    <name>WalletFrame</name>
+    <message>
+        <source>No wallet has been loaded.</source>
+        <translation>Nie je načítaná peňaženka.</translation>
+    </message>
+</context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Poslať Syscoins</translation>
+    </message>
+    </context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportovať tento náhľad do súboru</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Zálohovať peňaženku</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Údaje peňaženky (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>Záloha zlyhala</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the wallet data to %1.</source>
+        <translation>Vyskytla sa chyba pri pokuse o uloženie dát peňaženky do %1.</translation>
+    </message>
+    <message>
+        <source>Backup Successful</source>
+        <translation>Záloha úspešná</translation>
+    </message>
+    <message>
+        <source>The wallet data was successfully saved to %1.</source>
+        <translation>Dáta peňaženky boli úspešne uložené do %1.</translation>
     </message>
 </context>
 <context>
@@ -1650,6 +5707,18 @@
     <message>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Prijímať príkazy z príkazového riadku a JSON-RPC</translation>
+    </message>
+    <message>
+        <source>If &lt;category&gt; is not supplied or if &lt;category&gt; = 1, output all debugging information.</source>
+        <translation>ak &lt;category&gt; nie je súčasťou dodávky, alebo ak &lt;category&gt; = 1, výstup všetky informácie o ladení.</translation>
+    </message>
+    <message>
+        <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
+        <translation>Prerezávať: poslednej synchronizácie peňaženka presahuje prerezávajú dát. Musíte -reindex (opäť stiahnuť celý blockchain v prípade rezom uzla)</translation>
+    </message>
+    <message>
+        <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
+        <translation>Prehľadávanie nie sú možné rezom režimu. Budete musieť použiť -reindex ktorý stiahne celý blockchain znova.</translation>
     </message>
     <message>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
@@ -1700,8 +5769,16 @@
         <translation>Nastaviť počeť vlákien overujúcich skripty (%u až %d, 0 = auto, &lt;0 = nechať toľkoto jadier voľných, prednastavené: %d)</translation>
     </message>
     <message>
+        <source>The block database contains a block which appears to be from the future. This may be due to your computer's date and time being set incorrectly. Only rebuild the block database if you are sure that your computer's date and time are correct</source>
+        <translation>Databáza blok obsahuje blok, ktorý sa zdá byť z budúcnosti. To môže byť spôsobené dátum a čas v počítači je nesprávne nastavená. prestavať iba databázu bloku, ak ste si istí, že dátum a čas počítače sú správne</translation>
+    </message>
+    <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
         <translation>Toto je pred-testovacia verzia - použitie je na vlastné riziko - nepoužívajte na tvorbu syscoin ani obchodovanie.</translation>
+    </message>
+    <message>
+        <source>Use UPnP to map the listening port (default: 1 when listening and no -proxy)</source>
+        <translation>Použiť UPnP zmapovať načúvací portu (predvolené: 1 Pri počúvaní a nie -proxy)</translation>
     </message>
     <message>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
@@ -1764,6 +5841,10 @@ The network does not appear to fully agree! Some miners appear to be experiencin
     <message>
         <source>Enable publish raw block in &lt;address&gt;</source>
         <translation>Povoliť zverejnenie raw bloku pre &lt;address&gt;</translation>
+    </message>
+    <message>
+        <source>Enable publish raw transaction in &lt;address&gt;</source>
+        <translation>Povoliť publikovanie raw transakciu &lt;address&gt;</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
@@ -1946,6 +6027,10 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Uzle na zoznam povolených nemôžu byť DoS zakázané a ich transakcie vždy postúpené ďalej, aj v prípade, ak sú už pamäťovej fronte. Užitočné napr. pre brány</translation>
     </message>
     <message>
+        <source>You need to rebuild the database using -reindex to go back to unpruned mode.  This will redownload the entire blockchain</source>
+        <translation>Budete musieť znovu zostaviť databázu pomocou -reindex vrátiť do unpruned režimu. To bude redownload celý blockchain</translation>
+    </message>
+    <message>
         <source>(default: %u)</source>
         <translation>(predvolené: %u)</translation>
     </message>
@@ -1996,6 +6081,10 @@ The network does not appear to fully agree! Some miners appear to be experiencin
     <message>
         <source>RPC server options:</source>
         <translation>Možnosti servra RPC:</translation>
+    </message>
+    <message>
+        <source>Rescan the block chain for missing wallet transactions on startup</source>
+        <translation>Prehľadať kladkostroja pre chýbajúce peňaženiek transakcie na štarte</translation>
     </message>
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
@@ -2050,6 +6139,10 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Na tomto počítači sa nedá vytvoriť väzba %s (vytvorenie väzby vrátilo chybu %s)</translation>
     </message>
     <message>
+        <source>Updating an offer with a cert that does not exist</source>
+        <translation>Aktualizácia ponuku s cert, ktorá neexistuje</translation>
+    </message>
+    <message>
         <source>Upgrade wallet to latest format on startup</source>
         <translation>Aktualizovať peňaženku na posledný formát pri štarte</translation>
     </message>
@@ -2062,8 +6155,16 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Upozornenie</translation>
     </message>
     <message>
+        <source>Whitelist is already empty</source>
+        <translation>Whitelist je už prázdny</translation>
+    </message>
+    <message>
         <source>Zapping all transactions from wallet...</source>
         <translation>Zmazať všetky transakcie z peňaženky...</translation>
+    </message>
+    <message>
+        <source>ZeroMQ notification options:</source>
+        <translation>Možnosti oznámenia ZeroMQ:</translation>
     </message>
     <message>
         <source>Password for JSON-RPC connections</source>
@@ -2086,8 +6187,68 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>(1 = zachovať metaúdaje tx napr. vlastníka účtu a informácie o platobných príkazoch, 2 = zahodiť metaúdaje tx)</translation>
     </message>
     <message>
+        <source>-maxtxfee is set very high! Fees this large could be paid on a single transaction.</source>
+        <translation>-maxtxfee je nastavená veľmi vysoko! Poplatky za tento veľký mohli vyplatiť v jednej transakcii.</translation>
+    </message>
+    <message>
+        <source>-paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
+        <translation>-paytxfee je nastavená veľmi vysoko! Ide o poplatok za transakciu budete platiť, ak si poslať transakcie.</translation>
+    </message>
+    <message>
+        <source>Cannot create this offer because the certificate alias does not match the offer alias</source>
+        <translation>Nie je možné vytvoriť túto ponuku, pretože certifikát alias nezodpovedá ponuka alias</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this linked offer because the certificate has been transferred or it is linked to another offer</source>
+        <translation>Nemožno zakúpiť tento spojený ponuku, pretože certifikát bol prevedený, alebo je spojená s inou ponuku</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this offer because the certificate has been transferred or it is linked to another offer</source>
+        <translation>Nemožno kúpiť túto ponuku, pretože certifikát bol prevedený, alebo je spojená s inou ponuku</translation>
+    </message>
+    <message>
+        <source>Cannot update this offer because the certificate alias does not match the linked offer alias</source>
+        <translation>Nemožno aktualizovať túto ponuku, pretože certifikát alias nezodpovedá prepojené ponuka alias</translation>
+    </message>
+    <message>
+        <source>Cannot update this offer because the certificate alias does not match the offer alias</source>
+        <translation>Nemožno aktualizovať túto ponuku, pretože certifikát alias nezodpovedá ponuka alias</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: Invalid response from createrawtransaction</source>
+        <translation>Nemožno vytvoriť Escrow transakciu: neplatná odpoveď od createrawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Nemožno vytvoriť Escrow transakciu: nemožno nájsť vykúpiť skript v reakcii</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid response from decoderawtransaction</source>
+        <translation>Nepodarilo sa dekódovať escrow transakciu: neplatná odpoveď od decoderawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not sign escrow transaction: Invalid response from signrawtransaction</source>
+        <translation>Nemohol podpísať Escrow transakciu: neplatná odpoveď od signrawtransaction</translation>
+    </message>
+    <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
         <translation>Ako dôkladné je -checkblocks overenie blokov (0-4, predvolené: %u)</translation>
+    </message>
+    <message>
+        <source>Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1</source>
+        <translation>Neplatná cena a / alebo množstva hodnôt. Množstvo musí byť menšie ako 4294967296 a väčšia alebo rovná -1</translation>
+    </message>
+    <message>
+        <source>Invalid quantity value, must be less than 4294967296 and greater than or equal to -1</source>
+        <translation>Neplatná hodnota množstvo, musí byť menšie ako 4294967296 a väčšia alebo rovná -1</translation>
+    </message>
+    <message>
+        <source>Invalid rating value, must be less than or equal to 5 and greater than or equal to 0</source>
+        <translation>Neplatná hodnota hodnotenia, musí byť menší ako alebo rovná 5 a väčší alebo rovné 0</translation>
+    </message>
+    <message>
+        <source>Invalid rating, must be less than or equal to 5 and greater than or equal to 0</source>
+        <translation>Neplatné hodnotenie, musí byť menší ako alebo sa rovná 5 a väčší alebo rovné 0</translation>
     </message>
     <message>
         <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
@@ -2098,20 +6259,472 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Počet sekúnd, počas ktorých nepripájať zle správajúce sa uzle (predvolené: %u)</translation>
     </message>
     <message>
+        <source>Offer guid in the data output does not match the guid in the transaction</source>
+        <translation>Ponuka GUID vo výstupe dát nezodpovedá GUID v transakcii</translation>
+    </message>
+    <message>
         <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
         <translation>Výstupné ladiace informácie (predvolené: %u, dodanie &lt;category&gt; je voliteľné)</translation>
+    </message>
+    <message>
+        <source>Syscoin is open source software produced by a global network of developers. By downloading, distributing and using Syscoin and the Syscoin network you release the developers involved in the Syscoin Project past, present, and future from any and all liability. You are responsible for your creations on the Syscoin network. You agree that the developers of the Syscoin Project carry no responsibility for the actions/data or entities of *any* definition created on the network by yourself or others on the network to which you may be exposed.</source>
+        <translation>Syscoin je open source softvér vyrábaná celosvetovej siete vývojárov. Stiahnutím, distribúcie a používania Syscoin a sieť Syscoin uvoľnenie vývojárov zapojené do projektu Syscoin minulosti, prítomnosti a budúcnosti z akéhokoľvek a všetkej zodpovednosti. Ste zodpovední za svoje výtvory v sieti Syscoin. Súhlasíte s tým, že vývojári Syscoin projektu nenesú žiadnu zodpovednosť za činy / dát alebo subjektov * akýkoľvek * definícia vytvorená na sieti podľa seba aj ostatných v sieti, ku ktorému môžu byť vystavení.</translation>
+    </message>
+    <message>
+        <source>The developers of the Syscoin Project do not have the power to modify data on the Syscoin network, it is backed by an immutable blockchain, which you further acknowledge through use of Syscoin, the Syscoin network, and Syscoin services. If you do not agree to these terms, please refrain from using Syscoin and its related services.</source>
+        <translation>Vývojári z Syscoin projektu nemajú moc meniť dáta v sieti Syscoin, že sa opiera o nezmeniteľné blockchain, ktorý ďalej potvrdí cez použitie Syscoin, siete Syscoin a služby Syscoin. Ak nesúhlasíte s týmito podmienkami, prosím, zdržať používanie Syscoin a jej súvisiacich služieb.</translation>
+    </message>
+    <message>
+        <source>Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
+        <translation>nájdených nepodporované argumentov -socks. Nastavenie SOCKS verzia nie je už možné, sú podporované len SOCKS5 proxy.</translation>
     </message>
     <message>
         <source>Use separate SOCKS5 proxy to reach peers via Tor hidden services (default: %s)</source>
         <translation>Použiť samostatný SOCKS5 proxy server na dosiahnutie počítačov cez skryté služby Tor (predvolené: %s)</translation>
     </message>
     <message>
+        <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
+        <translation>Užívateľské meno a heslo pre pripojenie čiarkovaná JSON-RPC. poľa &lt;userpw&gt; prichádza v tvare: &lt;USERNAME&gt; : &lt;SALT&gt; $ &lt;HASH&gt; , Kanonické python skript je zahrnutá v share / rpcuser. Táto voľba môže byť zadaný viackrát</translation>
+    </message>
+    <message>
+        <source>You must be either the arbiter, buyer or seller to leave feedback on this escrow</source>
+        <translation>Musíte byť buď arbiter, kupujúci alebo predávajúci opustiť svoj názor na tieto úschove</translation>
+    </message>
+    <message>
+        <source>You must be either the buyer or seller to leave feedback on this offer purchase</source>
+        <translation>Musíte byť buď kupujúci alebo predávajúci opustiť svoj názor na túto ponuku kúpa</translation>
+    </message>
+    <message>
         <source>(default: %s)</source>
         <translation>(predvolené: %s)</translation>
     </message>
     <message>
+        <source>Alias Guid input mismatch</source>
+        <translation>Vstup nesúlad Alias ​​GUID</translation>
+    </message>
+    <message>
+        <source>Alias address does not refer to a key</source>
+        <translation>Alias ​​adresa neodkazuje na kľúč</translation>
+    </message>
+    <message>
+        <source>Alias arguments incorrect size</source>
+        <translation>Alias ​​argumenty nesprávnej veľkosti</translation>
+    </message>
+    <message>
+        <source>Alias input guid mismatch</source>
+        <translation>Alias ​​nesúlad vstup guid</translation>
+    </message>
+    <message>
+        <source>Alias input mismatch</source>
+        <translation>Vstup nesúlad Alias</translation>
+    </message>
+    <message>
+        <source>Alias input to this transaction not found</source>
+        <translation>Alias ​​vstup do tejto transakcie nebola nájdená</translation>
+    </message>
+    <message>
+        <source>Alias name does not follow the domain name specification</source>
+        <translation>Alias ​​nedodržiava špecifikácii názvu domény</translation>
+    </message>
+    <message>
+        <source>Alias not provided as input</source>
+        <translation>Alias ​​neposkytlo ako vstup</translation>
+    </message>
+    <message>
+        <source>Alias private value too big</source>
+        <translation>Alias ​​súkromná hodnota príliš veľká</translation>
+    </message>
+    <message>
+        <source>Alias public value too big</source>
+        <translation>Alias ​​verejná hodnota príliš veľká</translation>
+    </message>
+    <message>
+        <source>Alias transaction has unknown op</source>
+        <translation>Alias ​​transakcia má neznámy op</translation>
+    </message>
+    <message>
         <source>Always query for peer addresses via DNS lookup (default: %u)</source>
         <translation>Vždy sa dotazovať adresy partnerských uzlov cez vyhľadávanie DNS (predvolené: %u)</translation>
+    </message>
+    <message>
+        <source>Bad alias height</source>
+        <translation>Bad výška alias</translation>
+    </message>
+    <message>
+        <source>Buyer address does not refer to a key</source>
+        <translation>Adresa Kupujúci sa nevzťahuje na kľúč</translation>
+    </message>
+    <message>
+        <source>Buyer alias is not in your wallet</source>
+        <translation>Kupujúci alias nie je vo vašej peňaženke</translation>
+    </message>
+    <message>
+        <source>Can't determine type of alias input into syscoin service transaction</source>
+        <translation>Nemožno určiť typ vstupu alias do syscoin servisnej transakcie</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 arbiter feedbacks</source>
+        <translation>Jej dĺžka nesmie prekročiť 10 arbiter spätných väzieb</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 buyer feedbacks</source>
+        <translation>Jej dĺžka nesmie prekročiť 10 kupujúci spätných väzieb</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 seller feedbacks</source>
+        <translation>Jej dĺžka nesmie prekročiť 10 predajcu spätných väzieb</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for the recipient of this message. It may be expired</source>
+        <translation>Nemožno nájsť alias pre príjemcu tejto správy. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for the sender of this message. It may be expired</source>
+        <translation>Nemožno nájsť alias pre odosielateľa tejto správy. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this certificate. It may be expired</source>
+        <translation>Nemožno nájsť alias pre tento certifikát. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this offer. It may be expired</source>
+        <translation>Nemožno nájsť alias pre túto ponuku. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find alias you are transfering to. It may be expired</source>
+        <translation>Nemožno nájsť alias sa prepúšťa do. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find arbiter alias. It may be expired</source>
+        <translation>Nemožno nájsť alias arbitra. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find buyer alias. It may be expired</source>
+        <translation>Nemožno nájsť kupca alias. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find seller alias. It may be expired</source>
+        <translation>Nemožno nájsť predajcu alias. Môže byť uplynula</translation>
+    </message>
+    <message>
+        <source>Cannot find this alias in the parent offer affiliate list</source>
+        <translation>Nemožno nájsť alias v nadradenej ponuka partnerský zoznamu</translation>
+    </message>
+    <message>
+        <source>Cannot have accept information on offer activation</source>
+        <translation>Nemožno si prijímať informácie o realite aktivácii</translation>
+    </message>
+    <message>
+        <source>Cannot have accept information on offer update</source>
+        <translation>Nemožno si prijímať informácie o realite aktualizácii</translation>
+    </message>
+    <message>
+        <source>Cannot leave empty feedback</source>
+        <translation>Nemožno ponechať prázdnu spätnej väzby</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow activation</source>
+        <translation>Nemôže opustiť spätnú väzbu pri aktivácii escrow</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow refund</source>
+        <translation>Nemôže opustiť spätnú väzbu v úschove náhrady</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow release</source>
+        <translation>Nemôže opustiť spätnú väzbu v uvoľňovaní escrow</translation>
+    </message>
+    <message>
+        <source>Cannot link to an offer that is already linked to another offer</source>
+        <translation>Nemožno odkazovať na ponuku, ktorá je už spojená s inou ponuku</translation>
+    </message>
+    <message>
+        <source>Cannot only leave one feedback per transaction</source>
+        <translation>Môžu nielen ponechať jeden spätnú väzbu za transakciu</translation>
+    </message>
+    <message>
+        <source>Cannot purchase a wanted offer</source>
+        <translation>Nemožno kúpiť požadovanú ponuku</translation>
+    </message>
+    <message>
+        <source>Cannot purchase certificates with Bitcoins</source>
+        <translation>Nemôžu nakupovať certifikáty s Bitcoins</translation>
+    </message>
+    <message>
+        <source>Cannot sell an expired certificate</source>
+        <translation>Nemôže predať certifikát, ktorého platnosť vypršala</translation>
+    </message>
+    <message>
+        <source>Cannot send yourself feedback</source>
+        <translation>Môžete poslať sami nie sú spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Cannot unserialize data inside of this transaction relating to an offer</source>
+        <translation>Nemožno unserialize dát vnútri tejto transakcie vzťahujúce sa k ponuke</translation>
+    </message>
+    <message>
+        <source>Certificate already exists</source>
+        <translation>Certifikát už existuje</translation>
+    </message>
+    <message>
+        <source>Certificate arguments incorrect size</source>
+        <translation>Argumenty certifikátov nesprávnej veľkosti</translation>
+    </message>
+    <message>
+        <source>Certificate category too big</source>
+        <translation>kategórie Certifikát príliš veľká</translation>
+    </message>
+    <message>
+        <source>Certificate data too big</source>
+        <translation>Údaje certifikát príliš veľká</translation>
+    </message>
+    <message>
+        <source>Certificate guid mismatch</source>
+        <translation>Nezhoda guid Certifikát</translation>
+    </message>
+    <message>
+        <source>Certificate hex guid too long</source>
+        <translation>Certifikát hex GUID príliš dlho</translation>
+    </message>
+    <message>
+        <source>Certificate linked alias not allowed in activate</source>
+        <translation>Certifikát spojený alias nie je povolené v activate</translation>
+    </message>
+    <message>
+        <source>Certificate title too big or is empty</source>
+        <translation>Názov certifikátu príliš veľký alebo je prázdna</translation>
+    </message>
+    <message>
+        <source>Certificate title too big</source>
+        <translation>Názov certifikátu príliš veľká</translation>
+    </message>
+    <message>
+        <source>Certificate transaction has unknown op</source>
+        <translation>Certifikát transakcia má neznámy op</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2009-%i The Syscoin Core Developers</source>
+        <translation>Autorské práva (C) 2009-%i Vývojári jadra Syscoin</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: Invalid response from createescrow</source>
+        <translation>Nemožno vytvoriť Escrow transakciu: neplatná odpoveď od createescrow</translation>
+    </message>
+    <message>
+        <source>Could not decrypt certificate data</source>
+        <translation>Nepodarilo sa dešifrovať dáta certifikátu</translation>
+    </message>
+    <message>
+        <source>Could not encrypt alias private data</source>
+        <translation>Nemohol šifrovanie dát alias súkromného</translation>
+    </message>
+    <message>
+        <source>Could not encrypt certificate data</source>
+        <translation>Nemohol šifrovanie dát certifikátu</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message data for receiver</source>
+        <translation>Nemohol zašifrovanie dát Správa pre príjemcu</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message data for sender</source>
+        <translation>Nemohol zašifrovanie dát Správa pre odosielateľa</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message to seller</source>
+        <translation>Nemohol zašifrovať správu predajcovia</translation>
+    </message>
+    <message>
+        <source>Could not encrypt private alias value!</source>
+        <translation>Nemohol zašifrovanie vlastnú hodnotu alias!</translation>
+    </message>
+    <message>
+        <source>Could not find a certificate with this key</source>
+        <translation>Nepodarilo sa nájsť certifikát s týmto kľúčom</translation>
+    </message>
+    <message>
+        <source>Could not find a escrow with this key</source>
+        <translation>Nemožno nájsť escrow s týmto kľúčom</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this guid</source>
+        <translation>Nemožno nájsť alias s týmto GUID</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this identifier</source>
+        <translation>Nemožno nájsť alias s týmto identifikátorom</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this name</source>
+        <translation>Nemožno nájsť alias s týmto názvom</translation>
+    </message>
+    <message>
+        <source>Could not find an offer with this guid</source>
+        <translation>Nemožno nájsť ponuku s týmto GUID</translation>
+    </message>
+    <message>
+        <source>Could not find an offer with this identifier</source>
+        <translation>Nemožno nájsť ponuku s týmto identifikátorom</translation>
+    </message>
+    <message>
+        <source>Could not find buyer alias with this name</source>
+        <translation>Nemohol nájsť kupca alias s týmto názvom</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the peg alias</source>
+        <translation>Nemožno nájsť menu v PEG alias</translation>
+    </message>
+    <message>
+        <source>Could not find offer accept from mempool or disk</source>
+        <translation>Nemožno nájsť ponuku prijať od mempool alebo disk</translation>
+    </message>
+    <message>
+        <source>Could not find seller alias with this identifier</source>
+        <translation>Nemožno nájsť predajcu alias s týmto identifikátorom</translation>
+    </message>
+    <message>
+        <source>Could not find the alias associated with this offer</source>
+        <translation>Nemožno nájsť alias spojený s touto ponukou</translation>
+    </message>
+    <message>
+        <source>Could not find the certificate alias</source>
+        <translation>Nemožno nájsť alias certifikátu</translation>
+    </message>
+    <message>
+        <source>Could not get linked offer</source>
+        <translation>Nemožno získať spojené ponuku</translation>
+    </message>
+    <message>
+        <source>Creating an offer with a cert that does not exist</source>
+        <translation>Vytvorenie ponuku s cert, ktorá neexistuje</translation>
+    </message>
+    <message>
+        <source>Escrow Guid mismatch</source>
+        <translation>Podmienené Guid nesúlad</translation>
+    </message>
+    <message>
+        <source>Escrow already exists</source>
+        <translation>Podmienené už existuje</translation>
+    </message>
+    <message>
+        <source>Escrow arguments incorrect size</source>
+        <translation>Podmienené argumenty nesprávnej veľkosti</translation>
+    </message>
+    <message>
+        <source>Escrow guid in data output doesn't match guid in transaction</source>
+        <translation>Podmienené GUID dátovým výstupom nezodpovedá GUID transakciu</translation>
+    </message>
+    <message>
+        <source>Escrow guid too big</source>
+        <translation>Podmienené GUID príliš veľká</translation>
+    </message>
+    <message>
+        <source>Escrow not found when trying to update</source>
+        <translation>Podmienená nebol nájdený pri pokuse aktualizovať</translation>
+    </message>
+    <message>
+        <source>Escrow offer guid too long</source>
+        <translation>ponuka Podmienené GUID príliš dlho</translation>
+    </message>
+    <message>
+        <source>Escrow redeem script too long</source>
+        <translation>Podmienené vykúpil skript príliš dlhý</translation>
+    </message>
+    <message>
+        <source>Escrow refund status too large</source>
+        <translation>Stav Podmienené náhrada príliš veľká</translation>
+    </message>
+    <message>
+        <source>Escrow transaction has unknown op</source>
+        <translation>Podmienené transakcia má neznámy op</translation>
+    </message>
+    <message>
+        <source>Expiration must be within 1 to 5 years</source>
+        <translation>Vypršania platnosti musí byť v rozmedzí 1 až 5 rokov</translation>
+    </message>
+    <message>
+        <source>Failed to find escrow transaction</source>
+        <translation>Nepodarilo sa nájsť escrow transakciu</translation>
+    </message>
+    <message>
+        <source>Failed to read alias from alias DB</source>
+        <translation>Nepodarilo sa čítať z alias alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to read arbiter alias from DB</source>
+        <translation>Nepodarilo sa prečítať arbitra alias z DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from alias DB</source>
+        <translation>Nepodarilo sa čítať z alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from certificate DB</source>
+        <translation>Nepodarilo sa čítať z certifikátu DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from escrow DB</source>
+        <translation>Nepodarilo sa čítať z úschovy DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from offer DB</source>
+        <translation>Nepodarilo sa čítať z ponuky DB</translation>
+    </message>
+    <message>
+        <source>Failed to read to alias from alias DB</source>
+        <translation>Nepodarilo sa čítať z alias alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to read transfer alias from DB</source>
+        <translation>Nepodarilo sa prečítať prenosu alias z DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to alias DB</source>
+        <translation>Nepodarilo sa zapísať do alias DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to certifcate DB</source>
+        <translation>Nepodarilo sa zapísať do osvedčenia, DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to escrow DB</source>
+        <translation>Nepodarilo sa zapísať do úschovy DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to message DB</source>
+        <translation>Nepodarilo sa zapísať do správy DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer DB</source>
+        <translation>Nepodarilo sa zapísať ponúknuť DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer link to DB</source>
+        <translation>Nepodarilo sa zapísať ponúknuť odkaz na DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer to DB</source>
+        <translation>Nepodarilo sa zapísať ponúknuť DB</translation>
+    </message>
+    <message>
+        <source>Feedback must leave a message</source>
+        <translation>Spätná väzba musí zanechať odkaz</translation>
+    </message>
+    <message>
+        <source>Feedback too long</source>
+        <translation>Spätná väzba príliš dlho</translation>
+    </message>
+    <message>
+        <source>Guid in data output doesn't match guid in transaction</source>
+        <translation>GUID vo výstupe dát nezodpovedá GUID transakciu</translation>
+    </message>
+    <message>
+        <source>Guid in data output doesn't match guid in tx</source>
+        <translation>GUID vo výstupe dát nezodpovedá GUID TX</translation>
+    </message>
+    <message>
+        <source>Guid mismatch</source>
+        <translation>guid nesúlad</translation>
     </message>
     <message>
         <source>How many blocks to check at startup (default: %u, 0 = all)</source>
@@ -2126,6 +6739,46 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Neplatná adresa proxy: '%s'</translation>
     </message>
     <message>
+        <source>Invalid feedback transaction</source>
+        <translation>Neplatná transakcie spätná väzba</translation>
+    </message>
+    <message>
+        <source>Invalid number of escrow feedbacks provided</source>
+        <translation>Neplatný počet Escrow spätných väzieb za predpokladu,</translation>
+    </message>
+    <message>
+        <source>Invalid offer buyer alias</source>
+        <translation>Neplatná ponuka kupujúci alias</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow activate</source>
+        <translation>Neplatný op, by mala byť viazaný activate</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow complete</source>
+        <translation>Neplatný op, by malo byť dokončené úschovy</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow refund</source>
+        <translation>Neplatný op, by mala byť náhrada escrow</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow release</source>
+        <translation>Neplatný op, by mala byť Podmienečné prepustenie</translation>
+    </message>
+    <message>
+        <source>Invalid quantity value. Quantity must be less than 4294967296.</source>
+        <translation>Neplatná hodnota množstva. Množstvo musí byť menšie ako 4294967296.</translation>
+    </message>
+    <message>
+        <source>Invalid rating value</source>
+        <translation>Neplatná hodnota klientov</translation>
+    </message>
+    <message>
+        <source>Linked offer not found. It may be expired</source>
+        <translation>Súvisí ponuka nebola nájdená. Môže byť uplynula</translation>
+    </message>
+    <message>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
         <translation>Počúvať JSON-RPC pripojenia na &lt;port&gt; (predvolené: %u alebo testovacia sieť: %u)</translation>
     </message>
@@ -2138,6 +6791,10 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Udržiavať najviac &lt;n&gt; spojení s inými počítačmi (predvolené: %u)</translation>
     </message>
     <message>
+        <source>Make the wallet broadcast transactions</source>
+        <translation>Urobiť transakcie peňaženka vysielania</translation>
+    </message>
+    <message>
         <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: %u)</source>
         <translation>Maximálna prijímajúca medzipamäť pre pripojenie, &lt;n&gt;*1000 bajtov (predvolené: %u)</translation>
     </message>
@@ -2146,8 +6803,164 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Maximálna odosielajúca medzipamäť pre pripojenie, &lt;n&gt;*1000 bajtov (predvolené: %u)</translation>
     </message>
     <message>
+        <source>Message arguments incorrect size</source>
+        <translation>Argumenty správ nesprávnej veľkosti</translation>
+    </message>
+    <message>
+        <source>Message guid in data output does not match guid in transaction</source>
+        <translation>Správa GUID dátovým výstupom nezodpovedá GUID transakciu</translation>
+    </message>
+    <message>
+        <source>Message guid mismatch</source>
+        <translation>Správa GUID nesúlad</translation>
+    </message>
+    <message>
+        <source>Message subject too long</source>
+        <translation>Predmet správy príliš dlhá</translation>
+    </message>
+    <message>
+        <source>Message too long</source>
+        <translation>Správa je príliš dlhá</translation>
+    </message>
+    <message>
+        <source>Message transaction guid too big</source>
+        <translation>Transakcia správu GUID príliš veľká</translation>
+    </message>
+    <message>
+        <source>Message transaction has unknown op</source>
+        <translation>Transakcia správa má neznámy op</translation>
+    </message>
+    <message>
+        <source>Non-Syscoin transaction found</source>
+        <translation>Non-Syscoin transakcie nájdených</translation>
+    </message>
+    <message>
+        <source>Not enough quantity left in this offer for this purchase</source>
+        <translation>Nezostal v tejto ponuke pre tento nákup dostatočne množstvo</translation>
+    </message>
+    <message>
+        <source>Offer accept hex guid too long</source>
+        <translation>Ponuka akceptovať hex GUID príliš dlho</translation>
+    </message>
+    <message>
+        <source>Offer already exists</source>
+        <translation>Ponuka už existuje</translation>
+    </message>
+    <message>
+        <source>Offer arguments incorrect size</source>
+        <translation>Ponuka argumenty nesprávnej veľkosti</translation>
+    </message>
+    <message>
+        <source>Offer category cannot be empty</source>
+        <translation>Ponuka kategórie nemôže byť prázdny</translation>
+    </message>
+    <message>
+        <source>Offer category too long</source>
+        <translation>Ponuka kategórie príliš dlho</translation>
+    </message>
+    <message>
+        <source>Offer curreny too long</source>
+        <translation>Ponuka Curren príliš dlho</translation>
+    </message>
+    <message>
+        <source>Offer description too long</source>
+        <translation>Ponuka popis príliš dlhý</translation>
+    </message>
+    <message>
+        <source>Offer geolocation too long</source>
+        <translation>Ponuka Geolocation príliš dlho</translation>
+    </message>
+    <message>
+        <source>Offer guid too long</source>
+        <translation>Ponuka guid príliš dlho</translation>
+    </message>
+    <message>
+        <source>Offer has too many affiliate entries, only one allowed per transaction</source>
+        <translation>Ponuka má príliš veľa položiek affiliate, iba jeden povolené za transakciu</translation>
+    </message>
+    <message>
+        <source>Offer input and offer guid mismatch</source>
+        <translation>Ponúkajú vstup a ponúkajú GUID nesúlad</translation>
+    </message>
+    <message>
+        <source>Offer link guid hash too long</source>
+        <translation>Ponuka odkaz guid hash príliš dlho</translation>
+    </message>
+    <message>
+        <source>Offer payment message cannot be empty</source>
+        <translation>Ponuka platobná správa nemôže byť prázdny</translation>
+    </message>
+    <message>
+        <source>Offer price must be greater than 0</source>
+        <translation>Cenová ponuka musí byť väčšia ako 0</translation>
+    </message>
+    <message>
+        <source>Offer title cannot be empty</source>
+        <translation>Titulná ponuka nemôže byť prázdny</translation>
+    </message>
+    <message>
+        <source>Offer title too long</source>
+        <translation>Ponuka názov príliš dlhý</translation>
+    </message>
+    <message>
+        <source>Offer transaction has unknown op</source>
+        <translation>Ponuka transakcia má neznámy op</translation>
+    </message>
+    <message>
+        <source>OfferAccept arguments incorrect size</source>
+        <translation>OfferAccept argumenty nesprávnu veľkosť</translation>
+    </message>
+    <message>
+        <source>Offeraccept object cannot be empty</source>
+        <translation>Offeraccept objekt nemôže byť prázdny</translation>
+    </message>
+    <message>
+        <source>Offeraccept transaction with guid too big</source>
+        <translation>Offeraccept transakciu s GUID príliš veľký</translation>
+    </message>
+    <message>
+        <source>Only arbiter can leave this feedback</source>
+        <translation>Len arbiter môže opustiť túto spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Only arbiter or seller can initiate an escrow refund</source>
+        <translation>Iba arbitra alebo predávajúci môže iniciovať escrow refundáciu</translation>
+    </message>
+    <message>
+        <source>Only buyer can claim an escrow refund</source>
+        <translation>Iba kupujúci môže uplatniť nárok na náhradu escrow</translation>
+    </message>
+    <message>
+        <source>Only buyer can leave the seller feedback</source>
+        <translation>Iba kupujúci môže opustiť predávajúci spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Only buyer can leave this feedback</source>
+        <translation>Iba kupujúci môže opustiť túto spätnú väzbu</translation>
+    </message>
+    <message>
+        <source>Only seller can leave this feedback</source>
+        <translation>Iba predávajúci môže opustiť túto spätnú väzbu</translation>
+    </message>
+    <message>
         <source>Prepend debug output with timestamp (default: %u)</source>
         <translation>Na začiatok pripojiť časovú známku k ladiacemu výstupu (predvolené: %u)</translation>
+    </message>
+    <message>
+        <source>Private key for buyer address is not known</source>
+        <translation>Súkromný kľúč pre kupujúceho adresa nie je známa</translation>
+    </message>
+    <message>
+        <source>Private key for seller address is not known</source>
+        <translation>Súkromný kľúč pre predajcov adresa nie je známa</translation>
+    </message>
+    <message>
+        <source>Quantity must be 1 for a digital offer</source>
+        <translation>Množstvo musí byť 1 pre digitálne ponuky</translation>
+    </message>
+    <message>
+        <source>Quantity must be less than 4294967296</source>
+        <translation>Množstvo musí byť menší ako 4294967296</translation>
     </message>
     <message>
         <source>Relay and mine data carrier transactions (default: %u)</source>
@@ -2158,12 +6971,16 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Prenášať non-P2SH multi-podpis (predvolené: %u)</translation>
     </message>
     <message>
-        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
-        <translation>Nastaviť veľkosť kľúča fronty na &lt;n&gt; (predvolené: %u)</translation>
+        <source>Seller address does not refer to a key</source>
+        <translation>Adresa Predávajúci sa nevzťahuje na kľúč</translation>
     </message>
     <message>
-        <source>Set minimum block size in bytes (default: %u)</source>
-        <translation>Nastaviť minimálnu veľkosť bloku v bajtoch (predvolené: %u)</translation>
+        <source>Seller alias is not in your wallet</source>
+        <translation>Predávajúci alias nie je vo vašej peňaženke</translation>
+    </message>
+    <message>
+        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
+        <translation>Nastaviť veľkosť kľúča fronty na &lt;n&gt; (predvolené: %u)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>
@@ -2186,12 +7003,48 @@ The network does not appear to fully agree! Some miners appear to be experiencin
         <translation>Minúť nepotvrdené zmenu pri posielaní transakcií (predvolené: %u)</translation>
     </message>
     <message>
+        <source>This alias entry already exists on affiliate list</source>
+        <translation>Tieto prostriedky alias už existuje v zozname partnerský</translation>
+    </message>
+    <message>
+        <source>This alias entry was not found on affiliate list</source>
+        <translation>Tento záznam alias nebol nájdený na zozname partnerský</translation>
+    </message>
+    <message>
+        <source>This alias is not in your wallet</source>
+        <translation>Tento alias nie je vo vašej peňaženke</translation>
+    </message>
+    <message>
+        <source>This alias is not yours</source>
+        <translation>Tento alias nie je tvoja</translation>
+    </message>
+    <message>
+        <source>This message already exists</source>
+        <translation>Táto správa už existuje</translation>
+    </message>
+    <message>
         <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
         <translation>Hranica pre odpájanie zle sa správajúcim partnerským uzlom (predvolené: %u)</translation>
     </message>
     <message>
+        <source>Trying to accept a linked offer but could not find parent offer</source>
+        <translation>Sa snaží prijať prepojený ponuku, ale nemohol nájsť nadradenú ponuku</translation>
+    </message>
+    <message>
+        <source>Trying to renew an alias that isn't expired</source>
+        <translation>Sa snaží obnoviť alias, ktorý nie je vypršala</translation>
+    </message>
+    <message>
+        <source>Unknown feedback user type</source>
+        <translation>Neznámy spätná väzba typ užívateľa</translation>
+    </message>
+    <message>
         <source>Unknown network specified in -onlynet: '%s'</source>
         <translation>Neznáma sieť upresnená v -onlynet: '%s'</translation>
+    </message>
+    <message>
+        <source>failed to read alias from alias DB</source>
+        <translation>nedokázal prečítať alias zo alias DB</translation>
     </message>
     <message>
         <source>Insufficient funds</source>

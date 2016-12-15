@@ -1,5 +1,251 @@
 <TS language="uk" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    <message>
+        <source>Pay Offer</source>
+        <translation>платне пропозицію</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Пропозиція ID:</translation>
+    </message>
+    <message>
+        <source>The value associated with this offer.</source>
+        <translation>Значення, пов'язане з цією пропозицією.</translation>
+    </message>
+    <message>
+        <source>Lookup the OfferID from the blockchain DB</source>
+        <translation>Погляд вгору по OfferID від blockchain DB</translation>
+    </message>
+    <message>
+        <source>&amp;Lookup Offer</source>
+        <translation>&amp; Пошук Пропозиція</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Кількість:</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>Notes:</source>
+        <translation>Примітки:</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>деталі пропозиції</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Торговець:</translation>
+    </message>
+    <message>
+        <source>Merchant Rating:</source>
+        <translation>Торговець Рейтинг:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Назва:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Категорія:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Ціна:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Alias for Exchange Rate Peg:</source>
+        <translation>Аліас для обмінного курсу Peg:</translation>
+    </message>
+    <message>
+        <source>Quantity Remaining:</source>
+        <translation>Кількість залишився:</translation>
+    </message>
+    <message>
+        <source>Quantity Sold:</source>
+        <translation>Кількість Продавець:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>опис:</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Купівля цю пропозицію</translation>
+    </message>
+    <message>
+        <source>&amp;Accept Offer</source>
+        <translation>&amp; Прийняти пропозицію</translation>
+    </message>
+    <message>
+        <source>Click to open image in browser...</source>
+        <translation>Натисніть, щоб відкрити зображення в браузері ...</translation>
+    </message>
+    <message>
+        <source>Use Public Profile</source>
+        <translation>використовувати профіль</translation>
+    </message>
+    <message>
+        <source>Use Private Profile</source>
+        <translation>Використання приватних профілю</translation>
+    </message>
+    <message>
+        <source>Confirm Public Profile Inclusion</source>
+        <translation>Підтвердження Public Включення профілю</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Ви впевнені, що хочете продовжити?</translation>
+    </message>
+    <message>
+        <source>Confirm Private Profile Inclusion</source>
+        <translation>Підтвердіть особистий профіль Включення</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to get the alias profile data: </source>
+        <translation>Був виняток намагається отримати дані псевдоніма профілю:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Був виняток намагається оновити список псевдонімів:</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept this offer!</source>
+        <translation>Invalid кількість при спробі прийняти цю пропозицію!</translation>
+    </message>
+    <message>
+        <source>Please choose an alias before purchasing this offer.</source>
+        <translation>Будь ласка, виберіть псевдонім перед покупкою цю пропозицію.</translation>
+    </message>
+    <message>
+        <source>Waiting for confirmation on the purchase of this offer</source>
+        <translation>Очікування підтвердження про покупку цієї пропозиції</translation>
+    </message>
+    <message>
+        <source>URI has been already handled</source>
+        <translation>URI вже оброблено</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>необмежений</translation>
+    </message>
+</context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>Accepted Offers</source>
+        <translation>прийняті пропозиції</translation>
+    </message>
+    <message>
+        <source>Refresh accepted offer list</source>
+        <translation>Оновити список дозволених абонентів пропозицію</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Копіювати пропозицію ID</translation>
+    </message>
+    <message>
+        <source>Details of the selected accepted offer</source>
+        <translation>Детальна інформація про обраний пропозиції прийнятого</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Send message to the seller</source>
+        <translation>Надіслати продавцю</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Надіслати продавцю Msg</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Залишити відгук</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Експорт даних Пропозиція</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer ID</source>
+        <translation>ідентифікатор пропозиції</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>прийняти ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>висота</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>ціна</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>валюта</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>загальний</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>продавець</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>покупець</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -41,6 +287,158 @@
         <source>&amp;Delete</source>
         <translation>&amp;Видалити</translation>
     </message>
+    <message>
+        <source>Choose the address to send coins to</source>
+        <translation>Виберіть адресу для відправлення монет</translation>
+    </message>
+    <message>
+        <source>Choose the address to receive coins with</source>
+        <translation>Виберіть адресу для отримання монет</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation>&amp;Обрати</translation>
+    </message>
+    <message>
+        <source>Sending addresses</source>
+        <translation>Адреси для відправлення</translation>
+    </message>
+    <message>
+        <source>Receiving addresses</source>
+        <translation>Адреси для отримання</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Це ваші Syscoin-адреси для відправлення платежів. Перед відправленням монет завжди перевіряйте суму та адресу прийому.</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Це ваша нова Syscoin адреса для отримання платежів. Рекомендовано використовувати нову адресу для кожної транзакції.</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Address</source>
+        <translation>&amp;Скопіювати адресу</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Label</source>
+        <translation>Скопіювати &amp;мітку</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Редагувати</translation>
+    </message>
+    <message>
+        <source>Export Address List</source>
+        <translation>Експортувати список адрес</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    <message>
+        <source>Label</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(немає назви)</translation>
+    </message>
+</context>
+<context>
+    <name>AliasListPage</name>
+    <message>
+        <source>Aliases</source>
+        <translation>псевдоніми</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>пошук</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected alias to the system clipboard</source>
+        <translation>Скопіюйте вибрані в даний момент псевдонім в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Alias ID</source>
+        <translation>&amp; Копіювати Алиас ID</translation>
+    </message>
+    <message>
+        <source>Send Msg</source>
+        <translation>Надіслати Msg</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Aliases. Select Safe Search from wallet options if you wish to omit potentially offensive Aliases(On by default)</source>
+        <translation>Пошук псевдонімів Syscoin. Виберіть Безпечний пошук з варіантів гаманця, якщо ви хочете, щоб запобігти потенційному образливі псевдоніми (за замовчуванням)</translation>
+    </message>
+    <message>
+        <source>Enter search term, regex accepted (ie: ^name returns all Aliases starting with 'name'). Empty will search for all.</source>
+        <translation>Введіть слово для пошуку, регулярний вираз прийнято (тобто: ^ ім'я повертає всі псевдоніми, що починаються з 'ім'я'). Порожній буде шукати всі.</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from aliasfilter command</source>
+        <translation>Помилка: недійсну відповідь від команди aliasfilter</translation>
+    </message>
+</context>
+<context>
+    <name>AliasTableModel</name>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Завершується В</translation>
+    </message>
+    <message>
+        <source>Alias Status</source>
+        <translation>алиас Статус</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>Продавець Рейтинг</translation>
+    </message>
+    </context>
+<context>
+    <name>AliasView</name>
+    <message>
+        <source>My Aliases</source>
+        <translation>Мої Псевдоніми</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>пошук</translation>
+    </message>
 </context>
 <context>
     <name>AskPassphraseDialog</name>
@@ -60,6 +458,90 @@
         <source>Repeat new passphrase</source>
         <translation>Повторіть пароль</translation>
     </message>
+    <message>
+        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
+        <translation>Введіть нову кодову фразу для гаманця.&lt;br/&gt;Будь ласка, використовуйте кодові фрази що містять &lt;b&gt; щонайменше десять випадкових символів &lt;/b&gt; або &lt;b&gt; щонайменше вісім слів &lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>Encrypt wallet</source>
+        <translation>Зашифрувати гаманець</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Ця операція потребує пароль для розблокування гаманця.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet</source>
+        <translation>Розблокувати гаманець</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Ця операція потребує пароль для дешифрування гаманця.</translation>
+    </message>
+    <message>
+        <source>Decrypt wallet</source>
+        <translation>Дешифрувати гаманець</translation>
+    </message>
+    <message>
+        <source>Change passphrase</source>
+        <translation>Змінити пароль</translation>
+    </message>
+    <message>
+        <source>Enter the old passphrase and new passphrase to the wallet.</source>
+        <translation>Введіть старий пароль та новий пароль до гаманця.</translation>
+    </message>
+    <message>
+        <source>Confirm wallet encryption</source>
+        <translation>Підтвердити шифрування гаманця</translation>
+    </message>
+    <message>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SYSCOINS&lt;/b&gt;!</source>
+        <translation>УВАГА: Якщо ви зашифруєте гаманець і забудете пароль, ви &lt;b&gt;ВТРАТИТЕ ВСІ СВОЇ БІТКОІНИ&lt;/b&gt;!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Ви дійсно хочете зашифрувати свій гаманець?</translation>
+    </message>
+    <message>
+        <source>Wallet encrypted</source>
+        <translation>Гаманець зашифровано</translation>
+    </message>
+    <message>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation>ВАЖЛИВО: Всі попередні резервні копії, які ви зробили з вашого файлу гаманця повинні бути замінені новоствореним, зашифрованим файлом гаманця. З міркувань безпеки, попередні резервні копії незашифрованого файла гаманця стануть непридатними одразу ж, як тільки ви почнете використовувати новий, зашифрований гаманець.</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed</source>
+        <translation>Не вдалося зашифрувати гаманець</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Виникла помилка під час шифрування гаманця. Ваш гаманець не було зашифровано.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Введені паролі не співпадають.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock failed</source>
+        <translation>Не вдалося розблокувати гаманець</translation>
+    </message>
+    <message>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Введений пароль є неправильним.</translation>
+    </message>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>Не вдалося розшифрувати гаманець</translation>
+    </message>
+    <message>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Пароль було успішно змінено.</translation>
+    </message>
+    <message>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Увага: Ввімкнено Caps Lock!</translation>
+    </message>
 </context>
 <context>
     <name>BanTableModel</name>
@@ -73,292 +555,96 @@
     </message>
 </context>
 <context>
-    <name>SyscoinGUI</name>
+    <name>CertListPage</name>
     <message>
-        <source>Sign &amp;message...</source>
-        <translation>&amp;Підписати повідомлення...</translation>
-    </message>
-    <message>
-        <source>Synchronizing with network...</source>
-        <translation>Синхронізація з мережею...</translation>
+        <source>Certificates</source>
+        <translation>сертифікати</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Огляд</translation>
+        <source>All Certificates</source>
+        <translation>всі сертифікати</translation>
     </message>
     <message>
-        <source>Node</source>
-        <translation>Вузол</translation>
+        <source>Search</source>
+        <translation>пошук</translation>
     </message>
     <message>
-        <source>Show general overview of wallet</source>
-        <translation>Показати стан гаманця</translation>
+        <source>Copy the currently selected cert to the system clipboard</source>
+        <translation>Скопіюйте цей сертифікат в системний буфер обміну</translation>
     </message>
     <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Транзакції</translation>
+        <source>&amp;Copy Certificate ID</source>
+        <translation>&amp; Копіювати Сертифікат ID</translation>
     </message>
     <message>
-        <source>Browse transaction history</source>
-        <translation>Переглянути історію транзакцій</translation>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
     </message>
     <message>
-        <source>E&amp;xit</source>
-        <translation>&amp;Вихід</translation>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
     </message>
     <message>
-        <source>Quit application</source>
-        <translation>Вийти</translation>
+        <source>Search for Syscoin Certificates. Select Safe Search from wallet options if you wish to omit potentially offensive Certificates(On by default)</source>
+        <translation>Пошук Syscoin сертифікатів. Виберіть Безпечний пошук з варіантів гаманця, якщо ви хочете, щоб пропустити потенційно образливих сертифікатів (за замовчуванням)</translation>
     </message>
     <message>
-        <source>&amp;About %1</source>
-        <translation>П&amp;ро %1</translation>
+        <source>Enter search term, regex accepted (ie: ^name returns all Certificates starting with 'name'). Empty will search for all.</source>
+        <translation>Введіть слово для пошуку, регулярний вираз прийнято (тобто: ^ ім'я повертає всі сертифікати, починаючи з 'ім'я'). Порожній буде шукати всі.</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation>&amp;Про Qt</translation>
+        <source>certificates</source>
+        <translation>сертифікати</translation>
     </message>
     <message>
-        <source>Show information about Qt</source>
-        <translation>Показати інформацію про Qt</translation>
+        <source>General exception when searching certficiates</source>
+        <translation>Загальне виключення при пошуку certficiates</translation>
     </message>
     <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Параметри...</translation>
+        <source>Error: Invalid response from certfilter command</source>
+        <translation>Помилка: недійсну відповідь від команди certfilter</translation>
+    </message>
+</context>
+<context>
+    <name>CertTableModel</name>
+    <message>
+        <source>Cert</source>
+        <translation>вірняк</translation>
     </message>
     <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Шифрування гаманця...</translation>
+        <source>Title</source>
+        <translation>назва</translation>
     </message>
     <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Резервне копіювання гаманця...</translation>
+        <source>Status</source>
+        <translation>Статус</translation>
     </message>
     <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>Змінити парол&amp;ь...</translation>
+        <source>Category</source>
+        <translation>категорія</translation>
     </message>
     <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>Адреси для &amp;відправлення...</translation>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
     </message>
     <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>Адреси для &amp;отримання...</translation>
+        <source>Expires In</source>
+        <translation>Завершується В</translation>
     </message>
     <message>
-        <source>Open &amp;URI...</source>
-        <translation>Відкрити &amp;URI</translation>
+        <source>Owner</source>
+        <translation>власник</translation>
+    </message>
+</context>
+<context>
+    <name>CertView</name>
+    <message>
+        <source>My Certificates</source>
+        <translation>Мої сертифікати</translation>
     </message>
     <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Переіндексація блоків на диску ...</translation>
-    </message>
-    <message>
-        <source>Send coins to a Syscoin address</source>
-        <translation>Відправити монети на вказану адресу</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Резервне копіювання гаманця в інше місце</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Змінити пароль, який використовується для шифрування гаманця</translation>
-    </message>
-    <message>
-        <source>&amp;Debug window</source>
-        <translation>В&amp;ікно зневадження</translation>
-    </message>
-    <message>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Відкрити консоль зневадження і діагностики</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>П&amp;еревірити повідомлення...</translation>
-    </message>
-    <message>
-        <source>Syscoin</source>
-        <translation>Syscoin</translation>
-    </message>
-    <message>
-        <source>Wallet</source>
-        <translation>Гаманець</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Відправити</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Отримати</translation>
-    </message>
-    <message>
-        <source>&amp;Show / Hide</source>
-        <translation>Показа&amp;ти / Приховати</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Показує або приховує головне вікно</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Зашифрувати закриті ключі, що знаходяться у вашому гаманці</translation>
-    </message>
-    <message>
-        <source>Sign messages with your Syscoin addresses to prove you own them</source>
-        <translation>Підтвердіть, що Ви є власником повідомлення підписавши його Вашою Syscoin-адресою </translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
-        <translation>Перевірте повідомлення для впевненості, що воно підписано вказаною Syscoin-адресою</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Налаштування</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Довідка</translation>
-    </message>
-    <message>
-        <source>Tabs toolbar</source>
-        <translation>Панель вкладок</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and syscoin: URIs)</source>
-        <translation>Створити запит платежу (генерує QR-код та syscoin: URI)</translation>
-    </message>
-    <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Показати список адрес і міток, що були використані для відправлення</translation>
-    </message>
-    <message>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation>Показати список адрес і міток, що були використані для отримання</translation>
-    </message>
-    <message>
-        <source>Open a syscoin: URI or payment request</source>
-        <translation>Відкрити syscoin: URI чи запит платежу</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>П&amp;араметри командного рядка</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Syscoin network</source>
-        <translation><numerusform>%n активне з'єднання з мережею Syscoin</numerusform><numerusform>%n активні з'єднання з мережею Syscoin</numerusform><numerusform>%n активних з'єднань з мережею Syscoin</numerusform></translation>
-    </message>
-    <message>
-        <source>No block source available...</source>
-        <translation>Недоступно жодного джерела блоків...</translation>
-    </message>
-    <message numerus="yes">
-        <source>Processed %n block(s) of transaction history.</source>
-        <translation><numerusform>Оброблено %n блок історії транзакцій.</numerusform><numerusform>Оброблено %n блоки історії транзакцій.</numerusform><numerusform>Оброблено %n блоків історії транзакцій.</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n година</numerusform><numerusform>%n години</numerusform><numerusform>%n годин</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s)</source>
-        <translation><numerusform>%n день</numerusform><numerusform>%n дні</numerusform><numerusform>%n днів</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s)</source>
-        <translation><numerusform>%n тиждень</numerusform><numerusform>%n тижня</numerusform><numerusform>%n тижнів</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation>%1 та %2</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s)</source>
-        <translation><numerusform>%n рік</numerusform><numerusform>%n роки</numerusform><numerusform>%n років</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 behind</source>
-        <translation>%1 тому</translation>
-    </message>
-    <message>
-        <source>Last received block was generated %1 ago.</source>
-        <translation>Останній отриманий блок було згенеровано %1 тому.</translation>
-    </message>
-    <message>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation>Пізніші транзакції не буде видно.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Помилка</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Попередження</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Інформація</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>Синхронізовано</translation>
-    </message>
-    <message>
-        <source>Catching up...</source>
-        <translation>Синхронізується...</translation>
-    </message>
-    <message>
-        <source>Date: %1
-</source>
-        <translation>Дата: %1
-</translation>
-    </message>
-    <message>
-        <source>Amount: %1
-</source>
-        <translation>Кількість: %1
-</translation>
-    </message>
-    <message>
-        <source>Type: %1
-</source>
-        <translation>Тип: %1
-</translation>
-    </message>
-    <message>
-        <source>Label: %1
-</source>
-        <translation>Мітка: %1
-</translation>
-    </message>
-    <message>
-        <source>Address: %1
-</source>
-        <translation>Адреса: %1
-</translation>
-    </message>
-    <message>
-        <source>Sent transaction</source>
-        <translation>Надіслані транзакції</translation>
-    </message>
-    <message>
-        <source>Incoming transaction</source>
-        <translation>Отримані транзакції</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Зашифрований&lt;/b&gt; гаманець &lt;b&gt;розблоковано&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Зашифрований&lt;/b&gt; гаманець &lt;b&gt;заблоковано&lt;/b&gt;</translation>
+        <source>Search</source>
+        <translation>пошук</translation>
     </message>
 </context>
 <context>
@@ -378,10 +664,6 @@
     <message>
         <source>Amount:</source>
         <translation>Сума:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Пріорітет:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -436,8 +718,84 @@
         <translation>Підтверджені</translation>
     </message>
     <message>
-        <source>Priority</source>
-        <translation>Пріоритет</translation>
+        <source>Copy address</source>
+        <translation>Скопіювати адресу</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Скопіювати мітку</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Скопіювати суму</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Скопіювати ID транзакції </translation>
+    </message>
+    <message>
+        <source>Lock unspent</source>
+        <translation>Заблокувати</translation>
+    </message>
+    <message>
+        <source>Unlock unspent</source>
+        <translation>Розблокувати</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Скопіювати кількість</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Скопіювати комісію</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Скопіювати після комісії</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Скопіювати байти</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Скопіювати пил</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Скопіювати решту</translation>
+    </message>
+    <message>
+        <source>(%1 locked)</source>
+        <translation>(%1 заблоковано)</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>так</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>ні</translation>
+    </message>
+    <message>
+        <source>This label turns red if any recipient receives an amount smaller than the current dust threshold.</source>
+        <translation>Ця мітка стає червоним, якщо будь-який одержувач отримує суму менше порогового значення струму пилу.</translation>
+    </message>
+    <message>
+        <source>Can vary +/- %1 satoshi(s) per input.</source>
+        <translation>Може відрізнятися на +/- %1 сатоші за вхід</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(немає назви)</translation>
+    </message>
+    <message>
+        <source>change from %1 (%2)</source>
+        <translation>решта з %1 (%2)</translation>
+    </message>
+    <message>
+        <source>(change)</source>
+        <translation>(решта)</translation>
     </message>
 </context>
 <context>
@@ -461,6 +819,642 @@
     <message>
         <source>&amp;Address</source>
         <translation>&amp;Адреса</translation>
+    </message>
+    <message>
+        <source>New receiving address</source>
+        <translation>Нова адреса для отримання</translation>
+    </message>
+    <message>
+        <source>New sending address</source>
+        <translation>Нова адреса для відправлення</translation>
+    </message>
+    <message>
+        <source>Edit receiving address</source>
+        <translation>Редагувати адресу для отримання</translation>
+    </message>
+    <message>
+        <source>Edit sending address</source>
+        <translation>Редагувати адресу для відправлення</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is not a valid Syscoin address.</source>
+        <translation>Введена адреса «%1» не є коректною адресою в мережі Syscoin.</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>Введена адреса «%1» вже присутня в адресній книзі.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Неможливо розблокувати гаманець.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>Не вдалося згенерувати нові ключі.</translation>
+    </message>
+</context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>Edit Alias</source>
+        <translation>змінити псевдонім</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Загальна</translation>
+    </message>
+    <message>
+        <source>&amp;Alias:</source>
+        <translation>&amp; Alias:</translation>
+    </message>
+    <message>
+        <source>The alias name.</source>
+        <translation>Ім'я псевдоніма.</translation>
+    </message>
+    <message>
+        <source>Public Profile:</source>
+        <translation>Відкритий профіль:</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Безпечний пошук:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Так</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ні</translation>
+    </message>
+    <message>
+        <source>Expiry:</source>
+        <translation>Термін дії:</translation>
+    </message>
+    <message>
+        <source>Private Profile:</source>
+        <translation>Особистий профіль:</translation>
+    </message>
+    <message>
+        <source>Transfer To (Public Key):</source>
+        <translation>Трансфер в (Public Key):</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>добре</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>1 Year</source>
+        <translation>1 рік</translation>
+    </message>
+    <message>
+        <source>2 Years</source>
+        <translation>2 роки</translation>
+    </message>
+    <message>
+        <source>3 Years</source>
+        <translation>3 роки</translation>
+    </message>
+    <message>
+        <source>4 Years</source>
+        <translation>4 років</translation>
+    </message>
+    <message>
+        <source>5 Years</source>
+        <translation>5 років</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>новий Алиас</translation>
+    </message>
+    <message>
+        <source>Edit Data Alias</source>
+        <translation>Редагування даних Алиас</translation>
+    </message>
+    <message>
+        <source>Transfer Alias</source>
+        <translation>передача Алиас</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>Empty name for Alias not allowed. Please try again</source>
+        <translation>Пусте ім'я для псевдоніма не допускається. Будь ласка спробуйте ще раз</translation>
+    </message>
+    <message>
+        <source>General exception creating new Alias</source>
+        <translation>Загальне виключення створення нового псевдоніма</translation>
+    </message>
+    <message>
+        <source>General exception updating Alias</source>
+        <translation>Загальне виключення оновлення Алиас</translation>
+    </message>
+    <message>
+        <source>General exception transferring Alias</source>
+        <translation>Загальне виключення передачі Алиас</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Неможливо розблокувати гаманець.</translation>
+    </message>
+</context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Edit Cert</source>
+        <translation>редагування Cert</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>сертифікат:</translation>
+    </message>
+    <message>
+        <source>The value associated with this certificate.</source>
+        <translation>Значення, пов'язане з цим сертифікатом.</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Назва:</translation>
+    </message>
+    <message>
+        <source>The certificate name.</source>
+        <translation>Ім'я сертифіката.</translation>
+    </message>
+    <message>
+        <source>Transfer To:</source>
+        <translation>Трансфер в:</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Так</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ні</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Безпечний пошук:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Категорія:</translation>
+    </message>
+    <message>
+        <source>New Cert</source>
+        <translation>новий Cert</translation>
+    </message>
+    <message>
+        <source>Transfer Cert</source>
+        <translation>передача Cert</translation>
+    </message>
+    <message>
+        <source>certificates</source>
+        <translation>сертифікати</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Був виняток намагається оновити список псевдонімів:</translation>
+    </message>
+    <message>
+        <source>Empty name for Cert not allowed. Please try again</source>
+        <translation>Пусте ім'я для Cert не допускається. Будь ласка спробуйте ще раз</translation>
+    </message>
+    <message>
+        <source>General exception creating new Cert</source>
+        <translation>Загальне виключення створення нової Cert</translation>
+    </message>
+    <message>
+        <source>General exception updating Cert</source>
+        <translation>Загальне виключення оновлення Cert</translation>
+    </message>
+    <message>
+        <source>General exception transferring Cert</source>
+        <translation>Загальне виключення передачі Cert</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Неможливо розблокувати гаманець.</translation>
+    </message>
+</context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>Edit Offer</source>
+        <translation>редагувати пропозицію</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>Загальна</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>пропозиція:</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Назва:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Категорія:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Ціна:</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Кількість:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>опис:</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Валюта:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>сертифікат:</translation>
+    </message>
+    <message>
+        <source>Seller Alias:</source>
+        <translation>Продавець Alias:</translation>
+    </message>
+    <message>
+        <source>Private:</source>
+        <translation>Приватна територія:</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ні</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Так</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Безпечний пошук:</translation>
+    </message>
+    <message>
+        <source>Geolocation:</source>
+        <translation>геолокації:</translation>
+    </message>
+    <message>
+        <source>Commission:</source>
+        <translation>Комісія:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>добре</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>Select Certificate (optional)</source>
+        <translation>Вибір сертифіката (за бажанням)</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>нова пропозиція</translation>
+    </message>
+    <message>
+        <source>New Offer(Certificate)</source>
+        <translation>Нова пропозиція (сертифікат)</translation>
+    </message>
+    <message>
+        <source>certificates</source>
+        <translation>сертифікати</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the cert list: </source>
+        <translation>Був виняток намагається оновити список CERT:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Був виняток намагається оновити список псевдонімів:</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>необмежений</translation>
+    </message>
+    <message>
+        <source>Empty name for Offer not allowed. Please try again</source>
+        <translation>Пусте ім'я для Пропоновані можливості не допускається. Будь ласка спробуйте ще раз</translation>
+    </message>
+    <message>
+        <source>Confirm Alias Peg</source>
+        <translation>Підтвердіть Псевдоніма Peg</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Неможливо розблокувати гаманець.</translation>
+    </message>
+</context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>Manage Affiliates</source>
+        <translation>управління Філії</translation>
+    </message>
+    <message>
+        <source>Refresh affiliate list</source>
+        <translation>Оновити список філія</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Add a new affiliate</source>
+        <translation>Додати нову філію</translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation>&amp; Додати</translation>
+    </message>
+    <message>
+        <source>Remove an affiliate</source>
+        <translation>видалити філія</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Вилучити</translation>
+    </message>
+    <message>
+        <source>Remove all affiliates</source>
+        <translation>Видалити всі філії</translation>
+    </message>
+    <message>
+        <source>Remove All</source>
+        <translation>Видалити все</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>Entry removed successfully!</source>
+        <translation>Запис успішно видалені!</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to remove this entry: </source>
+        <translation>Був винятком спроби видалити цей запис:</translation>
+    </message>
+    <message>
+        <source>Affiliate list cleared successfully!</source>
+        <translation>Партнерський список очищається успішно!</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to clear the affiliate list: </source>
+        <translation>Був виняток намагається очистити список партнерської:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the affiliate list: </source>
+        <translation>Був виняток намагається оновити список партнерської:</translation>
+    </message>
+    <message>
+        <source>Export Affiliate Data</source>
+        <translation>Експорт даних Партнерська</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>знижка</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>Escrow Info</source>
+        <translation>депонуванню інформація</translation>
+    </message>
+    <message>
+        <source>&amp;General</source>
+        <translation>&amp; Загальні</translation>
+    </message>
+    <message>
+        <source>Escrow Details</source>
+        <translation>подробиці по депонуванню</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>Ідентифікатор</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Пропозиція ID:</translation>
+    </message>
+    <message>
+        <source>TXID:</source>
+        <translation>TXID:</translation>
+    </message>
+    <message>
+        <source>Offer Title:</source>
+        <translation>Пропозиція Назва:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>зростання:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>час:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Ціна:</translation>
+    </message>
+    <message>
+        <source>Escrow Fee:</source>
+        <translation>Escrow Вартість:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Всього:</translation>
+    </message>
+    <message>
+        <source>Average Rating:</source>
+        <translation>Середня оцінка:</translation>
+    </message>
+    <message>
+        <source>Shipping &amp; Contact Information:</source>
+        <translation>Доставка &amp; Контактна інформація:</translation>
+    </message>
+    <message>
+        <source>&amp;Buyer Feedback</source>
+        <translation>&amp; Покупець Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>&amp;Seller Feedback</source>
+        <translation>&amp; Продавець Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>&amp;Arbiter Feedback</source>
+        <translation>&amp; Арбітра Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;Гаразд</translation>
+    </message>
+    <message>
+        <source>No Feedback Found</source>
+        <translation>Немає Зворотній зв'язок Знайшли</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>покупець</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>продавець</translation>
+    </message>
+    <message>
+        <source>Arbiter</source>
+        <translation>арбітр</translation>
+    </message>
+    <message>
+        <source>No Feedback</source>
+        <translation>Немає Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>от:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation>оцінка:</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowListPage</name>
+    <message>
+        <source>Escrows</source>
+        <translation>Escrows</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>пошук</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected escrow to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент умовного депонування в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Escrow ID</source>
+        <translation>&amp; Копіювати депонуванню ID</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Manage Escrow</source>
+        <translation>управління Escrow</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Escrows.</source>
+        <translation>Пошук Syscoin Escrows.</translation>
+    </message>
+    <message>
+        <source>Enter search term. Search for arbiter/seller or escrow GUID. Empty will search for all.</source>
+        <translation>Введіть слово для пошуку. Шукати арбітром / продавця або депозитного GUID. Порожній буде шукати всі.</translation>
+    </message>
+    <message>
+        <source>General exception when searching escrow</source>
+        <translation>Загальне виключення при пошуку умовного депонування</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from escrowfilter command</source>
+        <translation>Помилка: недійсну відповідь від команди escrowfilter</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowTableModel</name>
+    <message>
+        <source>Escrow</source>
+        <translation>ескроу</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>час</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>продавець</translation>
+    </message>
+    <message>
+        <source>Arbiter</source>
+        <translation>арбітр</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>покупець</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>пропозиція</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>загальний</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>рейтинг</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowView</name>
+    <message>
+        <source>Search</source>
+        <translation>пошук</translation>
     </message>
 </context>
 <context>
@@ -491,6 +1485,10 @@
     <message>
         <source>version</source>
         <translation>версії</translation>
+    </message>
+    <message>
+        <source>Syscoin Client</source>
+        <translation>клієнт Syscoin</translation>
     </message>
     <message>
         <source>(%1-bit)</source>
@@ -532,6 +1530,57 @@
         <source>Show splash screen on startup (default: %u)</source>
         <translation>Показувати заставку під час запуску (типово: %u)</translation>
     </message>
+    <message>
+        <source>Reset all settings changed in the GUI</source>
+        <translation>Скинути всі параметри, змінені в графічному інтерфейсі користувача</translation>
+    </message>
+</context>
+<context>
+    <name>InMessageListPage</name>
+    <message>
+        <source>New Msg</source>
+        <translation>новий Msg</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Export Message Data</source>
+        <translation>Експорт даних повідомлень</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>GUID</source>
+        <translation>ідентифікатор GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>час</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Відправник</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Отримувач</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>суб'єкт</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
     </context>
 <context>
     <name>Intro</name>
@@ -565,6 +1614,1571 @@
     </message>
 </context>
 <context>
+    <name>ManageEscrowDialog</name>
+    <message>
+        <source>Manage Your Escrow</source>
+        <translation>управління Escrow</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>Release this escrow to the seller</source>
+        <translation>Випуск цього умовного депонування продавцеві</translation>
+    </message>
+    <message>
+        <source>Release Escrow</source>
+        <translation>випуск депонуванню</translation>
+    </message>
+    <message>
+        <source>Refund this escrow back to the buyer</source>
+        <translation>Повернення цього ескроу назад до покупця</translation>
+    </message>
+    <message>
+        <source>Refund Escrow</source>
+        <translation>повернення Escrow</translation>
+    </message>
+    <message>
+        <source> Stars</source>
+        <translation>зірки</translation>
+    </message>
+    <message>
+        <source>Cannot find this escrow on the network, please try again later.</source>
+        <translation>Неможливо знайти цей ескроу в мережі, будь ласка, спробуйте ще раз.</translation>
+    </message>
+    <message>
+        <source>You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases.</source>
+        <translation>Ви не можете управляти цим умовного депонування, тому що ви не є власником одного або покупцем, продавцем або арбітром псевдонімами.</translation>
+    </message>
+    <message>
+        <source>Claim Payment</source>
+        <translation>вимагати оплати</translation>
+    </message>
+    <message>
+        <source>Claim Refund</source>
+        <translation>повернення претензії</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>пропозиція:</translation>
+    </message>
+    <message>
+        <source>The escrow has been successfully claimed by the merchant. The escrow is complete.</source>
+        <translation>Депонування успішно стверджував купець. Умовного депонування завершена.</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Залишити відгук</translation>
+    </message>
+    <message>
+        <source>The escrow has been successfully refunded to the buyer. The escrow is complete.</source>
+        <translation>Умовного депонування був успішно повернений покупцеві. Умовного депонування завершена.</translation>
+    </message>
+    <message>
+        <source>The escrow status was not recognized. Please contact the Syscoin team.</source>
+        <translation>Статус умовного депонування не був визнаний. Будь ласка, зв'яжіться з командою Syscoin.</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>відсутні</translation>
+    </message>
+    <message>
+        <source>Thank you for your feedback!</source>
+        <translation>Спасибі за ваш відгук!</translation>
+    </message>
+    <message>
+        <source>General exception sending feedbackescrow</source>
+        <translation>Загальне виключення відправки feedbackescrow</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Неможливо розібрати відповідь JSON:</translation>
+    </message>
+    <message>
+        <source>Check BTC Payment</source>
+        <translation>Перевірте BTC Оплата</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Будь ласка, зачекайте ...</translation>
+    </message>
+    <message>
+        <source>Escrow released successfully!</source>
+        <translation>Escrow випущений успішно!</translation>
+    </message>
+    <message>
+        <source>General exception releasing escrow</source>
+        <translation>Загальне виключення звільнення умовного депонування</translation>
+    </message>
+    <message>
+        <source>Escrow refunded successfully!</source>
+        <translation>Escrow повертається успішно!</translation>
+    </message>
+    <message>
+        <source>General exception refunding escrow</source>
+        <translation>Загальне виключення відшкодування витрат по депонуванню</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message Info</source>
+        <translation>повідомлення Інформація</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>от:</translation>
+    </message>
+    <message>
+        <source>The value associated with this message.</source>
+        <translation>Значення, пов'язане з цим повідомленням.</translation>
+    </message>
+    <message>
+        <source>To:</source>
+        <translation>Для того, щоб:</translation>
+    </message>
+    <message>
+        <source>The message name.</source>
+        <translation>Ім'я повідомлення.</translation>
+    </message>
+    <message>
+        <source>Topic:</source>
+        <translation>тема:</translation>
+    </message>
+    <message>
+        <source>Message:</source>
+        <translation>Повідомлення:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>час:</translation>
+    </message>
+</context>
+<context>
+    <name>MessageListPage</name>
+    <message>
+        <source>Message List</source>
+        <translation>список повідомлень</translation>
+    </message>
+    <message>
+        <source>Refresh message list</source>
+        <translation>Оновити список повідомлень</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Send a new message</source>
+        <translation>Відправити новий</translation>
+    </message>
+    <message>
+        <source>New Msg</source>
+        <translation>новий Msg</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected message to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент повідомлення в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Msg ID</source>
+        <translation>&amp; Copy ID Msg</translation>
+    </message>
+    <message>
+        <source>Get message details</source>
+        <translation>Отримати відомості про повідомленні</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+</context>
+<context>
+    <name>MessageTableModel</name>
+    <message>
+        <source>GUID</source>
+        <translation>ідентифікатор GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>час</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Відправник</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Отримувач</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>суб'єкт</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <source>Last block time</source>
+        <translation>Час останнього блоку</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Приховати</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>My Accepted Offers</source>
+        <translation>Мої Прийняті Пропозиції</translation>
+    </message>
+    <message>
+        <source>Refresh your accepted offer list</source>
+        <translation>Оновлення прийняв пропозицію список</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Копіювати пропозицію ID</translation>
+    </message>
+    <message>
+        <source>Details of the currently accepted offer</source>
+        <translation>Детальна інформація про прийняту в даний час пропозиція</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Send message to buyer</source>
+        <translation>Надіслати повідомлення для покупця</translation>
+    </message>
+    <message>
+        <source>Send Msg To Buyer</source>
+        <translation>Надіслати ГЗС Покупцеві</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Залишити відгук</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Помилка виконання запиту:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Неможливо розібрати відповідь JSON:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Будь ласка, зачекайте ...</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Експорт даних Пропозиція</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer ID</source>
+        <translation>ідентифікатор пропозиції</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>прийняти ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>висота</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>ціна</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>валюта</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>загальний</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>продавець</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>покупець</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>My Aliases</source>
+        <translation>Мої Псевдоніми</translation>
+    </message>
+    <message>
+        <source>Refresh alias list</source>
+        <translation>Оновити список псевдонімів</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Create a new alias</source>
+        <translation>Створити новий псевдонім</translation>
+    </message>
+    <message>
+        <source>&amp;New Alias</source>
+        <translation>&amp; New Алиас</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected alias to the system clipboard</source>
+        <translation>Скопіюйте вибрані в даний момент псевдонім в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Alias ID</source>
+        <translation>&amp; Копіювати Алиас ID</translation>
+    </message>
+    <message>
+        <source>Edit selected alias</source>
+        <translation>Редагування вибраних псевдонім</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>редагувати</translation>
+    </message>
+    <message>
+        <source>Transfer selected alias</source>
+        <translation>Передача обраний псевдонім</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>передача</translation>
+    </message>
+    <message>
+        <source>Create a new public key used for transferring aliases</source>
+        <translation>Створіть новий відкритий ключ, який використовується для передачі псевдонімів</translation>
+    </message>
+    <message>
+        <source>New Public Key</source>
+        <translation>Новий відкритий ключ</translation>
+    </message>
+    <message>
+        <source>Open list of affiliates associated with this alias</source>
+        <translation>Відкритий список афільованих осіб, пов'язаних з цим псевдонімом</translation>
+    </message>
+    <message>
+        <source>Affiliations</source>
+        <translation>належність</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
+        <translation>Це ваші зареєстровані Псевдоніми Syscoin. Аліаси операції (створення, оновлення, перенесення) приймають 2-5 хвилин, щоб стати активними.</translation>
+    </message>
+    <message>
+        <source>You cannot edit this alias because it has expired</source>
+        <translation>Ви не можете редагувати цей псевдонім, так як він закінчився</translation>
+    </message>
+    <message>
+        <source>This alias is still pending, click the refresh button once the alias confirms and try again</source>
+        <translation>Цей псевдонім ще не завершено, натисніть кнопку оновлення, як тільки псевдонім підтверджує і спробуйте ще раз</translation>
+    </message>
+    <message>
+        <source>You cannot transfer this alias because it has expired</source>
+        <translation>Ви не можете передати цей псевдонім, так як він закінчився</translation>
+    </message>
+    <message>
+        <source>New Public Key For Alias Transfer</source>
+        <translation>Новий відкритий ключ для Псевдоніма Transfer</translation>
+    </message>
+    <message>
+        <source> has been copied to your clipboard! IMPORTANT: This key is for one-time use only! Do not re-use public keys for multiple aliases or transfers.</source>
+        <translation>був скопійований в буфер обміну! ВАЖЛИВО: Цей ключ призначений тільки для одноразового використання! Чи не повторно використовувати відкриті ключі для декількох псевдонімів або передач.</translation>
+    </message>
+    <message>
+        <source>Could not generate a new public key!</source>
+        <translation>Не вдалося створити новий відкритий ключ!</translation>
+    </message>
+    <message>
+        <source>Export Alias Data</source>
+        <translation>Експорт даних Алиас</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Завершується В</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>Продавець Рейтинг</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+</context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>My Certificates</source>
+        <translation>Мої сертифікати</translation>
+    </message>
+    <message>
+        <source>Refresh certificate list</source>
+        <translation>Оновити список сертифікатів</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Create a new certificate</source>
+        <translation>Створити новий сертифікат</translation>
+    </message>
+    <message>
+        <source>&amp;New Certificate</source>
+        <translation>&amp; Новий сертифікат</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected certificate to the system clipboard</source>
+        <translation>Скопіюйте цей сертифікат в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Certificate ID</source>
+        <translation>&amp; Копіювати Сертифікат ID</translation>
+    </message>
+    <message>
+        <source>Edit selected certificate</source>
+        <translation>Змінити цей сертифікат</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>редагувати</translation>
+    </message>
+    <message>
+        <source>Transfer selected certificate</source>
+        <translation>Передача вибраного сертифіката</translation>
+    </message>
+    <message>
+        <source>Transfer</source>
+        <translation>передача</translation>
+    </message>
+    <message>
+        <source>Sell selected certificate</source>
+        <translation>Продати цей сертифікат</translation>
+    </message>
+    <message>
+        <source>Sell</source>
+        <translation>продавати</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>You cannot sell this certificate because it has expired</source>
+        <translation>Ви не можете продати цей сертифікат, оскільки він закінчився</translation>
+    </message>
+    <message>
+        <source>You cannot edit this certificate because it has expired</source>
+        <translation>Ви не можете редагувати цей сертифікат, оскільки він закінчився</translation>
+    </message>
+    <message>
+        <source>You cannot transfer this certificate because it has expired</source>
+        <translation>Ви не можете передати цей сертифікат, оскільки він закінчився</translation>
+    </message>
+    <message>
+        <source>Export Certificate Data</source>
+        <translation>Експорт даних сертифікатів</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>вірняк</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Owner</source>
+        <translation>власник</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>категорія</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Завершується В</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+</context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>My Escrow List</source>
+        <translation>Мій список депонуванню</translation>
+    </message>
+    <message>
+        <source>Show Completed/ Refunded/Expired Escrows</source>
+        <translation>Показати Завершена / Refunded / з вичерпаним терміном дії Escrows</translation>
+    </message>
+    <message>
+        <source>Refresh your list of escrows</source>
+        <translation>Оновлення список escrows</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected escrow to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент умовного депонування в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Escrow ID</source>
+        <translation>&amp; Копіювати депонуванню ID</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Release selected escrow to merchant</source>
+        <translation>Випуск обраного умовного депонування для торговця</translation>
+    </message>
+    <message>
+        <source>Manage Escrow</source>
+        <translation>управління Escrow</translation>
+    </message>
+    <message>
+        <source>Send message to buyer</source>
+        <translation>Надіслати повідомлення для покупця</translation>
+    </message>
+    <message>
+        <source>Send Msg To Buyer</source>
+        <translation>Надіслати ГЗС Покупцеві</translation>
+    </message>
+    <message>
+        <source>Send message to seller</source>
+        <translation>Надіслати продавцю</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Надіслати продавцю Msg</translation>
+    </message>
+    <message>
+        <source>Send message to arbiter</source>
+        <translation>Надіслати повідомлення для арбітром</translation>
+    </message>
+    <message>
+        <source>Send Msg To Arbiter</source>
+        <translation>Надіслати ГЗС Арбітра</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Помилка виконання запиту:</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Неможливо розібрати відповідь JSON:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Будь ласка, зачекайте ...</translation>
+    </message>
+    <message>
+        <source>Export Escrow Data</source>
+        <translation>Експорт даних по депонуванню</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+</context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>My Offers</source>
+        <translation>Мої пропозиції</translation>
+    </message>
+    <message>
+        <source>Show Sold Out/ Expired Offers</source>
+        <translation>Показати Продано / пропозицій закінчився</translation>
+    </message>
+    <message>
+        <source>Show Digital Offers Only</source>
+        <translation>Показати Цифрові пропозиції Тільки</translation>
+    </message>
+    <message>
+        <source>Refresh your list of offers</source>
+        <translation>Оновити список пропозицій</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Create a new offer</source>
+        <translation>Створити нову пропозицію</translation>
+    </message>
+    <message>
+        <source>&amp;New Offer</source>
+        <translation>&amp; Нова пропозиція</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Копіювати пропозицію ID</translation>
+    </message>
+    <message>
+        <source>Edit selected offer</source>
+        <translation>Редагувати вбрання пропозицію</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>редагувати</translation>
+    </message>
+    <message>
+        <source>Manage affiliates for this offer</source>
+        <translation>Управління філій для цієї пропозиції</translation>
+    </message>
+    <message>
+        <source>&amp;Manage Affiliates</source>
+        <translation>&amp; Управління Філії</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>Manage Affiliates</source>
+        <translation>управління Філії</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>You cannot edit this offer because it has expired</source>
+        <translation>Ви не можете редагувати цю пропозицію, тому що він закінчився</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Експорт даних Пропозиція</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>пропозиція</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>вірняк</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>опис</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>категорія</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>ціна</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>валюта</translation>
+    </message>
+    <message>
+        <source>Sold</source>
+        <translation>проданий</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>приватний</translation>
+    </message>
+    <message>
+        <source>Seller Alias</source>
+        <translation>Продавець Алиас</translation>
+    </message>
+    <message>
+        <source>Seller Rating</source>
+        <translation>Продавець Рейтинг</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+</context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    <message>
+        <source>Offer</source>
+        <translation>пропозиція</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>знижка</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Завершується В</translation>
+    </message>
+</context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>My Offer Affiliates</source>
+        <translation>Моя пропозиція Філії</translation>
+    </message>
+    <message>
+        <source>Refresh your affiliate list for this offer</source>
+        <translation>Оновити список партнерської для цієї пропозиції</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp; Оновити</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Експорт</translation>
+    </message>
+    <message>
+        <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
+        <translation>Ви є філією для цих пропозицій. Партнерські операції займають 2-5 хвилин, щоб стати активними. Власник пропозиції може додати вас до свого списку партнерської і ваша запис філія буде відображатися тут.</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the affiliate list: </source>
+        <translation>Був виняток намагається оновити список партнерської:</translation>
+    </message>
+    <message>
+        <source>Export Affiliate Data</source>
+        <translation>Експорт даних Партнерська</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>пропозиція</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>знижка</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>New Message</source>
+        <translation>нове повідомлення</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>от:</translation>
+    </message>
+    <message>
+        <source>To:</source>
+        <translation>Для того, щоб:</translation>
+    </message>
+    <message>
+        <source>The message name.</source>
+        <translation>Ім'я повідомлення.</translation>
+    </message>
+    <message>
+        <source>Topic:</source>
+        <translation>тема:</translation>
+    </message>
+    <message>
+        <source>Original Message:</source>
+        <translation>Оригінал тексту:</translation>
+    </message>
+    <message>
+        <source>Your Message:</source>
+        <translation>Ваше повідомлення:</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Ні</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Так</translation>
+    </message>
+    <message>
+        <source>Reply Message</source>
+        <translation>Відповісти повідомлення</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Був виняток намагається оновити список псевдонімів:</translation>
+    </message>
+    <message>
+        <source>Empty message not allowed. Please try again</source>
+        <translation>Пусте повідомлення не допускається. Будь ласка спробуйте ще раз</translation>
+    </message>
+    <message>
+        <source>General exception creating new message</source>
+        <translation>Загальне виключення створення нового повідомлення</translation>
+    </message>
+    <message>
+        <source>General exception replying to message</source>
+        <translation>Загальне виключення відповідь на повідомлення</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Неможливо розблокувати гаманець.</translation>
+    </message>
+</context>
+<context>
+    <name>NewWhitelistDialog</name>
+    <message>
+        <source>Add Affiliate</source>
+        <translation>Додати Партнерська</translation>
+    </message>
+    <message>
+        <source>Offer</source>
+        <translation>пропозиція</translation>
+    </message>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>знижка</translation>
+    </message>
+    <message>
+        <source>New affiliate added successfully!</source>
+        <translation>Нова філія успішно доданий!</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Неможливо розблокувати гаманець.</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialog</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Прийняти пропозицію Syscoin</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>Pay with Bitcoin</source>
+        <translation>Оплатити за допомогою Bitcoin</translation>
+    </message>
+    <message>
+        <source>Pay with BTC</source>
+        <translation>Оплатити за допомогою BTC</translation>
+    </message>
+    <message>
+        <source>Pay with Syscoin</source>
+        <translation>Оплатити за допомогою Syscoin</translation>
+    </message>
+    <message>
+        <source>&amp;Pay with SYS</source>
+        <translation>&amp; Оплата з SYS</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>Використання Escrow</translation>
+    </message>
+    <message>
+        <source>Pay Escrow</source>
+        <translation>Оплата по депонуванню</translation>
+    </message>
+    <message>
+        <source>Pay For Item</source>
+        <translation>Платити за Пункт</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Invalid кількість при спробі прийняти пропозицію!</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Загальне виключення при прийнятті пропозиції</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Invalid кількість при спробі створити ескроу!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Загальне виключення при створенні умовного депонування</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Прийняти пропозицію Syscoin</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>Open your local Bitcoin client</source>
+        <translation>Відкрийте свій локальний клієнт Bitcoin</translation>
+    </message>
+    <message>
+        <source>Open BTC Wallet</source>
+        <translation>Відкрити гаманець BTC</translation>
+    </message>
+    <message>
+        <source>Confirm this payment on the Bitcoin blockchain</source>
+        <translation>Підтвердити цей платіж на blockchain Bitcoin</translation>
+    </message>
+    <message>
+        <source>&amp;Confirm Payment</source>
+        <translation>&amp; Підтвердити платіж</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>Використання Escrow</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>Кінцевий URI занадто довгий, спробуйте зменшити текст для мітки / повідомлення.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Помилка при кодуванні URI в QR-код.</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Помилка виконання запиту:</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Неможливо створити ескроу угоди: не вдалося знайти сценарій викупу у відповідь</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>до</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Неможливо розібрати відповідь JSON:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Будь ласка, зачекайте ...</translation>
+    </message>
+    <message>
+        <source>Please enter a valid Bitcoin Transaction ID into the input box and try again</source>
+        <translation>Будь ласка, введіть діючий Bitcoin ідентифікатор транзакції в поле введення і спробуйте ще раз</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Invalid кількість при спробі прийняти пропозицію!</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Загальне виключення при прийнятті пропозиції</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Invalid кількість при спробі створити ескроу!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Загальне виключення при створенні умовного депонування</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    <message>
+        <source>Accept Syscoin Offer</source>
+        <translation>Прийняти пропозицію Syscoin</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>Open your local Bitcoin client</source>
+        <translation>Відкрийте свій локальний клієнт Bitcoin</translation>
+    </message>
+    <message>
+        <source>Confirm this payment on the Bitcoin blockchain</source>
+        <translation>Підтвердити цей платіж на blockchain Bitcoin</translation>
+    </message>
+    <message>
+        <source>&amp;Confirm Payment</source>
+        <translation>&amp; Підтвердити платіж</translation>
+    </message>
+    <message>
+        <source>Use Escrow</source>
+        <translation>Використання Escrow</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>Кінцевий URI занадто довгий, спробуйте зменшити текст для мітки / повідомлення.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Помилка при кодуванні URI в QR-код.</translation>
+    </message>
+    <message>
+        <source>Error making request: </source>
+        <translation>Помилка виконання запиту:</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Неможливо створити ескроу угоди: не вдалося знайти сценарій викупу у відповідь</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>до</translation>
+    </message>
+    <message>
+        <source>Cannot parse JSON response: </source>
+        <translation>Неможливо розібрати відповідь JSON:</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Будь ласка, зачекайте ...</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept offer!</source>
+        <translation>Invalid кількість при спробі прийняти пропозицію!</translation>
+    </message>
+    <message>
+        <source>General exception when accepting offer</source>
+        <translation>Загальне виключення при прийнятті пропозиції</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to create escrow!</source>
+        <translation>Invalid кількість при спробі створити ескроу!</translation>
+    </message>
+    <message>
+        <source>General exception when creating escrow</source>
+        <translation>Загальне виключення при створенні умовного депонування</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>Offer Accept Info</source>
+        <translation>Пропозиція Прийняти інформація</translation>
+    </message>
+    <message>
+        <source>Buyer:</source>
+        <translation>покупець:</translation>
+    </message>
+    <message>
+        <source>TXID:</source>
+        <translation>TXID:</translation>
+    </message>
+    <message>
+        <source>Height:</source>
+        <translation>зростання:</translation>
+    </message>
+    <message>
+        <source>Time:</source>
+        <translation>час:</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Ціна:</translation>
+    </message>
+    <message>
+        <source>Discount:</source>
+        <translation>знижка:</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Кількість:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Всього:</translation>
+    </message>
+    <message>
+        <source>Average Rating:</source>
+        <translation>Середня оцінка:</translation>
+    </message>
+    <message>
+        <source>Shipping &amp; Contact Information:</source>
+        <translation>Доставка &amp; Контактна інформація:</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>деталі пропозиції</translation>
+    </message>
+    <message>
+        <source>Offer Title:</source>
+        <translation>Пропозиція Назва:</translation>
+    </message>
+    <message>
+        <source>Commission:</source>
+        <translation>Комісія:</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Пропозиція ID:</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Торговець:</translation>
+    </message>
+    <message>
+        <source>Certificate:</source>
+        <translation>сертифікат:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;Гаразд</translation>
+    </message>
+    <message>
+        <source>No Feedback Found</source>
+        <translation>Немає Зворотній зв'язок Знайшли</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>покупець</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>продавець</translation>
+    </message>
+    <message>
+        <source>No Feedback</source>
+        <translation>Немає Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>From:</source>
+        <translation>от:</translation>
+    </message>
+    <message>
+        <source>Rating:</source>
+        <translation>оцінка:</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    <message>
+        <source>Offer ID</source>
+        <translation>ідентифікатор пропозиції</translation>
+    </message>
+    <message>
+        <source>Accept ID</source>
+        <translation>прийняти ID</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Height</source>
+        <translation>висота</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>ціна</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>валюта</translation>
+    </message>
+    <message>
+        <source>Total</source>
+        <translation>загальний</translation>
+    </message>
+    <message>
+        <source>Seller</source>
+        <translation>продавець</translation>
+    </message>
+    <message>
+        <source>Buyer</source>
+        <translation>покупець</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+</context>
+<context>
+    <name>OfferEscrowDialog</name>
+    <message>
+        <source>Payment In Escrow</source>
+        <translation>Компенсація У Escrow</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation>&amp; Finish</translation>
+    </message>
+    <message>
+        <source>Please click Finish</source>
+        <translation>Будь ласка, натисніть кнопку Готово</translation>
+    </message>
+</context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    <message>
+        <source>Leave Offer Feedback</source>
+        <translation>Залишити відгук пропозицію</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Залишити відгук</translation>
+    </message>
+    <message>
+        <source> Stars</source>
+        <translation>зірки</translation>
+    </message>
+    <message>
+        <source>Buyer:</source>
+        <translation>покупець:</translation>
+    </message>
+    <message>
+        <source>Thank you for your feedback!</source>
+        <translation>Спасибі за ваш відгук!</translation>
+    </message>
+    <message>
+        <source>General exception sending offeracceptfeedback</source>
+        <translation>Загальне виключення відправки offeracceptfeedback</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh get alias: </source>
+        <translation>Був виняток намагається оновити псевдонім ОТРИМУЄТЕ:</translation>
+    </message>
+</context>
+<context>
+    <name>OfferListPage</name>
+    <message>
+        <source>Search Offers</source>
+        <translation>Пошук пропозицій</translation>
+    </message>
+    <message>
+        <source>All Categories</source>
+        <translation>всі категорії</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>пошук</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Offer ID</source>
+        <translation>&amp; Копіювати пропозицію ID</translation>
+    </message>
+    <message>
+        <source>Resell this offer for a commission</source>
+        <translation>Перепродувати цю пропозицію на комісію</translation>
+    </message>
+    <message>
+        <source>Resell</source>
+        <translation>перепродувати</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Купівля цю пропозицію</translation>
+    </message>
+    <message>
+        <source>Purchase</source>
+        <translation>покупка</translation>
+    </message>
+    <message>
+        <source>Send message to seller</source>
+        <translation>Надіслати продавцю</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Надіслати продавцю Msg</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation>&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>Search for Syscoin Offers (double click on one to purchase). Select Safe Search from wallet options if you wish to omit potentially offensive Offers(On by default)</source>
+        <translation>Пошук Syscoin Пропозиції (подвійне клацання по одному для покупки). Виберіть Безпечний пошук з варіантів гаманця, якщо ви хочете, щоб пропустити потенційно образливі пропозиції (за замовчуванням)</translation>
+    </message>
+    <message>
+        <source>Enter search term, regex accepted (ie: ^name returns all Offer's starting with 'name'). Empty will search for all.</source>
+        <translation>Введіть слово для пошуку, регулярний вираз прийнято (тобто: ^ ім'я повертає всі пропозиції, починаючи з 'ім'я'). Порожній буде шукати всі.</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>необмежений</translation>
+    </message>
+    <message>
+        <source>Sorry, you cannot not resell this offer, it is sold out!</source>
+        <translation>На жаль, ви не можете не продавати цю пропозицію, він проданий!</translation>
+    </message>
+    <message>
+        <source>Sorry, you cannot not purchase this offer, it is sold out!</source>
+        <translation>На жаль, ви не можете не купити цю пропозицію, він проданий!</translation>
+    </message>
+    <message>
+        <source>General exception when searching offer</source>
+        <translation>Загальне виключення при пошуку пропозиція</translation>
+    </message>
+    <message>
+        <source>Error: Invalid response from offerfilter command</source>
+        <translation>Помилка: недійсну відповідь від команди offerfilter</translation>
+    </message>
+</context>
+<context>
+    <name>OfferPayDialog</name>
+    <message>
+        <source>Pay For Item</source>
+        <translation>Платити за Пункт</translation>
+    </message>
+    <message>
+        <source>&amp;Finish</source>
+        <translation>&amp; Finish</translation>
+    </message>
+    <message>
+        <source>Please click Finish</source>
+        <translation>Будь ласка, натисніть кнопку Готово</translation>
+    </message>
+</context>
+<context>
+    <name>OfferTableModel</name>
+    <message>
+        <source>Offer</source>
+        <translation>пропозиція</translation>
+    </message>
+    <message>
+        <source>Certificate</source>
+        <translation>сертифікат</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>назва</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>опис</translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation>категорія</translation>
+    </message>
+    <message>
+        <source>Price</source>
+        <translation>ціна</translation>
+    </message>
+    <message>
+        <source>Currency</source>
+        <translation>валюта</translation>
+    </message>
+    <message>
+        <source>Sold</source>
+        <translation>проданий</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>приватний</translation>
+    </message>
+    <message>
+        <source>Seller Alias</source>
+        <translation>Продавець Алиас</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>рейтинг</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferView</name>
+    <message>
+        <source>Sold</source>
+        <translation>проданий</translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation>пошук</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
+    <message>
+        <source>Alias</source>
+        <translation>кличка</translation>
+    </message>
+    <message>
+        <source>Discount</source>
+        <translation>знижка</translation>
+    </message>
+    <message>
+        <source>Expires In</source>
+        <translation>Завершується В</translation>
+    </message>
+</context>
+<context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
@@ -581,6 +3195,10 @@
     <message>
         <source>Select payment request file</source>
         <translation>Виберіть файл запиту платежу</translation>
+    </message>
+    <message>
+        <source>Select payment request file to open</source>
+        <translation>Виберіть файл запиту платежу для відкриття</translation>
     </message>
 </context>
 <context>
@@ -622,12 +3240,44 @@
         <translation>Згортати замість закриття. Якщо ця опція включена, програма закриється лише після вибору відповідного пункту в меню.</translation>
     </message>
     <message>
+        <source>The user interface language can be set here. This setting will take effect after restarting Syscoin Core.</source>
+        <translation>Встановлює мову інтерфейсу. Зміни набудуть чинності після перезапуску Syscoin Core.</translation>
+    </message>
+    <message>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
         <translation>Сторонні URL (наприклад, block explorer), що з'являться на вкладці транзакцій у вигляді пункту контекстного меню. %s в URL буде замінено на хеш транзакції. Для відокремлення URLів використовуйте вертикальну риску |.</translation>
     </message>
     <message>
         <source>Third party transaction URLs</source>
         <translation>Сторонні URL транзакцій</translation>
+    </message>
+    <message>
+        <source>&amp;Preferences</source>
+        <translation>&amp; Уподобання</translation>
+    </message>
+    <message>
+        <source>User Interface Theme:</source>
+        <translation>Інтерфейс користувача Тема:</translation>
+    </message>
+    <message>
+        <source>The user interface theme can be set here. This setting will take effect after restarting Syscoin Core.</source>
+        <translation>Тема призначеного для користувача інтерфейсу може бути встановлений тут. Цей параметр набуде чинності після перезапуску Syscoin Core.</translation>
+    </message>
+    <message>
+        <source>Default Peg Alias:</source>
+        <translation>За замовчуванням Peg Alias:</translation>
+    </message>
+    <message>
+        <source>Safe Search:</source>
+        <translation>Безпечний пошук:</translation>
+    </message>
+    <message>
+        <source>On</source>
+        <translation>на</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>вимкнено</translation>
     </message>
     <message>
         <source>Active command-line options that override above options:</source>
@@ -644,6 +3294,14 @@
     <message>
         <source>&amp;Network</source>
         <translation>&amp;Мережа</translation>
+    </message>
+    <message>
+        <source>Automatically start Syscoin Core after logging in to the system.</source>
+        <translation>Автоматично запускати Syscoin Core при вході до системи.</translation>
+    </message>
+    <message>
+        <source>&amp;Start Syscoin Core on system login</source>
+        <translation>&amp;Запускати Syscoin Core при вході до системи</translation>
     </message>
     <message>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
@@ -770,8 +3428,28 @@
         <translation>&amp;Скасувати</translation>
     </message>
     <message>
+        <source>shade</source>
+        <translation>тінь</translation>
+    </message>
+    <message>
+        <source>solid</source>
+        <translation>твердий</translation>
+    </message>
+    <message>
+        <source>white</source>
+        <translation>білий</translation>
+    </message>
+    <message>
         <source>default</source>
         <translation>типово</translation>
+    </message>
+    <message>
+        <source>Please Wait...</source>
+        <translation>Будь ласка, зачекайте ...</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Помилка зв'язку з %1: %2</translation>
     </message>
     <message>
         <source>none</source>
@@ -798,6 +3476,60 @@
         <translation>Невірно вказано адресу проксі.</translation>
     </message>
 </context>
+<context>
+    <name>OptionsModel</name>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+</context>
+<context>
+    <name>OutMessageListPage</name>
+    <message>
+        <source>New Msg</source>
+        <translation>новий Msg</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>деталі</translation>
+    </message>
+    <message>
+        <source>Export Message Data</source>
+        <translation>Експорт даних повідомлень</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>GUID</source>
+        <translation>ідентифікатор GUID</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>час</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Відправник</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Отримувач</translation>
+    </message>
+    <message>
+        <source>Subject</source>
+        <translation>суб'єкт</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+    <message>
+        <source>Error exporting</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    </context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -874,6 +3606,97 @@
     </message>
 </context>
 <context>
+    <name>PaymentServer</name>
+    <message>
+        <source>Payment request error</source>
+        <translation>Помилка запиту платежу</translation>
+    </message>
+    <message>
+        <source>Cannot start syscoin: click-to-pay handler</source>
+        <translation>Неможливо запустити syscoin: обробник click-to-pay</translation>
+    </message>
+    <message>
+        <source>URI handling</source>
+        <translation>Обробка URI</translation>
+    </message>
+    <message>
+        <source>Payment request fetch URL is invalid: %1</source>
+        <translation>URL запиту платежу є некоректним: %1</translation>
+    </message>
+    <message>
+        <source>Invalid payment address %1</source>
+        <translation>Помилка в адресі платежу %1</translation>
+    </message>
+    <message>
+        <source>URI cannot be parsed! This can be caused by an invalid Syscoin address or malformed URI parameters.</source>
+        <translation>Неможливо обробити URI! Причиною цього може бути некоректна Syscoin-адреса або неправильні параметри URI.</translation>
+    </message>
+    <message>
+        <source>Payment request file handling</source>
+        <translation>Обробка файлу запиту платежу</translation>
+    </message>
+    <message>
+        <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
+        <translation>Неможливо прочитати файл запиту платежу! Ймовірно, файл пошкоджено.</translation>
+    </message>
+    <message>
+        <source>Payment request rejected</source>
+        <translation>Запит платежу відхилено</translation>
+    </message>
+    <message>
+        <source>Payment request network doesn't match client network.</source>
+        <translation>Мережа запиту платежу не є мережею клієнта.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Запит платежу прострочено.</translation>
+    </message>
+    <message>
+        <source>Payment request is not initialized.</source>
+        <translation>Запит платежу не ініціалізовано.</translation>
+    </message>
+    <message>
+        <source>Unverified payment requests to custom payment scripts are unsupported.</source>
+        <translation>Неперевірені запити платежів з власними платіжними сценаріями не підтримуються.</translation>
+    </message>
+    <message>
+        <source>Invalid payment request.</source>
+        <translation>Помилка в запиті платежу.</translation>
+    </message>
+    <message>
+        <source>Requested payment amount of %1 is too small (considered dust).</source>
+        <translation>Сума запиту платежу для %1 занадто мала (вважається пилом)</translation>
+    </message>
+    <message>
+        <source>Refund from %1</source>
+        <translation>Відшкодування з %1</translation>
+    </message>
+    <message>
+        <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
+        <translation>Запит платежу %1 занадто великий (%2 байт, дозволено %3 байт).</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Помилка зв'язку з %1: %2</translation>
+    </message>
+    <message>
+        <source>Payment request cannot be parsed!</source>
+        <translation>Неможливо розпізнати запит платежу!</translation>
+    </message>
+    <message>
+        <source>Bad response from server %1</source>
+        <translation>Погана відповідь від сервера %1</translation>
+    </message>
+    <message>
+        <source>Network request error</source>
+        <translation>Помилка мережевого запиту</translation>
+    </message>
+    <message>
+        <source>Payment acknowledged</source>
+        <translation>Платіж підтверджено</translation>
+    </message>
+</context>
+<context>
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
@@ -887,16 +3710,12 @@
         <source>Ping Time</source>
         <translation>Затримка</translation>
     </message>
-</context>
+    </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Amount</source>
         <translation>Кількість</translation>
-    </message>
-    <message>
-        <source>Enter a Syscoin address (e.g. %1)</source>
-        <translation>Введіть адресу Syscoin (наприклад %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -925,6 +3744,33 @@
     <message>
         <source>%1 ms</source>
         <translation>%1 мс</translation>
+    </message>
+    <message>
+        <source>%1 and %2</source>
+        <translation>%1 та %2</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+</context>
+<context>
+    <name>QRImageWidget</name>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>&amp;Зберегти зображення...</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Image</source>
+        <translation>&amp;Копіювати зображення</translation>
+    </message>
+    <message>
+        <source>Save QR Code</source>
+        <translation>Зберегти QR-код</translation>
+    </message>
+    <message>
+        <source>PNG Image (*.png)</source>
+        <translation>Зображення PNG (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1268,6 +4114,18 @@
         <source>Remove</source>
         <translation>Вилучити</translation>
     </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Скопіювати мітку</translation>
+    </message>
+    <message>
+        <source>Copy message</source>
+        <translation>Скопіювати повідомлення</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Копіювати кількість</translation>
+    </message>
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
@@ -1286,6 +4144,92 @@
     <message>
         <source>&amp;Save Image...</source>
         <translation>&amp;Зберегти зображення...</translation>
+    </message>
+    <message>
+        <source>Request payment to %1</source>
+        <translation>Запит платежу на %1</translation>
+    </message>
+    <message>
+        <source>Payment information</source>
+        <translation>Інформація про платіж</translation>
+    </message>
+    <message>
+        <source>URI</source>
+        <translation>URI</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Кількість</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>Кінцевий URI занадто довгий, спробуйте зменшити текст для мітки / повідомлення.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Помилка при кодуванні URI в QR-код.</translation>
+    </message>
+</context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Дата</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(немає назви)</translation>
+    </message>
+    <message>
+        <source>(no message)</source>
+        <translation>(без повідомлення)</translation>
+    </message>
+    </context>
+<context>
+    <name>ResellOfferDialog</name>
+    <message>
+        <source>Resell Offer</source>
+        <translation>перепродувати пропозицію</translation>
+    </message>
+    <message>
+        <source>Offer:</source>
+        <translation>пропозиція:</translation>
+    </message>
+    <message>
+        <source>Affiliate Markup:</source>
+        <translation>Партнерська розмітки:</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>опис:</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to refresh the alias list: </source>
+        <translation>Був виняток намагається оновити список псевдонімів:</translation>
     </message>
 </context>
 <context>
@@ -1321,10 +4265,6 @@
     <message>
         <source>Amount:</source>
         <translation>Сума:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Пріорітет:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -1438,6 +4378,110 @@
         <source>S&amp;end</source>
         <translation>&amp;Відправити</translation>
     </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Копіювати кількість</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Копіювати суму</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Копіювати комісію</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Копіювати після комісії</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Копіювати байти</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Копіювати пил</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Копіювати решту</translation>
+    </message>
+    <message>
+        <source>%1 to %2</source>
+        <translation>%1 на %2</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Ви впевнені, що хочете відправити?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>додано як комісія за транзакцію</translation>
+    </message>
+    <message>
+        <source>Total Amount %1</source>
+        <translation>Всього %1</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>або</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Підтвердіть відправлення</translation>
+    </message>
+    <message>
+        <source>The recipient address is not valid. Please recheck.</source>
+        <translation>Адреса отримувача неправильна. Будь ласка, перевірте її.</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>Кількість монет для відправлення повинна бути більше 0.</translation>
+    </message>
+    <message>
+        <source>The amount exceeds your balance.</source>
+        <translation>Кількість монет для відправлення перевищує ваш баланс.</translation>
+    </message>
+    <message>
+        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
+        <translation>Сума перевищить ваш баланс, якщо комісія %1 буде додана до вашої транзакції.</translation>
+    </message>
+    <message>
+        <source>Duplicate address found: addresses should only be used once each.</source>
+        <translation>Знайдено адресу, що дублюється: кожна адреса має бути вказана не більше одного разу.</translation>
+    </message>
+    <message>
+        <source>Transaction creation failed!</source>
+        <translation>Не вдалося створити транзакцію!</translation>
+    </message>
+    <message>
+        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Транзакцію відхилено! Це може статись, якщо декілька монет з вашого гаманця вже використані, наприклад, якщо ви використовуєте одну копію гаманця (wallet.dat), а монети були використані з іншої копії, але не позначені як використані в цій.</translation>
+    </message>
+    <message>
+        <source>A fee higher than %1 is considered an absurdly high fee.</source>
+        <translation>Плата вища, ніж %1 вважається шалено високою.</translation>
+    </message>
+    <message>
+        <source>Payment request expired.</source>
+        <translation>Запит платежу прострочено.</translation>
+    </message>
+    <message>
+        <source>Pay only the required fee of %1</source>
+        <translation>Сплатіть лише мінімальну комісію у розмірі %1</translation>
+    </message>
+    <message>
+        <source>Warning: Invalid Syscoin address</source>
+        <translation>Увага: Неправильна Syscoin-адреса</translation>
+    </message>
+    <message>
+        <source>Warning: Unknown change address</source>
+        <translation>Увага: Невідома адреса для решти</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(немає назви)</translation>
+    </message>
 </context>
 <context>
     <name>SendCoinsEntry</name>
@@ -1517,6 +4561,17 @@
         <source>Memo:</source>
         <translation>Нотатка:</translation>
     </message>
+    <message>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Введіть мітку для цієї адреси для додавання її в адресну книгу</translation>
+    </message>
+</context>
+<context>
+    <name>SendConfirmationDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>Так</translation>
+    </message>
 </context>
 <context>
     <name>ShutdownWindow</name>
@@ -1525,6 +4580,21 @@
         <translation>Не вимикайте комп’ютер до зникнення цього вікна.</translation>
     </message>
 </context>
+<context>
+    <name>SignRawTxDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Загальна</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>добре</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>скасувати</translation>
+    </message>
+    </context>
 <context>
     <name>SignVerifyMessageDialog</name>
     <message>
@@ -1611,12 +4681,373 @@
         <source>Reset all verify message fields</source>
         <translation>Скинути всі поля перевірки повідомлення</translation>
     </message>
+    <message>
+        <source>Click "Sign Message" to generate signature</source>
+        <translation>Натисніть кнопку «Підписати повідомлення», для отримання підпису</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>Введена нечинна адреса.</translation>
+    </message>
+    <message>
+        <source>Please check the address and try again.</source>
+        <translation>Будь ласка, перевірте адресу та спробуйте ще.</translation>
+    </message>
+    <message>
+        <source>The entered address does not refer to a key.</source>
+        <translation>Введена адреса не відноситься до ключа.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Розблокування гаманця було скасоване.</translation>
+    </message>
+    <message>
+        <source>Private key for the entered address is not available.</source>
+        <translation>Приватний ключ для введеної адреси недоступний. </translation>
+    </message>
+    <message>
+        <source>Message signing failed.</source>
+        <translation>Не вдалося підписати повідомлення.</translation>
+    </message>
+    <message>
+        <source>Message signed.</source>
+        <translation>Повідомлення підписано.</translation>
+    </message>
+    <message>
+        <source>The signature could not be decoded.</source>
+        <translation>Підпис не можливо декодувати.</translation>
+    </message>
+    <message>
+        <source>Please check the signature and try again.</source>
+        <translation>Будь ласка, перевірте підпис та спробуйте ще.</translation>
+    </message>
+    <message>
+        <source>The signature did not match the message digest.</source>
+        <translation>Підпис не збігається з хешем повідомлення.</translation>
+    </message>
+    <message>
+        <source>Message verification failed.</source>
+        <translation>Не вдалося перевірити повідомлення.</translation>
+    </message>
+    <message>
+        <source>Message verified.</source>
+        <translation>Повідомлення перевірено.</translation>
+    </message>
 </context>
 <context>
     <name>SplashScreen</name>
     <message>
         <source>[testnet]</source>
         <translation>[тестова мережа]</translation>
+    </message>
+</context>
+<context>
+    <name>SyscoinGUI</name>
+    <message>
+        <source>Sign &amp;message...</source>
+        <translation>&amp;Підписати повідомлення...</translation>
+    </message>
+    <message>
+        <source>Synchronizing with network...</source>
+        <translation>Синхронізація з мережею...</translation>
+    </message>
+    <message>
+        <source>&amp;Overview</source>
+        <translation>&amp;Огляд</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Вузол</translation>
+    </message>
+    <message>
+        <source>Show general overview of wallet</source>
+        <translation>Показати стан гаманця</translation>
+    </message>
+    <message>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Транзакції</translation>
+    </message>
+    <message>
+        <source>Browse transaction history</source>
+        <translation>Переглянути історію транзакцій</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>&amp;Вихід</translation>
+    </message>
+    <message>
+        <source>Quit application</source>
+        <translation>Вийти</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt</source>
+        <translation>&amp;Про Qt</translation>
+    </message>
+    <message>
+        <source>Show information about Qt</source>
+        <translation>Показати інформацію про Qt</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Параметри...</translation>
+    </message>
+    <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Шифрування гаманця...</translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Резервне копіювання гаманця...</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>Змінити парол&amp;ь...</translation>
+    </message>
+    <message>
+        <source>&amp;Sending addresses...</source>
+        <translation>Адреси для &amp;відправлення...</translation>
+    </message>
+    <message>
+        <source>&amp;Receiving addresses...</source>
+        <translation>Адреси для &amp;отримання...</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Відкрити &amp;URI</translation>
+    </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Переіндексація блоків на диску ...</translation>
+    </message>
+    <message>
+        <source>Send coins to a Syscoin address</source>
+        <translation>Відправити монети на вказану адресу</translation>
+    </message>
+    <message>
+        <source>Backup wallet to another location</source>
+        <translation>Резервне копіювання гаманця в інше місце</translation>
+    </message>
+    <message>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Змінити пароль, який використовується для шифрування гаманця</translation>
+    </message>
+    <message>
+        <source>&amp;Debug window</source>
+        <translation>В&amp;ікно зневадження</translation>
+    </message>
+    <message>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Відкрити консоль зневадження і діагностики</translation>
+    </message>
+    <message>
+        <source>&amp;Verify message...</source>
+        <translation>П&amp;еревірити повідомлення...</translation>
+    </message>
+    <message>
+        <source>Syscoin</source>
+        <translation>Syscoin</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Гаманець</translation>
+    </message>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;Відправити</translation>
+    </message>
+    <message>
+        <source>&amp;Receive</source>
+        <translation>&amp;Отримати</translation>
+    </message>
+    <message>
+        <source>&amp;Show / Hide</source>
+        <translation>Показа&amp;ти / Приховати</translation>
+    </message>
+    <message>
+        <source>Show or hide the main Window</source>
+        <translation>Показує або приховує головне вікно</translation>
+    </message>
+    <message>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Зашифрувати закриті ключі, що знаходяться у вашому гаманці</translation>
+    </message>
+    <message>
+        <source>Sign messages with your Syscoin addresses to prove you own them</source>
+        <translation>Підтвердіть, що Ви є власником повідомлення підписавши його Вашою Syscoin-адресою </translation>
+    </message>
+    <message>
+        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
+        <translation>Перевірте повідомлення для впевненості, що воно підписано вказаною Syscoin-адресою</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Файл</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>&amp;Налаштування</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Довідка</translation>
+    </message>
+    <message>
+        <source>Tabs toolbar</source>
+        <translation>Панель вкладок</translation>
+    </message>
+    <message>
+        <source>Request payments (generates QR codes and syscoin: URIs)</source>
+        <translation>Створити запит платежу (генерує QR-код та syscoin: URI)</translation>
+    </message>
+    <message>
+        <source>Show the list of used sending addresses and labels</source>
+        <translation>Показати список адрес і міток, що були використані для відправлення</translation>
+    </message>
+    <message>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation>Показати список адрес і міток, що були використані для отримання</translation>
+    </message>
+    <message>
+        <source>Open a syscoin: URI or payment request</source>
+        <translation>Відкрити syscoin: URI чи запит платежу</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>П&amp;араметри командного рядка</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s) to Syscoin network</source>
+        <translation><numerusform>%n активне з'єднання з мережею Syscoin</numerusform><numerusform>%n активні з'єднання з мережею Syscoin</numerusform><numerusform>%n активних з'єднань з мережею Syscoin</numerusform></translation>
+    </message>
+    <message>
+        <source>No block source available...</source>
+        <translation>Недоступно жодного джерела блоків...</translation>
+    </message>
+    <message numerus="yes">
+        <source>Processed %n block(s) of transaction history.</source>
+        <translation><numerusform>Оброблено %n блок історії транзакцій.</numerusform><numerusform>Оброблено %n блоки історії транзакцій.</numerusform><numerusform>Оброблено %n блоків історії транзакцій.</numerusform></translation>
+    </message>
+    <message>
+        <source>%1 behind</source>
+        <translation>%1 тому</translation>
+    </message>
+    <message>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Останній отриманий блок було згенеровано %1 тому.</translation>
+    </message>
+    <message>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Пізніші транзакції не буде видно.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Помилка</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Попередження</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Інформація</translation>
+    </message>
+    <message>
+        <source>Up to date</source>
+        <translation>Синхронізовано</translation>
+    </message>
+    <message>
+        <source>A&amp;liases</source>
+        <translation>І підтримуються зв'язки</translation>
+    </message>
+    <message>
+        <source>Manage aliases</source>
+        <translation>управління псевдонімами</translation>
+    </message>
+    <message>
+        <source>&amp;Messages</source>
+        <translation>і повідомлення</translation>
+    </message>
+    <message>
+        <source>Messages</source>
+        <translation>повідомлення</translation>
+    </message>
+    <message>
+        <source>&amp;Marketplace</source>
+        <translation>&amp; Marketplace</translation>
+    </message>
+    <message>
+        <source>Manage offers</source>
+        <translation>управління пропозиції</translation>
+    </message>
+    <message>
+        <source>&amp;Certificates</source>
+        <translation>і сертифікати</translation>
+    </message>
+    <message>
+        <source>Manage Certificates</source>
+        <translation>управління сертифікатами</translation>
+    </message>
+    <message>
+        <source>&amp;Escrow</source>
+        <translation>&amp; Escrow</translation>
+    </message>
+    <message>
+        <source>Escrows with offers</source>
+        <translation>Escrows з пропозиціями</translation>
+    </message>
+    <message>
+        <source>&amp;About Syscoin Core</source>
+        <translation>П&amp;ро Syscoin Core</translation>
+    </message>
+    <message>
+        <source>Catching up...</source>
+        <translation>Синхронізується...</translation>
+    </message>
+    <message>
+        <source>Date: %1
+</source>
+        <translation>Дата: %1
+</translation>
+    </message>
+    <message>
+        <source>Amount: %1
+</source>
+        <translation>Кількість: %1
+</translation>
+    </message>
+    <message>
+        <source>Type: %1
+</source>
+        <translation>Тип: %1
+</translation>
+    </message>
+    <message>
+        <source>Label: %1
+</source>
+        <translation>Мітка: %1
+</translation>
+    </message>
+    <message>
+        <source>Address: %1
+</source>
+        <translation>Адреса: %1
+</translation>
+    </message>
+    <message>
+        <source>Sent transaction</source>
+        <translation>Надіслані транзакції</translation>
+    </message>
+    <message>
+        <source>Incoming transaction</source>
+        <translation>Отримані транзакції</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Зашифрований&lt;/b&gt; гаманець &lt;b&gt;розблоковано&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
+        <translation>&lt;b&gt;Зашифрований&lt;/b&gt; гаманець &lt;b&gt;заблоковано&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1627,10 +5058,587 @@
     </message>
 </context>
 <context>
+    <name>TransactionDesc</name>
+    <message>
+        <source>Open until %1</source>
+        <translation>Відкрито до %1</translation>
+    </message>
+    <message>
+        <source>%1/offline</source>
+        <translation>%1/поза інтернетом</translation>
+    </message>
+    <message>
+        <source>in memory pool</source>
+        <translation>в пулі пам'яті</translation>
+    </message>
+    <message>
+        <source>not in memory pool</source>
+        <translation>не в пулі пам'яті</translation>
+    </message>
+    <message>
+        <source>%1/unconfirmed</source>
+        <translation>%1/не підтверджено</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 підтверджень</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, ще не було успішно розіслано</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Дата</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation>Джерело</translation>
+    </message>
+    <message>
+        <source>Generated</source>
+        <translation>Згенеровано</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Відправник</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>невідомо</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Отримувач</translation>
+    </message>
+    <message>
+        <source>own address</source>
+        <translation>Власна адреса</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>тільки спостереження</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>Мітка</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation>Кредит</translation>
+    </message>
+    <message>
+        <source>not accepted</source>
+        <translation>не прийнято</translation>
+    </message>
+    <message>
+        <source>Debit</source>
+        <translation>Дебет</translation>
+    </message>
+    <message>
+        <source>Total debit</source>
+        <translation>Загальний дебет</translation>
+    </message>
+    <message>
+        <source>Total credit</source>
+        <translation>Загальний кредит</translation>
+    </message>
+    <message>
+        <source>Transaction fee</source>
+        <translation>Комісія за транзакцію</translation>
+    </message>
+    <message>
+        <source>Net amount</source>
+        <translation>Загальна сума</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Повідомлення</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Коментар</translation>
+    </message>
+    <message>
+        <source>Transaction ID</source>
+        <translation>ID транзакції</translation>
+    </message>
+    <message>
+        <source>Merchant</source>
+        <translation>Продавець</translation>
+    </message>
+    <message>
+        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Після генерації монет, потрібно зачекати %1 блоків, перш ніж їх можна буде використати. Коли ви згенерували цей блок, його було відправлено в мережу для того, щоб він був доданий до ланцюжка блоків. Якщо ця процедура не вдасться, статус буде змінено на «не підтверджено» і ви не зможете витратити згенеровані монети. Таке може статись, якщо хтось інший згенерував блок на декілька секунд раніше.</translation>
+    </message>
+    <message>
+        <source>Debug information</source>
+        <translation>Налагоджувальна інформація</translation>
+    </message>
+    <message>
+        <source>Transaction</source>
+        <translation>Транзакція</translation>
+    </message>
+    <message>
+        <source>Inputs</source>
+        <translation>Входи</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Кількість</translation>
+    </message>
+    <message>
+        <source>true</source>
+        <translation>true</translation>
+    </message>
+    <message>
+        <source>false</source>
+        <translation>false</translation>
+    </message>
+</context>
+<context>
     <name>TransactionDescDialog</name>
+    <message>
+        <source>Transaction details</source>
+        <translation>Деталі транзакції</translation>
+    </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Даний діалог показує детальну статистику по вибраній транзакції</translation>
+    </message>
+    </context>
+<context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Дата</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Відкрито до %1</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Поза мережею</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Не підтверджено</translation>
+    </message>
+    <message>
+        <source>Confirming (%1 of %2 recommended confirmations)</source>
+        <translation>Підтверджується (%1 з %2 рекомендованих підтверджень)</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Підтверджено (%1 підтверджень)</translation>
+    </message>
+    <message>
+        <source>Conflicted</source>
+        <translation>Суперечить</translation>
+    </message>
+    <message>
+        <source>Immature (%1 confirmations, will be available after %2)</source>
+        <translation>Незрілі (%1 підтверджень, будуть доступні після %2)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Цей блок не був отриманий жодними іншими вузлами і, ймовірно, не буде прийнятий!</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Згенеровано, але не підтверджено</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Отримані на</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Отримано від</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Відправлені на</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Відправлено собі</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Добуті</translation>
+    </message>
+    <message>
+        <source>Alias Activated</source>
+        <translation>алиас Активоване</translation>
+    </message>
+    <message>
+        <source>Alias Transferred</source>
+        <translation>алиас Передано</translation>
+    </message>
+    <message>
+        <source>Alias Updated</source>
+        <translation>алиас Оновлене</translation>
+    </message>
+    <message>
+        <source>Alias Received</source>
+        <translation>алиас Надійшла</translation>
+    </message>
+    <message>
+        <source>Offer Activated</source>
+        <translation>пропозиція Активоване</translation>
+    </message>
+    <message>
+        <source>Offer Updated</source>
+        <translation>пропозиція Оновлене</translation>
+    </message>
+    <message>
+        <source>Offer Accepted</source>
+        <translation>пропозиція Прийнято</translation>
+    </message>
+    <message>
+        <source>Offer Accept Received</source>
+        <translation>Пропозиція Прийняти Received</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback</source>
+        <translation>Пропозиція Прийняти Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback Received</source>
+        <translation>Пропозиція Accept отримана репутація</translation>
+    </message>
+    <message>
+        <source>Cert. Activated</source>
+        <translation>засвідчено активована</translation>
+    </message>
+    <message>
+        <source>Cert. Updated</source>
+        <translation>засвідчено оновлений</translation>
+    </message>
+    <message>
+        <source>Cert. Transferred</source>
+        <translation>засвідчено перенесені</translation>
+    </message>
+    <message>
+        <source>Cert. Received</source>
+        <translation>засвідчено отримано</translation>
+    </message>
+    <message>
+        <source>Escrow Activated</source>
+        <translation>Escrow Активоване</translation>
+    </message>
+    <message>
+        <source>Escrow Released</source>
+        <translation>Escrow виходу</translation>
+    </message>
+    <message>
+        <source>Escrow Refunded</source>
+        <translation>Escrow Повернено</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback</source>
+        <translation>Escrow Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Received</source>
+        <translation>Повернення Escrow Отримане</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Complete</source>
+        <translation>Повернення Escrow Complete</translation>
+    </message>
+    <message>
+        <source>Message Sent</source>
+        <translation>Повідомлення надіслано</translation>
+    </message>
+    <message>
+        <source>Message Received</source>
+        <translation>повідомлення отримано</translation>
+    </message>
+    <message>
+        <source>watch-only</source>
+        <translation>тільки спостереження</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>(недоступно)</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(немає назви)</translation>
+    </message>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Статус транзакції. Наведіть вказівник на це поле, щоб показати кількість підтверджень.</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Дата і час, коли транзакцію було отримано.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Тип транзакції.</translation>
+    </message>
+    <message>
+        <source>Whether or not a watch-only address is involved in this transaction.</source>
+        <translation>Показує, чи було залучено адресу для спостереження в цій транзакції.</translation>
+    </message>
+    <message>
+        <source>User-defined intent/purpose of the transaction.</source>
+        <translation>Призначення транзакції (визначається користувачем).</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Сума, додана чи знята з балансу.</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Всі</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Сьогодні</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>На цьому тижні</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>На цьому місяці</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Минулого місяця</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Цього року</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Проміжок...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Отримані на</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Відправлені на</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Відправлені собі</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Добуті</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Інше</translation>
+    </message>
+    <message>
+        <source>Alias Activated</source>
+        <translation>алиас Активоване</translation>
+    </message>
+    <message>
+        <source>Alias Updated</source>
+        <translation>алиас Оновлене</translation>
+    </message>
+    <message>
+        <source>Alias Transferred</source>
+        <translation>алиас Передано</translation>
+    </message>
+    <message>
+        <source>Alias Received</source>
+        <translation>алиас Надійшла</translation>
+    </message>
+    <message>
+        <source>Offer Activated</source>
+        <translation>пропозиція Активоване</translation>
+    </message>
+    <message>
+        <source>Offer Updated</source>
+        <translation>пропозиція Оновлене</translation>
+    </message>
+    <message>
+        <source>Offer Accepted</source>
+        <translation>пропозиція Прийнято</translation>
+    </message>
+    <message>
+        <source>Offer Accept Received</source>
+        <translation>Пропозиція Прийняти Received</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback</source>
+        <translation>Пропозиція Прийняти Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>Offer Accept Feedback Received</source>
+        <translation>Пропозиція Accept отримана репутація</translation>
+    </message>
+    <message>
+        <source>Certificate Activated</source>
+        <translation>сертифікат Активоване</translation>
+    </message>
+    <message>
+        <source>Certificate Updated</source>
+        <translation>сертифікат Оновлене</translation>
+    </message>
+    <message>
+        <source>Certificate Transferred</source>
+        <translation>сертифікат Передано</translation>
+    </message>
+    <message>
+        <source>Certificate Received</source>
+        <translation>Сертифікат, отриманий</translation>
+    </message>
+    <message>
+        <source>Escrow Activated</source>
+        <translation>Escrow Активоване</translation>
+    </message>
+    <message>
+        <source>Escrow Released</source>
+        <translation>Escrow виходу</translation>
+    </message>
+    <message>
+        <source>Escrow Refunded</source>
+        <translation>Escrow Повернено</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Complete</source>
+        <translation>Повернення Escrow Complete</translation>
+    </message>
+    <message>
+        <source>Escrow Refund Received</source>
+        <translation>Повернення Escrow Отримане</translation>
+    </message>
+    <message>
+        <source>Escrow Feedback</source>
+        <translation>Escrow Зворотній зв'язок</translation>
+    </message>
+    <message>
+        <source>Message Sent</source>
+        <translation>Повідомлення надіслано</translation>
+    </message>
+    <message>
+        <source>Message Received</source>
+        <translation>повідомлення отримано</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Введіть адресу чи мітку для пошуку</translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Мінімальна сума</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>Скопіювати адресу</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Скопіювати мітку</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Скопіювати суму</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Скопіювати ID транзакції </translation>
+    </message>
+    <message>
+        <source>Copy raw transaction</source>
+        <translation>Скопіювати RAW транзакцію</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>Редагувати мітку</translation>
+    </message>
+    <message>
+        <source>Show transaction details</source>
+        <translation>Показати деталі транзакції</translation>
+    </message>
+    <message>
+        <source>Export Transaction History</source>
+        <translation>Експортувати історію транзакцій</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Значення, розділені комою (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Підтверджені</translation>
+    </message>
+    <message>
+        <source>Watch-only</source>
+        <translation>Для спостереження</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Дата</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Назва</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>Ідентифікатор</translation>
+    </message>
+    <message>
+        <source>Exporting Failed</source>
+        <translation>Помилка експорту</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the transaction history to %1.</source>
+        <translation>Виникла помилка при спробі зберігання історії транзакцій до %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Successful</source>
+        <translation>Експорт успішно виконано</translation>
+    </message>
+    <message>
+        <source>The transaction history was successfully saved to %1.</source>
+        <translation>Історію транзакцій було успішно збережено до %1.</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Діапазон від:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>до</translation>
     </message>
 </context>
 <context>
@@ -1638,6 +5646,51 @@
     <message>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>Одиниця виміру монет. Натисніть для вибору іншої.</translation>
+    </message>
+</context>
+<context>
+    <name>WalletFrame</name>
+    <message>
+        <source>No wallet has been loaded.</source>
+        <translation>Гаманець не завантажувався</translation>
+    </message>
+</context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Відправити</translation>
+    </message>
+    </context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Експортувати дані з поточної вкладки в файл</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Зробити резервне копіювання гаманця</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Данi гаманця (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>Помилка резервного копіювання</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the wallet data to %1.</source>
+        <translation>Виникла помилка при спробі зберегти гаманець в %1.</translation>
+    </message>
+    <message>
+        <source>Backup Successful</source>
+        <translation>Успішне створення резервної копії</translation>
+    </message>
+    <message>
+        <source>The wallet data was successfully saved to %1.</source>
+        <translation>Дані гаманця успішно збережено в %1.</translation>
     </message>
 </context>
 <context>
@@ -2103,6 +6156,10 @@
         <translation>Неможливо прив'язатися до %s на цьому комп'ютері (bind повернув помилку: %s)</translation>
     </message>
     <message>
+        <source>Updating an offer with a cert that does not exist</source>
+        <translation>Оновлення пропозицію з CERT, який не існує</translation>
+    </message>
+    <message>
         <source>Upgrade wallet to latest format on startup</source>
         <translation>Спочатку оновіть гаманець до останньої версії</translation>
     </message>
@@ -2117,6 +6174,10 @@
     <message>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
         <translation>Чи слід працювати в режимі тільки блоки (типово: %u)</translation>
+    </message>
+    <message>
+        <source>Whitelist is already empty</source>
+        <translation>Whitelist вже порожній</translation>
     </message>
     <message>
         <source>Zapping all transactions from wallet...</source>
@@ -2155,6 +6216,42 @@
         <translation>Встановлено дуже велике значення -paytxfee! Цю комісію буде сплачено для проведення транзакції.</translation>
     </message>
     <message>
+        <source>Cannot create this offer because the certificate alias does not match the offer alias</source>
+        <translation>Неможливо створити цю пропозицію, тому що псевдонім сертифіката не відповідає пропозиція псевдоніма</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this linked offer because the certificate has been transferred or it is linked to another offer</source>
+        <translation>Чи не можете придбати цей пов'язаний пропозицію, оскільки сертифікат був переданий або він пов'язаний з іншим пропозицією</translation>
+    </message>
+    <message>
+        <source>Cannot purchase this offer because the certificate has been transferred or it is linked to another offer</source>
+        <translation>Чи не можете придбати цю пропозицію, тому що сертифікат був переданий або він пов'язаний з іншим пропозицією</translation>
+    </message>
+    <message>
+        <source>Cannot update this offer because the certificate alias does not match the linked offer alias</source>
+        <translation>Неможливо оновити цю пропозицію, тому що псевдонім сертифіката не відповідає пов'язаних пропозицію псевдоніма</translation>
+    </message>
+    <message>
+        <source>Cannot update this offer because the certificate alias does not match the offer alias</source>
+        <translation>Неможливо оновити цю пропозицію, тому що псевдонім сертифіката не відповідає пропозиція псевдоніма</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: Invalid response from createrawtransaction</source>
+        <translation>Не вдалося створити ескроу угоди: недійсну відповідь від createrawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: could not find redeem script in response</source>
+        <translation>Неможливо створити ескроу угоди: не вдалося знайти сценарій викупу у відповідь</translation>
+    </message>
+    <message>
+        <source>Could not decode escrow transaction: Invalid response from decoderawtransaction</source>
+        <translation>Неможливо декодувати ескроу транзакції: недійсну відповідь від decoderawtransaction</translation>
+    </message>
+    <message>
+        <source>Could not sign escrow transaction: Invalid response from signrawtransaction</source>
+        <translation>Чи не вдалося підписати ескроу угоди: недійсну відповідь від signrawtransaction</translation>
+    </message>
+    <message>
         <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
         <translation>Не тримати транзакції в пам'яті довше &lt;n&gt; годин (типово: %u)</translation>
     </message>
@@ -2167,6 +6264,22 @@
         <translation>Рівень ретельності перевірки блоків (0-4, типово: %u)</translation>
     </message>
     <message>
+        <source>Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1</source>
+        <translation>Invalid ціну і / або кількість значень. Кількість повинна бути менше, ніж 4294967296 і більше або дорівнює -1</translation>
+    </message>
+    <message>
+        <source>Invalid quantity value, must be less than 4294967296 and greater than or equal to -1</source>
+        <translation>Неправильне значення кількості, має бути менше, ніж 4294967296 і більше або дорівнює -1</translation>
+    </message>
+    <message>
+        <source>Invalid rating value, must be less than or equal to 5 and greater than or equal to 0</source>
+        <translation>Недійсне значення рейтингу, має бути менше або дорівнює 5 і більше або дорівнює 0</translation>
+    </message>
+    <message>
+        <source>Invalid rating, must be less than or equal to 5 and greater than or equal to 0</source>
+        <translation>Неприпустимий рейтинг, має бути менше або дорівнює 5 і більше або дорівнює 0</translation>
+    </message>
+    <message>
         <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
         <translation>Утримувати повний індекс транзакцій (використовується RPC-викликом getrawtransaction) (типово: %u)</translation>
     </message>
@@ -2175,12 +6288,24 @@
         <translation>Час в секундах, протягом якого відключені учасники з поганою поведінкою не зможуть підключитися (типово: %u)</translation>
     </message>
     <message>
+        <source>Offer guid in the data output does not match the guid in the transaction</source>
+        <translation>Пропозиція Guid в вихідних даних не відповідає GUID в угоді</translation>
+    </message>
+    <message>
         <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
         <translation>Виводити налагоджувальну інформацію (типово: %u, вказання &lt;category&gt; необов'язкове)</translation>
     </message>
     <message>
         <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
         <translation>Фільтрація блоків та транзакцій з допомогою фільтрів Блума (типово: %u)</translation>
+    </message>
+    <message>
+        <source>Syscoin is open source software produced by a global network of developers. By downloading, distributing and using Syscoin and the Syscoin network you release the developers involved in the Syscoin Project past, present, and future from any and all liability. You are responsible for your creations on the Syscoin network. You agree that the developers of the Syscoin Project carry no responsibility for the actions/data or entities of *any* definition created on the network by yourself or others on the network to which you may be exposed.</source>
+        <translation>Syscoin є джерелом відкритого програмного забезпечення проводиться за допомогою глобальної мережі розробників. При завантаженні, розподілу і використання Syscoin і мережі Syscoin ви відпускаєте розробників, які беруть участь в минулому Syscoin проекту, сьогодення і майбутнього від будь-якої відповідальності. Ви несете відповідальність за свої творіння в мережі Syscoin. Ви згодні з тим, що розробники проекту Syscoin не несуть ніякої відповідальності за дії / даних або суб'єктів * будь-* визначення створено в мережі самостійно або іншою по мережі, до якої ви можете зіткнутися.</translation>
+    </message>
+    <message>
+        <source>The developers of the Syscoin Project do not have the power to modify data on the Syscoin network, it is backed by an immutable blockchain, which you further acknowledge through use of Syscoin, the Syscoin network, and Syscoin services. If you do not agree to these terms, please refrain from using Syscoin and its related services.</source>
+        <translation>Розробники проекту Syscoin не мають право змінювати дані в мережі Syscoin, воно спирається на незаперечний blockchain, який Ви визнаєте за рахунок використання Syscoin, мережі Syscoin і послуг Syscoin. Якщо ви не згодні з цими умовами, будь ласка, утримайтеся від використання Syscoin і пов'язаних з ним послуг.</translation>
     </message>
     <message>
         <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
@@ -2203,12 +6328,444 @@
         <translation>Логін та хешований пароль для зв'язків JSON-RPC. Поле &lt;userpw&gt; має формат: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. Класичний Python script додано до share/rpcuser. Цей параметр може бути застосований декілька разів.</translation>
     </message>
     <message>
+        <source>You must be either the arbiter, buyer or seller to leave feedback on this escrow</source>
+        <translation>Ви повинні бути арбітром, покупець або продавець, щоб залишити відгук з цього ескроу</translation>
+    </message>
+    <message>
+        <source>You must be either the buyer or seller to leave feedback on this offer purchase</source>
+        <translation>Ви повинні бути як покупець або продавець, щоб залишити свою думку про цю пропозицію покупки</translation>
+    </message>
+    <message>
         <source>(default: %s)</source>
         <translation>(типово: %s)</translation>
     </message>
     <message>
+        <source>Alias Guid input mismatch</source>
+        <translation>Алиас Guid введення невідповідність</translation>
+    </message>
+    <message>
+        <source>Alias address does not refer to a key</source>
+        <translation>Алиас адреса не відноситься до ключу</translation>
+    </message>
+    <message>
+        <source>Alias arguments incorrect size</source>
+        <translation>Аргументи псевдонімів неправильного розміру</translation>
+    </message>
+    <message>
+        <source>Alias input guid mismatch</source>
+        <translation>Алиас невідповідність вхідних справ</translation>
+    </message>
+    <message>
+        <source>Alias input mismatch</source>
+        <translation>Алиас введення невідповідність</translation>
+    </message>
+    <message>
+        <source>Alias input to this transaction not found</source>
+        <translation>Алиас вхід цієї угоди не знайдено</translation>
+    </message>
+    <message>
+        <source>Alias name does not follow the domain name specification</source>
+        <translation>Ім'я псевдоніма не відповідає специфікації доменних імен</translation>
+    </message>
+    <message>
+        <source>Alias not provided as input</source>
+        <translation>Аліас не передбачено в якості вхідних</translation>
+    </message>
+    <message>
+        <source>Alias private value too big</source>
+        <translation>Алиас приватне значення занадто великий</translation>
+    </message>
+    <message>
+        <source>Alias public value too big</source>
+        <translation>Алиас суспільне значення, занадто велика</translation>
+    </message>
+    <message>
+        <source>Alias transaction has unknown op</source>
+        <translation>Алиас транзакція має невідомий ор</translation>
+    </message>
+    <message>
         <source>Always query for peer addresses via DNS lookup (default: %u)</source>
         <translation>Завжди дізнаватися адреси учасників через DNS (типово: %u)</translation>
+    </message>
+    <message>
+        <source>Bad alias height</source>
+        <translation>Bad висота псевдонім</translation>
+    </message>
+    <message>
+        <source>Buyer address does not refer to a key</source>
+        <translation>Покупець адреса не відноситься до ключу</translation>
+    </message>
+    <message>
+        <source>Buyer alias is not in your wallet</source>
+        <translation>Покупець псевдонім не в вашому гаманці</translation>
+    </message>
+    <message>
+        <source>Can't determine type of alias input into syscoin service transaction</source>
+        <translation>Неможливо визначити тип призначити назву в транзакції служби syscoin</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 arbiter feedbacks</source>
+        <translation>не може перевищувати 10 арбітром зворотні зв'язки</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 buyer feedbacks</source>
+        <translation>не може перевищувати 10 покупця зворотні зв'язки</translation>
+    </message>
+    <message>
+        <source>Cannot exceed 10 seller feedbacks</source>
+        <translation>не може перевищувати 10 продавців зворотні зв'язки</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for the recipient of this message. It may be expired</source>
+        <translation>Чи не можете знайти псевдонім для одержувача цього повідомлення. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for the sender of this message. It may be expired</source>
+        <translation>Чи не можете знайти псевдонім для відправника цього повідомлення. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this certificate. It may be expired</source>
+        <translation>Чи не можете знайти псевдонім для цього сертифіката. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find alias for this offer. It may be expired</source>
+        <translation>Чи не можете знайти псевдонім для цієї пропозиції. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find alias you are transfering to. It may be expired</source>
+        <translation>Чи не можете знайти псевдонім ви переносячи к. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find arbiter alias. It may be expired</source>
+        <translation>Чи не можете знайти арбітром псевдонім. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find buyer alias. It may be expired</source>
+        <translation>Неможливо знайти покупця псевдонім. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find seller alias. It may be expired</source>
+        <translation>Чи не можете знайти продавця псевдонім. Можливо, закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Cannot find this alias in the parent offer affiliate list</source>
+        <translation>Неможливо знайти цей псевдонім в батьківському пропозицію партнерської список</translation>
+    </message>
+    <message>
+        <source>Cannot have accept information on offer activation</source>
+        <translation>Не може бути прийняти інформацію про пропозицію активації</translation>
+    </message>
+    <message>
+        <source>Cannot have accept information on offer update</source>
+        <translation>Не може бути прийняти інформацію про пропозицію поновлення</translation>
+    </message>
+    <message>
+        <source>Cannot leave empty feedback</source>
+        <translation>Не можу залишити порожній зворотного зв'язку</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow activation</source>
+        <translation>Чи не можете залишити відгук в активації умовного депонування</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow refund</source>
+        <translation>Чи не можете залишити відгук в депозитному повернення</translation>
+    </message>
+    <message>
+        <source>Cannot leave feedback in escrow release</source>
+        <translation>Чи не можете залишити відгук у звільненні умовного депонування</translation>
+    </message>
+    <message>
+        <source>Cannot link to an offer that is already linked to another offer</source>
+        <translation>Неможливо встановити зв'язок з пропозицією, яке вже пов'язаний з іншим пропозицією</translation>
+    </message>
+    <message>
+        <source>Cannot only leave one feedback per transaction</source>
+        <translation>Може не тільки залишити одну зворотний зв'язок на одну транзакцію</translation>
+    </message>
+    <message>
+        <source>Cannot purchase a wanted offer</source>
+        <translation>Чи не можете придбати бажане пропозицію</translation>
+    </message>
+    <message>
+        <source>Cannot purchase certificates with Bitcoins</source>
+        <translation>Чи не можете придбати сертифікати з Bitcoins</translation>
+    </message>
+    <message>
+        <source>Cannot sell an expired certificate</source>
+        <translation>Не може продати сертифікат зі строком</translation>
+    </message>
+    <message>
+        <source>Cannot send yourself feedback</source>
+        <translation>Чи не можете відправити собі зворотний зв'язок</translation>
+    </message>
+    <message>
+        <source>Cannot unserialize data inside of this transaction relating to an offer</source>
+        <translation>Неможливо десеріалізіруются дані всередині цієї угоди, пов'язаної з пропозицією</translation>
+    </message>
+    <message>
+        <source>Certificate already exists</source>
+        <translation>Сертифікат вже існує</translation>
+    </message>
+    <message>
+        <source>Certificate arguments incorrect size</source>
+        <translation>Аргументи Сертифікат неправильного розміру</translation>
+    </message>
+    <message>
+        <source>Certificate category too big</source>
+        <translation>категорія Сертифікат занадто великий</translation>
+    </message>
+    <message>
+        <source>Certificate data too big</source>
+        <translation>Дані сертифіката занадто великий</translation>
+    </message>
+    <message>
+        <source>Certificate guid mismatch</source>
+        <translation>Сертифікат невідповідність справ</translation>
+    </message>
+    <message>
+        <source>Certificate hex guid too long</source>
+        <translation>шестигранний Сертифікат Guid занадто довго</translation>
+    </message>
+    <message>
+        <source>Certificate linked alias not allowed in activate</source>
+        <translation>Сертифікат пов'язаний псевдонім не допускається в Activate</translation>
+    </message>
+    <message>
+        <source>Certificate title too big or is empty</source>
+        <translation>Назва сертифіката занадто великий або порожній</translation>
+    </message>
+    <message>
+        <source>Certificate title too big</source>
+        <translation>Назва сертифіката занадто великий</translation>
+    </message>
+    <message>
+        <source>Certificate transaction has unknown op</source>
+        <translation>угода сертифікат має невідомий ор</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2009-%i The Syscoin Core Developers</source>
+        <translation>(C) 2009-%i Розробники Syscoin Core</translation>
+    </message>
+    <message>
+        <source>Could not create escrow transaction: Invalid response from createescrow</source>
+        <translation>Не вдалося створити ескроу угоди: недійсну відповідь від createescrow</translation>
+    </message>
+    <message>
+        <source>Could not decrypt certificate data</source>
+        <translation>Чи не вдалося розшифрувати дані сертифікатів</translation>
+    </message>
+    <message>
+        <source>Could not encrypt alias private data</source>
+        <translation>Чи не вдалося зашифрувати псевдонім особистих даних</translation>
+    </message>
+    <message>
+        <source>Could not encrypt certificate data</source>
+        <translation>Чи не вдалося зашифрувати дані сертифікатів</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message data for receiver</source>
+        <translation>Чи не вдалося зашифрувати дані повідомлення для приймача</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message data for sender</source>
+        <translation>Чи не вдалося зашифрувати дані повідомлення для відправника</translation>
+    </message>
+    <message>
+        <source>Could not encrypt message to seller</source>
+        <translation>Не можу зашифрувати продавцю</translation>
+    </message>
+    <message>
+        <source>Could not encrypt private alias value!</source>
+        <translation>Чи не вдалося зашифрувати особисте значення псевдоніма!</translation>
+    </message>
+    <message>
+        <source>Could not find a certificate with this key</source>
+        <translation>Не вдалося знайти сертифікат з цим ключем</translation>
+    </message>
+    <message>
+        <source>Could not find a escrow with this key</source>
+        <translation>Не вдалося знайти ескроу з цим ключем</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this guid</source>
+        <translation>Не вдалося знайти псевдонім з цим GUID</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this identifier</source>
+        <translation>Не вдалося знайти псевдонім з цим ідентифікатором</translation>
+    </message>
+    <message>
+        <source>Could not find an alias with this name</source>
+        <translation>Не вдалося знайти псевдонім з цим ім'ям</translation>
+    </message>
+    <message>
+        <source>Could not find an offer with this guid</source>
+        <translation>Не вдалося знайти пропозицію з цим GUID</translation>
+    </message>
+    <message>
+        <source>Could not find an offer with this identifier</source>
+        <translation>Не вдалося знайти пропозицію з цим ідентифікатором</translation>
+    </message>
+    <message>
+        <source>Could not find buyer alias with this name</source>
+        <translation>Не вдалося знайти покупця псевдонім з таким ім'ям</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the peg alias</source>
+        <translation>Не вдалося знайти валюту в псевдонім кілочок</translation>
+    </message>
+    <message>
+        <source>Could not find offer accept from mempool or disk</source>
+        <translation>Не вдалося знайти пропозицію прийняти від mempool або диска</translation>
+    </message>
+    <message>
+        <source>Could not find seller alias with this identifier</source>
+        <translation>Не вдалося знайти продавця псевдонім з цим ідентифікатором</translation>
+    </message>
+    <message>
+        <source>Could not find the alias associated with this offer</source>
+        <translation>Не вдалося знайти псевдонім, пов'язаний з цією пропозицією</translation>
+    </message>
+    <message>
+        <source>Could not find the certificate alias</source>
+        <translation>Не вдалося знайти псевдонім сертифіката</translation>
+    </message>
+    <message>
+        <source>Could not get linked offer</source>
+        <translation>Не вдалося пропозиція пов'язана</translation>
+    </message>
+    <message>
+        <source>Creating an offer with a cert that does not exist</source>
+        <translation>Створення пропозицію з CERT, який не існує</translation>
+    </message>
+    <message>
+        <source>Escrow Guid mismatch</source>
+        <translation>Невідповідність Guid депонуванню</translation>
+    </message>
+    <message>
+        <source>Escrow already exists</source>
+        <translation>Escrow вже існує</translation>
+    </message>
+    <message>
+        <source>Escrow arguments incorrect size</source>
+        <translation>Escrow аргументи неправильний розмір</translation>
+    </message>
+    <message>
+        <source>Escrow guid in data output doesn't match guid in transaction</source>
+        <translation>Escrow Guid в вихідних даних не відповідає Guid в угоді</translation>
+    </message>
+    <message>
+        <source>Escrow guid too big</source>
+        <translation>Escrow Guid занадто великий</translation>
+    </message>
+    <message>
+        <source>Escrow not found when trying to update</source>
+        <translation>Escrow не найден при спробі оновити</translation>
+    </message>
+    <message>
+        <source>Escrow offer guid too long</source>
+        <translation>Escrow пропозицію Guid занадто довго</translation>
+    </message>
+    <message>
+        <source>Escrow redeem script too long</source>
+        <translation>Escrow спокутує сценарій занадто довго</translation>
+    </message>
+    <message>
+        <source>Escrow refund status too large</source>
+        <translation>Статус угоди повернення занадто великий</translation>
+    </message>
+    <message>
+        <source>Escrow transaction has unknown op</source>
+        <translation>Escrow угода має невідомий ор</translation>
+    </message>
+    <message>
+        <source>Expiration must be within 1 to 5 years</source>
+        <translation>Дійсно має бути в межах від 1 до 5 років</translation>
+    </message>
+    <message>
+        <source>Failed to find escrow transaction</source>
+        <translation>Не вдалося знайти ескроу угоди</translation>
+    </message>
+    <message>
+        <source>Failed to read alias from alias DB</source>
+        <translation>Не вдалося розпізнати псевдонім із псевдонімів БД</translation>
+    </message>
+    <message>
+        <source>Failed to read arbiter alias from DB</source>
+        <translation>Не вдалося розпізнати арбітром псевдонім з БД</translation>
+    </message>
+    <message>
+        <source>Failed to read from alias DB</source>
+        <translation>Не вдалося розпізнати з псевдоніма БД</translation>
+    </message>
+    <message>
+        <source>Failed to read from certificate DB</source>
+        <translation>Не вдалося розпізнати з сертифіката БД</translation>
+    </message>
+    <message>
+        <source>Failed to read from escrow DB</source>
+        <translation>Не вдалося розпізнати з ескроу DB</translation>
+    </message>
+    <message>
+        <source>Failed to read from offer DB</source>
+        <translation>Не вдалося розпізнати з пропозиції DB</translation>
+    </message>
+    <message>
+        <source>Failed to read to alias from alias DB</source>
+        <translation>Не вдалося розпізнати на псевдонім з псевдонімів БД</translation>
+    </message>
+    <message>
+        <source>Failed to read transfer alias from DB</source>
+        <translation>Не вдалося розпізнати передачі псевдонім з БД</translation>
+    </message>
+    <message>
+        <source>Failed to write to alias DB</source>
+        <translation>Чи не вдалося записати псевдонім БД</translation>
+    </message>
+    <message>
+        <source>Failed to write to certifcate DB</source>
+        <translation>Не можу записати БД: Сертифікат</translation>
+    </message>
+    <message>
+        <source>Failed to write to escrow DB</source>
+        <translation>Чи не вдалося записати ескроу DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to message DB</source>
+        <translation>Чи не вдалося записати повідомлення DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer DB</source>
+        <translation>Чи не вдалося записати запропонувати DB</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer link to DB</source>
+        <translation>Чи не вдалося записати запропонувати посилання на БД</translation>
+    </message>
+    <message>
+        <source>Failed to write to offer to DB</source>
+        <translation>Чи не вдалося записати запропонувати БД</translation>
+    </message>
+    <message>
+        <source>Feedback must leave a message</source>
+        <translation>Зворотній зв'язок повинен залишити повідомлення</translation>
+    </message>
+    <message>
+        <source>Feedback too long</source>
+        <translation>Зворотній зв'язок занадто довго</translation>
+    </message>
+    <message>
+        <source>Guid in data output doesn't match guid in transaction</source>
+        <translation>Guid в вихідних даних не відповідає Guid в угоді</translation>
+    </message>
+    <message>
+        <source>Guid in data output doesn't match guid in tx</source>
+        <translation>Guid в вихідних даних не відповідає Guid в ТХ</translation>
+    </message>
+    <message>
+        <source>Guid mismatch</source>
+        <translation>невідповідність Guid</translation>
     </message>
     <message>
         <source>How many blocks to check at startup (default: %u, 0 = all)</source>
@@ -2221,6 +6778,46 @@
     <message>
         <source>Invalid -proxy address: '%s'</source>
         <translation>Помилка в адресі проксі-сервера: «%s»</translation>
+    </message>
+    <message>
+        <source>Invalid feedback transaction</source>
+        <translation>Неправильна угода зворотного зв'язку</translation>
+    </message>
+    <message>
+        <source>Invalid number of escrow feedbacks provided</source>
+        <translation>Неправильне кількість депозитного зворотних зв'язків за умови,</translation>
+    </message>
+    <message>
+        <source>Invalid offer buyer alias</source>
+        <translation>Недійсні псевдонім пропозицію покупця</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow activate</source>
+        <translation>Invalid оп, повинен бути депонуванню Activate</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow complete</source>
+        <translation>Invalid оп, повинна бути завершена ескроу</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow refund</source>
+        <translation>Invalid оп, повинні бути умовного депонування повернення</translation>
+    </message>
+    <message>
+        <source>Invalid op, should be escrow release</source>
+        <translation>Invalid оп, має бути ескроу-реліз</translation>
+    </message>
+    <message>
+        <source>Invalid quantity value. Quantity must be less than 4294967296.</source>
+        <translation>Неприпустиме значення для кількості. Кількість повинна бути менше, ніж 4294967296.</translation>
+    </message>
+    <message>
+        <source>Invalid rating value</source>
+        <translation>Некоректна рейтингу</translation>
+    </message>
+    <message>
+        <source>Linked offer not found. It may be expired</source>
+        <translation>Linked пропозиція не знайдено. Можливо, закінчився термін дії</translation>
     </message>
     <message>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: %u or testnet: %u)</source>
@@ -2247,8 +6844,164 @@
         <translation>Максимальний розмір вихідного буферу на одне з'єднання, &lt;n&gt;*1000 байтів (типово: %u)</translation>
     </message>
     <message>
+        <source>Message arguments incorrect size</source>
+        <translation>Аргументи Повідомлення неправильного розміру</translation>
+    </message>
+    <message>
+        <source>Message guid in data output does not match guid in transaction</source>
+        <translation>Повідомлення Guid в вихідних даних не відповідає Guid в угоді</translation>
+    </message>
+    <message>
+        <source>Message guid mismatch</source>
+        <translation>Повідомлення Guid невідповідність</translation>
+    </message>
+    <message>
+        <source>Message subject too long</source>
+        <translation>Тема повідомлення занадто довго</translation>
+    </message>
+    <message>
+        <source>Message too long</source>
+        <translation>Повідомлення занадто довго</translation>
+    </message>
+    <message>
+        <source>Message transaction guid too big</source>
+        <translation>угода повідомлення Guid занадто великий</translation>
+    </message>
+    <message>
+        <source>Message transaction has unknown op</source>
+        <translation>Повідомлення угода має невідомий ор</translation>
+    </message>
+    <message>
+        <source>Non-Syscoin transaction found</source>
+        <translation>Non-Syscoin угода знайдено</translation>
+    </message>
+    <message>
+        <source>Not enough quantity left in this offer for this purchase</source>
+        <translation>Недостатня кількість залишилося в цій пропозиції для цієї покупки</translation>
+    </message>
+    <message>
+        <source>Offer accept hex guid too long</source>
+        <translation>Пропозиція приймаємо шестигранною Guid занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer already exists</source>
+        <translation>Пропозиція вже існує</translation>
+    </message>
+    <message>
+        <source>Offer arguments incorrect size</source>
+        <translation>Аргументи Пропозиція неправильний розмір</translation>
+    </message>
+    <message>
+        <source>Offer category cannot be empty</source>
+        <translation>Категорія Пропозиція не може бути порожнім</translation>
+    </message>
+    <message>
+        <source>Offer category too long</source>
+        <translation>Категорія Пропозиція занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer curreny too long</source>
+        <translation>Пропозиція curreny занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer description too long</source>
+        <translation>Опис пропозиції занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer geolocation too long</source>
+        <translation>Пропозиція геолокації занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer guid too long</source>
+        <translation>Пропозиція справ занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer has too many affiliate entries, only one allowed per transaction</source>
+        <translation>Пропозиція має занадто багато записів філія, тільки один дозволено за одну транзакцію</translation>
+    </message>
+    <message>
+        <source>Offer input and offer guid mismatch</source>
+        <translation>Пропозиція вхід і пропонують Guid невідповідність</translation>
+    </message>
+    <message>
+        <source>Offer link guid hash too long</source>
+        <translation>Пропозиція посилання справ хеш занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer payment message cannot be empty</source>
+        <translation>оплата Пропозиція повідомлення не може бути порожнім</translation>
+    </message>
+    <message>
+        <source>Offer price must be greater than 0</source>
+        <translation>Ціна пропозиції повинна бути більше 0</translation>
+    </message>
+    <message>
+        <source>Offer title cannot be empty</source>
+        <translation>Назва Пропозиція не може бути порожнім</translation>
+    </message>
+    <message>
+        <source>Offer title too long</source>
+        <translation>Назва пропозиції занадто довго</translation>
+    </message>
+    <message>
+        <source>Offer transaction has unknown op</source>
+        <translation>Пропозиція транзакція має невідомий ор</translation>
+    </message>
+    <message>
+        <source>OfferAccept arguments incorrect size</source>
+        <translation>OfferAccept аргументи неправильного розміру</translation>
+    </message>
+    <message>
+        <source>Offeraccept object cannot be empty</source>
+        <translation>Offeraccept об'єкт не може бути порожнім</translation>
+    </message>
+    <message>
+        <source>Offeraccept transaction with guid too big</source>
+        <translation>Offeraccept угода з великою занадто GUID</translation>
+    </message>
+    <message>
+        <source>Only arbiter can leave this feedback</source>
+        <translation>Тільки Арбітр може залишити цю зворотний зв'язок</translation>
+    </message>
+    <message>
+        <source>Only arbiter or seller can initiate an escrow refund</source>
+        <translation>Тільки арбітром або продавець може ініціювати повернення умовного депонування</translation>
+    </message>
+    <message>
+        <source>Only buyer can claim an escrow refund</source>
+        <translation>Тільки покупець може претендувати на повернення умовного депонування</translation>
+    </message>
+    <message>
+        <source>Only buyer can leave the seller feedback</source>
+        <translation>Тільки покупець може залишити зворотний зв'язок з продавцем</translation>
+    </message>
+    <message>
+        <source>Only buyer can leave this feedback</source>
+        <translation>Тільки покупець може залишити цю зворотний зв'язок</translation>
+    </message>
+    <message>
+        <source>Only seller can leave this feedback</source>
+        <translation>Тільки продавець може залишити цю зворотний зв'язок</translation>
+    </message>
+    <message>
         <source>Prepend debug output with timestamp (default: %u)</source>
         <translation>Доповнювати налагоджувальний вивід відміткою часу (типово: %u)</translation>
+    </message>
+    <message>
+        <source>Private key for buyer address is not known</source>
+        <translation>Секретний ключ для покупця адреса не відомий</translation>
+    </message>
+    <message>
+        <source>Private key for seller address is not known</source>
+        <translation>Секретний ключ продавцеві адреса невідома</translation>
+    </message>
+    <message>
+        <source>Quantity must be 1 for a digital offer</source>
+        <translation>Кількість повинна бути 1 для цифрового пропозиції</translation>
+    </message>
+    <message>
+        <source>Quantity must be less than 4294967296</source>
+        <translation>Кількість повинна бути менше, ніж 4294967296</translation>
     </message>
     <message>
         <source>Relay and mine data carrier transactions (default: %u)</source>
@@ -2259,12 +7012,16 @@
         <translation>Ретранслювати не-P2SH транзакції з мультипідписом (типово: %u)</translation>
     </message>
     <message>
-        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
-        <translation>Встановити розмір пулу ключів &lt;n&gt; (типово: %u)</translation>
+        <source>Seller address does not refer to a key</source>
+        <translation>Продавець-адреса не відноситься до ключу</translation>
     </message>
     <message>
-        <source>Set minimum block size in bytes (default: %u)</source>
-        <translation>Встановити мінімальний розмір блоку в байтах (типово: %u)</translation>
+        <source>Seller alias is not in your wallet</source>
+        <translation>Продавець псевдонім не в вашому гаманці</translation>
+    </message>
+    <message>
+        <source>Set key pool size to &lt;n&gt; (default: %u)</source>
+        <translation>Встановити розмір пулу ключів &lt;n&gt; (типово: %u)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>
@@ -2287,12 +7044,48 @@
         <translation>Витрачати непідтверджену решту при відправленні транзакцій (типово: %u)</translation>
     </message>
     <message>
+        <source>This alias entry already exists on affiliate list</source>
+        <translation>Ця запис псевдоніма вже існує в списку партнерської</translation>
+    </message>
+    <message>
+        <source>This alias entry was not found on affiliate list</source>
+        <translation>Ця запис псевдоніма не був знайдений в списку партнерської</translation>
+    </message>
+    <message>
+        <source>This alias is not in your wallet</source>
+        <translation>Цей псевдонім не в вашому гаманці</translation>
+    </message>
+    <message>
+        <source>This alias is not yours</source>
+        <translation>Цей псевдонім не твій</translation>
+    </message>
+    <message>
+        <source>This message already exists</source>
+        <translation>Це повідомлення вже існує</translation>
+    </message>
+    <message>
         <source>Threshold for disconnecting misbehaving peers (default: %u)</source>
         <translation>Поріг відключення учасників з поганою поведінкою (типово: %u)</translation>
     </message>
     <message>
+        <source>Trying to accept a linked offer but could not find parent offer</source>
+        <translation>Спроба прийняти пов'язаний пропозицію, але не змогли знайти материнську пропозицію</translation>
+    </message>
+    <message>
+        <source>Trying to renew an alias that isn't expired</source>
+        <translation>Спроба оновити псевдонім, який не закінчився термін дії</translation>
+    </message>
+    <message>
+        <source>Unknown feedback user type</source>
+        <translation>Невідомий тип користувача зворотного зв'язку</translation>
+    </message>
+    <message>
         <source>Unknown network specified in -onlynet: '%s'</source>
         <translation>Невідома мережа вказана в -onlynet: «%s»</translation>
+    </message>
+    <message>
+        <source>failed to read alias from alias DB</source>
+        <translation>не вдалося прочитати псевдонім із псевдонімів БД</translation>
     </message>
     <message>
         <source>Insufficient funds</source>

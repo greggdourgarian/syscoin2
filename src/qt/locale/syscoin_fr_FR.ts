@@ -1,5 +1,188 @@
 <TS language="fr_FR" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Référence Offre :</translation>
+    </message>
+    <message>
+        <source>The value associated with this offer.</source>
+        <translation>La valeur associée à cette offre.</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Quantité :</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias :</translation>
+    </message>
+    <message>
+        <source>Notes:</source>
+        <translation>Notes :</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>Détails de l’offre :</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Vendeur :</translation>
+    </message>
+    <message>
+        <source>Merchant Rating:</source>
+        <translation>Évaluation du vendeur :</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Titre :</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Catégorie :</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Prix :</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Monnaie :</translation>
+    </message>
+    <message>
+        <source>Quantity Remaining:</source>
+        <translation>Quantité restante :</translation>
+    </message>
+    <message>
+        <source>Quantity Sold:</source>
+        <translation>Quantité vendue :</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Description :</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Acheter cette offre</translation>
+    </message>
+    <message>
+        <source>&amp;Accept Offer</source>
+        <translation>&amp;Accepter l'offre</translation>
+    </message>
+    <message>
+        <source>Click to open image in browser...</source>
+        <translation>Cliquer pour ouvrir l'image dans le navigateur...</translation>
+    </message>
+    <message>
+        <source>Use Public Profile</source>
+        <translation>Utiliser le Profil Public</translation>
+    </message>
+    <message>
+        <source>Use Private Profile</source>
+        <translation>Utiliser le Profil Privé</translation>
+    </message>
+    <message>
+        <source>Confirm Public Profile Inclusion</source>
+        <translation>Confirmer l’inscription du Profil Public</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Êtes-vous sûr de vouloir continuer?</translation>
+    </message>
+    <message>
+        <source>Confirm Private Profile Inclusion</source>
+        <translation>Confirmer l’inscription du Profil Privé</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to get the alias profile data: </source>
+        <translation>Il y avait une exception en essayant d'obtenir les données du profil alias:</translation>
+    </message>
+    <message>
+        <source>Invalid quantity when trying to accept this offer!</source>
+        <translation>Quantité incorrecte lorsque vous essayez d’accepter cette offre!
+ </translation>
+    </message>
+    <message>
+        <source>Please choose an alias before purchasing this offer.</source>
+        <translation>Veuillez choisir un alias avant d'acheter cette offre.</translation>
+    </message>
+    <message>
+        <source>Waiting for confirmation on the purchase of this offer</source>
+        <translation>En attente de la confirmation de l'achat de cette offre</translation>
+    </message>
+    <message>
+        <source>URI has been already handled</source>
+        <translation>URI a été déjà traité</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>illimité</translation>
+    </message>
+</context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>Accepted Offers</source>
+        <translation>Offres acceptées</translation>
+    </message>
+    <message>
+        <source>Refresh accepted offer list</source>
+        <translation>Rafraîchir la liste de l'offre acceptée</translation>
+    </message>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
+    </message>
+    <message>
+        <source>Details of the selected accepted offer</source>
+        <translation>Détails de l'offre acceptée sélectionnée</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    <message>
+        <source>Send message to the seller</source>
+        <translation>Envoyer un message au vendeur</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Envoyer un message au vendeur</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Veuillez laisser un commentaire</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Exporter les données de l'offre</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -41,7 +224,83 @@
         <source>&amp;Delete</source>
         <translation>&amp;Supprimer</translation>
     </message>
+    <message>
+        <source>Choose the address to send coins to</source>
+        <translation>Choisissez l'adresse de destination des pièces</translation>
+    </message>
+    <message>
+        <source>Choose the address to receive coins with</source>
+        <translation>Choisissez l'adresse de réception des pièces</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation>&amp;Choisissez</translation>
+    </message>
+    <message>
+        <source>Sending addresses</source>
+        <translation>Adresses d'envoi</translation>
+    </message>
+    <message>
+        <source>Receiving addresses</source>
+        <translation>Adresses de réception</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Ce sont vos adresses Syscoin pour envoyer les paiements. Veuillez toujours vérifier le montant et les adresses de réception avant d'envoyer les pièces.</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Ce sont vos adresses Syscoin pour recevoir les paiements. Veuillez toujours vérifier le montant et les adresses de réception avant d'envoyer les pièces.</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Address</source>
+        <translation>&amp;Copier l'adresse</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Modifier</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Étiquette</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    <message>
+        <source>Label</source>
+        <translation>Étiquette</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(aucune étiquette)</translation>
+    </message>
 </context>
+<context>
+    <name>AliasListPage</name>
+    </context>
+<context>
+    <name>AliasTableModel</name>
+    <message>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
+    </message>
+    </context>
+<context>
+    <name>AliasView</name>
+    </context>
 <context>
     <name>AskPassphraseDialog</name>
     <message>
@@ -60,7 +319,63 @@
         <source>Repeat new passphrase</source>
         <translation>Répétez la phrase de passe</translation>
     </message>
-</context>
+    <message>
+        <source>Encrypt wallet</source>
+        <translation>Chiffrer le porte-monnaie</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Cette opération nécessite votre phrase de passe pour déverrouiller le porte-monnaie.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet</source>
+        <translation>Déverrouiller le porte-monnaie</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Cette opération nécessite votre phrase de passe pour décrypter le porte-monnaie.</translation>
+    </message>
+    <message>
+        <source>Decrypt wallet</source>
+        <translation>Décrypter le porte-monnaie</translation>
+    </message>
+    <message>
+        <source>Change passphrase</source>
+        <translation>Changer la phrase de passe</translation>
+    </message>
+    <message>
+        <source>Confirm wallet encryption</source>
+        <translation>Confirmer le chiffrement du porte-monnaie</translation>
+    </message>
+    <message>
+        <source>Wallet encrypted</source>
+        <translation>Porte-monnaie chiffré</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed</source>
+        <translation>Le chiffrement du porte-monnaie a échoué</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Le chiffrement du porte-monnaie a échoué en raison d'une erreur interne. Votre porte-monnaie n'a pas été chiffré.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Les phrases de passe entrées ne correspondent pas.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock failed</source>
+        <translation>Le déverrouillage du porte-monnaie a échoué</translation>
+    </message>
+    <message>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>La phrase de passe entrée pour décrypter le porte-monnaie était erronée.</translation>
+    </message>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>Le décryptage du porte-monnaie a échoué</translation>
+    </message>
+    </context>
 <context>
     <name>BanTableModel</name>
     <message>
@@ -73,298 +388,22 @@
     </message>
 </context>
 <context>
-    <name>SyscoinGUI</name>
+    <name>CertListPage</name>
+    </context>
+<context>
+    <name>CertTableModel</name>
     <message>
-        <source>Sign &amp;message...</source>
-        <translation>Signer &amp;message...</translation>
+        <source>Status</source>
+        <translation>État</translation>
     </message>
     <message>
-        <source>Synchronizing with network...</source>
-        <translation>Synchronisation avec le réseau...</translation>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
     </message>
-    <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Vue d'ensemble</translation>
-    </message>
-    <message>
-        <source>Node</source>
-        <translation>Nœud</translation>
-    </message>
-    <message>
-        <source>Show general overview of wallet</source>
-        <translation>Affiche une vue d'ensemble du porte-monnaie</translation>
-    </message>
-    <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Transactions</translation>
-    </message>
-    <message>
-        <source>Browse transaction history</source>
-        <translation>Permet de parcourir l'historique des transactions</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>Qui&amp;tter</translation>
-    </message>
-    <message>
-        <source>Quit application</source>
-        <translation>Quitter l'application</translation>
-    </message>
-    <message>
-        <source>&amp;About %1</source>
-        <translation>&amp;À propos de %1</translation>
-    </message>
-    <message>
-        <source>Show information about %1</source>
-        <translation>Afficher les informations sur %1</translation>
-    </message>
-    <message>
-        <source>About &amp;Qt</source>
-        <translation>À propos de &amp;Qt</translation>
-    </message>
-    <message>
-        <source>Show information about Qt</source>
-        <translation>Afficher des informations sur Qt</translation>
-    </message>
-    <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Options...</translation>
-    </message>
-    <message>
-        <source>Modify configuration options for %1</source>
-        <translation>Modifier les options de configuration pour %1</translation>
-    </message>
-    <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Chiffrer le portefeuille </translation>
-    </message>
-    <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Sauvegarder le portefeuille</translation>
-    </message>
-    <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Modifier le mot de passe</translation>
-    </message>
-    <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>&amp;Adresses d'envoi</translation>
-    </message>
-    <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>&amp;Adresses de réception</translation>
-    </message>
-    <message>
-        <source>Open &amp;URI...</source>
-        <translation>Ouvrir &amp;URI</translation>
-    </message>
-    <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Réindexer les blocs sur le disque...</translation>
-    </message>
-    <message>
-        <source>Send coins to a Syscoin address</source>
-        <translation>Envoyer des pièces à une adresse Syscoin</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Sauvegarder le porte-monnaie à un autre emplacement</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Modifier la phrase de passe utilisée pour le cryptage du porte-monnaie</translation>
-    </message>
-    <message>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Fenêtre de débogage</translation>
-    </message>
-    <message>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Ouvrir la console de débogage et de diagnostic</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Vérification du message</translation>
-    </message>
-    <message>
-        <source>Syscoin</source>
-        <translation>Syscoin</translation>
-    </message>
-    <message>
-        <source>Wallet</source>
-        <translation>Portefeuille</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Envoyer</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Réception</translation>
-    </message>
-    <message>
-        <source>&amp;Show / Hide</source>
-        <translation>&amp;Montrer / Cacher</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Montrer ou cacher la fenêtre principale</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Crypter les clé privées qui appartiennent votre portefeuille</translation>
-    </message>
-    <message>
-        <source>Sign messages with your Syscoin addresses to prove you own them</source>
-        <translation>Signer vos messages avec vos adresses Syscoin pour prouver que vous les détenez</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Réglages</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Aide</translation>
-    </message>
-    <message>
-        <source>Tabs toolbar</source>
-        <translation>Barre d'outils des onglets</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and syscoin: URIs)</source>
-        <translation>Demander des paiements (générer QR codes et syscoin: URIs)</translation>
-    </message>
-    <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Montrer la liste des adresses d'envois utilisées et les étiquettes</translation>
-    </message>
-    <message>
-        <source>Open a syscoin: URI or payment request</source>
-        <translation>Ouvrir un syscoin: URI ou demande de paiement</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>&amp;Options de ligne de commande</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Syscoin network</source>
-        <translation><numerusform>%n connexion active au réseau Syscoin</numerusform><numerusform>%n connexions actives au réseau Syscoin</numerusform></translation>
-    </message>
-    <message>
-        <source>Indexing blocks on disk...</source>
-        <translation>Indexation des blocs sur le disque...</translation>
-    </message>
-    <message>
-        <source>No block source available...</source>
-        <translation>Aucun bloc source disponible</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n heure</numerusform><numerusform>%n heures</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s)</source>
-        <translation><numerusform>%n jour</numerusform><numerusform>%n jours</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s)</source>
-        <translation><numerusform>%n semaine</numerusform><numerusform>%n semaines</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation>%1 et %2</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s)</source>
-        <translation><numerusform>%n an</numerusform><numerusform>%n années</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 behind</source>
-        <translation>en retard de %1</translation>
-    </message>
-    <message>
-        <source>Last received block was generated %1 ago.</source>
-        <translation>Le dernier bloc reçu a été généré %1.</translation>
-    </message>
-    <message>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation>Les transactions ne seront plus visible après ceci.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Erreur</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Attention</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Information</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>À jour</translation>
-    </message>
-    <message>
-        <source>%1 client</source>
-        <translation>%1 client</translation>
-    </message>
-    <message>
-        <source>Catching up...</source>
-        <translation>Rattrapage...</translation>
-    </message>
-    <message>
-        <source>Date: %1
-</source>
-        <translation>Date: %1
-</translation>
-    </message>
-    <message>
-        <source>Amount: %1
-</source>
-        <translation>Montant:%1
-</translation>
-    </message>
-    <message>
-        <source>Type: %1
-</source>
-        <translation>Type: %1
-</translation>
-    </message>
-    <message>
-        <source>Label: %1
-</source>
-        <translation>Étiquette: %1
-</translation>
-    </message>
-    <message>
-        <source>Address: %1
-</source>
-        <translation>Adresse: %1
-</translation>
-    </message>
-    <message>
-        <source>Sent transaction</source>
-        <translation>Transaction envoyée</translation>
-    </message>
-    <message>
-        <source>Incoming transaction</source>
-        <translation>Transaction entrante</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;déverrouillé&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;verrouillé&lt;/b&gt;</translation>
-    </message>
-</context>
+    </context>
+<context>
+    <name>CertView</name>
+    </context>
 <context>
     <name>CoinControlDialog</name>
     <message>
@@ -382,10 +421,6 @@
     <message>
         <source>Amount:</source>
         <translation>Montant :</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Priorité:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -440,10 +475,22 @@
         <translation>Confirmée</translation>
     </message>
     <message>
-        <source>Priority</source>
-        <translation>Priorité</translation>
+        <source>Copy address</source>
+        <translation>Copier l'adresse</translation>
     </message>
-</context>
+    <message>
+        <source>Copy label</source>
+        <translation>Copier l'étiquette</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Copier le montant</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(aucune étiquette)</translation>
+    </message>
+    </context>
 <context>
     <name>EditAddressDialog</name>
     <message>
@@ -458,7 +505,195 @@
         <source>&amp;Address</source>
         <translation>&amp;Adresse</translation>
     </message>
+    <message>
+        <source>New receiving address</source>
+        <translation>Nouvelle adresse de réception</translation>
+    </message>
+    <message>
+        <source>New sending address</source>
+        <translation>Nouvelle adresse d'envoi</translation>
+    </message>
+    <message>
+        <source>Edit receiving address</source>
+        <translation>Éditer l'adresse de réception</translation>
+    </message>
+    <message>
+        <source>Edit sending address</source>
+        <translation>Éditer l'adresse d'envoi</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>L'adresse fournie « %1 » est déjà présente dans le carnet d'adresses.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Impossible de déverrouiller le porte-monnaie.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>Échec de la création de la nouvelle clef.</translation>
+    </message>
 </context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias :</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Impossible de déverrouiller le porte-monnaie.</translation>
+    </message>
+</context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias :</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Titre :</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Catégorie :</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Impossible de déverrouiller le porte-monnaie.</translation>
+    </message>
+</context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
+    <message>
+        <source>Title:</source>
+        <translation>Titre:</translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation>Catégorie :</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Prix :</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Quantité :</translation>
+    </message>
+    <message>
+        <source>Description:</source>
+        <translation>Description :</translation>
+    </message>
+    <message>
+        <source>Currency:</source>
+        <translation>Monnaie :</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>illimité</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Impossible de déverrouiller le porte-monnaie.</translation>
+    </message>
+</context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Retirer</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>ID</source>
+        <translation>Référence</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Référence offre :</translation>
+    </message>
+    <message>
+        <source>Price:</source>
+        <translation>Prix :</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Total:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowListPage</name>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowTableModel</name>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowView</name>
+    </context>
 <context>
     <name>FreespaceChecker</name>
     <message>
@@ -514,6 +749,21 @@
     </message>
     </context>
 <context>
+    <name>InMessageListPage</name>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    </context>
+<context>
     <name>Intro</name>
     <message>
         <source>Welcome</source>
@@ -549,6 +799,367 @@
     </message>
 </context>
 <context>
+    <name>ManageEscrowDialog</name>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Laisser un commentaire</translation>
+    </message>
+    <message>
+        <source>none</source>
+        <translation>aucun</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message:</source>
+        <translation>Message :</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageListPage</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+</context>
+<context>
+    <name>MessageTableModel</name>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    <message>
+        <source>Form</source>
+        <translation>Formulaire</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Cacher</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Laisser un commentaire</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Exporter les données de l'Offre</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
+    </message>
+    </context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
+    </message>
+    </context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Envoyer un message au vendeur</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+    <message>
+        <source>Export Offer Data</source>
+        <translation>Exporter les données de l'Offre</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    </context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>&amp;Refresh</source>
+        <translation>&amp;Rafraîchir</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Exporter</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Impossible de déverrouiller le porte-monnaie.</translation>
+    </message>
+</context>
+<context>
+    <name>NewWhitelistDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Impossible de déverrouiller le porte-monnaie.</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialog</name>
+    </context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    <message>
+        <source>to</source>
+        <translation>à</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    <message>
+        <source>to</source>
+        <translation>à</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>Price:</source>
+        <translation>Prix :</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Quantité :</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Total:</translation>
+    </message>
+    <message>
+        <source>Offer Details</source>
+        <translation>Détails de l’offre :</translation>
+    </message>
+    <message>
+        <source>Offer ID:</source>
+        <translation>Référence offre :</translation>
+    </message>
+    <message>
+        <source>Merchant:</source>
+        <translation>Vendeur :</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+</context>
+<context>
+    <name>OfferEscrowDialog</name>
+    </context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    <message>
+        <source>Leave Feedback</source>
+        <translation>Laisser un commentaire</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferListPage</name>
+    <message>
+        <source>Copy the currently selected offer to the system clipboard</source>
+        <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
+    </message>
+    <message>
+        <source>Purchase this offer</source>
+        <translation>Acheter cette offre</translation>
+    </message>
+    <message>
+        <source>Send Msg To Seller</source>
+        <translation>Envoyer un message au vendeur</translation>
+    </message>
+    <message>
+        <source>unlimited</source>
+        <translation>illimité</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferPayDialog</name>
+    </context>
+<context>
+    <name>OfferTableModel</name>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferView</name>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
+    </context>
+<context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
@@ -566,7 +1177,7 @@
         <source>Select payment request file</source>
         <translation>Sélectionner un fichier de demande de paiement</translation>
     </message>
-</context>
+    </context>
 <context>
     <name>OptionsDialog</name>
     <message>
@@ -711,6 +1322,28 @@
     </message>
 </context>
 <context>
+    <name>OptionsModel</name>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+</context>
+<context>
+    <name>OutMessageListPage</name>
+    <message>
+        <source>Details</source>
+        <translation>Détails</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    </context>
+<context>
     <name>OverviewPage</name>
     <message>
         <source>Form</source>
@@ -754,6 +1387,9 @@
     </message>
     </context>
 <context>
+    <name>PaymentServer</name>
+    </context>
+<context>
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
@@ -767,16 +1403,12 @@
         <source>Ping Time</source>
         <translation>Temps du ping</translation>
     </message>
-</context>
+    </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Amount</source>
         <translation>Montant</translation>
-    </message>
-    <message>
-        <source>Enter a Syscoin address (e.g. %1)</source>
-        <translation>Entrer une adresse Syscoin (e.g. %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -806,7 +1438,18 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
 </context>
+<context>
+    <name>QRImageWidget</name>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>&amp;Sauvegarder image</translation>
+    </message>
+    </context>
 <context>
     <name>RPCConsole</name>
     <message>
@@ -1064,6 +1707,14 @@
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Copier l'étiquette</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Copier le montant</translation>
+    </message>
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
@@ -1083,7 +1734,53 @@
         <source>&amp;Save Image...</source>
         <translation>&amp;Sauvegarder image</translation>
     </message>
-</context>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Montant</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Étiquette</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    </context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Étiquette</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(aucune étiquette)</translation>
+    </message>
+    </context>
+<context>
+    <name>ResellOfferDialog</name>
+    <message>
+        <source>Description:</source>
+        <translation>Description :</translation>
+    </message>
+    <message>
+        <source>Alias:</source>
+        <translation>Alias :</translation>
+    </message>
+    </context>
 <context>
     <name>SendCoinsDialog</name>
     <message>
@@ -1113,10 +1810,6 @@
     <message>
         <source>Amount:</source>
         <translation>Montant :</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Priorité:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -1190,7 +1883,23 @@
         <source>Confirm the send action</source>
         <translation>Confirmer l'action d'envoi</translation>
     </message>
-    </context>
+    <message>
+        <source>Copy amount</source>
+        <translation>Copier le montant</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Confirmer l'envoi des pièces</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>Le montant à payer doit être supérieur à 0.</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(aucune étiquette)</translation>
+    </message>
+</context>
 <context>
     <name>SendCoinsEntry</name>
     <message>
@@ -1241,9 +1950,27 @@
         <source>Memo:</source>
         <translation>Memo:</translation>
     </message>
+    <message>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Entrer une étiquette pour cette adresse afin de l'ajouter à votre carnet d'adresses</translation>
+    </message>
+</context>
+<context>
+    <name>SendConfirmationDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>Oui</translation>
+    </message>
 </context>
 <context>
     <name>ShutdownWindow</name>
+    </context>
+<context>
+    <name>SignRawTxDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
     </context>
 <context>
     <name>SignVerifyMessageDialog</name>
@@ -1304,6 +2031,275 @@
     </message>
 </context>
 <context>
+    <name>SyscoinGUI</name>
+    <message>
+        <source>Sign &amp;message...</source>
+        <translation>Signer &amp;message...</translation>
+    </message>
+    <message>
+        <source>Synchronizing with network...</source>
+        <translation>Synchronisation avec le réseau...</translation>
+    </message>
+    <message>
+        <source>&amp;Overview</source>
+        <translation>&amp;Vue d'ensemble</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Nœud</translation>
+    </message>
+    <message>
+        <source>Show general overview of wallet</source>
+        <translation>Affiche une vue d'ensemble du porte-monnaie</translation>
+    </message>
+    <message>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Transactions</translation>
+    </message>
+    <message>
+        <source>Browse transaction history</source>
+        <translation>Permet de parcourir l'historique des transactions</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>Qui&amp;tter</translation>
+    </message>
+    <message>
+        <source>Quit application</source>
+        <translation>Quitter l'application</translation>
+    </message>
+    <message>
+        <source>Show information about %1</source>
+        <translation>Afficher les informations sur %1</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt</source>
+        <translation>À propos de &amp;Qt</translation>
+    </message>
+    <message>
+        <source>Show information about Qt</source>
+        <translation>Afficher des informations sur Qt</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Options...</translation>
+    </message>
+    <message>
+        <source>Modify configuration options for %1</source>
+        <translation>Modifier les options de configuration pour %1</translation>
+    </message>
+    <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>&amp;Chiffrer le portefeuille </translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Sauvegarder le portefeuille</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>&amp;Modifier le mot de passe</translation>
+    </message>
+    <message>
+        <source>&amp;Sending addresses...</source>
+        <translation>&amp;Adresses d'envoi</translation>
+    </message>
+    <message>
+        <source>&amp;Receiving addresses...</source>
+        <translation>&amp;Adresses de réception</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Ouvrir &amp;URI</translation>
+    </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Réindexer les blocs sur le disque...</translation>
+    </message>
+    <message>
+        <source>Send coins to a Syscoin address</source>
+        <translation>Envoyer des pièces à une adresse Syscoin</translation>
+    </message>
+    <message>
+        <source>Backup wallet to another location</source>
+        <translation>Sauvegarder le porte-monnaie à un autre emplacement</translation>
+    </message>
+    <message>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Modifier la phrase de passe utilisée pour le cryptage du porte-monnaie</translation>
+    </message>
+    <message>
+        <source>&amp;Debug window</source>
+        <translation>&amp;Fenêtre de débogage</translation>
+    </message>
+    <message>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Ouvrir la console de débogage et de diagnostic</translation>
+    </message>
+    <message>
+        <source>&amp;Verify message...</source>
+        <translation>&amp;Vérification du message</translation>
+    </message>
+    <message>
+        <source>Syscoin</source>
+        <translation>Syscoin</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Portefeuille</translation>
+    </message>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;Envoyer</translation>
+    </message>
+    <message>
+        <source>&amp;Receive</source>
+        <translation>&amp;Réception</translation>
+    </message>
+    <message>
+        <source>&amp;Show / Hide</source>
+        <translation>&amp;Montrer / Cacher</translation>
+    </message>
+    <message>
+        <source>Show or hide the main Window</source>
+        <translation>Montrer ou cacher la fenêtre principale</translation>
+    </message>
+    <message>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Crypter les clé privées qui appartiennent votre portefeuille</translation>
+    </message>
+    <message>
+        <source>Sign messages with your Syscoin addresses to prove you own them</source>
+        <translation>Signer vos messages avec vos adresses Syscoin pour prouver que vous les détenez</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Fichier</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>&amp;Réglages</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aide</translation>
+    </message>
+    <message>
+        <source>Tabs toolbar</source>
+        <translation>Barre d'outils des onglets</translation>
+    </message>
+    <message>
+        <source>Request payments (generates QR codes and syscoin: URIs)</source>
+        <translation>Demander des paiements (générer QR codes et syscoin: URIs)</translation>
+    </message>
+    <message>
+        <source>Show the list of used sending addresses and labels</source>
+        <translation>Montrer la liste des adresses d'envois utilisées et les étiquettes</translation>
+    </message>
+    <message>
+        <source>Open a syscoin: URI or payment request</source>
+        <translation>Ouvrir un syscoin: URI ou demande de paiement</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>&amp;Options de ligne de commande</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n active connection(s) to Syscoin network</source>
+        <translation><numerusform>%n connexion active au réseau Syscoin</numerusform><numerusform>%n connexions actives au réseau Syscoin</numerusform></translation>
+    </message>
+    <message>
+        <source>Indexing blocks on disk...</source>
+        <translation>Indexation des blocs sur le disque...</translation>
+    </message>
+    <message>
+        <source>No block source available...</source>
+        <translation>Aucun bloc source disponible</translation>
+    </message>
+    <message>
+        <source>%1 behind</source>
+        <translation>en retard de %1</translation>
+    </message>
+    <message>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Le dernier bloc reçu a été généré %1.</translation>
+    </message>
+    <message>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Les transactions ne seront plus visible après ceci.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Attention</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Up to date</source>
+        <translation>À jour</translation>
+    </message>
+    <message>
+        <source>%1 client</source>
+        <translation>%1 client</translation>
+    </message>
+    <message>
+        <source>Catching up...</source>
+        <translation>Rattrapage...</translation>
+    </message>
+    <message>
+        <source>Date: %1
+</source>
+        <translation>Date: %1
+</translation>
+    </message>
+    <message>
+        <source>Amount: %1
+</source>
+        <translation>Montant:%1
+</translation>
+    </message>
+    <message>
+        <source>Type: %1
+</source>
+        <translation>Type: %1
+</translation>
+    </message>
+    <message>
+        <source>Label: %1
+</source>
+        <translation>Étiquette: %1
+</translation>
+    </message>
+    <message>
+        <source>Address: %1
+</source>
+        <translation>Adresse: %1
+</translation>
+    </message>
+    <message>
+        <source>Sent transaction</source>
+        <translation>Transaction envoyée</translation>
+    </message>
+    <message>
+        <source>Incoming transaction</source>
+        <translation>Transaction entrante</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
+        <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;déverrouillé&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
+        <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;verrouillé&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
     <name>TrafficGraphWidget</name>
     <message>
         <source>KB/s</source>
@@ -1311,14 +2307,284 @@
     </message>
 </context>
 <context>
+    <name>TransactionDesc</name>
+    <message>
+        <source>Open until %1</source>
+        <translation>Ouvert jusqu'à %1</translation>
+    </message>
+    <message>
+        <source>%1/unconfirmed</source>
+        <translation>%1/non confirmée</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 confirmations</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>État</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, n'a pas encore été diffusé(es) avec succès</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Generated</source>
+        <translation>Généré</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>inconnue</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation>Crédit</translation>
+    </message>
+    <message>
+        <source>Debit</source>
+        <translation>Débit</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Montant</translation>
+    </message>
+    </context>
+<context>
     <name>TransactionDescDialog</name>
+    <message>
+        <source>Transaction details</source>
+        <translation>Détails de la transaction</translation>
+    </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Ce panneau affiche une description détaillée de la transaction</translation>
     </message>
+    </context>
+<context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Étiquette</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Ouvert jusqu'à %1</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Confirmée (%1 confirmations)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Ce bloc a été reçu par aucun autre nœud et ne sera probablement pas accepté !</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Créé(es) mais pas accepté(es)</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Reçu(es) avec</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Reçu(e) de</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Envoyé(es) à</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Paiement à vous-même</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Miné</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>(indisponible)</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(aucune étiquette)</translation>
+    </message>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>État de la transaction. Laissez le pointeur de la souris sur ce champ pour voir le nombre de confirmations.</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Date et heure de réception de la transaction.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Type de transaction.</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Montant ajouté au ou enlevé du solde.</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Toutes</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Aujourd'hui</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>Cette semaine</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Ce mois</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Mois dernier</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Cette année</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Intervalle...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Reçu(es) avec</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Envoyé(es) à</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>À vous-même</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Extraction</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Autre</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Entrer une adresse ou une étiquette à rechercher</translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Montant min</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>Copier l'adresse</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Copier l'étiquette</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Copier le montant</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>Éditer l'étiquette</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Confirmée</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Étiquette</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Intervalle :</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>à</translation>
+    </message>
 </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
+    </context>
+<context>
+    <name>WalletFrame</name>
+    </context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Envoyer des pièces</translation>
+    </message>
+    </context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exporter les données de l'onglet courant vers un fichier</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Sauvegarder le porte-monnaie</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Données du porte-monnaie (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>La sauvegarde a échoué</translation>
+    </message>
     </context>
 <context>
     <name>syscoin-core</name>

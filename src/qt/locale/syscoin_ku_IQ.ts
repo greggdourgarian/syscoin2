@@ -1,5 +1,15 @@
 <TS language="ku_IQ" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    </context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Create a new address</source>
@@ -25,7 +35,19 @@
         <source>&amp;Delete</source>
         <translation>&amp;سڕینەوە</translation>
     </message>
-</context>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    </context>
+<context>
+    <name>AliasListPage</name>
+    </context>
+<context>
+    <name>AliasTableModel</name>
+    </context>
+<context>
+    <name>AliasView</name>
+    </context>
 <context>
     <name>AskPassphraseDialog</name>
     </context>
@@ -33,45 +55,19 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>SyscoinGUI</name>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;ناردن</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;پەرگە</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;سازکارییەکان</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;یارمەتی</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>هەڵە</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>ئاگاداری</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>زانیاری</translation>
-    </message>
+    <name>CertListPage</name>
+    </context>
+<context>
+    <name>CertTableModel</name>
+    </context>
+<context>
+    <name>CertView</name>
     </context>
 <context>
     <name>CoinControlDialog</name>
     <message>
         <source>Amount:</source>
         <translation>کۆ:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>لەپێشی:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -85,13 +81,69 @@
         <source>Date</source>
         <translation>رێکەت</translation>
     </message>
-    <message>
-        <source>Priority</source>
-        <translation>لەپێشی</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>EditAddressDialog</name>
+    </context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>بەڵێ</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>نەخێر</translation>
+    </message>
+    </context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>بەڵێ</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>نەخێر</translation>
+    </message>
+    </context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>No</source>
+        <translation>نەخێر</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>بەڵێ</translation>
+    </message>
+    </context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>Remove</source>
+        <translation>سڕینەوە</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>Total:</source>
+        <translation>گشتی</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowListPage</name>
+    </context>
+<context>
+    <name>EscrowTableModel</name>
+    </context>
+<context>
+    <name>EscrowView</name>
     </context>
 <context>
     <name>FreespaceChecker</name>
@@ -108,6 +160,9 @@
     </message>
     </context>
 <context>
+    <name>InMessageListPage</name>
+    </context>
+<context>
     <name>Intro</name>
     <message>
         <source>Welcome</source>
@@ -117,6 +172,131 @@
         <source>Error</source>
         <translation>هەڵە</translation>
     </message>
+    </context>
+<context>
+    <name>ManageEscrowDialog</name>
+    </context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message:</source>
+        <translation>پەیام:</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+</context>
+<context>
+    <name>MessageTableModel</name>
+    </context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    </context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    </context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;هەناردن</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>No</source>
+        <translation>نەخێر</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>بەڵێ</translation>
+    </message>
+    </context>
+<context>
+    <name>NewWhitelistDialog</name>
+    </context>
+<context>
+    <name>OfferAcceptDialog</name>
+    </context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    </context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    </context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>Total:</source>
+        <translation>گشتی</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    </context>
+<context>
+    <name>OfferEscrowDialog</name>
+    </context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    </context>
+<context>
+    <name>OfferListPage</name>
+    </context>
+<context>
+    <name>OfferPayDialog</name>
+    </context>
+<context>
+    <name>OfferTableModel</name>
+    </context>
+<context>
+    <name>OfferView</name>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
     </context>
 <context>
     <name>OpenURIDialog</name>
@@ -129,11 +309,20 @@
     </message>
     </context>
 <context>
+    <name>OptionsModel</name>
+    </context>
+<context>
+    <name>OutMessageListPage</name>
+    </context>
+<context>
     <name>OverviewPage</name>
     <message>
         <source>Total:</source>
         <translation>گشتی</translation>
     </message>
+    </context>
+<context>
+    <name>PaymentServer</name>
     </context>
 <context>
     <name>PeerTableModel</name>
@@ -144,6 +333,9 @@
         <source>Amount</source>
         <translation>سەرجەم</translation>
     </message>
+    </context>
+<context>
+    <name>QRImageWidget</name>
     </context>
 <context>
     <name>RPCConsole</name>
@@ -202,19 +394,29 @@
         <source>Remove</source>
         <translation>سڕینەوە</translation>
     </message>
-</context>
+    </context>
 <context>
     <name>ReceiveRequestDialog</name>
+    <message>
+        <source>Amount</source>
+        <translation>سەرجەم</translation>
+    </message>
+    </context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>رێکەت</translation>
+    </message>
+    </context>
+<context>
+    <name>ResellOfferDialog</name>
     </context>
 <context>
     <name>SendCoinsDialog</name>
     <message>
         <source>Amount:</source>
         <translation>کۆ:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>لەپێشی:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -233,7 +435,17 @@
     </message>
     </context>
 <context>
+    <name>SendConfirmationDialog</name>
+    <message>
+        <source>Yes</source>
+        <translation>بەڵێ</translation>
+    </message>
+</context>
+<context>
     <name>ShutdownWindow</name>
+    </context>
+<context>
+    <name>SignRawTxDialog</name>
     </context>
 <context>
     <name>SignVerifyMessageDialog</name>
@@ -242,13 +454,78 @@
     <name>SplashScreen</name>
     </context>
 <context>
+    <name>SyscoinGUI</name>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;ناردن</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;پەرگە</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>&amp;سازکارییەکان</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;یارمەتی</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>هەڵە</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>ئاگاداری</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>زانیاری</translation>
+    </message>
+    </context>
+<context>
     <name>TrafficGraphWidget</name>
+    </context>
+<context>
+    <name>TransactionDesc</name>
+    <message>
+        <source>Date</source>
+        <translation>رێکەت</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>سەرجەم</translation>
+    </message>
     </context>
 <context>
     <name>TransactionDescDialog</name>
     </context>
 <context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>رێکەت</translation>
+    </message>
+    </context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>Date</source>
+        <translation>رێکەت</translation>
+    </message>
+    </context>
+<context>
     <name>UnitDisplayStatusBarControl</name>
+    </context>
+<context>
+    <name>WalletFrame</name>
+    </context>
+<context>
+    <name>WalletModel</name>
+    </context>
+<context>
+    <name>WalletView</name>
     </context>
 <context>
     <name>syscoin-core</name>

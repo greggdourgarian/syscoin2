@@ -1,5 +1,19 @@
 <TS language="sr" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    </context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Create a new address</source>
@@ -25,7 +39,47 @@
         <source>&amp;Delete</source>
         <translation>&amp;Избриши</translation>
     </message>
+    <message>
+        <source>&amp;Copy Address</source>
+        <translation>Kopirajte adresu</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Етикета</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    <message>
+        <source>Label</source>
+        <translation>Етикета</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(без етикете)</translation>
+    </message>
 </context>
+<context>
+    <name>AliasListPage</name>
+    </context>
+<context>
+    <name>AliasTableModel</name>
+    </context>
+<context>
+    <name>AliasView</name>
+    </context>
 <context>
     <name>AskPassphraseDialog</name>
     <message>
@@ -40,10 +94,585 @@
         <source>Repeat new passphrase</source>
         <translation>Поновите нову лозинку</translation>
     </message>
-</context>
+    <message>
+        <source>Encrypt wallet</source>
+        <translation>Шифровање новчаника</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Ова акција захтева лозинку Вашег новчаника да би га откључала.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet</source>
+        <translation>Откључавање новчаника</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Ова акција захтева да унесете лозинку да би дешифловала новчаник.</translation>
+    </message>
+    <message>
+        <source>Decrypt wallet</source>
+        <translation>Дешифровање новчаника</translation>
+    </message>
+    <message>
+        <source>Change passphrase</source>
+        <translation>Промена лозинке</translation>
+    </message>
+    <message>
+        <source>Confirm wallet encryption</source>
+        <translation>Одобрите шифровање новчаника</translation>
+    </message>
+    <message>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SYSCOINS&lt;/b&gt;!</source>
+        <translation>Упозорење: Ако се ваш новчаник шифрује а потом изгубите лозинкзу, ви ћете &lt;b&gt;ИЗГУБИТИ СВЕ SYSCOIN-Е&lt;/b&gt;!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Да ли сте сигурни да желите да се новчаник шифује?</translation>
+    </message>
+    <message>
+        <source>Wallet encrypted</source>
+        <translation>Новчаник је шифрован</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed</source>
+        <translation>Неуспело шифровање новчаника</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Настала је унутрашња грешка током шифровања новчаника. Ваш новчаник није шифрован.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>Лозинке које сте унели се не подударају.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock failed</source>
+        <translation>Неуспело откључавање новчаника</translation>
+    </message>
+    <message>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>Лозинка коју сте унели за откључавање новчаника је нетачна.</translation>
+    </message>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>Неуспело дешифровање новчаника</translation>
+    </message>
+    <message>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Лозинка за приступ новчанику је успешно промењена.</translation>
+    </message>
+    </context>
 <context>
     <name>BanTableModel</name>
     </context>
+<context>
+    <name>CertListPage</name>
+    </context>
+<context>
+    <name>CertTableModel</name>
+    </context>
+<context>
+    <name>CertView</name>
+    </context>
+<context>
+    <name>CoinControlDialog</name>
+    <message>
+        <source>Amount:</source>
+        <translation>Iznos:</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>iznos</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>datum</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Potvrdjen</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>kopiraj adresu</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>kopiraj naziv</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>kopiraj iznos</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(без етикете)</translation>
+    </message>
+    </context>
+<context>
+    <name>EditAddressDialog</name>
+    <message>
+        <source>Edit Address</source>
+        <translation>Измени адресу</translation>
+    </message>
+    <message>
+        <source>&amp;Label</source>
+        <translation>&amp;Етикета</translation>
+    </message>
+    <message>
+        <source>&amp;Address</source>
+        <translation>&amp;Адреса</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>Унешена адреса "%1" се већ налази у адресару.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Немогуће откључати новчаник.</translation>
+    </message>
+    </context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Немогуће откључати новчаник.</translation>
+    </message>
+</context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Немогуће откључати новчаник.</translation>
+    </message>
+</context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Немогуће откључати новчаник.</translation>
+    </message>
+</context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowListPage</name>
+    </context>
+<context>
+    <name>EscrowTableModel</name>
+    </context>
+<context>
+    <name>EscrowView</name>
+    </context>
+<context>
+    <name>FreespaceChecker</name>
+    </context>
+<context>
+    <name>HelpMessageDialog</name>
+    <message>
+        <source>version</source>
+        <translation>верзија</translation>
+    </message>
+    <message>
+        <source>Usage:</source>
+        <translation>Korišćenje:</translation>
+    </message>
+    </context>
+<context>
+    <name>InMessageListPage</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Poruka</translation>
+    </message>
+    </context>
+<context>
+    <name>Intro</name>
+    </context>
+<context>
+    <name>ManageEscrowDialog</name>
+    </context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message:</source>
+        <translation>Poruka:</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageListPage</name>
+    </context>
+<context>
+    <name>MessageTableModel</name>
+    <message>
+        <source>Message</source>
+        <translation>Poruka</translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    </context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Немогуће откључати новчаник.</translation>
+    </message>
+</context>
+<context>
+    <name>NewWhitelistDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Немогуће откључати новчаник.</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialog</name>
+    </context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    <message>
+        <source>to</source>
+        <translation>do</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    <message>
+        <source>to</source>
+        <translation>do</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    </context>
+<context>
+    <name>OfferEscrowDialog</name>
+    </context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    </context>
+<context>
+    <name>OfferListPage</name>
+    </context>
+<context>
+    <name>OfferPayDialog</name>
+    </context>
+<context>
+    <name>OfferTableModel</name>
+    </context>
+<context>
+    <name>OfferView</name>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
+    </context>
+<context>
+    <name>OpenURIDialog</name>
+    </context>
+<context>
+    <name>OptionsDialog</name>
+    <message>
+        <source>Options</source>
+        <translation>Поставке</translation>
+    </message>
+    <message>
+        <source>W&amp;allet</source>
+        <translation>новчаник</translation>
+    </message>
+    <message>
+        <source>&amp;Unit to show amounts in:</source>
+        <translation>&amp;Јединица за приказивање износа:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    </context>
+<context>
+    <name>OptionsModel</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+</context>
+<context>
+    <name>OutMessageListPage</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Poruka</translation>
+    </message>
+    </context>
+<context>
+    <name>OverviewPage</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    </context>
+<context>
+    <name>PaymentServer</name>
+    </context>
+<context>
+    <name>PeerTableModel</name>
+    </context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Amount</source>
+        <translation>iznos</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+</context>
+<context>
+    <name>QRImageWidget</name>
+    </context>
+<context>
+    <name>RPCConsole</name>
+    </context>
+<context>
+    <name>ReceiveCoinsDialog</name>
+    <message>
+        <source>&amp;Amount:</source>
+        <translation>Iznos:</translation>
+    </message>
+    <message>
+        <source>&amp;Label:</source>
+        <translation>&amp;Етикета</translation>
+    </message>
+    <message>
+        <source>&amp;Message:</source>
+        <translation>Poruka:</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>kopiraj naziv</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>kopiraj iznos</translation>
+    </message>
+</context>
+<context>
+    <name>ReceiveRequestDialog</name>
+    <message>
+        <source>Copy &amp;Address</source>
+        <translation>Kopirajte adresu</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>iznos</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Етикета</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Poruka</translation>
+    </message>
+    </context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>datum</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Етикета</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Poruka</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(без етикете)</translation>
+    </message>
+    </context>
+<context>
+    <name>ResellOfferDialog</name>
+    </context>
+<context>
+    <name>SendCoinsDialog</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Слање новца</translation>
+    </message>
+    <message>
+        <source>Amount:</source>
+        <translation>Iznos:</translation>
+    </message>
+    <message>
+        <source>Confirm the send action</source>
+        <translation>Потврди акцију слања</translation>
+    </message>
+    <message>
+        <source>S&amp;end</source>
+        <translation>&amp;Пошаљи</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>kopiraj iznos</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(без етикете)</translation>
+    </message>
+</context>
+<context>
+    <name>SendCoinsEntry</name>
+    <message>
+        <source>A&amp;mount:</source>
+        <translation>Iznos:</translation>
+    </message>
+    <message>
+        <source>&amp;Label:</source>
+        <translation>&amp;Етикета</translation>
+    </message>
+    <message>
+        <source>Alt+A</source>
+        <translation>Alt+</translation>
+    </message>
+    <message>
+        <source>Alt+P</source>
+        <translation>Alt+П</translation>
+    </message>
+    <message>
+        <source>Message:</source>
+        <translation>Poruka:</translation>
+    </message>
+    </context>
+<context>
+    <name>SendConfirmationDialog</name>
+    </context>
+<context>
+    <name>ShutdownWindow</name>
+    </context>
+<context>
+    <name>SignRawTxDialog</name>
+    </context>
+<context>
+    <name>SignVerifyMessageDialog</name>
+    <message>
+        <source>Alt+A</source>
+        <translation>Alt+</translation>
+    </message>
+    <message>
+        <source>Alt+P</source>
+        <translation>Alt+П</translation>
+    </message>
+    </context>
+<context>
+    <name>SplashScreen</name>
+    <message>
+        <source>[testnet]</source>
+        <translation>[testnet]</translation>
+    </message>
+</context>
 <context>
     <name>SyscoinGUI</name>
     <message>
@@ -135,6 +764,10 @@
         <translation>Ажурно</translation>
     </message>
     <message>
+        <source>&amp;About Syscoin Core</source>
+        <translation>O Syscoin Coru</translation>
+    </message>
+    <message>
         <source>Catching up...</source>
         <translation>Ажурирање у току...</translation>
     </message>
@@ -156,195 +789,263 @@
     </message>
 </context>
 <context>
-    <name>CoinControlDialog</name>
+    <name>TrafficGraphWidget</name>
+    </context>
+<context>
+    <name>TransactionDesc</name>
     <message>
-        <source>Amount:</source>
-        <translation>Iznos:</translation>
+        <source>Open until %1</source>
+        <translation>Otvoreno do %1</translation>
     </message>
     <message>
-        <source>Amount</source>
-        <translation>iznos</translation>
+        <source>%1/unconfirmed</source>
+        <translation>%1/nepotvrdjeno</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 potvrde</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, nije još uvek uspešno emitovan</translation>
     </message>
     <message>
         <source>Date</source>
         <translation>datum</translation>
     </message>
     <message>
-        <source>Confirmed</source>
-        <translation>Potvrdjen</translation>
-    </message>
-    </context>
-<context>
-    <name>EditAddressDialog</name>
-    <message>
-        <source>Edit Address</source>
-        <translation>Измени адресу</translation>
+        <source>unknown</source>
+        <translation>nepoznato</translation>
     </message>
     <message>
-        <source>&amp;Label</source>
-        <translation>&amp;Етикета</translation>
+        <source>label</source>
+        <translation>етикета</translation>
     </message>
     <message>
-        <source>&amp;Address</source>
-        <translation>&amp;Адреса</translation>
-    </message>
-</context>
-<context>
-    <name>FreespaceChecker</name>
-    </context>
-<context>
-    <name>HelpMessageDialog</name>
-    <message>
-        <source>version</source>
-        <translation>верзија</translation>
+        <source>Message</source>
+        <translation>Poruka</translation>
     </message>
     <message>
-        <source>Usage:</source>
-        <translation>Korišćenje:</translation>
+        <source>Transaction</source>
+        <translation>transakcije</translation>
     </message>
-    </context>
-<context>
-    <name>Intro</name>
-    </context>
-<context>
-    <name>OpenURIDialog</name>
-    </context>
-<context>
-    <name>OptionsDialog</name>
-    <message>
-        <source>Options</source>
-        <translation>Поставке</translation>
-    </message>
-    <message>
-        <source>W&amp;allet</source>
-        <translation>новчаник</translation>
-    </message>
-    <message>
-        <source>&amp;Unit to show amounts in:</source>
-        <translation>&amp;Јединица за приказивање износа:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    </context>
-<context>
-    <name>OverviewPage</name>
-    <message>
-        <source>Form</source>
-        <translation>Форма</translation>
-    </message>
-    </context>
-<context>
-    <name>PeerTableModel</name>
-    </context>
-<context>
-    <name>QObject</name>
     <message>
         <source>Amount</source>
         <translation>iznos</translation>
     </message>
     </context>
 <context>
-    <name>RPCConsole</name>
-    </context>
-<context>
-    <name>ReceiveCoinsDialog</name>
-    <message>
-        <source>&amp;Amount:</source>
-        <translation>Iznos:</translation>
-    </message>
-    <message>
-        <source>&amp;Label:</source>
-        <translation>&amp;Етикета</translation>
-    </message>
-    <message>
-        <source>&amp;Message:</source>
-        <translation>Poruka:</translation>
-    </message>
-    </context>
-<context>
-    <name>ReceiveRequestDialog</name>
-    <message>
-        <source>Copy &amp;Address</source>
-        <translation>Kopirajte adresu</translation>
-    </message>
-    </context>
-<context>
-    <name>SendCoinsDialog</name>
-    <message>
-        <source>Send Coins</source>
-        <translation>Слање новца</translation>
-    </message>
-    <message>
-        <source>Amount:</source>
-        <translation>Iznos:</translation>
-    </message>
-    <message>
-        <source>Confirm the send action</source>
-        <translation>Потврди акцију слања</translation>
-    </message>
-    <message>
-        <source>S&amp;end</source>
-        <translation>&amp;Пошаљи</translation>
-    </message>
-</context>
-<context>
-    <name>SendCoinsEntry</name>
-    <message>
-        <source>A&amp;mount:</source>
-        <translation>Iznos:</translation>
-    </message>
-    <message>
-        <source>&amp;Label:</source>
-        <translation>&amp;Етикета</translation>
-    </message>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+П</translation>
-    </message>
-    <message>
-        <source>Message:</source>
-        <translation>Poruka:</translation>
-    </message>
-    </context>
-<context>
-    <name>ShutdownWindow</name>
-    </context>
-<context>
-    <name>SignVerifyMessageDialog</name>
-    <message>
-        <source>Alt+A</source>
-        <translation>Alt+</translation>
-    </message>
-    <message>
-        <source>Alt+P</source>
-        <translation>Alt+П</translation>
-    </message>
-    </context>
-<context>
-    <name>SplashScreen</name>
-    <message>
-        <source>[testnet]</source>
-        <translation>[testnet]</translation>
-    </message>
-</context>
-<context>
-    <name>TrafficGraphWidget</name>
-    </context>
-<context>
     <name>TransactionDescDialog</name>
+    <message>
+        <source>Transaction details</source>
+        <translation>detalji transakcije</translation>
+    </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Ovaj odeljak pokazuje detaljan opis transakcije</translation>
     </message>
+    </context>
+<context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>datum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>tip</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Етикета</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Otvoreno do %1</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Potvrdjena (%1 potvrdjenih)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Ovaj blok nije primljen od ostalih čvorova (nodova) i verovatno neće biti prihvaćen!</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Generisan ali nije prihvaćen</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Primljen sa</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Primljeno od</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Poslat ka</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Isplata samom sebi</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Minirano</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>(n/a)</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(без етикете)</translation>
+    </message>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Status vaše transakcije. Predjite mišem preko ovog polja da bi ste videli broj konfirmacija</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Datum i vreme primljene transakcije.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Tip transakcije</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Iznos odbijen ili dodat balansu.</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Danas</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>ove nedelje</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Ovog meseca</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Prošlog meseca</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Ove godine</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Opseg...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Primljen sa</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Poslat ka</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Vama - samom sebi</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Minirano</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Drugi</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Navedite adresu ili naziv koji bi ste potražili</translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Min iznos</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>kopiraj adresu</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>kopiraj naziv</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>kopiraj iznos</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>promeni naziv</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Зарезом одвојене вредности (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Potvrdjen</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>datum</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>tip</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Етикета</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Адреса</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Opseg:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>do</translation>
+    </message>
 </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
+    </context>
+<context>
+    <name>WalletFrame</name>
+    </context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Слање новца</translation>
+    </message>
+    </context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Backup новчаника</translation>
+    </message>
     </context>
 <context>
     <name>syscoin-core</name>

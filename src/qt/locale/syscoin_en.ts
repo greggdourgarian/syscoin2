@@ -760,17 +760,17 @@
     <message numerus="yes">
         <location line="+9"/>
         <source>%n GB of free space available</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n GB of free space available</numerusform>
+            <numerusform>%n GBs of free space available</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
         <source>(of %n GB needed)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>(of %n GB needed)</numerusform>
+            <numerusform>(of %n GBs needed)</numerusform>
         </translation>
     </message>
 </context>

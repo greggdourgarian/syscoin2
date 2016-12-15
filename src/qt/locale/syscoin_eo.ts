@@ -1,5 +1,35 @@
 <TS language="eo" version="2.1">
 <context>
+    <name>AcceptandPayOfferListPage</name>
+    <message>
+        <source>Quantity:</source>
+        <translation>Kvanto:</translation>
+    </message>
+    </context>
+<context>
+    <name>AcceptedOfferListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+    </context>
+<context>
     <name>AddressBookPage</name>
     <message>
         <source>Right-click to edit address or label</source>
@@ -41,7 +71,87 @@
         <source>&amp;Delete</source>
         <translation>&amp;Forigi</translation>
     </message>
+    <message>
+        <source>Choose the address to send coins to</source>
+        <translation>Elektu la alsendotan adreson</translation>
+    </message>
+    <message>
+        <source>Choose the address to receive coins with</source>
+        <translation>Elektu la ricevontan adreson</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation>&amp;Elekti</translation>
+    </message>
+    <message>
+        <source>Sending addresses</source>
+        <translation>Sendaj adresoj</translation>
+    </message>
+    <message>
+        <source>Receiving addresses</source>
+        <translation>Ricevaj adresoj</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Jen viaj Bitmon-adresoj por sendi pagojn. Zorge kontrolu la sumon kaj la alsendan adreson antaŭ ol sendi.</translation>
+    </message>
+    <message>
+        <source>These are your Syscoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Jen viaj bitmonaj adresoj por ricevi pagojn. Estas konsilinde uzi apartan ricevan adreson por ĉiu transakcio.</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Address</source>
+        <translation>&amp;Kopii Adreson</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Label</source>
+        <translation>Kopii &amp;Etikedon</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Redakti</translation>
+    </message>
+    <message>
+        <source>Export Address List</source>
+        <translation>Eksporti Adresliston</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikedo</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adreso</translation>
+    </message>
+    </context>
+<context>
+    <name>AddressTableModel</name>
+    <message>
+        <source>Label</source>
+        <translation>Etikedo</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adreso</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(neniu etikedo)</translation>
+    </message>
 </context>
+<context>
+    <name>AliasListPage</name>
+    </context>
+<context>
+    <name>AliasTableModel</name>
+    </context>
+<context>
+    <name>AliasView</name>
+    </context>
 <context>
     <name>AskPassphraseDialog</name>
     <message>
@@ -60,287 +170,99 @@
         <source>Repeat new passphrase</source>
         <translation>Ripetu la novan pasfrazon</translation>
     </message>
+    <message>
+        <source>Encrypt wallet</source>
+        <translation>Ĉifri la monujon</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to unlock the wallet.</source>
+        <translation>Ĉi tiu operacio bezonas vian monujan pasfrazon, por malŝlosi la monujon.</translation>
+    </message>
+    <message>
+        <source>Unlock wallet</source>
+        <translation>Malŝlosi la monujon</translation>
+    </message>
+    <message>
+        <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
+        <translation>Ĉi tiu operacio bezonas vian monujan pasfrazon, por malĉifri la monujon.</translation>
+    </message>
+    <message>
+        <source>Decrypt wallet</source>
+        <translation>Malĉifri la monujon</translation>
+    </message>
+    <message>
+        <source>Change passphrase</source>
+        <translation>Ŝanĝi la pasfrazon</translation>
+    </message>
+    <message>
+        <source>Confirm wallet encryption</source>
+        <translation>Konfirmo de ĉifrado de la monujo</translation>
+    </message>
+    <message>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SYSCOINS&lt;/b&gt;!</source>
+        <translation>Atentu! Se vi ĉifras vian monujon kaj perdas la pasfrazon, vi &lt;b&gt;PERDOS LA TUTON DE VIA BITMONO&lt;b&gt;!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to encrypt your wallet?</source>
+        <translation>Ĉu vi certas, ke vi volas ĉifri la monujon?</translation>
+    </message>
+    <message>
+        <source>Wallet encrypted</source>
+        <translation>La monujo estas ĉifrita</translation>
+    </message>
+    <message>
+        <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
+        <translation>GRAVE: antaŭaj sekur-kopioj de via monujo-dosiero estas forigindaj kiam vi havas nove kreitan ĉifritan monujo-dosieron. Pro sekureco, antaŭaj kopioj de la neĉifrita dosiero ne plu funkcios tuj kiam vi ekuzos la novan ĉifritan dosieron.</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed</source>
+        <translation>Ĉifrado de la monujo fiaskis</translation>
+    </message>
+    <message>
+        <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
+        <translation>Ĉifrado de monujo fiaskis pro interna eraro. Via monujo ne estas ĉifrita.</translation>
+    </message>
+    <message>
+        <source>The supplied passphrases do not match.</source>
+        <translation>La pasfrazoj entajpitaj ne samas.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock failed</source>
+        <translation>Malŝloso de la monujo fiaskis</translation>
+    </message>
+    <message>
+        <source>The passphrase entered for the wallet decryption was incorrect.</source>
+        <translation>La pasfrazo enigita por ĉifrado de monujo ne ĝustas.</translation>
+    </message>
+    <message>
+        <source>Wallet decryption failed</source>
+        <translation>Malĉifrado de la monujo fiaskis</translation>
+    </message>
+    <message>
+        <source>Wallet passphrase was successfully changed.</source>
+        <translation>Vi sukcese ŝanĝis la pasfrazon de la monujo.</translation>
+    </message>
+    <message>
+        <source>Warning: The Caps Lock key is on!</source>
+        <translation>Atentu: la majuskla baskulo estas ŝaltita!</translation>
+    </message>
 </context>
 <context>
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>SyscoinGUI</name>
+    <name>CertListPage</name>
+    </context>
+<context>
+    <name>CertTableModel</name>
     <message>
-        <source>Sign &amp;message...</source>
-        <translation>Subskribi &amp;mesaĝon...</translation>
-    </message>
-    <message>
-        <source>Synchronizing with network...</source>
-        <translation>Sinkronigante kun reto...</translation>
-    </message>
-    <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Superrigardo</translation>
-    </message>
-    <message>
-        <source>Node</source>
-        <translation>Nodo</translation>
-    </message>
-    <message>
-        <source>Show general overview of wallet</source>
-        <translation>Vidigi ĝeneralan superrigardon de la monujo</translation>
-    </message>
-    <message>
-        <source>&amp;Transactions</source>
-        <translation>&amp;Transakcioj</translation>
-    </message>
-    <message>
-        <source>Browse transaction history</source>
-        <translation>Esplori historion de transakcioj</translation>
-    </message>
-    <message>
-        <source>E&amp;xit</source>
-        <translation>&amp;Eliri</translation>
-    </message>
-    <message>
-        <source>Quit application</source>
-        <translation>Eliri la aplikaĵon</translation>
-    </message>
-    <message>
-        <source>About &amp;Qt</source>
-        <translation>Pri &amp;Qt</translation>
-    </message>
-    <message>
-        <source>Show information about Qt</source>
-        <translation>Vidigi informojn pri Qt</translation>
-    </message>
-    <message>
-        <source>&amp;Options...</source>
-        <translation>&amp;Agordoj...</translation>
-    </message>
-    <message>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>Ĉifri &amp;Monujon...</translation>
-    </message>
-    <message>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Krei sekurkopion de la monujo...</translation>
-    </message>
-    <message>
-        <source>&amp;Change Passphrase...</source>
-        <translation>Ŝanĝi &amp;Pasfrazon...</translation>
-    </message>
-    <message>
-        <source>&amp;Sending addresses...</source>
-        <translation>&amp;Sendaj adresoj...</translation>
-    </message>
-    <message>
-        <source>&amp;Receiving addresses...</source>
-        <translation>&amp;Ricevaj adresoj...</translation>
-    </message>
-    <message>
-        <source>Open &amp;URI...</source>
-        <translation>Malfermi &amp;URI-on...</translation>
-    </message>
-    <message>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Reindeksado de blokoj sur disko...</translation>
-    </message>
-    <message>
-        <source>Send coins to a Syscoin address</source>
-        <translation>Sendi monon al Bitmon-adreso</translation>
-    </message>
-    <message>
-        <source>Backup wallet to another location</source>
-        <translation>Krei alilokan sekurkopion de monujo</translation>
-    </message>
-    <message>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Ŝanĝi la pasfrazon por ĉifri la monujon</translation>
-    </message>
-    <message>
-        <source>&amp;Debug window</source>
-        <translation>Sen&amp;cimiga fenestro</translation>
-    </message>
-    <message>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Malfermi konzolon de sencimigo kaj diagnozo</translation>
-    </message>
-    <message>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Kontroli mesaĝon...</translation>
-    </message>
-    <message>
-        <source>Syscoin</source>
-        <translation>Bitmono</translation>
-    </message>
-    <message>
-        <source>Wallet</source>
-        <translation>Monujo</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Sendi</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ricevi</translation>
-    </message>
-    <message>
-        <source>&amp;Show / Hide</source>
-        <translation>&amp;Montri / Kaŝi</translation>
-    </message>
-    <message>
-        <source>Show or hide the main Window</source>
-        <translation>Montri aŭ kaŝi la ĉefan fenestron</translation>
-    </message>
-    <message>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Ĉifri la privatajn ŝlosilojn de via monujo</translation>
-    </message>
-    <message>
-        <source>Sign messages with your Syscoin addresses to prove you own them</source>
-        <translation>Subskribi mesaĝojn per via Bitmon-adresoj por pravigi, ke vi estas la posedanto</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
-        <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Bitmon-adresoj</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation>&amp;Dosiero</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation>&amp;Agordoj</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Helpo</translation>
-    </message>
-    <message>
-        <source>Tabs toolbar</source>
-        <translation>Langeto-breto</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and syscoin: URIs)</source>
-        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso syscoin:)</translation>
-    </message>
-    <message>
-        <source>Show the list of used sending addresses and labels</source>
-        <translation>Vidigi la liston de uzitaj sendaj adresoj kaj etikedoj</translation>
-    </message>
-    <message>
-        <source>Show the list of used receiving addresses and labels</source>
-        <translation>Vidigi la liston de uzitaj ricevaj adresoj kaj etikedoj</translation>
-    </message>
-    <message>
-        <source>Open a syscoin: URI or payment request</source>
-        <translation>Malfermi syscoin:-URI-on aŭ pagpeton</translation>
-    </message>
-    <message>
-        <source>&amp;Command-line options</source>
-        <translation>&amp;Komandliniaj agordaĵoj</translation>
-    </message>
-    <message>
-        <source>No block source available...</source>
-        <translation>Neniu fonto de blokoj trovebla...</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n horo</numerusform><numerusform>%n horoj</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s)</source>
-        <translation><numerusform>%n tago</numerusform><numerusform>%n tagoj</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s)</source>
-        <translation><numerusform>%n semajno</numerusform><numerusform>%n semajnoj</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 and %2</source>
-        <translation>%1 kaj %2</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s)</source>
-        <translation><numerusform>%n jaro</numerusform><numerusform>%n jaroj</numerusform></translation>
-    </message>
-    <message>
-        <source>%1 behind</source>
-        <translation>mankas %1</translation>
-    </message>
-    <message>
-        <source>Last received block was generated %1 ago.</source>
-        <translation>Lasta ricevita bloko kreiĝis antaŭ %1.</translation>
-    </message>
-    <message>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation>Transakcioj por tio ankoraŭ ne videblas.</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Eraro</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Averto</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Informoj</translation>
-    </message>
-    <message>
-        <source>Up to date</source>
-        <translation>Ĝisdata</translation>
-    </message>
-    <message>
-        <source>Catching up...</source>
-        <translation>Ĝisdatigante...</translation>
-    </message>
-    <message>
-        <source>Date: %1
-</source>
-        <translation>Dato: %1
-</translation>
-    </message>
-    <message>
-        <source>Amount: %1
-</source>
-        <translation>Sumo: %1
-</translation>
-    </message>
-    <message>
-        <source>Type: %1
-</source>
-        <translation>Tipo: %1
-</translation>
-    </message>
-    <message>
-        <source>Label: %1
-</source>
-        <translation>Etikedo: %1
-</translation>
-    </message>
-    <message>
-        <source>Address: %1
-</source>
-        <translation>Adreso: %1
-</translation>
-    </message>
-    <message>
-        <source>Sent transaction</source>
-        <translation>Sendita transakcio</translation>
-    </message>
-    <message>
-        <source>Incoming transaction</source>
-        <translation>Envenanta transakcio</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Monujo estas &lt;b&gt;ĉifrita&lt;/b&gt; kaj aktuale &lt;b&gt;malŝlosita&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Monujo estas &lt;b&gt;ĉifrita&lt;/b&gt; kaj aktuale &lt;b&gt;ŝlosita&lt;/b&gt;</translation>
-    </message>
-</context>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+    </context>
+<context>
+    <name>CertView</name>
+    </context>
 <context>
     <name>CoinControlDialog</name>
     <message>
@@ -354,10 +276,6 @@
     <message>
         <source>Amount:</source>
         <translation>Sumo:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Prioritato:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -412,8 +330,76 @@
         <translation>Konfirmita</translation>
     </message>
     <message>
-        <source>Priority</source>
-        <translation>Prioritato</translation>
+        <source>Copy address</source>
+        <translation>Kopii adreson</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopii etikedon</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopii sumon</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopii transakcian ID-on</translation>
+    </message>
+    <message>
+        <source>Lock unspent</source>
+        <translation>Ŝlosi la neelspezitajn</translation>
+    </message>
+    <message>
+        <source>Unlock unspent</source>
+        <translation>Malŝlosi la neelspezitajn</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopii kvanton</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopii krompagon</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopii post krompago</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopii bajtojn</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopii polvon</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopii restmonon</translation>
+    </message>
+    <message>
+        <source>(%1 locked)</source>
+        <translation>(%1 ŝlosita)</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>jes</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>ne</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(neniu etikedo)</translation>
+    </message>
+    <message>
+        <source>change from %1 (%2)</source>
+        <translation>restmono de %1 (%2)</translation>
+    </message>
+    <message>
+        <source>(change)</source>
+        <translation>(restmono)</translation>
     </message>
 </context>
 <context>
@@ -438,7 +424,119 @@
         <source>&amp;Address</source>
         <translation>&amp;Adreso</translation>
     </message>
+    <message>
+        <source>New receiving address</source>
+        <translation>Nova adreso por ricevi</translation>
+    </message>
+    <message>
+        <source>New sending address</source>
+        <translation>Nova adreso por sendi</translation>
+    </message>
+    <message>
+        <source>Edit receiving address</source>
+        <translation>Redakti adreson por ricevi</translation>
+    </message>
+    <message>
+        <source>Edit sending address</source>
+        <translation>Redakti adreson por sendi</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is not a valid Syscoin address.</source>
+        <translation>La adreso enigita "%1" ne estas valida Bitmon-adreso.</translation>
+    </message>
+    <message>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>La adreso enigita "%1" jam ekzistas en la adresaro.</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Ne eblis malŝlosi monujon.</translation>
+    </message>
+    <message>
+        <source>New key generation failed.</source>
+        <translation>Fiaskis kreo de nova ŝlosilo.</translation>
+    </message>
 </context>
+<context>
+    <name>EditAliasDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Ĝenerala</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Ne eblis malŝlosi monujon.</translation>
+    </message>
+</context>
+<context>
+    <name>EditCertDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Ne eblis malŝlosi monujon.</translation>
+    </message>
+</context>
+<context>
+    <name>EditOfferDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Ĝenerala</translation>
+    </message>
+    <message>
+        <source>Quantity:</source>
+        <translation>Kvanto:</translation>
+    </message>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Ne eblis malŝlosi monujon.</translation>
+    </message>
+</context>
+<context>
+    <name>EditWhitelistOfferDialog</name>
+    <message>
+        <source>Remove</source>
+        <translation>Forigi</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowInfoDialog</name>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Totalo:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;Bone</translation>
+    </message>
+    </context>
+<context>
+    <name>EscrowListPage</name>
+    </context>
+<context>
+    <name>EscrowTableModel</name>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+</context>
+<context>
+    <name>EscrowView</name>
+    </context>
 <context>
     <name>FreespaceChecker</name>
     <message>
@@ -486,6 +584,25 @@
     </message>
     </context>
 <context>
+    <name>InMessageListPage</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>De</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Al</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaĝo</translation>
+    </message>
+    </context>
+<context>
     <name>Intro</name>
     <message>
         <source>Welcome</source>
@@ -509,6 +626,271 @@
     </message>
     </context>
 <context>
+    <name>ManageEscrowDialog</name>
+    <message>
+        <source>none</source>
+        <translation>neniu</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageInfoDialog</name>
+    <message>
+        <source>Message:</source>
+        <translation>Mesaĝo:</translation>
+    </message>
+    </context>
+<context>
+    <name>MessageListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+</context>
+<context>
+    <name>MessageTableModel</name>
+    <message>
+        <source>From</source>
+        <translation>De</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Al</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaĝo</translation>
+    </message>
+</context>
+<context>
+    <name>MessageView</name>
+    </context>
+<context>
+    <name>ModalOverlay</name>
+    <message>
+        <source>Form</source>
+        <translation>Formularo</translation>
+    </message>
+    <message>
+        <source>Last block time</source>
+        <translation>Horo de la lasta bloko</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAcceptedOfferListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+    </context>
+<context>
+    <name>MyAliasListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyCertListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+    </context>
+<context>
+    <name>MyEscrowListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferListPage</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>MyOfferWhitelistTableModel</name>
+    </context>
+<context>
+    <name>MyWhitelistOfferDialog</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Eksporti</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    </context>
+<context>
+    <name>NewMessageDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Ne eblis malŝlosi monujon.</translation>
+    </message>
+</context>
+<context>
+    <name>NewWhitelistDialog</name>
+    <message>
+        <source>Could not unlock wallet.</source>
+        <translation>Ne eblis malŝlosi monujon.</translation>
+    </message>
+</context>
+<context>
+    <name>OfferAcceptDialog</name>
+    </context>
+<context>
+    <name>OfferAcceptDialogBTC</name>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>La rezultanta URI estas tro longa. Provu malplilongigi la tekston de la etikedo / mesaĝo.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Eraro de kodigo de URI en la QR-kodon.</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>al</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptDialogZEC</name>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>La rezultanta URI estas tro longa. Provu malplilongigi la tekston de la etikedo / mesaĝo.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Eraro de kodigo de URI en la QR-kodon.</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>al</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptInfoDialog</name>
+    <message>
+        <source>Quantity:</source>
+        <translation>Kvanto:</translation>
+    </message>
+    <message>
+        <source>Total:</source>
+        <translation>Totalo:</translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;Bone</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferAcceptTableModel</name>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+</context>
+<context>
+    <name>OfferEscrowDialog</name>
+    </context>
+<context>
+    <name>OfferFeedbackDialog</name>
+    </context>
+<context>
+    <name>OfferListPage</name>
+    </context>
+<context>
+    <name>OfferPayDialog</name>
+    </context>
+<context>
+    <name>OfferTableModel</name>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+    </context>
+<context>
+    <name>OfferView</name>
+    </context>
+<context>
+    <name>OfferWhitelistTableModel</name>
+    </context>
+<context>
     <name>OpenURIDialog</name>
     <message>
         <source>Open URI</source>
@@ -525,6 +907,10 @@
     <message>
         <source>Select payment request file</source>
         <translation>Elektu la dosieron de la pagpeto</translation>
+    </message>
+    <message>
+        <source>Select payment request file to open</source>
+        <translation>Elektu la malfermotan dosieron de la pagpeto</translation>
     </message>
 </context>
 <context>
@@ -650,6 +1036,10 @@
         <translation>defaŭlta</translation>
     </message>
     <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Eraro dum komunikado kun %1: %2</translation>
+    </message>
+    <message>
         <source>none</source>
         <translation>neniu</translation>
     </message>
@@ -662,6 +1052,32 @@
         <translation>La prokurila adreso estas malvalida.</translation>
     </message>
 </context>
+<context>
+    <name>OptionsModel</name>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+</context>
+<context>
+    <name>OutMessageListPage</name>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>De</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Al</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaĝo</translation>
+    </message>
+    </context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -710,6 +1126,49 @@
     </message>
     </context>
 <context>
+    <name>PaymentServer</name>
+    <message>
+        <source>Payment request error</source>
+        <translation>Eraro dum pagopeto</translation>
+    </message>
+    <message>
+        <source>Cannot start syscoin: click-to-pay handler</source>
+        <translation>Ne eblas lanĉi la ilon 'klaki-por-pagi'</translation>
+    </message>
+    <message>
+        <source>URI handling</source>
+        <translation>Traktado de URI-oj</translation>
+    </message>
+    <message>
+        <source>Invalid payment address %1</source>
+        <translation>Nevalida pagadreso %1</translation>
+    </message>
+    <message>
+        <source>Requested payment amount of %1 is too small (considered dust).</source>
+        <translation>La petita pagosumo de %1 estas tro malgranda (konsiderata kiel polvo).</translation>
+    </message>
+    <message>
+        <source>Refund from %1</source>
+        <translation>Repago de %1</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Eraro dum komunikado kun %1: %2</translation>
+    </message>
+    <message>
+        <source>Bad response from server %1</source>
+        <translation>Malbona respondo de la servilo %1</translation>
+    </message>
+    <message>
+        <source>Network request error</source>
+        <translation>Eraro dum ret-peto</translation>
+    </message>
+    <message>
+        <source>Payment acknowledged</source>
+        <translation>Pago agnoskita</translation>
+    </message>
+</context>
+<context>
     <name>PeerTableModel</name>
     <message>
         <source>User Agent</source>
@@ -738,7 +1197,34 @@
         <source>N/A</source>
         <translation>neaplikebla</translation>
     </message>
-    </context>
+    <message>
+        <source>%1 and %2</source>
+        <translation>%1 kaj %2</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+</context>
+<context>
+    <name>QRImageWidget</name>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>&amp;Konservi Bildon...</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Image</source>
+        <translation>&amp;Kopii Bildon</translation>
+    </message>
+    <message>
+        <source>Save QR Code</source>
+        <translation>Konservi QR-kodon</translation>
+    </message>
+    <message>
+        <source>PNG Image (*.png)</source>
+        <translation>PNG-bildo (*.png)</translation>
+    </message>
+</context>
 <context>
     <name>RPCConsole</name>
     <message>
@@ -920,6 +1406,18 @@
         <source>Remove</source>
         <translation>Forigi</translation>
     </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopii etikedon</translation>
+    </message>
+    <message>
+        <source>Copy message</source>
+        <translation>Kopiu mesaĝon</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopii sumon</translation>
+    </message>
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
@@ -939,7 +1437,69 @@
         <source>&amp;Save Image...</source>
         <translation>&amp;Konservi Bildon...</translation>
     </message>
+    <message>
+        <source>Request payment to %1</source>
+        <translation>Peti pagon al %1</translation>
+    </message>
+    <message>
+        <source>Payment information</source>
+        <translation>Paginformoj</translation>
+    </message>
+    <message>
+        <source>URI</source>
+        <translation>URI</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adreso</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Sumo</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikedo</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaĝo</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>La rezultanta URI estas tro longa. Provu malplilongigi la tekston de la etikedo / mesaĝo.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Eraro de kodigo de URI en la QR-kodon.</translation>
+    </message>
 </context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Dato</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikedo</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaĝo</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(neniu etikedo)</translation>
+    </message>
+    <message>
+        <source>(no message)</source>
+        <translation>(neniu mesaĝo)</translation>
+    </message>
+    </context>
+<context>
+    <name>ResellOfferDialog</name>
+    </context>
 <context>
     <name>SendCoinsDialog</name>
     <message>
@@ -969,10 +1529,6 @@
     <message>
         <source>Amount:</source>
         <translation>Sumo:</translation>
-    </message>
-    <message>
-        <source>Priority:</source>
-        <translation>Prioritato:</translation>
     </message>
     <message>
         <source>Fee:</source>
@@ -1021,6 +1577,78 @@
     <message>
         <source>S&amp;end</source>
         <translation>Ŝendi</translation>
+    </message>
+    <message>
+        <source>Copy quantity</source>
+        <translation>Kopii kvanton</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopii sumon</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Kopii krompagon</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Kopii post krompago</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Kopii bajtojn</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Kopii polvon</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Kopii restmonon</translation>
+    </message>
+    <message>
+        <source>%1 to %2</source>
+        <translation>%1 al %2</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Ĉu vi certas, ke vi volas sendi?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>aldonita kiel krompago</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>aŭ</translation>
+    </message>
+    <message>
+        <source>Confirm send coins</source>
+        <translation>Konfirmi sendon de bitmono</translation>
+    </message>
+    <message>
+        <source>The amount to pay must be larger than 0.</source>
+        <translation>La pagenda sumo devas esti pli ol 0.</translation>
+    </message>
+    <message>
+        <source>The amount exceeds your balance.</source>
+        <translation>La sumo estas pli granda ol via saldo.</translation>
+    </message>
+    <message>
+        <source>The total exceeds your balance when the %1 transaction fee is included.</source>
+        <translation>La sumo kun la %1 krompago estas pli granda ol via saldo.</translation>
+    </message>
+    <message>
+        <source>Transaction creation failed!</source>
+        <translation>Kreo de transakcio fiaskis!</translation>
+    </message>
+    <message>
+        <source>Warning: Invalid Syscoin address</source>
+        <translation>Averto: Nevalida Bitmon-adreso</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(neniu etikedo)</translation>
     </message>
 </context>
 <context>
@@ -1077,7 +1705,14 @@
         <source>Memo:</source>
         <translation>Memorando:</translation>
     </message>
+    <message>
+        <source>Enter a label for this address to add it to your address book</source>
+        <translation>Tajpu etikedon por tiu ĉi adreso kaj aldonu ĝin al via adresaro</translation>
+    </message>
 </context>
+<context>
+    <name>SendConfirmationDialog</name>
+    </context>
 <context>
     <name>ShutdownWindow</name>
     <message>
@@ -1085,6 +1720,13 @@
         <translation>Ne sistemfermu ĝis ĉi tiu fenestro malaperas.</translation>
     </message>
 </context>
+<context>
+    <name>SignRawTxDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Ĝenerala</translation>
+    </message>
+    </context>
 <context>
     <name>SignVerifyMessageDialog</name>
     <message>
@@ -1155,12 +1797,325 @@
         <source>Reset all verify message fields</source>
         <translation>Reagordigi ĉiujn prikontrolajn kampojn</translation>
     </message>
+    <message>
+        <source>Click "Sign Message" to generate signature</source>
+        <translation>Klaku "Subskribi Mesaĝon" por krei subskribon</translation>
+    </message>
+    <message>
+        <source>The entered address is invalid.</source>
+        <translation>La adreso, kiun vi enmetis, estas nevalida.</translation>
+    </message>
+    <message>
+        <source>Please check the address and try again.</source>
+        <translation>Bonvolu kontroli la adreson kaj reprovi.</translation>
+    </message>
+    <message>
+        <source>The entered address does not refer to a key.</source>
+        <translation>La adreso, kiun vi enmetis, referencas neniun ŝlosilon.</translation>
+    </message>
+    <message>
+        <source>Wallet unlock was cancelled.</source>
+        <translation>Malŝloso de monujo estas nuligita.</translation>
+    </message>
+    <message>
+        <source>Private key for the entered address is not available.</source>
+        <translation>La privata ŝlosilo por la enigita adreso ne disponeblas.</translation>
+    </message>
+    <message>
+        <source>Message signing failed.</source>
+        <translation>Subskribo de mesaĝo fiaskis.</translation>
+    </message>
+    <message>
+        <source>Message signed.</source>
+        <translation>Mesaĝo estas subskribita.</translation>
+    </message>
+    <message>
+        <source>The signature could not be decoded.</source>
+        <translation>Ne eblis malĉifri la subskribon.</translation>
+    </message>
+    <message>
+        <source>Please check the signature and try again.</source>
+        <translation>Bonvolu kontroli la subskribon kaj reprovu.</translation>
+    </message>
+    <message>
+        <source>The signature did not match the message digest.</source>
+        <translation>La subskribo ne kongruis kun la mesaĝ-kompilaĵo.</translation>
+    </message>
+    <message>
+        <source>Message verification failed.</source>
+        <translation>Kontrolo de mesaĝo malsukcesis.</translation>
+    </message>
+    <message>
+        <source>Message verified.</source>
+        <translation>Mesaĝo sukcese kontrolita.</translation>
+    </message>
 </context>
 <context>
     <name>SplashScreen</name>
     <message>
         <source>[testnet]</source>
         <translation>[testnet]</translation>
+    </message>
+</context>
+<context>
+    <name>SyscoinGUI</name>
+    <message>
+        <source>Sign &amp;message...</source>
+        <translation>Subskribi &amp;mesaĝon...</translation>
+    </message>
+    <message>
+        <source>Synchronizing with network...</source>
+        <translation>Sinkronigante kun reto...</translation>
+    </message>
+    <message>
+        <source>&amp;Overview</source>
+        <translation>&amp;Superrigardo</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Nodo</translation>
+    </message>
+    <message>
+        <source>Show general overview of wallet</source>
+        <translation>Vidigi ĝeneralan superrigardon de la monujo</translation>
+    </message>
+    <message>
+        <source>&amp;Transactions</source>
+        <translation>&amp;Transakcioj</translation>
+    </message>
+    <message>
+        <source>Browse transaction history</source>
+        <translation>Esplori historion de transakcioj</translation>
+    </message>
+    <message>
+        <source>E&amp;xit</source>
+        <translation>&amp;Eliri</translation>
+    </message>
+    <message>
+        <source>Quit application</source>
+        <translation>Eliri la aplikaĵon</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt</source>
+        <translation>Pri &amp;Qt</translation>
+    </message>
+    <message>
+        <source>Show information about Qt</source>
+        <translation>Vidigi informojn pri Qt</translation>
+    </message>
+    <message>
+        <source>&amp;Options...</source>
+        <translation>&amp;Agordoj...</translation>
+    </message>
+    <message>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation>Ĉifri &amp;Monujon...</translation>
+    </message>
+    <message>
+        <source>&amp;Backup Wallet...</source>
+        <translation>&amp;Krei sekurkopion de la monujo...</translation>
+    </message>
+    <message>
+        <source>&amp;Change Passphrase...</source>
+        <translation>Ŝanĝi &amp;Pasfrazon...</translation>
+    </message>
+    <message>
+        <source>&amp;Sending addresses...</source>
+        <translation>&amp;Sendaj adresoj...</translation>
+    </message>
+    <message>
+        <source>&amp;Receiving addresses...</source>
+        <translation>&amp;Ricevaj adresoj...</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Malfermi &amp;URI-on...</translation>
+    </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Reindeksado de blokoj sur disko...</translation>
+    </message>
+    <message>
+        <source>Send coins to a Syscoin address</source>
+        <translation>Sendi monon al Bitmon-adreso</translation>
+    </message>
+    <message>
+        <source>Backup wallet to another location</source>
+        <translation>Krei alilokan sekurkopion de monujo</translation>
+    </message>
+    <message>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation>Ŝanĝi la pasfrazon por ĉifri la monujon</translation>
+    </message>
+    <message>
+        <source>&amp;Debug window</source>
+        <translation>Sen&amp;cimiga fenestro</translation>
+    </message>
+    <message>
+        <source>Open debugging and diagnostic console</source>
+        <translation>Malfermi konzolon de sencimigo kaj diagnozo</translation>
+    </message>
+    <message>
+        <source>&amp;Verify message...</source>
+        <translation>&amp;Kontroli mesaĝon...</translation>
+    </message>
+    <message>
+        <source>Syscoin</source>
+        <translation>Bitmono</translation>
+    </message>
+    <message>
+        <source>Wallet</source>
+        <translation>Monujo</translation>
+    </message>
+    <message>
+        <source>&amp;Send</source>
+        <translation>&amp;Sendi</translation>
+    </message>
+    <message>
+        <source>&amp;Receive</source>
+        <translation>&amp;Ricevi</translation>
+    </message>
+    <message>
+        <source>&amp;Show / Hide</source>
+        <translation>&amp;Montri / Kaŝi</translation>
+    </message>
+    <message>
+        <source>Show or hide the main Window</source>
+        <translation>Montri aŭ kaŝi la ĉefan fenestron</translation>
+    </message>
+    <message>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Ĉifri la privatajn ŝlosilojn de via monujo</translation>
+    </message>
+    <message>
+        <source>Sign messages with your Syscoin addresses to prove you own them</source>
+        <translation>Subskribi mesaĝojn per via Bitmon-adresoj por pravigi, ke vi estas la posedanto</translation>
+    </message>
+    <message>
+        <source>Verify messages to ensure they were signed with specified Syscoin addresses</source>
+        <translation>Kontroli mesaĝojn por kontroli ĉu ili estas subskribitaj per specifaj Bitmon-adresoj</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;Dosiero</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>&amp;Agordoj</translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Helpo</translation>
+    </message>
+    <message>
+        <source>Tabs toolbar</source>
+        <translation>Langeto-breto</translation>
+    </message>
+    <message>
+        <source>Request payments (generates QR codes and syscoin: URIs)</source>
+        <translation>Peti pagon (kreas QR-kodojn kaj URI-ojn kun prefikso syscoin:)</translation>
+    </message>
+    <message>
+        <source>Show the list of used sending addresses and labels</source>
+        <translation>Vidigi la liston de uzitaj sendaj adresoj kaj etikedoj</translation>
+    </message>
+    <message>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation>Vidigi la liston de uzitaj ricevaj adresoj kaj etikedoj</translation>
+    </message>
+    <message>
+        <source>Open a syscoin: URI or payment request</source>
+        <translation>Malfermi syscoin:-URI-on aŭ pagpeton</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>&amp;Komandliniaj agordaĵoj</translation>
+    </message>
+    <message>
+        <source>No block source available...</source>
+        <translation>Neniu fonto de blokoj trovebla...</translation>
+    </message>
+    <message>
+        <source>%1 behind</source>
+        <translation>mankas %1</translation>
+    </message>
+    <message>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Lasta ricevita bloko kreiĝis antaŭ %1.</translation>
+    </message>
+    <message>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Transakcioj por tio ankoraŭ ne videblas.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Eraro</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Averto</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informoj</translation>
+    </message>
+    <message>
+        <source>Up to date</source>
+        <translation>Ĝisdata</translation>
+    </message>
+    <message>
+        <source>&amp;About Syscoin Core</source>
+        <translation>&amp;Pri la Bitmona Kerno</translation>
+    </message>
+    <message>
+        <source>Catching up...</source>
+        <translation>Ĝisdatigante...</translation>
+    </message>
+    <message>
+        <source>Date: %1
+</source>
+        <translation>Dato: %1
+</translation>
+    </message>
+    <message>
+        <source>Amount: %1
+</source>
+        <translation>Sumo: %1
+</translation>
+    </message>
+    <message>
+        <source>Type: %1
+</source>
+        <translation>Tipo: %1
+</translation>
+    </message>
+    <message>
+        <source>Label: %1
+</source>
+        <translation>Etikedo: %1
+</translation>
+    </message>
+    <message>
+        <source>Address: %1
+</source>
+        <translation>Adreso: %1
+</translation>
+    </message>
+    <message>
+        <source>Sent transaction</source>
+        <translation>Sendita transakcio</translation>
+    </message>
+    <message>
+        <source>Incoming transaction</source>
+        <translation>Envenanta transakcio</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
+        <translation>Monujo estas &lt;b&gt;ĉifrita&lt;/b&gt; kaj aktuale &lt;b&gt;malŝlosita&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
+        <translation>Monujo estas &lt;b&gt;ĉifrita&lt;/b&gt; kaj aktuale &lt;b&gt;ŝlosita&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -1171,14 +2126,380 @@
     </message>
 </context>
 <context>
+    <name>TransactionDesc</name>
+    <message>
+        <source>Open until %1</source>
+        <translation>Malferma ĝis %1</translation>
+    </message>
+    <message>
+        <source>%1/offline</source>
+        <translation>%1/senkonekte</translation>
+    </message>
+    <message>
+        <source>%1/unconfirmed</source>
+        <translation>%1/nekonfirmite</translation>
+    </message>
+    <message>
+        <source>%1 confirmations</source>
+        <translation>%1 konfirmoj</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
+    </message>
+    <message>
+        <source>, has not been successfully broadcast yet</source>
+        <translation>, ankoraŭ ne elsendita sukcese</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Dato</translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <translation>Fonto</translation>
+    </message>
+    <message>
+        <source>Generated</source>
+        <translation>Kreita</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>De</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>nekonata</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Al</translation>
+    </message>
+    <message>
+        <source>own address</source>
+        <translation>propra adreso</translation>
+    </message>
+    <message>
+        <source>label</source>
+        <translation>etikedo</translation>
+    </message>
+    <message>
+        <source>Credit</source>
+        <translation>Kredito</translation>
+    </message>
+    <message>
+        <source>not accepted</source>
+        <translation>ne akceptita</translation>
+    </message>
+    <message>
+        <source>Debit</source>
+        <translation>Debeto</translation>
+    </message>
+    <message>
+        <source>Transaction fee</source>
+        <translation>Krompago</translation>
+    </message>
+    <message>
+        <source>Net amount</source>
+        <translation>Neta sumo</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaĝo</translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <translation>Komento</translation>
+    </message>
+    <message>
+        <source>Transaction ID</source>
+        <translation>Transakcia ID</translation>
+    </message>
+    <message>
+        <source>Merchant</source>
+        <translation>Vendisto</translation>
+    </message>
+    <message>
+        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Kreitaj moneroj devas esti maturaj je %1 blokoj antaŭ ol eblas elspezi ilin. Kiam vi generis tiun ĉi blokon, ĝi estis elsendita al la reto por aldono al la blokĉeno. Se tiu aldono malsukcesas, ĝia stato ŝanĝiĝos al "neakceptita" kaj ne eblos elspezi ĝin. Tio estas malofta, sed povas okazi se alia bloko estas kreita je preskaŭ la sama momento kiel la via.</translation>
+    </message>
+    <message>
+        <source>Debug information</source>
+        <translation>Sencimigaj informoj</translation>
+    </message>
+    <message>
+        <source>Transaction</source>
+        <translation>Transakcio</translation>
+    </message>
+    <message>
+        <source>Inputs</source>
+        <translation>Enigoj</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Sumo</translation>
+    </message>
+    <message>
+        <source>true</source>
+        <translation>vera</translation>
+    </message>
+    <message>
+        <source>false</source>
+        <translation>malvera</translation>
+    </message>
+</context>
+<context>
     <name>TransactionDescDialog</name>
+    <message>
+        <source>Transaction details</source>
+        <translation>Transakciaj detaloj</translation>
+    </message>
     <message>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Tiu ĉi panelo montras detalan priskribon de la transakcio</translation>
     </message>
+    </context>
+<context>
+    <name>TransactionTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Dato</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikedo</translation>
+    </message>
+    <message>
+        <source>Open until %1</source>
+        <translation>Malferma ĝis %1</translation>
+    </message>
+    <message>
+        <source>Offline</source>
+        <translation>Senkonekte</translation>
+    </message>
+    <message>
+        <source>Unconfirmed</source>
+        <translation>Nekonfirmita</translation>
+    </message>
+    <message>
+        <source>Confirmed (%1 confirmations)</source>
+        <translation>Konfirmita (%1 konfirmoj)</translation>
+    </message>
+    <message>
+        <source>This block was not received by any other nodes and will probably not be accepted!</source>
+        <translation>Tiun ĉi blokon ne ricevis ajna alia nodo, kaj ĝi verŝajne ne akceptiĝos!</translation>
+    </message>
+    <message>
+        <source>Generated but not accepted</source>
+        <translation>Kreita sed ne akceptita</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Ricevita kun</translation>
+    </message>
+    <message>
+        <source>Received from</source>
+        <translation>Ricevita de</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Sendita al</translation>
+    </message>
+    <message>
+        <source>Payment to yourself</source>
+        <translation>Pago al vi mem</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Minita</translation>
+    </message>
+    <message>
+        <source>(n/a)</source>
+        <translation>neaplikebla</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(neniu etikedo)</translation>
+    </message>
+    <message>
+        <source>Transaction status. Hover over this field to show number of confirmations.</source>
+        <translation>Transakcia stato. Ŝvebi super tiu ĉi kampo por montri la nombron de konfirmoj.</translation>
+    </message>
+    <message>
+        <source>Date and time that the transaction was received.</source>
+        <translation>Dato kaj horo kiam la transakcio alvenis.</translation>
+    </message>
+    <message>
+        <source>Type of transaction.</source>
+        <translation>Tipo de transakcio.</translation>
+    </message>
+    <message>
+        <source>Amount removed from or added to balance.</source>
+        <translation>Sumo elprenita de aŭ aldonita al la saldo.</translation>
+    </message>
+</context>
+<context>
+    <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Ĉiuj</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Hodiaŭ</translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation>Ĉi-semajne</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Ĉi-monate</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Pasintmonate</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Ĉi-jare</translation>
+    </message>
+    <message>
+        <source>Range...</source>
+        <translation>Intervalo...</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Ricevita kun</translation>
+    </message>
+    <message>
+        <source>Sent to</source>
+        <translation>Sendita al</translation>
+    </message>
+    <message>
+        <source>To yourself</source>
+        <translation>Al vi mem</translation>
+    </message>
+    <message>
+        <source>Mined</source>
+        <translation>Minita</translation>
+    </message>
+    <message>
+        <source>Other</source>
+        <translation>Aliaj</translation>
+    </message>
+    <message>
+        <source>Enter address or label to search</source>
+        <translation>Tajpu adreson aŭ etikedon por serĉi</translation>
+    </message>
+    <message>
+        <source>Min amount</source>
+        <translation>Minimuma sumo</translation>
+    </message>
+    <message>
+        <source>Copy address</source>
+        <translation>Kopii adreson</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Kopii etikedon</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Kopii sumon</translation>
+    </message>
+    <message>
+        <source>Copy transaction ID</source>
+        <translation>Kopii transakcian ID-on</translation>
+    </message>
+    <message>
+        <source>Edit label</source>
+        <translation>Redakti etikedon</translation>
+    </message>
+    <message>
+        <source>Show transaction details</source>
+        <translation>Montri detalojn de transakcio</translation>
+    </message>
+    <message>
+        <source>Comma separated file (*.csv)</source>
+        <translation>Perkome disigita dosiero (*.csv)</translation>
+    </message>
+    <message>
+        <source>Confirmed</source>
+        <translation>Konfirmita</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Dato</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etikedo</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adreso</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Exporting Failed</source>
+        <translation>ekspotado malsukcesinta</translation>
+    </message>
+    <message>
+        <source>Range:</source>
+        <translation>Intervalo:</translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation>al</translation>
+    </message>
 </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
+    </context>
+<context>
+    <name>WalletFrame</name>
+    </context>
+<context>
+    <name>WalletModel</name>
+    <message>
+        <source>Send Coins</source>
+        <translation>Sendi Bitmonon</translation>
+    </message>
+    </context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Krei sekurkopion de monujo</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Monuj-datumoj (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>Malsukcesis sekurkopio</translation>
+    </message>
+    <message>
+        <source>Backup Successful</source>
+        <translation>Sukcesis krei sekurkopion</translation>
+    </message>
     </context>
 <context>
     <name>syscoin-core</name>

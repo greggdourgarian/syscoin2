@@ -1,60 +1,16 @@
-<TS language="es_AR" version="2.1">
+<TS language="bs" version="2.1">
 <context>
     <name>AcceptandPayOfferListPage</name>
     </context>
 <context>
     <name>AcceptedOfferListPage</name>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <source>All</source>
+        <translation>Sve</translation>
     </message>
     </context>
 <context>
     <name>AddressBookPage</name>
-    <message>
-        <source>Right-click to edit address or label</source>
-        <translation>Hacé click para editar la dirección o etiqueta</translation>
-    </message>
-    <message>
-        <source>Create a new address</source>
-        <translation>Crear una nueva dirección</translation>
-    </message>
-    <message>
-        <source>&amp;New</source>
-        <translation>&amp;Nuevo</translation>
-    </message>
-    <message>
-        <source>Copy the currently selected address to the system clipboard</source>
-        <translation>Copiá la dirección que seleccionaste al portapapeles</translation>
-    </message>
-    <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Copiar</translation>
-    </message>
-    <message>
-        <source>C&amp;lose</source>
-        <translation>C&amp;lose</translation>
-    </message>
-    <message>
-        <source>Delete the currently selected address from the list</source>
-        <translation>Borrar de la lista la dirección seleccionada</translation>
-    </message>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
-        <source>&amp;Delete</source>
-        <translation>&amp;Borrar</translation>
-    </message>
     </context>
 <context>
     <name>AddressTableModel</name>
@@ -70,22 +26,6 @@
     </context>
 <context>
     <name>AskPassphraseDialog</name>
-    <message>
-        <source>Passphrase Dialog</source>
-        <translation>Diálogo de Frase de Contraseña</translation>
-    </message>
-    <message>
-        <source>Enter passphrase</source>
-        <translation>Ingresar la Frase de Contraseña</translation>
-    </message>
-    <message>
-        <source>New passphrase</source>
-        <translation>Nueva Frase de Contraseña</translation>
-    </message>
-    <message>
-        <source>Repeat new passphrase</source>
-        <translation>Repetí la nueva Frase de Contraseña</translation>
-    </message>
     </context>
 <context>
     <name>BanTableModel</name>
@@ -116,14 +56,6 @@
     </context>
 <context>
     <name>EditWhitelistOfferDialog</name>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
@@ -157,15 +89,7 @@
     </context>
 <context>
     <name>MessageListPage</name>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -178,56 +102,32 @@
 <context>
     <name>MyAcceptedOfferListPage</name>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <source>All</source>
+        <translation>Sve</translation>
     </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>MyCertListPage</name>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <source>All</source>
+        <translation>Sve</translation>
     </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <source>All</source>
+        <translation>Sve</translation>
     </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
     <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
+        <source>All</source>
+        <translation>Sve</translation>
     </message>
     </context>
 <context>
@@ -235,14 +135,6 @@
     </context>
 <context>
     <name>MyWhitelistOfferDialog</name>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>NewMessageDialog</name>
@@ -294,7 +186,11 @@
     </context>
 <context>
     <name>OptionsModel</name>
-    </context>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+</context>
 <context>
     <name>OutMessageListPage</name>
     </context>
@@ -309,7 +205,11 @@
     </context>
 <context>
     <name>QObject</name>
-    </context>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+</context>
 <context>
     <name>QRImageWidget</name>
     </context>
@@ -333,6 +233,14 @@
     </context>
 <context>
     <name>SendCoinsEntry</name>
+    <message>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
     </context>
 <context>
     <name>SendConfirmationDialog</name>
@@ -345,12 +253,24 @@
     </context>
 <context>
     <name>SignVerifyMessageDialog</name>
+    <message>
+        <source>Alt+A</source>
+        <translation>Alt+A</translation>
+    </message>
+    <message>
+        <source>Alt+P</source>
+        <translation>Alt+P</translation>
+    </message>
     </context>
 <context>
     <name>SplashScreen</name>
     </context>
 <context>
     <name>SyscoinGUI</name>
+    <message>
+        <source>Syscoin</source>
+        <translation>Syscoin</translation>
+    </message>
     </context>
 <context>
     <name>TrafficGraphWidget</name>
@@ -366,6 +286,26 @@
     </context>
 <context>
     <name>TransactionView</name>
+    <message>
+        <source>All</source>
+        <translation>Sve</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Danas</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation>Ovaj mjesec</translation>
+    </message>
+    <message>
+        <source>Last month</source>
+        <translation>Prošli mjesec</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation>Ove godine</translation>
+    </message>
     </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
@@ -378,12 +318,12 @@
     </context>
 <context>
     <name>WalletView</name>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportar los datos de la pestaña actual a un archivo</translation>
-    </message>
     </context>
 <context>
     <name>syscoin-core</name>
+    <message>
+        <source>Syscoin Core</source>
+        <translation>Syscoin Jezrga</translation>
+    </message>
     </context>
 </TS>
