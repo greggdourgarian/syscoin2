@@ -923,7 +923,6 @@ if test x$enable_wallet != xno; then
 else
   AC_MSG_RESULT(no)
 fi
-fi
 dnl enable upnp support
 AC_MSG_CHECKING([whether to build with support for UPnP])
 if test x$have_miniupnpc = xno; then
