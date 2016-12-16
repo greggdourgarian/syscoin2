@@ -263,6 +263,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
         QMessageBox::critical(this, windowTitle(),
             tr("Error making request: ") + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
+		reply->deleteLater();
 		return;
 	}
 	double valueAmount = 0;
@@ -305,6 +306,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 				QMessageBox::critical(this, windowTitle(),
 					tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
 						QMessageBox::Ok, QMessageBox::Ok);
+				reply->deleteLater();
 				return;
 			}
 		}
@@ -313,6 +315,8 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 			QMessageBox::critical(this, windowTitle(),
 				tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
 					QMessageBox::Ok, QMessageBox::Ok);
+			reply->deleteLater();
+			return;
 		}
 		if(m_strAddress.size() > 0)
 		{
@@ -340,6 +344,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 									QMessageBox::information(this, windowTitle(),
 										tr("Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: ") + chain,
 										QMessageBox::Ok, QMessageBox::Ok);
+									reply->deleteLater();
 									return;
 								}
 							}
@@ -356,6 +361,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 				QMessageBox::information(this, windowTitle(),
 					tr("Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain,
 					QMessageBox::Ok, QMessageBox::Ok);
+				reply->deleteLater();
 				return;
 		}
 	}
@@ -366,6 +372,7 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 		QMessageBox::critical(this, windowTitle(),
 			tr("Cannot parse JSON response: ") + str,
 				QMessageBox::Ok, QMessageBox::Ok);
+		reply->deleteLater();
 		return;
 	}
 	

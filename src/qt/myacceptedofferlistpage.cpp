@@ -303,6 +303,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
         QMessageBox::critical(this, windowTitle(),
             tr("Error making request: ") + reply->errorString(),
                 QMessageBox::Ok, QMessageBox::Ok);
+		reply->deleteLater();
 		return;
 	}
 	double valueAmount = 0;
@@ -345,6 +346,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 				QMessageBox::critical(this, windowTitle(),
 					tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
 						QMessageBox::Ok, QMessageBox::Ok);
+				reply->deleteLater();
 				return;
 			}
 		}
@@ -353,6 +355,8 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 			QMessageBox::critical(this, windowTitle(),
 				tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
 					QMessageBox::Ok, QMessageBox::Ok);
+			reply->deleteLater();
+			return;
 		}
 		UniValue outputsValue = find_value(resultObj, "vout");
 		if (outputsValue.isArray())
@@ -378,6 +382,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 								QMessageBox::information(this, windowTitle(),
 									tr("Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: ") + chain,
 									QMessageBox::Ok, QMessageBox::Ok);
+								reply->deleteLater();
 								return;
 							}
 						}
@@ -394,6 +399,7 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 		QMessageBox::critical(this, windowTitle(),
 			tr("Cannot parse JSON response: ") + str,
 				QMessageBox::Ok, QMessageBox::Ok);
+		reply->deleteLater();
 		return;
 	}
 	
