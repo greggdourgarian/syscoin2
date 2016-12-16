@@ -1883,7 +1883,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		{
 			CAliasIndex multiSigAlias;
 			CTransaction txMultiSigAlias;
-			if (!GetTxOfAlias( vchFromString(aliasNames[i].get_str()), multiSigAlias, txMultiSigAlias, true))
+			if (!GetTxOfAlias( vchFromString(aliasNames[i].get_str()), multiSigAlias, txMultiSigAlias))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5511 - " + _("Could not find multisig alias with the name: ") + aliasNames[i].get_str());
 
 			CPubKey pubkey(multiSigAlias.vchPubKey);
@@ -2169,7 +2169,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		{
 			CAliasIndex multiSigAlias;
 			CTransaction txMultiSigAlias;
-			if (!GetTxOfAlias( vchFromString(aliasNames[i].get_str()), multiSigAlias, txMultiSigAlias, true))
+			if (!GetTxOfAlias( vchFromString(aliasNames[i].get_str()), multiSigAlias, txMultiSigAlias))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5523 - " + _("Could not find multisig alias with the name: ") + aliasNames[i].get_str());
 
 			CPubKey pubkey(multiSigAlias.vchPubKey);
