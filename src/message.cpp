@@ -513,7 +513,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
 		BOOST_FOREACH(const CTxIn& txin, rawTx.vin)
 		{
-			if(!pwalletMain->isLockedCoin(txin.prevout.hash, txin.prevout.n))
+			if(!pwalletMain->IsLockedCoin(txin.prevout.hash, txin.prevout.n))
 			{
               LOCK2(cs_main, pwalletMain->cs_wallet);
               pwalletMain->LockCoin(txin.prevout);
@@ -639,10 +639,10 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	if(bHex)
 	{
 		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
-		BOOST_FOREACH(const CTxIn& txin, lockedOutputs)
+		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
 		{
              LOCK2(cs_main, pwalletMain->cs_wallet);
-             pwalletMain->UnlockCoin(txin.prevout);
+             pwalletMain->UnlockCoin(outpoint);
 		}
 	}
 	return res;
