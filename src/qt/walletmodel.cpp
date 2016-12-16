@@ -345,9 +345,8 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             }
             setAddress.insert(rcp.address);
             ++nAddresses;
-			// SYSCOIN
 
-            CScript scriptPubKey = GetScriptForDestination().Get());
+            CScript scriptPubKey = GetScriptForDestination(CSyscoinAddress(rcp.address.toStdString()).Get());
             CRecipient recipient = {scriptPubKey, rcp.amount, rcp.fSubtractFeeFromAmount};
             vecSend.push_back(recipient);
 
