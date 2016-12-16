@@ -345,8 +345,9 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             }
             setAddress.insert(rcp.address);
             ++nAddresses;
+			// SYSCOIN
 
-            CScript scriptPubKey = GetScriptForDestination(CSyscoinAddress(rcp.address.toStdString()).Get());
+            CScript scriptPubKey = GetScriptForDestination().Get());
             CRecipient recipient = {scriptPubKey, rcp.amount, rcp.fSubtractFeeFromAmount};
             vecSend.push_back(recipient);
 
@@ -360,10 +361,12 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
 
     CAmount nBalance = getBalance(coinControl);
 
+	// SYSCOIN
+	/*
     if(total > nBalance)
     {
         return AmountExceedsBalance;
-    }
+    }*/
 
     {
         LOCK2(cs_main, wallet->cs_wallet);
