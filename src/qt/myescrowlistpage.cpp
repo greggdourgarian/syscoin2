@@ -308,6 +308,12 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 				return;
 			}
 		}
+		else
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
+					QMessageBox::Ok, QMessageBox::Ok);
+		}
 		if(m_strAddress.size() > 0)
 		{
 			UniValue outputsValue = find_value(resultObj, "vout");

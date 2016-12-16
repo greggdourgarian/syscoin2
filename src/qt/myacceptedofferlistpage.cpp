@@ -348,6 +348,12 @@ void MyAcceptedOfferListPage::slotConfirmedFinished(QNetworkReply * reply){
 				return;
 			}
 		}
+		else
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
+					QMessageBox::Ok, QMessageBox::Ok);
+		}
 		UniValue outputsValue = find_value(resultObj, "vout");
 		if (outputsValue.isArray())
 		{
