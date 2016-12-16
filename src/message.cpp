@@ -518,6 +518,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
               LOCK2(cs_main, pwalletMain->cs_wallet);
               pwalletMain->LockCoin(txin.prevout);
 			  lockedOutputs.push_back(txin.prevout);
+			  LogPrintf("locking: %s vout: %d\n", HexStr(txin.prevout.hash).c_str(), txin.prevout.n);
 			}
 		}
 	}
