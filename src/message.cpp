@@ -623,20 +623,9 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, aliasFrom.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 	
-	// if you get insufficient funds error its becuase utxo needed for sending funds are locked, try again after unlocking (important thing is the sys utxo's are locked during aliaspent)
-	try
-	{
-		SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, aliasFrom.multiSigInfo.vchAliases.size() > 0);
-	}
-	catch(runtime_error& e)
-	{
-		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-		{
-			 LOCK2(cs_main, pwalletMain->cs_wallet);
-			 pwalletMain->UnlockCoin(outpoint);
-		}
-		SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, aliasFrom.multiSigInfo.vchAliases.size() > 0);
-	}
+	
+	
+	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, aliasFrom.multiSigInfo.vchAliases.size() > 0);
 	UniValue res(UniValue::VARR);
 	if(aliasFrom.multiSigInfo.vchAliases.size() > 0)
 	{
