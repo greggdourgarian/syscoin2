@@ -504,12 +504,12 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CScript scriptPubKeyAliasOrig, scriptPubKeyAlias, scriptPubKeyOrig, scriptPubKey;
 	CSyscoinAddress fromAddr;
 	GetAddress(aliasFrom, &fromAddr, scriptPubKeyAliasOrig);
-	// don't use any inputs from this raw hex tx if it is a raw hex tx, to avoid tx malleability with your required signing 
-	CTransaction rawTx;
+
 	// lock coins before going into aliasunspent if we are sending raw tx that uses inputs in our wallet
 	vector<COutPoint> lockedOutputs;
 	if(bHex)
 	{
+		CTransaction rawTx;
 		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
 		BOOST_FOREACH(const CTxIn& txin, rawTx.vin)
 		{
@@ -526,7 +526,14 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	int numResults  = aliasunspent(aliasFrom.vchAlias, outPoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
+	{
+		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
+		{
+			 LOCK2(cs_main, pwalletMain->cs_wallet);
+			 pwalletMain->UnlockCoin(outpoint);
+		}
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3502 - " + _("This alias is not in your wallet"));
+	}
 
 
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << aliasFrom.vchAlias <<  aliasFrom.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
@@ -534,7 +541,14 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
 
 	if(!GetTxOfAlias(vchFromString(strToAddress), aliasTo, aliastx, true))
+	{
+		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
+		{
+			 LOCK2(cs_main, pwalletMain->cs_wallet);
+			 pwalletMain->UnlockCoin(outpoint);
+		}
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3503 - " + _("Failed to read to alias from alias DB"));
+	}
 	CSyscoinAddress toAddr;
 	GetAddress(aliasTo, &toAddr, scriptPubKeyOrig);
 
@@ -555,11 +569,21 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	string strCipherTextTo;
 	if(!EncryptMessage(aliasTo.vchPubKey, vchMessageByte, strCipherTextTo))
 	{
+		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
+		{
+			 LOCK2(cs_main, pwalletMain->cs_wallet);
+			 pwalletMain->UnlockCoin(outpoint);
+		}
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3504 - " + _("Could not encrypt message data for receiver"));
 	}
 	string strCipherTextFrom;
 	if(!EncryptMessage(aliasFrom.vchPubKey, vchMessageByte, strCipherTextFrom))
 	{
+		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
+		{
+			 LOCK2(cs_main, pwalletMain->cs_wallet);
+			 pwalletMain->UnlockCoin(outpoint);
+		}
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3505 - " + _("Could not encrypt message data for sender"));
 	}
 
@@ -636,14 +660,10 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 		res.push_back(stringFromVch(vchMessage));
 	}
 	// once we have used correct inputs for this message unlock coins that were locked in the wallet
-	if(bHex)
+	BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
 	{
-		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
-		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-		{
-             LOCK2(cs_main, pwalletMain->cs_wallet);
-             pwalletMain->UnlockCoin(outpoint);
-		}
+		 LOCK2(cs_main, pwalletMain->cs_wallet);
+		 pwalletMain->UnlockCoin(outpoint);
 	}
 	return res;
 }
