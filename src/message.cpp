@@ -504,6 +504,24 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CScript scriptPubKeyAliasOrig, scriptPubKeyAlias, scriptPubKeyOrig, scriptPubKey;
 	CSyscoinAddress fromAddr;
 	GetAddress(aliasFrom, &fromAddr, scriptPubKeyAliasOrig);
+	// don't use any inputs from this raw hex tx if it is a raw hex tx, to avoid tx malleability with your required signing 
+	CTransaction rawTx;
+	// lock coins before going into aliasunspent if we are sending raw tx that uses inputs in our wallet
+	vector<COutPoint> lockedOutputs;
+	if(bHex)
+	{
+		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
+		BOOST_FOREACH(const CTxIn& txin, rawTx.vin)
+		{
+			if(!pwalletMain->isLockedCoin(txin.prevout.hash, txin.prevout.n))
+			{
+              LOCK2(cs_main, pwalletMain->cs_wallet);
+              pwalletMain->LockCoin(txin.prevout);
+			  lockedOutputs.push_back(txin.prevout);
+			}
+		}
+	}
+	
 	COutPoint outPoint;
 	int numResults  = aliasunspent(aliasFrom.vchAlias, outPoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
@@ -616,6 +634,16 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	{
 		res.push_back(wtx.GetHash().GetHex());
 		res.push_back(stringFromVch(vchMessage));
+	}
+	// once we have used correct inputs for this message unlock coins that were locked in the wallet
+	if(bHex)
+	{
+		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
+		BOOST_FOREACH(const CTxIn& txin, lockedOutputs)
+		{
+             LOCK2(cs_main, pwalletMain->cs_wallet);
+             pwalletMain->UnlockCoin(txin.prevout);
+		}
 	}
 	return res;
 }
