@@ -2423,7 +2423,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	if(!alias.vchPassword.empty())
 		strPassword = _("Encrypted for alias owner");
 	strDecrypted = "";
-	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted))
+	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted, ""))
 		strPassword = strDecrypted;		
 
 	string password = noDifferentStr;
