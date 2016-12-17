@@ -12,10 +12,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/thread.hpp>
 #include <boost/lexical_cast.hpp>
-static int node1LastBlock=0;
-static int node2LastBlock=0;
-static int node3LastBlock=0;
-static int node4LastBlock=0;
+
 
 // SYSCOIN testing setup
 void StartNodes()
@@ -105,53 +102,19 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	if(!extraArgs.empty())
 		nodePath += string(" ") + extraArgs;
     boost::thread t(runCommand, nodePath);
-	printf("Launching %s, waiting 3 seconds before trying to ping...\n", nodePath.c_str());
-	MilliSleep(3000);
+	printf("Launching %s...\n", nodePath.c_str());
+	MilliSleep(1000);
 	UniValue r;
 	while (1)
 	{
 		try{
-			printf("Calling getinfo!\n");
-			r = CallRPC(dataDir, "getinfo", regTest);
-			if(dataDir == "node1")
+			printf("Calling getblockchaininfo!\n");
+			BOOST_CHECK_NO_THROW(r = CallRPC(node, "getblockchaininfo"));
+			if(find_value(r.get_obj(), "verificationprogress").get_real() < 1.0)
 			{
-				if(node1LastBlock > find_value(r.get_obj(), "blocks").get_int())
-				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node1LastBlock);
-					MilliSleep(500);
-					continue;
-				}
-				node1LastBlock = 0;
-			}
-			else if(dataDir == "node2")
-			{
-				if(node2LastBlock > find_value(r.get_obj(), "blocks").get_int())
-				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node2LastBlock);
-					MilliSleep(500);
-					continue;
-				}
-				node2LastBlock = 0;
-			}
-			else if(dataDir == "node3")
-			{
-				if(node3LastBlock > find_value(r.get_obj(), "blocks").get_int())
-				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node3LastBlock);
-					MilliSleep(500);
-					continue;
-				}
-				node3LastBlock = 0;
-			}
-			else if(dataDir == "node4")
-			{
-				if(node4LastBlock > find_value(r.get_obj(), "blocks").get_int())
-				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node4LastBlock);
-					MilliSleep(500);
-					continue;
-				}
-				node4LastBlock = 0;
+				printf("Waiting for chain to catch up, synced %.2f...\n", dataDir.c_str(), find_value(r.get_obj(), "verificationprogress").get_real());
+				MilliSleep(500);
+				continue;
 			}
 		}
 		catch(const runtime_error& error)
@@ -167,17 +130,6 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 
 void StopNode (const string &dataDir) {
 	printf("Stopping %s..\n", dataDir.c_str());
-	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(dataDir, "getinfo"));
-	if(dataDir == "node1")
-		node1LastBlock = find_value(r.get_obj(), "blocks").get_int();
-	else if(dataDir == "node2")
-		node2LastBlock = find_value(r.get_obj(), "blocks").get_int();
-	else if(dataDir == "node3")
-		node3LastBlock = find_value(r.get_obj(), "blocks").get_int();
-	else if(dataDir == "node4")
-		node4LastBlock = find_value(r.get_obj(), "blocks").get_int();
-	MilliSleep(1000);
 	try{
 		CallRPC(dataDir, "stop");
 	}
