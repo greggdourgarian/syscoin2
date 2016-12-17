@@ -2166,12 +2166,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 				vchPrivateValue = copyAlias.vchPrivateValue;
 			else
 			{
-				CPubKey encryptionKey;
-				encryptionKey = pwalletMain->GenerateNewKey();
-				CKey privateEncryptionKey;
-				pwalletMain->GetKey(encryptionKey.GetID(), privateEncryptionKey);
-				vchEncryptionPrivateKey = vector<unsigned char>(privateEncryptionKey.begin(), privateEncryptionKey.end());
-				vchEncryptionPublicKey = vector<unsigned char>(encryptionKey.begin(), encryptionKey.end());
 				if(!EncryptMessage(vchEncryptionPublicKey, vchPrivateValue, strCipherText))
 				{
 					throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not encrypt alias private data"));
@@ -2181,12 +2175,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		}
 		else
 		{
-			CPubKey encryptionKey;
-			encryptionKey = pwalletMain->GenerateNewKey();
-			CKey privateEncryptionKey;
-			pwalletMain->GetKey(encryptionKey.GetID(), privateEncryptionKey);
-			vchEncryptionPrivateKey = vector<unsigned char>(privateEncryptionKey.begin(), privateEncryptionKey.end());
-			vchEncryptionPublicKey = vector<unsigned char>(encryptionKey.begin(), encryptionKey.end());
 			if(!EncryptMessage(vchEncryptionPublicKey, vchPrivateValue, strCipherText))
 			{
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not encrypt alias private data"));
