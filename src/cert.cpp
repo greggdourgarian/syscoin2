@@ -93,7 +93,7 @@ bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCi
 			vector<CAliasIndex> vtxPos;
 			if (!paliasdb->ReadAlias(vchFromString(alias.multiSigInfo.vchAliases[i]), vtxPos) || vtxPos.empty())
 				continue;
-			if(DecryptPrivateKey(stringFromVch(vtxPos.back().vchPubKey), alias.multiSigInfo.vchEncryptionPrivateKeys[i], strKey, strPrivKey))
+			if(DecryptPrivateKey(vtxPos.back().vchPubKey, vchFromString(alias.multiSigInfo.vchEncryptionPrivateKeys[i]), strKey, strPrivKey))
 				break;
 		}	
 	}
