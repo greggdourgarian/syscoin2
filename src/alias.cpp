@@ -2229,7 +2229,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		multiSigInfo.vchRedeemScript = vchRedeemScript;
 	}
 
-	if(!EncryptPrivateKey(vchPubKeyByte, vchEncryptionPrivateKey, strCipherText))
+	if(!EncryptMessage(vchPubKeyByte, vchEncryptionPrivateKey, strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5512 - " + _("Could not encrypt private encryption key!"));
 	}
