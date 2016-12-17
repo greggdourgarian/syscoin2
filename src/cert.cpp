@@ -994,6 +994,8 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		theCert.vchTitle = vchTitle;
 	if(copyCert.vchData != vchData)
 		theCert.vchData = vchData;
+	if(copyCert.vchPubData != vchPubData)
+		theCert.vchPubData = vchPubData;
 	if(copyCert.sCategory != vchCat)
 		theCert.sCategory = vchCat;
 	theCert.vchAlias = theAlias.vchAlias;
