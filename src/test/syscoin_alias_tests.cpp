@@ -162,11 +162,12 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliassold " + offerguid + " category title 1 0.05 description"));
 	GenerateBlocks(5, "node1");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
 	
 	ExpireAlias("aliassold");
 	StopNode("node1");
 	StartNode("node1");
-	GenerateBlocks(5, "node1");
 	// aliasnew should still be active, but offer was set to aliasold so it should be expired
 	ExpireAlias("aliassold");
 	GenerateBlocks(5, "node1");
