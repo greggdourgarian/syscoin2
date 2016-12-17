@@ -2148,9 +2148,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchEncryptionPrivateKey = copyAlias.vchEncryptionPrivateKey;
 	vector<unsigned char> vchEncryptionPublicKey = copyAlias.vchEncryptionPublicKey;
 	string strDecryptedText = "";
-	if(!DecryptMessage(copyAlias, vchEncryptionPrivateKey, strDecryptedText))
+	if(!DecryptPrivateKey(copyAlias.vchPubKey, vchEncryptionPrivateKey, strDecryptedText))
 	{
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Could not decrypt alias private data"));
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Could not decrypt alias encryption private key"));
 	}
 	vchEncryptionPrivateKey = vchFromString(strDecryptedText);
 	if(!vchPrivateValue.empty())
@@ -2423,7 +2423,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	if(!alias.vchPassword.empty())
 		strPassword = _("Encrypted for alias owner");
 	strDecrypted = "";
-	if(DecryptMessage(alias, alias.vchPassword, strDecrypted))
+	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted))
 		strPassword = strDecrypted;		
 
 	string password = noDifferentStr;
@@ -2870,7 +2870,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	if(!alias.vchPassword.empty())
 		strPassword = _("Encrypted for alias owner");
 	strDecrypted = "";
-	if(DecryptMessage(alias, alias.vchPassword, strDecrypted, strPrivKey))
+	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted, strPrivKey))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 
