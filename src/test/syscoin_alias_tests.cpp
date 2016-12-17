@@ -152,6 +152,8 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	AliasNew("node1", "aliassold", "password", "changeddata1");
 	GenerateBlocks(100);
 	AliasNew("node1", "aliasnew", "password", "changeddata1");
+	// avoid txindex node giving us data
+	StopNode("node4");
 	StopNode("node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasnew category title 1 0.05 description USD"));
 	const UniValue &arr = r.get_array();
@@ -164,6 +166,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	ExpireAlias("aliassold");
 	StopNode("node1");
 	StartNode("node1");
+	GenerateBlocks(5, "node1");
 	// aliasnew should still be active, but offer was set to aliasold so it should be expired
 	ExpireAlias("aliassold");
 	GenerateBlocks(5, "node1");
@@ -188,6 +191,8 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	StartNode("node4");
+	ExpireAlias("aliassold");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliastransfer)
