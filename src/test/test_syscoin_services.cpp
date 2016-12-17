@@ -295,10 +295,10 @@ void GenerateBlocks(int nBlocks, const string& node)
   BOOST_CHECK_NO_THROW(r = CallRPC(node, "generate " + sBlocks));
   BOOST_CHECK_NO_THROW(r = CallRPC(node, "getinfo"));
   height = find_value(r.get_obj(), "blocks").get_int();
-  BOOST_CHECK_EQUAL(height, newHeight);
+  BOOST_CHECK(height >= newHeight);
   height = 0;
   timeoutCounter = 0;
-  while(height != newHeight)
+  while(height < newHeight)
   {
 	  MilliSleep(100);
 	  try
@@ -319,10 +319,10 @@ void GenerateBlocks(int nBlocks, const string& node)
 	  if(timeoutCounter > 300)
 		  break;
   }
-  BOOST_CHECK_EQUAL(height, newHeight);
+  BOOST_CHECK(height >= newHeight);
   height = 0;
   timeoutCounter = 0;
-  while(height != newHeight)
+  while(height < newHeight)
   {
 	  MilliSleep(100);
 	  try
@@ -343,7 +343,7 @@ void GenerateBlocks(int nBlocks, const string& node)
 	  if(timeoutCounter > 300)
 		  break;
   }
-  BOOST_CHECK_EQUAL(height, newHeight);
+  BOOST_CHECK(height >= newHeight);
   height = 0;
   timeoutCounter = 0;
 }
