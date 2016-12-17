@@ -678,6 +678,8 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2024 - " + _("Wrong alias input provided in this certificate transaction");
 				theCert.vchAlias = dbCert.vchAlias;
 			}
+			else if(!theCert.vchLinkAlias.empty())
+				theCert.vchAlias = theCert.vchLinkAlias;
 
 			if(op == OP_CERT_TRANSFER)
 			{
@@ -945,13 +947,13 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(theCert.vchAlias, theAlias, aliastx, true))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2506 - " + _("Failed to read alias from alias DB"));
 	if(!IsMyAlias(theAlias)) {
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2507 - " + _("This alias is not yours"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2507 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
 	int numResults  = aliasunspent(theCert.vchAlias, outPoint);
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2508 - " + _("This alias is not in your wallet"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2508 - " + _("This alias is not in your wallet"));
 
 	CCert copyCert = theCert;
 	theCert.ClearCert();
@@ -1099,13 +1101,13 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 		 throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2517 - " + _("Could not find the certificate alias"));
 	}
 	if(!IsMyAlias(fromAlias)) {
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2518 - " + _("This alias is not yours"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2518 - " + _("This alias is not yours"));
 	}
 	COutPoint outPoint;
 	int numResults  = aliasunspent(theCert.vchAlias, outPoint);
 	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2519 - " + _("This alias is not in your wallet"));
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2519 - " + _("This alias is not in your wallet"));
 
 	// if cert is private, decrypt the data
 	vector<unsigned char> vchData = theCert.vchData;
