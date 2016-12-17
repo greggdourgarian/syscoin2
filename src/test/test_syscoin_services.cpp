@@ -109,7 +109,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	{
 		try{
 			printf("Calling getblockchaininfo!\n");
-			BOOST_CHECK_NO_THROW(r = CallRPC(dataDir, "getblockchaininfo", regTest));
+			CallRPC(dataDir, "getblockchaininfo", regTest);
 			if(r.isObject())
 			{
 				const UniValue& verificationprogress = find_value(r.get_obj(), "verificationprogress");
