@@ -602,6 +602,7 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 {
 	printf("Running generate_offer_aliasexpiry_resync...\n");
+	UniValue r;
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
@@ -633,7 +634,9 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 
 	// node 2 doesn't download the offer since it expired while node2 was offline
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offerinfo " + offerguid), runtime_error);
+	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "Off"), false);
+	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "On"), false);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
