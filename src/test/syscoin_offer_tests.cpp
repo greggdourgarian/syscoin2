@@ -611,8 +611,14 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(100);
 	AliasNew("node1", "aliasnew", "password", "changeddata1");
 	StopNode("node2");
-	string offerguid = OfferNew("node2", "aliasnew", "category", "title", "100", "10.00", "description", "USD", "nocert");
-	OfferUpdate("node1", "aliassold", offerguid, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "nocert", "location", "No");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasnew category title 1 0.05 description USD"));
+	const UniValue &arr = r.get_array();
+	string offerguid = arr[1].get_str();
+	GenerateBlocks(5, "node1");
+
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliassold " + offerguid + " category title 1 0.05 description"));
+	GenerateBlocks(5, "node1");
+	
 	ExpireAlias("aliassold");
 	StopNode("node1");
 	StartNode("node1");

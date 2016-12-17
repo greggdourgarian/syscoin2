@@ -141,6 +141,55 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 
 
 }
+BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
+{
+	printf("Running generate_offer_aliasexpiry_resync...\n");
+	UniValue r;
+	GenerateBlocks(5);
+	GenerateBlocks(5, "node2");
+	GenerateBlocks(5, "node3");
+	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
+	AliasNew("node1", "aliassold", "password", "changeddata1");
+	GenerateBlocks(100);
+	AliasNew("node1", "aliasnew", "password", "changeddata1");
+	StopNode("node2");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasnew category title 1 0.05 description USD"));
+	const UniValue &arr = r.get_array();
+	string offerguid = arr[1].get_str();
+	GenerateBlocks(5, "node1");
+
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliassold " + offerguid + " category title 1 0.05 description"));
+	GenerateBlocks(5, "node1");
+	
+	ExpireAlias("aliassold");
+	StopNode("node1");
+	StartNode("node1");
+	// aliasnew should still be active, but offer was set to aliasold so it should be expired
+	ExpireAlias("aliassold");
+	GenerateBlocks(5, "node1");
+	StartNode("node2");
+	ExpireAlias("aliassold");
+	GenerateBlocks(5, "node2");
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo aliasnew"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo aliasnew"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+
+	// node 2 doesn't download the offer since it expired while node2 was offline
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offerinfo " + offerguid), runtime_error);
+	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "Off"), false);
+	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "On"), false);
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "offerinfo " + offerguid));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+
+}
 BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 {
 	printf("Running generate_aliastransfer...\n");
