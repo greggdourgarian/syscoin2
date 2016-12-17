@@ -40,7 +40,7 @@ bool EncryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchMe
 bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
 {
 	std::vector<unsigned char> vchPrivateKey;
-
+	CMessageCrypter crypter;
 	// if priv key passed in try to use that, fallback to private key from wallet of pubkey passed in
 	if(!strPrivKey.empty())
 	{
@@ -50,7 +50,6 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 		CKey key = vchSecret.GetKey();
 		vchPrivateKey = std::vector<unsigned char>(key.begin(), key.end());
 		
-		CMessageCrypter crypter;
 		if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
 		{
 			// backup plan try to get priv key from pubkey in wallet
@@ -92,7 +91,7 @@ bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCi
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 		{
 			vector<CAliasIndex> vtxPos;
-			if (!paliasdb->ReadAlias(alias.multiSigInfo.vchAliases[i], vtxPos) || vtxPos.empty())
+			if (!paliasdb->ReadAlias(vchFromString(alias.multiSigInfo.vchAliases[i]), vtxPos) || vtxPos.empty())
 				continue;
 			if(DecryptPrivateKey(vtxPos.back().vchPubKey, alias.multiSigInfo.vchEncryptionPrivateKeys[i], strKey, strPrivKey))
 				break;
