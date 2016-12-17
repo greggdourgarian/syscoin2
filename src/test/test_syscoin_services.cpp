@@ -177,13 +177,14 @@ void StopNode (const string &dataDir) {
 		node3LastBlock = find_value(r.get_obj(), "blocks").get_int();
 	else if(dataDir == "node4")
 		node4LastBlock = find_value(r.get_obj(), "blocks").get_int();
+	MilliSleep(1000);
 	try{
 		CallRPC(dataDir, "stop");
 	}
 	catch(const runtime_error& error)
 	{
 	}
-	MilliSleep(3000);
+	MilliSleep(1000);
 }
 
 UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regTest, bool readJson)
