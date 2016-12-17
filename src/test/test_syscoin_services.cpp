@@ -12,7 +12,10 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/thread.hpp>
 #include <boost/lexical_cast.hpp>
-
+static int node1LastBlock=0;
+static int node2LastBlock=0;
+static int node3LastBlock=0;
+static int node4LastBlock=0;
 
 // SYSCOIN testing setup
 void StartNodes()
@@ -102,44 +105,59 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	if(!extraArgs.empty())
 		nodePath += string(" ") + extraArgs;
     boost::thread t(runCommand, nodePath);
-	printf("Launching %s...\n", nodePath.c_str());
-	MilliSleep(1000);
+	printf("Launching %s, waiting 3 seconds before trying to ping...\n", nodePath.c_str());
+	MilliSleep(3000);
 	UniValue r;
 	while (1)
 	{
 		try{
-			printf("Calling getblockchaininfo!\n");
-			CallRPC(dataDir, "getblockchaininfo", regTest);
-			if(r.isObject())
+			printf("Calling getinfo!\n");
+			r = CallRPC(dataDir, "getinfo", regTest);
+			if(dataDir == "node1")
 			{
-				const UniValue& verificationprogress = find_value(r.get_obj(), "verificationprogress");
-				if(verificationprogress.isNum())
+				if(node1LastBlock > find_value(r.get_obj(), "blocks").get_int())
 				{
-					if(verificationprogress.get_real() < 1.0)
-					{
-						printf("Waiting for %s to catch up, synced %.2f...\n", dataDir.c_str(), find_value(r.get_obj(), "verificationprogress").get_real());
-						MilliSleep(500);
-						continue;
-					}
-					else
-						break;
-				}
-				else
-				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node1LastBlock);
 					MilliSleep(500);
 					continue;
 				}
+				node1LastBlock = 0;
 			}
-			else 
+			else if(dataDir == "node2")
 			{
-				MilliSleep(500);
-				continue;
+				if(node2LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node2LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node2LastBlock = 0;
+			}
+			else if(dataDir == "node3")
+			{
+				if(node3LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node3LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node3LastBlock = 0;
+			}
+			else if(dataDir == "node4")
+			{
+				if(node4LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node4LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node4LastBlock = 0;
 			}
 		}
 		catch(const runtime_error& error)
 		{
-			printf("Waiting for %s to come online, trying again in 5 seconds...\n", dataDir.c_str());
-			MilliSleep(5000);
+			printf("Waiting for %s to come online, trying again in 3 seconds...\n", dataDir.c_str());
+			MilliSleep(3000);
 			continue;
 		}
 		break;
@@ -149,13 +167,31 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 
 void StopNode (const string &dataDir) {
 	printf("Stopping %s..\n", dataDir.c_str());
+	UniValue r;
+	try{
+		r = CallRPC(dataDir, "getinfo");
+		if(r.isObject())
+		{
+			if(dataDir == "node1")
+				node1LastBlock = find_value(r.get_obj(), "blocks").get_int();
+			else if(dataDir == "node2")
+				node2LastBlock = find_value(r.get_obj(), "blocks").get_int();
+			else if(dataDir == "node3")
+				node3LastBlock = find_value(r.get_obj(), "blocks").get_int();
+			else if(dataDir == "node4")
+				node4LastBlock = find_value(r.get_obj(), "blocks").get_int();
+		}
+	}
+	catch(const runtime_error& error)
+	{
+	}
 	try{
 		CallRPC(dataDir, "stop");
 	}
 	catch(const runtime_error& error)
 	{
 	}
-	MilliSleep(1000);
+	MilliSleep(3000);
 }
 
 UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regTest, bool readJson)
