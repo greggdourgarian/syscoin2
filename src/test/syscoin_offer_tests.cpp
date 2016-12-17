@@ -599,7 +599,46 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 }
+BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
+{
+	printf("Running generate_offer_aliasexpiry_resync...\n");
+	GenerateBlocks(5);
+	GenerateBlocks(5, "node2");
+	GenerateBlocks(5, "node3");
+	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
+	AliasNew("node1", "aliassold", "password", "changeddata1");
+	GenerateBlocks(100);
+	AliasNew("node1", "aliasnew", "password", "changeddata1");
+	StopNode("node2");
+	string offerguid = OfferNew("node2", "aliasnew", "category", "title", "100", "10.00", "description", "USD", "nocert");
+	OfferUpdate("node1", "aliassold", offerguid, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "nocert", "location", "No");
+	ExpireAlias("aliassold");
+	StopNode("node1");
+	StartNode("node1");
+	// aliasnew should still be active, but offer was set to aliasold so it should be expired
+	ExpireAlias("aliassold");
+	GenerateBlocks(5, "node1");
+	StartNode("node2");
+	ExpireAlias("aliassold");
+	GenerateBlocks(5, "node2");
 
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo aliasnew"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo aliasnew"));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+
+	// node 2 doesn't download the offer since it expired while node2 was offline
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "offerinfo " + offerguid));
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+
+}
 BOOST_AUTO_TEST_CASE (generate_offerlink_offlinenode)
 {
 	printf("Running generate_offerlink_offlinenode...\n");
