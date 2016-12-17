@@ -108,8 +108,47 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	{
 		try{
 			printf("Calling getinfo!\n");
-			CallRPC(dataDir, "getinfo", regTest);
-		}
+			r = CallRPC(dataDir, "getinfo", regTest);
+			if(dataDir == "node1")
+			{
+				if(node1LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node1LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node1LastBlock = 0;
+			}
+			else if(dataDir == "node2")
+			{
+				if(node2LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node2LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node2LastBlock = 0;
+			}
+			else if(dataDir == "node3")
+			{
+				if(node3LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node3LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node3LastBlock = 0;
+			}
+			else if(dataDir == "node4")
+			{
+				if(node4LastBlock > find_value(r.get_obj(), "blocks").get_int())
+				{
+					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node4LastBlock);
+					MilliSleep(500);
+					continue;
+				}
+				node4LastBlock = 0;
+			}
 		catch(const runtime_error& error)
 		{
 			printf("Waiting for %s to come online, trying again in 5 seconds...\n", dataDir.c_str());
@@ -123,6 +162,16 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 
 void StopNode (const string &dataDir) {
 	printf("Stopping %s..\n", dataDir.c_str());
+	UniValue r;
+	BOOST_CHECK_NO_THROW(r = CallRPC(dataDir, "getinfo"));
+	if(dataDir == "node1")
+		node1LastBlock = find_value(r.get_obj(), "blocks").get_int();
+	else if(dataDir == "node2")
+		node2LastBlock = find_value(r.get_obj(), "blocks").get_int();
+	else if(dataDir == "node3")
+		node3LastBlock = find_value(r.get_obj(), "blocks").get_int();
+	else if(dataDir == "node4")
+		node4LastBlock = find_value(r.get_obj(), "blocks").get_int();
 	try{
 		CallRPC(dataDir, "stop");
 	}

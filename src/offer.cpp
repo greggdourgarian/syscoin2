@@ -1185,7 +1185,13 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1105 - " + _("Cannot purchase a wanted offer");
 				return true;
 			}
-
+			vector<CAliasIndex> vtxAlias;
+			bool isExpired = false;
+			if(!GetVtxOfAlias(myPriceOffer.vchAlias, alias, vtxAlias, isExpired))
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("Cannot find alias for this offer. It may be expired");
+				return true;
+			}
 			// check that user pays enough in syscoin if the currency of the offer is not external purchase
 			if(theOfferAccept.txExtId.IsNull())
 			{
@@ -1265,13 +1271,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 					CSyscoinAddress destaddy(payDest);
 					CSyscoinAddress aliasaddy;
-					vector<CAliasIndex> vtxAlias;
-					bool isExpired = false;
-					if(!GetVtxOfAlias(myPriceOffer.vchAlias, alias, vtxAlias, isExpired))
-					{
-						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("Cannot find alias for this offer. It may be expired");
-						return true;
-					}
 					GetAddress(alias, &aliasaddy);
 					if(aliasaddy.ToString() != destaddy.ToString())
 					{
