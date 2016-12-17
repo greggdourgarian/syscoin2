@@ -670,10 +670,8 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			if(theCert.vchAlias != dbCert.vchAlias)
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2024 - " + _("Wrong alias input provided in this certificate transaction");
-				theCert = dbCert;
+				theCert.vchAlias = dbCert.vchAlias;
 			}
-			else if(!theCert.vchLinkAlias.empty())
-				theCert.vchAlias = theCert.vchLinkAlias;
 
 			if(op == OP_CERT_TRANSFER)
 			{
@@ -682,8 +680,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 				// check to alias
 				if(!GetVtxOfAlias(theCert.vchLinkAlias, alias, vtxAlias, isExpired))
 				{
-					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2025 - " + _("Cannot find alias you are transferring to. It may be expired");
-					theCert = dbCert;			
+					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2025 - " + _("Cannot find alias you are transferring to. It may be expired");		
 				}
 				else
 				{
@@ -708,13 +705,6 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 		}
 		else
 		{
-			vector<CAliasIndex> vtxAlias;
-			bool isExpired = false;
-			if (!GetVtxOfAlias(theCert.vchAlias, alias, vtxAlias, isExpired))
-			{
-				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2028 - " + _("Cannot find alias for this certificate. It may be expired");
-				return true;
-			}
 			if (pcertdb->ExistsCert(vvchArgs[0]))
 			{
 				errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2029 - " + _("Certificate already exists");

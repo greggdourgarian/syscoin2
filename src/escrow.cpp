@@ -64,7 +64,15 @@ uint64_t GetEscrowExpiration(const CEscrow& escrow) {
 		if(nTime <= chainActive.Tip()->nTime)
 		{
 			if (paliasdb->ReadAliasUnprunable(escrow.vchSellerAlias, aliasSellerPrunable) && !aliasSellerPrunable.IsNull())
+			{
 				nTime = aliasSellerPrunable.nExpireTime;
+				// seller is expired try the arbiter
+				if(nTime <= chainActive.Tip()->nTime)
+				{
+					if (paliasdb->ReadAliasUnprunable(escrow.vchArbiterAlias, aliasArbiterPrunable) && !aliasArbiterPrunable.IsNull())
+						nTime = aliasArbiterPrunable.nExpireTime;
+				}
+			}
 		}
 	}
 	return nTime;
@@ -695,7 +703,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 			if(serializedEscrow.bPaymentAck && theEscrow.bPaymentAck)
 			{
 				errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4038 - " + _("Escrow already acknowledged");
-				return true;
 			}
 			// make sure we have found this escrow in db
 			if(!vtxPos.empty())
@@ -983,7 +990,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 				if(dbOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(dbOffer.sCategory), "wanted"))
 				{
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Cannot purchase a wanted offer");
-					return true;
 				}
 				int nQty = dbOffer.nQty;
 				// if this is a linked offer we must update the linked offer qty
