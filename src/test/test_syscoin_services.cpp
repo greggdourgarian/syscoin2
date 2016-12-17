@@ -101,7 +101,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
     boost::filesystem::path fpath = boost::filesystem::system_complete("../syscoind");
 	string nodePath = fpath.string() + string(" -datadir=") + dataDir;
 	if(regTest)
-		nodePath += string(" -regtest -debug");
+		nodePath += string(" -regtest -reindex -debug");
 	if(!extraArgs.empty())
 		nodePath += string(" ") + extraArgs;
     boost::thread t(runCommand, nodePath);
