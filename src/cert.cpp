@@ -685,7 +685,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			{
 				vector<CAliasIndex> vtxAlias;
 				bool isExpired = false;
-				// check to alias
+				// check toalias
 				if(!GetVtxOfAlias(theCert.vchLinkAlias, alias, vtxAlias, isExpired))
 				{
 					errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2025 - " + _("Cannot find alias you are transferring to. It may be expired");		
