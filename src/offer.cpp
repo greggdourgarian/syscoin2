@@ -948,7 +948,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						if(!boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1023 - " + _("Offer selling a certificate must use a certificate category");
-							theOffer.sCategory = "certificates";
+							theOffer.sCategory = vchFromString("certificates");
 						}
 					}
 					else if(boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
