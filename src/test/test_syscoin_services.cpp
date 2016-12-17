@@ -113,11 +113,16 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 			if(r.isObject())
 			{
 				const UniValue& verificationprogress = find_value(r.get_obj(), "verificationprogress");
-				if(verificationprogress.isNum() && verificationprogress.get_real() < 1.0)
+				if(verificationprogress.isNum())
 				{
-					printf("Waiting for %s to catch up, synced %.2f...\n", dataDir.c_str(), find_value(r.get_obj(), "verificationprogress").get_real());
-					MilliSleep(500);
-					continue;
+					if(verificationprogress.get_real() < 1.0)
+					{
+						printf("Waiting for %s to catch up, synced %.2f...\n", dataDir.c_str(), find_value(r.get_obj(), "verificationprogress").get_real());
+						MilliSleep(500);
+						continue;
+					}
+					else
+						break;
 				}
 				else
 				{
