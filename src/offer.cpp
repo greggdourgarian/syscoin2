@@ -1135,7 +1135,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1095 - " + _("Could not get linked offer");
 					return true;
 				}
-				if(!IsPaymentOptionInMask(linkOffer.paymentOptions, theOfferAccept.nPaymentOptions))
+				if(!IsPaymentOptionInMask(linkOffer.paymentOptions, theOfferAccept.nPaymentOption))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1099 - " + _("User selected payment option not found in list of accepted offer payment options");
 					return true;
