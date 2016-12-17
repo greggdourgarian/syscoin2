@@ -110,9 +110,23 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 		try{
 			printf("Calling getblockchaininfo!\n");
 			BOOST_CHECK_NO_THROW(r = CallRPC(dataDir, "getblockchaininfo"));
-			if(find_value(r.get_obj(), "verificationprogress").get_real() < 1.0)
+			if(r.isObject())
 			{
-				printf("Waiting for %s to catch up, synced %.2f...\n", dataDir.c_str(), find_value(r.get_obj(), "verificationprogress").get_real());
+				const UniValue& verificationprogress = find_value(r.get_obj(), "verificationprogress");
+				if(verificationprogress.isNum() && verificationprogress.get_real() < 1.0)
+				{
+					printf("Waiting for %s to catch up, synced %.2f...\n", dataDir.c_str(), find_value(r.get_obj(), "verificationprogress").get_real());
+					MilliSleep(500);
+					continue;
+				}
+				else
+				{
+					MilliSleep(500);
+					continue;
+				}
+			}
+			else 
+			{
 				MilliSleep(500);
 				continue;
 			}
