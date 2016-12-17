@@ -1367,7 +1367,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	string strCipherText = "";
 	// encrypt to offer owner
-	if(!EncryptMessage(selleralias.vchPubKey, vchMessage, strCipherText))
+	if(!EncryptMessage(selleralias, vchMessage, strCipherText))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4520 - " + _("Could not encrypt message to seller"));
 
 	if (strCipherText.size() > MAX_ENCRYPTED_VALUE_LENGTH)
@@ -3555,7 +3555,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
     oEscrow.push_back(Pair("txid", escrow.txHash.GetHex()));
     oEscrow.push_back(Pair("height", sHeight));
 	string strMessage = string("");
-	if(!DecryptMessage(theSellerAlias.vchPubKey, escrow.vchPaymentMessage, strMessage, strPrivKey))
+	if(!DecryptMessage(theSellerAlias, escrow.vchPaymentMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int64_t expired_time = GetEscrowExpiration(escrow);

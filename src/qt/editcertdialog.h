@@ -43,7 +43,6 @@ public Q_SLOTS:
 	void aliasChanged(const QString& text);
 
 private:
-	void loadCert();
     bool saveCurrentRow();
 	void loadAliases();
 	void loadCategories();

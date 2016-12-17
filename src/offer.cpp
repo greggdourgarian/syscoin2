@@ -2655,13 +2655,13 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1538 - " + _("Could not find an alias with this guid"));
 
 		// encrypt to root offer owner if this is a linked offer you are accepting
-		if(!EncryptMessage(theLinkedAlias.vchPubKey, vchMessage, strCipherText))
+		if(!EncryptMessage(theLinkedAlias, vchMessage, strCipherText))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1539 - " + _("Could not encrypt message to seller"));
 	}
 	else
 	{
 		// encrypt to offer owner
-		if(!EncryptMessage(theAlias.vchPubKey, vchMessage, strCipherText))
+		if(!EncryptMessage(theAlias, vchMessage, strCipherText))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1540 - " + _("Could not encrypt message to seller"));
 	}
 
@@ -3664,7 +3664,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
 	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	string strMessage = string("");
-	if(!DecryptMessage(theAlias.vchPubKey, theOffer.accept.vchMessage, strMessage, strPrivKey))
+	if(!DecryptMessage(theAlias, theOffer.accept.vchMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;

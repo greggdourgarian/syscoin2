@@ -33,9 +33,6 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 	ui->transferEdit->setVisible(false);
 	ui->transferDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the alias of the recipient of this certificate") + QString("</font>"));
     ui->transferDisclaimer->setVisible(false);
-	ui->viewAliasEdit->setVisible(true);
-	ui->viewAliasDisclaimer->setVisible(true);
-	ui->viewAliasDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the alias of the recipient that you wish to allow reading your certificate private data") + QString("</font>"));
 	ui->viewOnlyDisclaimer->setText(QString("<font color='blue'>") + tr("Select Yes if you do not want this certificate to be editable/transferable by the recipient") + QString("</font>"));
 	ui->viewOnlyBox->setVisible(false);
 	ui->viewOnlyLabel->setVisible(false);
@@ -74,8 +71,6 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
 		ui->transferDisclaimer->setVisible(true);
 		ui->aliasDisclaimer->setVisible(false);
 		ui->aliasEdit->setEnabled(false);
-		ui->viewAliasDisclaimer->setVisible(false);
-		ui->viewAliasEdit->setEnabled(false);
 		ui->viewOnlyBox->setVisible(true);
 		ui->viewOnlyLabel->setVisible(true);
 		ui->viewOnlyDisclaimer->setVisible(true);
@@ -153,41 +148,6 @@ void EditCertDialog::loadCategories()
 	}
     ui->categoryEdit->setModel(model);
     ui->categoryEdit->setItemDelegate(new ComboBoxDelegate);
-}
-void EditCertDialog::loadCert()
-{
-	string strMethod = string("certinfo");
-    UniValue params(UniValue::VARR); 
-	params.push_back(ui->certEdit->text().toStdString());
-	UniValue result ;
-	string viewalias_str;
-	try {
-		result = tableRPC.execute(strMethod, params);
-
-		if (result.type() == UniValue::VOBJ)
-		{
-			viewalias_str = "";
-			const UniValue& viewalias_value = find_value(result.get_obj(), "viewalias");
-			if (viewalias_value.type() == UniValue::VSTR)
-				viewalias_str = viewalias_value.get_str();	
-
-			ui->viewAliasEdit->setText(QString::fromStdString(viewalias_str));
-		}
-
-	}
-	catch (UniValue& objError)
-	{
-		string strError = find_value(objError, "message").get_str();
-		QMessageBox::critical(this, windowTitle(),
-			tr("Could not get this certificate: ") + QString::fromStdString(strError),
-				QMessageBox::Ok, QMessageBox::Ok);
-	}
-	catch(std::exception& e)
-	{
-		QMessageBox::critical(this, windowTitle(),
-			tr("There was an exception trying to fetch certificate information: ") + QString::fromStdString(e.what()),
-				QMessageBox::Ok, QMessageBox::Ok);
-	}  
 }
 
 void EditCertDialog::aliasChanged(const QString& alias)
@@ -384,8 +344,6 @@ void EditCertDialog::loadRow(int row)
 		}
 	}
 
-	loadCert();
-
 }
 
 bool EditCertDialog::saveCurrentRow()
@@ -430,7 +388,6 @@ bool EditCertDialog::saveCurrentRow()
 			params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
 		else
 			params.push_back(ui->categoryEdit->currentText().toStdString());
-		params.push_back(ui->viewAliasEdit->text().toStdString());
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
 			if (result.type() != UniValue::VNULL)
@@ -487,7 +444,6 @@ bool EditCertDialog::saveCurrentRow()
 				params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
 			else
 				params.push_back(ui->categoryEdit->currentText().toStdString());
-			params.push_back(ui->viewAliasEdit->text().toStdString());
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)

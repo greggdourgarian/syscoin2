@@ -567,7 +567,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	
 
 	string strCipherTextTo;
-	if(!EncryptMessage(aliasTo.vchPubKey, vchMessageByte, strCipherTextTo))
+	if(!EncryptMessage(aliasTo, vchMessageByte, strCipherTextTo))
 	{
 		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
 		{
@@ -577,7 +577,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3504 - " + _("Could not encrypt message data for receiver"));
 	}
 	string strCipherTextFrom;
-	if(!EncryptMessage(aliasFrom.vchPubKey, vchMessageByte, strCipherTextFrom))
+	if(!EncryptMessage(aliasFrom, vchMessageByte, strCipherTextFrom))
 	{
 		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
 		{
@@ -805,14 +805,14 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 	oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
 	string strDecrypted = "";
 	string strData = _("Encrypted for recipient of message");
-	if(DecryptMessage(aliasTo.vchPubKey, message.vchMessageTo, strDecrypted, strPrivKey))
+	if(DecryptMessage(aliasTo, message.vchMessageTo, strDecrypted, strPrivKey))
 	{
 		if(message.bHex)
 			strData = HexStr(strDecrypted);
 		else
 			strData = strDecrypted;
 	}
-	else if(!message.bHex && DecryptMessage(aliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted, strPrivKey))
+	else if(!message.bHex && DecryptMessage(aliasFrom, message.vchMessageFrom, strDecrypted, strPrivKey))
 		strData = strDecrypted;
 
 	oName.push_back(Pair("message", strData));
@@ -960,9 +960,9 @@ void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, co
 
 	string strMessage =_("Encrypted for recipient of message");
 	string strDecrypted = "";
-	if(DecryptMessage(dbAliasTo.vchPubKey, message.vchMessageTo, strDecrypted))
+	if(DecryptMessage(dbAliasTo, message.vchMessageTo, strDecrypted))
 		strMessage = strDecrypted;
-	else if(DecryptMessage(dbAliasFrom.vchPubKey, message.vchMessageFrom, strDecrypted))
+	else if(DecryptMessage(dbAliasFrom, message.vchMessageFrom, strDecrypted))
 		strMessage = strDecrypted;	
 
 	entry.push_back(Pair("message", strMessage));
