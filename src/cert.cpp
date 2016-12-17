@@ -23,6 +23,7 @@ extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, 
 ;
 bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchMessage, string &strCipherText)
 {
+	strCipherText.clear();
 	CMessageCrypter crypter;
 	if(!crypter.Encrypt(stringFromVch(vchPubKey), stringFromVch(vchMessage), strCipherText))
 		return false;
@@ -31,6 +32,7 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigne
 }
 bool EncryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchMessage, string &strCipherText)
 {
+	strCipherText.clear();
 	CMessageCrypter crypter;
 	if(!crypter.Encrypt(stringFromVch(alias.vchEncryptionPublicKey), stringFromVch(vchMessage), strCipherText))
 		return false;
