@@ -538,7 +538,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 	bool foundAliasLink = false;
 	const COutPoint *prevOutput = NULL;
 	const CCoins *prevCoins;
-	int prevAliasOp = prevAliasOpLink =0;
+	int prevAliasOp = 0;
+	int prevAliasOpLink = 0;
 	vector<vector<unsigned char> > vvchPrevAliasArgs, vvchPrevAliasArgsLink;
 	// unserialize msg from txn, check for valid
 	COffer theOffer;
@@ -758,7 +759,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1026 - " + _("Alias input mismatch");
 				return error(errorMessage.c_str());
 			}
-			if(!theOffer.vchLinkAlias.empty() && (!IsAliasOp(prevAliasOpLink) || vvchPrevAliasArgsLink.empty() || theOffer.vchLinkAlias != vvchPrevAliasArgsLink[0])))
+			if(!theOffer.vchLinkAlias.empty() && (!IsAliasOp(prevAliasOpLink) || vvchPrevAliasArgsLink.empty() || theOffer.vchLinkAlias != vvchPrevAliasArgsLink[0]))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1026 - " + _("Alias link input mismatch");
 				return error(errorMessage.c_str());
@@ -1134,7 +1135,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1095 - " + _("Could not get linked offer");
 					return true;
 				}
-				if(!IsPaymentOptionInMask(linkOffer.paymentOptions, paymentOptionMask))
+				if(!IsPaymentOptionInMask(linkOffer.paymentOptions, theOfferAccept.nPaymentOptions))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1099 - " + _("User selected payment option not found in list of accepted offer payment options");
 					return true;
@@ -1512,20 +1513,20 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 		CCert theCert;
 		if (!GetVtxOfCert( vchCert, theCert, vtxCert))
 		{
-			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1063 - " + _("Creating an offer with a cert that does not exist");
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1063 - " + _("Creating an offer with a cert that does not exist"));
 		}
 		else if(!boost::algorithm::starts_with(stringFromVch(vchCat), "certificates"))
 		{
-			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1065 - " + _("Offer selling a certificate must use a certificate category");
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1065 - " + _("Offer selling a certificate must use a certificate category"));
+		}
+		else if(theCert.vchAlias != vchAlias)
+		{
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1064 - " + _("Cannot create this offer because the certificate alias does not match the offer alias"));
 		}
 	}
 	else if(boost::algorithm::starts_with(stringFromVch(vchCat), "certificates"))
 	{
-		errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1066 - " + _("Offer not selling a certificate cannot use a certificate category");
-	}
-	if(theCert.vchAlias != vchAlias)
-	{
-		errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1064 - " + _("Cannot create this offer because the certificate alias does not match the offer alias");
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1066 - " + _("Offer not selling a certificate cannot use a certificate category"));
 	}
 	// this is a syscoin transaction
 	CWalletTx wtx;
@@ -2296,10 +2297,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1056 - " + _("Cannot link to a wanted offer"));
 		}
-		else if(!theOffer.vchCert.empty() && theCert.vchAlias != linkOffer.vchAlias)
-		{
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1057 - " + _("Cannot update this offer because the certificate alias does not match the linked offer alias"));
-		}
 	}
 	if(vchCat.size() > 0 && boost::algorithm::starts_with(stringFromVch(vchCat), "wanted") && !boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "wanted"))
 	{
@@ -2530,6 +2527,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	{
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1060 - " + _("Could not find currency in the peg alias"));
 	}
+	CCert theCert;
 	// trying to purchase a cert
 	if(!theOffer.vchCert.empty())
 	{
@@ -2557,6 +2555,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 			 throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1055 - " + _("Cannot purchase offers that are linked more than once"));
 		}
 		vector<CAliasIndex> vtxAlias;
+		CAliasIndex linkAlias;
 		if(!GetVtxOfAlias(linkOffer.vchAlias, linkAlias, vtxAlias, isExpired))
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1096 - " + _("Cannot find alias for this linked offer"));
