@@ -2247,11 +2247,11 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1529 - " + _("This alias is not yours"));
 	}
 
-	if(!theOffer.vchCert.empty())
+	if(!vchCert.empty())
 	{
 		CCert theCert;
 		vector<CCert> vtxCert;
-		if (!GetVtxOfCert( theOffer.vchCert, theCert, vtxCert))
+		if (!GetVtxOfCert( vchCert, theCert, vtxCert))
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1050 - " + _("Updating an offer with a cert that does not exist"));
 		}
@@ -2259,12 +2259,12 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1051 - " + _("Cannot update this offer because the certificate alias does not match the offer alias"));
 		}
-		if(!boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
+		if(!boost::algorithm::starts_with(stringFromVch(vchCat), "certificates"))
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1023 - " + _("Offer selling a certificate must use a certificate category"));
 		}
 	}
-	else if(boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
+	else if(boost::algorithm::starts_with(stringFromVch(vchCat), "certificates"))
 	{
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1024 - " + _("Offer not selling a certificate cannot use a certificate category"));
 	}
@@ -2277,7 +2277,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1052 - " + _("Linked offer not found. It may be expired"));
 		}
-		else if(linkOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, entry))
+		else if(linkOffer.linkWhitelist.GetLinkEntryByHash(vchAlias, entry))
 		{
 			if(theOffer.nCommission <= -entry.nDiscountPct)
 			{
