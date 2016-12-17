@@ -906,12 +906,12 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchPublicValue = dbAlias.vchPublicValue;	
 					if(theAlias.vchPrivateValue.empty())
 						theAlias.vchPrivateValue = dbAlias.vchPrivateValue;	
-					if(theAlias.vchPassword.empty())
-						theAlias.vchPassword = dbAlias.vchPassword;
 					if(theAlias.vchEncryptionPrivateKey.empty())
 						theAlias.vchEncryptionPrivateKey = dbAlias.vchEncryptionPrivateKey;
 					if(theAlias.vchEncryptionPublicKey.empty())
 						theAlias.vchEncryptionPublicKey = dbAlias.vchEncryptionPublicKey;
+					if(theAlias.vchPassword.empty())
+						theAlias.vchPassword = dbAlias.vchPassword;
 					else
 						pwChange = true;
 					// user can't update safety level or rating after creation
