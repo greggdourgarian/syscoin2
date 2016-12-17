@@ -136,7 +136,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 				continue;
 			}
 		}
-		catch(const runtime_error& error)
+		catch(...)
 		{
 			printf("Waiting for %s to come online, trying again in 5 seconds...\n", dataDir.c_str());
 			MilliSleep(5000);
