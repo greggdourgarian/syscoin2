@@ -30,10 +30,10 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
 		READWRITE(vchFeedback);
-		READWRITE(nRating);
-		READWRITE(nFeedbackUserFrom);
-		READWRITE(nFeedbackUserTo);
-		READWRITE(nHeight);
+		READWRITE(VARINT(nRating));
+		READWRITE(VARINT(nFeedbackUserFrom));
+		READWRITE(VARINT(nFeedbackUserTo));
+		READWRITE(VARINT(nHeight));
 		READWRITE(txHash);
 	}
 
