@@ -1119,7 +1119,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 
 			myPriceOffer.nHeight = theOfferAccept.nAcceptHeight;
-
 			// if linked offer then get offer info from root offer history because the linked offer may not have history of changes (root offer can update linked offer without tx)
 			myPriceOffer.GetOfferFromList(vtxPos);
 
@@ -1133,6 +1132,15 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(!GetVtxOfOffer( myPriceOffer.vchLinkOffer, linkOffer, offerVtxPos))
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1095 - " + _("Could not get linked offer");
+					return true;
+				}
+				linkOffer.nHeight = theOfferAccept.nAcceptHeight;
+				linkOffer.GetOfferFromList(offerVtxPos);
+				vector<CAliasIndex> vtxAlias;
+				bool isExpired = false;
+				if(!GetVtxOfAlias(linkOffer.vchAlias, linkAlias, vtxAlias, isExpired))
+				{
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1096 - " + _("Cannot find alias for this linked offer. It may be expired");
 					return true;
 				}
 				if(!IsPaymentOptionInMask(linkOffer.paymentOptions, theOfferAccept.nPaymentOption))
@@ -1257,6 +1265,13 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 					CSyscoinAddress destaddy(payDest);
 					CSyscoinAddress aliasaddy;
+					vector<CAliasIndex> vtxAlias;
+					bool isExpired = false;
+					if(!GetVtxOfAlias(myPriceOffer.vchAlias, alias, vtxAlias, isExpired))
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("Cannot find alias for this offer. It may be expired");
+						return true;
+					}
 					GetAddress(alias, &aliasaddy);
 					if(aliasaddy.ToString() != destaddy.ToString())
 					{
@@ -1676,7 +1691,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	COfferLinkWhitelistEntry entry;
 	if(linkOffer.linkWhitelist.GetLinkEntryByHash(vchAlias, entry))
 	{
-		if(linkOffer.nCommission <= -entry.nDiscountPct)
+		if(commissionInteger <= -entry.nDiscountPct)
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1068 - " + _("This resold offer must be of higher price than the original offer including any discount"));
 		}
@@ -2277,15 +2292,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1052 - " + _("Linked offer not found. It may be expired"));
 		}
-		else if(linkOffer.linkWhitelist.GetLinkEntryByHash(vchAlias, entry))
-		{
-			if(theOffer.nCommission <= -entry.nDiscountPct)
-			{
-				throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1053 - " + _("This resold offer must be of higher price than the original offer including any discount"));
-			}
-		}
-		// make sure alias exists in the root offer affiliate list
-		else
+		else if(!linkOffer.linkWhitelist.GetLinkEntryByHash(vchAlias, entry))
 		{
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1054 - " + _("Cannot find this alias in the parent offer affiliate list"));
 		}
@@ -2600,7 +2607,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CAliasIndex theLinkedAlias;
 	if(!theOffer.vchLinkOffer.empty())
 	{
-		if (!GetTxOfAlias(linkOffer.vchAlias, theLinkedAlias, aliastx, true))
+		if (!GetTxOfAlias(linkOffer.vchAlias, theLinkedAlias, aliastx))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1538 - " + _("Could not find an alias with this guid"));
 
 		// encrypt to root offer owner if this is a linked offer you are accepting
