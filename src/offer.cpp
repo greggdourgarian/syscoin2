@@ -933,6 +933,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 
 					// user can't update safety level after creation
 					theOffer.safetyLevel = dbOffer.safetyLevel;
+
 					if(!theOffer.vchCert.empty())
 					{
 						vector<CCert> vtxCert;
@@ -944,6 +945,16 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						{
 							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1051 - " + _("Cannot update this offer because the certificate alias does not match the offer alias");
 						}
+						if(!boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
+						{
+							errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1023 - " + _("Offer selling a certificate must use a certificate category");
+							theOffer.sCategory = "certificates";
+						}
+					}
+					else if(boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1024 - " + _("Offer not selling a certificate cannot use a certificate category");
+						theOffer.sCategory = dbOffer.sCategory;
 					}
 					if(!theOffer.vchLinkOffer.empty())
 					{
@@ -1509,19 +1520,6 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 				}
 
-			}
-			if(!theOffer.vchCert.empty())
-			{
-				if(!boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
-				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1023 - " + _("Offer selling a certificate must use a certificate category");
-					theOffer.sCategory = "certificates";
-				}
-			}
-			else if(boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "certificates"))
-			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1024 - " + _("Offer not selling a certificate cannot use a certificate category");
-				theOffer.sCategory = dbOffer.sCategory;
 			}
 			// if this offer is linked to a parent update it with parent information
 			if(!theOffer.vchLinkOffer.empty())
