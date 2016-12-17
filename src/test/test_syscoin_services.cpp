@@ -150,6 +150,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 				}
 				node4LastBlock = 0;
 			}
+		}
 		catch(const runtime_error& error)
 		{
 			printf("Waiting for %s to come online, trying again in 5 seconds...\n", dataDir.c_str());
