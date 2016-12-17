@@ -2504,8 +2504,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	COffer linkOffer;
 	CTransaction linkedTx;
 	vector<COffer> vtxLinkPos;
-	if(!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkedTx, vtxLinkPos))
-		throw runtime_error("SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1095 - " + _("Could not get linked offer"));
+	if(!theOffer.vchLinkOffer.empty() && !GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkedTx, vtxLinkPos))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1095 - " + _("Could not get linked offer"));
 
 	CTransaction aliastx,buyeraliastx;
 	CAliasIndex theAlias,tmpAlias;
