@@ -41,6 +41,7 @@ bool EncryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchMe
 }
 bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
 {
+	strMessage.clear();
 	std::vector<unsigned char> vchPrivateKey;
 	CMessageCrypter crypter;
 	// if priv key passed in try to use that, fallback to private key from wallet of pubkey passed in
@@ -63,6 +64,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 			CSyscoinSecret Secret(PrivateKey);
 			PrivateKey = Secret.GetKey();
 			vchPrivateKey = std::vector<unsigned char>(PrivateKey.begin(), PrivateKey.end());
+			strMessage.clear();
 			if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
 				return false;
 		}
@@ -78,6 +80,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 		CSyscoinSecret Secret(PrivateKey);
 		PrivateKey = Secret.GetKey();
 		vchPrivateKey = std::vector<unsigned char>(PrivateKey.begin(), PrivateKey.end());
+		strMessage.clear();
 		if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
 			return false;
 	}
@@ -86,6 +89,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 }
 bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
 {
+	strMessage.clear();
 	// get private key from alias or use one passed in to get the encryption private key
 	string strKey = "";
 	if(!alias.multiSigInfo.IsNull())
