@@ -109,7 +109,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 	{
 		try{
 			printf("Calling getblockchaininfo!\n");
-			BOOST_CHECK_NO_THROW(r = CallRPC(dataDir, "getblockchaininfo"));
+			BOOST_CHECK_NO_THROW(r = CallRPC(dataDir, "getblockchaininfo", regTest));
 			if(r.isObject())
 			{
 				const UniValue& verificationprogress = find_value(r.get_obj(), "verificationprogress");
@@ -136,7 +136,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 				continue;
 			}
 		}
-		catch(...)
+		catch(const runtime_error& error)
 		{
 			printf("Waiting for %s to come online, trying again in 5 seconds...\n", dataDir.c_str());
 			MilliSleep(5000);
