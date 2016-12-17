@@ -769,7 +769,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	CTransaction aliastx;
 	CAliasIndex theAlias;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliastx, true))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2500 - " + _("failed to read alias from alias DB"));
 
 	if(!IsMyAlias(theAlias)) {
@@ -938,13 +938,13 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
     CTransaction tx;
 	CCert theCert;
 	
-    if (!GetTxOfCert( vchCert, theCert, tx, true))
+    if (!GetTxOfCert( vchCert, theCert, tx))
         throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2505 - " + _("Could not find a certificate with this key"));
 
 	CTransaction aliastx;
 	CAliasIndex theAlias;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfAlias(theCert.vchAlias, theAlias, aliastx, true))
+	if (!GetTxOfAlias(theCert.vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2506 - " + _("Failed to read alias from alias DB"));
 	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2507 - " + _("This alias is not yours"));
@@ -1083,7 +1083,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	// check for alias existence in DB
 	CTransaction tx;
 	CAliasIndex toAlias;
-	if (!GetTxOfAlias(vchAlias, toAlias, tx, true))
+	if (!GetTxOfAlias(vchAlias, toAlias, tx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2515 - " + _("Failed to read transfer alias from DB"));
 
     // this is a syscoin txn
@@ -1093,12 +1093,12 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
     EnsureWalletIsUnlocked();
     CTransaction aliastx;
 	CCert theCert;
-    if (!GetTxOfCert( vchCert, theCert, tx, true))
+    if (!GetTxOfCert( vchCert, theCert, tx))
         throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2516 - " + _("Could not find a certificate with this key"));
 
 	CAliasIndex fromAlias;
 	const CWalletTx *wtxAliasIn = NULL;
-	if(!GetTxOfAlias(theCert.vchAlias, fromAlias, aliastx, true))
+	if(!GetTxOfAlias(theCert.vchAlias, fromAlias, aliastx))
 	{
 		 throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2517 - " + _("Could not find the certificate alias"));
 	}

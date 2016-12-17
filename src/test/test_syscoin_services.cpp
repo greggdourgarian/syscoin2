@@ -104,6 +104,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
     boost::thread t(runCommand, nodePath);
 	printf("Launching %s, waiting 3 seconds before trying to ping...\n", nodePath.c_str());
 	MilliSleep(3000);
+	UniValue r;
 	while (1)
 	{
 		try{

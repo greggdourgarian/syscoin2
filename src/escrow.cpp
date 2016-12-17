@@ -1311,11 +1311,11 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	CTransaction txOffer, txAlias;
 	vector<COffer> offerVtxPos;
-	if (!GetTxAndVtxOfOffer( vchOffer, theOffer, txOffer, offerVtxPos, true))
+	if (!GetTxAndVtxOfOffer( vchOffer, theOffer, txOffer, offerVtxPos))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4513 - " + _("Could not find an offer with this identifier"));
 
 	CAliasIndex selleralias;
-	if (!GetTxOfAlias( theOffer.vchAlias, selleralias, txAlias, true))
+	if (!GetTxOfAlias( theOffer.vchAlias, selleralias, txAlias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4514 - " + _("Could not find seller alias with this identifier"));
 
 	if(theOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "wanted"))
@@ -1332,12 +1332,12 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		
 		CTransaction tmpTx;
 		vector<COffer> offerTmpVtxPos;
-		if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkedOffer, tmpTx, offerTmpVtxPos, true))
+		if (!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkedOffer, tmpTx, offerTmpVtxPos))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4516 - " + _("Trying to accept a linked offer but could not find parent offer"));
 
 		
 		CTransaction txLinkedAlias;
-		if (!GetTxOfAlias( linkedOffer.vchAlias, theLinkedAlias, txLinkedAlias, true))
+		if (!GetTxOfAlias( linkedOffer.vchAlias, theLinkedAlias, txLinkedAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4517 - " + _("Could not find an alias with this identifier"));
 		if(linkedOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkedOffer.sCategory), "wanted"))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4518 - " + _("Cannot purchase a wanted offer"));

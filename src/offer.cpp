@@ -1447,7 +1447,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	CTransaction aliastx;
 	CAliasIndex alias;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfAlias(vchAlias, alias, aliastx, true))
+	if (!GetTxOfAlias(vchAlias, alias, aliastx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1500 - " + _("Could not find an alias with this name"));
     if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1501 - " + _("This alias is not yours"));
@@ -1654,7 +1654,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	CTransaction aliastx;
 	CAliasIndex alias;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfAlias(vchAlias, alias, aliastx, true))
+	if (!GetTxOfAlias(vchAlias, alias, aliastx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1506 - " + _("Could not find an alias with this name"));
     if(!IsMyAlias(alias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1507 - " + _("This alias is not yours"));
@@ -1670,7 +1670,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	// look for a transaction with this key
 	CTransaction tx;
 	COffer linkOffer;
-	if (vchLinkOffer.empty() || !GetTxOfOffer( vchLinkOffer, linkOffer, tx, true))
+	if (vchLinkOffer.empty() || !GetTxOfOffer( vchLinkOffer, linkOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1509 - " + _("Could not find an offer with this guid"));
 
 	int commissionInteger = boost::lexical_cast<int>(params[2].get_str());
@@ -1835,14 +1835,14 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	// look for a transaction with this key
 	CTransaction tx;
 	COffer theOffer;
-	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
+	if (!GetTxOfOffer( vchOffer, theOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1510 - " + _("Could not find an offer with this guid"));
 
 	CTransaction aliastx;
 	CAliasIndex theAlias;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfAlias( theOffer.vchAlias, theAlias, aliastx, true))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1511 - " + _("Could not find an alias with this guid"));
+	if (!GetTxOfAlias( theOffer.vchAlias, theAlias, aliastx))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1511 - " + _("Could not find an alias with this name"));
 
 	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1512 - " + _("This alias is not yours"));
@@ -1954,12 +1954,12 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	CTransaction tx;
 	COffer theOffer;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
+	if (!GetTxOfOffer( vchOffer, theOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1515 - " + _("Could not find an offer with this guid"));
 	CTransaction aliastx;
 	CAliasIndex theAlias;
-	if (!GetTxOfAlias( theOffer.vchAlias, theAlias, aliastx, true))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1516 - " + _("Could not find an alias with this guid"));
+	if (!GetTxOfAlias( theOffer.vchAlias, theAlias, aliastx))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1516 - " + _("Could not find an alias with this name"));
 	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1517 - " + _("This alias is not yours"));
 	}
@@ -2059,12 +2059,12 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	CTransaction tx;
 	COffer theOffer;
 	const CWalletTx *wtxAliasIn = NULL;
-	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
+	if (!GetTxOfOffer( vchOffer, theOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1520 - " + _("Could not find an offer with this guid"));
 	CTransaction aliastx;
 	CAliasIndex theAlias;
-	if (!GetTxOfAlias(theOffer.vchAlias, theAlias, aliastx, true))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1521 - " + _("Could not find an alias with this guid"));
+	if (!GetTxOfAlias(theOffer.vchAlias, theAlias, aliastx))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1521 - " + _("Could not find an alias with this name"));
 
 	if(!IsMyAlias(theAlias)) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1522 - " + _("This alias is not yours"));
@@ -2249,12 +2249,12 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	// look for a transaction with this key
 	CTransaction tx, linktx;
 	COffer theOffer, linkOffer;
-	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
+	if (!GetTxOfOffer( vchOffer, theOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1526 - " + _("Could not find an offer with this guid"));
 
-	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx, true))
+	if (!GetTxOfAlias(theOffer.vchAlias, alias, aliastx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1527 - " + _("Could not find an alias with this name"));
-	if (!vchAlias.empty() &&  !GetTxOfAlias(vchAlias, linkAlias, linkaliastx, true))
+	if (!vchAlias.empty() &&  !GetTxOfAlias(vchAlias, linkAlias, linkaliastx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1528 - " + _("Could not find an alias with this name"));
 
 	if(!IsMyAlias(alias)) {
@@ -2607,7 +2607,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	if(!theOffer.vchLinkOffer.empty())
 	{
 		if (!GetTxOfAlias(linkOffer.vchAlias, theLinkedAlias, aliastx))
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1538 - " + _("Could not find an alias with this guid"));
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1538 - " + _("Could not find an alias with this name"));
 
 		// encrypt to root offer owner if this is a linked offer you are accepting
 		if(!EncryptMessage(theLinkedAlias, vchMessage, strCipherText))
@@ -2870,11 +2870,11 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	const CWalletTx *wtxAliasIn = NULL;
 
 	COffer tmpOffer;
-	if (!GetTxOfOffer( vchOffer, tmpOffer, tx, true))
+	if (!GetTxOfOffer( vchOffer, tmpOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1543 - " + _("Could not find an offer with this guid"));
 
 	
-	if (!GetTxOfOfferAccept(tmpOffer.vchOffer, vchAcceptRand, theOffer, theOfferAccept, tx, true))
+	if (!GetTxOfOfferAccept(tmpOffer.vchOffer, vchAcceptRand, theOffer, theOfferAccept, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find this offer purchase"));
 
 	vector<vector<unsigned char> > vvch;
@@ -2888,8 +2888,10 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CAliasIndex buyerAlias, sellerAlias;
 	CTransaction buyeraliastx, selleraliastx;
 
-	GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx, true);
-	GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
+	if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not buyer alias"));
+	if(!GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not merchant alias"));
 	CSyscoinAddress buyerAddress;
 	CScript buyerScript, sellerScript;
 	GetAddress(buyerAlias, &buyerAddress, buyerScript);
@@ -3063,7 +3065,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	COfferAccept theOfferAccept;
 	const CWalletTx *wtxAliasIn = NULL;
 
-	if (!GetTxOfOffer( vchOffer, theOffer, tx, true))
+	if (!GetTxOfOffer( vchOffer, theOffer, tx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1554 - " + _("Could not find an offer with this guid"));
 
 	
@@ -3072,12 +3074,16 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 	if(!theOffer.vchLinkOffer.empty())
 	{
-		if (!GetTxOfOffer( theOffer.vchLinkOffer, theOffer, linkTx, true))
+		if (!GetTxOfOffer( theOffer.vchLinkOffer, theOffer, linkTx))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1555 - " + _("Could not find a linked offer with this guid"));
-		GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
+		if(!GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx))
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find merchant alias"));
 	}
 	else
-		GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx, true);
+	{
+		if(!GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx))
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not find merchant alias"));
+	}
 
 	CScript buyerScript, sellerScript;
 	CSyscoinAddress sellerAddress;
@@ -3091,7 +3097,8 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 	
 
-	GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx, true);
+	if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1544 - " + _("Could not buyer alias"));
 	CSyscoinAddress buyerAddress;
 	GetAddress(buyerAlias, &buyerAddress, buyerScript);
 

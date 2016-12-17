@@ -491,7 +491,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
 	CAliasIndex aliasFrom, aliasTo;
 	CTransaction aliastx;
-	if (!GetTxOfAlias(vchFromString(strFromAddress), aliasFrom, aliastx, true))
+	if (!GetTxOfAlias(vchFromString(strFromAddress), aliasFrom, aliastx))
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3500 - " + _("Could not find an alias with this name"));
     if(!IsMyAlias(aliasFrom)) {
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3501 - " + _("This alias is not yours"));
@@ -535,7 +535,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	scriptPubKeyAlias += scriptPubKeyAliasOrig;		
 
 
-	if(!GetTxOfAlias(vchFromString(strToAddress), aliasTo, aliastx, true))
+	if(!GetTxOfAlias(vchFromString(strToAddress), aliasTo, aliastx))
 	{
 		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
 		{
