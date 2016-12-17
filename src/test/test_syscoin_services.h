@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include <univalue.h>
 using namespace std;
-int node1LastBlock=0;
-int node2LastBlock=0;
-int node3LastBlock=0;
-int node4LastBlock=0;
 /** Testing syscoin services setup that configures a complete environment with 3 nodes.
  */
 UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regTest = true, bool readJson = true);

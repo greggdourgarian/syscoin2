@@ -12,7 +12,10 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/thread.hpp>
 #include <boost/lexical_cast.hpp>
-
+static int node1LastBlock=0;
+static int node2LastBlock=0;
+static int node3LastBlock=0;
+static int node4LastBlock=0;
 
 // SYSCOIN testing setup
 void StartNodes()
