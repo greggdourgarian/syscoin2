@@ -1844,9 +1844,11 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	EnsureWalletIsUnlocked();
 	CPubKey defaultKey, encryptionKey;
 	encryptionKey = pwalletMain->GenerateNewKey();
-	CKey privateEncrytionKey;
-	pwalletMain->GetKey(encryptionKey.GetID(), privateEncrytionKey);
-		
+	CKey privateEncryptionKey;
+	pwalletMain->GetKey(encryptionKey.GetID(), privateEncryptionKey);
+	std::vector<unsigned char> vchEncryptionPublicKey(encryptionKey.begin(), encryptionKey.end());
+	std::vector<unsigned char> vchEncryptionPrivateKey(privateEncryptionKey.begin(), privateEncryptionKey.end());
+
 	CAliasIndex oldAlias;
 	vector<CAliasIndex> vtxPos;
 	bool isExpired;
@@ -1882,6 +1884,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	}
 	CScript scriptPubKeyOrig;
 	CMultiSigAliasInfo multiSigInfo;
+	string strCipherText;
 	if(aliasNames.size() > 0)
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
@@ -1913,10 +1916,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
 
 	std::vector<unsigned char> vchPubKey(defaultKey.begin(), defaultKey.end());
-	std::vector<unsigned char> vchEncryptionPublicKey(encryptionKey.begin(), encryptionKey.end());
-	std::vector<unsigned char> vchEncryptionPrivateKey(privateEncrytionKey.begin(), privateEncrytionKey.end());
 	
-	string strCipherText;
 	if(!EncryptMessage(vchEncryptionPublicKey, vchPrivateValue, strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5512 - " + _("Could not encrypt private alias value!"));
@@ -1931,7 +1931,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	if(!strPassword.empty())
 	{
-		string strCipherText;
 		if(!EncryptMessage(vchPubKey, vchFromString(strPassword), strCipherText))
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5513 - " + _("Could not encrypt alias password"));
