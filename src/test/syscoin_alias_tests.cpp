@@ -165,8 +165,6 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
 	BOOST_CHECK(aliasoldexpiry > mediantime);
 	BOOST_CHECK(aliasoldexpiry < aliasnewexpiry);
-	// avoid txindex node giving us data
-	StopNode("node4");
 	StopNode("node3");
 	GenerateBlocks(5, "node1");
 
@@ -208,9 +206,8 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK(aliasoldexpiry <= mediantime);
 	BOOST_CHECK(aliasnewexpiry > mediantime);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
-	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	// should be pruned
+	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasinfo aliasold"), runtime_error);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
@@ -244,8 +241,6 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
 	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-	StartNode("node4");
-	ExpireAlias("aliasold");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliastransfer)
