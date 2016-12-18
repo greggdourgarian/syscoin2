@@ -18,10 +18,6 @@
         <translation>Vyhledat ID nabídky v databázi blockchainu</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp;Vyhledat Nabídku</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Počet:</translation>
     </message>
@@ -76,10 +72,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Zakoupit tuto nabídku</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Přijmout nabídku</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -149,10 +141,6 @@
         <translation>Přijaté Nabídky</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>Podrobnosti</translation>
     </message>
@@ -171,10 +159,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>All</source>
@@ -540,6 +524,10 @@
         <translation>Ano</translation>
     </message>
     <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Opravdu chcete pokračovat?</translation>
+    </message>
+    <message>
         <source>Alias:</source>
         <translation>Přezdívka:</translation>
     </message>
@@ -629,16 +617,8 @@
 <context>
     <name>EditWhitelistOfferDialog</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -758,20 +738,12 @@
 <context>
     <name>MessageListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>Podrobnosti</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
 </context>
 <context>
@@ -794,10 +766,6 @@
 <context>
     <name>MyAcceptedOfferListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>Podrobnosti</translation>
     </message>
@@ -808,10 +776,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>All</source>
@@ -841,16 +805,8 @@
 <context>
     <name>MyAliasListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -868,16 +824,8 @@
 <context>
     <name>MyCertListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>All</source>
@@ -911,10 +859,6 @@
 <context>
     <name>MyEscrowListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>Podrobnosti</translation>
     </message>
@@ -925,10 +869,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>All</source>
@@ -946,16 +886,8 @@
 <context>
     <name>MyOfferListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>All</source>
@@ -996,16 +928,8 @@
 <context>
     <name>MyWhitelistOfferDialog</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovat aktuální pohled do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovat</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1209,11 +1133,7 @@
         <source>Error exporting</source>
         <translation>Chyba při exportu</translation>
     </message>
-    <message>
-        <source>Could not write to file %1.</source>
-        <translation>Nelze zapsat do souboru %1.</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>OverviewPage</name>
     </context>
@@ -1500,10 +1420,6 @@
         <translation>Synchronizuji se sítí...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Přehled</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Uzel</translation>
     </message>
@@ -1518,6 +1434,10 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Procházení historií transakcí</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>Certifikáty</translation>
     </message>
     <message>
         <source>Quit application</source>

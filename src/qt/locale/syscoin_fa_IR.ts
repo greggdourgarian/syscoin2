@@ -9,10 +9,6 @@
         <translation>صدور داده نوار جاری به یک فایل</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>همه</translation>
     </message>
@@ -342,10 +338,6 @@
         <translation>صدور داده نوار جاری به یک فایل</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv) فایل جداگانه دستوری</translation>
     </message>
@@ -355,10 +347,6 @@
     <message>
         <source>ID</source>
         <translation>شناسه کاربری</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>و تایید</translation>
     </message>
     </context>
 <context>
@@ -418,10 +406,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>صدور داده نوار جاری به یک فایل</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -447,10 +431,6 @@
         <translation>صدور داده نوار جاری به یک فایل</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>همه</translation>
     </message>
@@ -466,10 +446,6 @@
         <translation>صدور داده نوار جاری به یک فایل</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv) فایل جداگانه دستوری</translation>
     </message>
@@ -479,10 +455,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>صدور داده نوار جاری به یک فایل</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
     </message>
     <message>
         <source>All</source>
@@ -500,10 +472,6 @@
         <translation>صدور داده نوار جاری به یک فایل</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>همه</translation>
     </message>
@@ -517,10 +485,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>صدور داده نوار جاری به یک فایل</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
     </message>
     <message>
         <source>All</source>
@@ -539,10 +503,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>صدور داده نوار جاری به یک فایل</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>صدور</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -598,10 +558,6 @@
     </context>
 <context>
     <name>OfferAcceptInfoDialog</name>
-    <message>
-        <source>&amp;OK</source>
-        <translation>و تایید</translation>
-    </message>
     </context>
 <context>
     <name>OfferAcceptTableModel</name>
@@ -953,10 +909,6 @@
         <translation>به روز رسانی با شبکه...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>و بازبینی</translation>
-    </message>
-    <message>
         <source>Show general overview of wallet</source>
         <translation>نمای کلی از wallet را نشان بده</translation>
     </message>
@@ -1019,10 +971,6 @@
     <message>
         <source>Wallet</source>
         <translation>کیف پول</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>و ارسال</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

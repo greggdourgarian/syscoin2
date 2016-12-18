@@ -18,8 +18,8 @@
         <translation>blockchain DBからOfferIDを検索</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>＆検索オファー</translation>
+        <source>Lookup Offer</source>
+        <translation>ルックアップ・オファー</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>このオファーを購入します</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>＆オファーを受諾します</translation>
+        <source>Accept Offer</source>
+        <translation>オファーを受諾します</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>受け入れられたオファー・リストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>システムのクリップボードに現在選択されているのオファーをコピー</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>＆コピーオファーID</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>コピーオファーID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>システムのクリップボードに現在選択されているエイリアスをコピーします</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>＆コピーエイリアスID</translation>
+        <source>Copy Alias ID</source>
+        <translation>コピーエイリアスID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>有効期限</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>で有効期限</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>システムのクリップボードに現在選択されている証明書をコピーします。</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>＆コピー証明書ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>コピー証明書ID</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>有効期限</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>で有効期限</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>一般</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>＆エイリアス：</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>別名。</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>有効期限：</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>時間の有効期限：</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>時間を有効期限カスタム使用</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>ペグ情報を持っているの別名を選択します。消費者は、このペグに基づいて変換量とネットワーク料を支払うことになります。</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>1〜5年からこのエイリアスの（UTCにおける）標準有効期限を選択するか、有効期限のタイムスタンプを入力するには、チェックボックス」を使用するカスタム時間有効期限」をご確認ください。これは、計算がFEERATE *（2.88 ^年）で、年間指数関数的に高価です。 FEERATEはこのエイリアスのために使用されるレート・ペッグの別名に設定されたバイトあたりダイナミックサトシです。</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>警告：あなたの別名を転送すると、このエイリアスを使用するあなたのsyscoinサービスのすべてを所有権を転送します。</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5年</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>期限切れからエイリアスを維持する時間の長さを設定します。長いあなたが生きているあなたは、このエイリアスを作成または更新するために支払うことになるより多くの費用をそれを維持したいと思います。料金の式は0.2 SYS *年*年です。</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig別名。</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>大きな有効期限とエイリアスを確認します</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>警告：エイリアスを作成する5年よりも後に期限切れとなる使用は、あなたがそうすることでコインを大量に費やすことが、指数関数的にコストを増加させます！</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>あなたは継続しますか？</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>証明書</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>証明書情報を取得しようとする例外がありました：</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>この証明書の受信者のエイリアスを入力します。</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>あなたの証明書の秘密データの読み取り許可する受信者のエイリアスを入力します。</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>あなたはこの証明書は、受信者が譲渡/編集可能にしたくない場合は、[はい]を選択</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>この証明書を取得できませんでした：</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1625,16 +1621,16 @@
         <translation>アフィリエイトのリストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>新しいアフィリエイトを追加</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>＆追加</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>加えます</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1657,8 +1653,8 @@
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1717,7 +1713,7 @@
         <translation>エイリアス</translation>
     </message>
     <message>
-        <source>Expires</source>
+        <source>Expires On</source>
         <translation>有効期限</translation>
     </message>
     <message>
@@ -1740,8 +1736,8 @@
         <translation>エスクロー情報</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>・一般</translation>
+        <source>General</source>
+        <translation>一般</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1788,28 +1784,32 @@
         <translation>平均評価：</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>配送とお問い合わせ先：</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>送料お問い合わせ先：</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>TXIDの交換：</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>バイヤーのフィードバック</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>売り手のフィードバック</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>アービタフィードバック</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>[OK]</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>外部TXID：</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>＆バイヤーのフィードバック</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>＆販売者のフィードバック</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>＆アービタフィードバック</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1891,8 +1891,8 @@
         <translation>システムのクリップボードに現在選択されているエスクローをコピー</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>＆コピーエスクローID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>コピーエスクローID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2376,16 +2376,8 @@
         <translation>フィードバックを送信エラー：</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>エスクローリリースが正常に完了しました！お支払いはblockchainに見つかりました。あなたはそれが確認されたかどうかを確認するには、「外部支払いを確認」ボタンをクリックすることができます。鎖：</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>エラー完了リリース：</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>エスクローの払い戻しが正常に完了しました！お支払いはblockchainに見つかりました。あなたは、ご入金が確認したかどうかを確認するには、「外部支払いを確認」ボタンをクリックすることができます。鎖：</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2402,18 +2394,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>blockchain上のエスクロー支払いを見つけることができなかった、支払取引は、ネットワーク上で確認されていることを確認してください。支払IDは、ご参考のためにあなたのクリップボードにコピーされています。エラー：</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>blockchainで見つかった支払いエスクロー。支払IDは、ご参考のためにあなたのクリップボードにコピーされています。時間：</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> 鎖：</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> 確認：</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2448,12 +2428,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>エスクローリリースが正常に完了しました！エスクロー支出の支払いはblockchainに見つかりました。あなたはそれが確認されたかどうかを確認するには、「外部支払いを確認」ボタンをクリックすることができます。鎖：</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>エスクローリリースが正常に完了しました！</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>一般例外完了リリース</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>エスクローの払い戻しが正常に完了しました！エスクロー支出の支払いはblockchainに見つかりました。あなたは、ご入金が確認したかどうかを確認するには、「外部支払いを確認」ボタンをクリックすることができます。鎖：</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2470,14 +2458,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>JSONレスポンスを解析できません：</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>BTCの支払いを確認してください</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>ZEC支払いをチェック</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2554,8 +2534,8 @@
         <translation>メッセージリストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2570,8 +2550,12 @@
         <translation>システムのクリップボードに現在選択されているメッセージをコピーします。</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>＆メッセージIDをコピーします。</translation>
+        <source>Copy Msg ID</source>
+        <translation>メッセージIDをコピーします。</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2584,10 +2568,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
     </message>
 </context>
 <context>
@@ -2694,16 +2674,16 @@
         <translation>あなたの受け入れの申し出リストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>システムのクリップボードに現在選択されているのオファーをコピー</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>＆コピーオファーID</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>コピーオファーID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2742,8 +2722,8 @@
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2925,24 +2905,24 @@
         <translation>別名リストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>新しいエイリアスを作成します。</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>＆新しいエイリアス</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>システムのクリップボードに現在選択されているエイリアスをコピーします</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>＆コピーエイリアスID</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>新しいエイリアス</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>コピーエイリアスID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2985,8 +2965,8 @@
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3037,10 +3017,6 @@
         <translation>有効期限</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>で有効期限</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>期限切れの</translation>
     </message>
@@ -3076,24 +3052,24 @@
         <translation>証明書のリストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>新しい証明書を作成します。</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>＆新しい証明書</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>システムのクリップボードに現在選択されている証明書をコピーします</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>＆コピー証明書ID</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>新しい証明書</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>コピー証明書ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3124,8 +3100,8 @@
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3196,10 +3172,6 @@
         <translation>有効期限</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>で有効期限</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>エラーエクスポート</translation>
     </message>
@@ -3219,16 +3191,16 @@
         <translation>エスクローのリストを更新します</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>システムのクリップボードに現在選択されているエスクローをコピー</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>＆コピーエスクローID</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>コピーエスクローID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3279,8 +3251,8 @@
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3307,6 +3279,14 @@
         <translation>JSONの結果を解析できません</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>トランザクションがblockchainで見つかりました！エスクロー資金の支払いが検出されました。鎖：</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>トランザクションがblockchainで見つかりました！エスクローの支払いが検出されました。あなたの財布を開き、アカウントに資金を見てのお支払いを確認することをお勧めします。鎖：</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>JSONレスポンスを解析できません：</translation>
     </message>
@@ -3317,10 +3297,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>支払取引が見つかりましたが、それはまだblockchainによって確認されていません！後ほどおかけ直しください。鎖：</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>トランザクションがblockchainで見つかりました！全額の支払いが検出されました。あなたの財布を開き、アカウントに資金を見てのお支払いを確認することをお勧めします。鎖：</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3398,24 +3374,28 @@
         <translation>オファーのリストを更新します</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>新しいオファー</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>コピーオファーID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>新しいオファーを作成</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>・新オファー</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>システムのクリップボードに現在選択されているのオファーをコピー</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>＆コピーオファーID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3430,16 +3410,8 @@
         <translation>このオファーのために関連会社を管理します</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>＆アフィリエイト管理</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3553,8 +3525,8 @@
         <translation>ディスカウント</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>で有効期限</translation>
+        <source>Expires On</source>
+        <translation>有効期限</translation>
     </message>
 </context>
 <context>
@@ -3568,16 +3540,16 @@
         <translation>このオファーのためにあなたのアフィリエイトのリストを更新</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆リフレッシュ</translation>
+        <source>Refresh</source>
+        <translation>リフレッシュ</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>輸出する</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>ファイルに現在のタブのデータをエクスポート</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>エクスポート (&amp;E)</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3797,8 +3769,8 @@
         <translation>Syscoinでお支払い</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>＆SYSで支払います</translation>
+        <source>Pay with SYS</source>
+        <translation>SYSでお支払い</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3888,8 +3860,8 @@
         <translation>ビットコインblockchainでこの支払いを確認</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>＆お支払いの確認</translation>
+        <source>Confirm Payment</source>
+        <translation>お支払いの確認</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4063,8 +4035,8 @@
         <translation>ビットコインblockchainでこの支払いを確認</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>＆お支払いの確認</translation>
+        <source>Confirm Payment</source>
+        <translation>お支払いの確認</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4286,8 +4258,12 @@
         <translation>平均評価：</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>配送とお問い合わせ先：</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>送料お問い合わせ先：</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>[OK]</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4328,10 +4304,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>売り手のフィードバック</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4456,8 +4428,8 @@
         <translation>お待ちください...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>＆フィニッシュ</translation>
+        <source>Finish</source>
+        <translation>仕上げ</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4582,8 +4554,8 @@
         <translation>システムのクリップボードに現在選択されているのオファーをコピー</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>＆コピーオファーID</translation>
+        <source>Copy Offer ID</source>
+        <translation>コピーオファーID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4677,12 +4649,8 @@
         <translation>お待ちください...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>＆フィニッシュ</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>あなたはエスクローのために作成しました</translation>
+        <source>Finish</source>
+        <translation>仕上げ</translation>
     </message>
     <message>
         <source>of</source>
@@ -4693,12 +4661,16 @@
         <translation>ために</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>お支払いはエスクローであります！</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>商人は、あなたの配信情報を送信され、あなたの項目はまもなく到着する必要があります。商人は、フォローアップすることができるさらなる情報とプライベートメッセージを介して（定期的にあなたの受信トレイを確認してください）。</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>あなたが購入しました</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>お支払いが完了しました！</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4798,8 +4770,8 @@
         <translation>ディスカウント</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>で有効期限</translation>
+        <source>Expires On</source>
+        <translation>有効期限</translation>
     </message>
 </context>
 <context>
@@ -4877,7 +4849,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>＆環境</translation>
+        <translation>環境 （&amp;P）</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -5218,8 +5190,8 @@
         <translation>エラーエクスポート</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>%1をファイルに書き込めませんでした。</translation>
+        <source>Could not write to file: </source>
+        <translation>ファイルに書き込めませんでした：</translation>
     </message>
 </context>
 <context>
@@ -6584,16 +6556,24 @@
         <translation>ネットワークに同期中……</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>概要(&amp;O)</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>ノード</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>概要</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>ウォレットの概要を見る</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>送信</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>受け取ります</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6602,6 +6582,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>取引履歴を閲覧</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>エイリアス</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>市場</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>証明書</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>預託</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6690,14 +6686,6 @@
     <message>
         <source>Wallet</source>
         <translation>ウォレット</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>送金 (&amp;S)</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>入金 (&amp;R)</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6804,40 +6792,20 @@
         <translation>バージョンは最新です</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A＆liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>別名を管理します</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>＆メッセージ</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>メッセージ</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>＆市場</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>申し出を管理します</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>＆証明書</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>証明書の管理</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>＆預託</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

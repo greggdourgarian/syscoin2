@@ -18,8 +18,8 @@
         <translation>Lookup het OfferID uit de blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Lookup Aanbod</translation>
+        <source>Lookup Offer</source>
+        <translation>Lookup Aanbod</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>Koop deze aanbieding</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp; Accepteer Aanbod</translation>
+        <source>Accept Offer</source>
+        <translation>Accepteer Aanbod</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>Vernieuwen geaccepteerde bod lijst</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopieer de geselecteerde aanbod om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Aanbod ID</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Copy Aanbod ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>Kopieer de geselecteerde alias om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Copy Alias ​​ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>Copy Alias ​​ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>Verloopt op</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Verloopt in</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>Kopieer de geselecteerde cert om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Copy Certificate ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Copy Certificate ID</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>Verloopt op</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Verloopt in</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>Algemeen</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>De alias naam.</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>Vervaldatum:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Verval datum:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Gebruik Custom Verlopen Tijd</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>Kies een alias die peg informatie heeft. Consumenten zullen conversie bedragen en netwerk vergoedingen op basis van deze pin te betalen.</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Kies een standaard vervaltijd (in UTC) voor deze alias van 1 tot 5 jaar of kijk op de 'Gebruik Custom Expire Time' vakje om een ​​verloopdatum timestamp te voeren. Het is exponentieel duurder per jaar, berekening FEERATE * (2,88 ^ jaar). FEERATE is de dynamische Satoshi per byte vergoeding ingesteld bij de prijs peg alias gebruikt voor dit alias.</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>Let op: de overdracht van uw alias zal het eigendom overdragen van al uw syscoin diensten die deze alias gebruiken.</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5 jaar</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>Stel de lengte van de tijd om je alias te houden van het verlopen. Hoe langer u wenst om het in leven te houden hoe meer kosten die je zult besteden aan dit alias te maken of bij te werken. De formule voor de vergoeding is 0,2 SYS * jaar * jaar.</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig alias.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Bevestig Alias ​​met grote expiratie</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Waarschuwing: Het gebruik van het creëren van een alias later afloopt dan 5 jaar verhoogt de kosten exponentieel, kunt u een grote hoeveelheid munten te besteden in te doen!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Weet u zeker dat u wilt doorgaan?</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>certificaten</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Er was een uitzondering proberen certificaat informatie te halen:</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>Voer de alias van de ontvanger van dit certificaat</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>Voer de alias van de ontvanger die u wilt toestaan ​​dat het lezen van uw certificaat privégegevens</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>Selecteer Ja als u niet wilt dat dit certificaat naar bewerkbare / overdraagbaar door de ontvanger</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>Dit certificaat kon niet krijgen:</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1629,16 +1625,16 @@
         <translation>Vernieuwen affiliate lijst</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Voeg een nieuw affiliate</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Toevoegen</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Toevoegen</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1661,8 +1657,8 @@
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1721,8 +1717,8 @@
         <translation>Alias</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>verloopt</translation>
+        <source>Expires On</source>
+        <translation>Verloopt op</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1744,8 +1740,8 @@
         <translation>Escrow Info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Algemeen</translation>
+        <source>General</source>
+        <translation>Algemeen</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1792,28 +1788,32 @@
         <translation>Gemiddelde score:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Shipping &amp; Contact Informatie:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Verzending Contactinformatie:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Inwisselen TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>koper feedback</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>verkoper Terugkoppeling</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>arbiter Terugkoppeling</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Externe TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Koper feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Verkoper feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1895,8 +1895,8 @@
         <translation>Kopieer de geselecteerde escrow om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy Escrow ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Copy Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2380,16 +2380,8 @@
         <translation>Fout bij het verzenden feedback:</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>Escrow vrijlating succesvol afgerond! De betaling werd gevonden op de blockchain. U kunt op de 'Check External Betaling "knop klikken om te controleren om te zien of het is bevestigd. Keten:</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>Fout bij het invullen van vrijgave:</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>Escrow terugbetaling succesvol afgerond! De betaling werd gevonden op de blockchain. U kunt op de 'Check External Betaling "knop klikken om te controleren om te zien of de betaling heeft bevestigd. Keten:</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2406,18 +2398,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>Kon het niet vinden escrow betaling op de blockchain, zorg er dan voor dat de betalingstransactie is bevestigd op het netwerk. Betaling ID is gekopieerd naar uw klembord voor uw referentie. fout:</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>Escrow betaling te vinden in de blockchain. Betaling ID is gekopieerd naar uw klembord voor uw referentie. Tijd:</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> keten:</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> bevestigingen:</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2452,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>Escrow vrijlating succesvol afgerond! Escrow uitgaven betaling werd gevonden op de blockchain. U kunt op de 'Check External Betaling "knop klikken om te controleren om te zien of het is bevestigd. Keten:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>Escrow vrijlating succesvol afgerond!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>Algemene uitzondering te voltooien vrijlating</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>Escrow terugbetaling succesvol afgerond! Escrow uitgaven betaling werd gevonden op de blockchain. U kunt op de 'Check External Betaling "knop klikken om te controleren om te zien of de betaling heeft bevestigd. Keten:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2474,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>Kan niet ontleden JSON reactie:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Controleer BTC Betaling</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Controleer ZEC Betaling</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2558,8 +2538,8 @@
         <translation>Vernieuwen lijst met berichten</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2574,8 +2554,12 @@
         <translation>Kopieer het geselecteerde bericht naar het klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Kopiëren Msg ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>Kopieer Msg ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2588,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
     </message>
 </context>
 <context>
@@ -2698,16 +2678,16 @@
         <translation>Verfris je geaccepteerde bod lijst</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopieer de geselecteerde aanbod om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Aanbod ID</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Copy Aanbod ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2746,8 +2726,8 @@
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2929,24 +2909,24 @@
         <translation>Vernieuwen alias lijst</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Maak een nieuwe alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; NEW Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Kopieer de geselecteerde alias om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Copy Alias ​​ID</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>nieuwe Alias</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Copy Alias ​​ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2989,8 +2969,8 @@
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3041,10 +3021,6 @@
         <translation>Verloopt op</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Verloopt in</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Verlopen</translation>
     </message>
@@ -3080,24 +3056,24 @@
         <translation>Vernieuwen lijst met certificaten</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Maak een nieuw certificaat</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; NEW Certificate</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>het momenteel geselecteerde certificaat te kopiëren naar het klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Copy Certificate ID</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>New Certificate</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Copy Certificate ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3128,8 +3104,8 @@
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3200,10 +3176,6 @@
         <translation>Verloopt op</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Verloopt in</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>fout tijdens het exporteren</translation>
     </message>
@@ -3223,16 +3195,16 @@
         <translation>Verfris uw lijst van escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopieer de geselecteerde escrow om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy Escrow ID</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Copy Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3283,8 +3255,8 @@
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3311,6 +3283,14 @@
         <translation>Kan geen JSON resultaten ontleden</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Transactie werd gevonden in de blockchain! Escrow financiering betaling is gedetecteerd. Keten:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transactie werd gevonden in de blockchain! Escrow betaling is gedetecteerd. Het wordt aanbevolen dat u een betaling door het openen van uw portemonnee en het zien van de fondsen in uw account te bevestigen. Keten:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>Kan niet ontleden JSON reactie:</translation>
     </message>
@@ -3321,10 +3301,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>Betalingstransactie gevonden, maar het is nog niet bevestigd door de blockchain! Probeer het later opnieuw. Keten:</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>Transactie werd gevonden in de blockchain! Volledige betaling is gedetecteerd. Het wordt aanbevolen dat u een betaling door het openen van uw portemonnee en het zien van de fondsen in uw account te bevestigen. Keten:</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3402,24 +3378,28 @@
         <translation>Verfris je lijst met aanbiedingen</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>nieuwe Aanbod</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Copy Aanbod ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Maak een nieuw aanbod</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Nieuw Aanbod</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopieer de geselecteerde aanbod om het systeem klembord</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Aanbod ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3434,16 +3414,8 @@
         <translation>Beheer filialen voor deze aanbieding</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Beheer Affiliates</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3557,8 +3529,8 @@
         <translation>Korting</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Verloopt in</translation>
+        <source>Expires On</source>
+        <translation>Verloopt op</translation>
     </message>
 </context>
 <context>
@@ -3572,16 +3544,16 @@
         <translation>Verfris uw affiliate lijst voor deze aanbieding</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Vernieuwen</translation>
+        <source>Refresh</source>
+        <translation>verversen</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exporteren</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporteer de data in de huidige tab naar een bestand</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporteer</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3801,8 +3773,8 @@
         <translation>Betalen met Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Betalen met SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Betalen met SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3892,8 +3864,8 @@
         <translation>Bevestig deze betaling op de Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Bevestigen Betaling</translation>
+        <source>Confirm Payment</source>
+        <translation>bevestigt de betaling</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4067,8 +4039,8 @@
         <translation>Bevestig deze betaling op de Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Bevestigen Betaling</translation>
+        <source>Confirm Payment</source>
+        <translation>bevestigt de betaling</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4290,8 +4262,12 @@
         <translation>Gemiddelde score:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Shipping &amp; Contact Informatie:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Verzending Contactinformatie:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4332,10 +4308,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>verkoper Terugkoppeling</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4460,8 +4432,8 @@
         <translation>Even geduld aub...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Afwerking</translation>
+        <source>Finish</source>
+        <translation>Afwerking</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4590,8 +4562,8 @@
         <translation>Kopieer de geselecteerde aanbod om het systeem klembord</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Aanbod ID</translation>
+        <source>Copy Offer ID</source>
+        <translation>Copy Aanbod ID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4685,12 +4657,8 @@
         <translation>Even geduld aub...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Afwerking</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>Je hebt een escrow voor gemaakt</translation>
+        <source>Finish</source>
+        <translation>Afwerking</translation>
     </message>
     <message>
         <source>of</source>
@@ -4701,12 +4669,16 @@
         <translation>voor</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>Uw betaling in escrow!</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>De koopman is uw bestelling verzonden informatie en uw punt zal binnenkort aankomen. De koopman kan met verdere informatie via een private message-up volgen (zie hiervoor uw inbox regelmatig).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Je hebt gekocht</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>Uw betaling is voltooid!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4806,8 +4778,8 @@
         <translation>Korting</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Verloopt in</translation>
+        <source>Expires On</source>
+        <translation>Verloopt op</translation>
     </message>
 </context>
 <context>
@@ -4885,7 +4857,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Voorkeuren</translation>
+        <translation>&amp;Voorkeuren</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -5226,8 +5198,8 @@
         <translation>fout tijdens het exporteren</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>Kan niet schrijven naar bestand %1.</translation>
+        <source>Could not write to file: </source>
+        <translation>Kon niet schrijven naar bestand:</translation>
     </message>
 </context>
 <context>
@@ -6600,16 +6572,24 @@
         <translation>Synchroniseren met netwerk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Overzicht</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>Overzicht</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Toon algemeen overzicht van uw portemonnee</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>sturen</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>Ontvangen</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6618,6 +6598,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Blader door transactiegescheidenis</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>aliassen</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>Marktplaats</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certificaten</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Escrow</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6706,14 +6702,6 @@
     <message>
         <source>Wallet</source>
         <translation>Portemonnee</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Verstuur</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ontvangen</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6820,40 +6808,20 @@
         <translation>Bijgewerkt</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; overlegt hij</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Beheer aliassen</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Berichten</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>berichten</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp;Marktplaats</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Manage aanbiedingen</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; Certificaten</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Certificaten beheren</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Escrow</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

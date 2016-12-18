@@ -9,10 +9,6 @@
         <translation>Esportatu datuak uneko fitxategian</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Denak</translation>
     </message>
@@ -341,10 +337,6 @@
         <translation>Esportatu datuak uneko fitxategian</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Komaz bereizitako artxiboa (*.csv)</translation>
     </message>
@@ -397,10 +389,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Esportatu datuak uneko fitxategian</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -426,10 +414,6 @@
         <translation>Esportatu datuak uneko fitxategian</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Denak</translation>
     </message>
@@ -445,10 +429,6 @@
         <translation>Esportatu datuak uneko fitxategian</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Komaz bereizitako artxiboa (*.csv)</translation>
     </message>
@@ -458,10 +438,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Esportatu datuak uneko fitxategian</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
     </message>
     <message>
         <source>All</source>
@@ -479,10 +455,6 @@
         <translation>Esportatu datuak uneko fitxategian</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Denak</translation>
     </message>
@@ -496,10 +468,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Esportatu datuak uneko fitxategian</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
     </message>
     <message>
         <source>All</source>
@@ -518,10 +486,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Esportatu datuak uneko fitxategian</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esportatu</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -810,10 +774,6 @@
     <message>
         <source>Synchronizing with network...</source>
         <translation>Sarearekin sinkronizatzen...</translation>
-    </message>
-    <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Gainbegiratu</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>

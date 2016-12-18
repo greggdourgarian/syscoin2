@@ -13,10 +13,6 @@
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todas</translation>
     </message>
@@ -549,10 +545,6 @@
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Ficheiro separado por vírgulas (*.csv)</translation>
     </message>
@@ -560,16 +552,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Geral</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -733,10 +725,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -778,10 +766,6 @@
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todas</translation>
     </message>
@@ -801,10 +785,6 @@
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Ficheiro separado por vírgulas (*.csv)</translation>
     </message>
@@ -814,10 +794,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -839,10 +815,6 @@
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todas</translation>
     </message>
@@ -856,10 +828,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -878,10 +846,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os dados no separador actual para um ficheiro</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -952,10 +916,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -2461,10 +2421,6 @@
         <translation>A sincronizar com a rede...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Sinopse</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nó</translation>
     </message>
@@ -2567,14 +2523,6 @@
     <message>
         <source>Wallet</source>
         <translation>Carteira</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Receber</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

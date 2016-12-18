@@ -13,10 +13,6 @@
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Visi</translation>
     </message>
@@ -477,10 +473,6 @@
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fails ar komatu kā atdalītāju (*.csv)</translation>
     </message>
@@ -488,16 +480,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Vispārējs</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Kopsumma:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Labi</translation>
     </message>
     </context>
 <context>
@@ -613,10 +605,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -654,10 +642,6 @@
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Visi</translation>
     </message>
@@ -677,10 +661,6 @@
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fails ar komatu kā atdalītāju (*.csv)</translation>
     </message>
@@ -690,10 +670,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
     </message>
     <message>
         <source>All</source>
@@ -715,10 +691,6 @@
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Visi</translation>
     </message>
@@ -732,10 +704,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
     </message>
     <message>
         <source>All</source>
@@ -754,10 +722,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Datus no tekošā ieliktņa eksportēt uz failu</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportēt</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -820,10 +784,6 @@
     <message>
         <source>Total:</source>
         <translation>Kopsumma:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Labi</translation>
     </message>
     </context>
 <context>
@@ -1800,10 +1760,6 @@
         <translation>Sinhronizācija ar tīklu...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Pārskats</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -1898,14 +1854,6 @@
     <message>
         <source>Wallet</source>
         <translation>Maciņš</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Sūtīt</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Saņemt</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

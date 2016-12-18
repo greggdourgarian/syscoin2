@@ -13,10 +13,6 @@
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Toate</translation>
     </message>
@@ -549,10 +545,6 @@
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fişier text cu valori separate prin virgulă (*.csv)</translation>
     </message>
@@ -560,16 +552,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -729,10 +721,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -774,10 +762,6 @@
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Toate</translation>
     </message>
@@ -797,10 +781,6 @@
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fişier text cu valori separate prin virgulă (*.csv)</translation>
     </message>
@@ -810,10 +790,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>All</source>
@@ -835,10 +811,6 @@
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Toate</translation>
     </message>
@@ -852,10 +824,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>All</source>
@@ -874,10 +842,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportă datele din tab-ul curent într-un fişier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -948,10 +912,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -2344,10 +2304,6 @@
         <translation>Se sincronizează cu reţeaua...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Imagine de ansamblu</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nod</translation>
     </message>
@@ -2442,14 +2398,6 @@
     <message>
         <source>Wallet</source>
         <translation>Portofel</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>Trimite</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>P&amp;rimeşte</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

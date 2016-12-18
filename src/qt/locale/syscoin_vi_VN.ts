@@ -13,10 +13,6 @@
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -285,10 +281,6 @@
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -296,12 +288,12 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
-        <source>Total:</source>
-        <translation>Tổng:</translation>
+        <source>General</source>
+        <translation>Nhìn Chung</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
+        <source>Total:</source>
+        <translation>Tổng:</translation>
     </message>
     </context>
 <context>
@@ -357,10 +349,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -382,10 +370,6 @@
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -395,10 +379,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -412,10 +392,6 @@
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -427,10 +403,6 @@
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -440,10 +412,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -458,10 +426,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Xuất dữ liệu trong mục hiện tại ra file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>X&amp;uất</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -492,10 +456,6 @@
     <message>
         <source>Total:</source>
         <translation>Tổng:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -756,10 +716,6 @@
 <context>
     <name>SyscoinGUI</name>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Tổng quan</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -794,14 +750,6 @@
     <message>
         <source>Wallet</source>
         <translation>Ví</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Gửi</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Nhận</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

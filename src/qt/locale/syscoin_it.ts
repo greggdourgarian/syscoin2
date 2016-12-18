@@ -18,8 +18,8 @@
         <translation>Occhiata il OfferID dal blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Offerta di ricerca</translation>
+        <source>Lookup Offer</source>
+        <translation>Ricerca Offrire</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>Acquista questa offerta</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Accettare un'offerta</translation>
+        <source>Accept Offer</source>
+        <translation>Accettare un'offerta</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>Aggiorna elenco offerta accettata</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copiare l'offerta selezionata negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copia ID Offerta</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Copia ID Offerta</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>Copiare i alias attualmente selezionati negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Copia Alias ​​ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>Copia Alias ​​ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>Scade il</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Scade tra</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>Copiare il CERT attualmente selezionata negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Copia ID certificato</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Copia ID certificato</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>Scade il</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Scade tra</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>Generale</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Il nome alias.</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>Scadenza:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Scadenza:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Utilizzare personalizzato Scadenza Tempo</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>Scegli un alias che ha informazioni piolo. I consumatori potranno pagare gli importi di conversione e le tariffe di rete basati su questo peg.</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Scegliere un tempo standard di scadenza (in UTC) per questo alias da 1 a 5 anni o controllare il 'Usa personalizzato Expire Time' casella di controllo per inserire un timestamp di scadenza. È esponenzialmente più costoso all'anno, calcolo è FEERATE * (2.88 ^ anni). FEERATE è il Satoshi dinamica per tassa di byte impostato nelle alias tasso peg utilizzati per questo alias.</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>Attenzione: il trasferimento dei alias trasferirà la proprietà tutti i servizi syscoin che utilizzano questo alias.</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5 anni</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>Impostare il periodo di tempo per mantenere il vostro alias di scadere. Più a lungo si desidera mantenere in vita i più tasse si pagherà per creare o aggiornare questo alias. La formula per il pagamento è di 0,2 anni SYS * * anni.</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>alias multisig.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Confermare Alias ​​con ampio scadenza</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Attenzione: L'utilizzo di creare un alias con scadenza oltre i 5 anni aumenta i costi in modo esponenziale, si può spendere una grande quantità di monete in questo modo!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Sei sicuro di voler continuare?</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>certificati</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>C'era una eccezione durante il tentativo di recuperare le informazioni sul certificato:</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>Inserire l'alias del destinatario del presente certificato</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>Inserire l'alias del destinatario che si desidera consentire la lettura del certificato dati privati</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>Selezionare Sì se non si desidera che il certificato sia modificabile / trasferibili da parte del destinatario</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>Impossibile ottenere questo certificato:</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1629,16 +1625,16 @@
         <translation>Lista di affiliazione Refresh</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Aggiungere un nuovo affiliato</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Aggiungere</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Aggiungere</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1661,8 +1657,8 @@
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1721,8 +1717,8 @@
         <translation>Alias</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>Scade</translation>
+        <source>Expires On</source>
+        <translation>Scade il</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1744,8 +1740,8 @@
         <translation>Info impegno</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Generale</translation>
+        <source>General</source>
+        <translation>Generale</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1792,28 +1788,32 @@
         <translation>Voto medio:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Spedizioni e Informazioni di contatto:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Spedizione Informazioni di contatto:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Riscatta TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>Durante l'acquisto: Commenti</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>venditore feedback</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>Commenti Arbiter</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>TXID esterno:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Risposte del compratore</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Venditore Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter Commenti</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1895,8 +1895,8 @@
         <translation>Copiare il deposito a garanzia attualmente selezionata negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy impegno ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Copia impegno ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2380,16 +2380,8 @@
         <translation>Errore durante l'invio di feedback:</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>rilascio impegno completato con successo! Il pagamento è stato trovato sul blockchain. È possibile fare clic sul pulsante 'Check Pagamento esterno' per controllare per vedere se ha confermato. Catena:</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>Errore completamento di rilascio:</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>rimborso in garanzia completato con successo! Il pagamento è stato trovato sul blockchain. È possibile fare clic sul pulsante 'Check Pagamento esterno' per verificare se il pagamento ha confermato. Catena:</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2406,18 +2398,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>Impossibile trovare il pagamento dell'impegno sul blockchain, assicurarsi che l'operazione di pagamento è stato confermato in rete. ID Il pagamento è stato copiato negli appunti per il vostro riferimento. errore:</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>Escrow pagamento trovato nella blockchain. ID Il pagamento è stato copiato negli appunti per il vostro riferimento. Tempo:</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> catena:</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> conferme:</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2452,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>rilascio impegno completato con successo! Escrow il pagamento della spesa è stato trovato sul blockchain. È possibile fare clic sul pulsante 'Check Pagamento esterno' per controllare per vedere se ha confermato. Catena:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>rilascio impegno completato con successo!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>eccezione generale rilascio completando</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>rimborso in garanzia completato con successo! Escrow il pagamento della spesa è stato trovato sul blockchain. È possibile fare clic sul pulsante 'Check Pagamento esterno' per verificare se il pagamento ha confermato. Catena:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2474,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>Non è possibile analizzare la risposta JSON:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Controllare BTC pagamento</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Controllare ZEC pagamento</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2558,8 +2538,8 @@
         <translation>elenco dei messaggi di aggiornamento</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2574,8 +2554,12 @@
         <translation>Copiare il messaggio selezionato negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Copia Msg ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>Copia ID Msg</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2588,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
     </message>
 </context>
 <context>
@@ -2698,16 +2678,16 @@
         <translation>Aggiornare l'elenco offerta accettata</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copiare l'offerta selezionata negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copia ID Offerta</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Copia ID Offerta</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2746,8 +2726,8 @@
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2929,24 +2909,24 @@
         <translation>elenco di alias Refresh</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Creare un nuovo alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Copiare i alias attualmente selezionati negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Copia Alias ​​ID</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>Nuovo alias</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Copia Alias ​​ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2989,8 +2969,8 @@
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3041,10 +3021,6 @@
         <translation>Scade il</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Scade tra</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Scaduto</translation>
     </message>
@@ -3080,24 +3056,24 @@
         <translation>Aggiorna elenco certificato</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Creare un nuovo certificato</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; New certificato</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Copiare il certificato attualmente selezionato negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Copia ID certificato</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>Nuovo certificato</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Copia ID certificato</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3128,8 +3104,8 @@
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3200,10 +3176,6 @@
         <translation>Scade il</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Scade tra</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Errore esportazione</translation>
     </message>
@@ -3223,16 +3195,16 @@
         <translation>Aggiornare l'elenco delle escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Copiare il deposito a garanzia attualmente selezionata negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy impegno ID</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Copia impegno ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3283,8 +3255,8 @@
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3311,6 +3283,14 @@
         <translation>Impossibile analizzare i risultati JSON</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Transazione è stata trovata nel blockchain! pagamento finanziamento impegno è stato rilevato. Catena:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transazione è stata trovata nel blockchain! Il pagamento dell'impegno è stato rilevato. Si raccomanda di confermare il pagamento aprendo il portafoglio e vedere i fondi nel tuo account. Catena:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>Non è possibile analizzare la risposta JSON:</translation>
     </message>
@@ -3321,10 +3301,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>operazione di pagamento, ha trovato, ma non è stato confermato dal blockchain ancora! Per favore riprova più tardi. Catena:</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>Transazione è stata trovata nel blockchain! Il pagamento è stato rilevato. Si raccomanda di confermare il pagamento aprendo il portafoglio e vedere i fondi nel tuo account. Catena:</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3402,24 +3378,28 @@
         <translation>Aggiornare l'elenco delle offerte</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>nuova offerta</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Copia ID Offerta</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Creare una nuova offerta</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Nuova offerta</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copiare l'offerta selezionata negli appunti di sistema</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copia ID Offerta</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3434,16 +3414,8 @@
         <translation>Gestire gli affiliati per questa offerta</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Gestisci Affiliati</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3557,8 +3529,8 @@
         <translation>Sconto</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Scade tra</translation>
+        <source>Expires On</source>
+        <translation>Scade il</translation>
     </message>
 </context>
 <context>
@@ -3572,16 +3544,16 @@
         <translation>Aggiornare l'elenco di affiliazione per questa offerta</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Ricaricare</translation>
+        <source>Refresh</source>
+        <translation>ricaricare</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Esportare</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Esporta su file i dati contenuti nella tabella corrente</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Esporta</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3801,8 +3773,8 @@
         <translation>Paga con Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Paga con SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Paga con SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3892,8 +3864,8 @@
         <translation>Confermare pagamento sul blockchain Bitcoin</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>E confermare il pagamento</translation>
+        <source>Confirm Payment</source>
+        <translation>confermare il pagamento</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4067,8 +4039,8 @@
         <translation>Confermare pagamento sul blockchain Bitcoin</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>E confermare il pagamento</translation>
+        <source>Confirm Payment</source>
+        <translation>confermare il pagamento</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4290,8 +4262,12 @@
         <translation>Voto medio:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Spedizioni e Informazioni di contatto:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Spedizione Informazioni di contatto:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4332,10 +4308,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>venditore feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4460,8 +4432,8 @@
         <translation>Attendere prego...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Finire</translation>
+        <source>Finish</source>
+        <translation>finire</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4590,8 +4562,8 @@
         <translation>Copiare l'offerta selezionata negli appunti di sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copia ID Offerta</translation>
+        <source>Copy Offer ID</source>
+        <translation>Copia ID Offerta</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4685,12 +4657,8 @@
         <translation>Attendere prego...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Finire</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>Hai creato un deposito a garanzia per</translation>
+        <source>Finish</source>
+        <translation>finire</translation>
     </message>
     <message>
         <source>of</source>
@@ -4701,12 +4669,16 @@
         <translation>per</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>Il pagamento è in deposito a garanzia!</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>Il commerciante è stato inviato le informazioni di consegna e il vostro articolo dovrebbe arrivare a breve. Il commerciante può follow-up con ulteriori informazioni attraverso un messaggio privato (si prega di controllare la casella di posta regolarmente).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Hai acquistato</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>Il pagamento è completo!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4806,8 +4778,8 @@
         <translation>Sconto</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Scade tra</translation>
+        <source>Expires On</source>
+        <translation>Scade il</translation>
     </message>
 </context>
 <context>
@@ -4886,7 +4858,7 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Preferenze</translation>
+        <translation>&amp;Preferenze</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -5227,8 +5199,8 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
         <translation>Errore esportazione</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>Impossibile scrivere sul file %1.</translation>
+        <source>Could not write to file: </source>
+        <translation>Impossibile scrivere sul file:</translation>
     </message>
 </context>
 <context>
@@ -6601,16 +6573,24 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
         <translation>Sincronizzazione con la rete in corso...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Sintesi</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nodo</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>Panoramica</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Mostra lo stato generale del portamonete</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Inviare</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>Ricevere</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6619,6 +6599,22 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
     <message>
         <source>Browse transaction history</source>
         <translation>Mostra la cronologia delle transazioni</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>Alias</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>Mercato</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certificati</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Depositare in garanzia</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6707,14 +6703,6 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
     <message>
         <source>Wallet</source>
         <translation>Portamonete</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Invia</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ricevi</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6821,40 +6809,20 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
         <translation>Aggiornato</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; garantisca il collegamento</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Gestisci alias</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>e messaggi</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>messaggi</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp;Mercato</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>gestire offerte</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>e certificati</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Gestisci certificati</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp;Depositare in garanzia</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

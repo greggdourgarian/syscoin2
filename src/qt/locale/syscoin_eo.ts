@@ -13,10 +13,6 @@
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Ĉiuj</translation>
     </message>
@@ -501,10 +497,6 @@
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Perkome disigita dosiero (*.csv)</translation>
     </message>
@@ -512,16 +504,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Ĝenerala</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Totalo:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Bone</translation>
     </message>
     </context>
 <context>
@@ -645,10 +637,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -686,10 +674,6 @@
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Ĉiuj</translation>
     </message>
@@ -709,10 +693,6 @@
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Perkome disigita dosiero (*.csv)</translation>
     </message>
@@ -722,10 +702,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
     </message>
     <message>
         <source>All</source>
@@ -747,10 +723,6 @@
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Ĉiuj</translation>
     </message>
@@ -764,10 +736,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
     </message>
     <message>
         <source>All</source>
@@ -786,10 +754,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporti la datumojn el la aktuala langeto al dosiero</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporti</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -852,10 +816,6 @@
     <message>
         <source>Total:</source>
         <translation>Totalo:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Bone</translation>
     </message>
     </context>
 <context>
@@ -1868,10 +1828,6 @@
         <translation>Sinkronigante kun reto...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Superrigardo</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nodo</translation>
     </message>
@@ -1966,14 +1922,6 @@
     <message>
         <source>Wallet</source>
         <translation>Monujo</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Sendi</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ricevi</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

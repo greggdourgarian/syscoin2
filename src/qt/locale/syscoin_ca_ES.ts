@@ -18,8 +18,8 @@
         <translation>Buscar el OfferID del blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>Oferta i recerca</translation>
+        <source>Lookup Offer</source>
+        <translation>Oferta de recerca</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,12 +82,16 @@
         <translation>Comprar aquesta oferta</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>I l'oferta del acceptat</translation>
+        <source>Accept Offer</source>
+        <translation>acceptar l'oferta</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
         <translation>Compra una oferta, les monedes s'utilitzaran del seu saldo per completar la transacció</translation>
+    </message>
+    <message>
+        <source>Select an Alias. You may right-click on the notes section and include your public or private profile information from this alias for the merchant</source>
+        <translation>Seleccioneu un àlies. És possible que feu clic dret a la secció de notes i incloure la informació del seu perfil públic o privat d'aquest àlies per al comerciant</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -116,6 +120,34 @@
     <message>
         <source>Confirm Private Profile Inclusion</source>
         <translation>Confirma Perfil privat Inclusió</translation>
+    </message>
+    <message>
+        <source>Could get alias profile data: </source>
+        <translation>Es va poder obtenir dades del perfil àlies:</translation>
+    </message>
+    <message>
+        <source>Couldn't find alias in the database: </source>
+        <translation>No s'ha pogut trobar l'àlies de la base de dades:</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'àlies:</translation>
+    </message>
+    <message>
+        <source>You have successfully paid for this offer!</source>
+        <translation>Vostè ha pagat amb èxit per a aquesta oferta!</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the rates peg for this offer. Currency: </source>
+        <translation>No s'ha pogut trobar la moneda en les taxes de clavilla per a aquesta oferta. Moneda:</translation>
+    </message>
+    <message>
+        <source>Please enter pertinent information required to the offer in the 'Notes' field (address, e-mail address, shipping notes, etc).</source>
+        <translation>Si us plau, introdueixi la informació pertinent requerida a l'oferta al camp "Notes" (adreça, adreça de correu electrònic, notes d'enviament, etc.).</translation>
+    </message>
+    <message>
+        <source>Stars</source>
+        <translation>estrelles</translation>
     </message>
     <message>
         <source>There was an exception trying to get the alias profile data: </source>
@@ -169,16 +201,16 @@
         <translation>Actualitzar llista d'oferta acceptada</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copia l'oferta seleccionada al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>I Còpia ID de l'oferta</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Còpia ID de l'oferta</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -205,8 +237,8 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -215,6 +247,14 @@
     <message>
         <source>Copy OfferAccept ID</source>
         <translation>Còpia OfferAccept ID</translation>
+    </message>
+    <message>
+        <source>Message Merchant</source>
+        <translation>comerciant missatge</translation>
+    </message>
+    <message>
+        <source>Leave Feedback For Merchant</source>
+        <translation>Voti per Comerciant</translation>
     </message>
     <message>
         <source>All</source>
@@ -276,7 +316,11 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>AddressBookPage</name>
     <message>
@@ -379,7 +423,11 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>AddressTableModel</name>
     <message>
@@ -410,8 +458,8 @@
         <translation>Copia l'àlies seleccionats actualment al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>Còpia i Alias ​​ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>Còpia Alias ​​ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -432,6 +480,18 @@
     <message>
         <source>Search for Syscoin Aliases. Select Safe Search from wallet options if you wish to omit potentially offensive Aliases(On by default)</source>
         <translation>Cercar Syscoin Alias. Seleccionar opcions de cerca segura de cartera si vol ometre Alias ​​potencialment ofensius (per defecte)</translation>
+    </message>
+    <message>
+        <source>Error searching alias: </source>
+        <translation>Error àlies de cercar:</translation>
+    </message>
+    <message>
+        <source>General exception when searching alias</source>
+        <translation>excepció general en la recerca d'àlies</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Pàgina actual:</translation>
     </message>
     <message>
         <source>Enter search term, regex accepted (ie: ^name returns all Aliases starting with 'name'). Empty will search for all.</source>
@@ -455,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>Caduca el</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>en expira</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -555,6 +611,10 @@
         <translation>Moneder encriptat</translation>
     </message>
     <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your syscoins from being stolen by malware infecting your computer.</source>
+        <translation>%1 es tancarà ara per acabar el procés de xifrat. Recordeu que la encriptació de la seva cartera no pot protegir completament als seus syscoins de ser robats pel malware infecti el seu equip.</translation>
+    </message>
+    <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>IMPORTANT: Tota copia de seguretat que hàgiu realitzat hauria de ser reemplaçada pel, recentment generat, fitxer encriptat del moneder.</translation>
     </message>
@@ -621,8 +681,8 @@
         <translation>Copiar el certificat seleccionat al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>I Còpia ID de certificat</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Còpia ID de certificat</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -637,12 +697,24 @@
         <translation>Cerca de Certificats Syscoin. Seleccionar opcions de cerca segura de cartera si vol ometre Certificats potencialment ofensius (per defecte)</translation>
     </message>
     <message>
+        <source>Copy Value</source>
+        <translation>còpia Valor</translation>
+    </message>
+    <message>
         <source>Enter search term, regex accepted (ie: ^name returns all Certificates starting with 'name'). Empty will search for all.</source>
         <translation>Introdueixi terme de cerca, expressions regulars acceptats (és a dir: ^ nom retorna tots els certificats que comencen amb 'nom'). Buidar buscarà tots.</translation>
     </message>
     <message>
         <source>certificates</source>
         <translation>certificats</translation>
+    </message>
+    <message>
+        <source>Error searching Certificate: </source>
+        <translation>Error a la recerca de certificat:</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Pàgina actual:</translation>
     </message>
     <message>
         <source>General exception when searching certficiates</source>
@@ -664,6 +736,14 @@
         <translation>títol</translation>
     </message>
     <message>
+        <source>Private Data</source>
+        <translation>dades privades</translation>
+    </message>
+    <message>
+        <source>Public Data</source>
+        <translation>dades Públics</translation>
+    </message>
+    <message>
         <source>Status</source>
         <translation>Estat</translation>
     </message>
@@ -674,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>Caduca el</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>en expira</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -912,10 +988,6 @@
         <translation>General</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>I Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>El nom d'àlies.</translation>
     </message>
@@ -938,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>caducitat:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Temps expirarà:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Utilitzeu encàrrec Temps de caducitat</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -988,6 +1068,22 @@
         <translation>Cancel · lar</translation>
     </message>
     <message>
+        <source>Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.</source>
+        <translation>Triar un àlies que té informació de paritat. Els consumidors pagaran quantitats de conversió i els honoraris de xarxa basats en el tap.</translation>
+    </message>
+    <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Tria un temps estàndard de caducitat (en UTC) d'aquest àlies d'1 a 5 anys, o comprovar el "Utilitza Custom Temps de caducitat 'caixa de selecció per introduir una data i hora de caducitat. És exponencialment més cars per any, el càlcul és FEERATE * (2.88) ^ anys. FEERATE és la dinàmica Satoshi per quota de byte ubicat a l'àlies de vinculació de les utilitzades per a aquest àlies.</translation>
+    </message>
+    <message>
+        <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
+        <translation>Notes: la transferència dels seus àlies transferirà la propietat tots els seus serveis syscoin que utilitzen aquest àlies.</translation>
+    </message>
+    <message>
+        <source>Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!</source>
+        <translation>És aquest àlies segura de buscar? Qualsevol cosa que pugui ser considerat ofensiu per a algú ha d'estar en 'n' aquí. Si crea un àlies que és ofensiu i no per aquesta opció seran prohibits "no" als seus àlies!</translation>
+    </message>
+    <message>
         <source>1 Year</source>
         <translation>1 any</translation>
     </message>
@@ -1006,6 +1102,70 @@
     <message>
         <source>5 Years</source>
         <translation>5 anys</translation>
+    </message>
+    <message>
+        <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
+        <translation>Aquesta és la informació de perfil privada, que és encriptat i només està disponible per a vostè. Això és útil per a l'enviament de notes a un comerciant a través de la pantalla de pagament perquè no hagi de escriure-cada vegada que fos.</translation>
+    </message>
+    <message>
+        <source>Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.</source>
+        <translation>Introduir una contrasenya o contrasenya que s'utilitzarà per desbloquejar aquest àlies a través de serveis web com ara blockmarket. Important: No s'oblidi o extraviar aquest senyal, és el bloqueig al seu àlies.</translation>
+    </message>
+    <message>
+        <source>This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.</source>
+        <translation>Aquesta és la informació pública perfil que qualsevol a la xarxa pot veure. Ompli aquest formulari amb les coses que li agradaria a altres a saber sobre tu.</translation>
+    </message>
+    <message>
+        <source>The number of required signatures ensures that not one person can control this alias and anything service that this alias uses (certificates, messages, offers, escrows).</source>
+        <translation>El nombre de signatures requerides assegura que cap persona pot controlar aquest servei àlies i qualsevol cosa que aquest àlies usos (certificats, missatges, ofertes, fideïcomisos).</translation>
+    </message>
+    <message>
+        <source>Would you like to accept certificates transferred to this alias? Select 'Yes' otherwise if you want to block others from sending certificates to this alias select 'No'.</source>
+        <translation>Li agradaria acceptar certificats transferits a aquest àlies? Seleccioneu 'Sí' en cas contrari si voleu bloquejar a altres d'enviar certificats a aquest àlies seleccioneu "No".</translation>
+    </message>
+    <message>
+        <source>Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the 'Sign Multisig Tx' button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.</source>
+        <translation>Configureu els seus àlies multisig aquí amb el nombre requerit de signatures i els àlies que són capaços de signatura quan s'actualitza aquest àlies. Un usuari d'aquesta llista pot sol·licitar una actualització per l'àlies i els altres signants ha de signar la transacció multisig crua usant el botó "Registrar Multisig Tx 'per tal per l'àlies per completar l'actualització. Serveis que utilitzen aquest àlies àlies requereixen actualitzacions prèvies a l'actualització dels serveis que permet a tots els serveis que es beneficien de la tecnologia d'àlies multisig.</translation>
+    </message>
+    <message>
+        <source>This is a</source>
+        <translation>Això és un</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <source>multisig alias.</source>
+        <translation>àlies multisig.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Alias ​​confirmar amb l'expiració gran</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Notes: L'ús de la creació d'un àlies que expira a molt tard 5 anys augmenta els costos de manera exponencial, és possible de gastar una gran quantitat de monedes en fer-ho!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Esteu segur que voleu continuar?</translation>
+    </message>
+    <message>
+        <source>Error creating new Alias: </source>
+        <translation>S'ha pogut crear el nou àlies:</translation>
+    </message>
+    <message>
+        <source>Error updating Alias: </source>
+        <translation>Error en actualitzar Alias:</translation>
+    </message>
+    <message>
+        <source>Error transferring Alias: </source>
+        <translation>Error transferir Alias:</translation>
+    </message>
+    <message>
+        <source>The entered alias is not a valid Syscoin alias. Alias: </source>
+        <translation>L'àlies introduït no és un àlies d'Syscoin vàlida. àlies:</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1083,12 +1243,20 @@
         <translation>Per transferir:</translation>
     </message>
     <message>
+        <source>Public Data:</source>
+        <translation>Dades Públics:</translation>
+    </message>
+    <message>
         <source>Yes</source>
         <translation>Sí</translation>
     </message>
     <message>
         <source>No</source>
         <translation>No</translation>
+    </message>
+    <message>
+        <source>Private Data:</source>
+        <translation>Dades privades:</translation>
     </message>
     <message>
         <source>Safe Search:</source>
@@ -1119,8 +1287,32 @@
         <translation>certificats</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Hi va haver una excepció intentar recuperar la informació del certificat:</translation>
+        <source>Enter the alias of the recipient of this certificate</source>
+        <translation>Introduïu l'àlies del destinatari del certificat</translation>
+    </message>
+    <message>
+        <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
+        <translation>Seleccioneu Sí si no voleu que aquest certificat editable / transferible pel destinatari</translation>
+    </message>
+    <message>
+        <source>This alias has expired, please choose another one</source>
+        <translation>Aquest àlies ha caducat, si us plau trieu un altre</translation>
+    </message>
+    <message>
+        <source>Select an alias to own this certificate</source>
+        <translation>Seleccioneu un àlies de posseir aquest certificat</translation>
+    </message>
+    <message>
+        <source> is not safe to search so this setting can only be set to 'No'</source>
+        <translation> No és segur per buscar el que aquesta configuració només es pot establir en "No"</translation>
+    </message>
+    <message>
+        <source>Is this cert safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create a cert that is offensive and do not set this option to 'No' your cert will be banned!</source>
+        <translation>És aquest cert segura de buscar? Qualsevol cosa que pugui ser considerat ofensiu per a algú ha d'estar en 'n' aquí. Si crea un CERT que és ofensiu i no per aquesta opció serà prohibit "No" el seu certificat!</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'àlies:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the alias list: </source>
@@ -1145,6 +1337,22 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error creating new Cert: </source>
+        <translation>S'ha pogut crear el nou CERT:</translation>
+    </message>
+    <message>
+        <source>Error updating Cert: </source>
+        <translation>Error en actualitzar Cert:</translation>
+    </message>
+    <message>
+        <source>Error transferring Cert: </source>
+        <translation>Error transferir Cert:</translation>
+    </message>
+    <message>
+        <source>The entered cert is not a valid Syscoin cert.</source>
+        <translation>El CERT introduït no és un CERT Syscoin vàlida.</translation>
     </message>
     <message>
         <source>General exception creating new Cert</source>
@@ -1290,6 +1498,58 @@
         <translation>Hi va haver una excepció tractant d'actualitzar la llista cert:</translation>
     </message>
     <message>
+        <source>You may change the alias rate peg through your alias settings</source>
+        <translation>És possible canviar la paritat del tipus d'àlies a través de la configuració d'àlies</translation>
+    </message>
+    <message>
+        <source>Choose if you would like the offer to be private or publicly listed on the marketplace</source>
+        <translation>Trieu si voleu que l'oferta de ser privada o pública i cotitzen al mercat</translation>
+    </message>
+    <message>
+        <source>If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information</source>
+        <translation>Si ho desitja, pot introduir el seu geolocalització comerciant (coordenades de latitud i longitud) per ajudar les tarifes d'enviament de pista i altres aspectes logístics informació</translation>
+    </message>
+    <message>
+        <source>You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected</source>
+        <translation>Va a rebre el pagament en Syscoin equivalent al valor de mercat de la moneda que hagi seleccionat</translation>
+    </message>
+    <message>
+        <source>Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: 'SYS+BTC+ZEC'. For SYS and ZEC: 'SYS+ZEC'. Please note that in order spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.</source>
+        <translation>Triar què cripto-moneda que voleu permetre com a mètode de pagament per a aquesta oferta. Les opcions són qualsevol combinació de SYS, BTC o ZEC. Un ajust per als tres exemple: 'SYS + BTC + ZEC'. Per SYS i ZEC: 'SYS + ZEC'. Recordeu que per passar monedes pagades a vostè a través Syscoin mercat, haurà d'importar la seva clau privada Syscoin a la carpeta (s) o externa si BTC ZEC són els elegits.</translation>
+    </message>
+    <message>
+        <source>Warning: alias peg not found. No currency information available for </source>
+        <translation>Avís: Els àlies no clavilla de trobar. No hi ha informació disponible per a la moneda</translation>
+    </message>
+    <message>
+        <source> is not safe to search so this setting can only be set to 'No'</source>
+        <translation> No és segur per buscar el que aquesta configuració només es pot establir en "No"</translation>
+    </message>
+    <message>
+        <source>Is this offer safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an offer that is offensive and do not set this option to 'No' your offer will be banned aswell as possibly your store alias!</source>
+        <translation>És aquesta oferta segura de buscar? Qualsevol cosa que pugui ser considerat ofensiu per a algú ha d'estar en 'n' aquí. Si crea una oferta que és ofensiva i no estableix aquesta opció de "No" la seva oferta serà prohibit aswell com, possiblement, el seu àlies de magatzem!</translation>
+    </message>
+    <message>
+        <source>This alias has expired, please choose another one</source>
+        <translation>Aquest àlies ha caducat, si us plau trieu un altre</translation>
+    </message>
+    <message>
+        <source>Select an alias to own this offer</source>
+        <translation>Seleccioneu un àlies de posseir aquesta oferta</translation>
+    </message>
+    <message>
+        <source>This will automatically use the alias which owns the certificate you are selling</source>
+        <translation>Això farà servir automàticament l'àlies que posseeix el certificat que està venent</translation>
+    </message>
+    <message>
+        <source>Could not refresh cert list: </source>
+        <translation>No s'ha pogut actualitzar la llista de cert:</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'àlies:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the alias list: </source>
         <translation>Hi va haver una excepció tractant d'actualitzar la llista d'àlies:</translation>
     </message>
@@ -1318,6 +1578,30 @@
         <translation>Alias ​​confirmar la clavilla</translation>
     </message>
     <message>
+        <source>Warning: Are you sure you wish to choose this alias as your offer peg? By default the system peg is</source>
+        <translation>Notes: Està segur que desitja triar aquest àlies com la seva oferta peg? Per defecte, el sistema és PEG</translation>
+    </message>
+    <message>
+        <source>Error creating new Offer: </source>
+        <translation>Error en crear nova oferta:</translation>
+    </message>
+    <message>
+        <source>General exception creating new Offer: </source>
+        <translation>excepció general la creació de nova oferta:</translation>
+    </message>
+    <message>
+        <source>Error updating Offer: </source>
+        <translation>Error en actualitzar l'oferta:</translation>
+    </message>
+    <message>
+        <source>General exception updating Offer: </source>
+        <translation>excepció general actualització d'oferta:</translation>
+    </message>
+    <message>
+        <source>The entered offer is not a valid Syscoin offer</source>
+        <translation>L'oferta que va introduir no és una oferta vàlida Syscoin</translation>
+    </message>
+    <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
     </message>
@@ -1337,16 +1621,16 @@
         <translation>Actualitzar la llista d'afiliats</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Afegir un nou afiliat</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp; Afegir</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>afegir</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1369,8 +1653,8 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1397,6 +1681,22 @@
         <translation>Hi va haver una excepció tractant d'esborrar la llista d'afiliats:</translation>
     </message>
     <message>
+        <source>Copy Alias</source>
+        <translation>còpia Alias</translation>
+    </message>
+    <message>
+        <source>Could not remove this entry: </source>
+        <translation>No s'ha pogut suprimir aquesta entrada:</translation>
+    </message>
+    <message>
+        <source>Could not clear the affiliate list: </source>
+        <translation>No s'ha pogut esborrar la llista d'afiliats:</translation>
+    </message>
+    <message>
+        <source>Could not refresh the affiliate list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'afiliats:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the affiliate list: </source>
         <translation>Hi va haver una excepció tractant d'actualitzar la llista d'afiliats:</translation>
     </message>
@@ -1413,8 +1713,8 @@
         <translation>àlies</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>expira</translation>
+        <source>Expires On</source>
+        <translation>Caduca el</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1424,7 +1724,11 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>EscrowInfoDialog</name>
     <message>
@@ -1432,8 +1736,8 @@
         <translation>Informació de dipòsit de garantia</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;General</translation>
+        <source>General</source>
+        <translation>General</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1480,28 +1784,32 @@
         <translation>Valoració mitjana:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Enviament i Informació de contacte:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Enviament d'Informació de contacte:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Redimir de TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>Comentari del comprador</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>els vots venedor</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>Comentaris d'àrbitre</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>De TXID externa:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>I regeneració del comprador</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>Venedor i Comentaris</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>I Àrbitre Comentaris</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;D'acord</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1518,6 +1826,30 @@
     <message>
         <source>Arbiter</source>
         <translation>àrbitre</translation>
+    </message>
+    <message>
+        <source>Feedback #</source>
+        <translation>Feedback #</translation>
+    </message>
+    <message>
+        <source>(Buyer)</source>
+        <translation>(Comprador)</translation>
+    </message>
+    <message>
+        <source>(Merchant)</source>
+        <translation>(Comerciant)</translation>
+    </message>
+    <message>
+        <source>(Arbiter)</source>
+        <translation>(Àrbitre)</translation>
+    </message>
+    <message>
+        <source>Stars</source>
+        <translation>estrelles</translation>
+    </message>
+    <message>
+        <source>No Rating</source>
+        <translation>no Rating</translation>
     </message>
     <message>
         <source>No Feedback</source>
@@ -1559,8 +1891,8 @@
         <translation>Copiar la plica actualment seleccionat al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>I Còpia identificació del fideïcomís</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Còpia identificació del fideïcomís</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1587,6 +1919,10 @@
         <translation>Cercar Syscoin Escrows.</translation>
     </message>
     <message>
+        <source>Copy Offer ID</source>
+        <translation>Còpia ID de l'oferta</translation>
+    </message>
+    <message>
         <source>Enter search term. Search for arbiter/seller or escrow GUID. Empty will search for all.</source>
         <translation>Introduïu els termes de cerca. Cercar àrbitre / venedor o del fideïcomís GUID. Buidar buscarà tots.</translation>
     </message>
@@ -1605,6 +1941,18 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error acknowledging escrow payment: </source>
+        <translation>Error reconeixent el pagament del fideïcomís:</translation>
+    </message>
+    <message>
+        <source>Error searching Escrow: </source>
+        <translation>Error a la recerca del fideïcomís:</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Pàgina actual:</translation>
     </message>
     <message>
         <source>General exception acknowledging escrow payment</source>
@@ -1665,6 +2013,10 @@
 <context>
     <name>EscrowView</name>
     <message>
+        <source>My Escrows</source>
+        <translation>Els meus Escrows</translation>
+    </message>
+    <message>
         <source>Search</source>
         <translation>Cerca</translation>
     </message>
@@ -1705,6 +2057,10 @@
     <message>
         <source>(%1-bit)</source>
         <translation>(%1-bit)</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation>Sobre %1</translation>
     </message>
     <message>
         <source>Command-line options</source>
@@ -1754,8 +2110,20 @@
         <translation>Aquests són els missatges que ha rebut Syscoin. Podeu triar què àlies per veure els missatges relacionats utilitzant el desplegable a la dreta.</translation>
     </message>
     <message>
+        <source>Copy Subject</source>
+        <translation>còpia Assumpte</translation>
+    </message>
+    <message>
+        <source>Copy Msg</source>
+        <translation>copiar Msg</translation>
+    </message>
+    <message>
         <source>New Msg</source>
         <translation>nou Msg</translation>
+    </message>
+    <message>
+        <source>Reply Msg</source>
+        <translation>respondre Msg</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1797,12 +2165,28 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>Intro</name>
     <message>
         <source>Welcome</source>
         <translation>Us donem la benviguda</translation>
+    </message>
+    <message>
+        <source>Welcome to %1.</source>
+        <translation>Benvingut a l'%1.</translation>
+    </message>
+    <message>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation>Com que aquesta és la primera vegada que es va posar en marxa el programa, pot triar on %1 emmagatzemarà les seves dades.</translation>
+    </message>
+    <message>
+        <source>%1 will download and store a copy of the Syscoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>%1 va a descarregar i emmagatzemar una còpia de la cadena de blocs Syscoin. Almenys %2 GB de dades s'emmagatzema en aquest directori, i creixerà amb el temps. La cartera també s'emmagatzema en aquest directori.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1880,8 +2264,64 @@
         <translation>El reemborsament reclam</translation>
     </message>
     <message>
+        <source>You are managing escrow ID</source>
+        <translation>Està administrant Identificació de plica</translation>
+    </message>
+    <message>
         <source>Offer:</source>
         <translation>oferta:</translation>
+    </message>
+    <message>
+        <source>totalling</source>
+        <translation>totalitzant</translation>
+    </message>
+    <message>
+        <source>The buyer:</source>
+        <translation>El comprador:</translation>
+    </message>
+    <message>
+        <source>merchant:</source>
+        <translation>comerciant:</translation>
+    </message>
+    <message>
+        <source>arbiter:</source>
+        <translation>àrbitre:</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of the offer held in escrow, you may release the coins to the merchant once you have confirmed that you have recieved the item as per the description of the offer.</source>
+        <translation>Vostè és el "comprador" de l'oferta mantenen en reserva, es pot alliberar les monedes al comerciant una vegada que s'hagi confirmat que ha rebut l'article d'acord amb la descripció de l'oferta.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of the offer held in escrow, you may refund the coins back to the buyer.</source>
+        <translation>Vostè és el 'comerciant' de l'oferta mantenen en reserva, és possible que la devolució de les monedes de nou al comprador.</translation>
+    </message>
+    <message>
+        <source>You are the 'arbiter' of the offer held in escrow, you may refund the coins back to the buyer if you have evidence that the merchant did not honour the agreement to ship the offer item. You may also release the coins to the merchant if the buyer has not released in a timely manor. You may use Syscoin messages to communicate with the buyer and merchant to ensure you have adequate proof for your decision.</source>
+        <translation>Vostè és el 'àrbitre' de l'oferta mantenen en reserva, és possible que la devolució de les monedes de tornada al comprador, si té evidència que el comerciant no compleix l'acord per enviar l'article oferta. També podeu descarregar les monedes al comerciant si el comprador no ha llançat en el menor temps possible. És possible utilitzar missatges Syscoin per comunicar-se amb el comprador i el venedor per assegurar-se tenir una prova adequada per a la seva decisió.</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of the offer held in escrow. The escrow has been released to the merchant. You may communicate with your arbiter or merchant via Syscoin messages. You may leave feedback after the money is claimed by the merchant.</source>
+        <translation>Vostè és el "comprador" de l'oferta mantinguts en dipòsit. El dipòsit de garantia ha estat posat en llibertat al comerciant. Vostè pot comunicar-se amb l'àrbitre o comerciant a través de missatges Syscoin. Vostè pot deixar la regeneració després els diners són reclamat pel comerciant.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of the offer held in escrow. The payment of coins have been released to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction.</source>
+        <translation>Vostè és el 'comerciant' de l'oferta mantinguts en dipòsit. El pagament de les monedes han estat alliberats per a vostè, vostè pot reclamar ara. Després de reclamar, si us plau torni a aquest quadre de diàleg i proporcionar informació per a aquesta transacció de dipòsit en garantia.</translation>
+    </message>
+    <message>
+        <source>You are the 'arbiter' of the offer held in escrow. The escrow has been released to the merchant. You may re-release this escrow if there are any problems claiming the coins by the merchant. If you were the one to release the coins you will recieve a commission as soon as the merchant claims his payment. You may leave feedback after the money is claimed by the merchant.</source>
+        <translation>Vostè és el 'àrbitre' de l'oferta mantinguts en dipòsit. El dipòsit de garantia ha estat posat en llibertat al comerciant. És possible re-llançament d'aquest fideïcomís si hi ha algun problema que reclamen les monedes pel comerciant. Si vostè era el d'alliberar les monedes que rebrà una comissió tan aviat com el comerciant afirma que el seu pagament. Vostè pot deixar la regeneració després els diners són reclamat pel comerciant.</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of the offer held in escrow. The coins have been refunded back to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction.</source>
+        <translation>Vostè és el "comprador" de l'oferta mantinguts en dipòsit. Les monedes s'han tornat de nou a vostè, vostè pot reclamar ara. Després de reclamar, si us plau torni a aquest quadre de diàleg i proporcionar informació per a aquesta transacció de dipòsit en garantia.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of the offer held in escrow. The escrow has been refunded back to the buyer. You may leave feedback after the money is claimed by the buyer.</source>
+        <translation>Vostè és el 'comerciant' de l'oferta mantinguts en dipòsit. El dipòsit de garantia s'ha tornat de nou al comprador. Vostè pot deixar la regeneració després els diners són reclamat pel comprador.</translation>
+    </message>
+    <message>
+        <source>You are the 'arbiter' of the offer held in escrow. The escrow has been refunded back to the buyer. You may re-issue a refund if there are any problems claiming the coins by the buyer. If you were the one to refund the coins you will recieve a commission as soon as the buyer claims his refund. You may leave feedback after the money is claimed by the buyer.</source>
+        <translation>Vostè és el 'àrbitre' de l'oferta mantinguts en dipòsit. El dipòsit de garantia s'ha tornat de nou al comprador. És possible tornar a emetre un reemborsament si hi ha algun problema que reclamen les monedes pel comprador. Si vostè va ser el de tornar les monedes que rebrà una comissió tan aviat com el comprador reclama el seu reemborsament. Vostè pot deixar la regeneració després els diners són reclamat pel comprador.</translation>
     </message>
     <message>
         <source>Warning: Payment has already been refunded, are you sure you wish to re-refund payment back to the buyer?</source>
@@ -1932,6 +2372,50 @@
         <translation>Gràcies pels seus comentaris!</translation>
     </message>
     <message>
+        <source>Error sending feedback: </source>
+        <translation>Error a l'enviar retroalimentació:</translation>
+    </message>
+    <message>
+        <source>Error completing release: </source>
+        <translation>Error de completar l'alliberament:</translation>
+    </message>
+    <message>
+        <source>Error completing refund: </source>
+        <translation>Error completant reemborsament:</translation>
+    </message>
+    <message>
+        <source>Could not send raw escrow transaction to the blockchain. Chain: </source>
+        <translation>No s'ha pogut enviar la transacció de dipòsit en garantia en brut a la blockchain. cadena:</translation>
+    </message>
+    <message>
+        <source>Could not send raw escrow transaction to the blockchain, error: </source>
+        <translation>No s'ha pogut enviar la transacció de dipòsit en garantia en brut a la blockchain, error:</translation>
+    </message>
+    <message>
+        <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
+        <translation>No s'ha pogut trobar el pagament del fideïcomís en el blockchain, si us plau assegureu-vos que l'operació de pagament ha estat confirmat a la xarxa. ID de pagament ha estat copiat al porta per la seva referència. d'error:</translation>
+    </message>
+    <message>
+        <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
+        <translation>Fideïcomís de pagament es troba en el blockchain però no s'ha confirmat encara. Siusplau, intenta-ho més tard. ID de pagament ha estat copiat al porta per la seva referència. cadena:</translation>
+    </message>
+    <message>
+        <source>Error releasing escrow: </source>
+        <translation>Error alliberament de plica:</translation>
+    </message>
+    <message>
+        <source>Error refunding escrow: </source>
+        <translation>Error de dipòsit en garantia devolució:</translation>
+    </message>
+    <message>
+        <source>Could not get alias information: </source>
+        <translation>No s'ha pogut obtenir informació d'àlies:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to get alias information: </source>
+        <translation>Hi va haver una excepció tractant d'obtenir informació d'àlies:</translation>
+    </message>
+    <message>
         <source>General exception sending feedbackescrow</source>
         <translation>excepció general feedbackescrow enviar</translation>
     </message>
@@ -1944,12 +2428,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>l'alliberament de dipòsit de garantia completada amb èxit! Fideïcomís de pagament de despeses va ser trobat en el blockchain. Podeu fer clic al botó 'Check Pagament externa' per comprovar per veure si s'ha confirmat. cadena:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>l'alliberament de dipòsit de garantia completada amb èxit!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>l'alliberament de completar excepció general</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>reemborsament de dipòsit de garantia completada amb èxit! Fideïcomís de pagament de despeses va ser trobat en el blockchain. Podeu fer clic al botó 'Check Pagament externa' per comprovar per veure si el pagament s'ha confirmat. cadena:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -1966,14 +2458,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>No es pot analitzar la resposta JSON:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Comprovi BTC Pagament</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Comprovi ZEC Pagament</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2050,8 +2534,8 @@
         <translation>Actualitzar llista de missatges</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2066,8 +2550,12 @@
         <translation>Copiar el missatge seleccionat al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>Copiar i Msg ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>Copia Msg ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2080,10 +2568,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
 </context>
 <context>
@@ -2115,7 +2599,15 @@
 </context>
 <context>
     <name>MessageView</name>
-    </context>
+    <message>
+        <source>Inbox</source>
+        <translation>safata d'entrada</translation>
+    </message>
+    <message>
+        <source>Outbox</source>
+        <translation>safata de sortida</translation>
+    </message>
+</context>
 <context>
     <name>ModalOverlay</name>
     <message>
@@ -2182,16 +2674,16 @@
         <translation>Refrescar la llista d'oferta acceptada</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copia l'oferta seleccionada al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>I Còpia ID de l'oferta</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Còpia ID de l'oferta</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2230,8 +2722,8 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2318,6 +2810,22 @@
         <translation>No es pot analitzar la resposta JSON:</translation>
     </message>
     <message>
+        <source>Error acknowledging offer payment: </source>
+        <translation>Error reconeixent oferta de pagament:</translation>
+    </message>
+    <message>
+        <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
+        <translation>transacció de pagament va trobar però no ha estat confirmat pel blockchain encara! Siusplau, intenta-ho més tard. cadena:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transacció es troba en el blockchain! El pagament total s'ha detectat. Es recomana que vostè confirmi el pagament mitjançant l'obertura de la seva cartera i veure els fons en el seu compte. cadena:</translation>
+    </message>
+    <message>
+        <source>Payment not found in the blockchain! Please try again later. Chain: </source>
+        <translation>El pagament no es troba a la blockchain! Siusplau, intenta-ho més tard. cadena:</translation>
+    </message>
+    <message>
         <source>Please Wait...</source>
         <translation>Si us plau ...</translation>
     </message>
@@ -2381,7 +2889,11 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>MyAliasListPage</name>
     <message>
@@ -2393,24 +2905,24 @@
         <translation>Actualitzar llista d'àlies</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Crear un nou àlies</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Copia l'àlies seleccionats actualment al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>Còpia i Alias ​​ID</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>alias nou</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Còpia Alias ​​ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2453,8 +2965,8 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2505,16 +3017,16 @@
         <translation>Caduca el</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>en expira</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>caducat</translation>
     </message>
     <message>
         <source>Buyer Rating</source>
         <translation>comprador Valoració</translation>
+    </message>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
     </message>
     <message>
         <source>Seller Rating</source>
@@ -2540,24 +3052,24 @@
         <translation>Actualitzar la llista de certificats</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Crear un nou certificat</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; New Certificat</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Copiar el certificat seleccionat al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>I Còpia ID de certificat</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>nou Certificat</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Còpia ID de certificat</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2588,12 +3100,16 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
         <translation>Aquests són els seus certificats Syscoin registrats. operacions de certificats (creació, actualització, transferència) prendre 2-5 minuts en activar-se. Podeu triar què àlies per veure els certificats relacionats utilitzant el desplegable a la dreta.</translation>
+    </message>
+    <message>
+        <source>Copy Title</source>
+        <translation>còpia Títol</translation>
     </message>
     <message>
         <source>All</source>
@@ -2628,6 +3144,14 @@
         <translation>títol</translation>
     </message>
     <message>
+        <source>Private Data</source>
+        <translation>dades privades</translation>
+    </message>
+    <message>
+        <source>Public Data</source>
+        <translation>dades Públics</translation>
+    </message>
+    <message>
         <source>Status</source>
         <translation>Estat</translation>
     </message>
@@ -2636,16 +3160,16 @@
         <translation>propietari</translation>
     </message>
     <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+    <message>
         <source>Category</source>
         <translation>categoria</translation>
     </message>
     <message>
         <source>Expires On</source>
         <translation>Caduca el</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>en expira</translation>
     </message>
     <message>
         <source>Error exporting</source>
@@ -2667,16 +3191,16 @@
         <translation>Actualitzar la llista de fideïcomisos</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Copiar la plica actualment seleccionat al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>I Còpia identificació del fideïcomís</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Còpia identificació del fideïcomís</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2727,8 +3251,8 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -2755,8 +3279,28 @@
         <translation>No es pot analitzar els resultats JSON</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Transacció es troba en el blockchain! el pagament del fideïcomís dels fons s'ha detectat. cadena:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transacció es troba en el blockchain! el pagament del fideïcomís s'ha detectat. Es recomana que vostè confirmi el pagament mitjançant l'obertura de la seva cartera i veure els fons en el seu compte. cadena:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>No es pot analitzar la resposta JSON:</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Còpia ID de l'oferta</translation>
+    </message>
+    <message>
+        <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
+        <translation>transacció de pagament va trobar però no ha estat confirmat pel blockchain encara! Siusplau, intenta-ho més tard. cadena:</translation>
+    </message>
+    <message>
+        <source>Payment not found in the blockchain! Please try again later. Chain: </source>
+        <translation>El pagament no es troba a la blockchain! Siusplau, intenta-ho més tard. cadena:</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2785,6 +3329,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error acknowledging escrow payment: </source>
+        <translation>Error reconeixent el pagament del fideïcomís:</translation>
+    </message>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
     </message>
     <message>
         <source>General exception acknowledging escrow payment</source>
@@ -2822,24 +3374,28 @@
         <translation>Actualitzar la llista d'ofertes</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>nova oferta</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Còpia ID de l'oferta</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Crear una nova oferta</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>I Nova Oferta</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copia l'oferta seleccionada al porta-retalls del sistema</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>I Còpia ID de l'oferta</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2854,20 +3410,20 @@
         <translation>Maneig dels afiliats a aquesta oferta</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>I Maneig d'Afiliats</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
         <translation>Aquests són les seves ofertes registrades Syscoin. operacions d'oferta (creació, actualització) prenen 2-5 minuts en activar-se. Podeu triar què àlies per veure ofertes relacionades utilitzant el desplegable a la dreta.</translation>
+    </message>
+    <message>
+        <source>Copy Title</source>
+        <translation>còpia Títol</translation>
+    </message>
+    <message>
+        <source>Copy Description</source>
+        <translation>Copy Descripció</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2942,6 +3498,10 @@
         <translation>Valoració del venedor</translation>
     </message>
     <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+    <message>
         <source>Payment Options</source>
         <translation>Opcions de pagament</translation>
     </message>
@@ -2965,8 +3525,8 @@
         <translation>descompte</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>en expira</translation>
+        <source>Expires On</source>
+        <translation>Caduca el</translation>
     </message>
 </context>
 <context>
@@ -2980,20 +3540,28 @@
         <translation>Actualitzar la llista d'afiliats a aquesta oferta</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Actualització</translation>
+        <source>Refresh</source>
+        <translation>Actualització</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>exportació</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
         <translation>Vostè és un afiliat d'aquestes ofertes. operacions d'afiliats prenen 2-5 minuts en activar-se. El propietari de l'oferta es pot afegir a la seva llista d'afiliats i la seva entrada afiliat es mostrarà aquí.</translation>
+    </message>
+    <message>
+        <source>Copy Alias</source>
+        <translation>còpia Alias</translation>
+    </message>
+    <message>
+        <source>Could not refresh the affiliate list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'afiliats:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the affiliate list: </source>
@@ -3027,7 +3595,11 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>NewMessageDialog</name>
     <message>
@@ -3075,6 +3647,18 @@
         <translation>respondre Missatge</translation>
     </message>
     <message>
+        <source>Choose 'Yes' if you are sending a Hex string as a message such as a raw transaction for multisignature signing purposes. To compress the message this will convert the message data from hex to binary and send it to the recipient. The outgoing message field will not be utilized to save space.</source>
+        <translation>Tria "Sí" si va a enviar una cadena hexadecimal com un missatge com una transacció en brut per a fins multisignature signatura. Per comprimir el missatge Això convertirà les dades del missatge d'hexadecimal a binari i enviar-lo al destinatari. El camp de missatge sortint no serà utilitzat per estalviar espai.</translation>
+    </message>
+    <message>
+        <source>Select an Alias</source>
+        <translation>Seleccioneu un àlies</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'àlies:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the alias list: </source>
         <translation>Hi va haver una excepció tractant d'actualitzar la llista d'àlies:</translation>
     </message>
@@ -3085,6 +3669,18 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error creating new message: </source>
+        <translation>Error en crear un nou missatge:</translation>
+    </message>
+    <message>
+        <source>Error replying to message: </source>
+        <translation>Error en resposta a missatge:</translation>
+    </message>
+    <message>
+        <source>The entered message is not a valid Syscoin message</source>
+        <translation>El missatge introduït no és un missatge vàlid Syscoin</translation>
     </message>
     <message>
         <source>General exception creating new message</source>
@@ -3118,12 +3714,28 @@
         <translation>descompte</translation>
     </message>
     <message>
+        <source>Enter the alias and discount level of your affiliate. This is a percentage of price for your offer you want to allow your affiliate to purchase your offer for. Typically given to wholesalers or for special arrangements with an affiliate.</source>
+        <translation>Introdueixi el nivell d'àlies i el descompte de la seva afiliat. Aquest és un percentatge del preu de la seva oferta desitja permetre que el seu afiliat per comprar la seva oferta per. En general donada als majoristes o per arranjaments especials amb un afiliat.</translation>
+    </message>
+    <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
     </message>
     <message>
         <source>New affiliate added successfully!</source>
         <translation>Nou afiliat afegit correctament!</translation>
+    </message>
+    <message>
+        <source>Error creating new affiliate: </source>
+        <translation>S'ha pogut crear el nou afiliat:</translation>
+    </message>
+    <message>
+        <source>General exception creating new affiliate: </source>
+        <translation>excepció general la creació de nous afiliats:</translation>
+    </message>
+    <message>
+        <source>The entered entry is not a valid affiliate</source>
+        <translation>L'entrada introduïda no és vàlida una filial</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -3157,12 +3769,36 @@
         <translation>Pagar amb Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>I la paga amb les SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Pagar amb SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
         <translation>ús de dipòsit de garantia</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the rates peg for this offer. Currency: </source>
+        <translation>No s'ha pogut trobar la moneda en les taxes de clavilla per a aquesta oferta. Moneda:</translation>
+    </message>
+    <message>
+        <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant</source>
+        <translation>Introduïu un àrbitre Syscoin que es mutally de confiança entre vostè i el comerciant</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to purchase</source>
+        <translation>Esteu segur que voleu comprar</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <source>from merchant</source>
+        <translation>del comerciant</translation>
+    </message>
+    <message>
+        <source>You will be charged</source>
+        <translation>Se li cobrarà</translation>
     </message>
     <message>
         <source>Pay Escrow</source>
@@ -3179,6 +3815,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error accepting offer: </source>
+        <translation>Error acceptar l'oferta:</translation>
+    </message>
+    <message>
+        <source>Error creating escrow: </source>
+        <translation>S'ha pogut crear el dipòsit de garantia:</translation>
     </message>
     <message>
         <source>General exception when accepting offer</source>
@@ -3216,8 +3860,8 @@
         <translation>Confirmar aquest pagament a la blockchain Bitcoin</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>I confirmar el pagament</translation>
+        <source>Confirm Payment</source>
+        <translation>confirmar Pagament</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -3252,6 +3896,18 @@
         <translation>No es pot analitzar els resultats JSON</translation>
     </message>
     <message>
+        <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox</source>
+        <translation>Introduïu un àrbitre Syscoin que es mutally de confiança entre vostè i el comerciant. A continuació, habiliti la casella de verificació "Utilitza el fideïcomís '</translation>
+    </message>
+    <message>
+        <source>Payment on Syscoin Decentralized Marketplace. Offer ID: </source>
+        <translation>Pagament en Syscoin descentralitzada del mercat. ID de l'oferta:</translation>
+    </message>
+    <message>
+        <source>Failed to generate multisig address: </source>
+        <translation>No s'ha pogut generar la direcció multisig:</translation>
+    </message>
+    <message>
         <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
         <translation>No s'ha pogut generar la direcció del fideïcomís multisig: Resposta no vàlida del generateescrowmultisig</translation>
     </message>
@@ -3260,8 +3916,56 @@
         <translation>No s'ha pogut crear la transacció de dipòsit en garantia: no s'ha pogut trobar redimir l'escriptura en resposta</translation>
     </message>
     <message>
+        <source>Could not create escrow transaction: could not find multisig address in response</source>
+        <translation>No s'ha pogut crear la transacció de dipòsit en garantia: no s'ha pogut trobar la direcció en resposta multisig</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to purchase</source>
+        <translation>Esteu segur que voleu comprar</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <source>from merchant</source>
+        <translation>del comerciant</translation>
+    </message>
+    <message>
+        <source>Follow the steps below to successfully pay via Bitcoin:</source>
+        <translation>Seguiu els passos següents per pagar amb èxit a través de Bitcoin:</translation>
+    </message>
+    <message>
+        <source>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.</source>
+        <translation>1. Si utilitzeu el fideïcomís, si us plau, introdueixi el seu àrbitre de plica en el quadre d'entrada de sota i marqui la casella de verificació "Utilitza el fideïcomís '. Deixi la casella de verificació de dipòsit en garantia sense marcar si no voleu utilitzar el fideïcomís.</translation>
+    </message>
+    <message>
+        <source>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.</source>
+        <translation>2. Obriu la seva cartera Bitcoin. Podeu utilitzar el codi QR a l'esquerra per escanejar la sol·licitud de pagament en la seva cartera o feu clic a "Obre la carpeta de BTC 'si està a l'escriptori i tenir instal·lat Bitcoin Core.</translation>
+    </message>
+    <message>
+        <source>3. Pay</source>
+        <translation>3. Pagar</translation>
+    </message>
+    <message>
         <source>to</source>
         <translation>a</translation>
+    </message>
+    <message>
+        <source>using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.</source>
+        <translation>usant la seva cartera Bitcoin. Si us plau, activa les tarifes dinàmiques en la seva cartera BTC sobre el pagament per la confirmació d'una manera oportuna.</translation>
+    </message>
+    <message>
+        <source>4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid.</source>
+        <translation>4. Introduïu l'ID de la transacció i feu clic al botó "Confirmar pagament" una vegada que hagi pagat.</translation>
+    </message>
+    <message>
+        <source>Escrow created successfully! Please fund using BTC address </source>
+        <translation>Fideïcomís creat amb èxit! Si us plau finançar mitjançant l'adreça BTC</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the Bitcoin blockchain! Full payment has been detected. TXID: </source>
+        <translation>Transacció es troba en el blockchain Bitcoin! El pagament total s'ha detectat. de TXID:</translation>
     </message>
     <message>
         <source>Cannot parse JSON response: </source>
@@ -3286,6 +3990,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error accepting offer: </source>
+        <translation>Error acceptar l'oferta:</translation>
+    </message>
+    <message>
+        <source>Error creating escrow: </source>
+        <translation>S'ha pogut crear el dipòsit de garantia:</translation>
     </message>
     <message>
         <source>General exception when accepting offer</source>
@@ -3323,8 +4035,8 @@
         <translation>Confirmar aquest pagament a la blockchain Bitcoin</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>I confirmar el pagament</translation>
+        <source>Confirm Payment</source>
+        <translation>confirmar Pagament</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -3367,6 +4079,18 @@
         <translation>No es pot analitzar els resultats JSON</translation>
     </message>
     <message>
+        <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox</source>
+        <translation>Introduïu un àrbitre Syscoin que es mutally de confiança entre vostè i el comerciant. A continuació, habiliti la casella de verificació "Utilitza el fideïcomís '</translation>
+    </message>
+    <message>
+        <source>Payment on Syscoin Decentralized Marketplace. Offer ID: </source>
+        <translation>Pagament en Syscoin descentralitzada del mercat. ID de l'oferta:</translation>
+    </message>
+    <message>
+        <source>Failed to generate multisig address: </source>
+        <translation>No s'ha pogut generar la direcció multisig:</translation>
+    </message>
+    <message>
         <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
         <translation>No s'ha pogut generar la direcció del fideïcomís multisig: Resposta no vàlida del generateescrowmultisig</translation>
     </message>
@@ -3375,8 +4099,56 @@
         <translation>No s'ha pogut crear la transacció de dipòsit en garantia: no s'ha pogut trobar redimir l'escriptura en resposta</translation>
     </message>
     <message>
+        <source>Could not create escrow transaction: could not find multisig address in response</source>
+        <translation>No s'ha pogut crear la transacció de dipòsit en garantia: no s'ha pogut trobar la direcció en resposta multisig</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to purchase</source>
+        <translation>Esteu segur que voleu comprar</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <source>from merchant</source>
+        <translation>del comerciant</translation>
+    </message>
+    <message>
+        <source>Follow the steps below to successfully pay via ZCash:</source>
+        <translation>Seguiu els passos següents per pagar amb èxit a través de ZCash:</translation>
+    </message>
+    <message>
+        <source>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.</source>
+        <translation>1. Si utilitzeu el fideïcomís, si us plau, introdueixi el seu àrbitre de plica en el quadre d'entrada de sota i marqui la casella de verificació "Utilitza el fideïcomís '. Deixi la casella de verificació de dipòsit en garantia sense marcar si no voleu utilitzar el fideïcomís.</translation>
+    </message>
+    <message>
+        <source>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open ZEC Wallet' if you are on the desktop and have ZCash Core installed.</source>
+        <translation>2. Obriu la seva cartera ZCash. Podeu utilitzar el codi QR a l'esquerra per escanejar la sol·licitud de pagament en la seva cartera o feu clic a "Obre ZEC Moneder 'si està a l'escriptori i tenir instal·lat ZCash Core.</translation>
+    </message>
+    <message>
+        <source>3. Pay</source>
+        <translation>3. Pagar</translation>
+    </message>
+    <message>
         <source>to</source>
         <translation>a</translation>
+    </message>
+    <message>
+        <source>using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.</source>
+        <translation>usant la seva cartera ZCash. Si us plau, activa les tarifes dinàmiques en la seva cartera ZEC sobre el pagament per la confirmació d'una manera oportuna.</translation>
+    </message>
+    <message>
+        <source>4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid.</source>
+        <translation>4. Introduïu l'ID de la transacció i feu clic al botó "Confirmar pagament" una vegada que hagi pagat.</translation>
+    </message>
+    <message>
+        <source>Escrow created successfully! Please fund using ZEC address </source>
+        <translation>Fideïcomís creat amb èxit! Si us plau finançar mitjançant l'adreça de la ZEC</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the ZCash blockchain! Full payment has been detected. TXID: </source>
+        <translation>Transacció es troba en el blockchain ZCash! El pagament total s'ha detectat. de TXID:</translation>
     </message>
     <message>
         <source>Cannot parse JSON response: </source>
@@ -3401,6 +4173,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error accepting offer: </source>
+        <translation>Error acceptar l'oferta:</translation>
+    </message>
+    <message>
+        <source>Error creating escrow: </source>
+        <translation>S'ha pogut crear el dipòsit de garantia:</translation>
     </message>
     <message>
         <source>General exception when accepting offer</source>
@@ -3478,8 +4258,12 @@
         <translation>Valoració mitjana:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Enviament i Informació de contacte:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Enviament d'Informació de contacte:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>D'acord</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -3522,10 +4306,6 @@
         <translation>els vots venedor</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;D'acord</translation>
-    </message>
-    <message>
         <source>No Feedback Found</source>
         <translation>No s'han trobat comentaris</translation>
     </message>
@@ -3538,8 +4318,32 @@
         <translation>venedor</translation>
     </message>
     <message>
+        <source>Feedback #</source>
+        <translation>Feedback #</translation>
+    </message>
+    <message>
+        <source>(Buyer)</source>
+        <translation>(Comprador)</translation>
+    </message>
+    <message>
+        <source>(Merchant)</source>
+        <translation>(Comerciant)</translation>
+    </message>
+    <message>
+        <source>Stars</source>
+        <translation>estrelles</translation>
+    </message>
+    <message>
+        <source>No Rating</source>
+        <translation>no Rating</translation>
+    </message>
+    <message>
         <source>No Feedback</source>
         <translation>sense comentaris</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;%1&lt;/b&gt;</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <source>From:</source>
@@ -3620,8 +4424,32 @@
         <translation>En el pagament del fideïcomís</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>i Acabat</translation>
+        <source>Please wait...</source>
+        <translation>Si us plau ...</translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation>acabat</translation>
+    </message>
+    <message>
+        <source>You've created an escrow for</source>
+        <translation>Vostè ha creat un dipòsit en garantia per</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <source>for</source>
+        <translation>per</translation>
+    </message>
+    <message>
+        <source>Your payment is in escrow!</source>
+        <translation>El seu pagament és en dipòsit!</translation>
+    </message>
+    <message>
+        <source>The merchant and arbiter have been sent an escrow notification. The merchant may follow-up with further information.</source>
+        <translation>El comerciant i àrbitre han rebut una notificació de dipòsit en garantia. El comerciant pot seguiment amb més informació.</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3655,8 +4483,40 @@
         <translation>No es pot trobar aquesta oferta de compra a la xarxa, si us plau-ho a provar més tard.</translation>
     </message>
     <message>
+        <source>This offer payment was for Offer ID</source>
+        <translation>Aquest pagament oferta era per ID de l'oferta</translation>
+    </message>
+    <message>
+        <source>for</source>
+        <translation>per</translation>
+    </message>
+    <message>
+        <source>totalling</source>
+        <translation>totalitzant</translation>
+    </message>
+    <message>
         <source>Buyer:</source>
         <translation>comprador:</translation>
+    </message>
+    <message>
+        <source>merchant:</source>
+        <translation>comerciant:</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of this offer, please send feedback and rate the merchant once you have confirmed that you have recieved the item as per the description of the offer.</source>
+        <translation>Vostè és el "comprador" d'aquesta oferta, si us plau, envieu els vostres comentaris i qualificar el mercantil un cop confirmat que ha rebut l'article d'acord amb la descripció de l'oferta.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of this offer, you may leave feedback and rate the buyer once you confirmed you have recieved full payment from buyer and you have ship the goods (if its for a physical good).</source>
+        <translation>Vostè és el 'comerciant' d'aquesta oferta, pot deixar comentaris i vota pel comprador una vegada que vostè hagi de confirmar que ha rebut el pagament complet del comprador i cal enviar les mercaderies (si és per una bona física).</translation>
+    </message>
+    <message>
+        <source>Error sending feedback: </source>
+        <translation>Error a l'enviar retroalimentació:</translation>
+    </message>
+    <message>
+        <source>Could find alias: </source>
+        <translation>Es va poder trobar l'àlies:</translation>
     </message>
     <message>
         <source>You cannot leave feedback this offer purchase because you do not own either the buyer or merchant aliases.</source>
@@ -3694,8 +4554,8 @@
         <translation>Copia l'oferta seleccionada al porta-retalls del sistema</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>I Còpia ID de l'oferta</translation>
+        <source>Copy Offer ID</source>
+        <translation>Còpia ID de l'oferta</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3734,6 +4594,18 @@
         <translation>Buscar Ofertes Syscoin (doble clic en un per a la compra). Seleccionar opcions de cerca segura de cartera si vol ometre Ofertes potencialment ofensius (per defecte)</translation>
     </message>
     <message>
+        <source>Copy Title</source>
+        <translation>còpia Títol</translation>
+    </message>
+    <message>
+        <source>Copy Description</source>
+        <translation>Copy Descripció</translation>
+    </message>
+    <message>
+        <source>Message Seller</source>
+        <translation>missatge del venedor</translation>
+    </message>
+    <message>
         <source>Enter search term, regex accepted (ie: ^name returns all Offer's starting with 'name'). Empty will search for all.</source>
         <translation>Introdueixi terme de cerca, expressions regulars acceptats (és a dir: ^ nom retorna tots els de l'oferta que comencen amb 'nom'). Buidar buscarà tots.</translation>
     </message>
@@ -3748,6 +4620,14 @@
     <message>
         <source>Sorry, you cannot not purchase this offer, it is sold out!</source>
         <translation>En aquest moment, no es pot no comprar aquesta oferta, es ven fora!</translation>
+    </message>
+    <message>
+        <source>Error searching Offer: </source>
+        <translation>Error Oferta cercar:</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Pàgina actual:</translation>
     </message>
     <message>
         <source>General exception when searching offer</source>
@@ -3765,8 +4645,32 @@
         <translation>Paga per article</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>i Acabat</translation>
+        <source>Please wait...</source>
+        <translation>Si us plau ...</translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation>acabat</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <source>for</source>
+        <translation>per</translation>
+    </message>
+    <message>
+        <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
+        <translation>El comerciant s'ha enviat la seva informació de lliurament i el seu article ha d'arribar en breu. El comerciant pot seguiment amb més informació a través d'un missatge privat (Comprova la safata d'entrada de forma regular).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Vostè ha comprat</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>El seu pagament s'ha completat!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3835,14 +4739,26 @@
 <context>
     <name>OfferView</name>
     <message>
+        <source>Selling</source>
+        <translation>de venda</translation>
+    </message>
+    <message>
         <source>Sold</source>
         <translation>venut</translation>
+    </message>
+    <message>
+        <source>My Purchases</source>
+        <translation>Els meus Compres</translation>
     </message>
     <message>
         <source>Search</source>
         <translation>Cerca</translation>
     </message>
-    </context>
+    <message>
+        <source>Buy</source>
+        <translation>comprar</translation>
+    </message>
+</context>
 <context>
     <name>OfferWhitelistTableModel</name>
     <message>
@@ -3854,8 +4770,8 @@
         <translation>descompte</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>en expira</translation>
+        <source>Expires On</source>
+        <translation>Caduca el</translation>
     </message>
 </context>
 <context>
@@ -3933,7 +4849,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>i preferències</translation>
+        <translation>i &amp;preferències </translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -4222,6 +5138,14 @@
         <translation>Aquests són els missatges que ha enviat Syscoin. Podeu triar què àlies per veure els missatges relacionats utilitzant el desplegable a la dreta.</translation>
     </message>
     <message>
+        <source>Copy Subject</source>
+        <translation>còpia Assumpte</translation>
+    </message>
+    <message>
+        <source>Copy Msg</source>
+        <translation>copiar Msg</translation>
+    </message>
+    <message>
         <source>New Msg</source>
         <translation>nou Msg</translation>
     </message>
@@ -4265,7 +5189,11 @@
         <source>Error exporting</source>
         <translation>pogut exportar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>No s'ha pogut escriure al fitxer:</translation>
+    </message>
+</context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -4458,6 +5386,10 @@
         <translation>Import</translation>
     </message>
     <message>
+        <source>Enter a Syscoin address e.g. johnsmith or </source>
+        <translation>Una adreça Syscoin per exemple, johnsmith o</translation>
+    </message>
+    <message>
         <source>%1 d</source>
         <translation>%1 d</translation>
     </message>
@@ -4485,9 +5417,33 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
+    <message numerus="yes">
+        <source>%n seconds(s)</source>
+        <translation><numerusform>%n segons(s)</numerusform><numerusform>%n segons(s)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes(s)</source>
+        <translation><numerusform>%n minuts(s)</numerusform><numerusform>%n minuts(s)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n Hora</numerusform><numerusform>%n hores</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n dia</numerusform><numerusform>%n dies</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n la setmana</numerusform><numerusform>%n setmanes</numerusform></translation>
+    </message>
     <message>
         <source>%1 and %2</source>
         <translation>%1 i %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>any %n</numerusform><numerusform>%n anys</numerusform></translation>
     </message>
     <message>
         <source>All</source>
@@ -4628,6 +5584,10 @@
         <translation>Agent d'usuari</translation>
     </message>
     <message>
+        <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Obriu el fitxer de registre de depuració %1 des del directori de dades actual. Això pot trigar uns segons per a grans arxius de registre.</translation>
+    </message>
+    <message>
         <source>Decrease font size</source>
         <translation>Disminuir la mida de la font</translation>
     </message>
@@ -4738,6 +5698,10 @@
     <message>
         <source>&amp;Unban Node</source>
         <translation>&amp;Desbandeja el node</translation>
+    </message>
+    <message>
+        <source>Welcome to the %1 RPC console.</source>
+        <translation>Benvingut a la consola RPC %1.</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -4988,6 +5952,22 @@
         <translation>àlies:</translation>
     </message>
     <message>
+        <source>Offer resold successfully! Check the 'Selling' tab to see it after it has confirmed.</source>
+        <translation>Oferta revenut correctament! Comproveu la pestanya de "vendre" per veure que després que s'ha confirmat.</translation>
+    </message>
+    <message>
+        <source>Error creating new linked offer: </source>
+        <translation>Error en crear nova oferta relacionada:</translation>
+    </message>
+    <message>
+        <source>General exception creating new linked offer: </source>
+        <translation>excepció general la creació de nova oferta relacionada:</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>No s'ha pogut actualitzar la llista d'àlies:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the alias list: </source>
         <translation>Hi va haver una excepció tractant d'actualitzar la llista d'àlies:</translation>
     </message>
@@ -5230,6 +6210,10 @@
         <source>Pay only the required fee of %1</source>
         <translation>Paga només la comissió necessària de %1</translation>
     </message>
+    <message numerus="yes">
+        <source>Estimated to begin confirmation within %n block(s).</source>
+        <translation><numerusform>Benvolgut per començar la confirmació dins el bloc (s) %n.</numerusform><numerusform>Benvolgut per començar la confirmació dins el bloc (s) %n.</numerusform></translation>
+    </message>
     <message>
         <source>Warning: Invalid Syscoin address</source>
         <translation>Avís: adreça Syscoin no vàlida</translation>
@@ -5336,6 +6320,10 @@
 <context>
     <name>ShutdownWindow</name>
     <message>
+        <source>%1 is shutting down...</source>
+        <translation>%1 s'està tancant ...</translation>
+    </message>
+    <message>
         <source>Do not shut down the computer until this window disappears.</source>
         <translation>No apagueu l'ordinador fins que no desaparegui aquesta finestra.</translation>
     </message>
@@ -5367,6 +6355,30 @@
         <translation>descodificació d'excepció general de transaccions en brut</translation>
     </message>
     <message>
+        <source>Sign a raw syscoin transaction and send it to the network if it is complete with all required signatures. Enter the raw hex encoded transaction below</source>
+        <translation>Signar una transacció syscoin prima i enviar-lo a la xarxa si és complet amb totes les signatures necessàries. Introduïu l'operació codificada hexadecimal prima per sota</translation>
+    </message>
+    <message>
+        <source>Once you enter a valid raw transaction in the general section this area will become populated with the raw transaction information including any syscoin related service information so you will know what the transaction is doing before signing and potentially sending it to the network.</source>
+        <translation>Una vegada que introdueix una transacció en brut vàlid en la part general aquesta àrea serà completada amb la informació de la transacció prima incloent qualsevol informació relacionada amb el servei syscoin perquè sàpiga el que està fent la transacció abans de signar i potencialment de enviar-lo a la xarxa.</translation>
+    </message>
+    <message>
+        <source>The area below is to display syscoin specific information regarding this transaction. Currently there is nothing to display</source>
+        <translation>La zona situada per sota per a informació específica syscoin pel que fa a aquesta transacció. De moment no hi ha res per mostrar</translation>
+    </message>
+    <message>
+        <source>Error creating decoding raw transaction: </source>
+        <translation>Error en crear la descodificació de transacció en brut:</translation>
+    </message>
+    <message>
+        <source>The area below is to display syscoin specific information regarding this transaction</source>
+        <translation>La zona situada per sota per mostrar la informació específica relativa a aquesta transacció syscoin</translation>
+    </message>
+    <message>
+        <source>Error creating decoding raw syscoin transaction: </source>
+        <translation>Error en crear la descodificació de transacció syscoin prima:</translation>
+    </message>
+    <message>
         <source>General exception decoding raw syscoin transaction</source>
         <translation>descodificació d'excepció general transacció syscoin prima</translation>
     </message>
@@ -5377,6 +6389,10 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Aquesta operació requereix més signatures. hexagonal transacció ha estat copiat al porta per la seva referència. Si us plau proporcionar-la a un signant que encara no ha signat.</translation>
+    </message>
+    <message>
+        <source>Error creating updating multisig alias: </source>
+        <translation>Error en crear l'actualització d'àlies multisig:</translation>
     </message>
     <message>
         <source>General exception creating sending raw alias update transaction</source>
@@ -5540,16 +6556,24 @@
         <translation>S'està sincronitzant amb la xarxa ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Panorama general</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>visió de conjunt</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Mostra el panorama general del moneder</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>enviar</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>rebre</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -5560,12 +6584,32 @@
         <translation>Cerca a l'historial de transaccions</translation>
     </message>
     <message>
+        <source>Aliases</source>
+        <translation>àlies</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>mercat</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certificats</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>dipòsit</translation>
+    </message>
+    <message>
         <source>E&amp;xit</source>
         <translation>S&amp;urt</translation>
     </message>
     <message>
         <source>Quit application</source>
         <translation>Surt de l'aplicació</translation>
+    </message>
+    <message>
+        <source>Show information about %1</source>
+        <translation>Mostra informació sobre %1</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -5578,6 +6622,10 @@
     <message>
         <source>&amp;Options...</source>
         <translation>&amp;Opcions...</translation>
+    </message>
+    <message>
+        <source>Modify configuration options for %1</source>
+        <translation>Modificar les opcions de configuració per %1</translation>
     </message>
     <message>
         <source>&amp;Encrypt Wallet...</source>
@@ -5638,14 +6686,6 @@
     <message>
         <source>Wallet</source>
         <translation>Moneder</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Envia</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Rep</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -5752,40 +6792,20 @@
         <translation>Al dia</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; actuarà com a enllaç</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>administrar àlies</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>i Missatges</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>missatges</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>i del mercat</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>gestionar les ofertes</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>i Certificats</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>administrar certificats</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>i el fideïcomís</translation>
     </message>
     <message>
         <source>Escrows with offers</source>
@@ -5794,6 +6814,14 @@
     <message>
         <source>&amp;About Syscoin Core</source>
         <translation>&amp;Quant al Syscoin Core</translation>
+    </message>
+    <message>
+        <source>Show the %1 help message to get a list with possible Syscoin command-line options</source>
+        <translation>Mostra el missatge d'ajuda %1 per obtenir una llista amb possibles Syscoin opcions de línia d'ordres</translation>
+    </message>
+    <message>
+        <source>%1 client</source>
+        <translation>%1 de clients</translation>
     </message>
     <message>
         <source>Catching up...</source>
@@ -5839,11 +6867,11 @@
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
-        <translation>la generació de claus d'alta definició és &lt;b&gt; habilitat &lt;/ b&gt;</translation>
+        <translation>la generació de claus d'alta definició és &lt;b&gt; habilitat &lt;/b&gt;</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
-        <translation>la generació de claus d'alta definició és &lt;b&gt; desactivat &lt;/ b&gt;</translation>
+        <translation>la generació de claus d'alta definició és &lt;b&gt; desactivat &lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
@@ -5863,13 +6891,25 @@
 </context>
 <context>
     <name>TransactionDesc</name>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Obert per %n més bloc (s)</numerusform><numerusform>Obert per %n més bloc (s)</numerusform></translation>
+    </message>
     <message>
         <source>Open until %1</source>
         <translation>Obert fins %1</translation>
     </message>
     <message>
+        <source>conflicted with a transaction with %1 confirmations</source>
+        <translation>entrava en conflicte amb una transacció amb %1 confirmacions</translation>
+    </message>
+    <message>
         <source>%1/offline</source>
         <translation>%1/fora de línia</translation>
+    </message>
+    <message>
+        <source>0/unconfirmed, %1</source>
+        <translation>0 / sense confirmar, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
@@ -5898,6 +6938,10 @@
     <message>
         <source>, has not been successfully broadcast yet</source>
         <translation>, encara no ha estat emès correctement</translation>
+    </message>
+    <message numerus="yes">
+        <source>, broadcast through %n node(s)</source>
+        <translation><numerusform>, Transmès a través del node(s) %n</numerusform><numerusform>, Transmès a través del node(s) %n</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -5938,6 +6982,10 @@
     <message>
         <source>Credit</source>
         <translation>Crèdit</translation>
+    </message>
+    <message numerus="yes">
+        <source>matures in %n more block(s)</source>
+        <translation><numerusform>venç en %n més bloc(s)</numerusform><numerusform>venç en %n més bloc(s)</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -6026,7 +7074,11 @@
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Aquest panell mostra una descripció detallada de la transacció</translation>
     </message>
-    </context>
+    <message>
+        <source>Details for %1</source>
+        <translation>Els detalls d'%1</translation>
+    </message>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -6040,6 +7092,10 @@
     <message>
         <source>Label</source>
         <translation>Etiqueta</translation>
+    </message>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Obert per %n més bloc(s)</numerusform><numerusform>Obert per %n més bloc(s)</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -6561,6 +7617,10 @@
 <context>
     <name>WalletView</name>
     <message>
+        <source>Export</source>
+        <translation>exportació</translation>
+    </message>
+    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
@@ -6660,12 +7720,28 @@
         <translation>Nucli de Syscoin</translation>
     </message>
     <message>
+        <source>The %s developers</source>
+        <translation>El %s desenvolupadors</translation>
+    </message>
+    <message>
         <source>-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</source>
         <translation>-fallbackfee s'ajusta molt alt! Aquesta és la tarifa de transacció que poden carregar-se quan les estimacions de taxes no estan disponibles.</translation>
     </message>
     <message>
+        <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
+        <translation>Un tipus de la comissió (en %s/kB) que serà utilitzat quan l'estimació de tarifa té dades suficients (per defecte: %s)</translation>
+    </message>
+    <message>
+        <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
+        <translation>Acceptar transaccions internacionals retransmesos rebut dels companys de la llista blanca, fins i tot quan no la transmissió de les transaccions (per defecte: %d)</translation>
+    </message>
+    <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation>Vincula a una adreça específica i sempre escolta-hi. Utilitza la notació [host]:port per IPv6</translation>
+    </message>
+    <message>
+        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
+        <translation>No es pot obtenir un bloqueig en el directori de dades %s. %s és probable que ja estigui en funcionament.</translation>
     </message>
     <message>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
@@ -6676,8 +7752,28 @@
         <translation>Distribuït sota llicència de programari MIT. Vegeu el fitxer acompanyant COPYING o &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
     </message>
     <message>
+        <source>Error loading %s: You can't enable HD on a already existing non-HD wallet</source>
+        <translation>Error en carregar %s: No es pot permetre HD en un no-HD cartera ja existent</translation>
+    </message>
+    <message>
+        <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation>Error en llegir %s! Totes les claus llegits correctament, però les dades de transaccions o entrades de la llibreta d'adreces poden estar absents o incorrectes.</translation>
+    </message>
+    <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
         <translation>Executa una ordre quan una transacció del moneder canviï (%s en cmd es canvia per TxID)</translation>
+    </message>
+    <message>
+        <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
+        <translation>El temps màxim permès mitjana del seu ajust de l'offset. perspectiva local de temps pot estar influenciada per parells davant o cap a enrere per aquesta quantitat. (Per defecte: %u segons)</translation>
+    </message>
+    <message>
+        <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
+        <translation>les taxes màximes totals (en %s) per a usar en una sola transacció cartera o transacció en brut; assignem un valor massa baix pot avortar operacions de gran envergadura (per defecte: %s)</translation>
+    </message>
+    <message>
+        <source>Please check that your computer's date and time are correct! If your clock is wrong, %s will not work properly.</source>
+        <translation>Si us plau, comproveu que la data i l'hora de l'equip són correctes! Si el seu rellotge està malament, %s no funcionarà correctament.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
@@ -6716,6 +7812,14 @@
         <translation>Cal reconstruir la base de dades utilitzant -reindex-chainstate canviar -txindex</translation>
     </message>
     <message>
+        <source>%s corrupt, salvage failed</source>
+        <translation>%s corrupte, de rescat va fracassar</translation>
+    </message>
+    <message>
+        <source>-maxmempool must be at least %d MB</source>
+        <translation>-maxmempool ha de ser almenys %d MB</translation>
+    </message>
+    <message>
         <source>&lt;category&gt; can be:</source>
         <translation>&lt;category&gt; pot ser:</translation>
     </message>
@@ -6730,6 +7834,10 @@
     <message>
         <source>Block creation options:</source>
         <translation>Opcions de la creació de blocs:</translation>
+    </message>
+    <message>
+        <source>Cannot resolve -%s address: '%s'</source>
+        <translation>No es pot resoldre - l'adreça %s: '%s'</translation>
     </message>
     <message>
         <source>Change index out of range</source>
@@ -6776,12 +7884,32 @@
         <translation>Habilitar publicar transacció primera en &lt;address&gt;</translation>
     </message>
     <message>
+        <source>Enable transaction replacement in the memory pool (default: %u)</source>
+        <translation>Activa el reemplaçament de transacció al banc de memòria (per defecte: %u)</translation>
+    </message>
+    <message>
         <source>Error initializing block database</source>
         <translation>Error carregant la base de dades de blocs</translation>
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>
         <translation>Error inicialitzant l'entorn de la base de dades del moneder %s!</translation>
+    </message>
+    <message>
+        <source>Error loading %s</source>
+        <translation>Error en carregar %s</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet corrupted</source>
+        <translation>Error en carregar %s: Moneder danyat</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet requires newer version of %s</source>
+        <translation>Error en carregar %s: Moneder requereix una versió més recent d'%s</translation>
+    </message>
+    <message>
+        <source>Error loading %s: You can't disable HD on a already existing HD wallet</source>
+        <translation>Error en carregar %s: No es pot desactivar HD en una cartera d'alta definició ja existent</translation>
     </message>
     <message>
         <source>Error loading block database</source>
@@ -6808,8 +7936,24 @@
         <translation>No s'ha trobat el bloc de gènesi o és incorrecte. El directori de dades de la xarxa és incorrecte?</translation>
     </message>
     <message>
+        <source>Initialization sanity check failed. %s is shutting down.</source>
+        <translation>comprovació de validesa d'inicialització va fallar. %s està tancant.</translation>
+    </message>
+    <message>
         <source>Invalid -onion address: '%s'</source>
         <translation>Adreça -onion no vàlida: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -%s=&lt;amount&gt;: '%s'</source>
+        <translation>quantitat no vàlida per a -%s =&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -fallbackfee=&lt;amount&gt;: '%s'</source>
+        <translation>quantitat no vàlida per -fallbackfee=&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</source>
+        <translation>Mantenir la piscina memòria de transaccions per sota &lt;n&gt; megabytes (per defecte: %u)</translation>
     </message>
     <message>
         <source>Loading banlist...</source>
@@ -6868,6 +8012,10 @@
         <translation>Especifica un fitxer de moneder (dins del directori de dades)</translation>
     </message>
     <message>
+        <source>Unable to bind to %s on this computer. %s is probably already running.</source>
+        <translation>No es pot enllaçar a %s en aquest equip. %s és probable que ja estigui en funcionament.</translation>
+    </message>
+    <message>
         <source>Unsupported argument -benchmark ignored, use -debug=bench.</source>
         <translation>Sense suport -benchmark argument ignorat, utilitzeu -debug = banc.</translation>
     </message>
@@ -6884,6 +8032,10 @@
         <translation>Utilitza UPnP per a mapejar el port d'escolta (per defecte: %u)</translation>
     </message>
     <message>
+        <source>User Agent comment (%s) contains unsafe characters.</source>
+        <translation>comentari agent d'usuari (%s) conté caràcters no segurs.</translation>
+    </message>
+    <message>
         <source>Verifying blocks...</source>
         <translation>S'estan verificant els blocs...</translation>
     </message>
@@ -6898,6 +8050,10 @@
     <message>
         <source>Wallet debugging/testing options:</source>
         <translation>Cartera opcions de depuració / proves:</translation>
+    </message>
+    <message>
+        <source>Wallet needed to be rewritten: restart %s to complete</source>
+        <translation>Moneder necessària per a ser reescrit: reiniciar %s per completar</translation>
     </message>
     <message>
         <source>Wallet options:</source>
@@ -6930,6 +8086,10 @@
     <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
         <translation>Executa l'ordre quan es rebi un avís rellevant o veiem una forquilla molt llarga (%s en cmd és reemplaçat per un missatge)</translation>
+    </message>
+    <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
+        <translation>Honoraris (en %s/kB) més petit que aquest es consideren quota zero per a la retransmissió, la mineria i la creació de transaccions (per defecte: %s)</translation>
     </message>
     <message>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
@@ -6984,6 +8144,10 @@
         <translation>Accepta sol·licituds REST públiques (per defecte: %u)</translation>
     </message>
     <message>
+        <source>Automatically create Tor hidden service (default: %d)</source>
+        <translation>Creació automàtica de servei ocult Tor (per defecte: %d)</translation>
+    </message>
+    <message>
         <source>Connect through SOCKS5 proxy</source>
         <translation>Connecta a través del proxy SOCKS5</translation>
     </message>
@@ -7024,6 +8188,10 @@
         <translation>Opcions del servidor RPC:</translation>
     </message>
     <message>
+        <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
+        <translation>La reducció de -maxconnections %d de %d, a causa de les limitacions del sistema.</translation>
+    </message>
+    <message>
         <source>Rescan the block chain for missing wallet transactions on startup</source>
         <translation>Torneu a explorar el bloc de la cadena de transaccions que falten de la carpeta en l'arrencada</translation>
     </message>
@@ -7060,6 +8228,10 @@
         <translation>Tor contrasenya port de control (per defecte: buit)</translation>
     </message>
     <message>
+        <source>Tor control port to use if onion listening enabled (default: %s)</source>
+        <translation>Tor port de control a utilitzar si s'ha activat la ceba d'audició (per defecte: %s)</translation>
+    </message>
+    <message>
         <source>Transaction amount too small</source>
         <translation>Import de la transacció massa petit</translation>
     </message>
@@ -7094,6 +8266,14 @@
     <message>
         <source>Warning</source>
         <translation>Avís</translation>
+    </message>
+    <message>
+        <source>Warning: unknown new rules activated (versionbit %i)</source>
+        <translation>Notes: noves regles desconegudes activats (versionbit %i)</translation>
+    </message>
+    <message>
+        <source>Whether to operate in a blocks only mode (default: %u)</source>
+        <translation>Ja sigui per operar en una manera de només blocs (per defecte: %u)</translation>
     </message>
     <message>
         <source>Whitelist entries were added or removed</source>
@@ -7244,8 +8424,24 @@
         <translation>No s'ha pogut signar la transacció multisig: Resposta no vàlida del signrawtransaction</translation>
     </message>
     <message>
+        <source>Do not keep transactions in the mempool longer than &lt;n&gt; hours (default: %u)</source>
+        <translation>No mantenir les transaccions en el mempool més de &lt;n&gt; hores (per defecte: %u)</translation>
+    </message>
+    <message>
+        <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
+        <translation>bytes equivalents per sigop en les transaccions de relé i la mineria (per defecte:%u)</translation>
+    </message>
+    <message>
         <source>Expected amount of escrow does not match what is held in escrow. Expected amount: </source>
         <translation>quantitat que s'espera de la plica no coincideix amb el que es mantenen en reserva. quantitat que s'espera:</translation>
+    </message>
+    <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
+        <translation>Honoraris (en %s/kB) més petit que aquest es consideren quota zero per a la creació de transaccions (per defecte: %s)</translation>
+    </message>
+    <message>
+        <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
+        <translation>relé de la força de les transaccions dels companys de la llista blanca, fins i tot si violen les polítiques de retransmissió local (per defecte: %d)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
@@ -7296,6 +8492,10 @@
         <translation>Informació de sortida de la depuració (per defecte: %u, proporcionar &lt;category&gt; és opcional)</translation>
     </message>
     <message>
+        <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
+        <translation>filtrat de suport dels blocs i la transacció amb filtres de floració (per defecte: %u)</translation>
+    </message>
+    <message>
         <source>Syscoin is open source software produced by a global network of developers. By downloading, distributing and using Syscoin and the Syscoin network you release the developers involved in the Syscoin Project past, present, and future from any and all liability. You are responsible for your creations on the Syscoin network. You agree that the developers of the Syscoin Project carry no responsibility for the actions/data or entities of *any* definition created on the network by yourself or others on the network to which you may be exposed.</source>
         <translation>Syscoin és un programari de codi obert produït per una xarxa mundial de desenvolupadors. En realitzar la descàrrega, distribució i ús de la xarxa i Syscoin Syscoin de deixar anar els desenvolupadors involucrats en el passat Projecte Syscoin, present i futur de qualsevol i tota responsabilitat. Vostè és responsable de les seves creacions a la xarxa Syscoin. L'usuari accepta que els desenvolupadors del Projecte Syscoin no porten cap responsabilitat per les accions / dades o entitats de qualsevol definició * * creat a la xarxa per si mateix oa altres a la xarxa a la qual pot estar exposat.</translation>
     </message>
@@ -7310,6 +8510,14 @@
     <message>
         <source>This resold offer must be of higher price than the original offer including any discount</source>
         <translation>Aquesta oferta ha de ser revenuts de preu més alt que l'oferta original, incloent qualsevol descompte</translation>
+    </message>
+    <message>
+        <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
+        <translation>Longitud total de la cadena de versió de xarxa (%i) supera la longitud màxima (%i). Reduir el nombre o grandària uacomments.</translation>
+    </message>
+    <message>
+        <source>Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</source>
+        <translation>Tracta de mantenir el trànsit sortint en el marc de l'objectiu determinat (en MiB per 24h), 0 = sense límit (per defecte: %d)</translation>
     </message>
     <message>
         <source>Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
@@ -7329,7 +8537,7 @@
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
-        <translation>Nom d'usuari i la contrasenya amb algoritme hash per a les connexions de JSON-RPC. El camp &lt;userpw&gt; ve en el format: &lt;USERNAME&gt; : &lt;SALT&gt; $ &lt;HASH&gt; . Una seqüència d'ordres Python canònica està inclòs en la quota / rpcuser. Aquesta opció es pot especificar diverses vegades</translation>
+        <translation>Nom d'usuari i la contrasenya amb algoritme hash per a les connexions de JSON-RPC. El camp &lt;userpw&gt; ve en el format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt; . Una seqüència d'ordres Python canònica està inclòs en la quota / rpcuser. Aquesta opció es pot especificar diverses vegades</translation>
     </message>
     <message>
         <source>Warning: This transaction sends coins to an address or alias you do not own</source>
@@ -7338,6 +8546,10 @@
     <message>
         <source>Warning: Unknown block versions being mined! It's possible unknown rules are in effect</source>
         <translation>Notes: Desconegut versions de blocs estan explotant! És possible desconeguts regles estan en vigor</translation>
+    </message>
+    <message>
+        <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
+        <translation>Avís: l'arxiu de la carpeta corrupta, les dades recuperats! %s original guardat com a %s en %s; si el saldo de les transaccions o són incorrectes de restaurar des d'una còpia de seguretat.</translation>
     </message>
     <message>
         <source>You must be either the arbiter, buyer or seller to leave feedback on this escrow</source>
@@ -8468,8 +9680,16 @@
         <translation>àlies venedor no està en la seva cartera</translation>
     </message>
     <message>
+        <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
+        <translation>Enviar transaccions amb OPT-en-RBF complet habilitat (per defecte: %u)</translation>
+    </message>
+    <message>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation>Defineix la mida clau disponible a &lt;n&gt; (per defecte: %u)</translation>
+    </message>
+    <message>
+        <source>Set maximum BIP141 block weight (default: %d)</source>
+        <translation>Pes del conjunt de bloc màxim BIP141 (per defecte: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>

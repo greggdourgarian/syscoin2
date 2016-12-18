@@ -18,10 +18,6 @@
         <translation>Lookup in OfferID ex DB blockchain</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>Br &amp; Prices</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Quantity:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Purchase quod offerat</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>Accipite &amp; Prices</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -149,16 +141,8 @@
         <translation>Refice offer acceptus list</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Effingo currently offerre, ut lego ratio Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>Id Copy and Prices</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -183,10 +167,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>All</source>
@@ -378,10 +358,6 @@
         <translation>Effingo electae alias ratio, ut Clipboard</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>Alias ​​Copy ID:</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>Send Msg</translation>
     </message>
@@ -414,10 +390,6 @@
     </message>
     <message>
         <source>Expires On</source>
-        <translation>Vivamus In</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
         <translation>Vivamus In</translation>
     </message>
     <message>
@@ -573,10 +545,6 @@
         <translation>Imitari cert est currently ut lego ratio Clipboard</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>Quisque id Copy &amp;</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -625,10 +593,6 @@
     </message>
     <message>
         <source>Expires On</source>
-        <translation>Vivamus In</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
         <translation>Vivamus In</translation>
     </message>
     <message>
@@ -852,10 +816,6 @@
         <translation>Generalis</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Alias ​​in nomine.</translation>
     </message>
@@ -914,6 +874,10 @@
     <message>
         <source>5 Years</source>
         <translation>V annis</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Vis tu quidem permanere?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1165,16 +1129,8 @@
         <translation>Affiliate Refresh list</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Add a new Affiliate</translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation>Add:</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1195,10 +1151,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>Entry removed successfully!</source>
@@ -1233,6 +1185,10 @@
         <translation>alias</translation>
     </message>
     <message>
+        <source>Expires On</source>
+        <translation>Vivamus In</translation>
+    </message>
+    <message>
         <source>Discount</source>
         <translation>Discount</translation>
     </message>
@@ -1248,8 +1204,8 @@
         <translation>escrow Info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Generalis</translation>
+        <source>General</source>
+        <translation>Generalis</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1296,24 +1252,8 @@
         <translation>Average Rating:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Contact Shipping &amp; Information:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>Emptor Feedback:</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>Seller Feedback:</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>Arbiter Feedback:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
+        <source>OK</source>
+        <translation>consentio</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1357,10 +1297,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Copy est currently ut lego ratio escrow Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>Exemplar Escrow ID:</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1656,10 +1592,6 @@
         <translation>Can not parse JSON responsum:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>Reprehendo BTC Payment</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Please Wait ...</translation>
     </message>
@@ -1726,10 +1658,6 @@
         <translation>Refresh Nuntius list</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Send a message</translation>
     </message>
@@ -1742,10 +1670,6 @@
         <translation>Copy est currently ad lego ratio Clipboard</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>Copy Msg ID:</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Get Nuntius Details</translation>
     </message>
@@ -1756,10 +1680,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
 </context>
 <context>
@@ -1818,16 +1738,8 @@
         <translation>Tuo offer acceptus est album, reficite</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Effingo currently offerre, ut lego ratio Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>Id Copy and Prices</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -1852,10 +1764,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>All</source>
@@ -1937,24 +1845,16 @@
         <translation>Refresh alias album</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Partum a novus alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>Alias ​​New &amp;</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Effingo electae alias ratio, ut Clipboard</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>Alias ​​Copy ID:</translation>
+        <source>New Alias</source>
+        <translation>Alias ​​New</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -1991,10 +1891,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2041,10 +1937,6 @@
         <translation>Vivamus In</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Vivamus In</translation>
-    </message>
-    <message>
         <source>Seller Rating</source>
         <translation>Seller Rating</translation>
     </message>
@@ -2064,24 +1956,12 @@
         <translation>Refice testimonium album</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Partum a novus testimonium</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>New Products</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Copy currently in testimonium, ut lego ratio Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>Quisque id Copy &amp;</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2110,10 +1990,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>All</source>
@@ -2164,10 +2040,6 @@
         <translation>Vivamus In</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Vivamus In</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Error exporting</translation>
     </message>
@@ -2187,16 +2059,8 @@
         <translation>Tuis refice List of escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Copy est currently ut lego ratio escrow Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>Exemplar Escrow ID:</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2237,10 +2101,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>All</source>
@@ -2290,24 +2150,16 @@
         <translation>Tuis refice offers album</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
+        <source>New Offer</source>
+        <translation>Offer New</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Partum a novus offer</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>New &amp; Prices</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Effingo currently offerre, ut lego ratio Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>Id Copy and Prices</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2322,16 +2174,8 @@
         <translation>Manage this offer Aliquam</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Manage Affiliates</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2417,7 +2261,7 @@
         <translation>Discount</translation>
     </message>
     <message>
-        <source>Expires In</source>
+        <source>Expires On</source>
         <translation>Vivamus In</translation>
     </message>
 </context>
@@ -2432,16 +2276,8 @@
         <translation>Tuis refice offer pro Affiliate list</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Refresh</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta data in hac tabella in plicam</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -2589,10 +2425,6 @@
         <translation>Redde cum Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; In auribus SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>Use Escrow</translation>
     </message>
@@ -2642,10 +2474,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Confirma hoc pretium in BitCoin blockchain</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Payment Confirm</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2713,10 +2541,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Confirma hoc pretium in BitCoin blockchain</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Payment Confirm</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2806,8 +2630,8 @@
         <translation>Average Rating:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Contact Shipping &amp; Information:</translation>
+        <source>OK</source>
+        <translation>consentio</translation>
     </message>
     <message>
         <source>Offer Details</source>
@@ -2832,10 +2656,6 @@
     <message>
         <source>Certificate:</source>
         <translation>Products:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -2912,10 +2732,6 @@
         <translation>Payment in escrow</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp; perfice</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Please click Perago</translation>
     </message>
@@ -2972,10 +2788,6 @@
     <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Effingo currently offerre, ut lego ratio Clipboard</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>Id Copy and Prices</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3043,10 +2855,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Item Redde enim</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp; perfice</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3126,7 +2934,7 @@
         <translation>Discount</translation>
     </message>
     <message>
-        <source>Expires In</source>
+        <source>Expires On</source>
         <translation>Vivamus In</translation>
     </message>
 </context>
@@ -4600,10 +4408,6 @@
         <translation>Synchronizans cum rete...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Summarium</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -4618,6 +4422,18 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Inspicio historiam transactionum</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>aliases</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>Testimonia</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>escrow</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -4698,14 +4514,6 @@
     <message>
         <source>Wallet</source>
         <translation>Cassidile</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Mitte</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Accipe</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -4796,40 +4604,20 @@
         <translation>Recentissimo</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Manage aliases</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>Nuntius &amp;</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>nuntius</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>offers Manage</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>Testimonia &amp;</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Testimonia Manage</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Escrow</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

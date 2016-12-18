@@ -18,10 +18,6 @@
         <translation>חפש את OFFERID מן blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; הצעת בדיקה</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>כמות:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>לרכוש הצעה זו</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;קבל הצעה</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -149,16 +141,8 @@
         <translation>רענן רשימת הצעות מקובלת</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>העתק את ההצעה הנוכחית שנבחרה ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; ID הצעה העתק</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -183,10 +167,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>All</source>
@@ -378,10 +358,6 @@
         <translation>העתק את הכינוי הנוכחי שנבחר ללוח המערכת</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>והעתקת כינוי מזהה</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>שלח Msg</translation>
     </message>
@@ -415,10 +391,6 @@
     <message>
         <source>Expires On</source>
         <translation>פג תוקף בתאריך</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>פג תוקף ב</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -573,10 +545,6 @@
         <translation>העתק את CERT הנבחר הנוכחי ללוח המערכת</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; העתק תעודת זהות</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -626,10 +594,6 @@
     <message>
         <source>Expires On</source>
         <translation>פג תוקף בתאריך</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>פג תוקף ב</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -864,10 +828,6 @@
         <translation>כללי</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; כינוי:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>שם בדוי.</translation>
     </message>
@@ -926,6 +886,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 שנים</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>האם אתה בטוח שברצונך להמשיך?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1177,16 +1141,8 @@
         <translation>רשימת שותפים רעננה</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>הוספת שותפים חדשים</translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation>&amp;לְהוֹסִיף</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1207,10 +1163,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>Entry removed successfully!</source>
@@ -1245,6 +1197,10 @@
         <translation>כינוי</translation>
     </message>
     <message>
+        <source>Expires On</source>
+        <translation>פג תוקף בתאריך</translation>
+    </message>
+    <message>
         <source>Discount</source>
         <translation>הנחה</translation>
     </message>
@@ -1260,8 +1216,8 @@
         <translation>מידע בפקדון</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;כללי</translation>
+        <source>General</source>
+        <translation>כללי</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1308,24 +1264,8 @@
         <translation>דירוג ממוצע:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>מידע משלוחים קשר:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; משוב הקונה</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; משוב מוכר</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; משוב פוסק</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;אישור</translation>
+        <source>OK</source>
+        <translation>בסדר</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1369,10 +1309,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>העתק את השלשה הנבחרת הנוכחית ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>והעתקה בפקדון ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1684,10 +1620,6 @@
         <translation>לא ניתן לנתח תגובת JSON:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>בדוק תשלום BTC</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>המתן בבקשה...</translation>
     </message>
@@ -1754,10 +1686,6 @@
         <translation>ברשימת הודעות רעננה</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>שלח הודעה חדשה</translation>
     </message>
@@ -1770,10 +1698,6 @@
         <translation>העתק את ההודעה שנבחרה כרגע ללוח המערכת</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; העתק Msg ID</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>ליצירת קשר הודעה</translation>
     </message>
@@ -1784,10 +1708,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
 </context>
 <context>
@@ -1846,16 +1766,8 @@
         <translation>רענן רשימת ההצעות קבלה שלך</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>העתק את ההצעה הנוכחית שנבחרה ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; ID הצעה העתק</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -1880,10 +1792,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>All</source>
@@ -1965,24 +1873,16 @@
         <translation>רשימת כינוי רעננה</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>צור כינוי חדש</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>וניו כינוי</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>העתק את הכינוי הנוכחי שנבחר ללוח המערכת</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>והעתקת כינוי מזהה</translation>
+        <source>New Alias</source>
+        <translation>ניו כינוי</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2019,10 +1919,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2069,10 +1965,6 @@
         <translation>פג תוקף בתאריך</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>פג תוקף ב</translation>
-    </message>
-    <message>
         <source>Seller Rating</source>
         <translation>דירוג המוכר</translation>
     </message>
@@ -2092,24 +1984,12 @@
         <translation>רענן את רשימת תעודה</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>צור אישור חדש</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>וניו תעודה</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>העתק את האישור שנבחר ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; העתק תעודת זהות</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2138,10 +2018,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>All</source>
@@ -2192,10 +2068,6 @@
         <translation>פג תוקף בתאריך</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>פג תוקף ב</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>שגיאת יצוא</translation>
     </message>
@@ -2215,16 +2087,8 @@
         <translation>רענן רשימת escrows שלך</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>העתק את השלשה הנבחרת הנוכחית ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>והעתקה בפקדון ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2265,10 +2129,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>All</source>
@@ -2318,24 +2178,16 @@
         <translation>רענן רשימת ההצעות שלך</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
+        <source>New Offer</source>
+        <translation>הצעה חדשה</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>צור הצעה חדשה</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; הצעה חדשה</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>העתק את ההצעה הנוכחית שנבחרה ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; ID הצעה העתק</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2350,16 +2202,8 @@
         <translation>ניהול שותפים למבצע הזה</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; ניהול שותפים</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2445,8 +2289,8 @@
         <translation>הנחה</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>פג תוקף ב</translation>
+        <source>Expires On</source>
+        <translation>פג תוקף בתאריך</translation>
     </message>
 </context>
 <context>
@@ -2460,16 +2304,8 @@
         <translation>רענן את רשימת השותפים שלך עבור ההצעה הזו</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;לְרַעֲנֵן</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>יצוא הנתונים מהלשונית הנוכחית לקובץ</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>י&amp;צוא</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -2617,10 +2453,6 @@
         <translation>שלם עם Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; שלם עם SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>בפקדון שימוש</translation>
     </message>
@@ -2670,10 +2502,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>לאשר תשלום זה על blockchain ביטקוין</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; אשר תשלום</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2741,10 +2569,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>לאשר תשלום זה על blockchain ביטקוין</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; אשר תשלום</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2834,8 +2658,8 @@
         <translation>דירוג ממוצע:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>מידע משלוחים קשר:</translation>
+        <source>OK</source>
+        <translation>בסדר</translation>
     </message>
     <message>
         <source>Offer Details</source>
@@ -2860,10 +2684,6 @@
     <message>
         <source>Certificate:</source>
         <translation>תְעוּדָה:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;אישור</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -2940,10 +2760,6 @@
         <translation>תשלום בנאמנות</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;סִיוּם</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>אנא לחץ על סיום</translation>
     </message>
@@ -3000,10 +2816,6 @@
     <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>העתק את ההצעה הנוכחית שנבחרה ללוח המערכת</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; ID הצעה העתק</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3071,10 +2883,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>לשלם עבור פריט</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;סִיוּם</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3154,8 +2962,8 @@
         <translation>הנחה</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>פג תוקף ב</translation>
+        <source>Expires On</source>
+        <translation>פג תוקף בתאריך</translation>
     </message>
 </context>
 <context>
@@ -4724,10 +4532,6 @@
         <translation>בסנכרון עם הרשת…</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;סקירה</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>מפרק</translation>
     </message>
@@ -4742,6 +4546,18 @@
     <message>
         <source>Browse transaction history</source>
         <translation>עיון בהיסטוריית ההעברות</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>כינויים</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>תעודות</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>בפקדון</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -4826,14 +4642,6 @@
     <message>
         <source>Wallet</source>
         <translation>ארנק</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;שליחה</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;קבלה</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -4928,40 +4736,20 @@
         <translation>עדכני</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>נהל את הכינויים</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; הודעות</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>הודעות</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>נהל את ההצעות</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; תעודות</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>נהל אישורים</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; בפקדון</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

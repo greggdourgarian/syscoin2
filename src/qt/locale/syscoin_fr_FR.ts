@@ -66,10 +66,6 @@
         <translation>Acheter cette offre</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Accepter l'offre</translation>
-    </message>
-    <message>
         <source>Click to open image in browser...</source>
         <translation>Cliquer pour ouvrir l'image dans le navigateur...</translation>
     </message>
@@ -130,10 +126,6 @@
         <translation>Rafraîchir la liste de l'offre acceptée</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
     </message>
@@ -160,10 +152,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -549,6 +537,10 @@
         <translation>Non</translation>
     </message>
     <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Êtes-vous sûr de vouloir continuer?</translation>
+    </message>
+    <message>
         <source>Alias:</source>
         <translation>Alias :</translation>
     </message>
@@ -634,10 +626,6 @@
 <context>
     <name>EditWhitelistOfferDialog</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Remove</source>
         <translation>Retirer</translation>
     </message>
@@ -646,16 +634,20 @@
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Valeurs séparées par des virgules (*.csv)</translation>
+    </message>
+    <message>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
     </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Général</translation>
+    </message>
     <message>
         <source>ID</source>
         <translation>Référence</translation>
@@ -671,10 +663,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -819,20 +807,12 @@
 <context>
     <name>MessageListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>Détails</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
 </context>
 <context>
@@ -859,10 +839,6 @@
 <context>
     <name>MyAcceptedOfferListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
     </message>
@@ -877,10 +853,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -902,16 +874,8 @@
 <context>
     <name>MyAliasListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -925,16 +889,8 @@
 <context>
     <name>MyCertListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -956,10 +912,6 @@
 <context>
     <name>MyEscrowListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Details</source>
         <translation>Détails</translation>
     </message>
@@ -970,10 +922,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -987,20 +935,12 @@
 <context>
     <name>MyOfferListPage</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Copier l'offre actuellement sélectionnée dans le presse-papiers du système</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -1017,20 +957,16 @@
     </context>
 <context>
     <name>MyOfferWhitelistTableModel</name>
-    </context>
+    <message>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
+    </message>
+</context>
 <context>
     <name>MyWhitelistOfferDialog</name>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Rafraîchir</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporter les données de l'onglet courant vers un fichier</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporter</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1102,10 +1038,6 @@
         <source>Merchant:</source>
         <translation>Vendeur :</translation>
     </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
     </context>
 <context>
     <name>OfferAcceptTableModel</name>
@@ -1158,7 +1090,11 @@
     </context>
 <context>
     <name>OfferWhitelistTableModel</name>
-    </context>
+    <message>
+        <source>Expires On</source>
+        <translation>Expire le</translation>
+    </message>
+</context>
 <context>
     <name>OpenURIDialog</name>
     <message>
@@ -2041,10 +1977,6 @@
         <translation>Synchronisation avec le réseau...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Vue d'ensemble</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nœud</translation>
     </message>
@@ -2147,14 +2079,6 @@
     <message>
         <source>Wallet</source>
         <translation>Portefeuille</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Envoyer</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Réception</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

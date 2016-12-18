@@ -18,8 +18,8 @@
         <translation>Vyhledáváním OfferID z blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Vyhledávání Nabídka</translation>
+        <source>Lookup Offer</source>
+        <translation>Vyhledávací Nabídka</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>Kupte si tuto nabídku</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Přijmout nabídku</translation>
+        <source>Accept Offer</source>
+        <translation>Přijmout nabídku</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>Refresh přijal nabídku seznamu</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Zkopírování aktuálně vybranou nabídku do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovat ID nabídky</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopírování ID nabídky</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>Exportuj data z tohoto panelu do souboru</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>Zkopírování aktuálně vybrané alias do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopírovat Alias ​​ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>Copy Alias ​​ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>vyprší dne</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>Zkopírování aktuálně vybraného cert do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopírovat ID certifikátu</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Kopie ID certifikátu</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>vyprší dne</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>Obecné</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Název aliasu.</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>Uplynutí:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Expirační doba:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Použít vlastní expirační doba</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>Vyberte alias, který má peg informace. Spotřebitelé zaplatí částky, konverze a síťových poplatků založené na tomto kolíku.</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Vyberte si standardní čas vypršení platnosti (v UTC) pro tento alias od 1 do 5 let, nebo zkontrolovat "Použít Vlastní čas vyprší 'políčko pro zadání vypršení časového razítka. Je exponenciálně dražší za rok, je výpočet FEERATE * (2,88 ^ let). FEERATE je dynamická Satoshi za byte poplatku stanoveného v ceně fixaci alias používaných pro tento alias.</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>Varování: přenášení alias bude převést vlastnictví všech svých syscoin služeb, které používají tento alias.</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5 let</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>Nastavit délku času, aby se vaše alias vypršení. Čím déle budete přát, aby ji udrželi při životě, tím více poplatky budete platit vytvořit nebo aktualizovat tento alias. Vzorec pro poplatek je 0,2 SYS * * let let.</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig alias.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Potvrdit alias s velkým uplynutí</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Varování: Použití vytvoření aliasu které skončí nejpozději do 5 let zvyšuje náklady exponenciálně, můžete strávit velké množství mincí v tom!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Jste si jisti, že chcete pokračovat?</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>certifikáty</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Tam byla výjimka se snaží, aby přinesla informace o certifikátu:</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>Zadejte alias příjemce tohoto certifikátu</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>Zadejte alias příjemce, které chcete povolit přečtení vašeho certifikátu soukromá data</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>Zvolte Ano, pokud nechcete, aby tento certifikát editovatelné / převoditelný příjemcem</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>Nelze získat tento certifikát:</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1625,16 +1621,16 @@
         <translation>Obnovit seznam pobočka</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Přidejte novou pobočku</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Přidat</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Přidat</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1657,8 +1653,8 @@
         <translation>Exportuj data z tohoto panelu do souboru</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1717,8 +1713,8 @@
         <translation>přezdívka</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>vyprší</translation>
+        <source>Expires On</source>
+        <translation>vyprší dne</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1740,8 +1736,8 @@
         <translation>Podmíněné Info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Generál</translation>
+        <source>General</source>
+        <translation>Obecné</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1788,28 +1784,32 @@
         <translation>Průměrné hodnocení:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Dodávky Kontaktní informace:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Přepravní informace Kontakt:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Uplatnit TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>kupující Feedback</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>Prodávající Feedback</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>arbitr Feedback</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Externí TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>Kupující &amp; Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>A prodávající Zpětná vazba</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbitr Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Budiž</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1891,8 +1891,8 @@
         <translation>Zkopírování aktuálně vybraného escrow do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopírovat Podmíněné ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Copy Podmíněné ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2376,16 +2376,8 @@
         <translation>Chyba při odesílání zpětné vazby:</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>Podmíněné propuštění úspěšně dokončeno! Platba byl nalezen na blockchain. Můžete kliknout na tlačítko "Kontrola externí Platba" zkontrolovat, jestli to potvrdil. Řetěz:</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>Chyba dokončení uvolnění:</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>Podmíněné náhrada úspěšně dokončeno! Platba byl nalezen na blockchain. Můžete kliknout na tlačítko "Kontrola externí Platba" zkontrolovat, zda byla potvrzena platba. Řetěz:</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2402,18 +2394,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>Nelze najít platbu vázaný na blockchain, ujistěte se, že platební transakce byla potvrzena v síti. Platba ID byla zkopírována do schránky pro váš odkaz. chyba:</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>Escrow platbu nalezený v blockchain. Platba ID byla zkopírována do schránky pro váš odkaz. Čas:</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> řetěz:</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> potvrzení:</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2448,12 +2428,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>Podmíněné propuštění úspěšně dokončeno! Escrow platbu trávit byl nalezen na blockchain. Můžete kliknout na tlačítko "Kontrola externí Platba" zkontrolovat, jestli to potvrdil. Řetěz:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>Podmíněné propuštění úspěšně dokončeno!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>Obecná výjimka dokončení uvolnění</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>Podmíněné náhrada úspěšně dokončeno! Escrow platbu trávit byl nalezen na blockchain. Můžete kliknout na tlačítko "Kontrola externí Platba" zkontrolovat, zda byla potvrzena platba. Řetěz:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2470,14 +2458,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>Nelze analyzovat JSON odpověď:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Zkontrolujte BTC Platba</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Zkontrolujte ZEC Platba</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2554,8 +2534,8 @@
         <translation>Obnovit seznam zpráv</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2570,8 +2550,12 @@
         <translation>Zkopírování aktuálně vybranou zprávu do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Kopírovat Msg ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>Kopírovat Msg ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2584,10 +2568,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportuj data z tohoto panelu do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
 </context>
 <context>
@@ -2694,16 +2674,16 @@
         <translation>Osvěžte si přijal nabídku seznamu</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Zkopírování aktuálně vybranou nabídku do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovat ID nabídky</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopírování ID nabídky</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2742,8 +2722,8 @@
         <translation>Exportuj data z tohoto panelu do souboru</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2925,24 +2905,24 @@
         <translation>Obnovit seznam alias</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Vytvořit nový alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; Nový Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Zkopírování aktuálně vybrané alias do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopírovat Alias ​​ID</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>nový Alias</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Copy Alias ​​ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2985,8 +2965,8 @@
         <translation>Exportuj data z tohoto panelu do souboru</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3037,10 +3017,6 @@
         <translation>vyprší dne</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>vypršela</translation>
     </message>
@@ -3076,24 +3052,24 @@
         <translation>Obnovit seznam certifikátů</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Vytvořit nový certifikát</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; Nový certifikát</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Zkopírování aktuálně vybraný certifikát do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopírovat ID certifikátu</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>Nové osvědčení</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Kopie ID certifikátu</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3124,8 +3100,8 @@
         <translation>Exportuj data z tohoto panelu do souboru</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3196,10 +3172,6 @@
         <translation>vyprší dne</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Chyba při exportu</translation>
     </message>
@@ -3219,16 +3191,16 @@
         <translation>Osvěžit svůj seznam escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Zkopírování aktuálně vybraného escrow do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopírovat Podmíněné ID</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Copy Podmíněné ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3279,8 +3251,8 @@
         <translation>Exportuj data z tohoto panelu do souboru</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3307,6 +3279,14 @@
         <translation>Nelze analyzovat výsledky JSON</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Transakce byla nalezena v blockchain! Platba financování Podmíněné byl zjištěn. Řetěz:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transakce byla nalezena v blockchain! platba úschovy u třetí osoby byl zjištěn. Doporučuje se, aby vám potvrdit platbu otevřením peněženku a vidí prostředky na účtu. Řetěz:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>Nelze analyzovat JSON odpověď:</translation>
     </message>
@@ -3317,10 +3297,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>Platební transakce nalezen, ale to ještě nebylo potvrzeno blockchain! Prosím zkuste to znovu později. Řetěz:</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>Transakce byla nalezena v blockchain! Plná platba byla zjištěna. Doporučuje se, aby vám potvrdit platbu otevřením peněženku a vidí prostředky na účtu. Řetěz:</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3398,24 +3374,28 @@
         <translation>Aktualizujte seznam nabídek</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>Nová nabídka</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopírování ID nabídky</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Vytvořit novou nabídku</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Novou nabídku</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Zkopírování aktuálně vybranou nabídku do systémové schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovat ID nabídky</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3430,16 +3410,8 @@
         <translation>Správa pobočky pro tuto nabídku</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Správa Pobočky</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportuj data z tohoto panelu do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3553,8 +3525,8 @@
         <translation>Sleva</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
+        <source>Expires On</source>
+        <translation>vyprší dne</translation>
     </message>
 </context>
 <context>
@@ -3568,16 +3540,16 @@
         <translation>Osvěžte svůj seznam partnerský této nabídky</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnovit</translation>
+        <source>Refresh</source>
+        <translation>Obnovit</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Vývoz</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportuj data z tohoto panelu do souboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3797,8 +3769,8 @@
         <translation>Platit se Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Plaťte SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Platit SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3888,8 +3860,8 @@
         <translation>Potvrdit tuto platbu na Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Potvrzující platbu</translation>
+        <source>Confirm Payment</source>
+        <translation>potvrdit Platba</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4063,8 +4035,8 @@
         <translation>Potvrdit tuto platbu na Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Potvrzující platbu</translation>
+        <source>Confirm Payment</source>
+        <translation>potvrdit Platba</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4286,8 +4258,12 @@
         <translation>Průměrné hodnocení:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Dodávky Kontaktní informace:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Přepravní informace Kontakt:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4328,10 +4304,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>Prodávající Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Budiž</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4456,8 +4428,8 @@
         <translation>Prosím, čekejte...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Dokončit</translation>
+        <source>Finish</source>
+        <translation>Dokončit</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4586,8 +4558,8 @@
         <translation>Zkopírování aktuálně vybranou nabídku do systémové schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovat ID nabídky</translation>
+        <source>Copy Offer ID</source>
+        <translation>Kopírování ID nabídky</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4681,12 +4653,8 @@
         <translation>Prosím, čekejte...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Dokončit</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>Vytvořili jste vázaný na</translation>
+        <source>Finish</source>
+        <translation>Dokončit</translation>
     </message>
     <message>
         <source>of</source>
@@ -4697,12 +4665,16 @@
         <translation>pro</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>Vaše platba je v úschově!</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>Obchodník byl odeslán informací o doručení a váš položka by měla dorazit brzy. Obchodník může následovat-up s dalším informacím prostřednictvím soukromé zprávy (prosím zkontrolujte e-mailové schránky pravidelně).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Jste zakoupili</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>Vaše platba byla dokončena!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4802,8 +4774,8 @@
         <translation>Sleva</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
+        <source>Expires On</source>
+        <translation>vyprší dne</translation>
     </message>
 </context>
 <context>
@@ -5057,7 +5029,7 @@
     </message>
     <message>
         <source>&amp;Hide the icon from the system tray.</source>
-        <translation>&amp; Skrýt ikony z panelu.</translation>
+        <translation>&amp;Skrýt ikony z panelu.</translation>
     </message>
     <message>
         <source>Hide tray icon</source>
@@ -5222,8 +5194,8 @@
         <translation>Chyba při exportu</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>Nelze zapisovat do souboru %1.</translation>
+        <source>Could not write to file: </source>
+        <translation>Nelze zapisovat do souboru:</translation>
     </message>
 </context>
 <context>
@@ -6588,16 +6560,24 @@
         <translation>Synchronizuji se se sítí...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Přehled</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Uzel</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>Přehled</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Zobraz celkový přehled peněženky</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Poslat</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>Dostávat</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6606,6 +6586,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Procházej historii transakcí</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>Přezdívky</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>Tržiště</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>Certifikáty</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Podmíněná</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6694,14 +6690,6 @@
     <message>
         <source>Wallet</source>
         <translation>Peněženka</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>P&amp;ošli</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>Při&amp;jmi</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6808,40 +6796,20 @@
         <translation>Aktuální</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; udržuje spojení</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Správa aliasů</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Zprávy</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>zprávy</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Správa nabídek</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; Certifikáty</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Správa certifikátů</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Podmíněné</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

@@ -13,10 +13,6 @@
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -461,10 +457,6 @@
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Arquivo separado por comas (*.csv)</translation>
     </message>
@@ -478,10 +470,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -593,10 +581,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -634,10 +618,6 @@
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -657,10 +637,6 @@
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Arquivo separado por comas (*.csv)</translation>
     </message>
@@ -670,10 +646,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -695,10 +667,6 @@
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -712,10 +680,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -734,10 +698,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar os datos da pestaña actual a un arquivo.</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -800,10 +760,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -1664,10 +1620,6 @@
         <translation>Sincronizando coa rede...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Vista xeral</translation>
-    </message>
-    <message>
         <source>Show general overview of wallet</source>
         <translation>Amosar vista xeral do moedeiro</translation>
     </message>
@@ -1750,14 +1702,6 @@
     <message>
         <source>Wallet</source>
         <translation>Moedeiro</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Recibir</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

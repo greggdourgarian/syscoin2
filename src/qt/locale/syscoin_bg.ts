@@ -13,10 +13,6 @@
         <translation>Запишете данните от текущия раздел във файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Всички</translation>
     </message>
@@ -537,10 +533,6 @@
         <translation>Запишете данните от текущия раздел във файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>CSV файл (*.csv)</translation>
     </message>
@@ -548,16 +540,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Основни</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ИД</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Общо:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>ОК</translation>
     </message>
     </context>
 <context>
@@ -721,10 +713,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Запишете данните от текущия раздел във файл</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -766,10 +754,6 @@
         <translation>Запишете данните от текущия раздел във файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Всички</translation>
     </message>
@@ -789,10 +773,6 @@
         <translation>Запишете данните от текущия раздел във файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>CSV файл (*.csv)</translation>
     </message>
@@ -802,10 +782,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Запишете данните от текущия раздел във файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
     </message>
     <message>
         <source>All</source>
@@ -827,10 +803,6 @@
         <translation>Запишете данните от текущия раздел във файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Всички</translation>
     </message>
@@ -844,10 +816,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Запишете данните от текущия раздел във файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
     </message>
     <message>
         <source>All</source>
@@ -866,10 +834,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Запишете данните от текущия раздел във файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Изнеси</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -932,10 +896,6 @@
     <message>
         <source>Total:</source>
         <translation>Общо:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>ОК</translation>
     </message>
     </context>
 <context>
@@ -2100,10 +2060,6 @@
         <translation>Синхронизиране с мрежата...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Баланс</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Сървър</translation>
     </message>
@@ -2206,14 +2162,6 @@
     <message>
         <source>Wallet</source>
         <translation>Портфейл</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Изпращане</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Получаване</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

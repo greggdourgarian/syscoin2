@@ -18,10 +18,6 @@
         <translation>Αναζήτηση της OfferID από την blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Αναζήτηση Προσφορά</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Ποσότητα:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Αγοράσει αυτή την προσφορά</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Δέχομαι την προσφορά</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -149,16 +141,8 @@
         <translation>Ανανέωση Η λίστα προσφοράς</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Αντιγράψτε το τρέχον επιλεγμένο προσφορά στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Αντιγραφή ID Προσφορά</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -183,10 +167,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>All</source>
@@ -378,10 +358,6 @@
         <translation>Αντιγράψτε τα επιλεγμένα ψευδώνυμο στο πρόχειρο του συστήματος</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Αντιγραφή Alias ​​ID</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>Αποστολή λάθους</translation>
     </message>
@@ -415,10 +391,6 @@
     <message>
         <source>Expires On</source>
         <translation>Λήγει στις</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Λήγει σε</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -574,10 +546,6 @@
         <translation>Αντιγράψτε το τρέχον επιλεγμένο cert στο πρόχειρο του συστήματος</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Αντιγραφή Πιστοποιητικό ταυτότητας</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -627,10 +595,6 @@
     <message>
         <source>Expires On</source>
         <translation>Λήγει στις</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Λήγει σε</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -866,10 +830,6 @@
         <translation>Γενικά</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Ψευδώνυμο:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Το ψευδώνυμο.</translation>
     </message>
@@ -928,6 +888,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 χρόνια</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1179,16 +1143,8 @@
         <translation>Ανανέωση λίστας θυγατρικών</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Προσθέστε μια νέα θυγατρική</translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Προσθέτω</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1209,10 +1165,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>Entry removed successfully!</source>
@@ -1247,6 +1199,10 @@
         <translation>Ψευδώνυμο</translation>
     </message>
     <message>
+        <source>Expires On</source>
+        <translation>Λήγει στις</translation>
+    </message>
+    <message>
         <source>Discount</source>
         <translation>Έκπτωση</translation>
     </message>
@@ -1262,8 +1218,8 @@
         <translation>Πληροφορίες μεσεγγύησης</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Γενικός</translation>
+        <source>General</source>
+        <translation>Γενικά</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1310,24 +1266,8 @@
         <translation>Μέσος όρος βαθμολογίας:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Αποστολές &amp; Στοιχεία Επικοινωνίας:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Αγοραστής Σχόλια</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>Πωλητής &amp; Σχόλια</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Διαιτητής Σχόλια</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;ΟΚ</translation>
+        <source>OK</source>
+        <translation>Εντάξει</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1371,10 +1311,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Αντιγράψτε το τρέχον επιλεγμένο μεσεγγύησης στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Αντιγραφή μεσεγγύησης ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1690,10 +1626,6 @@
         <translation>δεν μπορεί να αναλύσει απάντηση JSON:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>Ελέγξτε BTC Πληρωμής</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Παρακαλώ περιμένετε...</translation>
     </message>
@@ -1760,10 +1692,6 @@
         <translation>Ανανέωση λίστας μηνυμάτων</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Στείλτε ένα νέο μήνυμα</translation>
     </message>
@@ -1776,10 +1704,6 @@
         <translation>Αντιγράψτε το τρέχον επιλεγμένο μήνυμα στο πρόχειρο του συστήματος</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Αντιγραφή Msg ID</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Πάρτε τις λεπτομέρειες του μηνύματος</translation>
     </message>
@@ -1790,10 +1714,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
 </context>
 <context>
@@ -1852,16 +1772,8 @@
         <translation>Ανανέωση λίστα αποδεκτών προσφορά σας</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Αντιγράψτε το τρέχον επιλεγμένο προσφορά στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Αντιγραφή ID Προσφορά</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -1886,10 +1798,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>All</source>
@@ -1971,24 +1879,16 @@
         <translation>Ανανέωση λίστας ψευδώνυμο</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Δημιουργήστε ένα νέο ψευδώνυμο</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>Επιλογή &amp; Νέα Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Αντιγράψτε τα επιλεγμένα ψευδώνυμο στο πρόχειρο του συστήματος</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Αντιγραφή Alias ​​ID</translation>
+        <source>New Alias</source>
+        <translation>New Alias</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2025,10 +1925,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2075,10 +1971,6 @@
         <translation>Λήγει στις</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Λήγει σε</translation>
-    </message>
-    <message>
         <source>Seller Rating</source>
         <translation>Πωλητής Αξιολόγηση</translation>
     </message>
@@ -2098,24 +1990,12 @@
         <translation>Ανανέωση λίστας πιστοποιητικό</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Δημιουργήστε ένα νέο πιστοποιητικό</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>Επιλογή &amp; Νέα Πιστοποιητικό</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Αντιγράψτε το επιλεγμένο πιστοποιητικό στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Αντιγραφή Πιστοποιητικό ταυτότητας</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2144,10 +2024,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>All</source>
@@ -2198,10 +2074,6 @@
         <translation>Λήγει στις</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Λήγει σε</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>σφάλμα κατά την εξαγωγή</translation>
     </message>
@@ -2221,16 +2093,8 @@
         <translation>Ανανεώστε τη λίστα των escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Αντιγράψτε το τρέχον επιλεγμένο μεσεγγύησης στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Αντιγραφή μεσεγγύησης ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2271,10 +2135,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>All</source>
@@ -2324,24 +2184,16 @@
         <translation>Ανανεώστε τη λίστα των προσφορών</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
+        <source>New Offer</source>
+        <translation>νέα Προσφορά</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Δημιουργήστε μια νέα προσφορά</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Νέα Προσφορά</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Αντιγράψτε το τρέχον επιλεγμένο προσφορά στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Αντιγραφή ID Προσφορά</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2356,16 +2208,8 @@
         <translation>Διαχειριστείτε τους συνεργάτες για αυτή την προσφορά</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Διαχείριση Συνεργάτες</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2451,8 +2295,8 @@
         <translation>Έκπτωση</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Λήγει σε</translation>
+        <source>Expires On</source>
+        <translation>Λήγει στις</translation>
     </message>
 </context>
 <context>
@@ -2466,16 +2310,8 @@
         <translation>Ανανέωση λίστας θυγατρικών σας για αυτή την προσφορά</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Φρεσκάρω</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Εξαγωγή δεδομένων καρτέλας σε αρχείο</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Εξαγωγή</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -2623,10 +2459,6 @@
         <translation>Πληρώστε με Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Πληρώστε με SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>χρήση μεσεγγύησης</translation>
     </message>
@@ -2676,10 +2508,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Επιβεβαίωση αυτής της πληρωμής στο blockchain Bitcoin</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Επιβεβαίωση πληρωμής</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2751,10 +2579,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Επιβεβαίωση αυτής της πληρωμής στο blockchain Bitcoin</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Επιβεβαίωση πληρωμής</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2848,8 +2672,8 @@
         <translation>Μέσος όρος βαθμολογίας:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Αποστολές &amp; Στοιχεία Επικοινωνίας:</translation>
+        <source>OK</source>
+        <translation>Εντάξει</translation>
     </message>
     <message>
         <source>Offer Details</source>
@@ -2874,10 +2698,6 @@
     <message>
         <source>Certificate:</source>
         <translation>Πιστοποιητικό:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;ΟΚ</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -2954,10 +2774,6 @@
         <translation>Πληρωμή Σε μεσεγγύησης</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Φινίρισμα</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Παρακαλώ κάντε κλικ στο Finish</translation>
     </message>
@@ -3014,10 +2830,6 @@
     <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Αντιγράψτε το τρέχον επιλεγμένο προσφορά στο πρόχειρο του συστήματος</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Αντιγραφή ID Προσφορά</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3085,10 +2897,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Πληρώστε για Είδους</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Φινίρισμα</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3168,8 +2976,8 @@
         <translation>Έκπτωση</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Λήγει σε</translation>
+        <source>Expires On</source>
+        <translation>Λήγει στις</translation>
     </message>
 </context>
 <context>
@@ -4727,10 +4535,6 @@
         <translation>Συγχρονισμός με το δίκτυο...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Επισκόπηση</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Κόμβος</translation>
     </message>
@@ -4745,6 +4549,18 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Περιήγηση στο ιστορικό συναλλαγών</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>ψευδώνυμα</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>πιστοποιητικά</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Χρηματική εγγύηση</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -4825,14 +4641,6 @@
     <message>
         <source>Wallet</source>
         <translation>Πορτοφόλι</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Αποστολή</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Παραλαβή </translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -4923,40 +4731,20 @@
         <translation>Ενημερωμένο</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; έρχεται σε επαφή</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>διαχειριστείτε ψευδώνυμα</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Μηνύματα</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>μηνύματα</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp;Αγορά</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>διαχειριστείτε προσφορές</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; πιστοποιητικά</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>διαχειριστείτε πιστοποιητικά</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp;Χρηματική εγγύηση</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

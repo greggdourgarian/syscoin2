@@ -13,10 +13,6 @@
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Усё</translation>
     </message>
@@ -465,10 +461,6 @@
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Коскамі падзелены файл (*.csv)</translation>
     </message>
@@ -573,10 +565,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -602,10 +590,6 @@
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Усё</translation>
     </message>
@@ -625,10 +609,6 @@
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Коскамі падзелены файл (*.csv)</translation>
     </message>
@@ -638,10 +618,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
     </message>
     <message>
         <source>All</source>
@@ -663,10 +639,6 @@
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Усё</translation>
     </message>
@@ -680,10 +652,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
     </message>
     <message>
         <source>All</source>
@@ -702,10 +670,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспартаваць гэтыя звесткі у файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспарт</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1096,10 +1060,6 @@
         <translation>Сінхранізацыя з сецівам...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>Агляд</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Вузел</translation>
     </message>
@@ -1194,14 +1154,6 @@
     <message>
         <source>Wallet</source>
         <translation>Гаманец</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>Даслаць</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>Атрымаць</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

@@ -9,10 +9,6 @@
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Бүгд</translation>
     </message>
@@ -357,16 +353,16 @@
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Таслалаар тусгаарлагдсан хүснэгтэн файл (.csv)</translation>
     </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
+    <message>
+        <source>General</source>
+        <translation>Ерѳнхий</translation>
+    </message>
     <message>
         <source>ID</source>
         <translation>Тодорхойлолт</translation>
@@ -429,10 +425,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -458,10 +450,6 @@
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Бүгд</translation>
     </message>
@@ -477,10 +465,6 @@
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Таслалаар тусгаарлагдсан хүснэгтэн файл (.csv)</translation>
     </message>
@@ -490,10 +474,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
     </message>
     <message>
         <source>All</source>
@@ -511,10 +491,6 @@
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Бүгд</translation>
     </message>
@@ -528,10 +504,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
     </message>
     <message>
         <source>All</source>
@@ -550,10 +522,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Сонгогдсон таб дээрхи дата-г экспортлох</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспортдлох</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>

@@ -13,10 +13,6 @@
         <translation>Exportar la información en la tabla actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -413,10 +409,6 @@
         <translation>Exportar la información en la tabla actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Arhchivo separado por comas (*.CSV)</translation>
     </message>
@@ -517,10 +509,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar la información en la tabla actual a un archivo</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -554,10 +542,6 @@
         <translation>Exportar la información en la tabla actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -577,10 +561,6 @@
         <translation>Exportar la información en la tabla actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Arhchivo separado por comas (*.CSV)</translation>
     </message>
@@ -590,10 +570,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar la información en la tabla actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -615,10 +591,6 @@
         <translation>Exportar la información en la tabla actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -632,10 +604,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar la información en la tabla actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -654,10 +622,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar la información en la tabla actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1092,10 +1056,6 @@
         <translation>Sincronizando con la red...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Vista previa</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nodo</translation>
     </message>
@@ -1190,14 +1150,6 @@
     <message>
         <source>Wallet</source>
         <translation>Cartera</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Recibir</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

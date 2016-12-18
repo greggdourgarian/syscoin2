@@ -18,10 +18,6 @@
         <translation>Погляд вгору по OfferID від blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Пошук Пропозиція</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Кількість:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Купівля цю пропозицію</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp; Прийняти пропозицію</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -149,16 +141,8 @@
         <translation>Оновити список дозволених абонентів пропозицію</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копіювати пропозицію ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -183,10 +167,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>All</source>
@@ -378,10 +358,6 @@
         <translation>Скопіюйте вибрані в даний момент псевдонім в системний буфер обміну</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Копіювати Алиас ID</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>Надіслати Msg</translation>
     </message>
@@ -415,10 +391,6 @@
     <message>
         <source>Expires On</source>
         <translation>Діє до</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Завершується В</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -573,10 +545,6 @@
         <translation>Скопіюйте цей сертифікат в системний буфер обміну</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Копіювати Сертифікат ID</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -626,10 +594,6 @@
     <message>
         <source>Expires On</source>
         <translation>Діє до</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Завершується В</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -864,10 +828,6 @@
         <translation>Загальна</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Ім'я псевдоніма.</translation>
     </message>
@@ -926,6 +886,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 років</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Ви впевнені, що хочете продовжити?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1177,16 +1141,8 @@
         <translation>Оновити список філія</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Додати нову філію</translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation>&amp; Додати</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1207,10 +1163,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>Entry removed successfully!</source>
@@ -1245,6 +1197,10 @@
         <translation>кличка</translation>
     </message>
     <message>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
+    </message>
+    <message>
         <source>Discount</source>
         <translation>знижка</translation>
     </message>
@@ -1260,8 +1216,8 @@
         <translation>депонуванню інформація</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp; Загальні</translation>
+        <source>General</source>
+        <translation>Загальна</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1308,24 +1264,8 @@
         <translation>Середня оцінка:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Доставка &amp; Контактна інформація:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Покупець Зворотній зв'язок</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Продавець Зворотній зв'язок</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Арбітра Зворотній зв'язок</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Гаразд</translation>
+        <source>OK</source>
+        <translation>добре</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1369,10 +1309,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Скопіюйте обраний в даний момент умовного депонування в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Копіювати депонуванню ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1696,10 +1632,6 @@
         <translation>Неможливо розібрати відповідь JSON:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>Перевірте BTC Оплата</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Будь ласка, зачекайте ...</translation>
     </message>
@@ -1766,10 +1698,6 @@
         <translation>Оновити список повідомлень</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Відправити новий</translation>
     </message>
@@ -1782,10 +1710,6 @@
         <translation>Скопіюйте обраний в даний момент повідомлення в системний буфер обміну</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Copy ID Msg</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Отримати відомості про повідомленні</translation>
     </message>
@@ -1796,10 +1720,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
 </context>
 <context>
@@ -1858,16 +1778,8 @@
         <translation>Оновлення прийняв пропозицію список</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копіювати пропозицію ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -1892,10 +1804,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>All</source>
@@ -1977,24 +1885,16 @@
         <translation>Оновити список псевдонімів</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Створити новий псевдонім</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Алиас</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Скопіюйте вибрані в даний момент псевдонім в системний буфер обміну</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Копіювати Алиас ID</translation>
+        <source>New Alias</source>
+        <translation>новий Алиас</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2031,10 +1931,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2081,10 +1977,6 @@
         <translation>Діє до</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Завершується В</translation>
-    </message>
-    <message>
         <source>Seller Rating</source>
         <translation>Продавець Рейтинг</translation>
     </message>
@@ -2104,24 +1996,12 @@
         <translation>Оновити список сертифікатів</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Створити новий сертифікат</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; Новий сертифікат</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Скопіюйте цей сертифікат в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Копіювати Сертифікат ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2150,10 +2030,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>All</source>
@@ -2204,10 +2080,6 @@
         <translation>Діє до</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Завершується В</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Помилка експорту</translation>
     </message>
@@ -2227,16 +2099,8 @@
         <translation>Оновлення список escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Скопіюйте обраний в даний момент умовного депонування в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Копіювати депонуванню ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2277,10 +2141,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>All</source>
@@ -2330,24 +2190,16 @@
         <translation>Оновити список пропозицій</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
+        <source>New Offer</source>
+        <translation>нова пропозиція</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Створити нову пропозицію</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Нова пропозиція</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копіювати пропозицію ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2362,16 +2214,8 @@
         <translation>Управління філій для цієї пропозиції</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Управління Філії</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2457,8 +2301,8 @@
         <translation>знижка</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Завершується В</translation>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
     </message>
 </context>
 <context>
@@ -2472,16 +2316,8 @@
         <translation>Оновити список партнерської для цієї пропозиції</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Оновити</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортувати дані з поточної вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -2629,10 +2465,6 @@
         <translation>Оплатити за допомогою Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Оплата з SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>Використання Escrow</translation>
     </message>
@@ -2682,10 +2514,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Підтвердити цей платіж на blockchain Bitcoin</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Підтвердити платіж</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2757,10 +2585,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Підтвердити цей платіж на blockchain Bitcoin</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Підтвердити платіж</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2854,8 +2678,8 @@
         <translation>Середня оцінка:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Доставка &amp; Контактна інформація:</translation>
+        <source>OK</source>
+        <translation>добре</translation>
     </message>
     <message>
         <source>Offer Details</source>
@@ -2880,10 +2704,6 @@
     <message>
         <source>Certificate:</source>
         <translation>сертифікат:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Гаразд</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -2960,10 +2780,6 @@
         <translation>Компенсація У Escrow</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp; Finish</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Будь ласка, натисніть кнопку Готово</translation>
     </message>
@@ -3020,10 +2836,6 @@
     <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопіюйте обраний в даний момент пропозиція в системний буфер обміну</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копіювати пропозицію ID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3091,10 +2903,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Платити за Пункт</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp; Finish</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3174,8 +2982,8 @@
         <translation>знижка</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Завершується В</translation>
+        <source>Expires On</source>
+        <translation>Діє до</translation>
     </message>
 </context>
 <context>
@@ -4752,10 +4560,6 @@
         <translation>Синхронізація з мережею...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Огляд</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Вузол</translation>
     </message>
@@ -4770,6 +4574,18 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Переглянути історію транзакцій</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>псевдоніми</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>сертифікати</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>ескроу</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -4850,14 +4666,6 @@
     <message>
         <source>Wallet</source>
         <translation>Гаманець</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Відправити</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Отримати</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -4956,40 +4764,20 @@
         <translation>Синхронізовано</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>І підтримуються зв'язки</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>управління псевдонімами</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>і повідомлення</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>повідомлення</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>управління пропозиції</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>і сертифікати</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>управління сертифікатами</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Escrow</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

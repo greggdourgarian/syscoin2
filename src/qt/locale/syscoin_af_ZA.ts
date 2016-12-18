@@ -616,10 +616,6 @@
         <translation>Sinchroniseer met die netwerk ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Oorsig</translation>
-    </message>
-    <message>
         <source>Show general overview of wallet</source>
         <translation>Wys algemene oorsig van die beursie</translation>
     </message>

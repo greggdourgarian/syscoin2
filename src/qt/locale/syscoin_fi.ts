@@ -18,10 +18,6 @@
         <translation>Lookup OfferID päässä blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Lookup Offer</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Määrä:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Osta tämä tarjous</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Hyväksy tarjous</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -169,16 +161,8 @@
         <translation>Päivitä hyväksytty tarjous lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopioi valitun tarjouksen leikepöydälle</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Offer ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -203,10 +187,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -410,10 +390,6 @@
         <translation>Kopioi valitun alias leikepöydälle</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Copy Alias ​​ID</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>Lähetä Msg</translation>
     </message>
@@ -455,10 +431,6 @@
     <message>
         <source>Expires On</source>
         <translation>Vanhemee</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Vanhenee</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -555,6 +527,10 @@
         <translation>Lompakko salattu</translation>
     </message>
     <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your syscoins from being stolen by malware infecting your computer.</source>
+        <translation>%1 sulkeutuu nyt loppuun salaus prosessi. Muista, että salaamalla lompakko voi täysin suojata syscoins varastavat haittaohjelmat tarttumasta tietokoneeseen.</translation>
+    </message>
+    <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>TÄRKEÄÄ: Kaikki vanhat lompakon varmuuskopiot pitäisi korvata uusilla suojatuilla varmuuskopioilla. Turvallisuussyistä edelliset varmuuskopiot muuttuvat turhiksi, kun aloitat suojatun lompakon käytön.</translation>
     </message>
@@ -621,10 +597,6 @@
         <translation>Kopioi valitun CERT järjestelmään leikepöydälle</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Copy Certificate ID</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -674,10 +646,6 @@
     <message>
         <source>Expires On</source>
         <translation>Vanhemee</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Vanhenee</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -912,10 +880,6 @@
         <translation>Yleinen</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Alias ​​nimi.</translation>
     </message>
@@ -1006,6 +970,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 vuotta</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Oletko varma, että haluat jatkaa?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1117,10 +1085,6 @@
     <message>
         <source>certificates</source>
         <translation>todistukset</translation>
-    </message>
-    <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Siellä oli poikkeus haettaessa varmennetietoja:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the alias list: </source>
@@ -1337,16 +1301,12 @@
         <translation>Päivitä affiliate lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Lisää uusi affiliate</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Lisätä</translation>
+        <source>Add</source>
+        <translation>Lisätä</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1367,10 +1327,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1413,8 +1369,8 @@
         <translation>Alias</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>vanhenee</translation>
+        <source>Expires On</source>
+        <translation>Vanhemee</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1432,8 +1388,8 @@
         <translation>escrow Info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp; General</translation>
+        <source>General</source>
+        <translation>Yleinen</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1480,28 +1436,20 @@
         <translation>Keskiarvoluokitus:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Toimitus ja yhteystiedot:</translation>
+        <source>Buyer Feedback</source>
+        <translation>ostaja Palaute</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>myyjä Palaute</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>kunnossa</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Ulkoiset TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Ostaja Palaute</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Myyjä palaute</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter palaute</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1557,10 +1505,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopioi valitun escrow järjestelmään leikepöydälle</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1707,6 +1651,10 @@
         <translation>(%1-bit)</translation>
     </message>
     <message>
+        <source>About %1</source>
+        <translation>Noin %1</translation>
+    </message>
+    <message>
         <source>Command-line options</source>
         <translation>Komentorivi parametrit</translation>
     </message>
@@ -1803,6 +1751,18 @@
     <message>
         <source>Welcome</source>
         <translation>Tervetuloa</translation>
+    </message>
+    <message>
+        <source>Welcome to %1.</source>
+        <translation>Tervetuloa %1.</translation>
+    </message>
+    <message>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation>Koska tämä on ensimmäinen kerta, kun ohjelma on käynnistetty, voit valita, missä %1 tallentaa sen tiedot.</translation>
+    </message>
+    <message>
+        <source>%1 will download and store a copy of the Syscoin block chain. At least %2GB of data will be stored in this directory, and it will grow over time. The wallet will also be stored in this directory.</source>
+        <translation>%1 lataa ja tallentaa kopion Syscoin Lohkoketjun. Vähintään %2 Gt tiedot tallennetaan tämän hakemiston, ja se kasvaa ajan mittaan. Lompakon myös tallennetaan tähän hakemistoon.</translation>
     </message>
     <message>
         <source>Use the default data directory</source>
@@ -1968,14 +1928,6 @@
         <translation>Ei voi jäsentää JSON vastaus:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>Tarkista BTC Payment</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Tarkista ZEC Payment</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Odota...</translation>
     </message>
@@ -2050,10 +2002,6 @@
         <translation>Päivitä viestiluettelo</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Lähetä uusi viesti</translation>
     </message>
@@ -2066,10 +2014,6 @@
         <translation>Kopioi valitun viestin leikepöydälle</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Kopioi Msg ID</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Saat viestin tiedot</translation>
     </message>
@@ -2080,10 +2024,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
 </context>
 <context>
@@ -2182,16 +2122,8 @@
         <translation>Päivitä hyväksytty tarjous lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopioi valitun tarjouksen leikepöydälle</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Offer ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2228,10 +2160,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2393,24 +2321,16 @@
         <translation>Päivitä alias lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Luo uusi alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; Uusi Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Kopioi valitun alias leikepöydälle</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Copy Alias ​​ID</translation>
+        <source>New Alias</source>
+        <translation>uusi Alias</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2451,10 +2371,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2505,10 +2421,6 @@
         <translation>Vanhemee</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Vanhenee</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Vanhentunut</translation>
     </message>
@@ -2540,24 +2452,12 @@
         <translation>Päivitä varmenneluetteloon</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Luo uusi varmenne</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; Uusi sertifikaatti</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Kopioi valitun todistuksen leikepöydälle</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Copy Certificate ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2586,10 +2486,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -2644,10 +2540,6 @@
         <translation>Vanhemee</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Vanhenee</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>error vientiä</translation>
     </message>
@@ -2667,16 +2559,8 @@
         <translation>Päivitä luettelo escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopioi valitun escrow järjestelmään leikepöydälle</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2725,10 +2609,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -2822,24 +2702,16 @@
         <translation>Päivitä lista tarjousten</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
+        <source>New Offer</source>
+        <translation>uusi tarjous</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Luo uusi tarjous</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Uusi tarjous</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopioi valitun tarjouksen leikepöydälle</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Offer ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2854,16 +2726,8 @@
         <translation>Hallinta tytäryhtiöt tähän tarjoukseen</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Manage Kumppanit</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -2965,8 +2829,8 @@
         <translation>Alennus</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Vanhenee</translation>
+        <source>Expires On</source>
+        <translation>Vanhemee</translation>
     </message>
 </context>
 <context>
@@ -2980,16 +2844,8 @@
         <translation>Päivitä affiliate lista tähän tarjoukseen</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Päivitä</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Vie auki olevan välilehden tiedot tiedostoon</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Vie...</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3157,10 +3013,6 @@
         <translation>Maksa Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Maksa SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>Käytä Escrow</translation>
     </message>
@@ -3214,10 +3066,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Vahvista maksu Bitcoin blockchain</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Vahvista maksaminen</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -3321,10 +3169,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Vahvista maksu Bitcoin blockchain</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Vahvista maksaminen</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -3478,8 +3322,8 @@
         <translation>Keskiarvoluokitus:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Toimitus ja yhteystiedot:</translation>
+        <source>OK</source>
+        <translation>kunnossa</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -3522,10 +3366,6 @@
         <translation>myyjä Palaute</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    <message>
         <source>No Feedback Found</source>
         <translation>Ei Palaute Löysitko</translation>
     </message>
@@ -3540,6 +3380,10 @@
     <message>
         <source>No Feedback</source>
         <translation>ei Palaute</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;%1&lt;/b&gt;</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <source>From:</source>
@@ -3620,10 +3464,6 @@
         <translation>Maksu escrow</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Suorittaa loppuun</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Klikkaa Finish</translation>
     </message>
@@ -3694,10 +3534,6 @@
         <translation>Kopioi valitun tarjouksen leikepöydälle</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy Offer ID</translation>
-    </message>
-    <message>
         <source>Resell this offer for a commission</source>
         <translation>Jälleenmyydä tämä tarjous palkkion</translation>
     </message>
@@ -3763,10 +3599,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Maksat Kohta</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Suorittaa loppuun</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3854,8 +3686,8 @@
         <translation>Alennus</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Vanhenee</translation>
+        <source>Expires On</source>
+        <translation>Vanhemee</translation>
     </message>
 </context>
 <context>
@@ -3933,7 +3765,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Asetukset</translation>
+        <translation>&amp;Asetukset</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -4109,7 +3941,7 @@
     </message>
     <message>
         <source>&amp;Hide the icon from the system tray.</source>
-        <translation>&amp; Piilota kuvaketta system tray.</translation>
+        <translation>&amp;Piilota kuvaketta system tray.</translation>
     </message>
     <message>
         <source>Hide tray icon</source>
@@ -4485,9 +4317,33 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
+    <message numerus="yes">
+        <source>%n seconds(s)</source>
+        <translation><numerusform>%n sekuntia</numerusform><numerusform>%n sekuntia</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes(s)</source>
+        <translation><numerusform>%n minuuttia (t)</numerusform><numerusform>%n minuuttia(t)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n tunti</numerusform><numerusform>%n tuntia</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n päivä</numerusform><numerusform>%n päivää</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n viikko</numerusform><numerusform>%n viikon</numerusform></translation>
+    </message>
     <message>
         <source>%1 and %2</source>
         <translation>%1 ja %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n vuosi</numerusform><numerusform>%n vuotta</numerusform></translation>
     </message>
     <message>
         <source>All</source>
@@ -4628,6 +4484,10 @@
         <translation>Käyttöliittymä</translation>
     </message>
     <message>
+        <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Avaa %1 debug lokitiedosto nykyisestä datahakemistoa. Tämä voi kestää muutamia sekunteja suuria lokitiedostoja.</translation>
+    </message>
+    <message>
         <source>Decrease font size</source>
         <translation>Pienennä fontin kokoa</translation>
     </message>
@@ -4738,6 +4598,10 @@
     <message>
         <source>&amp;Unban Node</source>
         <translation>&amp;Poista solmukohdan esto</translation>
+    </message>
+    <message>
+        <source>Welcome to the %1 RPC console.</source>
+        <translation>Tervetuloa %1 RPC konsoli.</translation>
     </message>
     <message>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
@@ -5234,6 +5098,10 @@
         <source>Pay only the required fee of %1</source>
         <translation>Maksa vain vaadittu kulu kooltaan %1</translation>
     </message>
+    <message numerus="yes">
+        <source>Estimated to begin confirmation within %n block(s).</source>
+        <translation><numerusform>Arvioitu aloittaa vahvistuksen kuluessa %n lohko (t).</numerusform><numerusform>Arvioitu aloittaa vahvistuksen kuluessa %n lohko (t).</numerusform></translation>
+    </message>
     <message>
         <source>Warning: Invalid Syscoin address</source>
         <translation>Varoitus: Virheellinen Syscoin osoite</translation>
@@ -5339,6 +5207,10 @@
 </context>
 <context>
     <name>ShutdownWindow</name>
+    <message>
+        <source>%1 is shutting down...</source>
+        <translation>%1 suljetaan ...</translation>
+    </message>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
         <translation>Älä sammuta tietokonetta ennenkuin tämä ikkuna katoaa.</translation>
@@ -5544,10 +5416,6 @@
         <translation>Synkronoidaan verkon kanssa...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Yleisnäkymä</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Solmu</translation>
     </message>
@@ -5564,12 +5432,28 @@
         <translation>Selaa rahansiirtohistoriaa</translation>
     </message>
     <message>
+        <source>Aliases</source>
+        <translation>aliakset</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>Sertifikaatit</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>escrow</translation>
+    </message>
+    <message>
         <source>E&amp;xit</source>
         <translation>L&amp;opeta</translation>
     </message>
     <message>
         <source>Quit application</source>
         <translation>Sulje ohjelma</translation>
+    </message>
+    <message>
+        <source>Show information about %1</source>
+        <translation>Näytä tietoja %1</translation>
     </message>
     <message>
         <source>About &amp;Qt</source>
@@ -5582,6 +5466,10 @@
     <message>
         <source>&amp;Options...</source>
         <translation>&amp;Asetukset...</translation>
+    </message>
+    <message>
+        <source>Modify configuration options for %1</source>
+        <translation>Muokkaa asetuksia %1</translation>
     </message>
     <message>
         <source>&amp;Encrypt Wallet...</source>
@@ -5642,14 +5530,6 @@
     <message>
         <source>Wallet</source>
         <translation>Lompakko</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Lähetä</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Vastaanota</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -5756,40 +5636,20 @@
         <translation>Rahansiirtohistoria on ajan tasalla</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Hallitse aliaksia</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; viestit</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>viestit</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Hallitse tarjoukset</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; Sertifikaatit</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Hallitse Sertifikaatit</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Escrow</translation>
     </message>
     <message>
         <source>Escrows with offers</source>
@@ -5798,6 +5658,14 @@
     <message>
         <source>&amp;About Syscoin Core</source>
         <translation>&amp;Tietoja Syscoin Core</translation>
+    </message>
+    <message>
+        <source>Show the %1 help message to get a list with possible Syscoin command-line options</source>
+        <translation>Näytä %1 ohjesanoman saada listan mahdollisista Syscoin komentoriviasetusten</translation>
+    </message>
+    <message>
+        <source>%1 client</source>
+        <translation>%1 asiakas</translation>
     </message>
     <message>
         <source>Catching up...</source>
@@ -5843,11 +5711,11 @@
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
-        <translation>HD avaimen sukupolvi on &lt;b&gt; käytössä &lt;/ b&gt;</translation>
+        <translation>HD avaimen sukupolvi on &lt;b&gt; käytössä &lt;/b&gt;</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
-        <translation>HD avaimen sukupolvi on &lt;b&gt; käytössä &lt;/ b&gt;</translation>
+        <translation>HD avaimen sukupolvi on &lt;b&gt; käytössä &lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
@@ -5867,13 +5735,25 @@
 </context>
 <context>
     <name>TransactionDesc</name>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Avoinna %n enemmän lohko(t)</numerusform><numerusform>Avoinna %n enemmän lohko(t)</numerusform></translation>
+    </message>
     <message>
         <source>Open until %1</source>
         <translation>Avoinna %1 asti</translation>
     </message>
     <message>
+        <source>conflicted with a transaction with %1 confirmations</source>
+        <translation>ristiriidassa transaktion %1 vahvistukset</translation>
+    </message>
+    <message>
         <source>%1/offline</source>
         <translation>%1/offline</translation>
+    </message>
+    <message>
+        <source>0/unconfirmed, %1</source>
+        <translation>0 / vahvistamaton, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
@@ -5902,6 +5782,10 @@
     <message>
         <source>, has not been successfully broadcast yet</source>
         <translation>, ei ole vielä onnistuneesti lähetetty</translation>
+    </message>
+    <message numerus="yes">
+        <source>, broadcast through %n node(s)</source>
+        <translation><numerusform>, Lähettää kautta %n solmu(t)</numerusform><numerusform>, Lähettää kautta %n solmu(t)</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -5942,6 +5826,10 @@
     <message>
         <source>Credit</source>
         <translation>Credit</translation>
+    </message>
+    <message numerus="yes">
+        <source>matures in %n more block(s)</source>
+        <translation><numerusform>kypsyy %n enemmän lohko(t)</numerusform><numerusform>kypsyy %n enemmän lohko(t)</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -6030,7 +5918,11 @@
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Tämä ruutu näyttää yksityiskohtaisen tiedon rahansiirrosta</translation>
     </message>
-    </context>
+    <message>
+        <source>Details for %1</source>
+        <translation>Lisätietoja %1</translation>
+    </message>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -6044,6 +5936,10 @@
     <message>
         <source>Label</source>
         <translation>Nimi</translation>
+    </message>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Avoinna %n enemmän lohko(t)</numerusform><numerusform>Avoinna %n enemmän lohko(t)</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -6664,12 +6560,28 @@
         <translation>Syscoin-ydin</translation>
     </message>
     <message>
+        <source>The %s developers</source>
+        <translation>%s-kehittäjät</translation>
+    </message>
+    <message>
         <source>-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</source>
         <translation>-fallbackfee on asetettu erittäin suureksi! Tämä on rahansiirtokulu jonka voit maksaa kun arvioitu rahansirtokulu ei ole saatavilla.</translation>
     </message>
     <message>
+        <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
+        <translation>Maksu korko (%s/kB), jota käytetään, kun maksu arviointi on riittävästi tietoa (oletus: %s)</translation>
+    </message>
+    <message>
+        <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
+        <translation>Hyväksy välittämistään liiketoimet saadut sallittujen luettelossa ikäisensä, vaikka ei uudelleensijoittamista liiketoimet (oletus: %d)</translation>
+    </message>
+    <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation>Kytkeydy annettuun osoitteeseen ja pidä linja aina auki. Käytä [host]:portin merkintätapaa IPv6:lle.</translation>
+    </message>
+    <message>
+        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
+        <translation>Ei voi saada lukko tietohakemistossa %s. %s on todennäköisesti jo käynnissä.</translation>
     </message>
     <message>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
@@ -6680,8 +6592,28 @@
         <translation>Hajautettu MIT ohjelmistolisenssistä katso mukana tiedostokopioinnilla tai &lt;http://www.opensource.org/licenses/mit-license.php&gt; .</translation>
     </message>
     <message>
+        <source>Error loading %s: You can't enable HD on a already existing non-HD wallet</source>
+        <translation>Virhe ladattaessa %s: Et voi ottaa HD on jo olemassa olevia ei-HD lompakko</translation>
+    </message>
+    <message>
+        <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
+        <translation>Virhe luettaessa %s! Kaikki avaimet lukea oikein, mutta tapahtumatiedot tai osoitekirjamerkinnät saattaa puuttua tai väärä.</translation>
+    </message>
+    <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
         <translation>Suorita käsky kun lompakossa rahansiirto muuttuu (%s cmd on vaihdettu TxID kanssa)</translation>
+    </message>
+    <message>
+        <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
+        <translation>Suurin sallittu mediaani peer aikaeron säätö. Paikallinen näkökulma aika voi vaikuttaa ikäisensä eteenpäin tai taaksepäin vastaavalla määrällä. (Oletus: %u sekuntia)</translation>
+    </message>
+    <message>
+        <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
+        <translation>Suurin maksujen kokonaismäärä (%s) käyttää yhdessä lompakossa tapahtuman tai raaka tapahtuma; asettamalla tämän liian alhainen voi keskeyttää suuria (oletus: %s)</translation>
+    </message>
+    <message>
+        <source>Please check that your computer's date and time are correct! If your clock is wrong, %s will not work properly.</source>
+        <translation>Tarkista, että tietokoneen päivämäärä ja kellonaika ovat oikein! Jos kello on väärässä, %s ei toimi kunnolla.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
@@ -6720,6 +6652,10 @@
         <translation>Sinun täytyy rakentaa tietokantaan -reindex-chainstate muuttaa -txindex</translation>
     </message>
     <message>
+        <source>%s corrupt, salvage failed</source>
+        <translation>%s korruptoitunut, taltiointi epäonnistui</translation>
+    </message>
+    <message>
         <source>-maxmempool must be at least %d MB</source>
         <translation>-maxmempool on oltava vähintään %d MB</translation>
     </message>
@@ -6738,6 +6674,10 @@
     <message>
         <source>Block creation options:</source>
         <translation>Lohkon luonnin asetukset:</translation>
+    </message>
+    <message>
+        <source>Cannot resolve -%s address: '%s'</source>
+        <translation>Ei voi ratkaista -%s osoitteeseen: '%s'</translation>
     </message>
     <message>
         <source>Change index out of range</source>
@@ -6784,12 +6724,32 @@
         <translation>Ota rahansiirtojen raakavedosten julkaisu käyttöön osoitteessa &lt;address&gt;</translation>
     </message>
     <message>
+        <source>Enable transaction replacement in the memory pool (default: %u)</source>
+        <translation>Ota tapahtuman vaihto muistiin allas (oletus: %u)</translation>
+    </message>
+    <message>
         <source>Error initializing block database</source>
         <translation>Virhe alustaessa lohkotietokantaa</translation>
     </message>
     <message>
         <source>Error initializing wallet database environment %s!</source>
         <translation>Virhe alustaessa lompakon tietokantaympäristöä %s!</translation>
+    </message>
+    <message>
+        <source>Error loading %s</source>
+        <translation>Virhe ladattaessa %s</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet corrupted</source>
+        <translation>Virhe ladattaessa %s: Lompakko vioittunut</translation>
+    </message>
+    <message>
+        <source>Error loading %s: Wallet requires newer version of %s</source>
+        <translation>Virhe ladattaessa %s: Lompakko edellyttää uudempaa versiota %s</translation>
+    </message>
+    <message>
+        <source>Error loading %s: You can't disable HD on a already existing HD wallet</source>
+        <translation>Virhe ladattaessa %s: Et voi poistaa HD on jo HD lompakko</translation>
     </message>
     <message>
         <source>Error loading block database</source>
@@ -6816,8 +6776,24 @@
         <translation>Virheellinen tai olematon alkulohko löydetty. Väärä data-hakemisto verkolle?</translation>
     </message>
     <message>
+        <source>Initialization sanity check failed. %s is shutting down.</source>
+        <translation>Alustus järki tarkistaa epäonnistui. %s sammutetaan.</translation>
+    </message>
+    <message>
         <source>Invalid -onion address: '%s'</source>
         <translation>Virheellinen -onion osoite: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -%s=&lt;amount&gt;: '%s'</source>
+        <translation>Virheellinen summa -%s=&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -fallbackfee=&lt;amount&gt;: '%s'</source>
+        <translation>Virheellinen summa -fallbackfee=&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Keep the transaction memory pool below &lt;n&gt; megabytes (default: %u)</source>
+        <translation>Pidä tapahtuma muistiin altaan alapuolella &lt;n&gt; megatavua (oletus: %u)</translation>
     </message>
     <message>
         <source>Loading banlist...</source>
@@ -6892,6 +6868,10 @@
         <translation>Käytä UPnP:ta kuuntelevan portin kartoittamiseen (oletus: %u)</translation>
     </message>
     <message>
+        <source>User Agent comment (%s) contains unsafe characters.</source>
+        <translation>User Agent kommentti (%s) sisältää virheellisiä merkkejä.</translation>
+    </message>
+    <message>
         <source>Verifying blocks...</source>
         <translation>Varmistetaan lohkoja...</translation>
     </message>
@@ -6906,6 +6886,10 @@
     <message>
         <source>Wallet debugging/testing options:</source>
         <translation>Lompakko virheenkorjaus / testaus vaihtoehdoista:</translation>
+    </message>
+    <message>
+        <source>Wallet needed to be rewritten: restart %s to complete</source>
+        <translation>Lompakko tarpeen kirjoittaa uudelleen: uudelleenkäynnistyksen %s loppuun</translation>
     </message>
     <message>
         <source>Wallet options:</source>
@@ -6932,12 +6916,36 @@
         <translation>Paljasta omat IP-osoitteet (oletus: 1 kun kuunnellaan ja -externalip tai -proxy ei ole käytössä)</translation>
     </message>
     <message>
+        <source>Error: Listening for incoming connections failed (listen returned error %s)</source>
+        <translation>Virhe: kuuntelu saapuvia yhteyksiä epäonnistui (kuuntele palautti virheen %s)</translation>
+    </message>
+    <message>
         <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
         <translation>Aja komento kun olennainen hälytys vastaanotetaan tai nähdään todella pitkä haara (%s komennossa korvataan viestillä)</translation>
     </message>
     <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
+        <translation>Maksut (%s/kB) pienempiä kuin tämä katsotaan nolla maksu välittämisestä, kaivos- ja kauppa luominen (oletus: %s)</translation>
+    </message>
+    <message>
+        <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
+        <translation>Jos paytxfee ei ole asetettu, sisältää tarpeeksi maksu niin liiketoimet alkaa vahvistus keskimäärin sisällä n lohkot (oletus: %u)</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s' (must be at least the minrelay fee of %s to prevent stuck transactions)</source>
+        <translation>Virheellinen summa -maxtxfee = &lt;amount&gt;:'%s' (tulee olla ainakin minrelay maksu %s estämiseksi jumissa liiketoimet)</translation>
+    </message>
+    <message>
+        <source>Maximum size of data in data carrier transactions we relay and mine (default: %u)</source>
+        <translation>Maksimikoko tietojen tietovälineeseen liiketoimien me rele ja minun (oletus: %u)</translation>
+    </message>
+    <message>
         <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
         <translation>Kysely peer-osoitteiden kautta DNS, jos alhainen osoitteita (oletus: 1 ellei -connect)</translation>
+    </message>
+    <message>
+        <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
+        <translation>Satunnaista valtakirjojen jokaiselle proxy-yhteyden. Tämä mahdollistaa Tor virta eristäminen (oletus: %u)</translation>
     </message>
     <message>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
@@ -6972,6 +6980,10 @@
         <translation>Hyväksy julkisia REST-pyyntöjä (oletus: %u)</translation>
     </message>
     <message>
+        <source>Automatically create Tor hidden service (default: %d)</source>
+        <translation>Automaattisesti luoda Tor piilotettua (oletus: %d)</translation>
+    </message>
+    <message>
         <source>Connect through SOCKS5 proxy</source>
         <translation>Yhdistä SOCKS5 proxin kautta</translation>
     </message>
@@ -6988,8 +7000,20 @@
         <translation>Tietoa</translation>
     </message>
     <message>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (must be at least %s)</source>
+        <translation>Virheellinen summa -paytxfee = &lt;amount&gt;:'%s' (tulee olla vähintään %s)</translation>
+    </message>
+    <message>
+        <source>Invalid netmask specified in -whitelist: '%s'</source>
+        <translation>Virheellinen netmask määritelty -whitelist: '%s'</translation>
+    </message>
+    <message>
         <source>Keep at most &lt;n&gt; unconnectable transactions in memory (default: %u)</source>
         <translation>Pidä enimmillään &lt;n&gt; yhdistämiskelvotonta rahansiirtoa muistissa (oletus: %u)</translation>
+    </message>
+    <message>
+        <source>Need to specify a port with -whitebind: '%s'</source>
+        <translation>Tarve määrittää portin kanssa -whitebind: '%s'</translation>
     </message>
     <message>
         <source>Node relay options:</source>
@@ -7006,6 +7030,10 @@
     <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
         <translation>Lähetä jäljitys/debug-tieto konsoliin, debug.log-tiedoston sijaan</translation>
+    </message>
+    <message>
+        <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
+        <translation>Lähetä liiketoimet nolla-maksu liiketoimet, jos mahdollista (oletus: %u)</translation>
     </message>
     <message>
         <source>Show all debugging options (usage: --help -help-debug)</source>
@@ -7052,6 +7080,10 @@
         <translation>Siirtosumma liian iso</translation>
     </message>
     <message>
+        <source>Unable to bind to %s on this computer (bind returned error %s)</source>
+        <translation>Kyennyt sitoutumaan %s tällä tietokoneella (sitoa palautti virheen %s)</translation>
+    </message>
+    <message>
         <source>Updating an offer with a cert that does not exist</source>
         <translation>Päivittäminen tarjouksen kanssa CERT jota ei ole olemassa</translation>
     </message>
@@ -7066,6 +7098,10 @@
     <message>
         <source>Warning</source>
         <translation>Varoitus</translation>
+    </message>
+    <message>
+        <source>Warning: unknown new rules activated (versionbit %i)</source>
+        <translation>Varoitus: unknown uudet säännöt aktivoitu (versionbit %i)</translation>
     </message>
     <message>
         <source>Whether to operate in a blocks only mode (default: %u)</source>
@@ -7224,8 +7260,20 @@
         <translation>Älä pidä rahansiirtoja muistivarannoissa kauemmin kuin &lt;n&gt; tuntia (oletus: %u)</translation>
     </message>
     <message>
+        <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
+        <translation>Vastaava tavua sigop siirrossa rele ja kaivostoiminnan (oletus:%u)</translation>
+    </message>
+    <message>
         <source>Expected amount of escrow does not match what is held in escrow. Expected amount: </source>
         <translation>Odotettu määrä escrow ei vastaa mitä pidetään escrow. Odotettu määrä:</translation>
+    </message>
+    <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
+        <translation>Maksut (%s/kB) pienempiä kuin tämä katsotaan nolla maksu tapahtuman luominen (oletus: %s)</translation>
+    </message>
+    <message>
+        <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
+        <translation>Force rele liiketoimien sallittujen luettelossa ikäisensä, vaikka ne rikkovat paikallista releen politiikka (oletus: %d)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
@@ -7260,8 +7308,24 @@
         <translation>Virheellinen luokitus, on oltava pienempi tai yhtä suuri kuin 5 ja suurempi kuin tai yhtä suuri kuin 0</translation>
     </message>
     <message>
+        <source>Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)</source>
+        <translation>Pitää yllä täydellisiä transaktion indeksi, jota getrawtransaction etäkutsun (oletus: %u)</translation>
+    </message>
+    <message>
+        <source>Number of seconds to keep misbehaving peers from reconnecting (default: %u)</source>
+        <translation>Monta sekuntia pitää huonosti ikäisensä uudelleenkytkemästä (oletus: %u)</translation>
+    </message>
+    <message>
         <source>Offer guid in the data output does not match the guid in the transaction</source>
         <translation>Tarjous guid datan ulostulo ei vastaa guid kaupassa</translation>
+    </message>
+    <message>
+        <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
+        <translation>Output vianjäljitystietoa (oletus: %u, toimittavat &lt;category&gt; on valinnainen)</translation>
+    </message>
+    <message>
+        <source>Support filtering of blocks and transaction with bloom filters (default: %u)</source>
+        <translation>Tukea suodatus lohkojen ja liiketoimen Bloom suodattimet (oletus: %u)</translation>
     </message>
     <message>
         <source>Syscoin is open source software produced by a global network of developers. By downloading, distributing and using Syscoin and the Syscoin network you release the developers involved in the Syscoin Project past, present, and future from any and all liability. You are responsible for your creations on the Syscoin network. You agree that the developers of the Syscoin Project carry no responsibility for the actions/data or entities of *any* definition created on the network by yourself or others on the network to which you may be exposed.</source>
@@ -7278,6 +7342,14 @@
     <message>
         <source>This resold offer must be of higher price than the original offer including any discount</source>
         <translation>Tämä jälleenmyydä tarjous on oltava korkeampi hinta kuin alkuperäinen tarjous lukien alennus</translation>
+    </message>
+    <message>
+        <source>Total length of network version string (%i) exceeds maximum length (%i). Reduce the number or size of uacomments.</source>
+        <translation>Kokonaispituus verkon versiomerkkijono (%i) on pidempi (%i). Vähentää tai kokoa uacomments.</translation>
+    </message>
+    <message>
+        <source>Tries to keep outbound traffic under the given target (in MiB per 24h), 0 = no limit (default: %d)</source>
+        <translation>Yrittää pitää lähtevä alle tietyn tavoitetason (in MiB per 24h), 0 = ei rajaa (oletus: %d)</translation>
     </message>
     <message>
         <source>Unsupported argument -socks found. Setting SOCKS version isn't possible anymore, only SOCKS5 proxies are supported.</source>
@@ -7297,7 +7369,7 @@
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
-        <translation>Käyttäjätunnus ja hajakoodattuun salasana JSON-RPC-yhteyksiä. Kenttä &lt;userpw&gt; tulee muodossa: &lt;USERNAME&gt; : &lt;SALT&gt; $ &lt;HASH&gt; . Kanoninen python script sisältyy share / rpcuser. Tämä vaihtoehto voidaan määrittää useita kertoja</translation>
+        <translation>Käyttäjätunnus ja hajakoodattuun salasana JSON-RPC-yhteyksiä. Kenttä &lt;userpw&gt; tulee muodossa: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt; . Kanoninen python script sisältyy share / rpcuser. Tämä vaihtoehto voidaan määrittää useita kertoja</translation>
     </message>
     <message>
         <source>Warning: This transaction sends coins to an address or alias you do not own</source>
@@ -7306,6 +7378,10 @@
     <message>
         <source>Warning: Unknown block versions being mined! It's possible unknown rules are in effect</source>
         <translation>Varoitus: Tuntematon block versiot louhitaan! On mahdollista tuntematon säännöt ovat voimassa</translation>
+    </message>
+    <message>
+        <source>Warning: Wallet file corrupt, data salvaged! Original %s saved as %s in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
+        <translation>Varoitus: Lompakko tiedosto korruptoitunut, data pelastaa! Alkuperäinen %s tallennettu %s %s; jos saldosi tai liiketoimet ovat virheellisiä kannattaa palauttaa varmuuskopiosta.</translation>
     </message>
     <message>
         <source>You must be either the arbiter, buyer or seller to leave feedback on this escrow</source>
@@ -8436,8 +8512,16 @@
         <translation>Myyjä alias ei ole lompakossa</translation>
     </message>
     <message>
+        <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
+        <translation>Lähetä liiketoimet koko RBF opt-in päällä (oletus: %u)</translation>
+    </message>
+    <message>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation>Aseta avainaltaan kooksi &lt;n&gt; (oletus: %u)</translation>
+    </message>
+    <message>
+        <source>Set maximum BIP141 block weight (default: %d)</source>
+        <translation>Määritä suurin BIP141 lohkon paino (oletus: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>

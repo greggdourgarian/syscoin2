@@ -8,10 +8,6 @@
     </context>
 <context>
     <name>AcceptedOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>AddressBookPage</name>
@@ -156,20 +152,12 @@
         <source>Remove</source>
         <translation>நீக்கு</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
     <message>
         <source>Total:</source>
         <translation>மொத்தம்:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;சரி</translation>
     </message>
     </context>
 <context>
@@ -221,11 +209,7 @@
     </context>
 <context>
     <name>MessageListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -245,48 +229,24 @@
     </context>
 <context>
     <name>MyAcceptedOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>MyCertListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferWhitelistTableModel</name>
     </context>
 <context>
     <name>MyWhitelistOfferDialog</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ஏற்றுமதி</translation>
-    </message>
     </context>
 <context>
     <name>NewMessageDialog</name>
@@ -320,10 +280,6 @@
     <message>
         <source>Total:</source>
         <translation>மொத்தம்:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;சரி</translation>
     </message>
     </context>
 <context>
@@ -804,10 +760,6 @@
 <context>
     <name>SyscoinGUI</name>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;கண்ணோட்டம்</translation>
-    </message>
-    <message>
         <source>&amp;Transactions</source>
         <translation>&amp;பரிவர்த்தனைகள்</translation>
     </message>
@@ -846,14 +798,6 @@
     <message>
         <source>Wallet</source>
         <translation>பணப்பை</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;அனுப்பு</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;பெறு</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

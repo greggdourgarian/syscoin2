@@ -13,10 +13,6 @@
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Vse</translation>
     </message>
@@ -541,10 +537,6 @@
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Datoteka s podatki, ločenimi z vejico (*.csv)</translation>
     </message>
@@ -552,16 +544,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Splošno</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Skupaj:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Potrdi</translation>
     </message>
     </context>
 <context>
@@ -693,10 +685,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -738,10 +726,6 @@
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Vse</translation>
     </message>
@@ -761,10 +745,6 @@
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Datoteka s podatki, ločenimi z vejico (*.csv)</translation>
     </message>
@@ -774,10 +754,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
     </message>
     <message>
         <source>All</source>
@@ -799,10 +775,6 @@
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Vse</translation>
     </message>
@@ -816,10 +788,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
     </message>
     <message>
         <source>All</source>
@@ -838,10 +806,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Izvozi podatke iz trenutnega zavihka v datoteko</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvozi</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -912,10 +876,6 @@
     <message>
         <source>Total:</source>
         <translation>Skupaj:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Potrdi</translation>
     </message>
     </context>
 <context>
@@ -2316,10 +2276,6 @@
         <translation>Dohitevam omrežje ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>Pre&amp;gled</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Vozlišče</translation>
     </message>
@@ -2414,14 +2370,6 @@
     <message>
         <source>Wallet</source>
         <translation>Denarnica</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Pošlji</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>P&amp;rejmi</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

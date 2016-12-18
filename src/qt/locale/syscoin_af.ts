@@ -8,10 +8,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
-    </message>
     </context>
 <context>
     <name>AddressBookPage</name>
@@ -120,10 +116,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
@@ -161,10 +153,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -181,20 +169,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
-    </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
     </message>
     </context>
 <context>
@@ -203,10 +183,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
-    </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
@@ -214,20 +190,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
     </message>
     </context>
 <context>
@@ -238,10 +206,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Voer die inligting op hierdie bladsy uit na 'n leer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Voer uit</translation>
     </message>
     </context>
 <context>
@@ -356,10 +320,6 @@
         <translation>Netwerk-sinkronisasie...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Oorsig</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -426,14 +386,6 @@
     <message>
         <source>Wallet</source>
         <translation>Beursie</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Stuur</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ontvang</translation>
     </message>
     <message>
         <source>Show or hide the main Window</source>

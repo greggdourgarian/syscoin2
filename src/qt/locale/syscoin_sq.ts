@@ -373,7 +373,7 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporto të dhënat e skedës korrente në një skedar</translation>
     </message>
-    </context>
+</context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -744,10 +744,6 @@
         <translation>Duke u sinkronizuar me rrjetin...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Përmbledhje</translation>
-    </message>
-    <message>
         <source>Show general overview of wallet</source>
         <translation>Trego një përmbledhje te përgjithshme të portofolit</translation>
     </message>
@@ -782,14 +778,6 @@
     <message>
         <source>Wallet</source>
         <translation>Portofol</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Dergo</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Merr</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

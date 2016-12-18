@@ -9,10 +9,6 @@
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>تمام</translation>
     </message>
@@ -200,10 +196,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
@@ -245,10 +237,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -266,10 +254,6 @@
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>تمام</translation>
     </message>
@@ -280,20 +264,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
-    </message>
     </context>
 <context>
     <name>MyCertListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
     </message>
     <message>
         <source>All</source>
@@ -307,10 +283,6 @@
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>تمام</translation>
     </message>
@@ -320,10 +292,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
     </message>
     <message>
         <source>All</source>
@@ -338,10 +306,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>موجودہ ڈیٹا کو فائیل میں محفوظ کریں</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>برآمد</translation>
     </message>
     </context>
 <context>

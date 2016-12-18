@@ -13,10 +13,6 @@
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Sve</translation>
     </message>
@@ -445,10 +441,6 @@
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Datoteka podataka odvojenih zarezima (*.csv)</translation>
     </message>
@@ -462,10 +454,6 @@
     <message>
         <source>Total:</source>
         <translation>Ukupno:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;U redu</translation>
     </message>
     </context>
 <context>
@@ -565,10 +553,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -606,10 +590,6 @@
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Sve</translation>
     </message>
@@ -629,10 +609,6 @@
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Datoteka podataka odvojenih zarezima (*.csv)</translation>
     </message>
@@ -642,10 +618,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
     </message>
     <message>
         <source>All</source>
@@ -667,10 +639,6 @@
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Sve</translation>
     </message>
@@ -684,10 +652,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
     </message>
     <message>
         <source>All</source>
@@ -706,10 +670,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Izvoz podataka iz trenutnog taba u datoteku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Izvoz</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -772,10 +732,6 @@
     <message>
         <source>Total:</source>
         <translation>Ukupno:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;U redu</translation>
     </message>
     </context>
 <context>
@@ -1456,10 +1412,6 @@
         <translation>Usklađivanje s mrežom ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Pregled</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Čvor</translation>
     </message>
@@ -1554,14 +1506,6 @@
     <message>
         <source>Wallet</source>
         <translation>Novčanik</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Pošalji</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>Pri&amp;mi</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

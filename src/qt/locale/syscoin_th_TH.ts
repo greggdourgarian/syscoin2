@@ -13,10 +13,6 @@
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>คั่นไฟล์ด้วยเครื่องหมายจุลภาค (*.csv)</translation>
     </message>
@@ -353,10 +349,6 @@
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>คั่นไฟล์ด้วยเครื่องหมายจุลภาค (*.csv)</translation>
     </message>
@@ -509,10 +501,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -534,10 +522,6 @@
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>คั่นไฟล์ด้วยเครื่องหมายจุลภาค (*.csv)</translation>
     </message>
@@ -547,10 +531,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -564,10 +544,6 @@
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>คั่นไฟล์ด้วยเครื่องหมายจุลภาค (*.csv)</translation>
     </message>
@@ -579,10 +555,6 @@
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>คั่นไฟล์ด้วยเครื่องหมายจุลภาค (*.csv)</translation>
     </message>
@@ -592,10 +564,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -610,10 +578,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>ส่งออกข้อมูลที่อยู่ในแท็บไปที่ไฟล์</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;ส่งออก</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1004,10 +968,6 @@
         <translation>กำลังทำข้อมูลให้ตรงกันกับเครือข่าย ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;ภาพรวม</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node/โหนด</translation>
     </message>
@@ -1110,14 +1070,6 @@
     <message>
         <source>Wallet</source>
         <translation>กระเป๋าเงิน</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;ส่ง</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;รับ</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

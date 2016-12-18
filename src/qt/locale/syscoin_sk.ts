@@ -18,10 +18,6 @@
         <translation>Vyhľadávaním OfferID z blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Vyhľadávanie Ponuka</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Množstvo:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Kúpte si túto ponuku</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp; Prijať ponuku</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -149,16 +141,8 @@
         <translation>Refresh prijal ponuku zoznamu</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovať ID ponuky</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -183,10 +167,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>All</source>
@@ -378,10 +358,6 @@
         <translation>Skopírovanie aktuálne vybrané alias do systémovej schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopírovať Alias ​​ID</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>poslať správa</translation>
     </message>
@@ -415,10 +391,6 @@
     <message>
         <source>Expires On</source>
         <translation>Vyprší</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -573,10 +545,6 @@
         <translation>Skopírovanie aktuálne vybraného cert do systémovej schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopírovať ID certifikátu</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -626,10 +594,6 @@
     <message>
         <source>Expires On</source>
         <translation>Vyprší</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -864,10 +828,6 @@
         <translation>Všeobecné</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Názov aliasu.</translation>
     </message>
@@ -926,6 +886,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 rokov</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Ste si istí, že chcete pokračovať?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1177,16 +1141,8 @@
         <translation>Obnoviť zoznam pobočka</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Pridajte novú pobočku</translation>
-    </message>
-    <message>
-        <source>&amp;Add</source>
-        <translation>&amp; Pridať</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1207,10 +1163,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>Entry removed successfully!</source>
@@ -1245,6 +1197,10 @@
         <translation>prezývka</translation>
     </message>
     <message>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
+    </message>
+    <message>
         <source>Discount</source>
         <translation>zľava</translation>
     </message>
@@ -1260,8 +1216,8 @@
         <translation>Podmienené Info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>a všeobecný</translation>
+        <source>General</source>
+        <translation>Všeobecné</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1308,24 +1264,8 @@
         <translation>Priemerné hodnotenie:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Dodávky Kontaktné informácie:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>Kupujúci &amp; Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>A predávajúci Spätná väzba</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1369,10 +1309,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybraného escrow do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopírovať Podmienené ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1696,10 +1632,6 @@
         <translation>Nemožno analyzovať JSON odpoveď:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>Skontrolujte BTC Platba</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Prosím čakajte...</translation>
     </message>
@@ -1766,10 +1698,6 @@
         <translation>Obnoviť zoznam správ</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Poslať novú správu</translation>
     </message>
@@ -1782,10 +1710,6 @@
         <translation>Skopírovanie aktuálne vybratú správu do systémovej schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Kopírovať Msg ID</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Získať podrobnosti správy</translation>
     </message>
@@ -1796,10 +1720,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
 </context>
 <context>
@@ -1858,16 +1778,8 @@
         <translation>Osviežte si prijal ponuku zoznamu</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovať ID ponuky</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -1892,10 +1804,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>All</source>
@@ -1977,24 +1885,16 @@
         <translation>Obnoviť zoznam alias</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Vytvoriť nový alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; Nový Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybrané alias do systémovej schránky</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopírovať Alias ​​ID</translation>
+        <source>New Alias</source>
+        <translation>nový Alias</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2031,10 +1931,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2081,10 +1977,6 @@
         <translation>Vyprší</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
-    </message>
-    <message>
         <source>Seller Rating</source>
         <translation>Predávajúci Rating</translation>
     </message>
@@ -2104,24 +1996,12 @@
         <translation>Obnoviť zoznam certifikátov</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Vytvoriť nový certifikát</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; Nový certifikát</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybraný certifikát do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopírovať ID certifikátu</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2150,10 +2030,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>All</source>
@@ -2204,10 +2080,6 @@
         <translation>Vyprší</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Chyba pri exporte</translation>
     </message>
@@ -2227,16 +2099,8 @@
         <translation>Osviežiť svoj zoznam escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybraného escrow do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopírovať Podmienené ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2277,10 +2141,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>All</source>
@@ -2330,24 +2190,16 @@
         <translation>Aktualizujte zoznam ponúk</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
+        <source>New Offer</source>
+        <translation>Nová ponuka</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Vytvoriť novú ponuku</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Novú ponuku</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovať ID ponuky</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2362,16 +2214,8 @@
         <translation>Správa pobočky pre túto ponuku</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Správa Pobočky</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2457,8 +2301,8 @@
         <translation>zľava</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
     </message>
 </context>
 <context>
@@ -2472,16 +2316,8 @@
         <translation>Osviežte svoj zoznam partnerský tejto ponuky</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Obnoviť</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportovať tento náhľad do súboru</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportovať...</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -2629,10 +2465,6 @@
         <translation>Platiť sa Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Plaťte SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>použiť Podmienené</translation>
     </message>
@@ -2682,10 +2514,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Potvrdiť túto platbu na Bitcoin blockchain</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Potvrdzujúci platbu</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2757,10 +2585,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Potvrdiť túto platbu na Bitcoin blockchain</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Potvrdzujúci platbu</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -2854,8 +2678,8 @@
         <translation>Priemerné hodnotenie:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Dodávky Kontaktné informácie:</translation>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Offer Details</source>
@@ -2880,10 +2704,6 @@
     <message>
         <source>Certificate:</source>
         <translation>certifikát:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -2960,10 +2780,6 @@
         <translation>Platba v úschove</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Skončiť</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Prosím kliknite na tlačidlo Dokončiť</translation>
     </message>
@@ -3020,10 +2836,6 @@
     <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Skopírovanie aktuálne vybratú ponuku do systémovej schránky</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopírovať ID ponuky</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3091,10 +2903,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Platiť za položku</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Skončiť</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3174,8 +2982,8 @@
         <translation>zľava</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>V vyprší</translation>
+        <source>Expires On</source>
+        <translation>Vyprší</translation>
     </message>
 </context>
 <context>
@@ -4745,10 +4553,6 @@
         <translation>Synchronizácia so sieťou...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Prehľad</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Uzol</translation>
     </message>
@@ -4763,6 +4567,18 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Prechádzať históriu transakcií</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>prezývky</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certifikáty</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>podmienená</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -4843,14 +4659,6 @@
     <message>
         <source>Wallet</source>
         <translation>Peňaženka</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Odoslať</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Prijať</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -4949,40 +4757,20 @@
         <translation>Aktualizovaný</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; udržuje spojenie</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>správa aliasov</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Správy</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>správy</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>správa ponúk</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; Certifikáty</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>správa certifikátov</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Podmienené</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

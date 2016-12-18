@@ -18,10 +18,6 @@
         <translation>Odnośnika OfferID z blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Lookup Oferta</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Ilość:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Zakup tego wpisu</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Przyjąć ofertę</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -169,16 +161,8 @@
         <translation>Odśwież Lista zaakceptowanych oferty</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybraną ofertę do schowka systemowego</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy ID oferty</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -203,10 +187,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -410,10 +390,6 @@
         <translation>Kopiowanie aktualnie wybrane alias do systemowego schowka</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>Alias ​​ID Copy &amp;</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>Wyślij błędzie</translation>
     </message>
@@ -455,10 +431,6 @@
     <message>
         <source>Expires On</source>
         <translation>Upływa w dniu</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Wygasa za</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -555,6 +527,10 @@
         <translation>Portfel zaszyfrowany</translation>
     </message>
     <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your syscoins from being stolen by malware infecting your computer.</source>
+        <translation>%1 zamknie się teraz, aby zakończyć proces szyfrowania. Należy pamiętać, że szyfrowanie portfela nie może w pełni chronić swoje syscoins przed kradzieżą przez złośliwe oprogramowanie zainfekowaniu komputera.</translation>
+    </message>
+    <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>WAŻNE: Wszystkie wykonane wcześniej kopie pliku portfela powinny być zamienione na nowe, szyfrowane pliki. Z powodów bezpieczeństwa, poprzednie kopie nieszyfrowanych plików portfela staną się bezużyteczne jak tylko zaczniesz korzystać z nowego, szyfrowanego portfela.</translation>
     </message>
@@ -621,10 +597,6 @@
         <translation>Kopiowanie aktualnie wybranego cert do schowka systemowego</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>Certyfikat ID Copy &amp;</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&gt;&gt;</translation>
     </message>
@@ -674,10 +646,6 @@
     <message>
         <source>Expires On</source>
         <translation>Upływa w dniu</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Wygasa za</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -912,10 +880,6 @@
         <translation>Ogólne</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Nazwa aliasu.</translation>
     </message>
@@ -1006,6 +970,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 lat</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Czy na pewno chcesz kontynuować?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1117,10 +1085,6 @@
     <message>
         <source>certificates</source>
         <translation>certyfikaty</translation>
-    </message>
-    <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Nie był wyjątkiem próbuje pobrać informacje o certyfikacie:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the alias list: </source>
@@ -1337,16 +1301,12 @@
         <translation>Odśwież listę partnerski</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Dodaj nową filię</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Dodaj</translation>
+        <source>Add</source>
+        <translation>Dodaj</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1367,10 +1327,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1413,8 +1369,8 @@
         <translation>Alias</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>wygasa</translation>
+        <source>Expires On</source>
+        <translation>Upływa w dniu</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1432,8 +1388,8 @@
         <translation>Depozyt informacji</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Generał</translation>
+        <source>General</source>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1480,28 +1436,20 @@
         <translation>Średnia ocena:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Shipping &amp; Informacje kontaktowe:</translation>
+        <source>Buyer Feedback</source>
+        <translation>Kupujący Zgłoszenie</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>Sprzedawca Zgłoszenie</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>TXID zewnętrzna:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Kupujący Zgłoszenie</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Sprzedawca Zgłoszenie</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter Zgłoszenie</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1557,10 +1505,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybranego escrow do schowka systemowego</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy Depozyt ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1984,14 +1928,6 @@
         <translation>Nie można analizować odpowiedzi JSON:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>Sprawdź BTC Płatność</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Sprawdź ZEC Płatność</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Proszę czekać...</translation>
     </message>
@@ -2066,10 +2002,6 @@
         <translation>Odśwież lista wiadomości</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Wyślij nową wiadomość</translation>
     </message>
@@ -2082,10 +2014,6 @@
         <translation>Kopiowanie aktualnie wybraną wiadomość do schowka systemowego</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Copy Msg identyfikator</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Uzyskaj szczegóły wiadomości</translation>
     </message>
@@ -2096,10 +2024,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
 </context>
 <context>
@@ -2198,16 +2122,8 @@
         <translation>Odśwież swoją listę oferta przyjęta</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybraną ofertę do schowka systemowego</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy ID oferty</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2244,10 +2160,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2409,24 +2321,16 @@
         <translation>Odśwież listę alias</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Utwórz nowy alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybrane alias do systemowego schowka</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>Alias ​​ID Copy &amp;</translation>
+        <source>New Alias</source>
+        <translation>Nowy alias</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2467,10 +2371,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2521,10 +2421,6 @@
         <translation>Upływa w dniu</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Wygasa za</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Przedawniony</translation>
     </message>
@@ -2556,24 +2452,12 @@
         <translation>Odśwież listę certyfikatów</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Utwórz nowy certyfikat</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; New Certificate</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybranego certyfikatu do schowka systemowego</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>Certyfikat ID Copy &amp;</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2602,10 +2486,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -2660,10 +2540,6 @@
         <translation>Upływa w dniu</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Wygasa za</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Eksport błędów</translation>
     </message>
@@ -2683,16 +2559,8 @@
         <translation>Odśwież swoją listę escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybranego escrow do schowka systemowego</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Copy Depozyt ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2741,10 +2609,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -2838,24 +2702,16 @@
         <translation>Odśwież swoją listę ofert</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
+        <source>New Offer</source>
+        <translation>Nowa oferta</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Utwórz nową ofertę</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Nowa oferta</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiowanie aktualnie wybraną ofertę do schowka systemowego</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy ID oferty</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2870,16 +2726,8 @@
         <translation>Zarządzaj oddziałów do tej oferty</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Zarządzanie córki</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -2981,8 +2829,8 @@
         <translation>Zniżka</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Wygasa za</translation>
+        <source>Expires On</source>
+        <translation>Upływa w dniu</translation>
     </message>
 </context>
 <context>
@@ -2996,16 +2844,8 @@
         <translation>Odśwież swoją listę partnerski dla tej oferty</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Odśwież</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuj dane z aktywnej karty do pliku</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuj</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3173,10 +3013,6 @@
         <translation>Płacę z Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Płać SYS</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>Korzystanie Depozyt</translation>
     </message>
@@ -3230,10 +3066,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Potwierdź tę płatność na blockchain Bitcoin</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Potwierdzenie płatności</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -3337,10 +3169,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Potwierdź tę płatność na blockchain Bitcoin</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Potwierdzenie płatności</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -3494,8 +3322,8 @@
         <translation>Średnia ocena:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Shipping &amp; Informacje kontaktowe:</translation>
+        <source>OK</source>
+        <translation>ok</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -3538,10 +3366,6 @@
         <translation>Sprzedawca Zgłoszenie</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    <message>
         <source>No Feedback Found</source>
         <translation>Nie znaleziono komentarzy</translation>
     </message>
@@ -3556,6 +3380,10 @@
     <message>
         <source>No Feedback</source>
         <translation>Brak informacji zwrotnej</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;%1&lt;/b&gt;</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <source>From:</source>
@@ -3636,10 +3464,6 @@
         <translation>Płatność w depozycie</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Koniec</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Proszę kliknąć Zakończ</translation>
     </message>
@@ -3710,10 +3534,6 @@
         <translation>Kopiowanie aktualnie wybraną ofertę do schowka systemowego</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Copy ID oferty</translation>
-    </message>
-    <message>
         <source>Resell this offer for a commission</source>
         <translation>Odsprzedawać tego wpisu za prowizję</translation>
     </message>
@@ -3779,10 +3599,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Zapłacić za przedmiot</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Koniec</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3870,8 +3686,8 @@
         <translation>Zniżka</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Wygasa za</translation>
+        <source>Expires On</source>
+        <translation>Upływa w dniu</translation>
     </message>
 </context>
 <context>
@@ -4501,9 +4317,33 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
+    <message numerus="yes">
+        <source>%n seconds(s)</source>
+        <translation><numerusform>%n sekund(y)</numerusform><numerusform>%n sekund(y)</numerusform><numerusform>%n sekund(y)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes(s)</source>
+        <translation><numerusform>%n minut(y)</numerusform><numerusform>%n minut(y)</numerusform><numerusform>%n minut(y)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n godzin</numerusform><numerusform>godzina %n</numerusform><numerusform>godzina %n</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n dni</numerusform><numerusform>%n dni</numerusform><numerusform>%n dni</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n tygodni</numerusform><numerusform>%n tygodni</numerusform><numerusform>%n tygodni</numerusform></translation>
+    </message>
     <message>
         <source>%1 and %2</source>
         <translation>%1 i %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n lat</numerusform><numerusform>%n lat</numerusform><numerusform>%n lat</numerusform></translation>
     </message>
     <message>
         <source>All</source>
@@ -5258,6 +5098,10 @@
         <source>Pay only the required fee of %1</source>
         <translation>Zapłać tylko wymaganą opłatę %1</translation>
     </message>
+    <message numerus="yes">
+        <source>Estimated to begin confirmation within %n block(s).</source>
+        <translation><numerusform>Szacowany zacząć potwierdzenie obrębie bloku (ów) %n.</numerusform><numerusform>Szacowany zacząć potwierdzenie obrębie bloku (ów) %n.</numerusform><numerusform>Szacowany zacząć potwierdzenie obrębie bloku (ów) %n.</numerusform></translation>
+    </message>
     <message>
         <source>Warning: Invalid Syscoin address</source>
         <translation>Ostrzeżenie: nieprawidłowy adres Syscoin</translation>
@@ -5573,10 +5417,6 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Synchronizacja z siecią...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>P&amp;odsumowanie</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Węzeł</translation>
     </message>
@@ -5591,6 +5431,18 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Browse transaction history</source>
         <translation>Przeglądaj historię transakcji</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>Aliasy</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certyfikaty</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Escrow</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -5679,14 +5531,6 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Wallet</source>
         <translation>Portfel</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>Wyślij</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>Odbie&amp;rz</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -5793,40 +5637,20 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Aktualny</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; było w kontakcie</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Zarządzaj aliasy</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Komunikaty</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>Wiadomości</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp;Rynek</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Zarządzaj ofert</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>i Certyfikaty</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>zarządzanie certyfikatami</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Depozyt</translation>
     </message>
     <message>
         <source>Escrows with offers</source>
@@ -5888,11 +5712,11 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
-        <translation>generowanie kluczy HD jest &lt;b&gt; włączona &lt;/ b&gt;</translation>
+        <translation>generowanie kluczy HD jest &lt;b&gt; włączona &lt;/b&gt;</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
-        <translation>generowanie kluczy HD jest &lt;b&gt; wyłączone &lt;/ b&gt;</translation>
+        <translation>generowanie kluczy HD jest &lt;b&gt; wyłączone &lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
@@ -5912,13 +5736,25 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
 </context>
 <context>
     <name>TransactionDesc</name>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Otwarty dla %n więcej blok(s)</numerusform><numerusform>Otwarty dla %n więcej blok(s)</numerusform><numerusform>Otwarty dla %n więcej blok(s)</numerusform></translation>
+    </message>
     <message>
         <source>Open until %1</source>
         <translation>Otwórz do %1</translation>
     </message>
     <message>
+        <source>conflicted with a transaction with %1 confirmations</source>
+        <translation>sprzeczne z transakcji z %1 potwierdzeń</translation>
+    </message>
+    <message>
         <source>%1/offline</source>
         <translation>%1/offline</translation>
+    </message>
+    <message>
+        <source>0/unconfirmed, %1</source>
+        <translation>0 / niepotwierdzone, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
@@ -5947,6 +5783,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>, has not been successfully broadcast yet</source>
         <translation>, nie został jeszcze pomyślnie rozesłany</translation>
+    </message>
+    <message numerus="yes">
+        <source>, broadcast through %n node(s)</source>
+        <translation><numerusform>, Nadawane za pośrednictwem węzła %n</numerusform><numerusform>, Nadawane za pośrednictwem węzła %n</numerusform><numerusform>, Nadawane za pośrednictwem węzła %n</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -5987,6 +5827,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Credit</source>
         <translation>Przypisy</translation>
+    </message>
+    <message numerus="yes">
+        <source>matures in %n more block(s)</source>
+        <translation><numerusform>dojrzewa w %n więcej blok(s)</numerusform><numerusform>dojrzewa w %n więcej blok(s)</numerusform><numerusform>dojrzewa w %n więcej blok(s)</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -6075,7 +5919,11 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Ten panel pokazuje szczegółowy opis transakcji</translation>
     </message>
-    </context>
+    <message>
+        <source>Details for %1</source>
+        <translation>Szczegóły dla %1</translation>
+    </message>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -6089,6 +5937,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Label</source>
         <translation>Etykieta</translation>
+    </message>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Otwarty dla %n więcej blok(s)</numerusform><numerusform>Otwarty dla %n więcej blok(s)</numerusform><numerusform>Otwarty dla %n więcej blok(s)</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -6673,6 +6525,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Suszonych śliwek: Ostatnia synchronizacja portfel wykracza poza przycinać danych. Trzeba -reindex (pobierz cały blockchain ponownie w przypadku usuwane węzła)</translation>
     </message>
     <message>
+        <source>Reduce storage requirements by pruning (deleting) old blocks. This mode is incompatible with -txindex and -rescan. Warning: Reverting this setting requires re-downloading the entire blockchain. (default: 0 = disable pruning blocks, &gt;%u = target size in MiB to use for block files)</source>
+        <translation>Zmniejszenia wymagań pamięciowych przez przycinanie (usunięcie) stare bloki. Ten tryb jest niezgodny z -txindex i -rescan. Ostrzeżenie: Przywrócenie tego ustawienia wymaga ponownego pobierania całego blockchain. (Domyślnie: 0 = wyłączone bloki przycinanie,&gt; %u = wielkość docelowa w MiB używać plików blokowych)</translation>
+    </message>
+    <message>
         <source>Rescans are not possible in pruned mode. You will need to use -reindex which will download the whole blockchain again.</source>
         <translation>Skanuje nie są możliwe w trybie usuwane. Będziesz musiał użyć -reindex które będą ponownie pobrać cały blockchain.</translation>
     </message>
@@ -6713,6 +6569,14 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>-fallbackfee ma ustawioną bardzo dużą wartość!  Jest to prowizja za transakcje, którą możesz zapłacić gdy oszacowanie opłaty jest niemożliwe.</translation>
     </message>
     <message>
+        <source>A fee rate (in %s/kB) that will be used when fee estimation has insufficient data (default: %s)</source>
+        <translation>Stawka opłaty (w %s / Kb), który będzie używany podczas szacowania Opłata ma wystarczających danych (domyślnie: %s)</translation>
+    </message>
+    <message>
+        <source>Accept relayed transactions received from whitelisted peers even when not relaying transactions (default: %d)</source>
+        <translation>Zebrane transakcji przekazywane otrzymane od rówieśników z białej listy, nawet jeśli nie umieszczenia transakcji (domyślnie: %d)</translation>
+    </message>
+    <message>
         <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
         <translation>Skojarz z podanym adresem i nasłuchuj na nim. Użyj formatu [host]:port dla IPv6</translation>
     </message>
@@ -6729,12 +6593,24 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Rozprowadzane na licencji MIT, zobacz dołączony plik COPYING lub &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
     </message>
     <message>
+        <source>Error loading %s: You can't enable HD on a already existing non-HD wallet</source>
+        <translation>Błąd wczytywania %s: Nie można włączyć HD na istniejącym portfelu non-HD</translation>
+    </message>
+    <message>
         <source>Error reading %s! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
         <translation>Błąd odczytu %s! Wszystkie klucze zostały odczytane poprawnie, ale może brakować  danych transakcji lub wpisów w książce adresowej, lub mogą one być nieprawidłowe.</translation>
     </message>
     <message>
         <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
         <translation>Wykonaj polecenie, kiedy transakcja portfela ulegnie zmianie (%s w poleceniu zostanie zastąpione przez TxID)</translation>
+    </message>
+    <message>
+        <source>Maximum allowed median peer time offset adjustment. Local perspective of time may be influenced by peers forward or backward by this amount. (default: %u seconds)</source>
+        <translation>Maksymalne dopuszczalne przesunięcie mediana czasu wzajemnej regulacji. Lokalne perspektywy czasu może być pod wpływem rówieśników przodu lub do tyłu o tę kwotę. (Domyślnie: %u sekund)</translation>
+    </message>
+    <message>
+        <source>Maximum total fees (in %s) to use in a single wallet transaction or raw transaction; setting this too low may abort large transactions (default: %s)</source>
+        <translation>Maksymalne opłaty ogółem (w %s) do wykorzystania w pojedynczej transakcji lub portfela transakcji surowego; Ustawienie to zbyt niska może przerwać dużych transakcji (domyślnie: %s)</translation>
     </message>
     <message>
         <source>Please check that your computer's date and time are correct! If your clock is wrong, %s will not work properly.</source>
@@ -6801,6 +6677,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Opcje tworzenia bloku:</translation>
     </message>
     <message>
+        <source>Cannot resolve -%s address: '%s'</source>
+        <translation>Nie można rozwiązać -%s adres: '%s'</translation>
+    </message>
+    <message>
         <source>Change index out of range</source>
         <translation>Zmiana indeksu poza zasięgiem</translation>
     </message>
@@ -6845,6 +6725,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Włącz publikowanie surowego transakcji w &lt;address&gt;</translation>
     </message>
     <message>
+        <source>Enable transaction replacement in the memory pool (default: %u)</source>
+        <translation>Włącz wymianę transakcji w puli pamięci (domyślnie: %u)</translation>
+    </message>
+    <message>
         <source>Error initializing block database</source>
         <translation>Błąd inicjowania bazy danych bloków</translation>
     </message>
@@ -6863,6 +6747,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Error loading %s: Wallet requires newer version of %s</source>
         <translation>Błąd ładowania %s: Portfel wymaga nowszej wersji %s</translation>
+    </message>
+    <message>
+        <source>Error loading %s: You can't disable HD on a already existing HD wallet</source>
+        <translation>Błąd wczytywania %s: Nie można wyłączyć HD na istniejącym portfelu HD</translation>
     </message>
     <message>
         <source>Error loading block database</source>
@@ -7041,6 +6929,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Uruchom polecenie przy otrzymaniu odpowiedniego powiadomienia lub gdy zobaczymy naprawdę długie rozgałęzienie (%s w poleceniu jest podstawiane za komunikat)</translation>
     </message>
     <message>
+        <source>Fees (in %s/kB) smaller than this are considered zero fee for relaying, mining and transaction creation (default: %s)</source>
+        <translation>Opłaty (w %s/Kb) mniejsze niż to uważane są za opłaty zera do przekazywania, wydobycie i tworzenie transakcji (domyślnie: %s)</translation>
+    </message>
+    <message>
         <source>If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)</source>
         <translation>Jeżeli nie ustawiono paytxfee, dołącz wystarczająca opłatę, aby transakcja mogła zostać zatwierdzona w ciągu średniej ilości n bloków (domyślnie: %u)</translation>
     </message>
@@ -7055,6 +6947,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
         <translation>Wyszukaj adresy węzłów wykorzystując zapytanie DNS, jeżeli masz mało adresów (domyślnie: 1 jeśli nie użyto -connect)</translation>
+    </message>
+    <message>
+        <source>Randomize credentials for every proxy connection. This enables Tor stream isolation (default: %u)</source>
+        <translation>Losowo poświadczenia dla każdego połączenia proxy. Umożliwia to Tora izolację strumienia (domyślnie: %u)</translation>
     </message>
     <message>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
@@ -7173,6 +7069,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Hasło zabezpieczające portu kontrolnego Tora (domyślnie: puste)</translation>
     </message>
     <message>
+        <source>Tor control port to use if onion listening enabled (default: %s)</source>
+        <translation>Tor port sterowania użyć, jeśli włączona cebula słuchania (domyślnie: %s)</translation>
+    </message>
+    <message>
         <source>Transaction amount too small</source>
         <translation>Zbyt niska kwota transakcji </translation>
     </message>
@@ -7207,6 +7107,10 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     <message>
         <source>Warning</source>
         <translation>Ostrzeżenie</translation>
+    </message>
+    <message>
+        <source>Whether to operate in a blocks only mode (default: %u)</source>
+        <translation>Czy do pracy w trybie tylko do bloków (domyślnie: %u)</translation>
     </message>
     <message>
         <source>Whitelist entries were added or removed</source>
@@ -7361,12 +7265,20 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Nie trzymaj w pamięci transakcji starszych niż &lt;n&gt; godz. (domyślnie: %u)</translation>
     </message>
     <message>
+        <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
+        <translation>Równoważne bajtów na sigop w transakcjach na przekaźniku i górnictwie (domyślnie: %u)</translation>
+    </message>
+    <message>
         <source>Expected amount of escrow does not match what is held in escrow. Expected amount: </source>
         <translation>Przewidywana kwota depozytu nie pasuje do tego, co jest przechowywane w depozycie. Przewidywana kwota:</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
         <translation>Opłaty (w %s/Kb) mniejsze niż ta będą traktowane jako bez opłaty przy tworzeniu transakcji (domyślnie: %s)</translation>
+    </message>
+    <message>
+        <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
+        <translation>Przekaźnik siła transakcji z rówieśnikami z białej listy, nawet jeśli naruszają lokalnej polityki przekaźnika (domyślnie: %d)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
@@ -7462,7 +7374,7 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
     </message>
     <message>
         <source>Username and hashed password for JSON-RPC connections. The field &lt;userpw&gt; comes in the format: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt;. A canonical python script is included in share/rpcuser. This option can be specified multiple times</source>
-        <translation>Nazwa użytkownika i hasło do połączenia haszowanej JSON-RPC. pole &lt;userpw&gt; przychodzi w formacie: &lt;USERNAME&gt; : &lt;SALT&gt; $ &lt;HASH&gt; , Kanoniczne skrypt Pythona jest wliczone w share / rpcuser. Opcja ta może być podana wiele razy</translation>
+        <translation>Nazwa użytkownika i hasło do połączenia haszowanej JSON-RPC. pole &lt;userpw&gt; przychodzi w formacie: &lt;USERNAME&gt;:&lt;SALT&gt;$&lt;HASH&gt; , Kanoniczne skrypt Pythona jest wliczone w share / rpcuser. Opcja ta może być podana wiele razy</translation>
     </message>
     <message>
         <source>Warning: This transaction sends coins to an address or alias you do not own</source>
@@ -8605,8 +8517,16 @@ Zwróć uwagę, że poprawnie zweryfikowana wiadomość potwierdza to, że nadaw
         <translation>Sprzedawca alias nie jest w portfelu</translation>
     </message>
     <message>
+        <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
+        <translation>Wyślij transakcji z pełnym RBF opt-in włączona (domyślnie: %u)</translation>
+    </message>
+    <message>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation>Ustaw rozmiar puli kluczy na &lt;n&gt; (domyślnie: %u)</translation>
+    </message>
+    <message>
+        <source>Set maximum BIP141 block weight (default: %d)</source>
+        <translation>Ustaw maksymalną BIP141 bloku waga (domyślnie: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>

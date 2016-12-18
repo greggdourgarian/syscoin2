@@ -5,10 +5,6 @@
 <context>
     <name>AcceptedOfferListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
     </message>
@@ -193,10 +189,6 @@
 <context>
     <name>EditWhitelistOfferDialog</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
     </message>
@@ -241,11 +233,7 @@
     </context>
 <context>
     <name>MessageListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -258,20 +246,12 @@
 <context>
     <name>MyAcceptedOfferListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
     </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
     <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
@@ -280,10 +260,6 @@
 <context>
     <name>MyCertListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
     </message>
@@ -291,20 +267,12 @@
 <context>
     <name>MyEscrowListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
     </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
     <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
@@ -315,10 +283,6 @@
     </context>
 <context>
     <name>MyWhitelistOfferDialog</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Экспорт</translation>
-    </message>
     <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Үтірмен бөлінген файл (*.csv)</translation>
@@ -530,14 +494,6 @@
     <message>
         <source>Wallet</source>
         <translation>Әмиян</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>Жіберу</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>Алу</translation>
     </message>
     <message>
         <source>&amp;File</source>

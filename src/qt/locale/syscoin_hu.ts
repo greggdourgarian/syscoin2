@@ -13,10 +13,6 @@
         <translation>Jelenlegi nézet exportálása fájlba</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Mind</translation>
     </message>
@@ -541,10 +537,6 @@
         <translation>Jelenlegi nézet exportálása fájlba</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Vesszővel elválasztott fájl (*.csv)</translation>
     </message>
@@ -552,16 +544,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Általános</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>Azonosító</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Összesen:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -685,10 +677,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Jelenlegi nézet exportálása fájlba</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -730,10 +718,6 @@
         <translation>Jelenlegi nézet exportálása fájlba</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Mind</translation>
     </message>
@@ -753,10 +737,6 @@
         <translation>Jelenlegi nézet exportálása fájlba</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Vesszővel elválasztott fájl (*.csv)</translation>
     </message>
@@ -766,10 +746,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Jelenlegi nézet exportálása fájlba</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
     </message>
     <message>
         <source>All</source>
@@ -791,10 +767,6 @@
         <translation>Jelenlegi nézet exportálása fájlba</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Mind</translation>
     </message>
@@ -808,10 +780,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Jelenlegi nézet exportálása fájlba</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
     </message>
     <message>
         <source>All</source>
@@ -830,10 +798,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Jelenlegi nézet exportálása fájlba</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportálás</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -904,10 +868,6 @@
     <message>
         <source>Total:</source>
         <translation>Összesen:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -2001,10 +1961,6 @@
         <translation>Szinkronizálás a hálózattal...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Áttekintés</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Csomópont</translation>
     </message>
@@ -2099,14 +2055,6 @@
     <message>
         <source>Wallet</source>
         <translation>Tárca</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Küldés</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Fogadás</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

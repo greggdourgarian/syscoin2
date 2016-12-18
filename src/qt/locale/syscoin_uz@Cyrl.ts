@@ -13,10 +13,6 @@
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Барча</translation>
     </message>
@@ -517,10 +513,6 @@
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Вергул билан ажратилган файл (*.csv)</translation>
     </message>
@@ -528,16 +520,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Асосий</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Жами:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -657,10 +649,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -698,10 +686,6 @@
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Барча</translation>
     </message>
@@ -717,10 +701,6 @@
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Вергул билан ажратилган файл (*.csv)</translation>
     </message>
@@ -730,10 +710,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
     </message>
     <message>
         <source>All</source>
@@ -751,10 +727,6 @@
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Барча</translation>
     </message>
@@ -768,10 +740,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
     </message>
     <message>
         <source>All</source>
@@ -790,10 +758,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Жорий ички ойна ичидаги маълумотларни файлга экспорт қилиш</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -848,10 +812,6 @@
     <message>
         <source>Total:</source>
         <translation>Жами:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -1808,10 +1768,6 @@
         <translation>Тармоқ билан синхронланмоқда...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Кўриб чиқиш</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Улам</translation>
     </message>
@@ -1906,14 +1862,6 @@
     <message>
         <source>Wallet</source>
         <translation>Ҳамён</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Жўнатиш</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Қабул қилиш</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

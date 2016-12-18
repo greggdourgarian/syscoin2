@@ -359,10 +359,6 @@
         <source>Total:</source>
         <translation>Kabuuan:</translation>
     </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
     </context>
 <context>
     <name>EscrowListPage</name>
@@ -576,10 +572,6 @@
     <message>
         <source>Total:</source>
         <translation>Kabuuan:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -1166,10 +1158,6 @@
     <message>
         <source>Synchronizing with network...</source>
         <translation>Mag-sychronize ne king network...</translation>
-    </message>
-    <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Overview</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>

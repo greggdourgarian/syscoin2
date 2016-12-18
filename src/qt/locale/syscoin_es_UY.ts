@@ -9,10 +9,6 @@
 <context>
     <name>AcceptedOfferListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
     </message>
@@ -306,10 +302,6 @@
 <context>
     <name>EditWhitelistOfferDialog</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
     </message>
@@ -354,11 +346,7 @@
     </context>
 <context>
     <name>MessageListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -375,20 +363,12 @@
 <context>
     <name>MyAcceptedOfferListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
     </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
     <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
@@ -397,10 +377,6 @@
 <context>
     <name>MyCertListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
     </message>
@@ -408,20 +384,12 @@
 <context>
     <name>MyEscrowListPage</name>
     <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
     </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
     <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
@@ -432,10 +400,6 @@
     </context>
 <context>
     <name>MyWhitelistOfferDialog</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>Exportar</translation>
-    </message>
     <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos separados por coma (*.csv)</translation>
@@ -703,10 +667,6 @@
     <message>
         <source>Synchronizing with network...</source>
         <translation>Sincronizando con la red...</translation>
-    </message>
-    <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Vista previa</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>

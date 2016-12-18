@@ -4,10 +4,6 @@
     </context>
 <context>
     <name>AcceptedOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>AddressBookPage</name>
@@ -108,10 +104,6 @@
     </context>
 <context>
     <name>EditWhitelistOfferDialog</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
@@ -149,11 +141,7 @@
     </context>
 <context>
     <name>MessageListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -165,48 +153,24 @@
     </context>
 <context>
     <name>MyAcceptedOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>MyCertListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferWhitelistTableModel</name>
     </context>
 <context>
     <name>MyWhitelistOfferDialog</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
     </context>
 <context>
     <name>NewMessageDialog</name>
@@ -402,14 +366,6 @@
     <message>
         <source>Wallet</source>
         <translation>Billetera</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Recibir</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

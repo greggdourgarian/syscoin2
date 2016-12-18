@@ -18,10 +18,6 @@
         <translation>blockchain db OFFERID arama</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Arama Teklif</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Miktar:</translation>
     </message>
@@ -80,10 +76,6 @@
     <message>
         <source>Purchase this offer</source>
         <translation>Bu teklifi satın</translation>
-    </message>
-    <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Teklif kabul</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -169,16 +161,8 @@
         <translation>Kabul edilen teklif listesini yenile</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>sistem panosuna Seçili teklifi kopyala</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopyala Teklif kimliği</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -203,10 +187,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -410,10 +390,6 @@
         <translation>sistem panosuna Seçili ad kopyalayın</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopyala Alias ​​Kimliği</translation>
-    </message>
-    <message>
         <source>Send Msg</source>
         <translation>Msg gönder</translation>
     </message>
@@ -455,10 +431,6 @@
     <message>
         <source>Expires On</source>
         <translation>Tarihinde sona eriyor</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>İçinde sona eriyor</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -555,6 +527,10 @@
         <translation>Cüzdan şifrelendi</translation>
     </message>
     <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your syscoins from being stolen by malware infecting your computer.</source>
+        <translation>%1 şifreleme işlemini bitirmek için şimdi kapanacak. cüzdanınızı şifreleyerek tam bilgisayarınıza bulaşmasını kötü amaçlı yazılım tarafından çalınmasını syscoins koruyamaz unutmayın.</translation>
+    </message>
+    <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>ÖNEMLİ: Önceden yapmış olduğunuz cüzdan dosyası yedeklemelerinin yeni oluşturulan şifrelenmiş cüzdan dosyası ile değiştirilmeleri gerekir. Güvenlik nedenleriyle yeni, şifrelenmiş cüzdanı kullanmaya başladığınızda eski şifrelenmemiş cüzdan dosyaları işe yaramaz hale gelecektir.</translation>
     </message>
@@ -621,10 +597,6 @@
         <translation>sistem panosuna Seçili sertifika kopyalayın</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopyala Sertifika Kimliği</translation>
-    </message>
-    <message>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
@@ -674,10 +646,6 @@
     <message>
         <source>Expires On</source>
         <translation>Tarihinde sona eriyor</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>İçinde sona eriyor</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -912,10 +880,6 @@
         <translation>Genel</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>takma adı.</translation>
     </message>
@@ -1006,6 +970,10 @@
     <message>
         <source>5 Years</source>
         <translation>5 yıl</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Devam etmek istediğinize emin misiniz?</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1117,10 +1085,6 @@
     <message>
         <source>certificates</source>
         <translation>sertifikalar</translation>
-    </message>
-    <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Sertifika bilgilerini almak için çalışan bir istisna vardı:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the alias list: </source>
@@ -1337,16 +1301,12 @@
         <translation>Yenile ortaklık listesi</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Yeni bir ortaklık ekle</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Eklemek</translation>
+        <source>Add</source>
+        <translation>Eklemek</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1367,10 +1327,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1413,8 +1369,8 @@
         <translation>takma ad</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>sona eriyor</translation>
+        <source>Expires On</source>
+        <translation>Tarihinde sona eriyor</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1432,8 +1388,8 @@
         <translation>Emanet Bilgisi</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Genel</translation>
+        <source>General</source>
+        <translation>Genel</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1480,28 +1436,20 @@
         <translation>Ortalama puanı:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Nakliye ve İletişim Bilgileri:</translation>
+        <source>Buyer Feedback</source>
+        <translation>Alıcı Görüşleri</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>Satıcı Görüşleri</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>tamam</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Dış TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Alıcı Görüşleri</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Satıcı Görüşleri</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter Görüşleri</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1557,10 +1505,6 @@
     <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>sistem panosuna Seçili emanet kopyala</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopyala Emanet Kimliği</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1984,14 +1928,6 @@
         <translation>JSON yanıt ayrıştırılamıyor:</translation>
     </message>
     <message>
-        <source>Check BTC Payment</source>
-        <translation>BTC Ödeme kontrol</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Zec Ödeme kontrol</translation>
-    </message>
-    <message>
         <source>Please Wait...</source>
         <translation>Lütfen bekle...</translation>
     </message>
@@ -2066,10 +2002,6 @@
         <translation>Yenile mesaj listesi</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Send a new message</source>
         <translation>Yeni bir ileti gönder</translation>
     </message>
@@ -2082,10 +2014,6 @@
         <translation>sistem panosuna Seçili mesajı kopyala</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Msg kimliğini kopyalayın</translation>
-    </message>
-    <message>
         <source>Get message details</source>
         <translation>Mesaj ayrıntılarını alın</translation>
     </message>
@@ -2096,10 +2024,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
 </context>
 <context>
@@ -2198,16 +2122,8 @@
         <translation>Kabul edilen teklif listesini yenile</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>sistem panosuna Seçili teklifi kopyala</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopyala Teklif kimliği</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2244,10 +2160,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2409,24 +2321,16 @@
         <translation>Yenile takma listesi</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Yeni bir takma ad oluşturun</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>Yeni Alias: &amp;</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>sistem panosuna Seçili ad kopyalayın</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopyala Alias ​​Kimliği</translation>
+        <source>New Alias</source>
+        <translation>yeni Alias</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2467,10 +2371,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2521,10 +2421,6 @@
         <translation>Tarihinde sona eriyor</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>İçinde sona eriyor</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Süresi doldu</translation>
     </message>
@@ -2556,24 +2452,12 @@
         <translation>Sertifika listesini yenile</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Yeni bir sertifika oluşturun</translation>
     </message>
     <message>
-        <source>&amp;New Certificate</source>
-        <translation>Yeni sertifika için &amp;</translation>
-    </message>
-    <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>sistem panosuna Seçili sertifikayı kopyalayın</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopyala Sertifika Kimliği</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2602,10 +2486,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -2660,10 +2540,6 @@
         <translation>Tarihinde sona eriyor</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>İçinde sona eriyor</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>hata ihracat</translation>
     </message>
@@ -2683,16 +2559,8 @@
         <translation>escrows listenizi yenileyin</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>sistem panosuna Seçili emanet kopyala</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopyala Emanet Kimliği</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2741,10 +2609,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -2838,24 +2702,16 @@
         <translation>teklifler listenizi yenileyin</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
+        <source>New Offer</source>
+        <translation>yeni Fırsat</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Yeni bir teklif oluştur</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Yeni Teklif</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>sistem panosuna Seçili teklifi kopyala</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopyala Teklif kimliği</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2870,16 +2726,8 @@
         <translation>Bu fırsat için iştiraklerinin yönetme</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Bağlı yönet</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -2981,8 +2829,8 @@
         <translation>İndirim</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>İçinde sona eriyor</translation>
+        <source>Expires On</source>
+        <translation>Tarihinde sona eriyor</translation>
     </message>
 </context>
 <context>
@@ -2996,16 +2844,8 @@
         <translation>Bu teklif için bağlı kuruluş listesini yenile</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Yenile</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa aktar</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3173,10 +3013,6 @@
         <translation>Syscoin ile ödeme</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; SYS ile öde</translation>
-    </message>
-    <message>
         <source>Use Escrow</source>
         <translation>Kullanım Emanet</translation>
     </message>
@@ -3230,10 +3066,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Bitcoin blockchain bu ödemeyi onaylamak</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Ödemeyi Onayla</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -3337,10 +3169,6 @@
     <message>
         <source>Confirm this payment on the Bitcoin blockchain</source>
         <translation>Bitcoin blockchain bu ödemeyi onaylamak</translation>
-    </message>
-    <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Ödemeyi Onayla</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -3494,8 +3322,8 @@
         <translation>Ortalama puanı:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Nakliye ve İletişim Bilgileri:</translation>
+        <source>OK</source>
+        <translation>tamam</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -3538,10 +3366,6 @@
         <translation>Satıcı Görüşleri</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Tamam</translation>
-    </message>
-    <message>
         <source>No Feedback Found</source>
         <translation>Bulunamadı Görüşleri</translation>
     </message>
@@ -3556,6 +3380,10 @@
     <message>
         <source>No Feedback</source>
         <translation>Geribesleme yok</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;%1&lt;/b&gt;</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <source>From:</source>
@@ -3636,10 +3464,6 @@
         <translation>Emanet olarak ödeme</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Bitiş</translation>
-    </message>
-    <message>
         <source>Please click Finish</source>
         <translation>Son'u tıklayın</translation>
     </message>
@@ -3710,10 +3534,6 @@
         <translation>sistem panosuna Seçili teklifi kopyala</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopyala Teklif kimliği</translation>
-    </message>
-    <message>
         <source>Resell this offer for a commission</source>
         <translation>Bir komisyon için bu teklifi satmak</translation>
     </message>
@@ -3779,10 +3599,6 @@
     <message>
         <source>Pay For Item</source>
         <translation>Madde Pay For</translation>
-    </message>
-    <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Bitiş</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3870,8 +3686,8 @@
         <translation>İndirim</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>İçinde sona eriyor</translation>
+        <source>Expires On</source>
+        <translation>Tarihinde sona eriyor</translation>
     </message>
 </context>
 <context>
@@ -3949,7 +3765,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Tercihler</translation>
+        <translation>&amp;Tercihler</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -4501,9 +4317,33 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
+    <message numerus="yes">
+        <source>%n seconds(s)</source>
+        <translation><numerusform>%n saniye (s)</numerusform><numerusform>%n saniye(s)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes(s)</source>
+        <translation><numerusform>%n dakika (ler)</numerusform><numerusform>%n dakika(ler)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n saat</numerusform><numerusform>%n saat</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n gün</numerusform><numerusform>%n gün</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n hafta</numerusform><numerusform>%n hafta</numerusform></translation>
+    </message>
     <message>
         <source>%1 and %2</source>
         <translation>%1 ve %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n yıl</numerusform><numerusform>%n yıl</numerusform></translation>
     </message>
     <message>
         <source>All</source>
@@ -5258,6 +5098,10 @@
         <source>Pay only the required fee of %1</source>
         <translation>Sadece gerekli ücret olan %1 tutarını öde</translation>
     </message>
+    <message numerus="yes">
+        <source>Estimated to begin confirmation within %n block(s).</source>
+        <translation><numerusform>%n bloğu(ler) içinde onay başlaması Tahmini.</numerusform><numerusform>%n bloğu(ler) içinde onay başlaması Tahmini.</numerusform></translation>
+    </message>
     <message>
         <source>Warning: Invalid Syscoin address</source>
         <translation>Uyarı: geçersiz Syscoin adresi</translation>
@@ -5572,10 +5416,6 @@
         <translation>Şebeke ile senkronizasyon...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Genel bakış</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Düğüm</translation>
     </message>
@@ -5590,6 +5430,18 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Muamele tarihçesini tara</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>Diğer adlar</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>Sertifikalar</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Alıkoyma</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -5678,14 +5530,6 @@
     <message>
         <source>Wallet</source>
         <translation>Cüzdan</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Gönder</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Al</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -5792,40 +5636,20 @@
         <translation>Güncel</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>adları yönetmek</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Mesajlar</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>Mesajlar</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>teklifleri yönetin</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; Sertifikalar</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Sertifikalarını yönetme</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp;Alıkoyma</translation>
     </message>
     <message>
         <source>Escrows with offers</source>
@@ -5887,11 +5711,11 @@
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
-        <translation>HD anahtar nesil &lt;b&gt; &lt;/ b&gt; 'etkin</translation>
+        <translation>HD anahtar nesil &lt;b&gt; &lt;/b&gt; 'etkin</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
-        <translation>HD anahtar nesil &lt;b&gt; devre dışı &lt;/ b&gt;</translation>
+        <translation>HD anahtar nesil &lt;b&gt; devre dışı &lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
@@ -5911,13 +5735,25 @@
 </context>
 <context>
     <name>TransactionDesc</name>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>%n Açık daha fazla blok(lar)</numerusform><numerusform>%n Açık daha fazla blok(lar)</numerusform></translation>
+    </message>
     <message>
         <source>Open until %1</source>
         <translation>%1 değerine dek açık</translation>
     </message>
     <message>
+        <source>conflicted with a transaction with %1 confirmations</source>
+        <translation>%1 onayları ile bir işlem ile çakışan</translation>
+    </message>
+    <message>
         <source>%1/offline</source>
         <translation>%1/çevrim dışı</translation>
+    </message>
+    <message>
+        <source>0/unconfirmed, %1</source>
+        <translation>0 / doğrulanmamış, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
@@ -5946,6 +5782,10 @@
     <message>
         <source>, has not been successfully broadcast yet</source>
         <translation>, henüz başarılı bir şekilde yayınlanmadı</translation>
+    </message>
+    <message numerus="yes">
+        <source>, broadcast through %n node(s)</source>
+        <translation><numerusform>%n düğümü üzerinden yayın(lar)</numerusform><numerusform>%n düğümü üzerinden yayın(lar)</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -5986,6 +5826,10 @@
     <message>
         <source>Credit</source>
         <translation>Gider</translation>
+    </message>
+    <message numerus="yes">
+        <source>matures in %n more block(s)</source>
+        <translation><numerusform>%n olgunlaşır daha bloğu(ler)</numerusform><numerusform>%n olgunlaşır daha bloğu(ler)</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -6074,7 +5918,11 @@
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Bu pano muamelenin ayrıntılı açıklamasını gösterir</translation>
     </message>
-    </context>
+    <message>
+        <source>Details for %1</source>
+        <translation>%1 Ayrıntılar</translation>
+    </message>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -6088,6 +5936,10 @@
     <message>
         <source>Label</source>
         <translation>Etiket</translation>
+    </message>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>%n Açık daha fazla blok(lar)</numerusform><numerusform>%n Açık daha fazla blok(lar)</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -7416,12 +7268,20 @@
         <translation>Muameleleri bellek alanında &lt;n&gt; saatten fazla tutma (varsayılan: %u)</translation>
     </message>
     <message>
+        <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
+        <translation>röle ve madencilik işlemlerde sigop başına eşdeğer bayt (varsayılan: %u)</translation>
+    </message>
+    <message>
         <source>Expected amount of escrow does not match what is held in escrow. Expected amount: </source>
         <translation>emanet Beklenen miktarı emanet tutulur eşleşmiyor. Beklenen tutar:</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
         <translation>Bundan düşük ücretler (%s/kB olarak) muamele oluşturulması için sıfır değerinde ücret olarak kabul edilir (varsayılan: %s)</translation>
+    </message>
+    <message>
+        <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
+        <translation>yerel röle politikasını ihlal bile beyaz listedeki akranlarından işlemlerin kuvvet rölesi (varsayılan: %d)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
@@ -8660,8 +8520,16 @@
         <translation>Satıcı takma cüzdan değil</translation>
     </message>
     <message>
+        <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
+        <translation>Tam RBF opt-in ile işlem gönder etkin (varsayılan: %u)</translation>
+    </message>
+    <message>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation>Anahtar alan boyutunu &lt;n&gt; değerine ayarla (varsayılan: %u)</translation>
+    </message>
+    <message>
+        <source>Set maximum BIP141 block weight (default: %d)</source>
+        <translation>Ayarlanan maksimum BIP141 blok ağırlığı (varsayılan: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>

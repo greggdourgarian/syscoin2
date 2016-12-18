@@ -8,10 +8,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
-    </message>
     </context>
 <context>
     <name>AddressBookPage</name>
@@ -180,10 +176,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
@@ -221,10 +213,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -241,20 +229,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
-    </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
     </message>
     </context>
 <context>
@@ -263,10 +243,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
-    </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
@@ -274,20 +250,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
     </message>
     </context>
 <context>
@@ -298,10 +266,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Seçili sekmedeki veriyi dosya olarak dışa aktar</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Dışa Aktar</translation>
     </message>
     </context>
 <context>

@@ -18,8 +18,8 @@
         <translation>Взгляд вверх по OfferID от blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Поиск Предложение</translation>
+        <source>Lookup Offer</source>
+        <translation>Поиск предложение</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>Покупка это предложение</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Принять предложение</translation>
+        <source>Accept Offer</source>
+        <translation>Принять предложение</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>Обновить список разрешенных для приема предложение</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопируйте выбранный в данный момент предложение в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копировать предложение ID</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Копировать предложение ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>Скопируйте выбранные в данный момент псевдоним в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Копировать Алиас ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>Копировать Алиас ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>Годен до</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Истекает</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>Скопируйте выбранный сертификат в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Копировать Сертификат ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Копия сертификата ID</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>Годен до</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Истекает</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>Общие</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp; Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Имя псевдонима.</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>Срок действия:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Истекает время:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Использование пользовательских Expire Время</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>Выберите псевдоним, который имеет стержневую информацию. Потребители будут платить суммы конвертации и сетевые платы, основанные на этой вешалке.</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Выберите стандартное время истечения (в формате UTC) для этого псевдонима от 1 до 5 лет или установите флажок "Использовать пользовательский Expire Time 'флажок, чтобы ввести метку времени истечения. Она экспоненциально дороже в год, расчет FEERATE * (2.88 ^ лет). FEERATE является динамическая Satoshi за плату байт, установленной в псевдониме скорости колышек, используемых для этого псевдонима.</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>Внимание: передача вашего псевдонима будет передавать право собственности на все свои услуги syscoin, которые используют этот псевдоним.</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5 лет</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>Установите продолжительность времени, чтобы сохранить свой псевдоним из истекающих. Чем дольше вы хотите сохранить его живым, тем больше сборов вы будете платить, чтобы создать или обновить этот псевдоним. Формула для сбора составляет 0,2 SYS * лет * лет.</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig псевдоним.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Подтвердите Алиас с большим истечением</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Предупреждение: С помощью создания псевдонима истекающий позднее, чем за 5 лет увеличивает расходы по экспоненте, вы можете потратить большое количество монет в этом!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Вы уверены, что хотите продолжить?</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>сертификаты</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Был исключение пытается извлечь информацию о сертификате:</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>Введите псевдоним получателя данного сертификата</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>Введите псевдоним получателя, который вы хотите разрешить чтение вашего сертификата личные данные</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>Выберите Да, если вы не хотите использовать этот сертификат редактируемой / передаче получателем</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>Не удалось получить этот сертификат:</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1629,16 +1625,16 @@
         <translation>Обновить список филиал</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Добавить новый филиал</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Добавить</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Добавить</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1661,8 +1657,8 @@
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1721,8 +1717,8 @@
         <translation>кличка</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>Истекает</translation>
+        <source>Expires On</source>
+        <translation>Годен до</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1744,8 +1740,8 @@
         <translation>депонированию информация</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Генеральная</translation>
+        <source>General</source>
+        <translation>Общие</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1792,28 +1788,32 @@
         <translation>Средний рейтинг:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Доставка &amp; Контактная информация:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Доставка Контактная информация:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Погасить TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>Покупатель Обратная связь</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>Продавец Обратная связь</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>арбитром Обратная связь</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ОК</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Внешний TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Покупатель Обратная связь</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Продавец Обратная связь</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Арбитра Обратная связь</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1895,8 +1895,8 @@
         <translation>Скопируйте выбранный в данный момент условного депонирования в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Копировать депонированию ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Копирование ID депонированию</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2380,16 +2380,8 @@
         <translation>Ошибка при отправке обратной связи:</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>релиз Escrow успешно завершен! Оплата была найдена на blockchain. Вы можете нажать на кнопку "Проверить внешние платеж", чтобы проверить, чтобы увидеть, если он подтвердил. Сеть:</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>Ошибка завершения освобождения:</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>Escrow возврат успешно завершен! Оплата была найдена на blockchain. Вы можете нажать на кнопку "Проверить внешние платеж", чтобы проверить, если платеж подтверждается. Сеть:</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2406,18 +2398,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>Не удалось найти залоговый платеж на blockchain, пожалуйста, убедитесь, что платежная операция была подтверждена в сети. Payment ID был скопирован в буфер обмена для справки. ошибка:</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>Escrow компенсацию найденное в blockchain. Payment ID был скопирован в буфер обмена для справки. Время:</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> цепь:</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> подтверждения:</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2452,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>релиз Escrow успешно завершен! Escrow расходы компенсацию были найдены на blockchain. Вы можете нажать на кнопку "Проверить внешние платеж", чтобы проверить, чтобы увидеть, если он подтвердил. Сеть:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>релиз Escrow успешно завершен!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>Общее исключение завершает выпуск</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>Escrow возврат успешно завершен! Escrow расходы компенсацию были найдены на blockchain. Вы можете нажать на кнопку "Проверить внешние платеж", чтобы проверить, если платеж подтверждается. Сеть:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2474,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>Невозможно разобрать ответ JSON:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Проверьте BTC Оплата</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Проверить ZEC Оплата</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2558,8 +2538,8 @@
         <translation>Обновить список сообщений</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2574,8 +2554,12 @@
         <translation>Скопируйте выбранный в данный момент сообщение в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Copy ID Msg</translation>
+        <source>Copy Msg ID</source>
+        <translation>Копирование ID Msg</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2588,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспортировать данные из вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
     </message>
 </context>
 <context>
@@ -2698,16 +2678,16 @@
         <translation>Обновите принял предложение список</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопируйте выбранный в данный момент предложение в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копировать предложение ID</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Копировать предложение ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2746,8 +2726,8 @@
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2929,24 +2909,24 @@
         <translation>Обновить список псевдонимов</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Создать новый псевдоним</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Алиас</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Скопируйте выбранные в данный момент псевдоним в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Копировать Алиас ID</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>Новый Алиас</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Копировать Алиас ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2989,8 +2969,8 @@
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3041,10 +3021,6 @@
         <translation>Годен до</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Истекает</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Истекший</translation>
     </message>
@@ -3080,24 +3056,24 @@
         <translation>Обновить список сертификатов</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Создать новый сертификат</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; Новый сертификат</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Скопируйте выбранный сертификат в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Копировать Сертификат ID</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>Новый сертификат</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Копия сертификата ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3128,8 +3104,8 @@
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3200,10 +3176,6 @@
         <translation>Годен до</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Истекает</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Ошибка экспорта</translation>
     </message>
@@ -3223,16 +3195,16 @@
         <translation>Обновите список escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Скопируйте выбранный в данный момент условного депонирования в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Копировать депонированию ID</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Копирование ID депонированию</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3283,8 +3255,8 @@
         <translation>Экспортировать данные из вкладки в файл</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3311,6 +3283,14 @@
         <translation>Невозможно разобрать результаты в формате JSON</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Сделка была найдена в blockchain! оплата финансирование сделки было обнаружено. Сеть:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Сделка была найдена в blockchain! Escrow компенсация была обнаружена. Рекомендуется, чтобы вы подтвердить платеж, открыв свой кошелек и видя средств на вашем счете. Сеть:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>Невозможно разобрать ответ JSON:</translation>
     </message>
@@ -3321,10 +3301,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>сделка Оплата найдена, но она не была подтверждена blockchain еще! Пожалуйста, повторите попытку позже. Сеть:</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>Сделка была найдена в blockchain! Полная оплата была обнаружена. Рекомендуется, чтобы вы подтвердить платеж, открыв свой кошелек и видя средств на вашем счете. Сеть:</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3402,24 +3378,28 @@
         <translation>Обновить список предложений</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>Новое предложение</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Копировать предложение ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Создать новое предложение</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Новое предложение</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Скопируйте выбранный в данный момент предложение в системный буфер обмена</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копировать предложение ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3434,16 +3414,8 @@
         <translation>Управление филиалов для этого предложения</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Управление Филиалы</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспортировать данные из вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3557,8 +3529,8 @@
         <translation>скидка</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Истекает</translation>
+        <source>Expires On</source>
+        <translation>Годен до</translation>
     </message>
 </context>
 <context>
@@ -3572,16 +3544,16 @@
         <translation>Обновить список партнерской для этого предложения</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Обновить</translation>
+        <source>Refresh</source>
+        <translation>обновление</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>экспорт</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Экспортировать данные из вкладки в файл</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Экспорт</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3801,8 +3773,8 @@
         <translation>Оплатить с помощью Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Оплата с SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Оплатить с помощью SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3892,8 +3864,8 @@
         <translation>Подтвердить этот платеж на blockchain Bitcoin</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Подтвердить платеж</translation>
+        <source>Confirm Payment</source>
+        <translation>Подтверждение оплаты</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4067,8 +4039,8 @@
         <translation>Подтвердить этот платеж на blockchain Bitcoin</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Подтвердить платеж</translation>
+        <source>Confirm Payment</source>
+        <translation>Подтверждение оплаты</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4290,8 +4262,12 @@
         <translation>Средний рейтинг:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Доставка &amp; Контактная информация:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Доставка Контактная информация:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ОК</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4332,10 +4308,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>Продавец Обратная связь</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4460,8 +4432,8 @@
         <translation>Пожалуйста, подождите...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Конец</translation>
+        <source>Finish</source>
+        <translation>Конец</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4590,8 +4562,8 @@
         <translation>Скопируйте выбранный в данный момент предложение в системный буфер обмена</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Копировать предложение ID</translation>
+        <source>Copy Offer ID</source>
+        <translation>Копировать предложение ID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4685,12 +4657,8 @@
         <translation>Пожалуйста, подождите...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Конец</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>Вы создали для условного депонирования</translation>
+        <source>Finish</source>
+        <translation>Конец</translation>
     </message>
     <message>
         <source>of</source>
@@ -4701,12 +4669,16 @@
         <translation>для</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>Ваш платеж в эскроу!</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>Торговец был отправлен информацией о доставке и ваш деталь должен прибыть в ближайшее время. Торговец может прослеживание с дополнительной информацией через частное сообщение (пожалуйста, проверьте ваш почтовый ящик регулярно).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Вы приобрели</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>Ваш платеж завершен!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4806,8 +4778,8 @@
         <translation>скидка</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Истекает</translation>
+        <source>Expires On</source>
+        <translation>Годен до</translation>
     </message>
 </context>
 <context>
@@ -4885,7 +4857,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Предпочтения</translation>
+        <translation>Предпочтения (&amp;P)</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -5226,8 +5198,8 @@
         <translation>Ошибка экспорта</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>Не удалось записать в файл %1.</translation>
+        <source>Could not write to file: </source>
+        <translation>Не удалось записать в файл:</translation>
     </message>
 </context>
 <context>
@@ -6600,16 +6572,24 @@
         <translation>Синхронизация с сетью...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Обзор</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Узел</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>обзор</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Показать общий обзор действий с бумажником</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>послать</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>Получать</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6618,6 +6598,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Показать историю транзакций</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>Псевдонимы</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>рыночная площадь</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>Сертификаты</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Условное депонирование</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6706,14 +6702,6 @@
     <message>
         <source>Wallet</source>
         <translation>Бумажник</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Отправить</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Получить</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6820,40 +6808,20 @@
         <translation>Синхронизировано</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>И поддерживаются связи</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Управление псевдонимами</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp;Сообщения</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>Сообщения</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Управление предложения</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>и сертификаты</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Управление сертификатами</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp;Условное депонирование</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

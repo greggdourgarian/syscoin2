@@ -18,8 +18,8 @@
         <translation>Slå upp OfferID från blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Lookup erbjudande</translation>
+        <source>Lookup Offer</source>
+        <translation>lookup Erbjudandet</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,12 +82,16 @@
         <translation>Köp detta erbjudande</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp;Acceptera erbjudande</translation>
+        <source>Accept Offer</source>
+        <translation>Acceptera erbjudande</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
         <translation>Köp ett erbjudande, kommer mynt användas från ditt saldo för att slutföra transaktionen</translation>
+    </message>
+    <message>
+        <source>Select an Alias. You may right-click on the notes section and include your public or private profile information from this alias for the merchant</source>
+        <translation>Välj ett Alias. Du kan högerklicka på avsnittet anteckningar och inkluderar din offentliga eller privata profilinformation från detta alias för handlaren</translation>
     </message>
     <message>
         <source>Click to open image in browser...</source>
@@ -116,6 +120,34 @@
     <message>
         <source>Confirm Private Profile Inclusion</source>
         <translation>Bekräfta Privat profil integration</translation>
+    </message>
+    <message>
+        <source>Could get alias profile data: </source>
+        <translation>Kunde få alias profildata:</translation>
+    </message>
+    <message>
+        <source>Couldn't find alias in the database: </source>
+        <translation>Kunde inte hitta alias i databasen:</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>Det gick inte att uppdatera alias lista:</translation>
+    </message>
+    <message>
+        <source>You have successfully paid for this offer!</source>
+        <translation>Du har betalat för detta erbjudande!</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the rates peg for this offer. Currency: </source>
+        <translation>Det gick inte att hitta valuta i priset peg för detta erbjudande. Valuta:</translation>
+    </message>
+    <message>
+        <source>Please enter pertinent information required to the offer in the 'Notes' field (address, e-mail address, shipping notes, etc).</source>
+        <translation>Ange relevant information som krävs för att erbjudandet i "Notes" fältet (adress, e-postadress, sjöfart anteckningar, etc).</translation>
+    </message>
+    <message>
+        <source>Stars</source>
+        <translation>stjärnor</translation>
     </message>
     <message>
         <source>There was an exception trying to get the alias profile data: </source>
@@ -169,16 +201,16 @@
         <translation>Uppdatera accepterad erbjudande lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiera erbjudande ID</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiera erbjudande ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -205,8 +237,8 @@
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -215,6 +247,14 @@
     <message>
         <source>Copy OfferAccept ID</source>
         <translation>Kopiera OfferAccept ID</translation>
+    </message>
+    <message>
+        <source>Message Merchant</source>
+        <translation>meddelande Merchant</translation>
+    </message>
+    <message>
+        <source>Leave Feedback For Merchant</source>
+        <translation>Lämna feedback För Merchant</translation>
     </message>
     <message>
         <source>All</source>
@@ -276,7 +316,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>AddressBookPage</name>
     <message>
@@ -379,7 +423,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>AddressTableModel</name>
     <message>
@@ -410,8 +458,8 @@
         <translation>Kopiera markerade alias till Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopiera Alias ​​ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>Kopia Alias ​​ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -432,6 +480,18 @@
     <message>
         <source>Search for Syscoin Aliases. Select Safe Search from wallet options if you wish to omit potentially offensive Aliases(On by default)</source>
         <translation>Sök efter Syscoin Alias. Välj Safesearch från plånbok alternativ om du vill utelämna potentiellt stötande Alias ​​(On standard)</translation>
+    </message>
+    <message>
+        <source>Error searching alias: </source>
+        <translation>Fel söka alias:</translation>
+    </message>
+    <message>
+        <source>General exception when searching alias</source>
+        <translation>Allmänt undantag när du söker alias</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Nuvarande sida:</translation>
     </message>
     <message>
         <source>Enter search term, regex accepted (ie: ^name returns all Aliases starting with 'name'). Empty will search for all.</source>
@@ -455,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>Går ut den</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Går ut om</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -555,6 +611,10 @@
         <translation>Plånboken är krypterad</translation>
     </message>
     <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your syscoins from being stolen by malware infecting your computer.</source>
+        <translation>%1 stängs nu att avsluta krypteringsprocessen. Kom ihåg att kryptera din plånbok inte helt kan skydda dina syscoins från stulna av malware infekterar datorn.</translation>
+    </message>
+    <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>VIKTIGT: Alla tidigare säkerhetskopior du har gjort av plånbokens fil ska ersättas med den nya genererade, krypterade plånboks filen. Av säkerhetsskäl kommer tidigare säkerhetskopior av den okrypterade plånboks filen blir oanvändbara när du börjar använda en ny, krypterad plånbok.</translation>
     </message>
@@ -621,8 +681,8 @@
         <translation>Kopiera valda cert till Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopiera certifikat ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Kopiera Certifikat-ID</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -637,12 +697,24 @@
         <translation>Sök efter Syscoin certifikat. Välj Safesearch från plånbok alternativ om du vill utelämna potentiellt stötande certifikat (On standard)</translation>
     </message>
     <message>
+        <source>Copy Value</source>
+        <translation>Kopiera Värde</translation>
+    </message>
+    <message>
         <source>Enter search term, regex accepted (ie: ^name returns all Certificates starting with 'name'). Empty will search for all.</source>
         <translation>Ange sökord, regex accepteras (dvs. ^ namn returnerar alla certifikat som börjar med "namn"). Tom kommer att söka efter alla.</translation>
     </message>
     <message>
         <source>certificates</source>
         <translation>certifikat</translation>
+    </message>
+    <message>
+        <source>Error searching Certificate: </source>
+        <translation>Error söka Certifikat:</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Nuvarande sida:</translation>
     </message>
     <message>
         <source>General exception when searching certficiates</source>
@@ -664,6 +736,14 @@
         <translation>Titel</translation>
     </message>
     <message>
+        <source>Private Data</source>
+        <translation>Private Data</translation>
+    </message>
+    <message>
+        <source>Public Data</source>
+        <translation>Public Data</translation>
+    </message>
+    <message>
         <source>Status</source>
         <translation>Status</translation>
     </message>
@@ -674,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>Går ut den</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Går ut om</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -912,10 +988,6 @@
         <translation>Generell</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Aliasnamnet.</translation>
     </message>
@@ -938,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>Upphörande:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Löpa ut Tid:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Använd Anpassad Upphör Tid</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -988,6 +1068,22 @@
         <translation>Annullera</translation>
     </message>
     <message>
+        <source>Choose an alias which has peg information. Consumers will pay conversion amounts and network fees based on this peg.</source>
+        <translation>Välj ett alias som har peg information. Konsumenterna kommer att betala konvertering uppgår och nätavgifter baserade på denna pinne.</translation>
+    </message>
+    <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Välj en standardförfallotid (i UTC) för detta alias från ett till fem år eller kontrollera "Använd anpassad Tid Löper" kryssrutan för att ange ett utgångstidsstämpel. Det är exponentiellt dyrare per år, är beräkningen FEERATE * (2,88 ^ år). FEERATE är den dynamiska satoshi per byte avgift som i takt peg alias som används för detta alias.</translation>
+    </message>
+    <message>
+        <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
+        <translation>Varning: överföra dina alias kommer att överföra äganderätten alla dina syscoin tjänster som använder detta alias.</translation>
+    </message>
+    <message>
+        <source>Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!</source>
+        <translation>Är detta alias säkert att söka? Något som kan anses stötande för någon ska vara inställd på "Nej" här. Om du skapar ett alias som är stötande och inte ställa in det här alternativet till "nej" ditt alias kommer att förbjudas!</translation>
+    </message>
+    <message>
         <source>1 Year</source>
         <translation>1 år</translation>
     </message>
@@ -1006,6 +1102,70 @@
     <message>
         <source>5 Years</source>
         <translation>5 år</translation>
+    </message>
+    <message>
+        <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
+        <translation>Detta för att privata profilinformation som är krypterad och endast tillgänglig för dig. Detta är användbart när du skickar anteckningar till en köpman genom betalning skärmen så att du inte behöver skriva ut varje gång.</translation>
+    </message>
+    <message>
+        <source>Enter a password or passphrase that will be used to unlock this alias via webservices such as BlockMarket. Important: Do not forget or misplace this password, it is the lock to your alias.</source>
+        <translation>Ange ett lösenord eller lösenord som ska användas för att låsa upp detta alias via webservices som BlockMarket. Viktigt: Glöm inte eller tappar detta lösenord är det låset till ditt alias.</translation>
+    </message>
+    <message>
+        <source>This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.</source>
+        <translation>Detta är allmän profilinformation som alla i nätverket kan se. Fyll detta med saker som du vill att andra ska veta om dig.</translation>
+    </message>
+    <message>
+        <source>The number of required signatures ensures that not one person can control this alias and anything service that this alias uses (certificates, messages, offers, escrows).</source>
+        <translation>Antalet nödvändiga underskrifter säkerställer att inte en person kan styra detta alias och något service som detta alias använda (intyg, meddelanden, erbjudanden, escrows).</translation>
+    </message>
+    <message>
+        <source>Would you like to accept certificates transferred to this alias? Select 'Yes' otherwise if you want to block others from sending certificates to this alias select 'No'.</source>
+        <translation>Vill du ta emot certifikat överförs till detta alias? Välj "Ja" på annat sätt om du vill blockera andra från att skicka certifikat till detta alias välj "Nej".</translation>
+    </message>
+    <message>
+        <source>Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the 'Sign Multisig Tx' button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.</source>
+        <translation>Ställ dina multisig alias här med erforderligt antal underskrifter och alias som kan undertecknandet när detta alias uppdateras. En användare från denna lista kan begära en uppdatering av alias och de andra undertecknarna måste underteckna den råa multisig transaktionen med hjälp av "Skriv Multisig Tx" -knappen för att alias för att slutföra uppdateringen. Tjänster som använder detta alias kräver alias uppdateras innan du uppdaterar de tjänster som gör att alla tjänster att dra nytta av alias multisig teknik.</translation>
+    </message>
+    <message>
+        <source>This is a</source>
+        <translation>Det här är en</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>av</translation>
+    </message>
+    <message>
+        <source>multisig alias.</source>
+        <translation>multisig alias.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Bekräfta Alias ​​med stor utgångs</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Varning: Med skapa ett alias löper senast 5 år ökar kostnaderna exponentiellt, du kan tillbringa en stor mängd mynt med detta!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Är du säker på att du vill fortsätta?</translation>
+    </message>
+    <message>
+        <source>Error creating new Alias: </source>
+        <translation>Fel vid skapande av nya Alias:</translation>
+    </message>
+    <message>
+        <source>Error updating Alias: </source>
+        <translation>Fel vid uppdatering av Alias:</translation>
+    </message>
+    <message>
+        <source>Error transferring Alias: </source>
+        <translation>Fel överföra Alias:</translation>
+    </message>
+    <message>
+        <source>The entered alias is not a valid Syscoin alias. Alias: </source>
+        <translation>Den angivna alias är inte en giltig Syscoin alias. Alias:</translation>
     </message>
     <message>
         <source>New Alias</source>
@@ -1083,12 +1243,20 @@
         <translation>Överföra till:</translation>
     </message>
     <message>
+        <source>Public Data:</source>
+        <translation>Public Data:</translation>
+    </message>
+    <message>
         <source>Yes</source>
         <translation>Ja</translation>
     </message>
     <message>
         <source>No</source>
         <translation>Nej</translation>
+    </message>
+    <message>
+        <source>Private Data:</source>
+        <translation>Private Data:</translation>
     </message>
     <message>
         <source>Safe Search:</source>
@@ -1119,8 +1287,32 @@
         <translation>certifikat</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Det var ett undantag som försöker hämta certifikatinformation:</translation>
+        <source>Enter the alias of the recipient of this certificate</source>
+        <translation>Ange alias för mottagaren av detta intyg</translation>
+    </message>
+    <message>
+        <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
+        <translation>Välj Ja om du inte vill att detta certifikat ska redigeras / överlåtas av mottagaren</translation>
+    </message>
+    <message>
+        <source>This alias has expired, please choose another one</source>
+        <translation>Detta alias har löpt ut, välj en annan</translation>
+    </message>
+    <message>
+        <source>Select an alias to own this certificate</source>
+        <translation>Välj ett alias att äga detta certifikat</translation>
+    </message>
+    <message>
+        <source> is not safe to search so this setting can only be set to 'No'</source>
+        <translation> är inte säkert att söka så här inställningen kan endast ställas in på 'Nej'</translation>
+    </message>
+    <message>
+        <source>Is this cert safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create a cert that is offensive and do not set this option to 'No' your cert will be banned!</source>
+        <translation>Är detta cert säkert att söka? Något som kan anses stötande för någon ska vara inställd på "Nej" här. Om du skapar en cert som är stötande och inte ställa in det här alternativet till "Nej" din cert kommer att förbjudas!</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>Det gick inte att uppdatera alias lista:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the alias list: </source>
@@ -1145,6 +1337,22 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error creating new Cert: </source>
+        <translation>Fel vid skapande av nya Cert:</translation>
+    </message>
+    <message>
+        <source>Error updating Cert: </source>
+        <translation>Fel uppdatering Cert:</translation>
+    </message>
+    <message>
+        <source>Error transferring Cert: </source>
+        <translation>Error överföra Cert:</translation>
+    </message>
+    <message>
+        <source>The entered cert is not a valid Syscoin cert.</source>
+        <translation>Den angivna cert är inte en giltig Syscoin cert.</translation>
     </message>
     <message>
         <source>General exception creating new Cert</source>
@@ -1290,6 +1498,62 @@
         <translation>Det var ett undantag som försöker uppdatera cert lista:</translation>
     </message>
     <message>
+        <source>You may change the alias rate peg through your alias settings</source>
+        <translation>Du kan ändra alias hastigheten peg genom ditt alias inställningar</translation>
+    </message>
+    <message>
+        <source>Choose if you would like the offer to be private or publicly listed on the marketplace</source>
+        <translation>Välj om du vill erbjudandet att vara privat eller offentligt noterade på marknaden</translation>
+    </message>
+    <message>
+        <source>If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information</source>
+        <translation>Om du vill kan du ange din handlare geografisk (latitud och longitud) för att spåra fraktkostnader och andra informationslogistik</translation>
+    </message>
+    <message>
+        <source>You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected</source>
+        <translation>Du kommer att få betalt i Syscoin motsvarande marknadsvärdet av den valuta du har valt</translation>
+    </message>
+    <message>
+        <source>Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: 'SYS+BTC+ZEC'. For SYS and ZEC: 'SYS+ZEC'. Please note that in order spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.</source>
+        <translation>Välj vilken krypto valuta du vill tillåta en betalningsmetod för detta erbjudande. Dina val är någon kombination av SYS, BTC eller ZEC. Ett exempel inställning för alla tre: "SYS + BTC + ZEC". För SYS och ZEC: 'SYS + ZEC'. Observera att för spendera mynt som betalas till dig via Syscoin Marketplace, måste du importera din Syscoin privata nyckel i yttre plånbok (s) om BTC eller ZEC väljs.</translation>
+    </message>
+    <message>
+        <source>Enter the 'percentage' amount(without the % sign) that you would like to mark-up the price to</source>
+        <translation>Ange "procent" belopp (utan% tecken) som du vill markera upp priset till</translation>
+    </message>
+    <message>
+        <source>Warning: alias peg not found. No currency information available for </source>
+        <translation>Varning: alias nypa hittades inte. Ingen valuta angiven för</translation>
+    </message>
+    <message>
+        <source> is not safe to search so this setting can only be set to 'No'</source>
+        <translation> är inte säkert att söka så här inställningen kan endast ställas in på 'Nej'</translation>
+    </message>
+    <message>
+        <source>Is this offer safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an offer that is offensive and do not set this option to 'No' your offer will be banned aswell as possibly your store alias!</source>
+        <translation>Är detta erbjudande säkert att söka? Något som kan anses stötande för någon ska vara inställd på "Nej" här. Om du skapar ett erbjudande som är stötande och inte ställa in det här alternativet till "Nej" ditt erbjudande kommer att förbjudas också som möjligen din butik alias!</translation>
+    </message>
+    <message>
+        <source>This alias has expired, please choose another one</source>
+        <translation>Detta alias har löpt ut, välj en annan</translation>
+    </message>
+    <message>
+        <source>Select an alias to own this offer</source>
+        <translation>Välj ett alias att äga detta erbjudande</translation>
+    </message>
+    <message>
+        <source>This will automatically use the alias which owns the certificate you are selling</source>
+        <translation>Detta kommer automatiskt att använda alias som äger certifikatet du säljer</translation>
+    </message>
+    <message>
+        <source>Could not refresh cert list: </source>
+        <translation>Det gick inte att uppdatera cert lista:</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>Det gick inte att uppdatera alias lista:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the alias list: </source>
         <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
     </message>
@@ -1318,6 +1582,30 @@
         <translation>Bekräfta Alias ​​Peg</translation>
     </message>
     <message>
+        <source>Warning: Are you sure you wish to choose this alias as your offer peg? By default the system peg is</source>
+        <translation>Varning: Är du säker på att du vill välja detta alias som ditt erbjudande peg? Som standard system PEG</translation>
+    </message>
+    <message>
+        <source>Error creating new Offer: </source>
+        <translation>Fel vid skapande av nya erbjudande:</translation>
+    </message>
+    <message>
+        <source>General exception creating new Offer: </source>
+        <translation>Allmänt undantag skapar nytt erbjudande:</translation>
+    </message>
+    <message>
+        <source>Error updating Offer: </source>
+        <translation>Fel vid uppdatering av Bud:</translation>
+    </message>
+    <message>
+        <source>General exception updating Offer: </source>
+        <translation>Allmänt undantag uppdatering Erbjudande:</translation>
+    </message>
+    <message>
+        <source>The entered offer is not a valid Syscoin offer</source>
+        <translation>Den angivna Erbjudandet är inte ett giltigt Syscoin erbjudande</translation>
+    </message>
+    <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
     </message>
@@ -1337,16 +1625,16 @@
         <translation>Uppdatera affiliate lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Lägg till en ny affiliate</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Lägg till</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Lägg till</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1369,8 +1657,8 @@
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1397,6 +1685,22 @@
         <translation>Det var ett undantag som försöker rensa affiliate lista:</translation>
     </message>
     <message>
+        <source>Copy Alias</source>
+        <translation>kopia Alias</translation>
+    </message>
+    <message>
+        <source>Could not remove this entry: </source>
+        <translation>Det gick inte att ta bort denna post:</translation>
+    </message>
+    <message>
+        <source>Could not clear the affiliate list: </source>
+        <translation>Det gick inte att ta bort affiliate lista:</translation>
+    </message>
+    <message>
+        <source>Could not refresh the affiliate list: </source>
+        <translation>Det gick inte att uppdatera affiliate lista:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the affiliate list: </source>
         <translation>Det var ett undantag som försöker uppdatera affiliate lista:</translation>
     </message>
@@ -1413,8 +1717,8 @@
         <translation>Alias</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>Utgår</translation>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1424,7 +1728,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>EscrowInfoDialog</name>
     <message>
@@ -1432,8 +1740,8 @@
         <translation>depositions info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Allmän</translation>
+        <source>General</source>
+        <translation>Generell</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1480,28 +1788,32 @@
         <translation>Betyg i genomsnitt:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Frakt &amp; Kontaktuppgifter:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Frakt Kontaktuppgifter:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Återlösa TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>köparen Feedback</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>säljare Feedback</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>arbiter Feedback</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Extern TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Köparen Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Säljare Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1518,6 +1830,30 @@
     <message>
         <source>Arbiter</source>
         <translation>Arbiter</translation>
+    </message>
+    <message>
+        <source>Feedback #</source>
+        <translation>Återkoppling #</translation>
+    </message>
+    <message>
+        <source>(Buyer)</source>
+        <translation>(Köpare)</translation>
+    </message>
+    <message>
+        <source>(Merchant)</source>
+        <translation>(Handelsfartyg)</translation>
+    </message>
+    <message>
+        <source>(Arbiter)</source>
+        <translation>(Arbiter)</translation>
+    </message>
+    <message>
+        <source>Stars</source>
+        <translation>stjärnor</translation>
+    </message>
+    <message>
+        <source>No Rating</source>
+        <translation>Ingen Betyg</translation>
     </message>
     <message>
         <source>No Feedback</source>
@@ -1559,8 +1895,8 @@
         <translation>Kopiera valda spärrade till Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopiera Escrow ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Kopiera Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1587,6 +1923,10 @@
         <translation>Sök efter Syscoin escrows.</translation>
     </message>
     <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiera erbjudande ID</translation>
+    </message>
+    <message>
         <source>Enter search term. Search for arbiter/seller or escrow GUID. Empty will search for all.</source>
         <translation>Ange sökord. Sök efter domaren / säljare eller spärrade GUID. Tom kommer att söka efter alla.</translation>
     </message>
@@ -1605,6 +1945,18 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error acknowledging escrow payment: </source>
+        <translation>Fel erkänna spärrade betalning:</translation>
+    </message>
+    <message>
+        <source>Error searching Escrow: </source>
+        <translation>Error söka Escrow:</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Nuvarande sida:</translation>
     </message>
     <message>
         <source>General exception acknowledging escrow payment</source>
@@ -1664,6 +2016,10 @@
 </context>
 <context>
     <name>EscrowView</name>
+    <message>
+        <source>My Escrows</source>
+        <translation>mina escrows</translation>
+    </message>
     <message>
         <source>Search</source>
         <translation>Sök</translation>
@@ -1758,8 +2114,20 @@
         <translation>Dessa är Syscoin meddelanden som du har tagit emot. Du kan välja vilka alias för att visa relaterade meddelanden med hjälp av rullgardinsmenyn till höger.</translation>
     </message>
     <message>
+        <source>Copy Subject</source>
+        <translation>Kopiera Ämne</translation>
+    </message>
+    <message>
+        <source>Copy Msg</source>
+        <translation>kopiera Msg</translation>
+    </message>
+    <message>
         <source>New Msg</source>
         <translation>nya Msg</translation>
+    </message>
+    <message>
+        <source>Reply Msg</source>
+        <translation>Svara Msg</translation>
     </message>
     <message>
         <source>Details</source>
@@ -1801,7 +2169,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>Intro</name>
     <message>
@@ -1896,8 +2268,64 @@
         <translation>krav återbetalning</translation>
     </message>
     <message>
+        <source>You are managing escrow ID</source>
+        <translation>Du hanterar spärrade ID</translation>
+    </message>
+    <message>
         <source>Offer:</source>
         <translation>Erbjudande:</translation>
+    </message>
+    <message>
+        <source>totalling</source>
+        <translation>totalt</translation>
+    </message>
+    <message>
+        <source>The buyer:</source>
+        <translation>Köparen:</translation>
+    </message>
+    <message>
+        <source>merchant:</source>
+        <translation>handelsfartyg:</translation>
+    </message>
+    <message>
+        <source>arbiter:</source>
+        <translation>arbiter:</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of the offer held in escrow, you may release the coins to the merchant once you have confirmed that you have recieved the item as per the description of the offer.</source>
+        <translation>Du är "köpare" av erbjudandet hållas i deposition, kan du släpper mynten till handlaren när du har bekräftat att du har fått varan enligt beskrivningen av erbjudandet.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of the offer held in escrow, you may refund the coins back to the buyer.</source>
+        <translation>Du är "köpman" av erbjudandet hållas i deposition, kan du återbetala mynten tillbaka till köparen.</translation>
+    </message>
+    <message>
+        <source>You are the 'arbiter' of the offer held in escrow, you may refund the coins back to the buyer if you have evidence that the merchant did not honour the agreement to ship the offer item. You may also release the coins to the merchant if the buyer has not released in a timely manor. You may use Syscoin messages to communicate with the buyer and merchant to ensure you have adequate proof for your decision.</source>
+        <translation>Du är "domare" av erbjudandet hållas i deposition, kan du återbetala mynten tillbaka till köparen om du har bevis för att handlaren inte hedra avtalet att leverera erbjudandet objektet. Du kan också släppa mynten till handlaren om köparen inte har släppt i en tid herrgård. Du kan använda Syscoin meddelanden för att kommunicera med köparen och handlaren för att du har tillräckliga bevis för ditt beslut.</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of the offer held in escrow. The escrow has been released to the merchant. You may communicate with your arbiter or merchant via Syscoin messages. You may leave feedback after the money is claimed by the merchant.</source>
+        <translation>Du är "köpare" av erbjudandet hållas i deposition. Spärr har lämnats till handlaren. Du kan kommunicera med din domare eller handelsfartyg via Syscoin meddelanden. Du kan lämna feedback efter de pengar begärs av säljaren.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of the offer held in escrow. The payment of coins have been released to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction.</source>
+        <translation>Du är "köpman" av erbjudandet hållas i deposition. Betalningen av mynt har släppts till dig, du kan göra anspråk på dem nu. Efter anspråk, gå tillbaka till denna dialog och ge återkoppling för denna spärrade transaktion.</translation>
+    </message>
+    <message>
+        <source>You are the 'arbiter' of the offer held in escrow. The escrow has been released to the merchant. You may re-release this escrow if there are any problems claiming the coins by the merchant. If you were the one to release the coins you will recieve a commission as soon as the merchant claims his payment. You may leave feedback after the money is claimed by the merchant.</source>
+        <translation>Du är "domare" av erbjudandet hållas i deposition. Spärr har lämnats till handlaren. Du kan återutgivning detta spärrade om det finns några problem som hävdar mynten av handlaren. Om du var en att släppa mynt kommer du att få en provision så snart handlaren hävdar hans betalning. Du kan lämna feedback efter de pengar begärs av säljaren.</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of the offer held in escrow. The coins have been refunded back to you, you may claim them now. After claiming, please return to this dialog and provide feedback for this escrow transaction.</source>
+        <translation>Du är "köpare" av erbjudandet hållas i deposition. Mynten har betalas tillbaka till dig, du kan göra anspråk på dem nu. Efter anspråk, gå tillbaka till denna dialog och ge återkoppling för denna spärrade transaktion.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of the offer held in escrow. The escrow has been refunded back to the buyer. You may leave feedback after the money is claimed by the buyer.</source>
+        <translation>Du är "köpman" av erbjudandet hållas i deposition. Depositions har betalas tillbaka till köparen. Du kan lämna feedback efter de pengar begärs av köparen.</translation>
+    </message>
+    <message>
+        <source>You are the 'arbiter' of the offer held in escrow. The escrow has been refunded back to the buyer. You may re-issue a refund if there are any problems claiming the coins by the buyer. If you were the one to refund the coins you will recieve a commission as soon as the buyer claims his refund. You may leave feedback after the money is claimed by the buyer.</source>
+        <translation>Du är "domare" av erbjudandet hållas i deposition. Depositions har betalas tillbaka till köparen. Du kan åter utfärda en återbetalning om det finns några problem som hävdar mynten av köparen. Om du var en att återbetala mynten kommer du att få en provision så snart som köparen hävdar sin återbetalning. Du kan lämna feedback efter de pengar begärs av köparen.</translation>
     </message>
     <message>
         <source>Warning: Payment has already been refunded, are you sure you wish to re-refund payment back to the buyer?</source>
@@ -1948,6 +2376,50 @@
         <translation>Tack för din feedback!</translation>
     </message>
     <message>
+        <source>Error sending feedback: </source>
+        <translation>Fel att skicka feedback:</translation>
+    </message>
+    <message>
+        <source>Error completing release: </source>
+        <translation>Error fullborda release:</translation>
+    </message>
+    <message>
+        <source>Error completing refund: </source>
+        <translation>Fel att fylla återbetalning:</translation>
+    </message>
+    <message>
+        <source>Could not send raw escrow transaction to the blockchain. Chain: </source>
+        <translation>Det gick inte att skicka rå spärrade transaktion till blockchain. Kedja:</translation>
+    </message>
+    <message>
+        <source>Could not send raw escrow transaction to the blockchain, error: </source>
+        <translation>Det gick inte att skicka rå spärrade transaktionen till blockchain, fel:</translation>
+    </message>
+    <message>
+        <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
+        <translation>Kunde inte hitta spärrade betalning på blockchain, se till att betalningstransaktionen har bekräftats i nätverket. Betalning ID har kopierats till Urklipp som referens. fel:</translation>
+    </message>
+    <message>
+        <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
+        <translation>Spärrade betalning finns i blockchain men det har inte bekräftats ännu. Försök igen senare. Betalning ID har kopierats till Urklipp som referens. Kedja:</translation>
+    </message>
+    <message>
+        <source>Error releasing escrow: </source>
+        <translation>Error frigördepositions:</translation>
+    </message>
+    <message>
+        <source>Error refunding escrow: </source>
+        <translation>Fel återbetalning depositions:</translation>
+    </message>
+    <message>
+        <source>Could not get alias information: </source>
+        <translation>Det gick inte att få alias information:</translation>
+    </message>
+    <message>
+        <source>There was an exception trying to get alias information: </source>
+        <translation>Det fanns ett undantag försöker få alias information:</translation>
+    </message>
+    <message>
         <source>General exception sending feedbackescrow</source>
         <translation>Allmänt undantag sändande feedbackescrow</translation>
     </message>
@@ -1960,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>Escrow frigivning slutförts! Spärrade utgifterna betalningen finns på blockchain. Du kan klicka på knappen "Kontrollera extern betalning" för att kontrollera om det har bekräftats. Kedja:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>Escrow frigivning slutförts!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>Allmänt undantag fullborda frigöring</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>Escrow återbetalning slutförts! Spärrade utgifterna betalningen finns på blockchain. Du kan klicka på knappen "Kontrollera extern betalning" för att kontrollera om betalningen har bekräftats. Kedja:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -1982,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>Det går inte att tolka JSON svar:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Ta BTC Betalning</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Ta ZEC Betalning</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2066,8 +2538,8 @@
         <translation>Uppdatera meddelandelista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2082,8 +2554,12 @@
         <translation>Kopiera valda meddelandet till systemets Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Kopiera Msg ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>Kopiera Msg ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2096,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
     </message>
 </context>
 <context>
@@ -2131,7 +2603,15 @@
 </context>
 <context>
     <name>MessageView</name>
-    </context>
+    <message>
+        <source>Inbox</source>
+        <translation>Inkorg</translation>
+    </message>
+    <message>
+        <source>Outbox</source>
+        <translation>utkorgen</translation>
+    </message>
+</context>
 <context>
     <name>ModalOverlay</name>
     <message>
@@ -2198,16 +2678,16 @@
         <translation>Uppdatera din accepterade listan erbjudande</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiera erbjudande ID</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiera erbjudande ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2246,8 +2726,8 @@
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2334,6 +2814,22 @@
         <translation>Det går inte att tolka JSON svar:</translation>
     </message>
     <message>
+        <source>Error acknowledging offer payment: </source>
+        <translation>Fel erkänna erbjuda betalning:</translation>
+    </message>
+    <message>
+        <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
+        <translation>Betalningstransaktion hittades men det har inte bekräftats av blockchain ännu! Försök igen senare. Kedja:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transaktionen hittades i blockchain! Full betalning har upptäckts. Det rekommenderas att du bekräfta betalningen genom att öppna plånboken och ser pengarna på ditt konto. Kedja:</translation>
+    </message>
+    <message>
+        <source>Payment not found in the blockchain! Please try again later. Chain: </source>
+        <translation>Betalning hittades inte i blockchain! Försök igen senare. Kedja:</translation>
+    </message>
+    <message>
         <source>Please Wait...</source>
         <translation>Vänta...</translation>
     </message>
@@ -2397,7 +2893,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>MyAliasListPage</name>
     <message>
@@ -2409,24 +2909,24 @@
         <translation>Refresh alias lista</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Skapa ett nytt alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Kopiera markerade alias till Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopiera Alias ​​ID</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>nytt Alias</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Kopia Alias ​​ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2469,8 +2969,8 @@
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -2521,16 +3021,16 @@
         <translation>Går ut den</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Går ut om</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Utgånget</translation>
     </message>
     <message>
         <source>Buyer Rating</source>
         <translation>köparen Betyg</translation>
+    </message>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
     </message>
     <message>
         <source>Seller Rating</source>
@@ -2556,24 +3056,24 @@
         <translation>Uppdatera certifikatlistan</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Skapa ett nytt certifikat</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; New Certificate</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Kopiera valda certifikatet till Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopiera certifikat ID</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>nya certifikatet</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Kopiera Certifikat-ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -2604,12 +3104,16 @@
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
         <translation>Dessa är dina registrerade Syscoin certifikat. Certifikatåtgärder (skapa, uppdatera, överföring) tar 2-5 minuter att bli aktiva. Du kan välja vilka alias för att visa relaterade certifikat med hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>Copy Title</source>
+        <translation>Kopiera Titel</translation>
     </message>
     <message>
         <source>All</source>
@@ -2644,6 +3148,14 @@
         <translation>Titel</translation>
     </message>
     <message>
+        <source>Private Data</source>
+        <translation>Private Data</translation>
+    </message>
+    <message>
+        <source>Public Data</source>
+        <translation>Public Data</translation>
+    </message>
+    <message>
         <source>Status</source>
         <translation>Status</translation>
     </message>
@@ -2652,16 +3164,16 @@
         <translation>Ägare</translation>
     </message>
     <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+    <message>
         <source>Category</source>
         <translation>Kategori</translation>
     </message>
     <message>
         <source>Expires On</source>
         <translation>Går ut den</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>Går ut om</translation>
     </message>
     <message>
         <source>Error exporting</source>
@@ -2683,16 +3195,16 @@
         <translation>Uppdatera listan över escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopiera valda spärrade till Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopiera Escrow ID</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Kopiera Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2743,8 +3255,8 @@
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -2771,8 +3283,28 @@
         <translation>Det går inte att tolka JSON resultat</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Transaktionen hittades i blockchain! Spärrade medel betalning har upptäckts. Kedja:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transaktionen hittades i blockchain! Spärrade betalning har upptäckts. Det rekommenderas att du bekräfta betalningen genom att öppna plånboken och ser pengarna på ditt konto. Kedja:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>Det går inte att tolka JSON svar:</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiera erbjudande ID</translation>
+    </message>
+    <message>
+        <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
+        <translation>Betalningstransaktion hittades men det har inte bekräftats av blockchain ännu! Försök igen senare. Kedja:</translation>
+    </message>
+    <message>
+        <source>Payment not found in the blockchain! Please try again later. Chain: </source>
+        <translation>Betalning hittades inte i blockchain! Försök igen senare. Kedja:</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2801,6 +3333,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error acknowledging escrow payment: </source>
+        <translation>Fel erkänna spärrade betalning:</translation>
+    </message>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
     </message>
     <message>
         <source>General exception acknowledging escrow payment</source>
@@ -2838,24 +3378,28 @@
         <translation>Uppdatera listan över erbjudanden</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>nytt erbjudande</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiera erbjudande ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Skapa ett nytt erbjudande</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Nytt erbjudande</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiera erbjudande ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -2870,20 +3414,20 @@
         <translation>Hantera dotterbolag för detta erbjudande</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>Och hantera Affiliates</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
-    </message>
-    <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
         <translation>Dessa är dina registrerade Syscoin erbjudanden. Erbjudande operationer (skapa, uppdatera) tar 2-5 minuter för att bli aktiva. Du kan välja vilka alias för att visa relaterade erbjudanden med hjälp av rullgardinsmenyn till höger.</translation>
+    </message>
+    <message>
+        <source>Copy Title</source>
+        <translation>Kopiera Titel</translation>
+    </message>
+    <message>
+        <source>Copy Description</source>
+        <translation>Kopiera Beskrivning</translation>
     </message>
     <message>
         <source>Manage Affiliates</source>
@@ -2958,6 +3502,10 @@
         <translation>säljaren betyg</translation>
     </message>
     <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+    <message>
         <source>Payment Options</source>
         <translation>betalnings~~POS=TRUNC</translation>
     </message>
@@ -2981,8 +3529,8 @@
         <translation>Rabatt</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Går ut om</translation>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
     </message>
 </context>
 <context>
@@ -2996,20 +3544,28 @@
         <translation>Uppdatera din affiliate lista för detta erbjudande</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp; Uppdatera</translation>
+        <source>Refresh</source>
+        <translation>refresh</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Exportera</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportera</translation>
-    </message>
-    <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
         <translation>Du är en affiliate för dessa erbjudanden. Affiliate verksamhet tar 2-5 minuter för att bli aktiva. Ägaren av erbjudandet kan lägga till dig som sin affiliate lista och din affiliate inträde kommer att dyka upp här.</translation>
+    </message>
+    <message>
+        <source>Copy Alias</source>
+        <translation>kopia Alias</translation>
+    </message>
+    <message>
+        <source>Could not refresh the affiliate list: </source>
+        <translation>Det gick inte att uppdatera affiliate lista:</translation>
     </message>
     <message>
         <source>There was an exception trying to refresh the affiliate list: </source>
@@ -3043,7 +3599,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>NewMessageDialog</name>
     <message>
@@ -3091,6 +3651,18 @@
         <translation>svarsmeddelande</translation>
     </message>
     <message>
+        <source>Choose 'Yes' if you are sending a Hex string as a message such as a raw transaction for multisignature signing purposes. To compress the message this will convert the message data from hex to binary and send it to the recipient. The outgoing message field will not be utilized to save space.</source>
+        <translation>Välj "Ja" om du skickar ett Hex sträng som ett meddelande som en rå transaktion för multisignature signering ändamål. Att komprimera meddelandet detta kommer att konvertera meddelandedata från hex till binärt och skicka det till mottagaren. Den utgående meddelandefältet kommer inte att användas för att spara utrymme.</translation>
+    </message>
+    <message>
+        <source>Select an Alias</source>
+        <translation>Välj en Alias</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>Det gick inte att uppdatera alias lista:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the alias list: </source>
         <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
     </message>
@@ -3101,6 +3673,18 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error creating new message: </source>
+        <translation>Fel vid skapande av ett nytt meddelande:</translation>
+    </message>
+    <message>
+        <source>Error replying to message: </source>
+        <translation>Fel svar på meddelande:</translation>
+    </message>
+    <message>
+        <source>The entered message is not a valid Syscoin message</source>
+        <translation>Det angivna meddelandet inte är ett giltigt Syscoin meddelande</translation>
     </message>
     <message>
         <source>General exception creating new message</source>
@@ -3134,12 +3718,28 @@
         <translation>Rabatt</translation>
     </message>
     <message>
+        <source>Enter the alias and discount level of your affiliate. This is a percentage of price for your offer you want to allow your affiliate to purchase your offer for. Typically given to wholesalers or for special arrangements with an affiliate.</source>
+        <translation>Ange alias och rabattnivå på din partner. Detta är en procentsats av priset för ditt erbjudande du vill tillåta din affiliate att köpa ditt erbjudande för. Vanligtvis ges till grossister eller för speciella arrangemang med en affiliate.</translation>
+    </message>
+    <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
     </message>
     <message>
         <source>New affiliate added successfully!</source>
         <translation>Nya affiliate lagts till!</translation>
+    </message>
+    <message>
+        <source>Error creating new affiliate: </source>
+        <translation>Fel vid skapande av nya affiliate:</translation>
+    </message>
+    <message>
+        <source>General exception creating new affiliate: </source>
+        <translation>Allmänt undantag skapa nya affiliate:</translation>
+    </message>
+    <message>
+        <source>The entered entry is not a valid affiliate</source>
+        <translation>Den angivna posten är inte en giltig affiliate</translation>
     </message>
     <message>
         <source>Could not unlock wallet.</source>
@@ -3173,12 +3773,36 @@
         <translation>Betala med Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Betala med SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Betala med SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
         <translation>användning Escrow</translation>
+    </message>
+    <message>
+        <source>Could not find currency in the rates peg for this offer. Currency: </source>
+        <translation>Det gick inte att hitta valuta i priset peg för detta erbjudande. Valuta:</translation>
+    </message>
+    <message>
+        <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant</source>
+        <translation>Ange en Syscoin medlare som mutally är betrodd mellan dig och handlaren</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to purchase</source>
+        <translation>Är du säker på att du vill köpa</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>av</translation>
+    </message>
+    <message>
+        <source>from merchant</source>
+        <translation>från försäljaren</translation>
+    </message>
+    <message>
+        <source>You will be charged</source>
+        <translation>du kommer att få betala</translation>
     </message>
     <message>
         <source>Pay Escrow</source>
@@ -3195,6 +3819,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error accepting offer: </source>
+        <translation>Fel acceptera erbjudandet:</translation>
+    </message>
+    <message>
+        <source>Error creating escrow: </source>
+        <translation>Fel skapa spärrade:</translation>
     </message>
     <message>
         <source>General exception when accepting offer</source>
@@ -3232,8 +3864,8 @@
         <translation>Bekräfta betalning på Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Bekräfta betalningen</translation>
+        <source>Confirm Payment</source>
+        <translation>bekräfta betalningen</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -3268,6 +3900,18 @@
         <translation>Det går inte att tolka JSON resultat</translation>
     </message>
     <message>
+        <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox</source>
+        <translation>Ange en Syscoin medlare som mutally är betrodd mellan dig och handlaren. Sedan aktivera "Använd Escrow kryssrutan</translation>
+    </message>
+    <message>
+        <source>Payment on Syscoin Decentralized Marketplace. Offer ID: </source>
+        <translation>Betalning på Syscoin Decentraliserad Marketplace. Erbjudandet ID:</translation>
+    </message>
+    <message>
+        <source>Failed to generate multisig address: </source>
+        <translation>Det gick inte att generera multisig adress:</translation>
+    </message>
+    <message>
         <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
         <translation>Det gick inte att generera spärrade multisig adress: Ogiltigt svar från generateescrowmultisig</translation>
     </message>
@@ -3276,8 +3920,56 @@
         <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta lösa skript som svar</translation>
     </message>
     <message>
+        <source>Could not create escrow transaction: could not find multisig address in response</source>
+        <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta multisig adress som svar</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to purchase</source>
+        <translation>Är du säker på att du vill köpa</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>av</translation>
+    </message>
+    <message>
+        <source>from merchant</source>
+        <translation>från försäljaren</translation>
+    </message>
+    <message>
+        <source>Follow the steps below to successfully pay via Bitcoin:</source>
+        <translation>Följ stegen nedan för att framgångsrikt betala via Bitcoin:</translation>
+    </message>
+    <message>
+        <source>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.</source>
+        <translation>1. Om du använder spärrade, ange din spärrade skiljedomare i rutan nedan och kontrollera "Använd Escrow kryssrutan. Låt spärrade rutan avmarkerat om du inte vill använda spärrade.</translation>
+    </message>
+    <message>
+        <source>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.</source>
+        <translation>2. Öppna din Bitcoin plånbok. Du kan använda QR Code till vänster för att skanna ansökan om utbetalning i din plånbok eller klicka på "Öppna BTC plånbok" om du är på skrivbordet och har Bitcoin Kärna installerat.</translation>
+    </message>
+    <message>
+        <source>3. Pay</source>
+        <translation>3. Betala</translation>
+    </message>
+    <message>
         <source>to</source>
         <translation>till</translation>
+    </message>
+    <message>
+        <source>using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.</source>
+        <translation>med hjälp av din Bitcoin plånbok. Vänligen aktivera dynamiska avgifter i BTC plånbok vid betalning för bekräftelse i tid.</translation>
+    </message>
+    <message>
+        <source>4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid.</source>
+        <translation>4. Ange transaktions-ID och klicka sedan på "Bekräfta betalning" knappen när du har betalat.</translation>
+    </message>
+    <message>
+        <source>Escrow created successfully! Please fund using BTC address </source>
+        <translation>Spärrade skapats! Vänligen finansiera användning av BTC adress</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the Bitcoin blockchain! Full payment has been detected. TXID: </source>
+        <translation>Transaktionen hittades i Bitcoin blockchain! Full betalning har upptäckts. TXID:</translation>
     </message>
     <message>
         <source>Cannot parse JSON response: </source>
@@ -3302,6 +3994,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error accepting offer: </source>
+        <translation>Fel acceptera erbjudandet:</translation>
+    </message>
+    <message>
+        <source>Error creating escrow: </source>
+        <translation>Fel skapa spärrade:</translation>
     </message>
     <message>
         <source>General exception when accepting offer</source>
@@ -3339,8 +4039,8 @@
         <translation>Bekräfta betalning på Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Bekräfta betalningen</translation>
+        <source>Confirm Payment</source>
+        <translation>bekräfta betalningen</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -3383,6 +4083,18 @@
         <translation>Det går inte att tolka JSON resultat</translation>
     </message>
     <message>
+        <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox</source>
+        <translation>Ange en Syscoin medlare som mutally är betrodd mellan dig och handlaren. Sedan aktivera "Använd Escrow kryssrutan</translation>
+    </message>
+    <message>
+        <source>Payment on Syscoin Decentralized Marketplace. Offer ID: </source>
+        <translation>Betalning på Syscoin Decentraliserad Marketplace. Erbjudandet ID:</translation>
+    </message>
+    <message>
+        <source>Failed to generate multisig address: </source>
+        <translation>Det gick inte att generera multisig adress:</translation>
+    </message>
+    <message>
         <source>Could not generate escrow multisig address: Invalid response from generateescrowmultisig</source>
         <translation>Det gick inte att generera spärrade multisig adress: Ogiltigt svar från generateescrowmultisig</translation>
     </message>
@@ -3391,8 +4103,56 @@
         <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta lösa skript som svar</translation>
     </message>
     <message>
+        <source>Could not create escrow transaction: could not find multisig address in response</source>
+        <translation>Det gick inte att skapa spärrade transaktion: kunde inte hitta multisig adress som svar</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to purchase</source>
+        <translation>Är du säker på att du vill köpa</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>av</translation>
+    </message>
+    <message>
+        <source>from merchant</source>
+        <translation>från försäljaren</translation>
+    </message>
+    <message>
+        <source>Follow the steps below to successfully pay via ZCash:</source>
+        <translation>Följ stegen nedan för att framgångsrikt betala via ZCash:</translation>
+    </message>
+    <message>
+        <source>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.</source>
+        <translation>1. Om du använder spärrade, ange din spärrade skiljedomare i rutan nedan och kontrollera "Använd Escrow kryssrutan. Låt spärrade rutan avmarkerat om du inte vill använda spärrade.</translation>
+    </message>
+    <message>
+        <source>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open ZEC Wallet' if you are on the desktop and have ZCash Core installed.</source>
+        <translation>2. Öppna ZCash plånbok. Du kan använda QR Code till vänster för att skanna ansökan om utbetalning i din plånbok eller klicka på "Öppna ZEC plånbok" om du är på skrivbordet och har ZCash Kärna installerat.</translation>
+    </message>
+    <message>
+        <source>3. Pay</source>
+        <translation>3. Betala</translation>
+    </message>
+    <message>
         <source>to</source>
         <translation>till</translation>
+    </message>
+    <message>
+        <source>using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.</source>
+        <translation>med hjälp av din ZCash plånbok. Vänligen aktivera dynamiska avgifter i ZEC plånbok vid betalning för bekräftelse i tid.</translation>
+    </message>
+    <message>
+        <source>4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid.</source>
+        <translation>4. Ange transaktions-ID och klicka sedan på "Bekräfta betalning" knappen när du har betalat.</translation>
+    </message>
+    <message>
+        <source>Escrow created successfully! Please fund using ZEC address </source>
+        <translation>Spärrade skapats! Vänligen finansiera med användning ZEC adress</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the ZCash blockchain! Full payment has been detected. TXID: </source>
+        <translation>Transaktionen hittades i ZCash blockchain! Full betalning har upptäckts. TXID:</translation>
     </message>
     <message>
         <source>Cannot parse JSON response: </source>
@@ -3417,6 +4177,14 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error accepting offer: </source>
+        <translation>Fel acceptera erbjudandet:</translation>
+    </message>
+    <message>
+        <source>Error creating escrow: </source>
+        <translation>Fel skapa spärrade:</translation>
     </message>
     <message>
         <source>General exception when accepting offer</source>
@@ -3494,8 +4262,12 @@
         <translation>Betyg i genomsnitt:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Frakt &amp; Kontaktuppgifter:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Frakt Kontaktuppgifter:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>ok</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -3538,10 +4310,6 @@
         <translation>säljare Feedback</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    <message>
         <source>No Feedback Found</source>
         <translation>Ingen Feedback Hittat</translation>
     </message>
@@ -3554,8 +4322,32 @@
         <translation>Säljare</translation>
     </message>
     <message>
+        <source>Feedback #</source>
+        <translation>Återkoppling #</translation>
+    </message>
+    <message>
+        <source>(Buyer)</source>
+        <translation>(Köpare)</translation>
+    </message>
+    <message>
+        <source>(Merchant)</source>
+        <translation>(Handelsfartyg)</translation>
+    </message>
+    <message>
+        <source>Stars</source>
+        <translation>stjärnor</translation>
+    </message>
+    <message>
+        <source>No Rating</source>
+        <translation>Ingen Betyg</translation>
+    </message>
+    <message>
         <source>No Feedback</source>
         <translation>Ingen feedback</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;%1&lt;/b&gt;</source>
+        <translation>&lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
         <source>From:</source>
@@ -3636,8 +4428,36 @@
         <translation>Betalning I Escrow</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Yta</translation>
+        <source>Please wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation>Yta</translation>
+    </message>
+    <message>
+        <source>You've created an escrow for</source>
+        <translation>Du har skapat ett spärrat för</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>av</translation>
+    </message>
+    <message>
+        <source>for</source>
+        <translation>för</translation>
+    </message>
+    <message>
+        <source>(includes a 0.05% escrow arbiter fee which is returned to you if the arbiter is not involved in the escrow)</source>
+        <translation>(Inkluderar en 0,05% spärrat skiljedomare avgift som går tillbaka till dig om domaren inte är inblandad i det spärrade)</translation>
+    </message>
+    <message>
+        <source>Your payment is in escrow!</source>
+        <translation>Din betalning är i spärrat!</translation>
+    </message>
+    <message>
+        <source>The merchant and arbiter have been sent an escrow notification. The merchant may follow-up with further information.</source>
+        <translation>Handlaren och skiljedomare har skickat ett depositions anmälan. Handlaren kan följa upp med ytterligare information.</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3671,8 +4491,40 @@
         <translation>Det går inte att hitta detta erbjudande köp på nätet, försök igen senare.</translation>
     </message>
     <message>
+        <source>This offer payment was for Offer ID</source>
+        <translation>Detta erbjudande betalningen för Erbjudandet ID</translation>
+    </message>
+    <message>
+        <source>for</source>
+        <translation>för</translation>
+    </message>
+    <message>
+        <source>totalling</source>
+        <translation>totalt</translation>
+    </message>
+    <message>
         <source>Buyer:</source>
         <translation>Köpare:</translation>
+    </message>
+    <message>
+        <source>merchant:</source>
+        <translation>handelsfartyg:</translation>
+    </message>
+    <message>
+        <source>You are the 'buyer' of this offer, please send feedback and rate the merchant once you have confirmed that you have recieved the item as per the description of the offer.</source>
+        <translation>Du är "köpare" av detta erbjudande, vänligen skicka feedback och betygsätta handlaren när du har bekräftat att du har fått varan enligt beskrivningen av erbjudandet.</translation>
+    </message>
+    <message>
+        <source>You are the 'merchant' of this offer, you may leave feedback and rate the buyer once you confirmed you have recieved full payment from buyer and you have ship the goods (if its for a physical good).</source>
+        <translation>Du är "köpman" av detta erbjudande, kan du lämna synpunkter och betygsätta köparen när du har bekräftat att du har fått full betalning från köpare och du har skickar varorna (om dess för en fysisk bra).</translation>
+    </message>
+    <message>
+        <source>Error sending feedback: </source>
+        <translation>Fel att skicka feedback:</translation>
+    </message>
+    <message>
+        <source>Could find alias: </source>
+        <translation>Kunde hitta alias:</translation>
     </message>
     <message>
         <source>You cannot leave feedback this offer purchase because you do not own either the buyer or merchant aliases.</source>
@@ -3710,8 +4562,8 @@
         <translation>Kopiera valda erbjudande till systemets Urklipp</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiera erbjudande ID</translation>
+        <source>Copy Offer ID</source>
+        <translation>Kopiera erbjudande ID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -3750,6 +4602,18 @@
         <translation>Sök efter Syscoin erbjudanden (dubbelklicka på en att köpa). Välj Safesearch från plånbok alternativ om du vill utelämna potentiellt stötande erbjudanden (On standard)</translation>
     </message>
     <message>
+        <source>Copy Title</source>
+        <translation>Kopiera Titel</translation>
+    </message>
+    <message>
+        <source>Copy Description</source>
+        <translation>Kopiera Beskrivning</translation>
+    </message>
+    <message>
+        <source>Message Seller</source>
+        <translation>meddelande Säljare</translation>
+    </message>
+    <message>
         <source>Enter search term, regex accepted (ie: ^name returns all Offer's starting with 'name'). Empty will search for all.</source>
         <translation>Ange sökord, regex accepteras (dvs. ^ namn åter alla Erbjudandets börjar med "namn"). Tom kommer att söka efter alla.</translation>
     </message>
@@ -3764,6 +4628,14 @@
     <message>
         <source>Sorry, you cannot not purchase this offer, it is sold out!</source>
         <translation>Tyvärr kan du inte inte köpa detta erbjudande är det slutsålt!</translation>
+    </message>
+    <message>
+        <source>Error searching Offer: </source>
+        <translation>Fel söka Erbjudande:</translation>
+    </message>
+    <message>
+        <source>Current Page: </source>
+        <translation>Nuvarande sida:</translation>
     </message>
     <message>
         <source>General exception when searching offer</source>
@@ -3781,8 +4653,32 @@
         <translation>Betala för punkt</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Yta</translation>
+        <source>Please wait...</source>
+        <translation>Vänta...</translation>
+    </message>
+    <message>
+        <source>Finish</source>
+        <translation>Yta</translation>
+    </message>
+    <message>
+        <source>of</source>
+        <translation>av</translation>
+    </message>
+    <message>
+        <source>for</source>
+        <translation>för</translation>
+    </message>
+    <message>
+        <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
+        <translation>Handlaren har skickats leveransinformation och ditt objekt ska komma inom kort. Handlaren kan följa upp med ytterligare information genom ett privat meddelande (kolla din inkorg regelbundet).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Du har köpt</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>Din betalning är klar!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -3851,14 +4747,26 @@
 <context>
     <name>OfferView</name>
     <message>
+        <source>Selling</source>
+        <translation>Försäljning</translation>
+    </message>
+    <message>
         <source>Sold</source>
         <translation>Såld</translation>
+    </message>
+    <message>
+        <source>My Purchases</source>
+        <translation>Mina Inköp</translation>
     </message>
     <message>
         <source>Search</source>
         <translation>Sök</translation>
     </message>
-    </context>
+    <message>
+        <source>Buy</source>
+        <translation>Köpa</translation>
+    </message>
+</context>
 <context>
     <name>OfferWhitelistTableModel</name>
     <message>
@@ -3870,8 +4778,8 @@
         <translation>Rabatt</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>Går ut om</translation>
+        <source>Expires On</source>
+        <translation>Går ut den</translation>
     </message>
 </context>
 <context>
@@ -3949,7 +4857,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Inställningar</translation>
+        <translation>&amp;Inställningar</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -4238,6 +5146,14 @@
         <translation>Dessa är Syscoin meddelanden som du har skickat. Du kan välja vilka alias för att visa relaterade meddelanden med hjälp av rullgardinsmenyn till höger.</translation>
     </message>
     <message>
+        <source>Copy Subject</source>
+        <translation>Kopiera Ämne</translation>
+    </message>
+    <message>
+        <source>Copy Msg</source>
+        <translation>kopiera Msg</translation>
+    </message>
+    <message>
         <source>New Msg</source>
         <translation>nya Msg</translation>
     </message>
@@ -4281,7 +5197,11 @@
         <source>Error exporting</source>
         <translation>error exporterar</translation>
     </message>
-    </context>
+    <message>
+        <source>Could not write to file: </source>
+        <translation>Det gick inte att skriva till filen:</translation>
+    </message>
+</context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -4474,6 +5394,10 @@
         <translation>Mängd</translation>
     </message>
     <message>
+        <source>Enter a Syscoin address e.g. johnsmith or </source>
+        <translation>Ange en Syscoin adress t.ex. johnsmith eller</translation>
+    </message>
+    <message>
         <source>%1 d</source>
         <translation>%1 d</translation>
     </message>
@@ -4501,9 +5425,33 @@
         <source>%1 ms</source>
         <translation>%1 ms</translation>
     </message>
+    <message numerus="yes">
+        <source>%n seconds(s)</source>
+        <translation><numerusform>%n sekunder(s)</numerusform><numerusform>%n sekunder(s)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n minutes(s)</source>
+        <translation><numerusform>%n minut (er)</numerusform><numerusform>%n minut(er)</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n timme</numerusform><numerusform>%n timmar</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n dag</numerusform><numerusform>%n dagar</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n vecka</numerusform><numerusform>%n veckor</numerusform></translation>
+    </message>
     <message>
         <source>%1 and %2</source>
         <translation>%1 och %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n år</numerusform><numerusform>%n år</numerusform></translation>
     </message>
     <message>
         <source>All</source>
@@ -5016,6 +5964,26 @@
         <translation>Alias:</translation>
     </message>
     <message>
+        <source>Enter the 'percentage' amount(without the % sign) that you would like to mark-up the price to</source>
+        <translation>Ange "procent" belopp (utan% tecken) som du vill markera upp priset till</translation>
+    </message>
+    <message>
+        <source>Offer resold successfully! Check the 'Selling' tab to see it after it has confirmed.</source>
+        <translation>Erbjudandet säljas framgångsrikt! Kontrollera "sälja" fliken för att se den när den har bekräftats.</translation>
+    </message>
+    <message>
+        <source>Error creating new linked offer: </source>
+        <translation>Fel skapa nya kombinationserbjudande:</translation>
+    </message>
+    <message>
+        <source>General exception creating new linked offer: </source>
+        <translation>Allmänt undantag skapa nya kombinationserbjudande:</translation>
+    </message>
+    <message>
+        <source>Could not refresh alias list: </source>
+        <translation>Det gick inte att uppdatera alias lista:</translation>
+    </message>
+    <message>
         <source>There was an exception trying to refresh the alias list: </source>
         <translation>Det var ett undantag som försöker uppdatera alias lista:</translation>
     </message>
@@ -5258,6 +6226,10 @@
         <source>Pay only the required fee of %1</source>
         <translation>Betala endast den nödvändiga avgiften på %1</translation>
     </message>
+    <message numerus="yes">
+        <source>Estimated to begin confirmation within %n block(s).</source>
+        <translation><numerusform>Beräknas börja bekräftelse inom %n blocket (s).</numerusform><numerusform>Beräknas börja bekräftelse inom %n blocket (s).</numerusform></translation>
+    </message>
     <message>
         <source>Warning: Invalid Syscoin address</source>
         <translation>Varning: Felaktig Syscoinadress</translation>
@@ -5399,6 +6371,30 @@
         <translation>Allmänt undantag avkodning rå transaktion</translation>
     </message>
     <message>
+        <source>Sign a raw syscoin transaction and send it to the network if it is complete with all required signatures. Enter the raw hex encoded transaction below</source>
+        <translation>Underteckna en rå syscoin transaktion och sända den till nätverket om det är komplett med alla erforderliga signaturer. Ange rå hex kodade transaktions nedan</translation>
+    </message>
+    <message>
+        <source>Once you enter a valid raw transaction in the general section this area will become populated with the raw transaction information including any syscoin related service information so you will know what the transaction is doing before signing and potentially sending it to the network.</source>
+        <translation>När du anger en giltig rå transaktion i den allmänna delen detta område kommer att bli befolkat med råtransaktionsinformation inklusive syscoin relaterad serviceinformation så att du vet vad affären gör innan du skriver och eventuellt skicka den till nätverket.</translation>
+    </message>
+    <message>
+        <source>The area below is to display syscoin specific information regarding this transaction. Currently there is nothing to display</source>
+        <translation>Området nedanför är att visa syscoin specifik information om denna transaktion. För närvarande finns det inget att visa</translation>
+    </message>
+    <message>
+        <source>Error creating decoding raw transaction: </source>
+        <translation>Fel skapa avkodning rå transaktion:</translation>
+    </message>
+    <message>
+        <source>The area below is to display syscoin specific information regarding this transaction</source>
+        <translation>Området nedanför är att visa syscoin specifik information om denna transaktion</translation>
+    </message>
+    <message>
+        <source>Error creating decoding raw syscoin transaction: </source>
+        <translation>Fel skapa avkodning rå syscoin transaktion:</translation>
+    </message>
+    <message>
         <source>General exception decoding raw syscoin transaction</source>
         <translation>Allmänt undantag avkodning rå syscoin transaktion</translation>
     </message>
@@ -5409,6 +6405,10 @@
     <message>
         <source>This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed.</source>
         <translation>Denna transaktion kräver mer signaturer. Transaktions hex har kopierats till Urklipp som referens. Ange den till en signee som ännu inte har undertecknat.</translation>
+    </message>
+    <message>
+        <source>Error creating updating multisig alias: </source>
+        <translation>Fel skapa uppdatera multisig alias:</translation>
     </message>
     <message>
         <source>General exception creating sending raw alias update transaction</source>
@@ -5572,16 +6572,24 @@
         <translation>Synkroniserar med nätverk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Översikt</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nod</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>Översikt</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Visa generell översikt av plånboken</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Skicka</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>Motta</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -5590,6 +6598,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Bläddra i transaktionshistorik</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>alias</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>Marknad</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certifikat</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>spärrade</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -5678,14 +6702,6 @@
     <message>
         <source>Wallet</source>
         <translation>Plånbok</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Skicka</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Ta emot</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -5792,40 +6808,20 @@
         <translation>Uppdaterad</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; hålla kontakt</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>hantera alias</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Meddelanden</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>meddelanden</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp;Marknad</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Hantera erbjudanden</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; Certifikat</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Hantera certifikat</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Escrow</translation>
     </message>
     <message>
         <source>Escrows with offers</source>
@@ -5887,11 +6883,11 @@
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
-        <translation>HD nyckelgenerering är &lt;b&gt; aktiverade &lt;/ b&gt;</translation>
+        <translation>HD nyckelgenerering är &lt;b&gt; aktiverade &lt;/b&gt;</translation>
     </message>
     <message>
         <source>HD key generation is &lt;b&gt;disabled&lt;/b&gt;</source>
-        <translation>HD nyckelgenerering är &lt;b&gt; avaktiverad &lt;/ b&gt;</translation>
+        <translation>HD nyckelgenerering är &lt;b&gt; avaktiverad &lt;/b&gt;</translation>
     </message>
     <message>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
@@ -5911,13 +6907,25 @@
 </context>
 <context>
     <name>TransactionDesc</name>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Öppet för %n mer blocket (s)</numerusform><numerusform>Öppet för %n mer blocket(s)</numerusform></translation>
+    </message>
     <message>
         <source>Open until %1</source>
         <translation>Öppet till %1</translation>
     </message>
     <message>
+        <source>conflicted with a transaction with %1 confirmations</source>
+        <translation>konflikt med en transaktion med %1 bekräftelser</translation>
+    </message>
+    <message>
         <source>%1/offline</source>
         <translation>%1/nerkopplad</translation>
+    </message>
+    <message>
+        <source>0/unconfirmed, %1</source>
+        <translation>0 / obekräftad, %1</translation>
     </message>
     <message>
         <source>in memory pool</source>
@@ -5946,6 +6954,10 @@
     <message>
         <source>, has not been successfully broadcast yet</source>
         <translation>, har inte lyckats skickas ännu</translation>
+    </message>
+    <message numerus="yes">
+        <source>, broadcast through %n node(s)</source>
+        <translation><numerusform>, Sänds via %n nod(er)</numerusform><numerusform>, Sänds via %n nod(er)</numerusform></translation>
     </message>
     <message>
         <source>Date</source>
@@ -5986,6 +6998,10 @@
     <message>
         <source>Credit</source>
         <translation>Kredit</translation>
+    </message>
+    <message numerus="yes">
+        <source>matures in %n more block(s)</source>
+        <translation><numerusform>mognar i %n mer blocket(s)</numerusform><numerusform>mognar i %n mer blocket(s)</numerusform></translation>
     </message>
     <message>
         <source>not accepted</source>
@@ -6074,7 +7090,11 @@
         <source>This pane shows a detailed description of the transaction</source>
         <translation>Den här panelen visar en detaljerad beskrivning av transaktionen</translation>
     </message>
-    </context>
+    <message>
+        <source>Details for %1</source>
+        <translation>Mer information om %1</translation>
+    </message>
+</context>
 <context>
     <name>TransactionTableModel</name>
     <message>
@@ -6088,6 +7108,10 @@
     <message>
         <source>Label</source>
         <translation>Etikett</translation>
+    </message>
+    <message numerus="yes">
+        <source>Open for %n more block(s)</source>
+        <translation><numerusform>Öppet för %n mer blocket(s)</numerusform><numerusform>Öppet för %n mer blocket(s)</numerusform></translation>
     </message>
     <message>
         <source>Open until %1</source>
@@ -6609,6 +7633,10 @@
 <context>
     <name>WalletView</name>
     <message>
+        <source>Export</source>
+        <translation>Exportera</translation>
+    </message>
+    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportera informationen i den nuvarande fliken till en fil</translation>
     </message>
@@ -6706,6 +7734,10 @@
     <message>
         <source>Syscoin Core</source>
         <translation>Syscoin Core</translation>
+    </message>
+    <message>
+        <source>The %s developers</source>
+        <translation>%s utvecklare</translation>
     </message>
     <message>
         <source>-fallbackfee is set very high! This is the transaction fee you may pay when fee estimates are not available.</source>
@@ -7412,12 +8444,20 @@
         <translation>Håll inte transaktioner i minnespoolen längre än &lt;n&gt; timmar (förvalt: %u)</translation>
     </message>
     <message>
+        <source>Equivalent bytes per sigop in transactions for relay and mining (default: %u)</source>
+        <translation>Motsvarande byte per sigop i transaktioner för relä och utvinning (standard: %u)</translation>
+    </message>
+    <message>
         <source>Expected amount of escrow does not match what is held in escrow. Expected amount: </source>
         <translation>Förväntade mängden spärrade matchar inte vad hålls i depositionsavtal. Förväntade mängden:</translation>
     </message>
     <message>
         <source>Fees (in %s/kB) smaller than this are considered zero fee for transaction creation (default: %s)</source>
         <translation>Avgifter (i %s/kB) mindre än detta anses vara nollavgifter vid skapande av transaktion (standard: %s)</translation>
+    </message>
+    <message>
+        <source>Force relay of transactions from whitelisted peers even if they violate local relay policy (default: %d)</source>
+        <translation>Kraft relä transaktioner från vitlistade kamrater, även om de bryter mot lokala reläpolitik (standard: %d)</translation>
     </message>
     <message>
         <source>How thorough the block verification of -checkblocks is (0-4, default: %u)</source>
@@ -8656,8 +9696,16 @@
         <translation>Säljaren alias är inte i din plånbok</translation>
     </message>
     <message>
+        <source>Send transactions with full-RBF opt-in enabled (default: %u)</source>
+        <translation>Skicka transaktioner med full RBF opt-in aktiverat (standard: %u)</translation>
+    </message>
+    <message>
         <source>Set key pool size to &lt;n&gt; (default: %u)</source>
         <translation>Sätt storleken på nyckelpoolen till &lt;n&gt; (förvalt: %u)</translation>
+    </message>
+    <message>
+        <source>Set maximum BIP141 block weight (default: %d)</source>
+        <translation>Ställa in maximal BIP141 blocket vikt (standard: %d)</translation>
     </message>
     <message>
         <source>Set the number of threads to service RPC calls (default: %d)</source>

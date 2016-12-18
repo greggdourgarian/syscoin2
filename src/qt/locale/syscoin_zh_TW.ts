@@ -18,8 +18,8 @@
         <translation>從blockchain DB查找的OFFERID</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>及查找發售</translation>
+        <source>Lookup Offer</source>
+        <translation>查詢報價</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>購買此優惠</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>與接受要約</translation>
+        <source>Accept Offer</source>
+        <translation>接受要約</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>刷新接受報價列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>當前選定的報價複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>和複製發售ID</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>複製發售ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>把目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>當前選定的別名複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>和複製別名ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>複製別名ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>到期</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>過期日期在</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>當前選定的證書複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>和複製證書ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>複製證書ID</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>到期</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>過期日期在</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>普通</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>＆別名：</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>別名。</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>到期：</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>到期時間：</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>使用自定義到期時間</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>選擇具有PEG信息的別名。消費者將支付在此基礎上盯住轉換金額和網費。</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>選擇這個別名為1至5年的標準到期時間（UTC中），或者選中“使用自定義到期時間”複選框以輸入過期時間戳。這是每年成倍比較貴，計算FEERATE *（2.88 ^年）。 FEERATE是每個中使用此別名的釘住別名設置字節收費的動態聰。</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>警告：您的轉移將別名所有權轉讓所有使用此別名您syscoin服務。</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5年</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>設置的時間長度，讓您的別名過期。你越要保持它活著，你將支付創建或更新此別名多收費。對於收費的公式是0.2 * SYS *年歲月。</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig別名。</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>確認別名大過期</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>警告：使用創建別名超過5年後到期增加了成本指數，你可能會花費大量的硬幣這樣做！</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>你確定要繼續嗎？</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>證書</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>有一個例外，試圖獲取證書信息：</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>輸入該證書的收件人的別名</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>輸入收件人的您希望別名，讓閱讀您的證書的私人數據</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>選擇是，如果你不希望此證書可編輯/轉讓由收件人</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>無法獲取此證書：</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1629,16 +1625,16 @@
         <translation>刷新列表子公司</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>添加一個新的子公司</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>＆加</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>加</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1661,8 +1657,8 @@
         <translation>把目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1721,8 +1717,8 @@
         <translation>別號</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>過期</translation>
+        <source>Expires On</source>
+        <translation>到期</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1744,8 +1740,8 @@
         <translation>中介信息</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>＆一般</translation>
+        <source>General</source>
+        <translation>普通</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1792,28 +1788,32 @@
         <translation>平均評分：</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>運輸和聯繫方式：</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>航運聯繫方式：</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>兌換TxID添加：</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>買家反饋</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>賣家反饋</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>仲裁者反饋</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>好</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>外部TxID添加：</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>＆買家反饋</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>與賣家反饋</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>＆仲裁者反饋</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>好</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1895,8 +1895,8 @@
         <translation>當前選擇中介複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>和複製託管ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>複製託管ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2380,16 +2380,8 @@
         <translation>發送錯誤反饋：</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>託管發行順利完成！付款的blockchain找到。您可以點擊“檢查外部付款”按鈕，檢查，看它是否已經確認。鏈：</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>錯誤完成發行：</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>託管退款成功完成！付款的blockchain找到。您可以點擊“檢查外部付款”按鈕，檢查，看看是否已經付款確認。鏈：</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2406,18 +2398,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>找不到在blockchain信託付款時，請確保支付交易已被確認在網絡上。付款ID已被複製到剪貼板中，供您參考。錯誤：</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>託管在blockchain發現付款。付款ID已被複製到剪貼板中，供您參考。時間：</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> 鏈：</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> 確認：</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2452,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>託管發行順利完成！託管消費付款的blockchain找到。您可以點擊“檢查外部付款”按鈕，檢查，看它是否已經確認。鏈：</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>託管發行順利完成！</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>一般例外完成發行</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>託管退款成功完成！託管消費付款的blockchain找到。您可以點擊“檢查外部付款”按鈕，檢查，看看是否已經付款確認。鏈：</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2474,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>無法解析JSON響應：</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>檢查BTC付款</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>檢查ZEC付款</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2558,8 +2538,8 @@
         <translation>刷新消息列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2574,8 +2554,12 @@
         <translation>當前選定的信息複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>＆複製消息ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>複製消息ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2588,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>把目前分頁的資料匯出存成檔案</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
     </message>
 </context>
 <context>
@@ -2698,16 +2678,16 @@
         <translation>刷新接受報價列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>當前選定的報價複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>和複製發售ID</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>複製發售ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2746,8 +2726,8 @@
         <translation>把目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2929,24 +2909,24 @@
         <translation>刷新別名列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>創建新的別名</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>及新別名</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>當前選定的別名複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>和複製別名ID</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>新建別名</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>複製別名ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2989,8 +2969,8 @@
         <translation>把目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3041,10 +3021,6 @@
         <translation>到期</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>過期日期在</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>過期</translation>
     </message>
@@ -3080,24 +3056,24 @@
         <translation>刷新證書列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>創建一個新證書</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>＆新證書</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>當前選定的證書複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>和複製證書ID</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>新證書</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>複製證書ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3128,8 +3104,8 @@
         <translation>把目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3200,10 +3176,6 @@
         <translation>到期</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>過期日期在</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>出口錯誤</translation>
     </message>
@@ -3223,16 +3195,16 @@
         <translation>刷新escrows列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>當前選擇中介複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>和複製託管ID</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>複製託管ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3283,8 +3255,8 @@
         <translation>把目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3311,6 +3283,14 @@
         <translation>無法解析JSON結果</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>交易是在blockchain找到了！託管資金支付已檢測。鏈：</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>交易是在blockchain找到了！託管款項已檢測到。建議您確認打開你的錢包，並在您的帳戶中看到資金支付。鏈：</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>無法解析JSON響應：</translation>
     </message>
@@ -3321,10 +3301,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>支付交易找到，但它並沒有被blockchain尚未證實！請稍後再試。鏈：</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>交易是在blockchain找到了！全部貨款已檢測到。建議您確認打開你的錢包，並在您的帳戶中看到資金支付。鏈：</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3402,24 +3378,28 @@
         <translation>刷新您的報價列表</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>新品推薦</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>複製發售ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>創建一個新的報價</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>及新發售</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>當前選定的報價複製到系統剪貼板</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>和複製發售ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3434,16 +3414,8 @@
         <translation>管理分支機構此優惠</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>與分支機構管理</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>把目前分頁的資料匯出存成檔案</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3557,8 +3529,8 @@
         <translation>折扣</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>過期日期在</translation>
+        <source>Expires On</source>
+        <translation>到期</translation>
     </message>
 </context>
 <context>
@@ -3572,16 +3544,16 @@
         <translation>刷新您的會員列表此優惠</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>＆刷新</translation>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>出口</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>把目前分頁的資料匯出存成檔案</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>匯出</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3801,8 +3773,8 @@
         <translation>與Syscoin支付</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>與用SYS支付</translation>
+        <source>Pay with SYS</source>
+        <translation>用SYS支付</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3892,8 +3864,8 @@
         <translation>確認對比特幣blockchain此付款</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>與確認付款</translation>
+        <source>Confirm Payment</source>
+        <translation>確認付款</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4067,8 +4039,8 @@
         <translation>確認對比特幣blockchain此付款</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>與確認付款</translation>
+        <source>Confirm Payment</source>
+        <translation>確認付款</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4290,8 +4262,12 @@
         <translation>平均評分：</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>運輸和聯繫方式：</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>航運聯繫方式：</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>好</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4332,10 +4308,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>賣家反饋</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>好</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4460,8 +4432,8 @@
         <translation>請稍候...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>＆完</translation>
+        <source>Finish</source>
+        <translation>完</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4590,8 +4562,8 @@
         <translation>當前選定的報價複製到系統剪貼板</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>和複製發售ID</translation>
+        <source>Copy Offer ID</source>
+        <translation>複製發售ID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4685,12 +4657,8 @@
         <translation>請稍候...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>＆完</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>您已經創建了一個代管</translation>
+        <source>Finish</source>
+        <translation>完</translation>
     </message>
     <message>
         <source>of</source>
@@ -4701,12 +4669,16 @@
         <translation>對於</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>您的款項提存！</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>商戶已發送您的送貨信息和您的項目應該很快就會到達。商家可能後續通過悄悄話進一步資料（請定期檢查您的收件箱）。</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>您已購買</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>您的付款已完成！</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4806,8 +4778,8 @@
         <translation>折扣</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>過期日期在</translation>
+        <source>Expires On</source>
+        <translation>到期</translation>
     </message>
 </context>
 <context>
@@ -4885,7 +4857,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>＆優先</translation>
+        <translation>選項(&amp;P)</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -5226,8 +5198,8 @@
         <translation>出口錯誤</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>無法寫入文件%1。</translation>
+        <source>Could not write to file: </source>
+        <translation>無法寫入文件：</translation>
     </message>
 </context>
 <context>
@@ -6600,16 +6572,24 @@
         <translation>正在跟網路進行同步...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>總覽</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>節點</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>概觀</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>顯示錢包一般總覽</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>發送</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>接收</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6618,6 +6598,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>瀏覽交易紀錄</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>別名</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>市井</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>證書</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>國際支付寶</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6706,14 +6702,6 @@
     <message>
         <source>Wallet</source>
         <translation>錢包</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>付款</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>收款</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6820,40 +6808,20 @@
         <translation>最新狀態</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A＆liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>管理別名</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>＆消息</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>消息</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>與市場</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>管理計劃書</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>和證書</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>管理證書</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>＆國際支付寶</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

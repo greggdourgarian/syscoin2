@@ -13,10 +13,6 @@
         <translation>Eksporter data fra nåværende fane til fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Alle</translation>
     </message>
@@ -549,10 +545,6 @@
         <translation>Eksporter data fra nåværende fane til fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Kommaseparert fil (*.csv)</translation>
     </message>
@@ -560,16 +552,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>Generelt</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Totalt:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -725,10 +717,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporter data fra nåværende fane til fil</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -770,10 +758,6 @@
         <translation>Eksporter data fra nåværende fane til fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Alle</translation>
     </message>
@@ -793,10 +777,6 @@
         <translation>Eksporter data fra nåværende fane til fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Kommaseparert fil (*.csv)</translation>
     </message>
@@ -806,10 +786,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporter data fra nåværende fane til fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -831,10 +807,6 @@
         <translation>Eksporter data fra nåværende fane til fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Alle</translation>
     </message>
@@ -848,10 +820,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporter data fra nåværende fane til fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
     </message>
     <message>
         <source>All</source>
@@ -870,10 +838,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksporter data fra nåværende fane til fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksporter</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -944,10 +908,6 @@
     <message>
         <source>Total:</source>
         <translation>Totalt:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -2452,10 +2412,6 @@
         <translation>Synkroniserer med nettverk...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Oversikt</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -2550,14 +2506,6 @@
     <message>
         <source>Wallet</source>
         <translation>Lommebok</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Motta</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

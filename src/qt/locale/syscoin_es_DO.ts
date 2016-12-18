@@ -13,10 +13,6 @@
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -481,10 +477,6 @@
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos de columnas separadas por coma (*.csv)</translation>
     </message>
@@ -492,16 +484,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
     </message>
     </context>
 <context>
@@ -617,10 +609,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -658,10 +646,6 @@
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -681,10 +665,6 @@
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivos de columnas separadas por coma (*.csv)</translation>
     </message>
@@ -694,10 +674,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -719,10 +695,6 @@
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Todo</translation>
     </message>
@@ -736,10 +708,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>All</source>
@@ -758,10 +726,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar a un archivo los datos de esta pestaña</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -824,10 +788,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Aceptar</translation>
     </message>
     </context>
 <context>
@@ -1796,10 +1756,6 @@
         <translation>Sincronizando con la red…</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Vista general</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Nodo</translation>
     </message>
@@ -1894,14 +1850,6 @@
     <message>
         <source>Wallet</source>
         <translation>Monedero</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Recibir</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

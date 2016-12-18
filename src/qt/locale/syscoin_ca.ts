@@ -13,10 +13,6 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Tot</translation>
     </message>
@@ -549,10 +545,6 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fitxer separat per comes (*.csv)</translation>
     </message>
@@ -560,16 +552,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;D'acord</translation>
     </message>
     </context>
 <context>
@@ -725,10 +717,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -770,10 +758,6 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Tot</translation>
     </message>
@@ -793,10 +777,6 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fitxer separat per comes (*.csv)</translation>
     </message>
@@ -806,10 +786,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>All</source>
@@ -831,10 +807,6 @@
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Tot</translation>
     </message>
@@ -848,10 +820,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>All</source>
@@ -870,10 +838,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exporta les dades de la pestanya actual a un fitxer</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exporta</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -944,10 +908,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;D'acord</translation>
     </message>
     </context>
 <context>
@@ -2452,10 +2412,6 @@
         <translation>S'està sincronitzant amb la xarxa ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Panorama general</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -2550,14 +2506,6 @@
     <message>
         <source>Wallet</source>
         <translation>Moneder</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Envia</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Rep</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

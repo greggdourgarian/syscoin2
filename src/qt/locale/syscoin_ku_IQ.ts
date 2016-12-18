@@ -4,10 +4,6 @@
     </context>
 <context>
     <name>AcceptedOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>AddressBookPage</name>
@@ -124,10 +120,6 @@
         <source>Remove</source>
         <translation>سڕینەوە</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
@@ -185,11 +177,7 @@
     </context>
 <context>
     <name>MessageListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>MessageTableModel</name>
     </context>
@@ -201,48 +189,24 @@
     </context>
 <context>
     <name>MyAcceptedOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>MyCertListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferWhitelistTableModel</name>
     </context>
 <context>
     <name>MyWhitelistOfferDialog</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;هەناردن</translation>
-    </message>
     </context>
 <context>
     <name>NewMessageDialog</name>
@@ -455,10 +419,6 @@
     </context>
 <context>
     <name>SyscoinGUI</name>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;ناردن</translation>
-    </message>
     <message>
         <source>&amp;File</source>
         <translation>&amp;پەرگە</translation>

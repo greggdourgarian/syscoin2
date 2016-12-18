@@ -18,8 +18,8 @@
         <translation>Opslag af OfferID fra blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp; Opslag tilbud</translation>
+        <source>Lookup Offer</source>
+        <translation>opslag tilbud</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>Køb dette tilbud</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>&amp; Accepter tilbud</translation>
+        <source>Accept Offer</source>
+        <translation>Accepter tilbud</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>Opdater accepteret tilbud liste</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiér markeret tilbud til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiér Offer ID</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiér Offer id</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>Eksportér den aktuelle visning til en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>Kopier de aktuelt valgte alias til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopiér Alias-id</translation>
+        <source>Copy Alias ID</source>
+        <translation>Kopier Alias-id</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -515,10 +515,6 @@
     <message>
         <source>Expires On</source>
         <translation>Udløber på</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>udløber I</translation>
     </message>
     <message>
         <source>Alias Status</source>
@@ -685,8 +681,8 @@
         <translation>Kopiér markeret cert til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopiér Certificate ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>Copy-certifikat-id</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -758,10 +754,6 @@
     <message>
         <source>Expires On</source>
         <translation>Udløber på</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
-        <translation>udløber I</translation>
     </message>
     <message>
         <source>Owner</source>
@@ -996,10 +988,6 @@
         <translation>Generelt</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;Alias:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>Den alias navn.</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>udløb:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>Udløber Tid:</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>Brug Brugerdefineret udløbe Time</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>Vælg et alias, som har pind oplysninger. Forbrugerne vil betale konvertering beløb og netværk gebyrer baseret på denne pind.</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>Vælg en standard udløbstid (UTC) for denne alias fra 1 til 5 år, eller kontrollere 'Brug Brugerdefineret udløbe Time' afkrydsningsfeltet for at indtaste en udløbsdato tidsstempel. Det er eksponentielt dyrere om året, beregning er FEERATE * (2,88 ^ år). FEERATE er den dynamiske Satoshi pr byte gebyr sat i sats pind alias anvendes til dette alias.</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>Advarsel: overføre dine alias vil overføre ejerskabet alle dine syscoin tjenester, der anvender dette alias.</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5 år</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>Indstil længden af ​​tid til at holde din alias fra udløber. Jo længere du ønsker at holde den i live, jo flere gebyrer, du vil betale for at oprette eller opdatere denne alias. Formlen for gebyret er 0,2 SYS * år * år.</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig alias.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>Bekræft Alias ​​med stor udløb</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>Advarsel: Brug af skabe et alias udløber senest 5 år øger omkostningerne eksponentielt, du kan tilbringe en stor mængde af mønter i at gøre det!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>Er du sikker på du ønsker at fortsætte?</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>certifikater</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>Der var en undtagelse forsøger at hente oplysninger certifikat:</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>Indtast alias på modtageren af ​​dette certifikat</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>Indtast alias for modtageren, som du ønsker at tillade at læse dit certifikat private data</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>Vælg Ja, hvis du ikke vil have, at certifikatet skal redigeres / overføres af modtageren</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>Kunne ikke få dette certifikat:</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1629,16 +1625,16 @@
         <translation>Opdater affiliate liste</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>Tilføj en ny affiliate</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;Tilføje</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>Tilføje</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1661,8 +1657,8 @@
         <translation>Eksportér den aktuelle visning til en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1721,8 +1717,8 @@
         <translation>Alias</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>udløber</translation>
+        <source>Expires On</source>
+        <translation>Udløber på</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1744,8 +1740,8 @@
         <translation>Escrow Info</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;Generel</translation>
+        <source>General</source>
+        <translation>Generelt</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1792,28 +1788,32 @@
         <translation>Gennemsnitlig bedømmelse:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Forsendelse &amp; Kontaktoplysninger:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Forsendelse Kontakt information:</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>Indløs TXID:</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>Køber Feedback</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>Sælger Feedback</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>Arbiter Feedback</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>Okay</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>Ekstern TXID:</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>&amp; Køber Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>&amp; Sælger Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>&amp; Arbiter Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1895,8 +1895,8 @@
         <translation>Kopiér markeret depotet til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopiér Escrow ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>Kopier Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2380,16 +2380,8 @@
         <translation>Fejl ved afsendelse af feedback:</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>Escrow release fuldført! Betaling blev fundet på blockchain. Du kan klikke på "Check Ekstern Betaling 'for at kontrollere, om den er bekræftet. Kæde:</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>Fejl udfylde udgivelse:</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>Escrow tilbagebetaling fuldført! Betaling blev fundet på blockchain. Du kan klikke på "Check Ekstern Betaling 'for at kontrollere, om betalingen er bekræftet. Kæde:</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2406,18 +2398,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>Kunne ikke finde spærret betaling på blockchain, skal du sikre, at betalingstransaktionen er blevet bekræftet på netværket. Betaling id er blevet kopieret til din udklipsholder til din reference. fejl:</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>Spærrede betaling findes i blockchain. Betaling id er blevet kopieret til din udklipsholder til din reference. Tid:</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> kæde:</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> bekræftelser:</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2452,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>Escrow release fuldført! Spærrede udgifter betaling blev fundet på blockchain. Du kan klikke på "Check Ekstern Betaling 'for at kontrollere, om den er bekræftet. Kæde:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>Escrow release fuldført!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>Generel undtagelse udfylde frigivelse</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>Escrow tilbagebetaling fuldført! Spærrede udgifter betaling blev fundet på blockchain. Du kan klikke på "Check Ekstern Betaling 'for at kontrollere, om betalingen er bekræftet. Kæde:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2474,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>Kan ikke parse JSON svar:</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>Tjek BTC Betaling</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>Tjek ZEC Betaling</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2558,8 +2538,8 @@
         <translation>Opdater liste besked</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2574,8 +2554,12 @@
         <translation>Kopiér markeret besked til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>&amp; Kopiér Msg ID</translation>
+        <source>Copy Msg ID</source>
+        <translation>Kopiér Msg ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2588,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportér den aktuelle visning til en fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
     </message>
 </context>
 <context>
@@ -2698,16 +2678,16 @@
         <translation>Opdater din accepteret tilbuddet liste</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiér markeret tilbud til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiér Offer ID</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiér Offer id</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2746,8 +2726,8 @@
         <translation>Eksportér den aktuelle visning til en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2929,24 +2909,24 @@
         <translation>Opdater alias liste</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>Opret en ny alias</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>&amp; New Alias</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>Kopier de aktuelt valgte alias til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>&amp; Kopiér Alias-id</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>New Alias</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>Kopier Alias-id</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2989,8 +2969,8 @@
         <translation>Eksportér den aktuelle visning til en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3041,10 +3021,6 @@
         <translation>Udløber på</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>udløber I</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>Udløbet</translation>
     </message>
@@ -3080,24 +3056,24 @@
         <translation>Opdater certifikat liste</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>Opret et nyt certifikat</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>&amp; New Certificate</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>Kopiér markeret certifikat til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>&amp; Kopiér Certificate ID</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>New Certificate</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>Copy-certifikat-id</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3128,8 +3104,8 @@
         <translation>Eksportér den aktuelle visning til en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3200,10 +3176,6 @@
         <translation>Udløber på</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>udløber I</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>Fejl eksporterer</translation>
     </message>
@@ -3223,16 +3195,16 @@
         <translation>Opdater din liste over escrows</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>Kopiér markeret depotet til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>&amp; Kopiér Escrow ID</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>Kopier Escrow ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3283,8 +3255,8 @@
         <translation>Eksportér den aktuelle visning til en fil</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3311,6 +3283,14 @@
         <translation>Kan ikke parse JSON resultater</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>Transaktion blev fundet i blockchain! Der er registreret Escrow finansiering betaling. Kæde:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>Transaktion blev fundet i blockchain! Der er registreret spærrede betaling. Det anbefales, at du bekræfter betalingen ved at åbne tegnebogen og se pengene på din konto. Kæde:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>Kan ikke parse JSON svar:</translation>
     </message>
@@ -3321,10 +3301,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>Betaling transaktion fundet, men det er ikke blevet bekræftet af blockchain endnu! Prøv igen senere. Kæde:</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>Transaktion blev fundet i blockchain! Der er registreret Fuld betaling. Det anbefales, at du bekræfter betalingen ved at åbne tegnebogen og se pengene på din konto. Kæde:</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3402,24 +3378,28 @@
         <translation>Opdater din liste af tilbud</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>nyt tilbud</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>Kopiér Offer id</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>Opret et nyt tilbud</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; Nyt tilbud</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>Kopiér markeret tilbud til systemets udklipsholder</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiér Offer ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3434,16 +3414,8 @@
         <translation>Administrer partnere for dette tilbud</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; Administrer Affiliates</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportér den aktuelle visning til en fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3557,8 +3529,8 @@
         <translation>Rabat</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>udløber I</translation>
+        <source>Expires On</source>
+        <translation>Udløber på</translation>
     </message>
 </context>
 <context>
@@ -3572,16 +3544,16 @@
         <translation>Opdater dit affiliate liste for dette tilbud</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;Opfriske</translation>
+        <source>Refresh</source>
+        <translation>Opfriske</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>Eksport</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportér den aktuelle visning til en fil</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportér</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3801,8 +3773,8 @@
         <translation>Betal med Syscoin</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; Betal med SYS</translation>
+        <source>Pay with SYS</source>
+        <translation>Betal med SYS</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3892,8 +3864,8 @@
         <translation>Bekræft denne betaling på Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Bekræft betaling</translation>
+        <source>Confirm Payment</source>
+        <translation>Bekræft betaling</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4067,8 +4039,8 @@
         <translation>Bekræft denne betaling på Bitcoin blockchain</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>&amp; Bekræft betaling</translation>
+        <source>Confirm Payment</source>
+        <translation>Bekræft betaling</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4290,8 +4262,12 @@
         <translation>Gennemsnitlig bedømmelse:</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>Forsendelse &amp; Kontaktoplysninger:</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>Forsendelse Kontakt information:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>Okay</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4332,10 +4308,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>Sælger Feedback</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4460,8 +4432,8 @@
         <translation>Vent venligst...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Slutte</translation>
+        <source>Finish</source>
+        <translation>Slutte</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4590,8 +4562,8 @@
         <translation>Kopiér markeret tilbud til systemets udklipsholder</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>&amp; Kopiér Offer ID</translation>
+        <source>Copy Offer ID</source>
+        <translation>Kopiér Offer id</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4685,12 +4657,8 @@
         <translation>Vent venligst...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;Slutte</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>Du har oprettet en spærret for</translation>
+        <source>Finish</source>
+        <translation>Slutte</translation>
     </message>
     <message>
         <source>of</source>
@@ -4701,12 +4669,16 @@
         <translation>til</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>Din betaling er i depot!</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>Købmanden er blevet sendt din leverance oplysninger og din vare skal ankomme kort. Købmanden kan følge op med yderligere oplysninger via en privat besked (du tjekke din indbakke regelmæssigt).</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>Du har købt</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>Din betaling er gennemført!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4806,8 +4778,8 @@
         <translation>Rabat</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>udløber I</translation>
+        <source>Expires On</source>
+        <translation>Udløber på</translation>
     </message>
 </context>
 <context>
@@ -4885,7 +4857,7 @@
     </message>
     <message>
         <source>&amp;Preferences</source>
-        <translation>&amp; Indstillinger</translation>
+        <translation>&amp;Indstillinger</translation>
     </message>
     <message>
         <source>User Interface Theme:</source>
@@ -5226,8 +5198,8 @@
         <translation>Fejl eksporterer</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>Kunne ikke skrive til filen %1.</translation>
+        <source>Could not write to file: </source>
+        <translation>Kunne ikke skrive til filen:</translation>
     </message>
 </context>
 <context>
@@ -6600,16 +6572,24 @@
         <translation>Synkroniserer med netværk…</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Oversigt</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Knude</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>Oversigt</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Vis generel oversigt over tegnebog</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>Sende</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>Modtage</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6618,6 +6598,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>Gennemse transaktionshistorik</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>aliasser</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>Marketplace</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>certifikater</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>Spærrede</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6706,14 +6702,6 @@
     <message>
         <source>Wallet</source>
         <translation>Tegnebog</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Modtag</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6820,40 +6808,20 @@
         <translation>Opdateret</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp;, samarbejder</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>Administrer aliasser</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>&amp; Meddelelser</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>Meddelelser</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp; Marketplace</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>Administrer tilbud</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>&amp; certifikater</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>Administrer certifikater</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp; Escrow</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

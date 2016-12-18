@@ -8,10 +8,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
-    </message>
     </context>
 <context>
     <name>AddressBookPage</name>
@@ -340,20 +336,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
-    </message>
     </context>
 <context>
     <name>EscrowInfoDialog</name>
     <message>
         <source>Total:</source>
         <translation>Вкупно:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;ОК</translation>
     </message>
     </context>
 <context>
@@ -417,10 +405,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -441,20 +425,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
-    </message>
     </context>
 <context>
     <name>MyAliasListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     </context>
 <context>
@@ -463,10 +439,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
-    </message>
     </context>
 <context>
     <name>MyEscrowListPage</name>
@@ -474,20 +446,12 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
-    </message>
     </context>
 <context>
     <name>MyOfferListPage</name>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     </context>
 <context>
@@ -498,10 +462,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Експортирај ги податоците од активното јазиче во датотека</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Експорт</translation>
     </message>
     </context>
 <context>
@@ -524,10 +484,6 @@
     <message>
         <source>Total:</source>
         <translation>Вкупно:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;ОК</translation>
     </message>
     </context>
 <context>
@@ -908,10 +864,6 @@
         <translation>Синхронизација со мрежата...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Преглед</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Јазол</translation>
     </message>
@@ -986,14 +938,6 @@
     <message>
         <source>Wallet</source>
         <translation>Паричник</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Испрати</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Прими</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

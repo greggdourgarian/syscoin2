@@ -18,10 +18,6 @@
         <translation>Lookup the OfferID from the blockchain DB</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>&amp;Lookup Offer</translation>
-    </message>
-    <message>
         <source>Quantity:</source>
         <translation>Quantity:</translation>
     </message>
@@ -47,10 +43,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Export the data in the current tab to a file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>All</source>
@@ -601,10 +593,6 @@
         <translation>Export the data in the current tab to a file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -616,6 +604,10 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>ID</translation>
     </message>
@@ -626,10 +618,6 @@
     <message>
         <source>Total:</source>
         <translation>Total:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -809,10 +797,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Export the data in the current tab to a file</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -854,10 +838,6 @@
         <translation>Export the data in the current tab to a file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>All</translation>
     </message>
@@ -881,10 +861,6 @@
         <translation>Export the data in the current tab to a file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Comma separated file (*.csv)</translation>
     </message>
@@ -898,10 +874,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Export the data in the current tab to a file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>All</source>
@@ -927,10 +899,6 @@
         <translation>Export the data in the current tab to a file</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>All</translation>
     </message>
@@ -948,10 +916,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Export the data in the current tab to a file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>All</source>
@@ -974,10 +938,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Export the data in the current tab to a file</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Export</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1064,10 +1024,6 @@
     <message>
         <source>Merchant:</source>
         <translation>Merchant:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
     </message>
     </context>
 <context>
@@ -1393,11 +1349,7 @@
         <source>Error exporting</source>
         <translation>Error exporting</translation>
     </message>
-    <message>
-        <source>Could not write to file %1.</source>
-        <translation>Could not write to file %1.</translation>
-    </message>
-</context>
+    </context>
 <context>
     <name>OverviewPage</name>
     <message>
@@ -2616,10 +2568,6 @@
         <translation>Synchronising with network...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Overview</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Node</translation>
     </message>
@@ -2722,14 +2670,6 @@
     <message>
         <source>Wallet</source>
         <translation>Wallet</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Send</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Receive</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

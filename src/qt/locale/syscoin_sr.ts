@@ -263,10 +263,6 @@
     </context>
 <context>
     <name>EscrowInfoDialog</name>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
     </context>
 <context>
     <name>EscrowListPage</name>
@@ -429,10 +425,6 @@
     </context>
 <context>
     <name>OfferAcceptInfoDialog</name>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
     </context>
 <context>
     <name>OfferAcceptTableModel</name>
@@ -680,10 +672,6 @@
         <translation>Синхронизација са мрежом у току...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Општи преглед</translation>
-    </message>
-    <message>
         <source>Show general overview of wallet</source>
         <translation>Погледајте општи преглед новчаника</translation>
     </message>
@@ -738,10 +726,6 @@
     <message>
         <source>Wallet</source>
         <translation>новчаник</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Пошаљи</translation>
     </message>
     <message>
         <source>&amp;File</source>

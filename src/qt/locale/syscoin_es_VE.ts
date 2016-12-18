@@ -13,10 +13,6 @@
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivo separado por comas (*.csv)</translation>
     </message>
@@ -477,10 +473,6 @@
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivo separado por comas (*.csv)</translation>
     </message>
@@ -585,10 +577,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -606,10 +594,6 @@
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivo separado por comas (*.csv)</translation>
     </message>
@@ -619,10 +603,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -636,10 +616,6 @@
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivo separado por comas (*.csv)</translation>
     </message>
@@ -651,10 +627,6 @@
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Archivo separado por comas (*.csv)</translation>
     </message>
@@ -664,10 +636,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -682,10 +650,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Exportar los datos en la pestaña actual a un archivo</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Exportar</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -1062,14 +1026,6 @@
     <message>
         <source>Wallet</source>
         <translation>Billetera</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Enviar</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Recibir</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

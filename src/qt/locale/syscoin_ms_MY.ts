@@ -10,10 +10,6 @@
 Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fail yang dipisahkan dengan koma</translation>
     </message>
@@ -140,10 +136,6 @@ Alihkan fail data ke dalam tab semasa</translation>
 Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fail yang dipisahkan dengan koma</translation>
     </message>
@@ -189,10 +181,6 @@ Alihkan fail data ke dalam tab semasa</translation>
         <translation>
 Alihkan fail data ke dalam tab semasa</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -211,10 +199,6 @@ Alihkan fail data ke dalam tab semasa</translation>
 Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fail yang dipisahkan dengan koma</translation>
     </message>
@@ -225,10 +209,6 @@ Alihkan fail data ke dalam tab semasa</translation>
         <source>Export the data in the current tab to a file</source>
         <translation>
 Alihkan fail data ke dalam tab semasa</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -243,10 +223,6 @@ Alihkan fail data ke dalam tab semasa</translation>
 Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fail yang dipisahkan dengan koma</translation>
     </message>
@@ -259,10 +235,6 @@ Alihkan fail data ke dalam tab semasa</translation>
 Alihkan fail data ke dalam tab semasa</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Fail yang dipisahkan dengan koma</translation>
     </message>
@@ -273,10 +245,6 @@ Alihkan fail data ke dalam tab semasa</translation>
         <source>Export the data in the current tab to a file</source>
         <translation>
 Alihkan fail data ke dalam tab semasa</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -292,10 +260,6 @@ Alihkan fail data ke dalam tab semasa</translation>
         <source>Export the data in the current tab to a file</source>
         <translation>
 Alihkan fail data ke dalam tab semasa</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksport</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>

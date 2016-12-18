@@ -18,8 +18,8 @@
         <translation>blockchain DB에서 OfferID를 조회</translation>
     </message>
     <message>
-        <source>&amp;Lookup Offer</source>
-        <translation>및 조회 제공</translation>
+        <source>Lookup Offer</source>
+        <translation>조회 제공</translation>
     </message>
     <message>
         <source>Quantity:</source>
@@ -82,8 +82,8 @@
         <translation>이 서비스를 구입</translation>
     </message>
     <message>
-        <source>&amp;Accept Offer</source>
-        <translation>및 제공에 동의</translation>
+        <source>Accept Offer</source>
+        <translation>제안을 수락</translation>
     </message>
     <message>
         <source>Purchase an offer, coins will be used from your balance to complete the transaction</source>
@@ -201,16 +201,16 @@
         <translation>허용 제안 목록을 새로 고침</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>시스템 클립 보드에 현재 선택된 서비스를 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>및 복사 모집 ID</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>복사 모집 ID</translation>
     </message>
     <message>
         <source>Details of the selected accepted offer</source>
@@ -237,8 +237,8 @@
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>These are offers you have purchased. Offer operations take 2-5 minutes to become active. Right click on an offer to view more info such as the message you sent to the seller, quantity, date, etc.  You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -458,8 +458,8 @@
         <translation>시스템 클립 보드에 현재 선택한 별칭을 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>및 복사 별명 ID</translation>
+        <source>Copy Alias ID</source>
+        <translation>복사 별명 ID</translation>
     </message>
     <message>
         <source>Send Msg</source>
@@ -514,10 +514,6 @@
     </message>
     <message>
         <source>Expires On</source>
-        <translation>에 만료</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
         <translation>에 만료</translation>
     </message>
     <message>
@@ -685,8 +681,8 @@
         <translation>시스템 클립 보드에 현재 선택한 인증서를 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>및 복사 인증서 ID</translation>
+        <source>Copy Certificate ID</source>
+        <translation>복사 인증서 ID</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
@@ -757,10 +753,6 @@
     </message>
     <message>
         <source>Expires On</source>
-        <translation>에 만료</translation>
-    </message>
-    <message>
-        <source>Expires In</source>
         <translation>에 만료</translation>
     </message>
     <message>
@@ -996,10 +988,6 @@
         <translation>일반</translation>
     </message>
     <message>
-        <source>&amp;Alias:</source>
-        <translation>&amp;별명:</translation>
-    </message>
-    <message>
         <source>The alias name.</source>
         <translation>별명.</translation>
     </message>
@@ -1022,6 +1010,14 @@
     <message>
         <source>Expiry:</source>
         <translation>만료:</translation>
+    </message>
+    <message>
+        <source>Expire Time:</source>
+        <translation>시간 만료 :</translation>
+    </message>
+    <message>
+        <source>Use Custom Expire Time</source>
+        <translation>시간 만료 사용자 사용</translation>
     </message>
     <message>
         <source>Miscellaneous</source>
@@ -1076,6 +1072,10 @@
         <translation>말뚝 정보를 가지고있는 별명을 선택합니다. 소비자는이 말뚝을 기반으로 변환 금액과 네트워크 비용을 지불합니다.</translation>
     </message>
     <message>
+        <source>Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.</source>
+        <translation>1 ~ 5 년에서이 별칭 (UTC)에 표준 만료 시간을 선택하거나 확인 만료 타임 스탬프를 입력 확인란 '시간 만료 사용자 사용'을. 그것은 매년 기하 급수적으로 더 비싼, 계산 FEERATE * (2.88 ^ 년)입니다. FEERATE이 별칭에 사용되는 속도 못 별명에 설정된 바이트 수수료 당 동적 사토시입니다.</translation>
+    </message>
+    <message>
         <source>Warning: transferring your alias will transfer ownership all of your syscoin services that use this alias.</source>
         <translation>경고 : 당신의 별명을 전송하면이 별칭을 사용하여 syscoin 서비스의 모든 소유권을 이전합니다.</translation>
     </message>
@@ -1102,10 +1102,6 @@
     <message>
         <source>5 Years</source>
         <translation>5 년</translation>
-    </message>
-    <message>
-        <source>Set the length of time to keep your alias from expiring. The longer you wish to keep it alive the more fees you will pay to create or update this alias. The formula for the fee is 0.2 SYS * years * years.</source>
-        <translation>만료에서 별칭을 유지하는 시간의 길이를 설정합니다. 더 이상 당신은 살아이 별칭을 만들거나 업데이트하기 위해 지불 할 더 많은 비용을 유지하고 싶습니다. 수수료에 대한 공식은 0.2 SYS * 년 * 년입니다.</translation>
     </message>
     <message>
         <source>This is to private profile information which is encrypted and only available to you. This is useful for when sending notes to a merchant through the payment screen so you don't have to type it out everytime.</source>
@@ -1142,6 +1138,18 @@
     <message>
         <source>multisig alias.</source>
         <translation>multisig 별명.</translation>
+    </message>
+    <message>
+        <source>Confirm Alias with large expiration</source>
+        <translation>큰 만료로 별칭을 확인</translation>
+    </message>
+    <message>
+        <source>Warning: Using creating an alias expiring later than 5 years increases costs exponentially, you may spend a large amount of coins in doing so!</source>
+        <translation>경고 : 별칭을 만들기보다 5 년 후에 만료 사용하여 당신은 그렇게 동전의 큰 금액을 지출 할 수있다, 기하 급수적으로 비용을 증가!</translation>
+    </message>
+    <message>
+        <source>Are you sure you wish to continue?</source>
+        <translation>당신은 당신이 계속 하시겠습니까?</translation>
     </message>
     <message>
         <source>Error creating new Alias: </source>
@@ -1279,24 +1287,12 @@
         <translation>인증</translation>
     </message>
     <message>
-        <source>There was an exception trying to fetch certificate information: </source>
-        <translation>인증서 정보를 가져 오는 예외가 발생했습니다 :</translation>
-    </message>
-    <message>
         <source>Enter the alias of the recipient of this certificate</source>
         <translation>인증서가받는 사람의 별칭을 입력</translation>
     </message>
     <message>
-        <source>Enter the alias of the recipient that you wish to allow reading your certificate private data</source>
-        <translation>인증서 개인 데이터를 읽을 수 있도록 원하는받는 사람의 별칭을 입력</translation>
-    </message>
-    <message>
         <source>Select Yes if you do not want this certificate to be editable/transferable by the recipient</source>
         <translation>이 인증서를받는 사람에 의해 양도 / 편집 할 수하지 않으려면 예를 선택</translation>
-    </message>
-    <message>
-        <source>Could not get this certificate: </source>
-        <translation>이 인증서를 가져올 수 없습니다 :</translation>
     </message>
     <message>
         <source>This alias has expired, please choose another one</source>
@@ -1629,16 +1625,16 @@
         <translation>새로 고침 제휴 목록</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
-    </message>
-    <message>
         <source>Add a new affiliate</source>
         <translation>새로운 계열사 추가</translation>
     </message>
     <message>
-        <source>&amp;Add</source>
-        <translation>&amp;더하다</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation>더하다</translation>
     </message>
     <message>
         <source>Remove an affiliate</source>
@@ -1661,8 +1657,8 @@
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>These are the affiliates for your offer. Affiliate operations take 2-5 minutes to become active. You may specify discount levels for each affiliate or control who may resell your offer.</source>
@@ -1721,8 +1717,8 @@
         <translation>별명</translation>
     </message>
     <message>
-        <source>Expires</source>
-        <translation>만료</translation>
+        <source>Expires On</source>
+        <translation>에 만료</translation>
     </message>
     <message>
         <source>Discount</source>
@@ -1744,8 +1740,8 @@
         <translation>에스크로 정보</translation>
     </message>
     <message>
-        <source>&amp;General</source>
-        <translation>&amp;일반</translation>
+        <source>General</source>
+        <translation>일반</translation>
     </message>
     <message>
         <source>Escrow Details</source>
@@ -1792,28 +1788,32 @@
         <translation>평균 평가 :</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>배송 및 연락처 정보 :</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>배송 연락처 정보 :</translation>
+    </message>
+    <message>
+        <source>Redeem TXID:</source>
+        <translation>TXID 보너스 :</translation>
+    </message>
+    <message>
+        <source>Buyer Feedback</source>
+        <translation>구매자 피드백</translation>
+    </message>
+    <message>
+        <source>Seller Feedback</source>
+        <translation>판매자 의견</translation>
+    </message>
+    <message>
+        <source>Arbiter Feedback</source>
+        <translation>중재인 피드백</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>승인</translation>
     </message>
     <message>
         <source>External TXID:</source>
         <translation>외부 TXID :</translation>
-    </message>
-    <message>
-        <source>&amp;Buyer Feedback</source>
-        <translation>및 구매자 피드백</translation>
-    </message>
-    <message>
-        <source>&amp;Seller Feedback</source>
-        <translation>및 판매자 의견</translation>
-    </message>
-    <message>
-        <source>&amp;Arbiter Feedback</source>
-        <translation>및 중재인 의견</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>확인(&amp;O)</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -1895,8 +1895,8 @@
         <translation>시스템 클립 보드에 현재 선택한 에스크로 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>및 복사 에스크로 ID</translation>
+        <source>Copy Escrow ID</source>
+        <translation>복사 에스크로 ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -2380,16 +2380,8 @@
         <translation>의견을 보내 오류 :</translation>
     </message>
     <message>
-        <source>Escrow release completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
-        <translation>에스크로 릴리스가 성공적으로 완료! 지불은 blockchain에 발견되었다. 당신은 그것을 확인했습니다 있는지 확인하기 위해 '외부 결제 확인'버튼을 클릭 할 수 있습니다. 체인:</translation>
-    </message>
-    <message>
         <source>Error completing release: </source>
         <translation>오류 해제를 완료 :</translation>
-    </message>
-    <message>
-        <source>Escrow refund completed successfully! Payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
-        <translation>에스크로 환불이 성공적으로 완료되었습니다! 지불은 blockchain에 발견되었다. 당신은 지불을 확인했습니다 있는지 확인하기 위해 '외부 결제 확인'버튼을 클릭 할 수 있습니다. 체인:</translation>
     </message>
     <message>
         <source>Error completing refund: </source>
@@ -2406,18 +2398,6 @@
     <message>
         <source>Could not find escrow payment on the blockchain, please ensure that the payment transaction has been confirmed on the network. Payment ID has been copied to your clipboard for your reference. error: </source>
         <translation>blockchain에 에스크로 결제를 찾을 수 없습니다, 지불 거래 네트워크에 확인되어 있는지 확인하시기 바랍니다. 결제 ID는 참조 용으로 클립 보드에 복사되었습니다. 오류:</translation>
-    </message>
-    <message>
-        <source>Escrow payment found in the blockchain. Payment ID has been copied to your clipboard for your reference. Time: </source>
-        <translation>blockchain에서 발견 지불 에스크로. 결제 ID는 참조 용으로 클립 보드에 복사되었습니다. 시각:</translation>
-    </message>
-    <message>
-        <source> chain: </source>
-        <translation> 체인:</translation>
-    </message>
-    <message>
-        <source> confirmations: </source>
-        <translation> 확정 :</translation>
     </message>
     <message>
         <source>Escrow payment found in the blockchain but it has not been confirmed yet. Please try again later. Payment ID has been copied to your clipboard for your reference. Chain: </source>
@@ -2452,12 +2432,20 @@
         <translation>ZCash</translation>
     </message>
     <message>
+        <source>Escrow release completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if it has confirmed. Chain: </source>
+        <translation>에스크로 릴리스가 성공적으로 완료! 지출 지불 에스크로하는 blockchain에 발견되었다. 당신은 그것을 확인했습니다 있는지 확인하기 위해 '외부 결제 확인'버튼을 클릭 할 수 있습니다. 체인:</translation>
+    </message>
+    <message>
         <source>Escrow release completed successfully! </source>
         <translation>에스크로 릴리스가 성공적으로 완료!</translation>
     </message>
     <message>
         <source>General exception completing release</source>
         <translation>일반 예외 완료 출시</translation>
+    </message>
+    <message>
+        <source>Escrow refund completed successfully! Escrow spending payment was found on the blockchain. You may click on the 'Check External Payment' button to check to see if the payment has confirmed. Chain: </source>
+        <translation>에스크로 환불이 성공적으로 완료되었습니다! 지출 지불 에스크로하는 blockchain에 발견되었다. 당신은 지불을 확인했습니다 있는지 확인하기 위해 '외부 결제 확인'버튼을 클릭 할 수 있습니다. 체인:</translation>
     </message>
     <message>
         <source>Escrow refund completed successfully!</source>
@@ -2474,14 +2462,6 @@
     <message>
         <source>Cannot parse JSON response: </source>
         <translation>JSON 응답을 구문 분석 할 수 없습니다 :</translation>
-    </message>
-    <message>
-        <source>Check BTC Payment</source>
-        <translation>BTC 지불을 확인</translation>
-    </message>
-    <message>
-        <source>Check ZEC Payment</source>
-        <translation>ZEC 지불을 확인</translation>
     </message>
     <message>
         <source>Please Wait...</source>
@@ -2558,8 +2538,8 @@
         <translation>새로 고침 메시지 목록</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
     </message>
     <message>
         <source>Send a new message</source>
@@ -2574,8 +2554,12 @@
         <translation>시스템 클립 보드에 현재 선택한 메시지를 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Msg ID</source>
-        <translation>및 메시지 ID를 복사</translation>
+        <source>Copy Msg ID</source>
+        <translation>메시지 ID를 복사</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>Get message details</source>
@@ -2588,10 +2572,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
     </message>
 </context>
 <context>
@@ -2698,16 +2678,16 @@
         <translation>당신의 허용 제안 목록을 새로 고침</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>시스템 클립 보드에 현재 선택된 서비스를 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>및 복사 모집 ID</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>복사 모집 ID</translation>
     </message>
     <message>
         <source>Details of the currently accepted offer</source>
@@ -2746,8 +2726,8 @@
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>These are offers you have sold to others. Offer operations take 2-5 minutes to become active. Right click on an offer for more info including buyer message, quantity, date, etc. You can choose which aliases to view sales information for using the dropdown to the right.</source>
@@ -2929,24 +2909,24 @@
         <translation>새로 고침 별칭 목록</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
-    </message>
-    <message>
         <source>Create a new alias</source>
         <translation>새 별칭 만들기</translation>
-    </message>
-    <message>
-        <source>&amp;New Alias</source>
-        <translation>새 별칭을 &amp;</translation>
     </message>
     <message>
         <source>Copy the currently selected alias to the system clipboard</source>
         <translation>시스템 클립 보드에 현재 선택한 별칭을 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Alias ID</source>
-        <translation>및 복사 별명 ID</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>New Alias</source>
+        <translation>새 별칭</translation>
+    </message>
+    <message>
+        <source>Copy Alias ID</source>
+        <translation>복사 별명 ID</translation>
     </message>
     <message>
         <source>Edit selected alias</source>
@@ -2989,8 +2969,8 @@
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Aliases. Alias operations (create, update, transfer) take 2-5 minutes to become active.</source>
@@ -3041,10 +3021,6 @@
         <translation>에 만료</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>에 만료</translation>
-    </message>
-    <message>
         <source>Expired</source>
         <translation>만료</translation>
     </message>
@@ -3080,24 +3056,24 @@
         <translation>인증서 목록을 새로 고침</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
-    </message>
-    <message>
         <source>Create a new certificate</source>
         <translation>새 인증서를 만듭니다</translation>
-    </message>
-    <message>
-        <source>&amp;New Certificate</source>
-        <translation>새 인증서를 &amp;</translation>
     </message>
     <message>
         <source>Copy the currently selected certificate to the system clipboard</source>
         <translation>시스템 클립 보드에 현재 선택한 인증서를 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Certificate ID</source>
-        <translation>및 복사 인증서 ID</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>New Certificate</source>
+        <translation>새 인증서</translation>
+    </message>
+    <message>
+        <source>Copy Certificate ID</source>
+        <translation>복사 인증서 ID</translation>
     </message>
     <message>
         <source>Edit selected certificate</source>
@@ -3128,8 +3104,8 @@
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Certificates. Certificate operations (create, update, transfer) take 2-5 minutes to become active.  You can choose which aliases to view related certificates using the dropdown to the right.</source>
@@ -3200,10 +3176,6 @@
         <translation>에 만료</translation>
     </message>
     <message>
-        <source>Expires In</source>
-        <translation>에 만료</translation>
-    </message>
-    <message>
         <source>Error exporting</source>
         <translation>오류 내보내기</translation>
     </message>
@@ -3223,16 +3195,16 @@
         <translation>에스크로 목록을 새로 고침</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
-    </message>
-    <message>
         <source>Copy the currently selected escrow to the system clipboard</source>
         <translation>시스템 클립 보드에 현재 선택한 에스크로 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Escrow ID</source>
-        <translation>및 복사 에스크로 ID</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>Copy Escrow ID</source>
+        <translation>복사 에스크로 ID</translation>
     </message>
     <message>
         <source>Details</source>
@@ -3283,8 +3255,8 @@
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Escrows. Escrow operations (create, release, refund, complete) take 2-5 minutes to become active. You can choose which aliases to view related escrows using the dropdown to the right.</source>
@@ -3311,6 +3283,14 @@
         <translation>JSON 결과를 구문 분석 할 수 없습니다</translation>
     </message>
     <message>
+        <source>Transaction was found in the blockchain! Escrow funding payment has been detected. Chain: </source>
+        <translation>거래는 blockchain에서 발견되었다! 에스크로 자금 결제가 감지되었습니다. 체인:</translation>
+    </message>
+    <message>
+        <source>Transaction was found in the blockchain! Escrow payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
+        <translation>거래는 blockchain에서 발견되었다! 에스크로 결제가 감지되었습니다. 당신이 당신의 지갑을 열고 계정에 자금을 보는 지불을 확인하는 것이 좋습니다. 체인:</translation>
+    </message>
+    <message>
         <source>Cannot parse JSON response: </source>
         <translation>JSON 응답을 구문 분석 할 수 없습니다 :</translation>
     </message>
@@ -3321,10 +3301,6 @@
     <message>
         <source>Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: </source>
         <translation>결제 거래를 찾을 수 있지만 아직 blockchain에 의해 확인되지 않았습니다! 나중에 다시 시도 해주십시오. 체인:</translation>
-    </message>
-    <message>
-        <source>Transaction was found in the blockchain! Full payment has been detected. It is recommended that you confirm payment by opening your wallet and seeing the funds in your account. Chain: </source>
-        <translation>거래는 blockchain에서 발견되었다! 전체 결제가 감지되었습니다. 당신이 당신의 지갑을 열고 계정에 자금을 보는 지불을 확인하는 것이 좋습니다. 체인:</translation>
     </message>
     <message>
         <source>Payment not found in the blockchain! Please try again later. Chain: </source>
@@ -3402,24 +3378,28 @@
         <translation>이벤트 목록을 새로 고침</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>New Offer</source>
+        <translation>새로운 제안</translation>
+    </message>
+    <message>
+        <source>Copy Offer ID</source>
+        <translation>복사 모집 ID</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>Create a new offer</source>
         <translation>새로운 서비스를 만들기</translation>
     </message>
     <message>
-        <source>&amp;New Offer</source>
-        <translation>&amp; 새 제공</translation>
-    </message>
-    <message>
         <source>Copy the currently selected offer to the system clipboard</source>
         <translation>시스템 클립 보드에 현재 선택된 서비스를 복사</translation>
-    </message>
-    <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>및 복사 모집 ID</translation>
     </message>
     <message>
         <source>Edit selected offer</source>
@@ -3434,16 +3414,8 @@
         <translation>이 제안에 대해 계열사 관리</translation>
     </message>
     <message>
-        <source>&amp;Manage Affiliates</source>
-        <translation>&amp; 제휴 관리</translation>
-    </message>
-    <message>
         <source>Export the data in the current tab to a file</source>
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
     </message>
     <message>
         <source>These are your registered Syscoin Offers. Offer operations (create, update) take 2-5 minutes to become active. You can choose which aliases to view related offers using the dropdown to the right.</source>
@@ -3557,7 +3529,7 @@
         <translation>할인</translation>
     </message>
     <message>
-        <source>Expires In</source>
+        <source>Expires On</source>
         <translation>에 만료</translation>
     </message>
 </context>
@@ -3572,16 +3544,16 @@
         <translation>이 제안에 대한 당신의 가입 목록을 새로 고침</translation>
     </message>
     <message>
-        <source>&amp;Refresh</source>
-        <translation>&amp;새롭게 하다</translation>
+        <source>Refresh</source>
+        <translation>새롭게 하다</translation>
+    </message>
+    <message>
+        <source>Export</source>
+        <translation>수출</translation>
     </message>
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>현재 탭에 있는 데이터를 파일로 내보내기</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;내보내기</translation>
     </message>
     <message>
         <source>You are an affiliate for these offers. Affiliate operations take 2-5 minutes to become active. The owner of the offer may add you as to his affiliate list and your affiliate entry will show up here.</source>
@@ -3801,8 +3773,8 @@
         <translation>Syscoin로 결제</translation>
     </message>
     <message>
-        <source>&amp;Pay with SYS</source>
-        <translation>&amp; SYS로 결제</translation>
+        <source>Pay with SYS</source>
+        <translation>SYS로 결제</translation>
     </message>
     <message>
         <source>Use Escrow</source>
@@ -3892,8 +3864,8 @@
         <translation>비트 코인의 blockchain에 결제 확인</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>및 결제 확인</translation>
+        <source>Confirm Payment</source>
+        <translation>결제 확인</translation>
     </message>
     <message>
         <source>Bitcoin TXID:</source>
@@ -4067,8 +4039,8 @@
         <translation>비트 코인의 blockchain에 결제 확인</translation>
     </message>
     <message>
-        <source>&amp;Confirm Payment</source>
-        <translation>및 결제 확인</translation>
+        <source>Confirm Payment</source>
+        <translation>결제 확인</translation>
     </message>
     <message>
         <source>ZCash TXID:</source>
@@ -4290,8 +4262,12 @@
         <translation>평균 평가 :</translation>
     </message>
     <message>
-        <source>Shipping &amp; Contact Information:</source>
-        <translation>배송 및 연락처 정보 :</translation>
+        <source>Shipping  Contact Information:</source>
+        <translation>배송 연락처 정보 :</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>승인</translation>
     </message>
     <message>
         <source>Offer Information</source>
@@ -4332,10 +4308,6 @@
     <message>
         <source>Seller Feedback</source>
         <translation>판매자 의견</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>확인(&amp;O)</translation>
     </message>
     <message>
         <source>No Feedback Found</source>
@@ -4460,8 +4432,8 @@
         <translation>잠시 기다려주십시오 ...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;끝</translation>
+        <source>Finish</source>
+        <translation>끝</translation>
     </message>
     <message>
         <source>You've created an escrow for</source>
@@ -4590,8 +4562,8 @@
         <translation>시스템 클립 보드에 현재 선택된 서비스를 복사</translation>
     </message>
     <message>
-        <source>&amp;Copy Offer ID</source>
-        <translation>및 복사 모집 ID</translation>
+        <source>Copy Offer ID</source>
+        <translation>복사 모집 ID</translation>
     </message>
     <message>
         <source>Resell this offer for a commission</source>
@@ -4685,12 +4657,8 @@
         <translation>잠시 기다려주십시오 ...</translation>
     </message>
     <message>
-        <source>&amp;Finish</source>
-        <translation>&amp;끝</translation>
-    </message>
-    <message>
-        <source>You've created an escrow for</source>
-        <translation>당신은 에스크로를 들어 만든</translation>
+        <source>Finish</source>
+        <translation>끝</translation>
     </message>
     <message>
         <source>of</source>
@@ -4701,12 +4669,16 @@
         <translation>...에 대한</translation>
     </message>
     <message>
-        <source>Your payment is in escrow!</source>
-        <translation>결제가 에스크로입니다!</translation>
-    </message>
-    <message>
         <source>The merchant has been sent your delivery information and your item should arrive shortly. The merchant may follow-up with further information through a private message (please check your inbox regularly).</source>
         <translation>상인은 배송 정보를 전송했습니다과 당신의 품목이 곧 도착합니다. 상인은 (정기적으로받은 편지함을 확인하시기 바랍니다) 개인 메시지를 통해 더 많은 정보와 후속 수 있습니다.</translation>
+    </message>
+    <message>
+        <source>You've purchased</source>
+        <translation>당신은 구입 한</translation>
+    </message>
+    <message>
+        <source>Your payment is complete!</source>
+        <translation>결제가 완료되었습니다!</translation>
     </message>
     <message>
         <source>Please click Finish</source>
@@ -4806,7 +4778,7 @@
         <translation>할인</translation>
     </message>
     <message>
-        <source>Expires In</source>
+        <source>Expires On</source>
         <translation>에 만료</translation>
     </message>
 </context>
@@ -4973,7 +4945,7 @@
     </message>
     <message>
         <source>&amp;Start Syscoin Core on system login</source>
-        <translation>시스템 로그인에 &amp; 시작 Syscoin 코어</translation>
+        <translation>시스템 로그인에  시작 Syscoin 코어</translation>
     </message>
     <message>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
@@ -5226,8 +5198,8 @@
         <translation>오류 내보내기</translation>
     </message>
     <message>
-        <source>Could not write to file %1.</source>
-        <translation>%1을 파일에 쓸 수 없습니다.</translation>
+        <source>Could not write to file: </source>
+        <translation>파일에 쓸 수 없습니다 :</translation>
     </message>
 </context>
 <context>
@@ -6600,16 +6572,24 @@
         <translation>네트워크와 동기화중...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>개요(&amp;O)</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>노드</translation>
     </message>
     <message>
+        <source>Overview</source>
+        <translation>개요</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>지갑의 일반적 개요를 보여줍니다.</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>보내다</translation>
+    </message>
+    <message>
+        <source>Receive</source>
+        <translation>받다</translation>
     </message>
     <message>
         <source>&amp;Transactions</source>
@@ -6618,6 +6598,22 @@
     <message>
         <source>Browse transaction history</source>
         <translation>거래내역을 검색합니다.</translation>
+    </message>
+    <message>
+        <source>Aliases</source>
+        <translation>별칭</translation>
+    </message>
+    <message>
+        <source>Marketplace</source>
+        <translation>시장</translation>
+    </message>
+    <message>
+        <source>Certificates</source>
+        <translation>인증서</translation>
+    </message>
+    <message>
+        <source>Escrow</source>
+        <translation>조건부 날인 증서</translation>
     </message>
     <message>
         <source>E&amp;xit</source>
@@ -6706,14 +6702,6 @@
     <message>
         <source>Wallet</source>
         <translation>지갑</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>보내기(&amp;S)</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>받기(&amp;R)</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>
@@ -6820,40 +6808,20 @@
         <translation>현재까지</translation>
     </message>
     <message>
-        <source>A&amp;liases</source>
-        <translation>A &amp; liases</translation>
-    </message>
-    <message>
         <source>Manage aliases</source>
         <translation>별칭 관리</translation>
-    </message>
-    <message>
-        <source>&amp;Messages</source>
-        <translation>및 메시지</translation>
     </message>
     <message>
         <source>Messages</source>
         <translation>메시지</translation>
     </message>
     <message>
-        <source>&amp;Marketplace</source>
-        <translation>&amp;시장</translation>
-    </message>
-    <message>
         <source>Manage offers</source>
         <translation>이벤트 관리</translation>
     </message>
     <message>
-        <source>&amp;Certificates</source>
-        <translation>및 인증서</translation>
-    </message>
-    <message>
         <source>Manage Certificates</source>
         <translation>인증서 관리</translation>
-    </message>
-    <message>
-        <source>&amp;Escrow</source>
-        <translation>&amp;조건부 날인 증서</translation>
     </message>
     <message>
         <source>Escrows with offers</source>

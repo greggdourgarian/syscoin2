@@ -13,10 +13,6 @@
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Visi</translation>
     </message>
@@ -457,10 +453,6 @@
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Kableliais atskirtų duomenų failas (*.csv)</translation>
     </message>
@@ -474,10 +466,6 @@
     <message>
         <source>Total:</source>
         <translation>Viso:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Gerai</translation>
     </message>
     </context>
 <context>
@@ -569,10 +557,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -610,10 +594,6 @@
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Visi</translation>
     </message>
@@ -633,10 +613,6 @@
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>Kableliais atskirtų duomenų failas (*.csv)</translation>
     </message>
@@ -646,10 +622,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
     </message>
     <message>
         <source>All</source>
@@ -671,10 +643,6 @@
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>Visi</translation>
     </message>
@@ -688,10 +656,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
     </message>
     <message>
         <source>All</source>
@@ -710,10 +674,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>Eksportuoti informaciją iš dabartinės lentelės į failą</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;Eksportuoti</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -776,10 +736,6 @@
     <message>
         <source>Total:</source>
         <translation>Viso:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Gerai</translation>
     </message>
     </context>
 <context>
@@ -1528,10 +1484,6 @@
         <translation>Sinchronizavimas su tinklu ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;Apžvalga</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>Taškas</translation>
     </message>
@@ -1626,14 +1578,6 @@
     <message>
         <source>Wallet</source>
         <translation>Piniginė</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;Siųsti</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;Gauti</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

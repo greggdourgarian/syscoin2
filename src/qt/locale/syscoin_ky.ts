@@ -96,8 +96,8 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Жарайт</translation>
+        <source>General</source>
+        <translation>Жалпы</translation>
     </message>
     </context>
 <context>
@@ -201,10 +201,6 @@
     </context>
 <context>
     <name>OfferAcceptInfoDialog</name>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;Жарайт</translation>
-    </message>
     </context>
 <context>
     <name>OfferAcceptTableModel</name>

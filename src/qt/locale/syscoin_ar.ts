@@ -13,10 +13,6 @@
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>الكل</translation>
     </message>
@@ -517,10 +513,6 @@
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>ملف مفصول بفواصل (*.csv)</translation>
     </message>
@@ -528,16 +520,16 @@
 <context>
     <name>EscrowInfoDialog</name>
     <message>
+        <source>General</source>
+        <translation>عام</translation>
+    </message>
+    <message>
         <source>ID</source>
         <translation>العنوان</translation>
     </message>
     <message>
         <source>Total:</source>
         <translation>المجموع:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>تم</translation>
     </message>
     </context>
 <context>
@@ -681,10 +673,6 @@
         <source>Export the data in the current tab to a file</source>
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
     </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
-    </message>
 </context>
 <context>
     <name>MessageTableModel</name>
@@ -722,10 +710,6 @@
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>الكل</translation>
     </message>
@@ -745,10 +729,6 @@
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
-    </message>
-    <message>
         <source>Comma separated file (*.csv)</source>
         <translation>ملف مفصول بفواصل (*.csv)</translation>
     </message>
@@ -758,10 +738,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
     </message>
     <message>
         <source>All</source>
@@ -783,10 +759,6 @@
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
     </message>
     <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
-    </message>
-    <message>
         <source>All</source>
         <translation>الكل</translation>
     </message>
@@ -800,10 +772,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
     </message>
     <message>
         <source>All</source>
@@ -822,10 +790,6 @@
     <message>
         <source>Export the data in the current tab to a file</source>
         <translation>تحميل البيانات في علامة التبويب الحالية إلى ملف.</translation>
-    </message>
-    <message>
-        <source>&amp;Export</source>
-        <translation>&amp;تصدير</translation>
     </message>
     <message>
         <source>Comma separated file (*.csv)</source>
@@ -880,10 +844,6 @@
     <message>
         <source>Total:</source>
         <translation>المجموع:</translation>
-    </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>تم</translation>
     </message>
     </context>
 <context>
@@ -1732,10 +1692,6 @@
         <translation>مزامنة مع الشبكة ...</translation>
     </message>
     <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;نظرة عامة</translation>
-    </message>
-    <message>
         <source>Node</source>
         <translation>جهاز</translation>
     </message>
@@ -1834,14 +1790,6 @@
     <message>
         <source>Wallet</source>
         <translation>محفظة</translation>
-    </message>
-    <message>
-        <source>&amp;Send</source>
-        <translation>&amp;ارسل</translation>
-    </message>
-    <message>
-        <source>&amp;Receive</source>
-        <translation>&amp;استقبل</translation>
     </message>
     <message>
         <source>&amp;Show / Hide</source>

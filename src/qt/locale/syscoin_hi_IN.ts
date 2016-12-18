@@ -271,10 +271,6 @@
         <source>ID</source>
         <translation>ID</translation>
     </message>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;ओके</translation>
-    </message>
     </context>
 <context>
     <name>EscrowListPage</name>
@@ -429,10 +425,6 @@
     </context>
 <context>
     <name>OfferAcceptInfoDialog</name>
-    <message>
-        <source>&amp;OK</source>
-        <translation>&amp;ओके</translation>
-    </message>
     </context>
 <context>
     <name>OfferAcceptTableModel</name>
@@ -708,10 +700,6 @@
     <message>
         <source>Synchronizing with network...</source>
         <translation>नेटवर्क से समकालिक (मिल) रहा है ...</translation>
-    </message>
-    <message>
-        <source>&amp;Overview</source>
-        <translation>&amp;विवरण</translation>
     </message>
     <message>
         <source>Show general overview of wallet</source>
