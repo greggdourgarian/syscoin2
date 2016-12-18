@@ -150,6 +150,8 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
 	AliasNew("node1", "aliassold", "password", "changeddata1");
+	GenerateBlocks(5, "node1");
+	MilliSleep(2500);	
 	AliasNew("node1", "aliasnew", "password", "changeddata1");
 	// avoid txindex node giving us data
 	StopNode("node4");
@@ -191,12 +193,10 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
 
 
-	// node 2 doesn't download the offer since it expired while node2 was offline
+	// node 3 doesn't download the offer since it expired while node 3 was offline
 	BOOST_CHECK_THROW(r = CallRPC("node3", "offerinfo " + offerguid), runtime_error);
 	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "Off"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "On"), false);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
