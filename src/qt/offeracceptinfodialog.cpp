@@ -97,7 +97,7 @@ void OfferAcceptInfoDialog::SetFeedbackUI(const UniValue &feedbackObj, const QSt
 		int unixTime = time.toInt();
 		dateTime.setTime_t(unixTime);
 		time = dateTime.toString();	
-		QLabel *timeText = new QLabel(tr("<b>%1</b>").arg(time));
+		QLabel *timeText = new QLabel(QString("<b>%1</b>").arg(time));
 		timeBox->addWidget(timeLabel);
 		timeBox->addWidget(timeText);
 		timeBox->addStretch(1);
