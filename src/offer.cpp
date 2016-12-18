@@ -954,7 +954,7 @@ bool isExpired;
 					if(!GetVtxOfAlias(theOffer.vchAlias, alias, vtxAliasPos, isExpired))
 					{
 						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1096 - " + _("Cannot find alias for this linked offer. It may be expired");
-						return true;
+						theOffer = dbOffer;
 					}
 				}
 			}
