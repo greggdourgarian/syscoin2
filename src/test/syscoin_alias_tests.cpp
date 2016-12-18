@@ -141,109 +141,6 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 
 
 }
-BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
-{
-	printf("Running generate_offer_aliasexpiry_resync...\n");
-	UniValue r;
-	GenerateBlocks(5);
-	GenerateBlocks(5, "node2");
-	GenerateBlocks(5, "node3");
-	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
-	AliasNew("node1", "aliasold", "password", "changeddata1");
-	printf("Sleeping 5 seconds between the creation of the two aliases for this test...\n");
-	MilliSleep(5000);
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	GenerateBlocks(5, "node3");
-	GenerateBlocks(50);
-	AliasNew("node1", "aliasnew", "passworda", "changeddata1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
-	int64_t aliasoldexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
-	int64_t aliasnewexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
-	BOOST_CHECK(aliasoldexpiry > mediantime);
-	BOOST_CHECK(aliasoldexpiry < aliasnewexpiry);
-	StopNode("node3");
-	GenerateBlocks(5, "node1");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasnew category title 1 0.05 description USD"));
-	const UniValue &arr = r.get_array();
-	string offerguid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(aliasnewexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasold " + offerguid + " category title 1 0.05 description"));
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-	
-	
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
-	
-	ExpireAlias("aliasold");
-	GenerateBlocks(5, "node1");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
-	BOOST_CHECK(aliasoldexpiry <= mediantime);
-	BOOST_CHECK(aliasnewexpiry > mediantime);
-
-	StopNode("node1");
-	StartNode("node1");
-
-	// aliasnew should still be active, but offer was set to aliasold so it should be expired
-	ExpireAlias("aliasold");
-	GenerateBlocks(5, "node1");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
-	BOOST_CHECK(aliasoldexpiry <= mediantime);
-	BOOST_CHECK(aliasnewexpiry > mediantime);
-
-	// it will find from wallet.dat
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
-	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
-	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-
-	StartNode("node3");
-	ExpireAlias("aliasold");
-	GenerateBlocks(5, "node3");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
-	BOOST_CHECK(aliasoldexpiry <= mediantime);
-	BOOST_CHECK(aliasnewexpiry > mediantime);
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo aliasnew"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
-	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo aliasnew"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
-
-
-	// node 3 doesn't download the offer since it expired while node 3 was offline
-	BOOST_CHECK_THROW(r = CallRPC("node3", "offerinfo " + offerguid), runtime_error);
-	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "Off"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "On"), false);
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
-	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
-
-}
 BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 {
 	printf("Running generate_aliastransfer...\n");
@@ -1000,8 +897,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	GenerateBlocks(5, "node3");
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node1");
-	// ensure node3 can see (not pruned) expired escrows that aren't complete or refunded yet
-	BOOST_CHECK_NO_THROW(CallRPC("node3", "escrowinfo " + escrowguid));
+	// since all aliases are expired related to that escrow, the escrow was pruned
+	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + escrowguid), runtime_error);
 	// and node2
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
