@@ -66,7 +66,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 {
 	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/wallet.dat")))
 	{
-		boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),copy_option::overwrite_if_exists);
+		boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
 		boost::filesystem::remove(boost::filesystem::system_complete(dataDir + "/wallet.dat"));
 	}
     boost::filesystem::path fpath = boost::filesystem::system_complete("../syscoind");
@@ -164,7 +164,7 @@ void StopNode (const string &dataDir) {
 	}
 
 	MilliSleep(3000);
-	boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete(dataDir + "/wallet.dat"),copy_option::overwrite_if_exists);
+	boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
 	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest")))
 		boost::filesystem::remove_all(boost::filesystem::system_complete(dataDir + "/regtest"));
 }
