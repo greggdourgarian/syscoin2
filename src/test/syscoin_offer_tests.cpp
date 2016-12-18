@@ -647,10 +647,11 @@ BOOST_AUTO_TEST_CASE (generate_offerban)
 	UniValue r;
 	GenerateBlocks(10);
 	GenerateBlocks(10, "node2");
+	AliasNew("node2", "selleralias15ban", "changeddata2", "privdata2");
 	// offer is safe to search
-	string offerguidsafe = OfferNew("node2", "selleralias15", "category", "title", "100", "10.00", "description", "USD", "nocert", "NONE", "location", "Yes");
+	string offerguidsafe = OfferNew("node2", "selleralias15ban", "category", "title", "100", "10.00", "description", "USD", "nocert", "NONE", "location", "Yes");
 	// not safe to search
-	string offerguidnotsafe = OfferNew("node2", "selleralias15", "category", "title", "100", "10.00", "description", "USD", "nocert", "NONE", "location", "No");
+	string offerguidnotsafe = OfferNew("node2", "selleralias15ban", "category", "title", "100", "10.00", "description", "USD", "nocert", "NONE", "location", "No");
 	// can't ban on any other node than one that created sysban
 	BOOST_CHECK_THROW(OfferBan("node2",offerguidnotsafe,SAFETY_LEVEL1), runtime_error);
 	BOOST_CHECK_THROW(OfferBan("node3",offerguidsafe,SAFETY_LEVEL1), runtime_error);
