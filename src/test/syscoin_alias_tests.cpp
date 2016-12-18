@@ -150,22 +150,28 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
 	AliasNew("node1", "aliassold", "password", "changeddata1");
-	 MilliSleep(2500);
+	
 	GenerateBlocks(50, "node1");
 	GenerateBlocks(50, "node1");
 	GenerateBlocks(50, "node1");
-	MilliSleep(2500);	
-	AliasNew("node1", "aliasnew", "password", "changeddata1");
+
+	AliasNew("node1", "aliasnew", "passworda", "changeddata1");
 	// avoid txindex node giving us data
 	StopNode("node4");
 	StopNode("node3");
+	GenerateBlocks(5, "node1");
+
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasnew category title 1 0.05 description USD"));
 	const UniValue &arr = r.get_array();
 	string offerguid = arr[1].get_str();
 	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
+	
 
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliassold " + offerguid + " category title 1 0.05 description"));
 	GenerateBlocks(5, "node1");
+	GenerateBlocks(5, "node2");
+	
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
 	
