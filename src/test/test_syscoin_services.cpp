@@ -98,7 +98,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 			{
 				if(node1LastBlock > find_value(r.get_obj(), "blocks").get_int())
 				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node1LastBlock);
+					printf("Waiting for %s to catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node1LastBlock);
 					MilliSleep(500);
 					continue;
 				}
