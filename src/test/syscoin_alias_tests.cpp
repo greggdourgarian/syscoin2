@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
 	int64_t aliasoldexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
-	int64_t alianewexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
+	int64_t aliasnewexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
 	// avoid txindex node giving us data
 	StopNode("node4");
 	StopNode("node3");
