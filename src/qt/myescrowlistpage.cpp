@@ -312,6 +312,8 @@ void MyEscrowListPage::slotConfirmedFinished(QNetworkReply * reply){
 		}
 		else
 		{
+			ui->extButton->setText(m_buttonText);
+			ui->extButton->setEnabled(true);
 			QMessageBox::critical(this, windowTitle(),
 				tr("Payment transaction found but it has not been confirmed by the blockchain yet! Please try again later. Chain: ") + chain,
 					QMessageBox::Ok, QMessageBox::Ok);
