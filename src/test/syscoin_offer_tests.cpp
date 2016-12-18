@@ -647,7 +647,6 @@ BOOST_AUTO_TEST_CASE (generate_offerban)
 	UniValue r;
 	GenerateBlocks(10);
 	GenerateBlocks(10, "node2");
-	AliasNew("node2", "selleralias15", "changeddata2", "privdata2");
 	// offer is safe to search
 	string offerguidsafe = OfferNew("node2", "selleralias15", "category", "title", "100", "10.00", "description", "USD", "nocert", "NONE", "location", "Yes");
 	// not safe to search
