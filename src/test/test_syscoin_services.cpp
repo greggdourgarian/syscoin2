@@ -108,7 +108,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 			{
 				if(node2LastBlock > find_value(r.get_obj(), "blocks").get_int())
 				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node2LastBlock);
+					printf("Waiting for %s to catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node2LastBlock);
 					MilliSleep(500);
 					continue;
 				}
@@ -118,7 +118,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 			{
 				if(node3LastBlock > find_value(r.get_obj(), "blocks").get_int())
 				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node3LastBlock);
+					printf("Waiting for %s to catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node3LastBlock);
 					MilliSleep(500);
 					continue;
 				}
@@ -128,7 +128,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 			{
 				if(node4LastBlock > find_value(r.get_obj(), "blocks").get_int())
 				{
-					printf("Waiting for %s to come catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node4LastBlock);
+					printf("Waiting for %s to catch up, current block number %d vs total blocks %d...\n", dataDir.c_str(), find_value(r.get_obj(), "blocks").get_int(), node4LastBlock);
 					MilliSleep(500);
 					continue;
 				}
