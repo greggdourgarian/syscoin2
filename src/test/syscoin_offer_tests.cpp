@@ -607,7 +607,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
-	AliasNew("node1", "aliassold", "password", "changeddata1");
+	AliasNew("node1", "aliasold", "password", "changeddata1");
 	GenerateBlocks(100);
 	AliasNew("node1", "aliasnew", "password", "changeddata1");
 	StopNode("node2");
@@ -616,17 +616,17 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	string offerguid = arr[1].get_str();
 	GenerateBlocks(5, "node1");
 
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliassold " + offerguid + " category title 1 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasold " + offerguid + " category title 1 0.05 description"));
 	GenerateBlocks(5, "node1");
 	
-	ExpireAlias("aliassold");
+	ExpireAlias("aliasold");
 	StopNode("node1");
 	StartNode("node1");
 	// aliasnew should still be active, but offer was set to aliasold so it should be expired
-	ExpireAlias("aliassold");
+	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node1");
 	StartNode("node2");
-	ExpireAlias("aliassold");
+	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node2");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));

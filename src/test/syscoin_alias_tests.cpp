@@ -149,12 +149,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
-	AliasNew("node1", "aliassold", "password", "changeddata1");
-	
-	GenerateBlocks(50, "node1");
-	GenerateBlocks(50, "node1");
-	GenerateBlocks(50, "node1");
-
+	AliasNew("node1", "aliasold", "password", "changeddata1");
 	AliasNew("node1", "aliasnew", "passworda", "changeddata1");
 	// avoid txindex node giving us data
 	StopNode("node4");
@@ -167,30 +162,35 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
 	
-
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliassold " + offerguid + " category title 1 0.05 description"));
+	// this will update both aliasold and aliasnew because you are changing aliases and you must prove you own both
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasold " + offerguid + " category title 1 0.05 description"));
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
+
+	// update aliasnew but not aliasold
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasnew newdata privdata"));
+	GenerateBlocks(5, "node1");
+	
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
 	
-	ExpireAlias("aliassold");
+	ExpireAlias("aliasold");
 	StopNode("node1");
 	StartNode("node1");
-	// aliasnew should still be active, but offer was set to aliassold so it should be expired
-	ExpireAlias("aliassold");
+	// aliasnew should still be active, but offer was set to aliasold so it should be expired
+	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node1");
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliassold"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
 
 	StartNode("node3");
-	ExpireAlias("aliassold");
+	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node3");
 
 
@@ -209,9 +209,9 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
 	StartNode("node4");
-	ExpireAlias("aliassold");
+	ExpireAlias("aliasold");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliastransfer)
