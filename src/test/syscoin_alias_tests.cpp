@@ -150,12 +150,14 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
 	AliasNew("node1", "aliasold", "password", "changeddata1");
-	MilliSleep(10000);
 	AliasNew("node1", "aliasnew", "passworda", "changeddata1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
 	int64_t aliasoldexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
 	int64_t aliasnewexpiry = find_value(r.get_obj(), "expires_on").get_int64();	
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
+	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	BOOST_CHECK(aliasoldexpiry > mediantime);
 	BOOST_CHECK(aliasoldexpiry < aliasnewexpiry);
 	// avoid txindex node giving us data
 	StopNode("node4");
@@ -182,11 +184,22 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	
 	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node1");
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
+	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	BOOST_CHECK(aliasoldexpiry <= mediantime);
+	BOOST_CHECK(aliasnewexpiry > mediantime);
+
 	StopNode("node1");
 	StartNode("node1");
 	// aliasnew should still be active, but offer was set to aliasold so it should be expired
 	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node1");
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
+	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	BOOST_CHECK(aliasoldexpiry <= mediantime);
+	BOOST_CHECK(aliasnewexpiry > mediantime);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
 	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
@@ -201,6 +214,10 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	ExpireAlias("aliasold");
 	GenerateBlocks(5, "node3");
 
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
+	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	BOOST_CHECK(aliasoldexpiry <= mediantime);
+	BOOST_CHECK(aliasnewexpiry > mediantime);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
