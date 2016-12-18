@@ -190,8 +190,8 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK(aliasoldexpiry <= mediantime);
 	BOOST_CHECK(aliasnewexpiry > mediantime);
 
-	//StopNode("node1");
-	//StartNode("node1");
+	StopNode("node1");
+	StartNode("node1");
 
 	// aliasnew should still be active, but offer was set to aliasold so it should be expired
 	ExpireAlias("aliasold");
