@@ -26,7 +26,15 @@ void StartNodes()
 	node2LastBlock=0;
 	node3LastBlock=0;
 	node4LastBlock=0;
-
+	if(boost::filesystem::exists(boost::filesystem::system_complete("node1/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("node1//wallet.dat"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("node2/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("node2//wallet.dat"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("node3/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("node3//wallet.dat"));
+	if(boost::filesystem::exists(boost::filesystem::system_complete("node4/wallet.dat")))
+		boost::filesystem::remove(boost::filesystem::system_complete("node4//wallet.dat"));
+	
 	StopMainNetNodes();
 	printf("Starting 4 nodes in a regtest setup...\n");
 	StartNode("node1");
@@ -164,7 +172,8 @@ void StopNode (const string &dataDir) {
 	}
 
 	MilliSleep(3000);
-	boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
+	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat")))
+		boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
 	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest")))
 		boost::filesystem::remove_all(boost::filesystem::system_complete(dataDir + "/regtest"));
 }
