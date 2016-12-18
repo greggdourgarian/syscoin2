@@ -23,17 +23,6 @@ void StartNodes()
 	printf("Stopping any test nodes that are running...\n");
 	StopNodes();
 	StopMainNetNodes();
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node1/regtest")))
-		boost::filesystem::remove_all(boost::filesystem::system_complete("node1/regtest"));
-	MilliSleep(1000);
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node2/regtest")))
-		boost::filesystem::remove_all(boost::filesystem::system_complete("node2/regtest"));
-	MilliSleep(1000);
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node3/regtest")))
-		boost::filesystem::remove_all(boost::filesystem::system_complete("node3/regtest"));
-	MilliSleep(1000);
-	if(boost::filesystem::exists(boost::filesystem::system_complete("node4/regtest")))
-		boost::filesystem::remove_all(boost::filesystem::system_complete("node4/regtest"));
 	printf("Starting 4 nodes in a regtest setup...\n");
 	StartNode("node1");
 	StartNode("node2");
@@ -62,38 +51,10 @@ void StopMainNetNodes()
 }
 void StopNodes()
 {
-	printf("Stopping node1..\n");
-	try{
-		CallRPC("node1", "stop");
-	}
-	catch(const runtime_error& error)
-	{
-	}	
-	MilliSleep(3000);
-	printf("Stopping node2..\n");
-	try{
-		CallRPC("node2", "stop");
-	}
-	catch(const runtime_error& error)
-	{
-	}	
-	MilliSleep(3000);
-	printf("Stopping node3..\n");
-	try{
-		CallRPC("node3", "stop");
-	}
-	catch(const runtime_error& error)
-	{
-	}	
-	MilliSleep(3000);
-	MilliSleep(3000);
-	printf("Stopping node4..\n");
-	try{
-		CallRPC("node4", "stop");
-	}
-	catch(const runtime_error& error)
-	{
-	}
+	StopNode("node1");
+	StopNode("node2");
+	StopNode("node3");
+	StopNode("node4");
 	printf("Done!\n");
 }
 void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
@@ -101,7 +62,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
     boost::filesystem::path fpath = boost::filesystem::system_complete("../syscoind");
 	string nodePath = fpath.string() + string(" -datadir=") + dataDir;
 	if(regTest)
-		nodePath += string(" -regtest -reindex -debug");
+		nodePath += string(" -regtest -debug");
 	if(!extraArgs.empty())
 		nodePath += string(" ") + extraArgs;
     boost::thread t(runCommand, nodePath);
@@ -191,7 +152,10 @@ void StopNode (const string &dataDir) {
 	catch(const runtime_error& error)
 	{
 	}
+
 	MilliSleep(3000);
+	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest")))
+		boost::filesystem::remove_all(boost::filesystem::system_complete(dataDir + "/regtest"));
 }
 
 UniValue CallRPC(const string &dataDir, const string& commandWithArgs, bool regTest, bool readJson)
