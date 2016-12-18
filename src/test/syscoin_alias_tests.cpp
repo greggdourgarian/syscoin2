@@ -168,11 +168,11 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	ExpireAlias("aliassold");
 	StopNode("node1");
 	StartNode("node1");
-	// aliasnew should still be active, but offer was set to aliasold so it should be expired
+	// aliasnew should still be active, but offer was set to aliassold so it should be expired
 	ExpireAlias("aliassold");
 	GenerateBlocks(5, "node1");
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliassold"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 
 
 	// node 2 doesn't download the offer since it expired while node2 was offline
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offerinfo " + offerguid), runtime_error);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "Off"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "On"), false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
