@@ -150,11 +150,10 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
 	AliasNew("node1", "aliassold", "password", "changeddata1");
-	GenerateBlocks(100);
 	AliasNew("node1", "aliasnew", "password", "changeddata1");
 	// avoid txindex node giving us data
 	StopNode("node4");
-	StopNode("node2");
+	StopNode("node3");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasnew category title 1 0.05 description USD"));
 	const UniValue &arr = r.get_array();
 	string offerguid = arr[1].get_str();
@@ -179,9 +178,9 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
 
-	StartNode("node2");
+	StartNode("node3");
 	ExpireAlias("aliassold");
-	GenerateBlocks(5, "node2");
+	GenerateBlocks(5, "node3");
 
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasnew"));
@@ -193,13 +192,13 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 
 
 	// node 2 doesn't download the offer since it expired while node2 was offline
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
-	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "Off"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node2", offerguid, "On"), false);
+	BOOST_CHECK_THROW(r = CallRPC("node3", "offerinfo " + offerguid), runtime_error);
+	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "Off"), false);
+	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "On"), false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "offerinfo " + offerguid));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliassold");	
 	StartNode("node4");
