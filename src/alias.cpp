@@ -77,7 +77,7 @@ bool GetTimeToPrune(const CScript& scriptPubKey, uint64_t &nTime)
 		if(alias.vchAlias == vchFromString("sysrates.peg") || alias.vchAlias == vchFromString("sysban") || alias.vchAlias == vchFromString("syscategory"))
 		{
 			// setting to the tip means we don't prune this data, we keep it
-			nTime = chainActive.Tip()->GetMedianTimePast() + 100;
+			nTime = chainActive.Tip()->nTime + 1;
 			return true;
 		}
 		CAliasUnprunable aliasUnprunable;
@@ -97,7 +97,7 @@ bool GetTimeToPrune(const CScript& scriptPubKey, uint64_t &nTime)
 		else
 		{
 			// setting to the tip means we don't prune this data, we keep it
-			nTime = chainActive.Tip()->GetMedianTimePast() + 100;
+			nTime = chainActive.Tip()->nTime + 1;
 			return true;
 		}
 	}
@@ -128,7 +128,7 @@ bool IsSysServiceExpired(const uint64_t &nTime)
 {
 	if(!chainActive.Tip() || fTxIndex)
 		return false;
-	return (chainActive.Tip()->GetMedianTimePast() >= nTime);
+	return (chainActive.Tip()->nTime >= nTime);
 
 }
 bool IsSyscoinScript(const CScript& scriptPubKey, int &op, vector<vector<unsigned char> > &vvchArgs)
@@ -1244,7 +1244,7 @@ bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const strin
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= txPos.nExpireTime)
+  				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
 					pcursor->Next();
 					continue;
@@ -1311,7 +1311,7 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= txPos.nExpireTime)
+  				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
 					servicesCleaned++;
 					EraseAlias(vchMyAlias);
@@ -1383,7 +1383,7 @@ bool GetTxOfAlias(const vector<unsigned char> &vchAlias,
 	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
-		if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= txPos.nExpireTime) {
+		if (!skipExpiresCheck && chainActive.Tip()->nTime >= txPos.nExpireTime) {
 			string name = stringFromVch(vchAlias);
 			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
 			return false;
@@ -1404,7 +1404,7 @@ bool GetTxAndVtxOfAlias(const vector<unsigned char> &vchAlias,
 	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
-		if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= txPos.nExpireTime) {
+		if (!skipExpiresCheck && chainActive.Tip()->nTime >= txPos.nExpireTime) {
 			string name = stringFromVch(vchAlias);
 			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
 			isExpired = true;
@@ -1425,7 +1425,7 @@ bool GetVtxOfAlias(const vector<unsigned char> &vchAlias,
 	int nHeight = txPos.nHeight;
 	if(vchAlias != vchFromString("sysrates.peg") && vchAlias != vchFromString("sysban") && vchAlias != vchFromString("syscategory"))
 	{
-		if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= txPos.nExpireTime) {
+		if (!skipExpiresCheck && chainActive.Tip()->nTime >= txPos.nExpireTime) {
 			string name = stringFromVch(vchAlias);
 			LogPrintf("GetTxOfAlias(%s) : expired", name.c_str());
 			isExpired = true;
@@ -1824,12 +1824,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		strAcceptCertTransfers = params[6].get_str();
 	}
-	uint64_t nTime = chainActive.Tip()->GetMedianTimePast()+ONE_YEAR_IN_SECONDS;
+	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 8)
 		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
 	// sanity check set to 1 hr
-	if(nTime < chainActive.Tip()->GetMedianTimePast()+3600)
-		nTime = chainActive.Tip()->GetMedianTimePast()+3600;
+	if(nTime < chainActive.Tip()->nTime+3600)
+		nTime = chainActive.Tip()->nTime+3600;
     int nMultiSig = 1;
 	if(params.size() >= 9)
 		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
@@ -1977,7 +1977,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
-	uint64_t nTimeExpiry = nTime - chainActive.Tip()->GetMedianTimePast();
+	uint64_t nTimeExpiry = nTime - chainActive.Tip()->nTime;
 	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 	if(fYears < 1)
 		fYears = 1;
@@ -2089,12 +2089,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		strAcceptCertTransfers = params[7].get_str();
 	}
-	uint64_t nTime = chainActive.Tip()->GetMedianTimePast()+ONE_YEAR_IN_SECONDS;
+	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(params.size() >= 9)
 		nTime = boost::lexical_cast<uint64_t>(params[8].get_str());
 	// sanity check set to 1 hr
-	if(nTime < chainActive.Tip()->GetMedianTimePast()+3600)
-		nTime = chainActive.Tip()->GetMedianTimePast()+3600;
+	if(nTime < chainActive.Tip()->nTime+3600)
+		nTime = chainActive.Tip()->nTime+3600;
     int nMultiSig = 1;
 	if(params.size() >= 10)
 		nMultiSig = boost::lexical_cast<int>(params[9].get_str());
@@ -2265,7 +2265,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, copyAlias.vchAliasPeg,  chainActive.Tip()->nHeight, data, fee);
 	// calculate a fee if renewal is larger than default.. based on how many years you extend for it will be exponentially more expensive
-	uint64_t nTimeExpiry = nTime - chainActive.Tip()->GetMedianTimePast();
+	uint64_t nTimeExpiry = nTime - chainActive.Tip()->nTime;
 	float fYears = nTimeExpiry / ONE_YEAR_IN_SECONDS;
 	if(fYears < 1)
 		fYears = 1;
@@ -2914,11 +2914,11 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	if(alias.vchAlias != vchFromString("sysrates.peg") && alias.vchAlias != vchFromString("sysban") && alias.vchAlias != vchFromString("syscategory"))
 	{
 		expired_time = alias.nExpireTime;
-		if(expired_time <= chainActive.Tip()->GetMedianTimePast())
+		if(expired_time <= chainActive.Tip()->nTime)
 		{
 			expired = 1;
 		}  
-		expires_in = expired_time - chainActive.Tip()->GetMedianTimePast();
+		expires_in = expired_time - chainActive.Tip()->nTime;
 		if(expires_in < -1)
 			expires_in = -1;
 	}

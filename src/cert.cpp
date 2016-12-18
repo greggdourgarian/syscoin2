@@ -130,7 +130,7 @@ bool IsCertOp(int op) {
 }
 
 uint64_t GetCertExpiration(const CCert& cert) {
-	uint64_t nTime = chainActive.Tip()->GetMedianTimePast() + 100;
+	uint64_t nTime = chainActive.Tip()->nTime + 1;
 	CAliasUnprunable aliasUnprunable;
 	if (paliasdb && paliasdb->ReadAliasUnprunable(cert.vchAlias, aliasUnprunable) && !aliasUnprunable.IsNull())
 		nTime = aliasUnprunable.nExpireTime;
@@ -212,7 +212,7 @@ bool CCertDB::CleanupDatabase(int &servicesCleaned)
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= GetCertExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetCertExpiration(txPos))
 				{
 					servicesCleaned++;
 					EraseCert(vchMyCert);
@@ -253,7 +253,7 @@ bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string 
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= GetCertExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetCertExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -357,7 +357,7 @@ bool GetTxOfCert(const vector<unsigned char> &vchCert,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetCertExpiration(txPos)) {
+    if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetCertExpiration(txPos)) {
         string cert = stringFromVch(vchCert);
         LogPrintf("GetTxOfCert(%s) : expired", cert.c_str());
         return false;
@@ -375,7 +375,7 @@ bool GetTxAndVtxOfCert(const vector<unsigned char> &vchCert,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetCertExpiration(txPos)) {
+    if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetCertExpiration(txPos)) {
         string cert = stringFromVch(vchCert);
         LogPrintf("GetTxOfCert(%s) : expired", cert.c_str());
         return false;
@@ -392,7 +392,7 @@ bool GetVtxOfCert(const vector<unsigned char> &vchCert,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetCertExpiration(txPos)) {
+    if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetCertExpiration(txPos)) {
         string cert = stringFromVch(vchCert);
         LogPrintf("GetTxOfCert(%s) : expired", cert.c_str());
         return false;
@@ -1326,11 +1326,11 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
 	int64_t expired_time = GetCertExpiration(cert);
 	int expired = 0;
-    if(expired_time <= chainActive.Tip()->GetMedianTimePast())
+    if(expired_time <= chainActive.Tip()->nTime)
 	{
 		expired = 1;
 	}  
-	int64_t expires_in = expired_time - chainActive.Tip()->GetMedianTimePast();
+	int64_t expires_in = expired_time - chainActive.Tip()->nTime;
 	if(expires_in < -1)
 		expires_in = -1;
 

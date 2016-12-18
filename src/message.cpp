@@ -39,7 +39,7 @@ bool IsMessageOp(int op) {
 }
 
 uint64_t GetMessageExpiration(const CMessage& message) {
-	uint64_t nTime = chainActive.Tip()->GetMedianTimePast() + 100;
+	uint64_t nTime = chainActive.Tip()->nTime + 1;
 	CAliasUnprunable aliasUnprunable;
 	if (paliasdb && paliasdb->ReadAliasUnprunable(message.vchAliasTo, aliasUnprunable) && !aliasUnprunable.IsNull())
 		nTime = aliasUnprunable.nExpireTime;
@@ -115,7 +115,7 @@ bool CMessageDB::CleanupDatabase(int &servicesCleaned)
 					continue;
 				}
 				const CMessage &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= GetMessageExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetMessageExpiration(txPos))
 				{
 					servicesCleaned++;
 					EraseMessage(vchMyMessage);
@@ -150,7 +150,7 @@ bool CMessageDB::ScanRecvMessages(const std::vector<unsigned char>& vchMessage, 
 					continue;
 				}
 				const CMessage &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= GetMessageExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetMessageExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -209,7 +209,7 @@ bool GetTxOfMessage(const vector<unsigned char> &vchMessage,
         return false;
     txPos = vtxPos.back();
     int nHeight = txPos.nHeight;
-    if (chainActive.Tip()->GetMedianTimePast() >= GetMessageExpiration(txPos)) {
+    if (chainActive.Tip()->nTime >= GetMessageExpiration(txPos)) {
         string message = stringFromVch(vchMessage);
         LogPrintf("GetTxOfMessage(%s) : expired", message.c_str());
         return false;

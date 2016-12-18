@@ -83,8 +83,8 @@ bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
 }
 
 uint64_t GetOfferExpiration(const COffer& offer) {
-	// dont prune by default, set nHeight to future time
-	uint64_t nTime = chainActive.Tip()->GetMedianTimePast() + 100;
+	// dont prunte by default, set nHeight to future time
+	uint64_t nTime = chainActive.Tip()->nTime + 1;
 	CAliasUnprunable aliasUnprunable;
 	// if service alias exists in unprunable db (this should always exist for any alias that ever existed) then get the last expire height set for this alias and check against it for pruning
 	if (paliasdb && paliasdb->ReadAliasUnprunable(offer.vchAlias, aliasUnprunable) && !aliasUnprunable.IsNull())
@@ -163,7 +163,7 @@ bool COfferDB::CleanupDatabase(int &servicesCleaned)
 					continue;
 				}
 				const COffer &txPos = vtxPos.back();
-  				if (chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
 				{
 					servicesCleaned++;
 					EraseOffer(vchMyOffer);
@@ -207,7 +207,7 @@ bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const stri
 				}
 				const COffer &txPos = vtxPos.back();
 				int nQty = txPos.nQty;
-  				if (chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(txPos))
+  				if (chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
 				{
 					pcursor->Next();
 					continue;
@@ -357,7 +357,7 @@ bool GetTxOfOffer(const vector<unsigned char> &vchOffer,
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
 
-	if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(txPos)) {
+	if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetOfferExpiration(txPos)) {
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
 			LogPrintf("GetTxOfOffer(%s) : expired", offer.c_str());
@@ -377,7 +377,7 @@ bool GetTxAndVtxOfOffer(const vector<unsigned char> &vchOffer,
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
 
-	if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(txPos))
+	if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
 	{
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
@@ -398,7 +398,7 @@ bool GetVtxOfOffer(const vector<unsigned char> &vchOffer,
 	txPos = vtxPos.back();
 	int nHeight = txPos.nHeight;
 
-	if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(txPos))
+	if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
 	{
 		string offer = stringFromVch(vchOffer);
 		if(fDebug)
@@ -416,7 +416,7 @@ bool GetTxOfOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsi
 	if(!GetAcceptByHash(vtxPos, theOfferAccept, acceptOffer))
 		return false;
 
-	if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(acceptOffer))
+	if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetOfferExpiration(acceptOffer))
 	{
 		string offer = stringFromVch(vchOfferAccept);
 		if(fDebug)
@@ -438,7 +438,7 @@ bool GetOfferAccept(const vector<unsigned char> &vchOffer, const vector<unsigned
 	if(!GetAcceptByHash(vtxPos, theOfferAccept, acceptOffer))
 		return false;
 
-	if (!skipExpiresCheck && chainActive.Tip()->GetMedianTimePast() >= GetOfferExpiration(acceptOffer))
+	if (!skipExpiresCheck && chainActive.Tip()->nTime >= GetOfferExpiration(acceptOffer))
 	{
 		string offer = stringFromVch(vchOfferAccept);
 		if(fDebug)
@@ -3251,11 +3251,11 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	oOffer.push_back(Pair("cert", stringFromVch(vchCert)));
 	oOffer.push_back(Pair("txid", theOffer.txHash.GetHex()));
 	expired_time =  GetOfferExpiration(theOffer);
-    if(expired_time <= chainActive.Tip()->GetMedianTimePast())
+    if(expired_time <= chainActive.Tip()->nTime)
 	{
 		expired = 1;
 	}
-	expires_in = expired_time - chainActive.Tip()->GetMedianTimePast();
+	expires_in = expired_time - chainActive.Tip()->nTime;
 	if(expires_in < -1)
 		expires_in = -1;
 	oOffer.push_back(Pair("expires_in", expires_in));
