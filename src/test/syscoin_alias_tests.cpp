@@ -206,8 +206,10 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	BOOST_CHECK(aliasoldexpiry <= mediantime);
 	BOOST_CHECK(aliasnewexpiry > mediantime);
 
-	// should be pruned
-	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasinfo aliasold"), runtime_error);
+	// it will find from wallet.dat
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasold"));
+	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
@@ -232,10 +234,9 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 
 
 	// node 3 doesn't download the offer since it expired while node 3 was offline
-	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "offerinfo " + offerguid));
+	BOOST_CHECK_THROW(r = CallRPC("node3", "offerinfo " + offerguid), runtime_error);
 	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "Off"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "On"), false);
-	BOOST_CHECK_EQUAL(aliasoldexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
