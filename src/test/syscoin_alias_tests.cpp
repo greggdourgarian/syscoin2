@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node1");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
 	BOOST_CHECK(aliasoldexpiry <= mediantime);
 	BOOST_CHECK(aliasnewexpiry > mediantime);
 
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node1");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
 	BOOST_CHECK(aliasoldexpiry <= mediantime);
 	BOOST_CHECK(aliasnewexpiry > mediantime);
 
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node3");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
-	int64_t mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
+	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
 	BOOST_CHECK(aliasoldexpiry <= mediantime);
 	BOOST_CHECK(aliasnewexpiry > mediantime);
 
