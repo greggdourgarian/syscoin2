@@ -950,6 +950,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					if(!theOffer.vchLinkAlias.empty())
 						theOffer.vchAlias = theOffer.vchLinkAlias;
 					theOffer.vchLinkAlias.clear();
+					if(!GetVtxOfAlias(theOffer.vchAlias, alias, vtxAliasPos))
+					{
+						errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1096 - " + _("Cannot find alias for this linked offer. It may be expired");
+						return true;
+					}
 				}
 			}
 		}
