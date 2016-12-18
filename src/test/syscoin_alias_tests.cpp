@@ -150,7 +150,9 @@ BOOST_AUTO_TEST_CASE (generate_offer_aliasexpiry_resync)
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
 	AliasNew("node1", "aliassold", "password", "changeddata1");
-	GenerateBlocks(5, "node1");
+	GenerateBlocks(50, "node1");
+	GenerateBlocks(50, "node1");
+	GenerateBlocks(50, "node1");
 	MilliSleep(2500);	
 	AliasNew("node1", "aliasnew", "password", "changeddata1");
 	// avoid txindex node giving us data
