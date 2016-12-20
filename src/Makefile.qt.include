@@ -357,9 +357,8 @@ SYSCOIN_QT_H = \
 
 RES_ICONS = \
   qt/res/icons/syscoin.ico \
-  qt/res/icons/syscoin_testnet.ico 
-
-RES_ICONS += \
+  qt/res/icons/syscoin_testnet.ico \
+  qt/res/icons/shade/add.png \
   qt/res/icons/shade/address-book.png \
   qt/res/icons/shade/add.png \
   qt/res/icons/shade/about.png \
@@ -426,11 +425,9 @@ RES_ICONS += \
   qt/res/icons/shade/mailout.png \
   qt/res/icons/shade/message.png \
   qt/res/icons/shade/search.png \
-  qt/res/icons/shade/refresh.png 
-
-RES_ICONS += \
-  qt/res/icons/solid/address-book.png \
+  qt/res/icons/shade/refresh.png \
   qt/res/icons/solid/add.png \
+  qt/res/icons/solid/address-book.png \
   qt/res/icons/solid/about.png \
   qt/res/icons/solid/about_qt.png \
   qt/res/icons/solid/syscoin.png \
@@ -456,6 +453,11 @@ RES_ICONS += \
   qt/res/icons/solid/filesave.png \
   qt/res/icons/solid/history.png \
   qt/res/icons/solid/info.png \
+  qt/res/icons/solid/fontbigger.png \
+  qt/res/icons/solid/fontsmaller.png \
+  qt/res/icons/solid/hd_disabled.png \
+  qt/res/icons/solid/hd_enabled.png \
+  qt/res/icons/solid/chevron.png \
   qt/res/icons/solid/key.png \
   qt/res/icons/solid/lock_closed.png \
   qt/res/icons/solid/lock_open.png \
@@ -480,28 +482,22 @@ RES_ICONS += \
   qt/res/icons/solid/alias.png \
   qt/res/icons/solid/cart.png \
   qt/res/icons/solid/cert.png \
-  qt/res/icons/solid/chevron.png \
   qt/res/icons/solid/data.png \
   qt/res/icons/solid/details.png \
   qt/res/icons/solid/editsys.png \
   qt/res/icons/solid/escrow.png \
   qt/res/icons/solid/escrow1.png \
-  qt/res/icons/solid/fontbigger.png \
-  qt/res/icons/solid/fontsmaller.png \
-  qt/res/icons/solid/hd_disabled.png \
-  qt/res/icons/solid/hd_enabled.png \
   qt/res/icons/solid/mail.png \
   qt/res/icons/solid/mailin.png \
   qt/res/icons/solid/mailout.png \
   qt/res/icons/solid/message.png \
   qt/res/icons/solid/search.png \
-  qt/res/icons/solid/refresh.png 
-
-RES_ICONS += \
-  qt/res/icons/white/about.png \
-  qt/res/icons/white/about_qt.png \
+  qt/res/icons/solid/refresh.png \
   qt/res/icons/white/add.png \
   qt/res/icons/white/address-book.png \
+  qt/res/icons/white/about.png \
+  qt/res/icons/white/about_qt.png \
+  qt/res/icons/white/syscoin.png \
   qt/res/icons/white/clock1.png \
   qt/res/icons/white/clock2.png \
   qt/res/icons/white/clock3.png \
@@ -524,6 +520,11 @@ RES_ICONS += \
   qt/res/icons/white/filesave.png \
   qt/res/icons/white/history.png \
   qt/res/icons/white/info.png \
+  qt/res/icons/solid/fontbigger.png \
+  qt/res/icons/solid/fontsmaller.png \
+  qt/res/icons/solid/hd_disabled.png \
+  qt/res/icons/solid/hd_enabled.png \
+  qt/res/icons/solid/chevron.png \
   qt/res/icons/white/key.png \
   qt/res/icons/white/lock_closed.png \
   qt/res/icons/white/lock_open.png \
@@ -534,7 +535,6 @@ RES_ICONS += \
   qt/res/icons/white/remove.png \
   qt/res/icons/white/send.png \
   qt/res/icons/white/synced.png \
-  qt/res/icons/white/syscoin.png \
   qt/res/icons/white/transaction0.png \
   qt/res/icons/white/transaction2.png \
   qt/res/icons/white/transaction_abandoned.png \
