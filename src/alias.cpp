@@ -3008,6 +3008,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 UniValue generatepublickey(const UniValue& params, bool fHelp) {
 	if(!pwalletMain)
 		throw runtime_error("No wallet defined!");
+	EnsureWalletIsUnlocked();
 	CPubKey PubKey = pwalletMain->GenerateNewKey();
 	std::vector<unsigned char> vchPubKey(PubKey.begin(), PubKey.end());
 	UniValue res(UniValue::VARR);
