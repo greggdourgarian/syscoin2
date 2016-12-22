@@ -60,6 +60,8 @@ QT_TRANSLATE_NOOP("syscoin-core", ""
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "Do not keep transactions in the mempool longer than <n> hours (default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
+"Equivalent bytes per sigop in transactions for relay and mining (default: %u)"),
+QT_TRANSLATE_NOOP("syscoin-core", ""
 "Error loading %s: You can't enable HD on a already existing non-HD wallet"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "Error reading %s! All keys read correctly, but transaction data or address "
@@ -82,8 +84,8 @@ QT_TRANSLATE_NOOP("syscoin-core", ""
 "Fees (in %s/kB) smaller than this are considered zero fee for transaction "
 "creation (default: %s)"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
-"Force relay of transactions from whitelisted peers even they violate local "
-"relay policy (default: %d)"),
+"Force relay of transactions from whitelisted peers even if they violate "
+"local relay policy (default: %d)"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "How thorough the block verification of -checkblocks is (0-4, default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
@@ -143,6 +145,9 @@ QT_TRANSLATE_NOOP("syscoin-core", ""
 "Set the number of script verification threads (%u to %d, 0 = auto, <0 = "
 "leave that many cores free, default: %d)"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
+"Sets the serialization of raw transaction or block hex returned in non-"
+"verbose mode, non-segwit(0) or segwit(1) (default: %d)"),
+QT_TRANSLATE_NOOP("syscoin-core", ""
 "Support filtering of blocks and transaction with bloom filters (default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "The block database contains a block which appears to be from the future. "
@@ -199,8 +204,8 @@ QT_TRANSLATE_NOOP("syscoin-core", ""
 "Warning: We do not appear to fully agree with our peers! You may need to "
 "upgrade, or other nodes may need to upgrade."),
 QT_TRANSLATE_NOOP("syscoin-core", ""
-"Whitelist peers connecting from the given netmask or IP address. Can be "
-"specified multiple times."),
+"Whitelist peers connecting from the given IP address (e.g. 1.2.3.4) or CIDR "
+"notated network (e.g. 1.2.3.0/24). Can be specified multiple times."),
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "Whitelisted peers cannot be DoS banned and their transactions are always "
 "relayed, even if they are already in the mempool, useful e.g. for a gateway"),
@@ -273,6 +278,7 @@ QT_TRANSLATE_NOOP("syscoin-core", "Invalid amount for -paytxfee=<amount>: '%s' (
 QT_TRANSLATE_NOOP("syscoin-core", "Invalid netmask specified in -whitelist: '%s'"),
 QT_TRANSLATE_NOOP("syscoin-core", "Keep at most <n> unconnectable transactions in memory (default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Keep the transaction memory pool below <n> megabytes (default: %u)"),
+QT_TRANSLATE_NOOP("syscoin-core", "Keypool ran out, please call keypoolrefill first"),
 QT_TRANSLATE_NOOP("syscoin-core", "Listen for JSON-RPC connections on <port> (default: %u or testnet: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Listen for connections on <port> (default: %u or testnet: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Loading addresses..."),
@@ -284,7 +290,6 @@ QT_TRANSLATE_NOOP("syscoin-core", "Maintain at most <n> connections to peers (de
 QT_TRANSLATE_NOOP("syscoin-core", "Make the wallet broadcast transactions"),
 QT_TRANSLATE_NOOP("syscoin-core", "Maximum per-connection receive buffer, <n>*1000 bytes (default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Maximum per-connection send buffer, <n>*1000 bytes (default: %u)"),
-QT_TRANSLATE_NOOP("syscoin-core", "Minimum bytes per sigop in transactions we relay and mine (default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Need to specify a port with -whitebind: '%s'"),
 QT_TRANSLATE_NOOP("syscoin-core", "Node relay options:"),
 QT_TRANSLATE_NOOP("syscoin-core", "Not enough file descriptors available."),
@@ -311,7 +316,7 @@ QT_TRANSLATE_NOOP("syscoin-core", "Send trace/debug info to console instead of d
 QT_TRANSLATE_NOOP("syscoin-core", "Send transactions as zero-fee transactions if possible (default: %u)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Set database cache size in megabytes (%d to %d, default: %d)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Set key pool size to <n> (default: %u)"),
-QT_TRANSLATE_NOOP("syscoin-core", "Set maximum BIP141 block cost (default: %d)"),
+QT_TRANSLATE_NOOP("syscoin-core", "Set maximum BIP141 block weight (default: %d)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Set maximum block size in bytes (default: %d)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Set the number of threads to service RPC calls (default: %d)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Show all debugging options (usage: --help -help-debug)"),
@@ -324,6 +329,7 @@ QT_TRANSLATE_NOOP("syscoin-core", "Specify pid file (default: %s)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Specify wallet file (within data directory)"),
 QT_TRANSLATE_NOOP("syscoin-core", "Specify your own public address"),
 QT_TRANSLATE_NOOP("syscoin-core", "Spend unconfirmed change when sending transactions (default: %u)"),
+QT_TRANSLATE_NOOP("syscoin-core", "Starting network threads..."),
 QT_TRANSLATE_NOOP("syscoin-core", "The source code is available from %s."),
 QT_TRANSLATE_NOOP("syscoin-core", "The transaction amount is too small to pay the fee"),
 QT_TRANSLATE_NOOP("syscoin-core", "This is experimental software."),

@@ -54,6 +54,7 @@ src/qt/test/moc*.cpp
 *.pyc
 *.o
 *.o-*
+*.patch
 .syscoin
 *.a
 *.pb.cc
@@ -102,7 +103,11 @@ linux-build
 win32-build
 qa/pull-tester/run-syscoind-for-test.sh
 qa/pull-tester/tests_config.py
-qa/cache/*
+qa/pull-tester/cache/*
+qa/pull-tester/test.*/*
+qa/tmp
+cache/
+share/SyscoindComparisonTool.jar
 
 !src/leveldb*/Makefile
 
@@ -110,7 +115,3 @@ qa/cache/*
 
 libsyscoinconsensus.pc
 contrib/devtools/split-debug.sh
-
-src/test/node1/regtest
-src/test/node2/regtest
-src/test/node3/regtest
