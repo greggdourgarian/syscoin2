@@ -27,7 +27,8 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
-
+// SYSCOIN remove cmerkletx
+#include "auxpow.h" // contains CMerkleTx
 extern CWallet* pwalletMain;
 
 /**
