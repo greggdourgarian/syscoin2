@@ -1001,7 +1001,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
             }
 
             // Create new block with nonce = 0 and extraNonce = 1
-            pblocktemplate = CreateNewBlock(Params(), coinbaseScript->reserveScript);
+            pblocktemplate =  BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript);
             if (!pblocktemplate)
                 throw JSONRPCError(RPC_OUT_OF_MEMORY, "out of memory");
 
@@ -1079,7 +1079,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
     CValidationState state;
     submitblock_StateCatcher sc(block.GetHash());
     RegisterValidationInterface(&sc);
-    bool fAccepted = ProcessNewBlock(state, Params(), NULL, &block, true, NULL);
+    bool fAccepted = ProcessNewBlock(state, Params(), NULL, &block, true, NULL, false);
     UnregisterValidationInterface(&sc);
     if (fBlockPresent)
     {
