@@ -3714,7 +3714,7 @@ int CMerkleTx::SetMerkleBranch(const CBlock& block)
 
     return chainActive.Height() - pindex->nHeight + 1;
 }
-*/
+
 int CMerkleTx::GetDepthInMainChain(const CBlockIndex* &pindexRet) const
 {
     if (hashUnset())
@@ -3745,4 +3745,4 @@ int CMerkleTx::GetBlocksToMaturity() const
 bool CMerkleTx::AcceptToMemoryPool(bool fLimitFree, CAmount nAbsurdFee, CValidationState& state)
 {
     return ::AcceptToMemoryPool(mempool, state, *this, fLimitFree, NULL, false, nAbsurdFee);
-}
+}*/

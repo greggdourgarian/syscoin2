@@ -33,7 +33,7 @@ private:
 
 public:
     uint256 hashBlock;
-	std::vector<uint256> vMerkleBranch;
+
     /* An nIndex == -1 means that hashBlock (in nonzero) refers to the earliest
      * block in the chain we know this or any in-wallet dependency conflicts
      * with. Older clients interpret nIndex == -1 as unconfirmed for backward
@@ -61,8 +61,7 @@ public:
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-        // SYSCOIN
-		// std::vector<uint256> vMerkleBranch; // For compatibility with older versions.
+        std::vector<uint256> vMerkleBranch; // For compatibility with older versions.
         READWRITE(*(CTransaction*)this);
         nVersion = this->nVersion;
         READWRITE(hashBlock);
@@ -70,7 +69,7 @@ public:
         READWRITE(nIndex);
     }
 
-    int SetMerkleBranch(const CBlockIndex* pIndex, int posInBlock);
+    int SetMerkleBranch(const CBlock& block);
 
     /**
      * Return depth of transaction in blockchain:
@@ -83,7 +82,7 @@ public:
     bool IsInMainChain() const { const CBlockIndex *pindexRet; return GetDepthInMainChain(pindexRet) > 0; }
     int GetBlocksToMaturity() const;
     /** Pass this transaction to the mempool. Fails if absolute fee exceeds absurd fee. */
-    bool AcceptToMemoryPool(bool fLimitFree, CAmount nAbsurdFee);
+    bool AcceptToMemoryPool(bool fLimitFree, const CAmount nAbsurdFee, CValidationState& state);
     bool hashUnset() const { return (hashBlock.IsNull() || hashBlock == ABANDON_HASH); }
     bool isAbandoned() const { return (hashBlock == ABANDON_HASH); }
     void setAbandoned() { hashBlock = ABANDON_HASH; }

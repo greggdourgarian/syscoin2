@@ -19,26 +19,42 @@
 #include "utilstrencodings.h"
 
 #include <algorithm>
-int CMerkleTx::SetMerkleBranch(const CBlockIndex* pindex, int posInBlock)
+using namespace std;
+int CMerkleTx::SetMerkleBranch(const CBlock& block)
 {
     AssertLockHeld(cs_main);
+    CBlock blockTmp;
 
     // Update the tx's hashBlock
-    hashBlock = pindex->GetBlockHash();
+    hashBlock = block.GetHash();
 
-    // set the position of the transaction in the block
-    nIndex = posInBlock;
+    // Locate the transaction
+    for (nIndex = 0; nIndex < (int)block.vtx.size(); nIndex++)
+        if (block.vtx[nIndex] == *(CTransaction*)this)
+            break;
+    if (nIndex == (int)block.vtx.size())
+    {
+        nIndex = -1;
+        LogPrintf("ERROR: SetMerkleBranch(): couldn't find tx in block\n");
+        return 0;
+    }
 
     // Is the tx in a block that's in the main chain
-    if (!chainActive.Contains(pindex))
+    BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
+    if (mi == mapBlockIndex.end())
+        return 0;
+    const CBlockIndex* pindex = (*mi).second;
+    if (!pindex || !chainActive.Contains(pindex))
         return 0;
 
     return chainActive.Height() - pindex->nHeight + 1;
 }
+
 int CMerkleTx::GetDepthInMainChain(const CBlockIndex* &pindexRet) const
 {
-    if (hashBlock.IsNull())
+    if (hashUnset())
         return 0;
+
     AssertLockHeld(cs_main);
 
     // Find the block it claims to be in
@@ -57,12 +73,12 @@ int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return std::max(0, (COINBASE_MATURITY+1) - GetDepthInMainChain());
+    return max(0, (COINBASE_MATURITY+1) - GetDepthInMainChain());
 }
 
-bool CMerkleTx::AcceptToMemoryPool(bool fLimitFree, CAmount nAbsurdFee)
+
+bool CMerkleTx::AcceptToMemoryPool(bool fLimitFree, CAmount nAbsurdFee, CValidationState& state)
 {
-    CValidationState state;
     return ::AcceptToMemoryPool(mempool, state, *this, fLimitFree, NULL, false, nAbsurdFee);
 }
 
