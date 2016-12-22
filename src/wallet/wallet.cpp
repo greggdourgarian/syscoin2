@@ -2634,7 +2634,7 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey)
 		// SYSCOIN
         if (fBroadcastTransactions)
         {
-            wtxNew.RelayWalletTransaction(connman);
+            wtxNew.RelayWalletTransaction();
         }
     }
     return true;
