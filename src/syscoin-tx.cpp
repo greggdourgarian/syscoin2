@@ -372,7 +372,8 @@ vector<unsigned char> ParseHexUO(map<string,UniValue>& o, string strKey)
     }
     return ParseHexUV(o[strKey], strKey);
 }
-
+// SYSCOIN
+/*
 static CAmount AmountFromValue(const UniValue& value)
 {
     if (!value.isNum() && !value.isStr())
@@ -383,7 +384,7 @@ static CAmount AmountFromValue(const UniValue& value)
     if (!MoneyRange(amount))
         throw runtime_error("Amount out of range");
     return amount;
-}
+}*/
 
 static void MutateTxSign(CMutableTransaction& tx, const string& flagStr)
 {
