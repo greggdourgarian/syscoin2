@@ -247,9 +247,6 @@ static void MutateTxAddOutAddr(CMutableTransaction& tx, const string& strInput)
 	if(!addr.vchRedeemScript.empty())
 		scriptPubKey = CScript(addr.vchRedeemScript.begin(), addr.vchRedeemScript.end());
 
-    // build standard output script via GetScriptForDestination()
-    CScript scriptPubKey = GetScriptForDestination(addr.Get());
-
     // construct TxOut, append to transaction output list
     CTxOut txout(value, scriptPubKey);
     tx.vout.push_back(txout);
