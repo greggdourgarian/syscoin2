@@ -57,7 +57,6 @@
         <file alias="mn">locale/syscoin_mn.qm</file>
         <file alias="ms_MY">locale/syscoin_ms_MY.qm</file>
         <file alias="nb">locale/syscoin_nb.qm</file>
-        <file alias="ne">locale/syscoin_ne.qm</file>
         <file alias="nl">locale/syscoin_nl.qm</file>
         <file alias="pam">locale/syscoin_pam.qm</file>
         <file alias="pl">locale/syscoin_pl.qm</file>
