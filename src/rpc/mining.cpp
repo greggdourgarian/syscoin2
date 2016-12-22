@@ -120,6 +120,9 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
             LOCK(cs_main);
             IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
         }
+		// SYSCOIN
+		CAuxPow::initAuxPow(*pblock);
+        const CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
         while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
             ++pblock->nNonce;
             --nMaxTries;
@@ -127,7 +130,8 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
         if (nMaxTries == 0) {
             break;
         }
-        if (pblock->nNonce == nInnerLoopCount) {
+		// SYSCOIN
+        if (miningHeader.nNonce == nInnerLoopCount) {
             continue;
         }
         CValidationState state;
@@ -938,7 +942,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
             "  \"coinbasevalue\"      (numeric) value of the block's coinbase\n"
             "  \"bits\"               (string) compressed target of the block\n"
             "  \"height\"             (numeric) height of the block\n"
-            "  \"target\"            (string) target in reversed byte order, deprecated\n"
+            "  \"_target\"            (string) target in reversed byte order, deprecated\n"
             "}\n"
             "\nResult (with arguments):\n"
             "xxxxx        (boolean) whether the submitted block was correct\n"
@@ -966,6 +970,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
     if (IsInitialBlockDownload() && !Params().MineBlocksOnDemand())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD,
                            "Syscoin is downloading blocks...");
+    
 
     /* The variables below are used to keep track of created and not yet
        submitted auxpow blocks.  Lock them to be sure even for multiple
@@ -973,15 +978,15 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
     static CCriticalSection cs_auxblockCache;
     LOCK(cs_auxblockCache);
     static std::map<uint256, CBlock*> mapNewBlock;
-    static std::vector<CBlockTemplate*> vNewBlockTemplate;
+    static std::vector<std::unique_ptr<CBlockTemplate>> vNewBlockTemplate;
 
     /* Create a new block?  */
     if (params.size() == 0)
     {
         static unsigned nTransactionsUpdatedLast;
-        static const CBlockIndex* pindexPrev = NULL;
+        static const CBlockIndex* pindexPrev = nullptr;
         static uint64_t nStart;
-        static CBlockTemplate* pblocktemplate;
+        static CBlock* pblock = nullptr;
         static unsigned nExtraNonce = 0;
 
         // Update block
@@ -993,16 +998,15 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
         {
             if (pindexPrev != chainActive.Tip())
             {
-                // Deallocate old blocks since they're obsolete now
+                // Clear old blocks since they're obsolete now.
                 mapNewBlock.clear();
-                BOOST_FOREACH(CBlockTemplate* pbt, vNewBlockTemplate)
-                    delete pbt;
                 vNewBlockTemplate.clear();
+                pblock = nullptr;
             }
 
             // Create new block with nonce = 0 and extraNonce = 1
-            pblocktemplate =  BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript);
-            if (!pblocktemplate)
+            std::unique_ptr<CBlockTemplate> newBlock(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript));
+            if (!newBlock)
                 throw JSONRPCError(RPC_OUT_OF_MEMORY, "out of memory");
 
             // Update state only when CreateNewBlock succeeded
@@ -1011,32 +1015,30 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
             nStart = GetTime();
 
             // Finalise it by setting the version and building the merkle root
-            CBlock* pblock = &pblocktemplate->block;
-            IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
-            pblock->nVersion.SetAuxpow(true);
+            IncrementExtraNonce(&newBlock->block, pindexPrev, nExtraNonce);
+            newBlock->block.nVersion.SetAuxpow(true);
 
             // Save
+            pblock = &newBlock->block;
             mapNewBlock[pblock->GetHash()] = pblock;
-            vNewBlockTemplate.push_back(pblocktemplate);
+            vNewBlockTemplate.push_back(std::move(newBlock));
         }
         }
-
-        const CBlock& block = pblocktemplate->block;
 
         arith_uint256 target;
         bool fNegative, fOverflow;
-        target.SetCompact(block.nBits, &fNegative, &fOverflow);
+        target.SetCompact(pblock->nBits, &fNegative, &fOverflow);
         if (fNegative || fOverflow || target == 0)
             throw std::runtime_error("invalid difficulty bits in block");
 
         UniValue result(UniValue::VOBJ);
-        result.push_back(Pair("hash", block.GetHash().GetHex()));
-        result.push_back(Pair("chainid", block.nVersion.GetChainId()));
-        result.push_back(Pair("previousblockhash", block.hashPrevBlock.GetHex()));
-        result.push_back(Pair("coinbasevalue", (int64_t)block.vtx[0].vout[0].nValue));
-        result.push_back(Pair("bits", strprintf("%08x", block.nBits)));
+        result.push_back(Pair("hash", pblock->GetHash().GetHex()));
+        result.push_back(Pair("chainid", pblock->GetChainId()));
+        result.push_back(Pair("previousblockhash", pblock->hashPrevBlock.GetHex()));
+        result.push_back(Pair("coinbasevalue", (int64_t)pblock->vtx[0].vout[0].nValue));
+        result.push_back(Pair("bits", strprintf("%08x", pblock->nBits)));
         result.push_back(Pair("height", static_cast<int64_t> (pindexPrev->nHeight + 1)));
-        result.push_back(Pair("target", HexStr(BEGIN(target), END(target))));
+        result.push_back(Pair("_target", HexStr(BEGIN(target), END(target))));
 
         return result;
     }
@@ -1060,39 +1062,16 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
     block.SetAuxpow(new CAuxPow(pow));
     assert(block.GetHash() == hash);
 
-    // This is a straight cut & paste job from submitblock()
-    bool fBlockPresent = false;
-    {
-        LOCK(cs_main);
-        BlockMap::iterator mi = mapBlockIndex.find(hash);
-        if (mi != mapBlockIndex.end()) {
-            CBlockIndex *pindex = mi->second;
-            if (pindex->IsValid(BLOCK_VALID_SCRIPTS))
-                return "duplicate";
-            if (pindex->nStatus & BLOCK_FAILED_MASK)
-                return "duplicate-invalid";
-            // Otherwise, we might only have the header - process the block before returning
-            fBlockPresent = true;
-        }
-    }
-
     CValidationState state;
     submitblock_StateCatcher sc(block.GetHash());
     RegisterValidationInterface(&sc);
-    bool fAccepted = ProcessNewBlock(state, Params(), NULL, &block, true, NULL, false);
+    bool fAccepted = ProcessNewBlock(state, Params(), nullptr, &block,
+                                     true, nullptr, false);
     UnregisterValidationInterface(&sc);
-    if (fBlockPresent)
-    {
-        if (fAccepted && !sc.found)
-            return "duplicate-inconclusive";
-        return "duplicate";
-    }
+
     if (fAccepted)
-    {
-        if (!sc.found)
-            return "inconclusive";
         coinbaseScript->KeepScript();
-    }
+
     return fAccepted;
 }
 static const CRPCCommand commands[] =

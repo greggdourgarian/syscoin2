@@ -34,10 +34,14 @@ int CMerkleTx::SetMerkleBranch(const CBlock& block)
             break;
     if (nIndex == (int)block.vtx.size())
     {
+        vMerkleBranch.clear();
         nIndex = -1;
         LogPrintf("ERROR: SetMerkleBranch(): couldn't find tx in block\n");
         return 0;
     }
+
+    // Fill in merkle branch
+    vMerkleBranch = BlockMerkleBranch (block, nIndex);
 
     // Is the tx in a block that's in the main chain
     BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
@@ -206,4 +210,40 @@ CAuxPow::CheckMerkleBranch (uint256 hash,
     nIndex >>= 1;
   }
   return hash;
+}
+void
+CAuxPow::initAuxPow (CBlockHeader& header)
+{
+  /* Set auxpow flag right now, since we take the block hash below.  */
+  header.SetAuxpowVersion(true);
+
+  /* Build a minimal coinbase script input for merge-mining.  */
+  const uint256 blockHash = header.GetHash ();
+  std::vector<unsigned char> inputData(blockHash.begin (), blockHash.end ());
+  std::reverse (inputData.begin (), inputData.end ());
+  inputData.push_back (1);
+  inputData.insert (inputData.end (), 7, 0);
+
+  /* Fake a parent-block coinbase with just the required input
+     script and no outputs.  */
+  CMutableTransaction coinbase;
+  coinbase.vin.resize (1);
+  coinbase.vin[0].prevout.SetNull ();
+  coinbase.vin[0].scriptSig = (CScript () << inputData);
+  assert (coinbase.vout.empty ());
+
+  /* Build a fake parent block with the coinbase.  */
+  CBlock parent;
+  parent.nVersion = 1;
+  parent.vtx.resize (1);
+  parent.vtx[0] = coinbase;
+  parent.hashMerkleRoot = BlockMerkleRoot (parent);
+
+  /* Construct the auxpow object.  */
+  header.SetAuxpow (new CAuxPow (coinbase));
+  assert (header.auxpow->vChainMerkleBranch.empty ());
+  header.auxpow->nChainIndex = 0;
+  assert (header.auxpow->vMerkleBranch.empty ());
+  header.auxpow->nIndex = 0;
+  header.auxpow->parentBlock = parent;
 }

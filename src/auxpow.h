@@ -16,8 +16,10 @@
 #include <vector>
 
 class CBlock;
+class CBlockHeader;
 class CBlockIndex;
 class CValidationState;
+
 /** Header for merge-mining data in the coinbase.  */
 static const unsigned char pchMergedMiningHeader[] = { 0xfa, 0xbe, 'm', 'm' };
 
@@ -33,7 +35,8 @@ private:
 
 public:
     uint256 hashBlock;
-	std::vector<uint256> vMerkleBranch;
+    std::vector<uint256> vMerkleBranch;
+
     /* An nIndex == -1 means that hashBlock (in nonzero) refers to the earliest
      * block in the chain we know this or any in-wallet dependency conflicts
      * with. Older clients interpret nIndex == -1 as unconfirmed for backward
@@ -61,8 +64,6 @@ public:
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-		// SYSCOIN
-        //std::vector<uint256> vMerkleBranch; // For compatibility with older versions.
         READWRITE(*(CTransaction*)this);
         nVersion = this->nVersion;
         READWRITE(hashBlock);
@@ -187,6 +188,15 @@ public:
   static uint256 CheckMerkleBranch (uint256 hash,
                                     const std::vector<uint256>& vMerkleBranch,
                                     int nIndex);
+
+  /**
+   * Initialise the auxpow of the given block header.  This constructs
+   * a minimal CAuxPow object with a minimal parent block and sets
+   * it on the block header.  The auxpow is not necessarily valid, but
+   * can be "mined" to make it valid.
+   * @param header The header to set the auxpow on.
+   */
+  static void initAuxPow (CBlockHeader& header);
 
 };
 
