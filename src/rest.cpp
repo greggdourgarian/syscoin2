@@ -164,8 +164,8 @@ static bool rest_headers(HTTPRequest* req,
 
     CDataStream ssHeader(SER_NETWORK, PROTOCOL_VERSION);
     BOOST_FOREACH(const CBlockIndex *pindex, headers) {
-		// ssHeader pass consensus into getblockheader
-        ssBlock << pindex->GetBlockHeader(Params().GetConsensus());
+		// SYSCOIN ssHeader pass consensus into getblockheader
+        ssHeader << pindex->GetBlockHeader(Params().GetConsensus());
     }
 
     switch (rf) {
