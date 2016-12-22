@@ -194,7 +194,44 @@ UniValue getv2address(const UniValue& params, bool fHelp)
 
     return CSyscoinAddress(keyID).ToString();
 }
+UniValue getzaddress(const UniValue& params, bool fHelp)
+{
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+    
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "getzaddress ( \"address\" )\n"
+			"\nReturns a new ZCash address for receiving payments in ZCash transaparent tokens.\n"
+            "so payments received with the address will be credited to 'account'.\n"
+            "\nArguments:\n"
+            "1. \"address\"        (string) Syscoin alias or address to convert to ZCash address.\n"
+            "\nResult:\n"
+            "\"zaddress\"    (string) The new zcash address\n"
+            "\nExamples:\n"
+            + HelpExampleCli("getzaddress", "\"myalias\"")
+            + HelpExampleRpc("getzaddress", "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XZ\"")
+        );
 
+    string strAddress = params[0].get_str();
+    CSyscoinAddress sysAddress(strAddress);
+
+	if(!sysAddress.isAlias)
+		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
+    
+	if(!sysAddress.vchRedeemScript.empty())
+	{
+		CScript inner(sysAddress.vchRedeemScript.begin(), sysAddress.vchRedeemScript.end());
+		CScriptID innerID(inner);
+		sysAddress = CSyscoinAddress(innerID, CChainParams::ADDRESS_ZEC);
+		return sysAddress.ToString();
+	}
+	else
+	{
+		CPubKey pubkey(sysAddress.vchPubKey);
+		return CSyscoinAddress(pubkey.GetID(), CChainParams::ADDRESS_ZEC).ToString();
+	}
+}
 CSyscoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 {
     CPubKey pubKey;
