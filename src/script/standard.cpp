@@ -60,7 +60,7 @@ bool Solver(const CScript& scriptPubKeyIn, txnouttype& typeRet, vector<vector<un
 
 	// SYSCOIN check to see if this is a syscoin service transaction, if so get the scriptPubKey by extracting service specific script information
 	CScript scriptPubKey = scriptPubKeyIn;
-	//RemoveSyscoinScript(scriptPubKeyIn, scriptPubKey);
+	RemoveSyscoinScript(scriptPubKeyIn, scriptPubKey);
     vSolutionsRet.clear();
 
     // Shortcut for pay-to-script-hash, which are more constrained than the other types:
@@ -211,7 +211,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
         return true;
     }
 	// SYSCOIN
-   /* else if (whichType == TX_MULTISIG)
+    else if (whichType == TX_MULTISIG)
     {
 		vector<CPubKey> pubKeys;
         int nRequired = vSolutions.front()[0];
@@ -225,7 +225,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
 		CScript inner = GetScriptForMultisig(nRequired,pubKeys);
 		addressRet = CScriptID(inner);
         return true;
-    }*/
+    }
     // Multisig txns have more than one address...
     return false;
 }
