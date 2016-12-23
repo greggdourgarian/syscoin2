@@ -122,7 +122,7 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
         }
 		// SYSCOIN
 		CAuxPow::initAuxPow(*pblock);
-        const CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
+        CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
 		// SYSCOIN
         while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(miningHeader.GetHash(), pblock->nBits, Params().GetConsensus())) {
             // SYSCOIN
