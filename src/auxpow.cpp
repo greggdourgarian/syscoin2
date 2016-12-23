@@ -242,7 +242,6 @@ CAuxPow::initAuxPow (CBlockHeader& header)
   /* Construct the auxpow object.  */
   header.SetAuxpow (new CAuxPow (coinbase));
   assert (header.auxpow->vChainMerkleBranch.empty ());
-  header.auxpow->nChainIndex = 0;
   assert (header.auxpow->vMerkleBranch.empty ());
   header.auxpow->nIndex = 0;
   header.auxpow->parentBlock = parent;
