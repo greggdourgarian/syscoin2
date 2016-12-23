@@ -148,8 +148,6 @@ isminetype IsMine(const CKeyStore &keystore, const CScript& scriptPubKey, bool& 
             return ISMINE_SPENDABLE;
 		else if(nNumKeysFound > 0)
 			return ISMINE_WATCH_SOLVABLE;	*/
-        if (HaveKeys(keys, keystore) == keys.size())
-            return ISMINE_SPENDABLE;
         break;
     }
     }
