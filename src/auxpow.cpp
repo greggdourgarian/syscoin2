@@ -217,7 +217,6 @@ CAuxPow::initAuxPow (CBlockHeader& header)
 {
   /* Set auxpow flag right now, since we take the block hash below.  */
   header.nVersion.SetAuxpow(true);
-  header.nVersion.SetChainId(Params().GetConsensus().nAuxpowChainId);
 
   /* Build a minimal coinbase script input for merge-mining.  */
   const uint256 blockHash = header.GetHash ();

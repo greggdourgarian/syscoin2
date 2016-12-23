@@ -148,7 +148,7 @@ CBlockTemplate* BlockAssembler::CreateNewBlock(const CScript& scriptPubKeyIn)
 
 	// SYSCOIN
     pblock->nVersion.SetBaseVersion(ComputeBlockVersion(pindexPrev, chainparams.GetConsensus()));
-
+	pblock->block.nVersion.SetChainId(Params().GetConsensus().nAuxpowChainId);
     // -regtest only: allow overriding block.nVersion with
     // -blockversion=N to test forking scenarios
 	// SYSCOIN setbaseversion
