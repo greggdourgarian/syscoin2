@@ -19,6 +19,7 @@
 #include "utilstrencodings.h"
 
 #include <algorithm>
+#include "chainparams.h"
 using namespace std;
 int CMerkleTx::SetMerkleBranch(const CBlock& block)
 {
