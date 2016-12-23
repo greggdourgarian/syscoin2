@@ -34,7 +34,8 @@
 #include <univalue.h>
 
 using namespace std;
-
+// SYSCOIN
+extern int GetSyscoinTxVersion();
 void ScriptPubKeyToJSON(const CScript& scriptPubKey, UniValue& out, bool fIncludeHex)
 {
     txnouttype type;
@@ -334,10 +335,10 @@ UniValue verifytxoutproof(const UniValue& params, bool fHelp)
         res.push_back(hash.GetHex());
     return res;
 }
-
 UniValue createrawtransaction(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() < 2 || params.size() > 3)
+	// SYSCOIN 4 params
+    if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
             "createrawtransaction [{\"txid\":\"id\",\"vout\":n},...] {\"address\":amount,\"data\":\"hex\",...} ( locktime )\n"
             "\nCreate a transaction spending the given inputs and creating new outputs.\n"
@@ -363,6 +364,8 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             "      ...\n"
             "    }\n"
             "3. locktime                (numeric, optional, default=0) Raw locktime. Non-0 value also locktime-activates inputs\n"
+			// SYSCOIN
+			"4. syscointx          (boolean, optional, default=true) Syscoin transaction flag. Boolean value which will set the transaction version to syscoin if alias payments were found, set to 'true'. Set to 'false' if creating extern blockchain transaction.\n"
             "\nResult:\n"
             "\"transaction\"            (string) hex string of the transaction\n"
 
@@ -388,7 +391,11 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, locktime out of range");
         rawTx.nLockTime = nLockTime;
     }
-
+	// SYSCOIN
+	bool bSyscoinBlockchainTx = true;
+    if (params.size() > 3 && !params[3].isNull()) {
+		bSyscoinBlockchainTx = params[3].get_bool();
+    }
     for (unsigned int idx = 0; idx < inputs.size(); idx++) {
         const UniValue& input = inputs[idx];
         const UniValue& o = input.get_obj();
@@ -437,7 +444,19 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
                 throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+name_);
             setAddress.insert(address);
 
-            CScript scriptPubKey = GetScriptForDestination(address.Get());
+			// SYSCOIN
+			CScript scriptPubKey =  GetScriptForDestination(address.Get());
+			if(!address.vchRedeemScript.empty())
+				scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
+			if(address.isAlias && bSyscoinBlockchainTx)
+			{
+				CScript scriptPubKeyOrig;
+				scriptPubKeyOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
+				scriptPubKeyOrig += scriptPubKey;
+				scriptPubKey = scriptPubKeyOrig;
+				rawTx.nVersion = GetSyscoinTxVersion();		
+			}
+			
             CAmount nAmount = AmountFromValue(sendTo[name_]);
 
             CTxOut out(nAmount, scriptPubKey);
@@ -447,7 +466,6 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
 
     return EncodeHexTx(rawTx);
 }
-
 UniValue decoderawtransaction(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
