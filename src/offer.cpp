@@ -526,8 +526,11 @@ CScript RemoveOfferScriptPrefix(const CScript& scriptIn) {
 }
 
 bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {
-	if (tx.IsCoinBase())
+	if (tx.IsCoinBase() && !fJustCheck && !dontaddtodb)
+	{
+		LogPrintf("*Trying to add offer in coinbase transaction, skipping...");
 		return true;
+	}
 	if (fDebug)
 		LogPrintf("*** OFFER %d %d %s %s %s %s %s %d\n", nHeight,
 			chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(),

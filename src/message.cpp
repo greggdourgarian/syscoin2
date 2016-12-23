@@ -295,8 +295,11 @@ CScript RemoveMessageScriptPrefix(const CScript& scriptIn) {
 }
 
 bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {
-	if (tx.IsCoinBase())
+	if (tx.IsCoinBase() && !fJustCheck && !dontaddtodb)
+	{
+		LogPrintf("*Trying to add message in coinbase transaction, skipping...");
 		return true;
+	}
 	if (fDebug)
 		LogPrintf("*** MESSAGE %d %d %s %s\n", nHeight,
 			chainActive.Tip()->nHeight, tx.GetHash().ToString().c_str(),

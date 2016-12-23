@@ -389,8 +389,11 @@ bool ValidateExternalPayment(const CEscrow& theEscrow, const bool &dontaddtodb, 
 	return true;
 }
 bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {
-	if (tx.IsCoinBase())
+	if (tx.IsCoinBase() && !fJustCheck && !dontaddtodb)
+	{
+		LogPrintf("*Trying to add escrow in coinbase transaction, skipping...");
 		return true;
+	}
 	const COutPoint *prevOutput = NULL;
 	const CCoins *prevCoins;
 	int prevAliasOp = 0;

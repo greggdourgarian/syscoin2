@@ -646,8 +646,11 @@ void updateBans(const vector<unsigned char> &banData)
 	}
 }
 bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {
-	if (tx.IsCoinBase())
+	if (tx.IsCoinBase() && !fJustCheck && !dontaddtodb)
+	{
+		LogPrintf("*Trying to add alias in coinbase transaction, skipping...");
 		return true;
+	}
 	if (fDebug)
 		LogPrintf("*** ALIAS %d %d op=%s %s nOut=%d %s\n", nHeight, chainActive.Tip()->nHeight, aliasFromOp(op).c_str(), tx.GetHash().ToString().c_str(), nOut, fJustCheck ? "JUSTCHECK" : "BLOCK");
 	const COutPoint *prevOutput = NULL;
