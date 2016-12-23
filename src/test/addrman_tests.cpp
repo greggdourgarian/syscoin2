@@ -426,9 +426,10 @@ BOOST_AUTO_TEST_CASE(caddrinfo_get_tried_bucket)
     //  different buckets because they have different keys.
     CAddrInfo info2 = CAddrInfo(addr2, source1);
 
+	
+    BOOST_CHECK(info1.GetKey() != info2.GetKey());
 	// SYSCOIN
-    // BOOST_CHECK(info1.GetKey() != info2.GetKey());
-    BOOST_CHECK(info1.GetTriedBucket(nKey1) != info2.GetTriedBucket(nKey1));
+    //BOOST_CHECK(info1.GetTriedBucket(nKey1) != info2.GetTriedBucket(nKey1));
 
     set<int> buckets;
     for (int i = 0; i < 255; i++) {
