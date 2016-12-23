@@ -37,10 +37,6 @@ static const int NO_BLOOM_VERSION = 70011;
 //! "sendheaders" command and announcing blocks with headers starts with this version
 static const int SENDHEADERS_VERSION = 70012;
 
-//! Version when we switched to a size-based "headers" limit.
-// SYSCOIN
-static const int SIZE_HEADERS_LIMIT_VERSION = 70029;
-
 //! "feefilter" tells peers to filter invs to you by fee starts with this version
 static const int FEEFILTER_VERSION = 70013;
 
