@@ -153,7 +153,10 @@ CBlockTemplate* BlockAssembler::CreateNewBlock(const CScript& scriptPubKeyIn)
     // -blockversion=N to test forking scenarios
 	// SYSCOIN setbaseversion
     if (chainparams.MineBlocksOnDemand())
+	{
         pblock->nVersion.SetBaseVersion(GetArg("-blockversion", pblock->nVersion.GetBaseVersion()));
+		pblock->nVersion.SetChainId(Params().GetConsensus().nAuxpowChainId);
+	}
 
     pblock->nTime = GetAdjustedTime();
     const int64_t nMedianTimePast = pindexPrev->GetMedianTimePast();

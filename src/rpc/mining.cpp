@@ -123,8 +123,10 @@ UniValue generateBlocks(boost::shared_ptr<CReserveScript> coinbaseScript, int nG
 		// SYSCOIN
 		CAuxPow::initAuxPow(*pblock);
         const CPureBlockHeader& miningHeader = pblock->auxpow->parentBlock;
-        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
-            ++pblock->nNonce;
+		// SYSCOIN
+        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(miningHeader.GetHash(), pblock->nBits, Params().GetConsensus())) {
+            // SYSCOIN
+			++miningHeader.nNonce;
             --nMaxTries;
         }
         if (nMaxTries == 0) {
