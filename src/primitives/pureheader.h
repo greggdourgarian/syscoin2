@@ -61,7 +61,7 @@ public:
      * @param nBaseVersion The base version.
      */
     void SetBaseVersion(int32_t nBaseVersion);
-	
+	void SetGenesisVersion(int32_t nBaseVersion);
     /**
      * Extract the chain ID.
      * @return The chain ID encoded in the version.

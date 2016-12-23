@@ -50,7 +50,10 @@ void CBlockVersion::SetBaseVersion(int32_t nBaseVersion)
 	// set new base version along with old auxpow information
 	nVersion = nBaseVersion | auxVersion;
 }
-
+void CBlockVersion::SetGenesisVersion(int32_t nBaseVersion)
+{
+	nVersion = nBaseVersion;
+}
 uint256 CPureBlockHeader::GetHash() const
 {
     return SerializeHash(*this);
