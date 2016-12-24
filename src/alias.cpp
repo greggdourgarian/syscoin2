@@ -151,7 +151,7 @@ void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut
 		if(!RemoveOfferScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
 			if(!RemoveCertScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
 				if(!RemoveEscrowScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
-					if(!RemoveMessageScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
+					RemoveMessageScriptPrefix(scriptPubKeyIn, scriptPubKeyOut);					
 }
 
 // how much is 1.1 BTC in syscoin? 1 BTC = 110000 SYS for example, nPrice would be 1.1, sysPrice would be 110000
