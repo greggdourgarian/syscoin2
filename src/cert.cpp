@@ -447,13 +447,18 @@ bool DecodeCertScript(const CScript& script, int& op,
     }
 
     // move the pc to after any DROP or NOP
-    while (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP) {
-        if (!script.GetOp(pc, opcode))
-            break;
-    }
+	if(opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP)
+	{
+		while (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP) {
+			if (!script.GetOp(pc, opcode))
+				break;
+		}
+	}
+	else
+		return false;
 
     pc--;
-    return IsCertOp(op);
+    return !vvch.empty() && IsCertOp(op);
 }
 bool DecodeCertScript(const CScript& script, int& op,
         vector<vector<unsigned char> > &vvch) {

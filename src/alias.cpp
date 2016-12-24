@@ -1591,13 +1591,18 @@ bool DecodeAliasScript(const CScript& script, int& op,
 	}
 
 	// move the pc to after any DROP or NOP
-	while (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP) {
-		if (!script.GetOp(pc, opcode))
-			break;
+	if(opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP)
+	{
+		while (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP) {
+			if (!script.GetOp(pc, opcode))
+				break;
+		}
 	}
+	else
+		return false;
 
 	pc--;
-	return IsAliasOp(op);
+	return !vvch.empty() && IsAliasOp(op);
 }
 bool DecodeAliasScript(const CScript& script, int& op,
 		vector<vector<unsigned char> > &vvch) {

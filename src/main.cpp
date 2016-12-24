@@ -1124,9 +1124,6 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
             if (txin.prevout.IsNull())
                 return state.DoS(10, false, REJECT_INVALID, "bad-txns-prevout-null");
     }
-	// SYSCOIN tx structure check
-    if (tx.nVersion != SYSCOIN_TX_VERSION)
-        return true;
     return true;
 }
 
@@ -3191,8 +3188,8 @@ bool static DisconnectTip(CValidationState& state, const CChainParams& chainpara
     // 0-confirmed or conflicted:
     BOOST_FOREACH(const CTransaction &tx, block.vtx) {
         SyncWithWallets(tx, pindexDelete->pprev, NULL);
-		// SYSCOIN disconnect bitcoin related block
-		if (tx.nVersion == SYSCOIN_TX_VERSION) {
+		// SYSCOIN disconnect
+		if (tx.nVersion == GetSyscoinTxVersion()) {
 			vector<vector<unsigned char> > vvchArgs;
 			int op, nOut;
 			if(DecodeAliasTx(tx, op, nOut, vvchArgs))
