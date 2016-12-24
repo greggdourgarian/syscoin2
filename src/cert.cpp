@@ -464,7 +464,7 @@ bool DecodeCertScript(const CScript& script, int& op,
     CScript::const_iterator pc = script.begin();
     return DecodeCertScript(script, op, vvch, pc);
 }
-CScript RemoveCertScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
+bool RemoveCertScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
     int op;
     vector<vector<unsigned char> > vvch;
     CScript::const_iterator pc = scriptIn.begin();
