@@ -361,17 +361,15 @@ bool DecodeEscrowScript(const CScript& script, int& op,
     return DecodeEscrowScript(script, op, vvch, pc);
 }
 
-CScript RemoveEscrowScriptPrefix(const CScript& scriptIn) {
+bool RemoveEscrowScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
     int op;
     vector<vector<unsigned char> > vvch;
     CScript::const_iterator pc = scriptIn.begin();
 
     if (!DecodeEscrowScript(scriptIn, op, vvch, pc))
-	{
-        throw runtime_error("RemoveEscrowScriptPrefix() : could not decode escrow script");
-	}
-
-    return CScript(pc, scriptIn.end());
+		return false;
+	scriptOut = CScript(pc, scriptIn.end());
+	return true;
 }
 bool ValidateExternalPayment(const CEscrow& theEscrow, const bool &dontaddtodb, string& errorMessage)
 {

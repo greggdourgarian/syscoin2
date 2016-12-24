@@ -147,18 +147,11 @@ bool IsSyscoinScript(const CScript& scriptPubKey, int &op, vector<vector<unsigne
 }
 void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut)
 {
-	vector<vector<unsigned char> > vvch;
-	int op;
-	if (DecodeAliasScript(scriptPubKeyIn, op, vvch))
-		scriptPubKeyOut = RemoveAliasScriptPrefix(scriptPubKeyIn);
-	else if (DecodeOfferScript(scriptPubKeyIn, op, vvch))
-		scriptPubKeyOut = RemoveOfferScriptPrefix(scriptPubKeyIn);
-	else if (DecodeCertScript(scriptPubKeyIn, op, vvch))
-		scriptPubKeyOut = RemoveCertScriptPrefix(scriptPubKeyIn);
-	else if (DecodeEscrowScript(scriptPubKeyIn, op, vvch))
-		scriptPubKeyOut = RemoveEscrowScriptPrefix(scriptPubKeyIn);
-	else if (DecodeMessageScript(scriptPubKeyIn, op, vvch))
-		scriptPubKeyOut = RemoveMessageScriptPrefix(scriptPubKeyIn);
+	if (!RemoveAliasScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
+		if(!RemoveOfferScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
+			if(!RemoveCertScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
+				if(!RemoveEscrowScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
+					if(!RemoveMessageScriptPrefix(scriptPubKeyIn, scriptPubKeyOut))
 }
 
 // how much is 1.1 BTC in syscoin? 1 BTC = 110000 SYS for example, nPrice would be 1.1, sysPrice would be 110000
@@ -1607,15 +1600,15 @@ bool DecodeAliasScript(const CScript& script, int& op,
 	CScript::const_iterator pc = script.begin();
 	return DecodeAliasScript(script, op, vvch, pc);
 }
-CScript RemoveAliasScriptPrefix(const CScript& scriptIn) {
+bool RemoveAliasScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
 	int op;
 	vector<vector<unsigned char> > vvch;
 	CScript::const_iterator pc = scriptIn.begin();
 
 	if (!DecodeAliasScript(scriptIn, op, vvch, pc))
-		throw runtime_error(
-				"RemoveAliasScriptPrefix() : could not decode name script");
-	return CScript(pc, scriptIn.end());
+		return false;
+	scriptOut = CScript(pc, scriptIn.end());
+	return true;
 }
 void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 {

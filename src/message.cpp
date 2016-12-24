@@ -284,17 +284,15 @@ bool DecodeMessageScript(const CScript& script, int& op,
     return DecodeMessageScript(script, op, vvch, pc);
 }
 
-CScript RemoveMessageScriptPrefix(const CScript& scriptIn) {
+bool RemoveMessageScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
     int op;
     vector<vector<unsigned char> > vvch;
     CScript::const_iterator pc = scriptIn.begin();
 
     if (!DecodeMessageScript(scriptIn, op, vvch, pc))
-	{
-        throw runtime_error("RemoveMessageScriptPrefix() : could not decode message script");
-	}
-	
-    return CScript(pc, scriptIn.end());
+		return false;
+	scriptOut = CScript(pc, scriptIn.end());
+	return true;
 }
 
 bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {

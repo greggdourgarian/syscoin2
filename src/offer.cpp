@@ -515,18 +515,15 @@ bool DecodeOfferScript(const CScript& script, int& op,
 	CScript::const_iterator pc = script.begin();
 	return DecodeOfferScript(script, op, vvch, pc);
 }
-CScript RemoveOfferScriptPrefix(const CScript& scriptIn) {
+bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
 	int op;
 	vector<vector<unsigned char> > vvch;
 	CScript::const_iterator pc = scriptIn.begin();
 
 	if (!DecodeOfferScript(scriptIn, op, vvch, pc))
-	{
-		throw runtime_error(
-			"RemoveOfferScriptPrefix() : could not decode offer script");
-	}
-
-	return CScript(pc, scriptIn.end());
+		return false;
+	scriptOut = CScript(pc, scriptIn.end());
+	return true;
 }
 
 bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vector<unsigned char> > &vvchArgs, const CCoinsViewCache &inputs, bool fJustCheck, int nHeight, string &errorMessage, bool dontaddtodb) {
