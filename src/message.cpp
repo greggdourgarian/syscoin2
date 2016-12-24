@@ -253,31 +253,29 @@ bool DecodeMessageScript(const CScript& script, int& op,
 	if (!script.GetOp(pc, opcode)) return false;
 	if (opcode < OP_1 || opcode > OP_16) return false;
     op = CScript::DecodeOP_N(opcode);
-    for (;;) {
-        vector<unsigned char> vch;
-        if (!script.GetOp(pc, opcode, vch))
-            return false;
-
-        if (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP)
-            break;
-        if (!(opcode >= 0 && opcode <= OP_PUSHDATA4))
-            return false;
-        vvch.push_back(vch);
-    }
-
-    // move the pc to after any DROP or NOP
-	if(opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP)
-	{
-		while (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP) {
-			if (!script.GetOp(pc, opcode))
-				break;
+	bool found = false;
+	for (;;) {
+		vector<unsigned char> vch;
+		if (!script.GetOp(pc, opcode, vch))
+			return false;
+		if (opcode == OP_DROP || opcode == OP_2DROP)
+		{
+			found = true;
+			break;
 		}
+		if (!(opcode >= 0 && opcode <= OP_PUSHDATA4))
+			return false;
+		vvch.push_back(vch);
 	}
-	else
-		return false;
-	
-    pc--;
-    return !vvch.empty() && IsMessageOp(op);
+
+	// move the pc to after any DROP or NOP
+	while (opcode == OP_DROP || opcode == OP_2DROP) {
+		if (!script.GetOp(pc, opcode))
+			break;
+	}
+
+	pc--;
+	return found && IsMessageOp(op);
 }
 
 bool DecodeMessageScript(const CScript& script, int& op,

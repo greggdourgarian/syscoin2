@@ -1578,31 +1578,29 @@ bool DecodeAliasScript(const CScript& script, int& op,
 		return false;
 
 	op = CScript::DecodeOP_N(opcode);
-
+	bool found = false;
 	for (;;) {
 		vector<unsigned char> vch;
 		if (!script.GetOp(pc, opcode, vch))
 			return false;
-		if (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP)
+		if (opcode == OP_DROP || opcode == OP_2DROP)
+		{
+			found = true;
 			break;
+		}
 		if (!(opcode >= 0 && opcode <= OP_PUSHDATA4))
 			return false;
 		vvch.push_back(vch);
 	}
 
 	// move the pc to after any DROP or NOP
-	if(opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP)
-	{
-		while (opcode == OP_DROP || opcode == OP_2DROP || opcode == OP_NOP) {
-			if (!script.GetOp(pc, opcode))
-				break;
-		}
+	while (opcode == OP_DROP || opcode == OP_2DROP) {
+		if (!script.GetOp(pc, opcode))
+			break;
 	}
-	else
-		return false;
 
 	pc--;
-	return !vvch.empty() && IsAliasOp(op);
+	return found && IsAliasOp(op);
 }
 bool DecodeAliasScript(const CScript& script, int& op,
 		vector<vector<unsigned char> > &vvch) {
