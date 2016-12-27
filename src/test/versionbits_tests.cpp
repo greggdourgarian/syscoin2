@@ -293,7 +293,7 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
 
     // Mine one period worth of blocks, and check that the bit will be on for the
     // next period.
-    lastBlock = secondChain.Mine(2016, nStartTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+    lastBlock = secondChain.Mine(2016, nStartTime, VERSIONBITS_TOP_BITS).Tip();
     BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit)) != 0);
 
     // Mine another period worth of blocks, signaling the new bit.
