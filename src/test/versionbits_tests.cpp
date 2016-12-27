@@ -29,7 +29,7 @@ public:
     int Period(const Consensus::Params& params) const { return 1000; }
     int Threshold(const Consensus::Params& params) const { return 900; }
 	// SYSCOIN
-    bool Condition(const CBlockIndex* pindex, const Consensus::Params& params) const { return (pindex->nVersion.GetBaseVersion() & 0x100); }
+    bool Condition(const CBlockIndex* pindex, const Consensus::Params& params) const { return return (((pindex->nVersion.GetBaseVersion() & VERSIONBITS_TOP_MASK) == VERSIONBITS_TOP_BITS) && (pindex->nVersion.GetBaseVersion() & 0x100) != 0); }
 
     ThresholdState GetStateFor(const CBlockIndex* pindexPrev) const { return AbstractThresholdConditionChecker::GetStateFor(pindexPrev, paramsDummy, cache); }
 };
