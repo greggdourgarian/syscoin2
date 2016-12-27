@@ -304,9 +304,9 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
 
     // Now check that we keep mining the block until the end of this period, and
     // then stop at the beginning of the next period.
-    lastBlock = secondChain.Mine(6047, nStartTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+    lastBlock = secondChain.Mine(6047, nStartTime, VERSIONBITS_TOP_BITS).Tip();
     BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit)) != 0);
-    lastBlock = secondChain.Mine(6048, nStartTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+    lastBlock = secondChain.Mine(6048, nStartTime, VERSIONBITS_TOP_BITS).Tip();
     BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit), 0);
 
     // Finally, verify that after a soft fork has activated, CBV no longer uses
