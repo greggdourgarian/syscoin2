@@ -235,12 +235,12 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     // Before MedianTimePast of the chain has crossed nStartTime, the bit
     // should not be set.
     CBlockIndex *lastBlock = NULL;
-    lastBlock = firstChain.Mine(2016, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+    lastBlock = firstChain.Mine(2016, nTime, VERSIONBITS_TOP_BITS).Tip();
     BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit), 0);
 
     // Mine 2011 more blocks at the old time, and check that CBV isn't setting the bit yet.
     for (int i=1; i<2012; i++) {
-        lastBlock = firstChain.Mine(2016+i, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+        lastBlock = firstChain.Mine(2016+i, nTime, VERSIONBITS_TOP_BITS).Tip();
         // This works because VERSIONBITS_LAST_OLD_BLOCK_VERSION happens
         // to be 4, and the bit we're testing happens to be bit 28.
         BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit), 0);
@@ -249,12 +249,12 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     // CBV should still not yet set the bit.
     nTime = nStartTime;
     for (int i=2012; i<=2016; i++) {
-        lastBlock = firstChain.Mine(2016+i, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+        lastBlock = firstChain.Mine(2016+i, nTime, VERSIONBITS_TOP_BITS).Tip();
         BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit), 0);
     }
 
     // Advance to the next period and transition to STARTED,
-    lastBlock = firstChain.Mine(6048, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+    lastBlock = firstChain.Mine(6048, nTime, VERSIONBITS_TOP_BITS).Tip();
     // so ComputeBlockVersion should now set the bit,
     BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit)) != 0);
     // and should also be using the VERSIONBITS_TOP_BITS.
@@ -266,7 +266,7 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     int nHeight = 6048;
     // These blocks are all before nTimeout is reached.
     while (nTime < nTimeout && blocksToMine > 0) {
-        lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+        lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_TOP_BITS).Tip();
         BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit)) != 0);
         BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK, VERSIONBITS_TOP_BITS);
         blocksToMine--;
@@ -278,12 +278,12 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     // FAILED is only triggered at the end of a period, so CBV should be setting
     // the bit until the period transition.
     for (int i=0; i<2015; i++) {
-        lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+        lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_TOP_BITS).Tip();
         BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit)) != 0);
         nHeight += 1;
     }
     // The next block should trigger no longer setting the bit.
-    lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
+    lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_TOP_BITS).Tip();
     BOOST_CHECK_EQUAL(ComputeBlockVersion(lastBlock, mainnetParams) & (1<<bit), 0);
 
     // On a new chain:
