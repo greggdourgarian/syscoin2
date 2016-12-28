@@ -107,7 +107,7 @@ qa/pull-tester/cache/*
 qa/pull-tester/test.*/*
 qa/tmp
 cache/
-share/SyscoindComparisonTool.jar
+share/BitcoindComparisonTool.jar
 
 !src/leveldb*/Makefile
 
