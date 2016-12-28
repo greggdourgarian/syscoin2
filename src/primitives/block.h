@@ -41,7 +41,7 @@ public:
         READWRITE(*(CPureBlockHeader*)this);
         nVersion = this->GetBaseVersion();
 
-        if (this->nVersion.IsAuxpow())
+        if (this->IsAuxpow())
         {
             if (ser_action.ForRead())
                 auxpow.reset (new CAuxPow());
