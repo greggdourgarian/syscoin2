@@ -1032,7 +1032,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
 
         UniValue result(UniValue::VOBJ);
         result.push_back(Pair("hash", pblock->GetHash().GetHex()));
-        result.push_back(Pair("chainid", pblock->nVersion.GetChainId()));
+        result.push_back(Pair("chainid", pblock->GetChainId()));
         result.push_back(Pair("previousblockhash", pblock->hashPrevBlock.GetHex()));
         result.push_back(Pair("coinbasevalue", (int64_t)pblock->vtx[0].vout[0].nValue));
         result.push_back(Pair("bits", strprintf("%08x", pblock->nBits)));
