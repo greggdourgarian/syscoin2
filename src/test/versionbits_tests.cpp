@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     // the bit until the period transition.
     for (int i=0; i<2015; i++) {
         lastBlock = firstChain.Mine(nHeight+1, nTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
-        BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK) != VERSIONBITS_TOP_BITS);
+        BOOST_CHECK_EQUAL((ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK) , VERSIONBITS_TOP_BITS);
         nHeight += 1;
     }
     // The next block should trigger no longer setting the bit.
