@@ -6,7 +6,7 @@
 
 #include "hash.h"
 #include "utilstrencodings.h"
-
+#include "versionbits.h"
 uint256 CPureBlockHeader::GetHash() const
 {
     return SerializeHash(*this);
@@ -15,4 +15,8 @@ uint256 CPureBlockHeader::GetHash() const
 void CPureBlockHeader::SetBaseVersion(int32_t nBaseVersion, int32_t nChainId)
 {
     nVersion = nBaseVersion | (nChainId * VERSION_CHAIN_START);
+}
+int32_t CPureBlockHeader::GetChainId() const
+{
+return (nVersion & ~VERSIONBITS_TOP_MASK) / VERSION_CHAIN_START;
 }
