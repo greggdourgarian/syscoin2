@@ -73,7 +73,7 @@ public:
             pindex->pprev = vpblock.size() > 0 ? vpblock.back() : NULL;
             pindex->nTime = nTime;
 			// SYSCOIN
-            pindex->nVersion.SetGenesisVersion(nVersion);
+            pindex->nVersion.SetBaseVersion(nVersion);
             pindex->BuildSkip();
             vpblock.push_back(pindex);
         }
@@ -294,7 +294,7 @@ BOOST_AUTO_TEST_CASE(versionbits_computeblockversion)
     // Mine one period worth of blocks, and check that the bit will be on for the
     // next period.
     lastBlock = secondChain.Mine(2016, nStartTime, VERSIONBITS_LAST_OLD_BLOCK_VERSION).Tip();
-    BOOST_CHECK((ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK) != VERSIONBITS_TOP_BITS);
+    BOOST_CHECK_EQUAL((ComputeBlockVersion(lastBlock, mainnetParams) & VERSIONBITS_TOP_MASK) , VERSIONBITS_TOP_BITS);
 
     // Mine another period worth of blocks, signaling the new bit.
     lastBlock = secondChain.Mine(4032, nStartTime, VERSIONBITS_TOP_BITS | (1<<bit)).Tip();
