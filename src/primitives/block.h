@@ -39,7 +39,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         READWRITE(*(CPureBlockHeader*)this);
-        nVersion = this->nVersion.GetBaseVersion();
+        nVersion = this->GetBaseVersion();
 
         if (this->nVersion.IsAuxpow())
         {

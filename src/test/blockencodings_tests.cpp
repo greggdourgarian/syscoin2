@@ -16,7 +16,11 @@ struct RegtestingSetup : public TestingSetup {
 };
 
 BOOST_FIXTURE_TEST_SUITE(blockencodings_tests, RegtestingSetup)
-
+// SYSCOIN
+static void SetBlockVersion(CPureBlockHeader& header, int32_t baseVersion) {
+  const int32_t nChainId = Params().GetConsensus().nAuxpowChainId;
+  header.SetBaseVersion(baseVersion, nChainId);
+}
 static CBlock BuildBlockTestCase() {
     CBlock block;
     CMutableTransaction tx;
@@ -28,7 +32,7 @@ static CBlock BuildBlockTestCase() {
     block.vtx.resize(3);
     block.vtx[0] = tx;
     // SYSCOIN
-    block.nVersion.SetBaseVersion(42);
+    SetBlockVersion(block, 42);
     block.hashPrevBlock = GetRandHash();
     block.nBits = 0x207fffff;
 
@@ -258,7 +262,7 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     block.vtx.resize(1);
     block.vtx[0] = coinbase;
 	// SYSCOIN
-    block.nVersion.SetBaseVersion(42);
+    SetBlockVersion(block, 42);
     block.hashPrevBlock = GetRandHash();
     block.nBits = 0x207fffff;
 

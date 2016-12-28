@@ -194,8 +194,7 @@ public:
     unsigned int nStatus;
 
     //! block header
-	// SYSCOIN version
-    CBlockVersion  nVersion;
+    int nVersion;
     uint256 hashMerkleRoot;
     unsigned int nTime;
     unsigned int nBits;
@@ -218,8 +217,8 @@ public:
         nChainTx = 0;
         nStatus = 0;
         nSequenceId = 0;
-		// SYSCOIN
-        nVersion.SetNull();
+
+        nVersion = 0;
         hashMerkleRoot = uint256();
         nTime          = 0;
         nBits          = 0;
@@ -326,6 +325,11 @@ public:
     //! Efficiently find an ancestor of this block.
     CBlockIndex* GetAncestor(int height);
     const CBlockIndex* GetAncestor(int height) const;
+    // SYSCOIN
+    inline int GetBaseVersion() const
+    {
+        return CPureBlockHeader::GetBaseVersion(nVersion);
+    }
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);

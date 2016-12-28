@@ -216,7 +216,7 @@ void
 CAuxPow::initAuxPow (CBlockHeader& header)
 {
   /* Set auxpow flag right now, since we take the block hash below.  */
-  header.nVersion.SetAuxpow(true);
+  header.SetAuxpowVersion(true);
 
   /* Build a minimal coinbase script input for merge-mining.  */
   const uint256 blockHash = header.GetHash ();
@@ -235,7 +235,7 @@ CAuxPow::initAuxPow (CBlockHeader& header)
 
   /* Build a fake parent block with the coinbase.  */
   CBlock parent;
-  parent.nVersion.SetBaseVersion(1);
+  parent.nVersion = 1;
   parent.vtx.resize (1);
   parent.vtx[0] = coinbase;
   parent.hashMerkleRoot = BlockMerkleRoot (parent);

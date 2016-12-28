@@ -626,8 +626,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
                 break;
             case THRESHOLD_LOCKED_IN:
                 // Ensure bit is set in block version
-				// SYSCOIN
-                pblock->nVersion.SetBaseVersion(pblock->nVersion.GetBaseVersion() | VersionBitsMask(consensusParams, pos));
+                pblock->nVersion |= VersionBitsMask(consensusParams, pos);
                 // FALL THROUGH to get vbavailable set...
             case THRESHOLD_STARTED:
             {
@@ -636,8 +635,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
                 if (setClientRules.find(vbinfo.name) == setClientRules.end()) {
                     if (!vbinfo.gbt_force) {
                         // If the client doesn't support this, don't indicate it in the [default] version
-						// SYSCOIN
-						pblock->nVersion.SetBaseVersion(pblock->nVersion.GetBaseVersion() & ~VersionBitsMask(consensusParams, pos));
+						pblock->nVersion |= VersionBitsMask(consensusParams, pos);
                     }
                 }
                 break;
@@ -658,8 +656,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
             }
         }
     }
-	// SYSCOIN
-    result.push_back(Pair("version", pblock->nVersion.GetFullVersion()));
+    result.push_back(Pair("version", pblock->nVersion));
     result.push_back(Pair("rules", aRules));
     result.push_back(Pair("vbavailable", vbavailable));
     result.push_back(Pair("vbrequired", int(0)));
@@ -1018,7 +1015,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
 
             // Finalise it by setting the version and building the merkle root
             IncrementExtraNonce(&newBlock->block, pindexPrev, nExtraNonce);
-            newBlock->block.nVersion.SetAuxpow(true);
+            newBlock->block.SetAuxpowVersion(true);
 
             // Save
             pblock = &newBlock->block;
