@@ -107,7 +107,7 @@ public:
      */
     inline int32_t GetChainId() const
     {
-        return nVersion / VERSION_CHAIN_START;
+        return (nVersion & ~VERSIONBITS_TOP_MASK) / VERSION_CHAIN_START;
     }
 
     /**
