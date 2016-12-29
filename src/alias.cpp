@@ -822,11 +822,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		string strName = stringFromVch(vvchArgs[0]);
 		boost::algorithm::to_lower(strName);
 		vchAlias = vchFromString(strName);
-		CAmount fee;
 		// get the alias from the DB
 		if(!GetVtxOfAlias(vchAlias, dbAlias, vtxPos, isExpired))	
 		{
-			fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, theAlias.vchAliasPeg, nHeight);
 			if(op == OP_ALIAS_ACTIVATE)
 			{
 				if(!isExpired && !vtxPos.empty())
@@ -843,10 +841,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			else if(op == OP_ALIAS_PAYMENT && vtxPos.empty())
 				return true;
 		}
-		else
-			 fee = GetDataFee(tx.vout[nDataOut].scriptPubKey, dbAlias.vchAliasPeg, nHeight);
 		if(!vchData.empty())
 		{
+			CAmount fee = GetDataFee(tx.vout[nDataOut].scriptPubKey,  (op == OP_ALIAS_ACTIVATE)? theAlias.vchAliasPeg:dbAlias.vchAliasPeg, nHeight);	
 			// if this is an alias update get expire time and figure out if alias update pays enough fees for updating expiry
 			if(!theAlias.IsNull())
 			{
@@ -862,11 +859,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				// ensure aliases are good for atleast an hour
 				if(nTimeExpiry < 3600)
 					theAlias.nExpireTime = chainActive[nHeightTmp]->nTime+3600;
-				if (fee > tx.vout[nDataOut].nValue) 
-				{
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Transaction does not pay enough fees");
-					return true;
-				}
+			}
+			if (fee > tx.vout[nDataOut].nValue) 
+			{
+				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Transaction does not pay enough fees");
+				return true;
 			}
 		}
 				
