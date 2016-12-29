@@ -860,7 +860,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(nTimeExpiry < 3600)
 					theAlias.nExpireTime = chainActive[nHeightTmp]->nTime+3600;
 			}
-			if ((fee-COIN) > tx.vout[nDataOut].nValue) 
+			if ((fee-10000) > tx.vout[nDataOut].nValue) 
 			{
 				errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5019 - " + _("Transaction does not pay enough fees");
 				return true;
