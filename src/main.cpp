@@ -1165,33 +1165,41 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, b
 			if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
 			{
 				good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
+				if(fDebug && !errorMessage.empty())
+					LogPrintf("%s\n", errorMessage.c_str());
 			}
 		}
 		if(good)
 		{
 			if(DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
-				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);			
+				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	
+				if(fDebug && !errorMessage.empty())
+					LogPrintf("%s\n", errorMessage.c_str());
 			}
 			else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
 			{
 				good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+				if(fDebug && !errorMessage.empty())
+					LogPrintf("%s\n", errorMessage.c_str());
 			}
 			else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
 			{
-				good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
+				good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	
+				if(fDebug && !errorMessage.empty())
+					LogPrintf("%s\n", errorMessage.c_str());
 			}
 			else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
 			{	
 				good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
+				if(fDebug && !errorMessage.empty())
+					LogPrintf("%s\n", errorMessage.c_str());
 			}
 		}
 		if(!good)
 		{
 			return false;
 		}
-		if(fDebug && !errorMessage.empty())
-			LogPrintf("%s\n", errorMessage.c_str());
 		
 	}
 	return true;	
