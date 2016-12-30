@@ -640,6 +640,7 @@ bool EditOfferDialog::saveCurrentRow()
 		mode = NewOffer;
 	}
 	QString defaultPegAlias;
+	QVariant currentCategory;
 	QSettings settings;
 	UniValue params(UniValue::VARR);
 	string strMethod;
@@ -743,7 +744,7 @@ bool EditOfferDialog::saveCurrentRow()
 			strMethod = string("offerupdate");
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->offerEdit->text().toStdString());
-			QVariant currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
 			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
 				params.push_back(currentCategory.toString().toStdString());
 			else

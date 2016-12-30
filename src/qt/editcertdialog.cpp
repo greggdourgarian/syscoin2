@@ -368,6 +368,7 @@ bool EditCertDialog::saveCurrentRow()
 	}
 	UniValue params(UniValue::VARR);
 	string strMethod;
+	QVariant currentCategory;
     switch(mode)
     {
     case NewCert:
@@ -384,7 +385,7 @@ bool EditCertDialog::saveCurrentRow()
 		params.push_back(ui->certDataEdit->toPlainText().toStdString());
 		params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
-		QVariant currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+		currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
 		if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
 			params.push_back(currentCategory.toString().toStdString());
 		else
@@ -441,7 +442,7 @@ bool EditCertDialog::saveCurrentRow()
 			params.push_back(ui->certDataEdit->toPlainText().toStdString());
 			params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 			params.push_back(ui->safeSearchEdit->currentText().toStdString());
-			QVariant currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
 			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
 				params.push_back(currentCategory.toString().toStdString());
 			else
