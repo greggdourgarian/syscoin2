@@ -507,7 +507,7 @@ void EditOfferDialog::loadAliases()
 					ui->aliasEdit->addItem(name, name);		
 					if(name == alias)
 					{
-						index = ui->aliasEdit->findData(alias);
+						int index = ui->aliasEdit->findData(alias);
 						if ( index != -1 ) 
 						{
 							ui->aliasEdit->setCurrentIndex(index);
