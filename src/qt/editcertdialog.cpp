@@ -384,8 +384,9 @@ bool EditCertDialog::saveCurrentRow()
 		params.push_back(ui->certDataEdit->toPlainText().toStdString());
 		params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
-		if(ui->categoryEdit->currentIndex() >= 0)
-			params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
+		QVariant currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+		if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
+			params.push_back(currentCategory.toString().toStdString());
 		else
 			params.push_back(ui->categoryEdit->currentText().toStdString());
 		try {
@@ -440,8 +441,9 @@ bool EditCertDialog::saveCurrentRow()
 			params.push_back(ui->certDataEdit->toPlainText().toStdString());
 			params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 			params.push_back(ui->safeSearchEdit->currentText().toStdString());
-			if(ui->categoryEdit->currentIndex() >= 0)
-				params.push_back(ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole).toString().toStdString());
+			QVariant currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
+				params.push_back(currentCategory.toString().toStdString());
 			else
 				params.push_back(ui->categoryEdit->currentText().toStdString());
 			try {
