@@ -665,7 +665,7 @@ bool EditOfferDialog::saveCurrentRow()
 		}
 		strMethod = string("offernew");
 		params.push_back(ui->aliasEdit->currentText().toStdString());
-		QVariant currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+		currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
 		if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
 			params.push_back(currentCategory.toString().toStdString());
 		else
