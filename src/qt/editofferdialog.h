@@ -59,6 +59,7 @@ private:
 	WalletModel* walletModel;
     QString offer;
 	QString cert;
+	QString alias;
 	QString commission;
 	bool overrideSafeSearch;
 	QString expiredStr;
