@@ -48,7 +48,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 
 	ui->geolocationDisclaimer->setText(QString("<font color='blue'>") + tr("If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information") + QString("</font>"));
 	ui->currencyDisclaimer->setText(QString("<font color='blue'>") + tr("You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected") + QString("</font>"));
-	ui->paymentOptionsDisclaimer->setText(QString("<font color='blue'>") + tr("Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: 'SYS+BTC+ZEC'. For SYS and ZEC: 'SYS+ZEC'. Please note that in order spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.") + QString("</font>"));
+	ui->paymentOptionsDisclaimer->setText(QString("<font color='blue'>") + tr("Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: 'SYS+BTC+ZEC'. For SYS and ZEC: 'SYS+ZEC'. Please note that in order to spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.") + QString("</font>"));
 	cert = strCert;
 	alias = strAlias;
 	ui->certEdit->clear();
