@@ -1338,7 +1338,7 @@ bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases)
 					pcursor->Next();
 					continue;
 				}
-				const CCert &txPos = vtxPos.back();
+				const CAliasIndex &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
 					if(vchMyAlias != vchFromString("sysrates.peg") && vchMyAlias != vchFromString("sysban") && vchMyAlias != vchFromString("syscategory"))
@@ -3126,7 +3126,6 @@ UniValue aliasstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 < params.size())
 		throw runtime_error("aliasstats maxresults=50\n"
 				"Show statistics for all non-expired aliases. Last maxresults aliases are returned.\n");
-	vector<string> aliases;
 	int nMaxResults = 50;
 	if(params.size() >= 1)
 		nMaxResults = params[0].get_int();
