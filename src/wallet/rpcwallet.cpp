@@ -2783,6 +2783,7 @@ extern UniValue offerremovewhitelist(const UniValue& params, bool fHelp);
 extern UniValue offerclearwhitelist(const UniValue& params, bool fHelp);
 extern UniValue offerwhitelist(const UniValue& params, bool fHelp);
 extern UniValue offerinfo(const UniValue& params, bool fHelp);
+extern UniValue offerstats(const UniValue& params, bool fHelp);
 extern UniValue offerlist(const UniValue& params, bool fHelp);
 extern UniValue offeracceptlist(const UniValue& params, bool fHelp);
 extern UniValue offerhistory(const UniValue& params, bool fHelp);
@@ -2896,6 +2897,7 @@ static const CRPCCommand commands[] =
     { "wallet", "offerinfo",            &offerinfo,            false },
     { "wallet", "offerhistory",         &offerhistory,         false },
     { "wallet", "offerfilter",          &offerfilter,          false },
+	{ "wallet", "offerstats",           &offerstats,           false },
 
 	// use the blockchain as a certificate issuance platform
 	{ "wallet", "certnew",         &certnew,     false },

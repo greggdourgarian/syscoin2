@@ -177,6 +177,42 @@ bool COfferDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
+bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const vector<string>& aliasArray)
+{
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
+	vector<COffer> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "offeri") {
+            	const vector<unsigned char> &vchMyOffer = key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty());
+					continue;
+				const COffer &txPos = vtxPos.back();
+  				if (chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
+					continue;
+				if(aliasArray.size() > 0)
+				{
+					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAlias)) == aliasArray.end())
+					{
+						pcursor->Next();
+						continue;
+					}
+				}
+				offers.push_back(vtxPos);	
+            }
+			
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+	return true;
+}
+
 bool COfferDB::ScanOffers(const std::vector<unsigned char>& vchOffer, const string& strRegexp, bool safeSearch,const string& strCategory, unsigned int nMax,
 		std::vector<COffer>& offerScan) {
    // regexp
@@ -4001,4 +4037,71 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 
 	entry.push_back(Pair("private", privateValue ));
 
+}
+UniValue offerstats(const UniValue& params, bool fHelp) {
+	if (fHelp || 1 < params.size())
+		throw runtime_error("offerstats [\"alias\",...]\n"
+				"Show statistics for all non-expired offers. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
+	vector<string> aliases;
+	if(params.size() >= 1)
+	{
+		if(params[0].isArray())
+		{
+			aliasesValue = params[0].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str();
+				boost::algorithm::to_lower(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
+			}
+		}
+		else
+		{
+			string aliasName =  params[0].get_str();
+			boost::algorithm::to_lower(aliasName);
+			if(!aliasName.empty())
+				aliases.push_back(aliasName);
+		}
+	}
+	UniValue oOfferStats(UniValue::VOBJ);
+	std::vector<vector<COffer> > offers;
+	if (!pofferdb->GetDBOffers(offers, aliases))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1597 - " + _("Scan failed"));	
+	if(!BuildOfferStatsJson(offers, oOfferStats))
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1598 - " + _("Could not find this offer"));
+
+	return oOfferStats;
+
+}
+/* Output some stats about offers
+	- Total number of offers
+	- Total number of offers sold
+	- Total ZEC paid for offers
+	- Total BTC paid for offers
+	- Total SYS paid for offers
+*/
+bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats)
+{
+	uint32_t totalOffers = offers.size();
+	uint32_t totalAccepts = 0;
+	typedef map<uint32_t, CAmount> map_t;
+
+	map_t totalAmounts;
+	BOOST_FOREACH(const vector<COffer> &vtxPos, offers) {
+		BOOST_FOREACH(const COffer &offer, vtxPos) {
+			if(!offer.accept.IsNull())
+			{
+				totalAccepts++;
+				if(IsValidPaymentOption(offer.accept.nPaymentOption))
+					totalAmounts[offer.accept.nPaymentOption] += offer.accept.nPrice;
+			}
+		}
+	}
+
+	oOfferStats.push_back(Pair("totaloffers", totalOffers));
+	oOfferStats.push_back(Pair("totalaccepts", totalAccepts)); 
+	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
+		oOfferStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
+	return true;
 }
