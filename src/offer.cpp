@@ -4111,13 +4111,17 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 	{
 		if((offers.size()-i) < 0)
 			break;
+		const COffer& offer = offers[offers.size()-i].back();
+		// skip payments to offers in offer stats last results
+		if(!offer.accept.IsNull())
+			continue;
 		UniValue oOffer(UniValue::VOBJ);
 		CTransaction aliastx;
 		CAliasIndex alias;
-		if(!GetTxOfAlias(offers[offers.size()-i].vchAlias, alias, aliastx, true))
+		if(!GetTxOfAlias(offer.vchAlias, alias, aliastx, true))
 			continue;
 
-		if(!BuildOfferJson(offers[offers.size()-i], alias, oOffer))
+		if(!BuildOfferJson(offer, alias, oOffer))
 			continue;
 		oOffers.push_back(oOffer);
 	}
