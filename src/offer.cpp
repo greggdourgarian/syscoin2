@@ -4047,7 +4047,7 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	{
 		if(params[0].isArray())
 		{
-			aliasesValue = params[0].get_array();
+			UniValue aliasesValue = params[0].get_array();
 			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
@@ -4099,8 +4099,8 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 		}
 	}
 
-	oOfferStats.push_back(Pair("totaloffers", totalOffers));
-	oOfferStats.push_back(Pair("totalaccepts", totalAccepts)); 
+	oOfferStats.push_back(Pair("totaloffers", (int)totalOffers));
+	oOfferStats.push_back(Pair("totalaccepts", (int)totalAccepts)); 
 	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
 		oOfferStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
 	return true;
