@@ -4040,14 +4040,17 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 }
 UniValue offerstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 < params.size())
-		throw runtime_error("offerstats [\"alias\",...]\n"
-				"Show statistics for all non-expired offers. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
+		throw runtime_error("offerstats maxresults=50 [\"alias\",...]\n"
+				"Show statistics for all non-expired offers. Last maxresults offers are returned. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
 	vector<string> aliases;
+	int nMaxResults = 50;
 	if(params.size() >= 1)
+		nMaxResults = params[0].get_int();
+	if(params.size() >= 2)
 	{
-		if(params[0].isArray())
+		if(params[1].isArray())
 		{
-			UniValue aliasesValue = params[0].get_array();
+			UniValue aliasesValue = params[1].get_array();
 			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
 			{
 				string lowerStr = aliasesValue[aliasIndex].get_str();
@@ -4058,7 +4061,7 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 		}
 		else
 		{
-			string aliasName =  params[0].get_str();
+			string aliasName =  params[1].get_str();
 			boost::algorithm::to_lower(aliasName);
 			if(!aliasName.empty())
 				aliases.push_back(aliasName);
@@ -4068,7 +4071,7 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	std::vector<vector<COffer> > offers;
 	if (!pofferdb->GetDBOffers(offers, aliases))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1597 - " + _("Scan failed"));	
-	if(!BuildOfferStatsJson(offers, oOfferStats))
+	if(!BuildOfferStatsJson(offers, nMaxResults, oOfferStats))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1598 - " + _("Could not find this offer"));
 
 	return oOfferStats;
@@ -4081,7 +4084,7 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	- Total BTC paid for offers
 	- Total SYS paid for offers
 */
-bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats)
+bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nMaxResults, UniValue& oOfferStats)
 {
 	uint32_t totalOffers = offers.size();
 	uint32_t totalAccepts = 0;
@@ -4103,5 +4106,21 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 	oOfferStats.push_back(Pair("totalaccepts", (int)totalAccepts)); 
 	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
 		oOfferStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
+	UniValue oOffers(UniValue::VARR);
+	for(unsigned int i=0;i<nMaxResults;i++)
+	{
+		if((offers.size()-i) < 0)
+			break;
+		UniValue oOffer(UniValue::VOBJ);
+		CTransaction aliastx;
+		CAliasIndex alias;
+		if(!GetTxOfAlias(offers[offers.size()-i].vchAlias, alias, aliastx, true))
+			continue;
+
+		if(!BuildOfferJson(offers[offers.size()-i], alias, oOffer))
+			continue;
+		oOffers.push_back(oOffer);
+	}
+	oOfferStats.push_back(Pair("lastOffers", oOffers)); 
 	return true;
 }
