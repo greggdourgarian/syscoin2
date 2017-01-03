@@ -3906,7 +3906,7 @@ UniValue escrowstats(const UniValue& params, bool fHelp) {
 		}
 	}
 	UniValue oEscrowStats(UniValue::VOBJ);
-	std::vector<CEscrow> escrows;
+	std::vector<std::vector<CEscrow> > escrows;
 	if (!pescrowdb->GetDBEscrows(escrows, aliases))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4608 - " + _("Scan failed"));	
 	if(!BuildEscrowStatsJson(escrows, nMaxResults, oEscrowStats))
