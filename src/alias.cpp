@@ -1325,7 +1325,7 @@ bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
-	vector<CCert> vtxPos;
+	vector<CAliasIndex> vtxPos;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
