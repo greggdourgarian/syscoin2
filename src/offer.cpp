@@ -4115,7 +4115,7 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 		oOfferStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
 	UniValue oOffers(UniValue::VARR);
 	int result = 0;
-	BOOST_REVERSE_FOREACH(const vector<COffer> &vtxPos, escrows) {
+	BOOST_REVERSE_FOREACH(const vector<COffer> &vtxPos, offers) {
 		const COffer& offer = vtxPos.back();
 		// skip payments to offers in offer stats last results
 		if(!offer.accept.IsNull())
@@ -4133,6 +4133,6 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 		if(result > nMaxResults)
 			break;
 	}
-	oOfferStats.push_back(Pair("lastOffers", oOffers)); 
+	oOfferStats.push_back(Pair("lastoffers", oOffers)); 
 	return true;
 }

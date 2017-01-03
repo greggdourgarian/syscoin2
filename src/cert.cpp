@@ -226,6 +226,48 @@ bool CCertDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
+bool CCertDB::GetDBCerts(std::vector<std::vector<CCert> >& certs, const std::vector<std::string>& aliasArray)
+{
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
+	vector<CCert> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "certi") {
+            	const vector<unsigned char> &vchMyOffer = key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty());
+				{
+					pcursor->Next();
+					continue;
+				}
+				const CCert &txPos = vtxPos.back();
+  				if (chainActive.Tip()->nTime >= GetCertExpiration(txPos))
+				{
+					pcursor->Next();
+					continue;
+				}
+				if(aliasArray.size() > 0)
+				{
+					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAlias)) == aliasArray.end())
+					{
+						pcursor->Next();
+						continue;
+					}
+				}
+				certs.push_back(vtxPos);	
+            }
+			
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+	return true;
+}
+
 bool CCertDB::ScanCerts(const std::vector<unsigned char>& vchCert, const string &strRegexp, const vector<string>& aliasArray, bool safeSearch, const string& strCategory, unsigned int nMax,
         std::vector<CCert>& certScan) {
     // regexp
@@ -1531,6 +1573,70 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 
 
 
+}
+UniValue certstats(const UniValue& params, bool fHelp) {
+	if (fHelp || 2 < params.size())
+		throw runtime_error("certstats maxresults=50 [\"alias\",...]\n"
+				"Show statistics for all non-expired certificates. Last maxresults certificates are returned. Set of certificates to look up based on array of aliases passed in. Leave empty for all certificates.\n");
+	vector<string> aliases;
+	int nMaxResults = 50;
+	if(params.size() >= 1)
+		nMaxResults = params[0].get_int();
+	if(params.size() >= 2)
+	{
+		if(params[1].isArray())
+		{
+			UniValue aliasesValue = params[1].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str();
+				boost::algorithm::to_lower(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
+			}
+		}
+		else
+		{
+			string aliasName =  params[1].get_str();
+			boost::algorithm::to_lower(aliasName);
+			if(!aliasName.empty())
+				aliases.push_back(aliasName);
+		}
+	}
+	UniValue oCertStats(UniValue::VOBJ);
+	std::vector<CCert> certs;
+	if (!pcertdb->GetDBCerts(certs, aliases))
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2521 - " + _("Scan failed"));	
+	if(!BuildCertStatsJson(certs, nMaxResults, oCertStats))
+		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2522 - " + _("Could not find this certificate"));
+
+	return oCertStats;
+
+}
+/* Output some stats about certs
+	- Total number of certs
+	- Last nMaxResults certs
+*/
+bool BuildCertStatsJson(const std::vector<std::vector<CCert> > &certs, int nMaxResults, UniValue& oCertStats)
+{
+	uint32_t totalCerts = certs.size();
+	oCertStats.push_back(Pair("totalcerts", (int)totalCerts));
+	UniValue oCerts(UniValue::VARR);
+	int result = 0;
+	BOOST_REVERSE_FOREACH(const vector<CCert> &vtxPos, certs) {
+		UniValue oCert(UniValue::VOBJ);
+		CAliasIndex alias;
+		CTransaction aliastx;
+		if (!GetTxOfAlias(vtxPos.back().vchAlias, alias, aliastx, true))
+			continue;
+		if(!BuildCertJson(vtxPos.back(), alias, oCert))
+			continue;
+		result++;
+		if(result > nMaxResults)
+			break;
+	}
+	oCertStats.push_back(Pair("lastcerts", oCerts)); 
+	return true;
 }
 
 

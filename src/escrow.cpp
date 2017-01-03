@@ -3965,6 +3965,6 @@ bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, int
 		if(result > nMaxResults)
 			break;
 	}
-	oEscrowStats.push_back(Pair("lastEscrows", oEscrows)); 
+	oEscrowStats.push_back(Pair("lastescrows", oEscrows)); 
 	return true;
 }
