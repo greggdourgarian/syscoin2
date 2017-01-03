@@ -139,8 +139,6 @@ bool CEscrowDB::CleanupDatabase(int &servicesCleaned)
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
 	vector<CEscrow> vtxPos;
-	uint256 txHash;
-	CTransaction fundingTx;
 	pair<string, vector<unsigned char> > key;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
@@ -168,7 +166,59 @@ bool CEscrowDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-
+bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const std::vector<std::string>& aliasArray)
+{
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
+	vector<CEscrow> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "escrowi") {
+            	const vector<unsigned char> &vchMyOffer = key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty());
+				{
+					pcursor->Next();
+					continue;
+				}
+				const CEscrow &txPos = vtxPos.back();
+  				if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos))
+				{
+					pcursor->Next();
+					continue;
+				}
+				if(aliasArray.size() > 0)
+				{
+					string buyerAliasLower = stringFromVch(txPos.vchBuyerAlias);
+					string sellerAliasLower = stringFromVch(txPos.vchSellerAlias);
+					string arbiterAliasLower = stringFromVch(txPos.vchArbiterAlias);
+					string linkSellerAliasLower = stringFromVch(txPos.vchLinkSellerAlias);
+				
+					bool notFoundLinkSeller = true;
+					if(!linkSellerAliasLower.empty())
+						notFoundLinkSeller = (std::find(aliasArray.begin(), aliasArray.end(), linkSellerAliasLower) == aliasArray.end());
+					if (std::find(aliasArray.begin(), aliasArray.end(), buyerAliasLower) == aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), sellerAliasLower) == aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), arbiterAliasLower) == aliasArray.end() &&
+						notFoundLinkSeller)
+					{
+						pcursor->Next();
+						continue;
+					}
+				
+				}
+				escrows.push_back(vtxPos);	
+            }
+			
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+	return true;
+}
 bool CEscrowDB::ScanEscrows(const std::vector<unsigned char>& vchEscrow, const string& strRegexp, const vector<string>& aliasArray, unsigned int nMax,
 							std::vector<std::pair<CEscrow, CEscrow> >& escrowScan) {
 	string strSearchLower = strRegexp;
@@ -3826,4 +3876,95 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 	if(!escrow.feedback.empty())
 		feedbackValue = _("Escrow feedback was given");
 	entry.push_back(Pair("feedback", feedbackValue));
+}
+UniValue escrowstats(const UniValue& params, bool fHelp) {
+	if (fHelp || 2 < params.size())
+		throw runtime_error("escrowstats maxresults=50 [\"alias\",...]\n"
+				"Show statistics for all non-expired escrows. Last maxresults offers are returned. Set of escrows to look up based on array of aliases passed in. Leave empty for all escrows.\n");
+	vector<string> aliases;
+	int nMaxResults = 50;
+	if(params.size() >= 1)
+		nMaxResults = params[0].get_int();
+	if(params.size() >= 2)
+	{
+		if(params[1].isArray())
+		{
+			UniValue aliasesValue = params[1].get_array();
+			for(unsigned int aliasIndex =0;aliasIndex<aliasesValue.size();aliasIndex++)
+			{
+				string lowerStr = aliasesValue[aliasIndex].get_str();
+				boost::algorithm::to_lower(lowerStr);
+				if(!lowerStr.empty())
+					aliases.push_back(lowerStr);
+			}
+		}
+		else
+		{
+			string aliasName =  params[1].get_str();
+			boost::algorithm::to_lower(aliasName);
+			if(!aliasName.empty())
+				aliases.push_back(aliasName);
+		}
+	}
+	UniValue oEscrowStats(UniValue::VOBJ);
+	std::vector<CEscrow> escrows;
+	if (!pescrowdb->GetDBEscrows(escrows, aliases))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4608 - " + _("Scan failed"));	
+	if(!BuildEscrowStatsJson(escrows, nMaxResults, oEscrowStats))
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4609 - " + _("Could not find this escrow"));
+
+	return oEscrowStats;
+
+}
+/* Output some stats about escrows
+	- Total number of escrows
+	- Total ZEC paid for escrows
+	- Total BTC paid for escrows
+	- Total SYS paid for escrows
+	- Last nMaxResults escrows
+*/
+bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, int nMaxResults, UniValue& oEscrowStats)
+{
+	uint32_t totalEscrows = escrows.size();
+	typedef map<uint32_t, CAmount> map_t;
+
+	map_t totalAmounts;
+	BOOST_FOREACH(const vector<CEscrow> &vtxPos, escrows) {
+		const CEscrow& escrow = vtxPos.back();
+		const CEscrow& firstEscrow = vtxPos.front();
+		if(IsValidPaymentOption(escrow.nPaymentOption))
+		{
+			CTransaction offertx;
+			COffer offer;
+			vector<COffer> offerVtxPos;
+			GetTxAndVtxOfOffer(escrow.vchOffer, offer, offertx, offerVtxPos, true);
+			offer.nHeight = firstEscrow.nAcceptHeight;
+			offer.GetOfferFromList(offerVtxPos);
+			// if offer is not linked, look for a discount for the buyer
+			COfferLinkWhitelistEntry foundEntry;
+			if(offer.vchLinkOffer.empty())
+				offer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
+
+			totalAmounts[escrow.nPaymentOption] += offer.GetPrice(foundEntry);
+		}
+		
+	}
+
+
+	oEscrowStats.push_back(Pair("totalescrows", (int)totalEscrows));
+	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
+		oEscrowStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
+	UniValue oEscrows(UniValue::VARR);
+	int result = 0;
+	BOOST_REVERSE_FOREACH(const vector<CEscrow> &vtxPos, escrows) {
+		UniValue oEscrow(UniValue::VOBJ);
+		if(!BuildEscrowJson(vtxPos.back(), vtxPos.front(), oEscrow))
+			continue;
+		oEscrows.push_back(oEscrow);
+		result++;
+		if(result > nMaxResults)
+			break;
+	}
+	oEscrowStats.push_back(Pair("lastEscrows", oEscrows)); 
+	return true;
 }

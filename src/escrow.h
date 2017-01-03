@@ -173,6 +173,7 @@ public:
 		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp, const std::vector<std::string>& aliasArray,
             unsigned int nMax,
             std::vector<std::pair<CEscrow, CEscrow> >& escrowScan);
+	bool GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const std::vector<std::string>& aliasArray)
 	bool CleanupDatabase(int &servicesCleaned);
 };
 
@@ -181,5 +182,6 @@ bool GetTxAndVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& t
 bool GetVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, std::vector<CEscrow> &vtxPos);
 void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, std::vector<CEscrow> &vtxPos);
 bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const std::string &strPrivKey="");
+bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, int nMaxResults, UniValue& oEscrowStats);
 uint64_t GetEscrowExpiration(const CEscrow& escrow);
 #endif // ESCROW_H

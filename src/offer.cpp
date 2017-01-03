@@ -190,10 +190,16 @@ bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const vector<st
             	const vector<unsigned char> &vchMyOffer = key.second;         
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty());
+				{
+					pcursor->Next();
 					continue;
+				}
 				const COffer &txPos = vtxPos.back();
   				if (chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
+				{
+					pcursor->Next();
 					continue;
+				}
 				if(aliasArray.size() > 0)
 				{
 					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAlias)) == aliasArray.end())
@@ -4039,7 +4045,7 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 
 }
 UniValue offerstats(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 < params.size())
+	if (fHelp || 2 < params.size())
 		throw runtime_error("offerstats maxresults=50 [\"alias\",...]\n"
 				"Show statistics for all non-expired offers. Last maxresults offers are returned. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
 	vector<string> aliases;
@@ -4083,6 +4089,7 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	- Total ZEC paid for offers
 	- Total BTC paid for offers
 	- Total SYS paid for offers
+	- Last nMaxResults offers
 */
 bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nMaxResults, UniValue& oOfferStats)
 {
@@ -4107,11 +4114,9 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
 		oOfferStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
 	UniValue oOffers(UniValue::VARR);
-	for(unsigned int i=0;i<nMaxResults;i++)
-	{
-		if((offers.size()-i) < 0)
-			break;
-		const COffer& offer = offers[offers.size()-i].back();
+	int result = 0;
+	BOOST_REVERSE_FOREACH(const vector<COffer> &vtxPos, escrows) {
+		const COffer& offer = vtxPos.back();
 		// skip payments to offers in offer stats last results
 		if(!offer.accept.IsNull())
 			continue;
@@ -4123,7 +4128,10 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 
 		if(!BuildOfferJson(offer, alias, oOffer))
 			continue;
-		oOffers.push_back(oOffer);
+		oOffers.push_back(oOffer);	
+		result++;
+		if(result > nMaxResults)
+			break;
 	}
 	oOfferStats.push_back(Pair("lastOffers", oOffers)); 
 	return true;
