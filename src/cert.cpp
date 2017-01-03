@@ -226,7 +226,7 @@ bool CCertDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CCertDB::GetDBCerts(std::vector<std::vector<CCert> >& certs, const std::vector<std::string>& aliasArray)
+bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const std::vector<std::string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -235,8 +235,7 @@ bool CCertDB::GetDBCerts(std::vector<std::vector<CCert> >& certs, const std::vec
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         try {
-			if (pcursor->GetKey(key) && key.first == "certi") {
-            	const vector<unsigned char> &vchMyOffer = key.second;         
+			if (pcursor->GetKey(key) && key.first == "certi") {       
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty());
 				{
@@ -257,7 +256,7 @@ bool CCertDB::GetDBCerts(std::vector<std::vector<CCert> >& certs, const std::vec
 						continue;
 					}
 				}
-				certs.push_back(vtxPos);	
+				certs.push_back(txPos);	
             }
 			
             pcursor->Next();
@@ -1617,20 +1616,21 @@ UniValue certstats(const UniValue& params, bool fHelp) {
 	- Total number of certs
 	- Last nMaxResults certs
 */
-bool BuildCertStatsJson(const std::vector<std::vector<CCert> > &certs, int nMaxResults, UniValue& oCertStats)
+bool BuildCertStatsJson(const std::vector<CCert> &certs, int nMaxResults, UniValue& oCertStats)
 {
 	uint32_t totalCerts = certs.size();
 	oCertStats.push_back(Pair("totalcerts", (int)totalCerts));
 	UniValue oCerts(UniValue::VARR);
 	int result = 0;
-	BOOST_REVERSE_FOREACH(const vector<CCert> &vtxPos, certs) {
+	BOOST_REVERSE_FOREACH(const CCert &cert, certs) {
 		UniValue oCert(UniValue::VOBJ);
 		CAliasIndex alias;
 		CTransaction aliastx;
-		if (!GetTxOfAlias(vtxPos.back().vchAlias, alias, aliastx, true))
+		if (!GetTxOfAlias(cert.vchAlias, alias, aliastx, true))
 			continue;
-		if(!BuildCertJson(vtxPos.back(), alias, oCert))
+		if(!BuildCertJson(cert, alias, oCert))
 			continue;
+		oCerts.push_back(oCert);
 		result++;
 		if(result > nMaxResults)
 			break;

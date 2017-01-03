@@ -175,8 +175,7 @@ bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const 
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         try {
-			if (pcursor->GetKey(key) && key.first == "escrowi") {
-            	const vector<unsigned char> &vchMyOffer = key.second;         
+			if (pcursor->GetKey(key) && key.first == "escrowi") {      
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty());
 				{

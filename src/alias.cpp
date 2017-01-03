@@ -1321,6 +1321,42 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
+bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases)
+{
+	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
+	pcursor->SeekToFirst();
+	vector<CCert> vtxPos;
+	pair<string, vector<unsigned char> > key;
+    while (pcursor->Valid()) {
+        boost::this_thread::interruption_point();
+        try {
+			if (pcursor->GetKey(key) && key.first == "namei") {
+            	const vector<unsigned char> &vchMyAlias = key.second;         
+				pcursor->GetValue(vtxPos);	
+				if (vtxPos.empty());
+				{
+					pcursor->Next();
+					continue;
+				}
+				const CCert &txPos = vtxPos.back();
+  				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
+				{
+					if(vchMyAlias != vchFromString("sysrates.peg") && vchMyAlias != vchFromString("sysban") && vchMyAlias != vchFromString("syscategory"))
+					{
+						pcursor->Next();
+						continue;
+					}
+				}
+				aliases.push_back(txPos);	
+            }
+			
+            pcursor->Next();
+        } catch (std::exception &e) {
+            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+    }
+	return true;
+}
 void CleanupSyscoinServiceDatabases(int &numServicesCleaned)
 {
 	if(pofferdb != NULL)
@@ -3085,4 +3121,45 @@ void GetPrivateKeysFromScript(const CScript& script, vector<string> &strKeys)
 			continue;
 		strKeys.push_back(CSyscoinSecret(vchSecret).ToString());
 	}
+}
+UniValue aliasstats(const UniValue& params, bool fHelp) {
+	if (fHelp || 1 < params.size())
+		throw runtime_error("aliasstats maxresults=50\n"
+				"Show statistics for all non-expired aliases. Last maxresults aliases are returned.\n");
+	vector<string> aliases;
+	int nMaxResults = 50;
+	if(params.size() >= 1)
+		nMaxResults = params[0].get_int();
+	
+	UniValue oAliasStats(UniValue::VOBJ);
+	std::vector<CAliasIndex> aliases;
+	if (!paliasdb->GetDBAliases(aliases))
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5539 - " + _("Scan failed"));	
+	if(!BuildAliasStatsJson(aliases, nMaxResults, oAliasStats))
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5540 - " + _("Could not find this alias"));
+
+	return oAliasStats;
+
+}
+/* Output some stats about aliases
+	- Total number of aliases
+	- Last nMaxResults aliases
+*/
+bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, int nMaxResults, UniValue& oAliasStats)
+{
+	uint32_t totalAliases = aliases.size();
+	oAliasStats.push_back(Pair("totalaliases", (int)totalAliases));
+	UniValue oAliases(UniValue::VARR);
+	int result = 0;
+	BOOST_REVERSE_FOREACH(const CAliasIndex& alias, aliases) {
+		UniValue oAlias(UniValue::VOBJ);
+		if(!BuildAliasJson(alias, 0, oAlias))
+			continue;
+		oAliases.push_back(oAlias);
+		result++;
+		if(result > nMaxResults)
+			break;
+	}
+	oAliasStats.push_back(Pair("lastaliases", oAliases)); 
+	return true;
 }

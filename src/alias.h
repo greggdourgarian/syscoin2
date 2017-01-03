@@ -327,6 +327,7 @@ public:
 		const std::vector<unsigned char>& vchAlias, const std::string& strRegExp, bool safeSearch,
             unsigned int nMax,
             std::vector<CAliasIndex>& nameScan);
+	bool GetDBAliases(std::vector<CAliasIndex>& aliases);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };
@@ -398,5 +399,6 @@ int aliasunspent(const std::vector<unsigned char> &vchAlias, COutPoint& outpoint
 bool IsMyAlias(const CAliasIndex& alias);
 void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, const uint32_t nPaymentOption=1);
 void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, CScript& script, const uint32_t nPaymentOption=1);
+bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, int nMaxResults, UniValue& oAliasStats);
 void GetPrivateKeysFromScript(const CScript& script, std::vector<std::string> &strKeys);
 #endif // ALIAS_H
