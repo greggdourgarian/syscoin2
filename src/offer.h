@@ -28,11 +28,22 @@ bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut);
 #define PAYMENTOPTION_BTC 0x02
 #define PAYMENTOPTION_ZEC 0x04
 
+#define OFFERTYPE_NORMAL 0x00
+#define OFFERTYPE_COIN 0x01
+
 bool ValidatePaymentOptionsMask(const uint32_t paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
-bool IsValidPaymentOption(const uint32_t paymentOptionsMask);
+bool IsValidPaymentOption(const uint32_t &paymentOptionsMask);
 uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString);
-bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption);
+bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption);
+
+
+bool ValidateOfferTypeMask(const uint32_t offerTypeMask);
+bool ValidateOfferTypeString(const std::string &offerTypeString);
+bool IsValidOfferType(const uint32_t &offerTypeMask);
+uint32_t GetOfferTypeMaskFromString(const std::string &paymentOptionsString);
+bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &paymentOption);
+
 class COfferAccept {
 public:
 	std::vector<unsigned char> vchAcceptRand;
@@ -221,6 +232,7 @@ public:
 	unsigned int nSold;
 	std::vector<unsigned char> vchGeoLocation;
 	bool safeSearch;
+	uint32_t nOfferType;
 	COffer() {
         SetNull();
     }
@@ -269,6 +281,8 @@ public:
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
+			if(nOfferType > 0)
+				READWRITE(VARINT(nOfferType));
 
 
 	}
@@ -347,6 +361,7 @@ public:
 		&& a.safeSearch == b.safeSearch
 		&& a.vchGeoLocation == b.vchGeoLocation
 		&& a.vchOffer == b.vchOffer
+		&& a.nOfferType == b.nOfferType
         );
     }
 
@@ -373,6 +388,7 @@ public:
 		safeSearch = b.safeSearch;
 		vchGeoLocation = b.vchGeoLocation;
 		vchOffer = b.vchOffer;
+		nOfferType = b.nOfferType;
         return *this;
     }
 
@@ -380,8 +396,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
-    inline bool IsNull() const { return (vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
+    inline void SetNull() { nOfferType = OFFERTYPE_NORMAL; vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
+    inline bool IsNull() const { return (nOfferType==OFFERTYPE_NORMAL&&vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
 
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
@@ -416,7 +432,7 @@ public:
 		const std::vector<unsigned char>& vchOffer,const std::string &strRegExp, bool safeSearch,const std::string& strCategory,
             unsigned int nMax,
             std::vector<COffer>& offerScan);
-	bool GetDBOffers(std::vector<std::vector<COffer> >& offerScan, const uint64_t& nHeightFilter, const std::vector<std::string>& aliasArray);
+	bool GetDBOffers(std::vector<std::vector<COffer> >& offerScan, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };

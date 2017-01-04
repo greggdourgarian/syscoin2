@@ -159,7 +159,7 @@ public:
 		const std::vector<unsigned char>& vchCert, const std::string &strRegExp, const std::vector<std::string>& aliasArray, bool safeSearch, const std::string& strCategory,
             unsigned int nMax,
             std::vector<CCert>& certScan);
-	bool GetDBCerts(std::vector<CCert>& certs, const uint64_t& nHeightFilter, const std::vector<std::string>& aliasArray);
+	bool GetDBCerts(std::vector<CCert>& certs, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };

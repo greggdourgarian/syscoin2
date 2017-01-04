@@ -327,7 +327,7 @@ public:
 		const std::vector<unsigned char>& vchAlias, const std::string& strRegExp, bool safeSearch,
             unsigned int nMax,
             std::vector<CAliasIndex>& nameScan);
-	bool GetDBAliases(std::vector<CAliasIndex>& aliases,const uint64_t& nHeightFilter);
+	bool GetDBAliases(std::vector<CAliasIndex>& aliases,const uint64_t& nExpireFilter);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };

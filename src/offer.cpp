@@ -37,12 +37,12 @@ bool IsOfferOp(int op) {
         || op == OP_OFFER_ACCEPT;
 }
 
-bool ValidatePaymentOptionsMask(const uint32_t paymentOptionsMask) {
+bool ValidatePaymentOptionsMask(const uint32_t &paymentOptionsMask) {
 	uint32_t maxVal = PAYMENTOPTION_SYS | PAYMENTOPTION_BTC | PAYMENTOPTION_ZEC;
 	return !(paymentOptionsMask < 1 || paymentOptionsMask > maxVal);
 }
 
-bool IsValidPaymentOption(const uint32_t paymentOptionsMask) {
+bool IsValidPaymentOption(const uint32_t &paymentOptionsMask) {
 	return (paymentOptionsMask == PAYMENTOPTION_SYS || paymentOptionsMask == PAYMENTOPTION_BTC || paymentOptionsMask == PAYMENTOPTION_ZEC);
 }
 
@@ -78,8 +78,23 @@ uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString
 	return retval;
 }
 
-bool IsPaymentOptionInMask(const uint32_t mask, const uint32_t paymentOption) {
+bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption) {
   return mask & paymentOption ? true : false;
+}
+
+
+
+bool ValidateOfferTypeMask(const uint32_t &offerTypeMask) {
+	uint32_t maxVal = OFFERTYPE_NORMAL | OFFERTYPE_COIN;
+	return offerTypeMask <= maxVal;
+}
+
+bool IsValidOfferType(const uint32_t &offerTypeMask) {
+	return (offerTypeMask == OFFERTYPE_NORMAL || offerTypeMask == OFFERTYPE_COIN );
+}
+
+bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &offerType) {
+  return mask & offerType ? true : false;
 }
 
 uint64_t GetOfferExpiration(const COffer& offer) {
@@ -177,7 +192,7 @@ bool COfferDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const uint64_t &nHeightFilter, const vector<string>& aliasArray)
+bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const uint64_t &nExpireFilter, const vector<string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -195,7 +210,7 @@ bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const uint64_t 
 					continue;
 				}
 				const COffer &txPos = vtxPos.back();
-				if(txPos.nHeight < nHeightFilter)
+				if(chainActive.Height() <= txPos.nHeight || chainActive[txPos.nHeight]->nTime < nExpireFilter)
 				{
 					pcursor->Next();
 					continue;
@@ -4051,12 +4066,12 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 }
 UniValue offerstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("offerstats heightfilter=0 [\"alias\",...]\n"
-				"Show statistics for all non-expired offers. Only offers created or updated after heightfilter block height are returned. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
+		throw runtime_error("offerstats unixtime=0 [\"alias\",...]\n"
+				"Show statistics for all non-expired offers. Only offers created or updated after unixtime are returned. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
 	vector<string> aliases;
-	uint64_t nHeightFilter = 0;
+	uint64_t nExpireFilter = 0;
 	if(params.size() >= 1)
-		nHeightFilter = params[0].get_int64();
+		nExpireFilter = params[0].get_int64();
 	if(params.size() >= 2)
 	{
 		if(params[1].isArray())
@@ -4080,7 +4095,7 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	}
 	UniValue oOfferStats(UniValue::VOBJ);
 	std::vector<vector<COffer> > offers;
-	if (!pofferdb->GetDBOffers(offers, nHeightFilter, aliases))
+	if (!pofferdb->GetDBOffers(offers, nExpireFilter, aliases))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1597 - " + _("Scan failed"));	
 	if(!BuildOfferStatsJson(offers, oOfferStats))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1598 - " + _("Could not find this offer"));

@@ -166,7 +166,7 @@ bool CEscrowDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const uint64_t &nHeightFilter, const std::vector<std::string>& aliasArray)
+bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const uint64_t &nExpireFilter, const std::vector<std::string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -183,7 +183,7 @@ bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const 
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
-				if(txPos.nHeight < nHeightFilter)
+				if(chainActive.Height() <= txPos.nHeight || chainActive[txPos.nHeight]->nTime < nExpireFilter)
 				{
 					pcursor->Next();
 					continue;
@@ -1045,10 +1045,6 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4072 - " + _("Cannot purchase this private offer, must purchase through an affiliate");
 					return true;
 				}
-				if(dbOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(dbOffer.sCategory), "wanted"))
-				{
-					errorMessage = "SYSCOIN_ESCROW_CONSENSUS_ERROR: ERRCODE: 4073 - " + _("Cannot purchase a wanted offer");
-				}
 				int nQty = dbOffer.nQty;
 				// if this is a linked offer we must update the linked offer qty
 				if (pofferdb->ExistsOffer(dbOffer.vchLinkOffer)) {
@@ -1376,8 +1372,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias( theOffer.vchAlias, selleralias, txAlias))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4514 - " + _("Could not find seller alias with this identifier"));
 
-	if(theOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(theOffer.sCategory), "wanted"))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4515 - " + _("Cannot purchase a wanted offer"));
 
 	const CWalletTx *wtxAliasIn = NULL;
 
@@ -1397,8 +1391,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		CTransaction txLinkedAlias;
 		if (!GetTxOfAlias( linkedOffer.vchAlias, theLinkedAlias, txLinkedAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4517 - " + _("Could not find an alias with this identifier"));
-		if(linkedOffer.sCategory.size() > 0 && boost::algorithm::starts_with(stringFromVch(linkedOffer.sCategory), "wanted"))
-			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4518 - " + _("Cannot purchase a wanted offer"));
 
 		linkedOffer.linkWhitelist.GetLinkEntryByHash(theOffer.vchAlias, foundEntry);
 
@@ -3883,12 +3875,12 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 }
 UniValue escrowstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("escrowstats heightfilter=0 [\"alias\",...]\n"
-				"Show statistics for all non-expired escrows. Last maxresults offers are returned. Set of escrows to look up based on array of aliases passed in. Leave empty for all escrows.\n");
+		throw runtime_error("escrowstats unixtime=0 [\"alias\",...]\n"
+				"Show statistics for all non-expired escrows. Only escrows created or updated after unixtime are returned. Set of escrows to look up based on array of aliases passed in. Leave empty for all escrows.\n");
 	vector<string> aliases;
-	uint64_t nHeightFilter = 0;
+	uint64_t nExpireFilter = 0;
 	if(params.size() >= 1)
-		nHeightFilter = params[0].get_int64();
+		nExpireFilter = params[0].get_int64();
 	if(params.size() >= 2)
 	{
 		if(params[1].isArray())
@@ -3912,7 +3904,7 @@ UniValue escrowstats(const UniValue& params, bool fHelp) {
 	}
 	UniValue oEscrowStats(UniValue::VOBJ);
 	std::vector<std::vector<CEscrow> > escrows;
-	if (!pescrowdb->GetDBEscrows(escrows, nHeightFilter, aliases))
+	if (!pescrowdb->GetDBEscrows(escrows, nExpireFilter, aliases))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4608 - " + _("Scan failed"));	
 	if(!BuildEscrowStatsJson(escrows, oEscrowStats))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4609 - " + _("Could not find this escrow"));

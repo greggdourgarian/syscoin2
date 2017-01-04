@@ -1321,7 +1321,7 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases, const uint64_t &nHeightFilter)
+bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases, const uint64_t &nExpireFilter)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -1339,6 +1339,11 @@ bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases, const uint64_t &n
 					continue;
 				}
 				const CAliasIndex &txPos = vtxPos.back();
+				if(chainActive.Height() <= txPos.nHeight || chainActive[txPos.nHeight]->nTime < nExpireFilter)
+				{
+					pcursor->Next();
+					continue;
+				}
   				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
 				{
 					if(vchMyAlias != vchFromString("sysrates.peg") && vchMyAlias != vchFromString("sysban") && vchMyAlias != vchFromString("syscategory"))
@@ -3128,15 +3133,15 @@ void GetPrivateKeysFromScript(const CScript& script, vector<string> &strKeys)
 */
 UniValue aliasstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 < params.size())
-		throw runtime_error("aliasstats heightfilter=0\n"
-				"Show statistics for all non-expired aliases. Only aliases created or updated after heightfilter block height are returned.\n");
-	uint64_t nHeightFilter = 0;
+		throw runtime_error("aliasstats unixtime=0\n"
+				"Show statistics for all non-expired aliases. Only aliases created or updated after unixtime are returned.\n");
+	uint64_t nExpireFilter = 0;
 	if(params.size() >= 1)
-		nHeightFilter = params[0].get_int64();
+		nExpireFilter = params[0].get_int64();
 	
 	UniValue oAliasStats(UniValue::VOBJ);
 	std::vector<CAliasIndex> aliases;
-	if (!paliasdb->GetDBAliases(aliases, nHeightFilter))
+	if (!paliasdb->GetDBAliases(aliases, nExpireFilter))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5539 - " + _("Scan failed"));	
 	if(!BuildAliasStatsJson(aliases, oAliasStats))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5540 - " + _("Could not find this alias"));

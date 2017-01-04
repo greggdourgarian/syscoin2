@@ -226,7 +226,7 @@ bool CCertDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const uint64_t &nHeightFilter, const std::vector<std::string>& aliasArray)
+bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const uint64_t &nExpireFilter, const std::vector<std::string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -243,7 +243,7 @@ bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const uint64_t &nHeightFilte
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();
-				if(txPos.nHeight < nHeightFilter)
+				if(chainActive.Height() <= txPos.nHeight || chainActive[txPos.nHeight]->nTime < nExpireFilter)
 				{
 					pcursor->Next();
 					continue;
@@ -1580,12 +1580,12 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 }
 UniValue certstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("certstats heightfilter=0 [\"alias\",...]\n"
-				"Show statistics for all non-expired certificates. Last maxresults certificates are returned. Set of certificates to look up based on array of aliases passed in. Leave empty for all certificates.\n");
+		throw runtime_error("certstats unixtime=0 [\"alias\",...]\n"
+				"Show statistics for all non-expired certificates. Only certificates created or updated after unixtime are returned. Set of certificates to look up based on array of aliases passed in. Leave empty for all certificates.\n");
 	vector<string> aliases;
-	uint64_t nHeightFilter = 0;
+	uint64_t nExpireFilter = 0;
 	if(params.size() >= 1)
-		nHeightFilter = params[0].get_int64();
+		nExpireFilter = params[0].get_int64();
 	if(params.size() >= 2)
 	{
 		if(params[1].isArray())
@@ -1609,7 +1609,7 @@ UniValue certstats(const UniValue& params, bool fHelp) {
 	}
 	UniValue oCertStats(UniValue::VOBJ);
 	std::vector<CCert> certs;
-	if (!pcertdb->GetDBCerts(certs, nHeightFilter, aliases))
+	if (!pcertdb->GetDBCerts(certs, nExpireFilter, aliases))
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2521 - " + _("Scan failed"));	
 	if(!BuildCertStatsJson(certs, oCertStats))
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2522 - " + _("Could not find this certificate"));
