@@ -31,17 +31,15 @@ bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut);
 #define OFFERTYPE_NORMAL 0x00
 #define OFFERTYPE_COIN 0x01
 
-bool ValidatePaymentOptionsMask(const uint32_t paymentOptionsMask);
+bool ValidatePaymentOptionsMask(const uint32_t &paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
 bool IsValidPaymentOption(const uint32_t &paymentOptionsMask);
 uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString);
 bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption);
 
 
-bool ValidateOfferTypeMask(const uint32_t offerTypeMask);
-bool ValidateOfferTypeString(const std::string &offerTypeString);
+bool ValidateOfferTypeMask(const uint32_t& offerTypeMask);
 bool IsValidOfferType(const uint32_t &offerTypeMask);
-uint32_t GetOfferTypeMaskFromString(const std::string &paymentOptionsString);
 bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &paymentOption);
 
 class COfferAccept {
