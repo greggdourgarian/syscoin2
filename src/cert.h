@@ -159,7 +159,7 @@ public:
 		const std::vector<unsigned char>& vchCert, const std::string &strRegExp, const std::vector<std::string>& aliasArray, bool safeSearch, const std::string& strCategory,
             unsigned int nMax,
             std::vector<CCert>& certScan);
-	bool GetDBCerts(std::vector<CCert>& certs, const std::vector<std::string>& aliasArray);
+	bool GetDBCerts(std::vector<CCert>& certs, const uint64_t& nHeightFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };
@@ -171,6 +171,6 @@ bool GetVtxOfCert(const std::vector<unsigned char> &vchCert,
 					   CCert& txPos, std::vector<CCert> &vtxPos, bool skipExpiresCheck=false);
 void PutToCertList(std::vector<CCert> &certList, CCert& index);
 bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oName, const std::string &strPrivKey="");
-bool BuildCertStatsJson(const std::vector<CCert> &certs, int nMaxResults, UniValue& oCertStats);
+bool BuildCertStatsJson(const std::vector<CCert> &certs, UniValue& oCertStats);
 uint64_t GetCertExpiration(const CCert& cert);
 #endif // CERT_H

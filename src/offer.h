@@ -149,10 +149,10 @@ public:
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         READWRITE(entries);
 	}
-    inline bool GetLinkEntryByHash(const std::vector<unsigned char> &ahash, COfferLinkWhitelistEntry &entry) const {
+    inline bool GetLinkEntryByHash(const std::vector<unsigned char> &ahash, COfferLinkWhitelistEntry &entry, bool strict=false) const {
     	entry.SetNull();
 		for(unsigned int i=0;i<entries.size();i++) {
-    		if(entries[i].aliasLinkVchRand == ahash) {
+    		if(entries[i].aliasLinkVchRand == ahash || (!strict && entries[i].aliasLinkVchRand == vchFromString("na"))) {
     			entry = entries[i];
     			return true;
     		}
@@ -416,7 +416,7 @@ public:
 		const std::vector<unsigned char>& vchOffer,const std::string &strRegExp, bool safeSearch,const std::string& strCategory,
             unsigned int nMax,
             std::vector<COffer>& offerScan);
-	bool GetDBOffers(std::vector<std::vector<COffer> >& offerScan, const std::vector<std::string>& aliasArray);
+	bool GetDBOffers(std::vector<std::vector<COffer> >& offerScan, const uint64_t& nHeightFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };
@@ -437,6 +437,6 @@ std::string GetPaymentOptionsString(const uint32_t paymentOptions);
 CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOptions);
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOfferAccept, const std::string &strPrivKey="");
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const std::string &strPrivKey="");
-bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nMaxResults, UniValue& oOfferStats);
+bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats);
 uint64_t GetOfferExpiration(const COffer& offer);
 #endif // OFFER_H

@@ -177,7 +177,7 @@ bool COfferDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const vector<string>& aliasArray)
+bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const uint64_t &nHeightFilter, const vector<string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -195,6 +195,11 @@ bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const vector<st
 					continue;
 				}
 				const COffer &txPos = vtxPos.back();
+				if(txPos.nHeight < nHeightFilter)
+				{
+					pcursor->Next();
+					continue;
+				}
   				if (chainActive.Tip()->nTime >= GetOfferExpiration(txPos))
 				{
 					pcursor->Next();
@@ -1411,7 +1416,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theOffer.linkWhitelist.SetNull();
 				}
 				// the stored offer has this entry meaning we want to remove this entry
-				else if(theOffer.linkWhitelist.GetLinkEntryByHash(serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand, entry))
+				else if(theOffer.linkWhitelist.GetLinkEntryByHash(serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand, entry, true))
 				{
 					theOffer.linkWhitelist.RemoveWhitelistEntry(serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand);
 				}
@@ -1424,7 +1429,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 					else if(!serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand.empty())
 					{
-						if (GetTxOfAlias(serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand, theAlias, aliasTx))
+						if (serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand == vchFromString("na") || GetTxOfAlias(serializedOffer.linkWhitelist.entries[0].aliasLinkVchRand, theAlias, aliasTx))
 						{
 							theOffer.linkWhitelist.PutWhitelistEntry(serializedOffer.linkWhitelist.entries[0]);
 						}
@@ -4046,12 +4051,12 @@ void OfferTxToJSON(const int op, const std::vector<unsigned char> &vchData, cons
 }
 UniValue offerstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("offerstats maxresults=50 [\"alias\",...]\n"
-				"Show statistics for all non-expired offers. Last maxresults offers are returned. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
+		throw runtime_error("offerstats heightfilter=0 [\"alias\",...]\n"
+				"Show statistics for all non-expired offers. Only offers created or updated after heightfilter block height are returned. Set of offers to look up based on array of aliases passed in. Leave empty for all offers.\n");
 	vector<string> aliases;
-	int nMaxResults = 50;
+	uint64_t nHeightFilter = 0;
 	if(params.size() >= 1)
-		nMaxResults = params[0].get_int();
+		nHeightFilter = params[0].get_int64();
 	if(params.size() >= 2)
 	{
 		if(params[1].isArray())
@@ -4075,9 +4080,9 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	}
 	UniValue oOfferStats(UniValue::VOBJ);
 	std::vector<vector<COffer> > offers;
-	if (!pofferdb->GetDBOffers(offers, aliases))
+	if (!pofferdb->GetDBOffers(offers, nHeightFilter, aliases))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1597 - " + _("Scan failed"));	
-	if(!BuildOfferStatsJson(offers, nMaxResults, oOfferStats))
+	if(!BuildOfferStatsJson(offers, oOfferStats))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1598 - " + _("Could not find this offer"));
 
 	return oOfferStats;
@@ -4089,11 +4094,10 @@ UniValue offerstats(const UniValue& params, bool fHelp) {
 	- Total ZEC paid for offers
 	- Total BTC paid for offers
 	- Total SYS paid for offers
-	- Last nMaxResults offers
 */
-bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nMaxResults, UniValue& oOfferStats)
+bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats)
 {
-	uint32_t totalOffers = offers.size();
+	uint32_t totalOffers = 0;
 	uint32_t totalAccepts = 0;
 	typedef map<uint32_t, CAmount> map_t;
 
@@ -4109,8 +4113,6 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 		}
 	}
 
-	oOfferStats.push_back(Pair("totaloffers", (int)totalOffers));
-	oOfferStats.push_back(Pair("totalaccepts", (int)totalAccepts)); 
 	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
 		oOfferStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
 	UniValue oOffers(UniValue::VARR);
@@ -4128,11 +4130,11 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, int nM
 
 		if(!BuildOfferJson(offer, alias, oOffer))
 			continue;
+		totalOffers++;
 		oOffers.push_back(oOffer);	
-		result++;
-		if(result > nMaxResults)
-			break;
 	}
-	oOfferStats.push_back(Pair("lastoffers", oOffers)); 
+	oOfferStats.push_back(Pair("totaloffers", (int)totalOffers));
+	oOfferStats.push_back(Pair("totalaccepts", (int)totalAccepts)); 
+	oOfferStats.push_back(Pair("offers", oOffers)); 
 	return true;
 }

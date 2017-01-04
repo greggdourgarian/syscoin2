@@ -226,7 +226,7 @@ bool CCertDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const std::vector<std::string>& aliasArray)
+bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const uint64_t &nHeightFilter, const std::vector<std::string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -243,6 +243,11 @@ bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const std::vector<std::strin
 					continue;
 				}
 				const CCert &txPos = vtxPos.back();
+				if(txPos.nHeight < nHeightFilter)
+				{
+					pcursor->Next();
+					continue;
+				}
   				if (chainActive.Tip()->nTime >= GetCertExpiration(txPos))
 				{
 					pcursor->Next();
@@ -1575,12 +1580,12 @@ void CertTxToJSON(const int op, const std::vector<unsigned char> &vchData, const
 }
 UniValue certstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("certstats maxresults=50 [\"alias\",...]\n"
+		throw runtime_error("certstats heightfilter=0 [\"alias\",...]\n"
 				"Show statistics for all non-expired certificates. Last maxresults certificates are returned. Set of certificates to look up based on array of aliases passed in. Leave empty for all certificates.\n");
 	vector<string> aliases;
-	int nMaxResults = 50;
+	uint64_t nHeightFilter = 0;
 	if(params.size() >= 1)
-		nMaxResults = params[0].get_int();
+		nHeightFilter = params[0].get_int64();
 	if(params.size() >= 2)
 	{
 		if(params[1].isArray())
@@ -1604,9 +1609,9 @@ UniValue certstats(const UniValue& params, bool fHelp) {
 	}
 	UniValue oCertStats(UniValue::VOBJ);
 	std::vector<CCert> certs;
-	if (!pcertdb->GetDBCerts(certs, aliases))
+	if (!pcertdb->GetDBCerts(certs, nHeightFilter, aliases))
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2521 - " + _("Scan failed"));	
-	if(!BuildCertStatsJson(certs, nMaxResults, oCertStats))
+	if(!BuildCertStatsJson(certs, oCertStats))
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2522 - " + _("Could not find this certificate"));
 
 	return oCertStats;
@@ -1614,14 +1619,12 @@ UniValue certstats(const UniValue& params, bool fHelp) {
 }
 /* Output some stats about certs
 	- Total number of certs
-	- Last nMaxResults certs
 */
-bool BuildCertStatsJson(const std::vector<CCert> &certs, int nMaxResults, UniValue& oCertStats)
+bool BuildCertStatsJson(const std::vector<CCert> &certs, UniValue& oCertStats)
 {
 	uint32_t totalCerts = certs.size();
 	oCertStats.push_back(Pair("totalcerts", (int)totalCerts));
 	UniValue oCerts(UniValue::VARR);
-	int result = 0;
 	BOOST_REVERSE_FOREACH(const CCert &cert, certs) {
 		UniValue oCert(UniValue::VOBJ);
 		CAliasIndex alias;
@@ -1631,11 +1634,8 @@ bool BuildCertStatsJson(const std::vector<CCert> &certs, int nMaxResults, UniVal
 		if(!BuildCertJson(cert, alias, oCert))
 			continue;
 		oCerts.push_back(oCert);
-		result++;
-		if(result > nMaxResults)
-			break;
 	}
-	oCertStats.push_back(Pair("lastcerts", oCerts)); 
+	oCertStats.push_back(Pair("certs", oCerts)); 
 	return true;
 }
 

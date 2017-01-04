@@ -1321,7 +1321,7 @@ bool CAliasDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases)
+bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases, const uint64_t &nHeightFilter)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -3122,19 +3122,23 @@ void GetPrivateKeysFromScript(const CScript& script, vector<string> &strKeys)
 		strKeys.push_back(CSyscoinSecret(vchSecret).ToString());
 	}
 }
+/* Output some stats about aliases
+	- Total number of aliases
+	- Last aliases since some arbritrary time
+*/
 UniValue aliasstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 < params.size())
-		throw runtime_error("aliasstats maxresults=50\n"
-				"Show statistics for all non-expired aliases. Last maxresults aliases are returned.\n");
-	int nMaxResults = 50;
+		throw runtime_error("aliasstats heightfilter=0\n"
+				"Show statistics for all non-expired aliases. Only aliases created or updated after heightfilter block height are returned.\n");
+	uint64_t nHeightFilter = 0;
 	if(params.size() >= 1)
-		nMaxResults = params[0].get_int();
+		nHeightFilter = params[0].get_int64();
 	
 	UniValue oAliasStats(UniValue::VOBJ);
 	std::vector<CAliasIndex> aliases;
-	if (!paliasdb->GetDBAliases(aliases))
+	if (!paliasdb->GetDBAliases(aliases, nHeightFilter))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5539 - " + _("Scan failed"));	
-	if(!BuildAliasStatsJson(aliases, nMaxResults, oAliasStats))
+	if(!BuildAliasStatsJson(aliases, oAliasStats))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5540 - " + _("Could not find this alias"));
 
 	return oAliasStats;
@@ -3142,23 +3146,18 @@ UniValue aliasstats(const UniValue& params, bool fHelp) {
 }
 /* Output some stats about aliases
 	- Total number of aliases
-	- Last nMaxResults aliases
 */
-bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, int nMaxResults, UniValue& oAliasStats)
+bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAliasStats)
 {
 	uint32_t totalAliases = aliases.size();
 	oAliasStats.push_back(Pair("totalaliases", (int)totalAliases));
 	UniValue oAliases(UniValue::VARR);
-	int result = 0;
 	BOOST_REVERSE_FOREACH(const CAliasIndex& alias, aliases) {
 		UniValue oAlias(UniValue::VOBJ);
 		if(!BuildAliasJson(alias, 0, oAlias))
 			continue;
 		oAliases.push_back(oAlias);
-		result++;
-		if(result > nMaxResults)
-			break;
 	}
-	oAliasStats.push_back(Pair("lastaliases", oAliases)); 
+	oAliasStats.push_back(Pair("aliases", oAliases)); 
 	return true;
 }

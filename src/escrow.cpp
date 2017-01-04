@@ -166,7 +166,7 @@ bool CEscrowDB::CleanupDatabase(int &servicesCleaned)
     }
 	return true;
 }
-bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const std::vector<std::string>& aliasArray)
+bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const uint64_t &nHeightFilter, const std::vector<std::string>& aliasArray)
 {
 	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
 	pcursor->SeekToFirst();
@@ -183,6 +183,11 @@ bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const 
 					continue;
 				}
 				const CEscrow &txPos = vtxPos.back();
+				if(txPos.nHeight < nHeightFilter)
+				{
+					pcursor->Next();
+					continue;
+				}
   				if (chainActive.Tip()->nTime >= GetEscrowExpiration(txPos))
 				{
 					pcursor->Next();
@@ -3878,12 +3883,12 @@ void EscrowTxToJSON(const int op, const std::vector<unsigned char> &vchData, con
 }
 UniValue escrowstats(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("escrowstats maxresults=50 [\"alias\",...]\n"
+		throw runtime_error("escrowstats heightfilter=0 [\"alias\",...]\n"
 				"Show statistics for all non-expired escrows. Last maxresults offers are returned. Set of escrows to look up based on array of aliases passed in. Leave empty for all escrows.\n");
 	vector<string> aliases;
-	int nMaxResults = 50;
+	uint64_t nHeightFilter = 0;
 	if(params.size() >= 1)
-		nMaxResults = params[0].get_int();
+		nHeightFilter = params[0].get_int64();
 	if(params.size() >= 2)
 	{
 		if(params[1].isArray())
@@ -3907,9 +3912,9 @@ UniValue escrowstats(const UniValue& params, bool fHelp) {
 	}
 	UniValue oEscrowStats(UniValue::VOBJ);
 	std::vector<std::vector<CEscrow> > escrows;
-	if (!pescrowdb->GetDBEscrows(escrows, aliases))
+	if (!pescrowdb->GetDBEscrows(escrows, nHeightFilter, aliases))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4608 - " + _("Scan failed"));	
-	if(!BuildEscrowStatsJson(escrows, nMaxResults, oEscrowStats))
+	if(!BuildEscrowStatsJson(escrows, oEscrowStats))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR ERRCODE: 4609 - " + _("Could not find this escrow"));
 
 	return oEscrowStats;
@@ -3920,9 +3925,8 @@ UniValue escrowstats(const UniValue& params, bool fHelp) {
 	- Total ZEC paid for escrows
 	- Total BTC paid for escrows
 	- Total SYS paid for escrows
-	- Last nMaxResults escrows
 */
-bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, int nMaxResults, UniValue& oEscrowStats)
+bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, UniValue& oEscrowStats)
 {
 	uint32_t totalEscrows = escrows.size();
 	typedef map<uint32_t, CAmount> map_t;
@@ -3948,22 +3952,17 @@ bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, int
 		}
 		
 	}
-
-
-	oEscrowStats.push_back(Pair("totalescrows", (int)totalEscrows));
+	
 	BOOST_FOREACH( map_t::value_type &i, totalAmounts )
 		oEscrowStats.push_back(Pair("total_" + GetPaymentOptionsString(i.first), ValueFromAmount(i.second))); 
 	UniValue oEscrows(UniValue::VARR);
-	int result = 0;
 	BOOST_REVERSE_FOREACH(const vector<CEscrow> &vtxPos, escrows) {
 		UniValue oEscrow(UniValue::VOBJ);
 		if(!BuildEscrowJson(vtxPos.back(), vtxPos.front(), oEscrow))
 			continue;
 		oEscrows.push_back(oEscrow);
-		result++;
-		if(result > nMaxResults)
-			break;
 	}
-	oEscrowStats.push_back(Pair("lastescrows", oEscrows)); 
+	oEscrowStats.push_back(Pair("totalescrows", (int)totalEscrows));
+	oEscrowStats.push_back(Pair("escrows", oEscrows)); 
 	return true;
 }
