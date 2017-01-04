@@ -237,7 +237,7 @@ bool CCertDB::GetDBCerts(std::vector<CCert>& certs, const uint64_t &nHeightFilte
         try {
 			if (pcursor->GetKey(key) && key.first == "certi") {       
 				pcursor->GetValue(vtxPos);	
-				if (vtxPos.empty());
+				if (vtxPos.empty())
 				{
 					pcursor->Next();
 					continue;

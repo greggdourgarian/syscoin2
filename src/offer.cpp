@@ -189,7 +189,7 @@ bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const uint64_t 
 			if (pcursor->GetKey(key) && key.first == "offeri") {
             	const vector<unsigned char> &vchMyOffer = key.second;         
 				pcursor->GetValue(vtxPos);	
-				if (vtxPos.empty());
+				if (vtxPos.empty())
 				{
 					pcursor->Next();
 					continue;

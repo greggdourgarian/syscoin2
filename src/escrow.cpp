@@ -177,7 +177,7 @@ bool CEscrowDB::GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const 
         try {
 			if (pcursor->GetKey(key) && key.first == "escrowi") {      
 				pcursor->GetValue(vtxPos);	
-				if (vtxPos.empty());
+				if (vtxPos.empty())
 				{
 					pcursor->Next();
 					continue;

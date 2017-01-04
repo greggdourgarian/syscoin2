@@ -1333,7 +1333,7 @@ bool CAliasDB::GetDBAliases(std::vector<CAliasIndex>& aliases, const uint64_t &n
 			if (pcursor->GetKey(key) && key.first == "namei") {
             	const vector<unsigned char> &vchMyAlias = key.second;         
 				pcursor->GetValue(vtxPos);	
-				if (vtxPos.empty());
+				if (vtxPos.empty())
 				{
 					pcursor->Next();
 					continue;
