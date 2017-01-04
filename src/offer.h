@@ -273,12 +273,9 @@ public:
 
 	}
 	inline CAmount GetPrice(const COfferLinkWhitelistEntry& entry=COfferLinkWhitelistEntry()) const{
-		COfferLinkWhitelistEntry  myentry;
 		CAmount price = nPrice;
-		linkWhitelist.GetLinkEntryByHash(entry.aliasLinkVchRand, myentry);
-
-		char nDiscount = myentry.nDiscountPct;
-		if(myentry.nDiscountPct > 99)
+		char nDiscount = entry.nDiscountPct;
+		if(entry.nDiscountPct > 99)
 			nDiscount = 0;
 		// nMarkup is a percentage, commission minus discount
 		char nMarkup = nCommission - nDiscount;
