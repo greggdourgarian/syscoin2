@@ -461,6 +461,7 @@ QT_TRANSLATE_NOOP("syscoin-core", "Could not find seller alias with this identif
 QT_TRANSLATE_NOOP("syscoin-core", "Could not find the alias associated with this offer"),
 QT_TRANSLATE_NOOP("syscoin-core", "Could not find the certificate alias"),
 QT_TRANSLATE_NOOP("syscoin-core", "Could not find this alias"),
+QT_TRANSLATE_NOOP("syscoin-core", "Could not find this certificate"),
 QT_TRANSLATE_NOOP("syscoin-core", "Could not find this escrow"),
 QT_TRANSLATE_NOOP("syscoin-core", "Could not find this message"),
 QT_TRANSLATE_NOOP("syscoin-core", "Could not find this offer purchase"),
