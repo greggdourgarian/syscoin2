@@ -284,7 +284,7 @@ public:
 			READWRITE(vchLinkAlias);
 			if(nOfferType > 0)
 				READWRITE(VARINT(nOfferType));
-			if(nQtyUnit != 1)
+			if(nQtyUnit != 1.0f)
 				READWRITE(nQtyUnit);
 
 
