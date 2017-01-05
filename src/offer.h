@@ -36,11 +36,13 @@ bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
 bool IsValidPaymentOption(const uint32_t &paymentOptionsMask);
 uint32_t GetPaymentOptionsMaskFromString(const std::string &paymentOptionsString);
 bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption);
-
+std::string GetPaymentOptionsString(const uint32_t &paymentOptions);
+CChainParams::AddressType PaymentOptionToAddressType(const uint32_t &paymentOptions);
 
 bool ValidateOfferTypeMask(const uint32_t& offerTypeMask);
 bool IsValidOfferType(const uint32_t &offerTypeMask);
 bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &paymentOption);
+std::string GetOfferTypeString(const uint32_t &offerType)
 
 class COfferAccept {
 public:
@@ -462,8 +464,6 @@ bool GetTxAndVtxOfOffer(const std::vector<unsigned char> &vchOffer,
 				  COffer& txPos, CTransaction& tx, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
 bool GetVtxOfOffer(const std::vector<unsigned char> &vchOffer,
 				  COffer& txPos, std::vector<COffer> &vtxPos, bool skipExpiresCheck=false);
-std::string GetPaymentOptionsString(const uint32_t paymentOptions);
-CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOptions);
 bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex &alias, const CTransaction &aliastx, UniValue& oOfferAccept, const std::string &strPrivKey="");
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const std::string &strPrivKey="");
 bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats);

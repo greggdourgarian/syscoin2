@@ -96,7 +96,18 @@ bool IsValidOfferType(const uint32_t &offerTypeMask) {
 bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &offerType) {
   return mask & offerType ? true : false;
 }
+std::string GetOfferTypeString(const uint32_t &offerType)
+{
+	vector<std::string> offertype;
+	if(IsOfferTypeInMask(paymentOptions, OFFERTYPE_NORMAL)) {
+		currencies.push_back(std::string("normal"));
+	}
+	else if(IsOfferTypeInMask(paymentOptions, OFFERTYPE_COIN)) {
+		currencies.push_back(std::string("coin"));
+	}
 
+	return boost::algorithm::join(offertype, "+");
+}
 uint64_t GetOfferExpiration(const COffer& offer) {
 	// dont prunte by default, set nHeight to future time
 	uint64_t nTime = chainActive.Tip()->nTime + 1;
@@ -765,6 +776,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1016 - " + _("Invalid payment option");
 				return error(errorMessage.c_str());
 			}
+			if(!ValidateOfferTypeMask(theOffer.nOfferType))
+			{
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1016 - " + _("Invalid offer type");
+				return error(errorMessage.c_str());
+			}
 			if(!theOffer.accept.IsNull())
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1017 - " + _("Cannot have accept information on offer activation");
@@ -978,6 +994,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			serializedOffer.nSold = theOffer.nSold;
 			// cannot edit safety level
 			serializedOffer.safetyLevel = theOffer.safetyLevel;
+			// cannot edit offer tpye or qty unit after creation
+			serializedOffer.nOfferType = theOffer.nOfferType;
+			serializedOffer.nQtyUnit = theOffer.nQtyUnit;
 			serializedOffer.accept.SetNull();
 			theOffer = serializedOffer;
 			if(!vtxPos.empty())
@@ -1490,9 +1509,9 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 }
 
 UniValue offernew(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 7 || params.size() > 12)
+	if (fHelp || params.size() < 7 || params.size() > 14)
 		throw runtime_error(
-		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='0']\n"
+		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='0'] [coinoffer=No] [coinunits=1.0]\n"
 						"<alias> An alias you own.\n"
 						"<category> category, 255 chars max.\n"
 						"<title> title, 255 chars max.\n"
@@ -1505,6 +1524,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						"<geolocation> set to your geolocation. Defaults to empty. \n"
 						"<safe search> set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).\n"
 						"<private> set to 1 if this offer should be private not be searchable. Defaults to 0.\n"
+						"<coinoffer> Is this an offer to sell or buy coins?. Defaults to No.\n"
+						"<coinunits> The increment of units that you will buy or sell the coins from a coin offer. ie: 0.1, you want someone to be able to buy 0.1 BTC while you are selling 1 BTC (Qty would be 10 in that case, payment option BTC). Defaults to 1.0.\n"
 						+ HelpRequiringPassphrase());
 	// gather inputs
 	float fPrice;
@@ -1579,6 +1600,17 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	bool bPrivate = false;
 	if (params.size() >= 12) bPrivate = boost::lexical_cast<int>(params[11].get_str()) == 1? true: false;
 
+	bool bCoinOffer = false;
+	if(params.size() >= 13)
+	{
+		bCoinOffer = params[12].get_str() == "Yes"? true: false;
+	}
+	float fCoinUnits = 1.0f;
+	if(params.size() >= 14)
+	{
+		fCoinUnits = boost::lexical_cast<float>(params[13].get_str());
+	}
+
 	int precision = 2;
 	CAmount nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, vchCurrency, fPrice, chainActive.Tip()->nHeight, precision);
 	if(nPricePerUnit == 0)
@@ -1634,6 +1666,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	newOffer.safetyLevel = 0;
 	newOffer.safeSearch = strSafeSearch == "Yes"? true: false;
 	newOffer.vchGeoLocation = vchFromString(strGeoLocation);
+	newOffer.SetUnits(fCoinUnits);
+	newOffer.nOfferType = bCoinOffer?OFFERTYPE_COIN:OFFERTYPE_NORMAL;
 
 	vector<unsigned char> data;
 	newOffer.Serialize(data);
@@ -3397,6 +3431,8 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	if(!theOffer.vchLinkOffer.empty())
 		sold = linkOffer.nSold;
 	oOffer.push_back(Pair("offers_sold", sold));
+	oOffer.push_back(Pair("offer_type", GetOfferTypeString(paymentOptions)));
+	oOffer.push_back(Pair("offer_units", theOffer.GetUnits()));
 	return true;
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
@@ -3903,7 +3939,7 @@ bool GetAcceptByHash(std::vector<COffer> &offerList, COfferAccept &ca, COffer &o
     }
 	return false;
 }
-std::string GetPaymentOptionsString(const uint32_t paymentOptions)
+std::string GetPaymentOptionsString(const uint32_t &paymentOptions)
 {
 	vector<std::string> currencies;
 	if(IsPaymentOptionInMask(paymentOptions, PAYMENTOPTION_SYS)) {
@@ -3917,7 +3953,7 @@ std::string GetPaymentOptionsString(const uint32_t paymentOptions)
 	}
 	return boost::algorithm::join(currencies, "+");
 }
-CChainParams::AddressType PaymentOptionToAddressType(const uint32_t paymentOption)
+CChainParams::AddressType PaymentOptionToAddressType(const uint32_t &paymentOption)
 {
 	CChainParams::AddressType myAddressType = CChainParams::ADDRESS_SYS;
 	if(paymentOption == PAYMENTOPTION_ZEC)
