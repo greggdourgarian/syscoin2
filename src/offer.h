@@ -206,7 +206,7 @@ enum OfferType {
     OFFERTYPE_COIN
 };
 bool ValidateOfferType(const OfferType& offerType);
-std::string GetOfferTypeString(const OfferType &offerType);
+std::string GetOfferTypeString(const unsigned char &offerType);
 class COffer {
 
 public:

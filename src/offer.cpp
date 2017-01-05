@@ -87,7 +87,7 @@ bool IsValidOfferType(const OfferType &offerType) {
 	return (offerType == OFFERTYPE_NORMAL || offerType == OFFERTYPE_COIN );
 }
 
-std::string GetOfferTypeString(const OfferType &offerType)
+std::string GetOfferTypeString(const unsigned char &offerType)
 {
 	if(offerType == OFFERTYPE_NORMAL) {
 		return std::string("normal");
