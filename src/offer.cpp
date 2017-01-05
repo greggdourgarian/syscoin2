@@ -4115,7 +4115,7 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 	uint32_t totalOffers = 0;
 	uint32_t totalAccepts = 0;
 	typedef map<uint32_t, CAmount> map_t;
-
+	int precision;
 	map_t totalAmounts;
 	BOOST_FOREACH(const vector<COffer> &vtxPos, offers) {
 		BOOST_FOREACH(const COffer &offer, vtxPos) {
@@ -4123,7 +4123,19 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 			{
 				totalAccepts++;
 				if(IsValidPaymentOption(offer.accept.nPaymentOption))
-					totalAmounts[offer.accept.nPaymentOption] += offer.accept.nPrice;
+				{
+					CAliasIndex sellerAlias;
+					CTransaction aliastx;
+					bool isExpired = false;
+					vector<CAliasIndex> aliasVtxPos;
+					if(GetTxAndVtxOfAlias(offer.vchAlias, sellerAlias, aliastx, aliasVtxPos, isExpired, true))
+					{
+						sellerAlias.nHeight = offer.accept.nAcceptHeight;
+						sellerAlias.GetAliasFromList(aliasVtxPos);
+					}					
+					CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(GetPaymentOptionsString(offer.accept.nPaymentOption)), offer.accept.nPrice, offer.accept.nAcceptHeight, precision);
+					totalAmounts[offer.accept.nPaymentOption] += nTotal;
+				}
 			}
 		}
 	}
