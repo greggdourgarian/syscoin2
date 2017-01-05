@@ -306,12 +306,6 @@ public:
 		}
 		return price;
 	}
-	inline float GetUnits()
-	{
-		if(nQtyUnit == 1)
-			return 1.0f;
-		return ser_uint32_to_float(nQtyUnit);
-	}
 	inline void SetUnits(float fUnits)
 	{
 		nQtyUnit = ser_float_to_uint32(fUnits);
@@ -468,4 +462,5 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex &alias, cons
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const std::string &strPrivKey="");
 bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats);
 uint64_t GetOfferExpiration(const COffer& offer);
+void GetOfferUnits(const COffer& offer, float& fUnits);
 #endif // OFFER_H

@@ -3432,7 +3432,9 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 		sold = linkOffer.nSold;
 	oOffer.push_back(Pair("offers_sold", sold));
 	oOffer.push_back(Pair("offer_type", GetOfferTypeString(paymentOptions)));
-	oOffer.push_back(Pair("offer_units", theOffer.GetUnits()));
+	float fUnits;
+	GetOfferUnits(theOffer, fUnits);
+	oOffer.push_back(Pair("offer_units", fUnits));
 	return true;
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
@@ -4200,4 +4202,10 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 	oOfferStats.push_back(Pair("totalaccepts", (int)totalAccepts)); 
 	oOfferStats.push_back(Pair("offers", oOffers)); 
 	return true;
+}
+void GetOfferUnits(const COffer& offer, float& fUnits)
+{
+	if(offer.nQtyUnit == 1)
+		fUnits = 1.0f;
+	fUnits = ser_uint32_to_float(offer.nQtyUnit);
 }
