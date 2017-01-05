@@ -41,7 +41,7 @@ CChainParams::AddressType PaymentOptionToAddressType(const uint32_t &paymentOpti
 
 bool ValidateOfferTypeMask(const unsigned char& offerTypeMask);
 bool IsValidOfferType(const unsigned char &offerTypeMask);
-bool IsOfferTypeInMask(const unsignedchar &mask, const unsignedchar &paymentOption);
+bool IsOfferTypeInMask(const unsigned char &mask, const unsigned char &paymentOption);
 std::string GetOfferTypeString(const unsigned char &offerType);
 
 class COfferAccept {
