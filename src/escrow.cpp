@@ -1280,7 +1280,7 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 
 	int precision = 2;
 	float fEscrowFee = getEscrowFee(selleralias.vchAliasPeg, vchFromString(paymentOption), chainActive.Tip()->nHeight, precision);
-	CAmount nTotal = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOption), theOffer.GetPrice(foundEntry), chainActive.Tip()->nHeight, precision);
+	CAmount nTotal = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOption), theOffer.GetPrice(foundEntry), chainActive.Tip()->nHeight, precision)*nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
 		nTotal = theOffer.nQtyUnit*nQty*COIN;
 	CAmount nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);
@@ -3537,7 +3537,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	else
 		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nExpectedAmount).get_real() )));
 	
-	oEscrow.push_back(Pair("systotal", (nTotal * escrow.nQty)));
+	oEscrow.push_back(Pair("systotal", nTotal));
 	
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
 	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
