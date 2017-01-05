@@ -1282,7 +1282,7 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 	float fEscrowFee = getEscrowFee(selleralias.vchAliasPeg, vchFromString(paymentOption), chainActive.Tip()->nHeight, precision);
 	CAmount nTotal = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString(paymentOption), theOffer.GetPrice(foundEntry), chainActive.Tip()->nHeight, precision)*nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nTotal = theOffer.nQtyUnit*nQty*COIN;
+		nTotal = theOffer.GetUnits()*nQty*COIN;
 	CAmount nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);
 	int nExtFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString(paymentOption), chainActive.Tip()->nHeight, precision);
 	// multisig spend is about 400 bytes
@@ -1474,7 +1474,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	float fEscrowFee = getEscrowFee(selleralias.vchAliasPeg, vchFromString("SYS"), chainActive.Tip()->nHeight, precision);
 	CAmount nTotal = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString("SYS"), theOffer.GetPrice(foundEntry), chainActive.Tip()->nHeight, precision)*nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nTotal = theOffer.nQtyUnit*nQty*COIN;
+		nTotal = theOffer.GetUnits()*nQty*COIN;
 	CAmount nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);
 	nEscrowFee = convertSyscoinToCurrencyCode(selleralias.vchAliasPeg, vchFromString("SYS"), nEscrowFee, chainActive.Tip()->nHeight, precision);
 	int nFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString("SYS"), chainActive.Tip()->nHeight, precision);
@@ -1693,7 +1693,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
+		nTotal = theOffer.GetUnits()*escrow.nQty*COIN;
 
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
@@ -2156,7 +2156,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
+		nTotal = theOffer.GetUnits()*escrow.nQty*COIN;
 
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
@@ -2589,7 +2589,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
+		nTotal = theOffer.GetUnits()*escrow.nQty*COIN;
 
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
@@ -2872,7 +2872,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
+		nTotal = theOffer.GetUnits()*escrow.nQty*COIN;
 
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
@@ -3522,7 +3522,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, offer.nOfferType))
-		nExpectedAmount = offer.nQtyUnit*COIN;
+		nExpectedAmount = offer.GetUnits()*COIN;
 	CAmount nTotal = nExpectedAmount*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
@@ -3903,7 +3903,7 @@ bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, Uni
 				offer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
 			CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(GetPaymentOptionsString(escrow.nPaymentOption)), offer.GetPrice(foundEntry), firstEscrow.nAcceptHeight, precision)*escrow.nQty;
 			if(IsOfferTypeInMask(OFFERTYPE_COIN, offer.nOfferType))
-				nTotal = offer.nQtyUnit*escrow.nQty*COIN;
+				nTotal = offer.GetUnits()*escrow.nQty*COIN;
 			totalAmounts[escrow.nPaymentOption] += nTotal;
 		}
 		
