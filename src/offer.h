@@ -283,7 +283,7 @@ public:
 			if(nOfferType > 0)
 				READWRITE(VARINT(nOfferType));
 			if(nQtyUnit > 0)
-				READWRITE(VARINT(nQtyUnit));
+				READWRITE(nQtyUnit);
 
 
 
