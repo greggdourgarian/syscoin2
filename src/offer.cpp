@@ -99,11 +99,11 @@ bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &offerType) {
 std::string GetOfferTypeString(const uint32_t &offerType)
 {
 	vector<std::string> offertype;
-	if(IsOfferTypeInMask(paymentOptions, OFFERTYPE_NORMAL)) {
-		currencies.push_back(std::string("normal"));
+	if(IsOfferTypeInMask(offerType, OFFERTYPE_NORMAL)) {
+		offertype.push_back(std::string("normal"));
 	}
-	else if(IsOfferTypeInMask(paymentOptions, OFFERTYPE_COIN)) {
-		currencies.push_back(std::string("coin"));
+	else if(IsOfferTypeInMask(offerType, OFFERTYPE_COIN)) {
+		offertype.push_back(std::string("coin"));
 	}
 
 	return boost::algorithm::join(offertype, "+");
