@@ -3548,7 +3548,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, offer.nOfferType))
 	{
 		float fUnits;
-		GetOfferUnits(theOffer, fUnits);
+		GetOfferUnits(offer, fUnits);
 		nExpectedAmount = fUnits*COIN;
 	}
 
