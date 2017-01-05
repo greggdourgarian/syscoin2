@@ -28,8 +28,6 @@ bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut);
 #define PAYMENTOPTION_BTC 0x02
 #define PAYMENTOPTION_ZEC 0x04
 
-static unsigned char OFFERTYPE_NORMAL = 0x00;
-static unsigned char OFFERTYPE_COIN = 0x01;
 
 bool ValidatePaymentOptionsMask(const uint32_t &paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
@@ -39,10 +37,6 @@ bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption);
 std::string GetPaymentOptionsString(const uint32_t &paymentOptions);
 CChainParams::AddressType PaymentOptionToAddressType(const uint32_t &paymentOptions);
 
-bool ValidateOfferTypeMask(const unsigned char& offerTypeMask);
-bool IsValidOfferType(const unsigned char &offerTypeMask);
-bool IsOfferTypeInMask(const unsigned char &mask, const unsigned char &paymentOption);
-std::string GetOfferTypeString(const unsigned char &offerType);
 
 class COfferAccept {
 public:
@@ -207,9 +201,16 @@ public:
     inline bool IsNull() const { return (entries.empty());}
 
 };
+enum OfferType {
+	OFFERTYPE_NORMAL,
+    OFFERTYPE_COIN
+};
+bool ValidateOfferType(const OfferType& offerType);
+std::string GetOfferTypeString(const OfferType &offerType);
 class COffer {
 
 public:
+
 	std::vector<unsigned char> vchOffer;
 	std::vector<unsigned char> vchAlias;
     uint256 txHash;

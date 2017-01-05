@@ -83,30 +83,19 @@ bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption) 
 }
 
 
-
-bool ValidateOfferTypeMask(const unsigned char &offerTypeMask) {
-	unsigned char maxVal = OFFERTYPE_NORMAL | OFFERTYPE_COIN;
-	return offerTypeMask <= maxVal;
+bool IsValidOfferType(const OfferType &offerType) {
+	return (offerType == OFFERTYPE_NORMAL || offerType == OFFERTYPE_COIN );
 }
 
-bool IsValidOfferType(const unsigned char &offerTypeMask) {
-	return (offerTypeMask == OFFERTYPE_NORMAL || offerTypeMask == OFFERTYPE_COIN );
-}
-
-bool IsOfferTypeInMask(const unsigned char &mask, const unsigned char &offerType) {
-  return mask & offerType ? true : false;
-}
-std::string GetOfferTypeString(const unsigned char &offerType)
+std::string GetOfferTypeString(const OfferType &offerType)
 {
-	vector<std::string> offertype;
-	if(IsOfferTypeInMask(offerType, OFFERTYPE_NORMAL)) {
-		offertype.push_back(std::string("normal"));
+	if(offerType == OFFERTYPE_NORMAL) {
+		return std::string("normal");
 	}
-	else if(IsOfferTypeInMask(offerType, OFFERTYPE_COIN)) {
-		offertype.push_back(std::string("coin"));
+	else if(offerType == OFFERTYPE_COIN) {
+		return std::string("coin");
 	}
-
-	return boost::algorithm::join(offertype, "+");
+	return std::string("unknown");
 }
 uint64_t GetOfferExpiration(const COffer& offer) {
 	// dont prunte by default, set nHeight to future time
@@ -775,7 +764,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1016 - " + _("Invalid payment option");
 				return error(errorMessage.c_str());
 			}
-			if(!ValidateOfferTypeMask(theOffer.nOfferType))
+			if(!IsValidOfferType(theOffer.nOfferType))
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1016 - " + _("Invalid offer type");
 				return error(errorMessage.c_str());
@@ -2269,7 +2258,6 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 		{
 			UniValue oList(UniValue::VOBJ);
 			oList.push_back(Pair("alias", stringFromVch(entry.aliasLinkVchRand)));
-			uint64_t nHeight = theAlias.nHeight;
 			oList.push_back(Pair("expires_on",theAlias.nExpireTime));
 			oList.push_back(Pair("offer_discount_percentage", strprintf("%d%%", entry.nDiscountPct)));
 			oRes.push_back(oList);
