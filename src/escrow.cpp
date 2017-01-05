@@ -1286,7 +1286,7 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 	CAmount nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);
 	int nExtFeePerByte = getFeePerByte(selleralias.vchAliasPeg, vchFromString(paymentOption), chainActive.Tip()->nHeight, precision);
 	// multisig spend is about 400 bytes
-	nExtTotal += nEscrowFee + (nExtFeePerByte*400);
+	nTotal += nEscrowFee + (nExtFeePerByte*400);
 	resCreate.push_back(Pair("total", ValueFromAmount(nTotal)));
 	resCreate.push_back(Pair("height", chainActive.Tip()->nHeight));
 	return resCreate;
@@ -1378,7 +1378,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CScript scriptPubKeyAlias, scriptPubKeyAliasOrig;
 	COfferLinkWhitelistEntry foundEntry;
 	CAliasIndex theLinkedAlias, reselleralias;
-	CAmount nCommission;
 	if(!theOffer.vchLinkOffer.empty())
 	{
 		
@@ -1691,16 +1690,16 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
+	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
 		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
 
-	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
-	nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);	
+	nEscrowTotal =  nTotal + nEscrowFee + (nFeePerByte*400);	
 	
 
     CTransaction fundingTx;
@@ -2154,16 +2153,16 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
+	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
 		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
 
-	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
-	nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);	
+	nEscrowTotal =  nTotal + nEscrowFee + (nFeePerByte*400);	
 	
 
     CTransaction fundingTx;
@@ -2587,16 +2586,16 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
+	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
 		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
 
-	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
-	nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);	
+	nEscrowTotal =  nTotal + nEscrowFee + (nFeePerByte*400);	
 	
 	
     CTransaction fundingTx;
@@ -2870,16 +2869,16 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
+	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nTotal = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
 		nTotal = theOffer.nQtyUnit*escrow.nQty*COIN;
 
-	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, precision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, precision);
-	nEscrowTotal =  nExpectedAmount + nEscrowFee + (nFeePerByte*400);		
+	nEscrowTotal =  nTotal + nEscrowFee + (nFeePerByte*400);		
 	
 	
     CTransaction fundingTx;
@@ -3520,12 +3519,11 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(offer.vchLinkOffer.empty())
 		offer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
 
-	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), theOffer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
+	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
+	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
 	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
 		nExpectedAmount = theOffer.nQtyUnit*COIN;
 	CAmount nTotal = nExpectedAmount*escrow.nQty;
-	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
-	nExpectedCommissionAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), nCommission, vtxPos.front().nAcceptHeight, tmpprecision)*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
@@ -3566,7 +3564,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
     oEscrow.push_back(Pair("txid", escrow.txHash.GetHex()));
     oEscrow.push_back(Pair("height", sHeight));
 	string strMessage = string("");
-	if(!DecryptMessage(theSellerAlias, escrow.vchPaymentMessage, strMessage, strPrivKey))
+	if(!DecryptMessage(sellerAlias, escrow.vchPaymentMessage, strMessage, strPrivKey))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int64_t expired_time = GetEscrowExpiration(escrow);
