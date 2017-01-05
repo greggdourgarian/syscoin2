@@ -231,7 +231,7 @@ public:
 	std::vector<unsigned char> vchGeoLocation;
 	bool safeSearch;
 	uint32_t nOfferType;
-	float nQtyUnit;
+	uint32_t nQtyUnit;
 	COffer() {
         SetNull();
     }
@@ -283,7 +283,7 @@ public:
 			if(nOfferType > 0)
 				READWRITE(VARINT(nOfferType));
 			if(nQtyUnit != 1)
-				READWRITE(nQtyUnit);
+				READWRITE(VARINT(nQtyUnit));
 
 
 
