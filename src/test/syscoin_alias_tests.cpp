@@ -150,8 +150,8 @@ BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
 	GenerateBlocks(5, "node3");
 	// change offer to an older alias, expire the alias and ensure that on resync the offer seems to be expired still
 	AliasNew("node1", "aliasold", "password", "changeddata1");
-	printf("Sleeping 10 seconds between the creation of the two aliases for this test...\n");
-	MilliSleep(10000);
+	printf("Sleeping 5 seconds between the creation of the two aliases for this test...\n");
+	MilliSleep(5000);
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
@@ -187,7 +187,7 @@ BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
 	
 	ExpireAlias("aliasold");
-	GenerateBlocks(50, "node1");
+	GenerateBlocks(1, "node1");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
 	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
