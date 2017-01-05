@@ -3521,8 +3521,8 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 
 	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
 	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
-	if(IsOfferTypeInMask(OFFERTYPE_COIN, theOffer.nOfferType))
-		nExpectedAmount = theOffer.nQtyUnit*COIN;
+	if(IsOfferTypeInMask(OFFERTYPE_COIN, offer.nOfferType))
+		nExpectedAmount = offer.nQtyUnit*COIN;
 	CAmount nTotal = nExpectedAmount*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
