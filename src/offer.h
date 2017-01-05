@@ -39,10 +39,10 @@ bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption);
 std::string GetPaymentOptionsString(const uint32_t &paymentOptions);
 CChainParams::AddressType PaymentOptionToAddressType(const uint32_t &paymentOptions);
 
-bool ValidateOfferTypeMask(const uint32_t& offerTypeMask);
-bool IsValidOfferType(const uint32_t &offerTypeMask);
-bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &paymentOption);
-std::string GetOfferTypeString(const uint32_t &offerType);
+bool ValidateOfferTypeMask(const unsigned char& offerTypeMask);
+bool IsValidOfferType(const unsigned char &offerTypeMask);
+bool IsOfferTypeInMask(const unsignedchar &mask, const unsignedchar &paymentOption);
+std::string GetOfferTypeString(const unsigned char &offerType);
 
 class COfferAccept {
 public:
@@ -232,7 +232,7 @@ public:
 	unsigned int nSold;
 	std::vector<unsigned char> vchGeoLocation;
 	bool safeSearch;
-	uint32_t nOfferType;
+	unsigned char nOfferType;
 	uint32_t nQtyUnit;
 	COffer() {
         SetNull();

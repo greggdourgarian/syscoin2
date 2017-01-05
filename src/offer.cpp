@@ -84,19 +84,19 @@ bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption) 
 
 
 
-bool ValidateOfferTypeMask(const uint32_t &offerTypeMask) {
-	uint32_t maxVal = OFFERTYPE_NORMAL | OFFERTYPE_COIN;
+bool ValidateOfferTypeMask(const unsigned char &offerTypeMask) {
+	unsigned char maxVal = OFFERTYPE_NORMAL | OFFERTYPE_COIN;
 	return offerTypeMask <= maxVal;
 }
 
-bool IsValidOfferType(const uint32_t &offerTypeMask) {
+bool IsValidOfferType(const unsigned char &offerTypeMask) {
 	return (offerTypeMask == OFFERTYPE_NORMAL || offerTypeMask == OFFERTYPE_COIN );
 }
 
-bool IsOfferTypeInMask(const uint32_t &mask, const uint32_t &offerType) {
+bool IsOfferTypeInMask(const unsigned char &mask, const unsigned char &offerType) {
   return mask & offerType ? true : false;
 }
-std::string GetOfferTypeString(const uint32_t &offerType)
+std::string GetOfferTypeString(const unsigned char &offerType)
 {
 	vector<std::string> offertype;
 	if(IsOfferTypeInMask(offerType, OFFERTYPE_NORMAL)) {
