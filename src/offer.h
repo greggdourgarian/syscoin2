@@ -282,7 +282,7 @@ public:
 			READWRITE(vchLinkAlias);
 			if(nOfferType > 0)
 				READWRITE(VARINT(nOfferType));
-			if(GetUnits() != 1)
+			if(nQtyUnit != 1)
 				READWRITE(VARINT(nQtyUnit));
 
 
@@ -306,6 +306,8 @@ public:
 	}
 	inline float GetUnits()
 	{
+		if(nQtyUnit == 1)
+			return 1.0f;
 		return ser_uint32_to_float(nQtyUnit);
 	}
 	inline void SetUnits(float fUnits)
@@ -407,8 +409,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { SetUnits(1); nOfferType = OFFERTYPE_NORMAL; vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
-    inline bool IsNull() const { return (nOfferType==OFFERTYPE_NORMAL && vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
+    inline void SetNull() { nQtyUnit = 1; nOfferType = OFFERTYPE_NORMAL; vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
+    inline bool IsNull() const { return (nQtyUnit == 1 && nOfferType==OFFERTYPE_NORMAL && vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
 
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
