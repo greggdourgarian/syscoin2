@@ -83,7 +83,7 @@ bool IsPaymentOptionInMask(const uint32_t &mask, const uint32_t &paymentOption) 
 }
 
 
-bool IsValidOfferType(const OfferType &offerType) {
+bool IsValidOfferType(const unsigned char &offerType) {
 	return (offerType == OFFERTYPE_NORMAL || offerType == OFFERTYPE_COIN );
 }
 
