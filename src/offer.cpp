@@ -212,8 +212,7 @@ bool COfferDB::GetDBOffers(std::vector<vector<COffer> >& offers, const uint64_t 
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         try {
-			if (pcursor->GetKey(key) && key.first == "offeri") {
-            	const vector<unsigned char> &vchMyOffer = key.second;         
+			if (pcursor->GetKey(key) && key.first == "offeri") {   
 				pcursor->GetValue(vtxPos);	
 				if (vtxPos.empty())
 				{

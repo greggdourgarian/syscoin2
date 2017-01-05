@@ -28,8 +28,8 @@ bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut);
 #define PAYMENTOPTION_BTC 0x02
 #define PAYMENTOPTION_ZEC 0x04
 
-#define OFFERTYPE_NORMAL 0x00
-#define OFFERTYPE_COIN 0x01
+static unsigned char OFFERTYPE_NORMAL = 0x00;
+static unsigned char OFFERTYPE_COIN = 0x01;
 
 bool ValidatePaymentOptionsMask(const uint32_t &paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
