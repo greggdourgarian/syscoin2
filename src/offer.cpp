@@ -3418,7 +3418,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	if(!theOffer.vchLinkOffer.empty())
 		sold = linkOffer.nSold;
 	oOffer.push_back(Pair("offers_sold", sold));
-	oOffer.push_back(Pair("offer_type", GetOfferTypeString(paymentOptions)));
+	oOffer.push_back(Pair("offer_type", GetOfferTypeString(theOffer.nOfferType)));
 	float fUnits;
 	GetOfferUnits(theOffer, fUnits);
 	oOffer.push_back(Pair("offer_units", fUnits));
