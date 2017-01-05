@@ -4192,7 +4192,5 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 }
 void GetOfferUnits(const COffer& offer, float& fUnits)
 {
-	if(offer.nQtyUnit == 1)
-		fUnits = 1.0f;
-	fUnits = ser_uint32_to_float(offer.nQtyUnit);
+	fUnits = offer.nQtyUnit;
 }
