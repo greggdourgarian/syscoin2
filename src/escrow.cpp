@@ -1770,10 +1770,10 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		{
 			if(nExpectedCommissionAmount > 0)
 				createAddressUniValue.push_back(Pair(resellerAddressPayment.ToString(), ValueFromAmount(nExpectedCommissionAmount)));
-			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount-nExpectedCommissionAmount)));
+			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nTotal-nExpectedCommissionAmount)));
 		}
 		else
-			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount)));
+			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nTotal)));
 		createAddressUniValue.push_back(Pair(arbiterAddressPayment.ToString(), ValueFromAmount(nEscrowFee)));
 	}
 	else if(role == "buyer")
@@ -1783,10 +1783,10 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		{
 			if(nExpectedCommissionAmount > 0)
 				createAddressUniValue.push_back(Pair(resellerAddressPayment.ToString(), ValueFromAmount(nExpectedCommissionAmount)));
-			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount-nExpectedCommissionAmount)));
+			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nTotal-nExpectedCommissionAmount)));
 		}
 		else
-			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount)));
+			createAddressUniValue.push_back(Pair(sellerAddressPayment.ToString(), ValueFromAmount(nTotal)));
 		createAddressUniValue.push_back(Pair(buyerAddressPayment.ToString(), ValueFromAmount(nEscrowFee)));
 	}
 
@@ -2275,7 +2275,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 			}
 			if(!foundSellerPayment)
 			{
-				if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= (nExpectedAmount-nExpectedCommissionAmount))
+				if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= (nTotal-nExpectedCommissionAmount))
 				{
 					foundSellerPayment = true;
 				}
@@ -2283,7 +2283,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		}
 		else if(!foundSellerPayment)
 		{
-			if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= nExpectedAmount)
+			if(aliasAddress.aliasName == stringFromVch(escrow.vchSellerAlias) && iVout >= nTotal)
 			{
 				foundSellerPayment = true;
 			}
@@ -2658,12 +2658,12 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	createTxInputsArray.push_back(createTxInputUniValue);
 	if(role == "arbiter")
 	{
-		createAddressUniValue.push_back(Pair(buyerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount)));
+		createAddressUniValue.push_back(Pair(buyerAddressPayment.ToString(), ValueFromAmount(nTotal)));
 		createAddressUniValue.push_back(Pair(arbiterAddressPayment.ToString(), ValueFromAmount(nEscrowFee)));
 	}
 	else if(role == "seller")
 	{
-		createAddressUniValue.push_back(Pair(buyerAddressPayment.ToString(), ValueFromAmount(nExpectedAmount+nEscrowFee)));
+		createAddressUniValue.push_back(Pair(buyerAddressPayment.ToString(), ValueFromAmount(nTotal+nEscrowFee)));
 	}
 	arrayCreateParams.push_back(createTxInputsArray);
 	arrayCreateParams.push_back(createAddressUniValue);
@@ -2969,7 +2969,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		if(!foundRefundPayment)
 		{
 			CSyscoinAddress address(strAddress);
-			if(address.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nExpectedAmount)
+			if(address.aliasName == stringFromVch(escrow.vchBuyerAlias) && iVout >= nTotal)
 				foundRefundPayment = true;
 		}
 
