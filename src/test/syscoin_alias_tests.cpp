@@ -187,7 +187,7 @@ BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasold");	
 	
 	ExpireAlias("aliasold");
-	GenerateBlocks(5, "node1");
+	GenerateBlocks(50, "node1");
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "getblockchaininfo"));
 	mediantime = find_value(r.get_obj(), "mediantime").get_int64();	
