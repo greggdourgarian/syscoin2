@@ -27,7 +27,7 @@ bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut);
 #define PAYMENTOPTION_SYS 0x01
 #define PAYMENTOPTION_BTC 0x02
 #define PAYMENTOPTION_ZEC 0x04
-
+#define SYSSOFTFORK_212 40000
 
 bool ValidatePaymentOptionsMask(const uint32_t &paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
@@ -282,9 +282,11 @@ public:
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
-			READWRITE(VARINT(nOfferType));
-			READWRITE(nQtyUnit);
-			
+			if(chainActive.Tip()->nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine != CBaseChainParams::MAIN)
+			{
+				READWRITE(VARINT(nOfferType));
+				READWRITE(nQtyUnit);
+			}
 
 
 
