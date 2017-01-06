@@ -3574,8 +3574,10 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("totalwithfee", nEscrowTotal));
 
 
-
-	oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
+	if(offer.nOfferType == OFFERTYPE_COIN)
+		oEscrow.push_back(Pair("currency", GetPaymentOptionsString(escrow.nPaymentOption)));
+	else
+		oEscrow.push_back(Pair("currency", stringFromVch(offer.sCurrencyCode)));
 
 
 	oEscrow.push_back(Pair("exttxid", escrow.extTxId.IsNull()? "": escrow.extTxId.GetHex()));
