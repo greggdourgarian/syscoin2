@@ -282,10 +282,9 @@ public:
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
-			if(nOfferType > 0)
-				READWRITE(VARINT(nOfferType));
-			if(nQtyUnit != 1.0f)
-				READWRITE(nQtyUnit);
+			READWRITE(VARINT(nOfferType));
+			READWRITE(nQtyUnit);
+			
 
 
 
