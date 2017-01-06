@@ -35,7 +35,8 @@ private:
 	QString address;
 	QString aliaspeg;
 	bool offerPaid; 
-	
+	QString strOfferType;
+	float nQtyUnits;	
 
 private Q_SLOTS:
 	void acceptPayment();
