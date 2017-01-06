@@ -282,7 +282,7 @@ public:
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
-			if(chainActive.Tip()->nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine() != CBaseChainParams::MAIN)
+			if(nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine() != CBaseChainParams::MAIN)
 			{
 				READWRITE(VARINT(nOfferType));
 				READWRITE(nQtyUnit);
