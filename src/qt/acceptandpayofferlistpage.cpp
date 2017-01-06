@@ -399,7 +399,8 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 			offerOut.vchCert = vchFromString(find_value(offerObj, "cert").get_str());
 			string alias = find_value(offerObj, "alias").get_str();
 			offerOut.sTitle = vchFromString(find_value(offerObj, "title").get_str());
-			offerOut.sCategory = vchFromString(find_value(offerObj, "category").get_str());
+			const QString &strCategory = QString::fromStdString(find_value(offerObj, "category").get_str());
+			offerOut.sCategory = vchFromString(strCategory.toStdString());
 			offerOut.sCurrencyCode = vchFromString(find_value(offerObj, "currency").get_str());
 			string strAliasPeg = find_value(offerObj, "alias_peg").get_str();
 			const QString &strSold = QString::number(find_value(offerObj, "offers_sold").get_int());
@@ -426,6 +427,14 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 					}
 				}
 
+			}
+			const QString &strOfferType = QString::fromStdString(find_value(offerObj, "offer_type").get_str());
+			if(strOfferType != QString("coin") && strCategory.startsWith("wanted"))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Cannot purchase a wanted offer"),
+						QMessageBox::Ok, QMessageBox::Ok);
+				return false;
 			}
 			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strSold, strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
 			return true;
