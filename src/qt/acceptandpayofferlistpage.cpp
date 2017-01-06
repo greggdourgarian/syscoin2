@@ -286,7 +286,7 @@ void AcceptandPayOfferListPage::OpenPayDialog()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, this);
+	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, strOfferType, nQtyUnits, this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -308,7 +308,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",this);
+	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strOfferType, nQtyUnits,this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -331,7 +331,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",this);
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strOfferType, nQtyUnits,this);
 	
 	if(dlg.exec())
 	{
@@ -363,7 +363,13 @@ void AcceptandPayOfferListPage::acceptOffer()
 			QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
-	
+	if(strOfferType != QString("coin") && strCategory.startsWith("wanted"))
+	{
+		QMessageBox::information(this, windowTitle(),
+			tr("Cannot purchase a wanted offer!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+		return;
+	}	
 	this->offerPaid = false;
 	ui->labelExplanation->setText(tr("Waiting for confirmation on the purchase of this offer"));
 	if(paymentOptions == PAYMENTOPTION_BTC)
@@ -399,7 +405,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 			offerOut.vchCert = vchFromString(find_value(offerObj, "cert").get_str());
 			string alias = find_value(offerObj, "alias").get_str();
 			offerOut.sTitle = vchFromString(find_value(offerObj, "title").get_str());
-			const QString &strCategory = QString::fromStdString(find_value(offerObj, "category").get_str());
+			strCategory = QString::fromStdString(find_value(offerObj, "category").get_str());
 			offerOut.sCategory = vchFromString(strCategory.toStdString());
 			offerOut.sCurrencyCode = vchFromString(find_value(offerObj, "currency").get_str());
 			string strAliasPeg = find_value(offerObj, "alias_peg").get_str();
@@ -428,14 +434,8 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 				}
 
 			}
-			const QString &strOfferType = QString::fromStdString(find_value(offerObj, "offer_type").get_str());
-			if(strOfferType != QString("coin") && strCategory.startsWith("wanted"))
-			{
-				QMessageBox::critical(this, windowTitle(),
-					tr("Cannot purchase a wanted offer"),
-						QMessageBox::Ok, QMessageBox::Ok);
-				return false;
-			}
+			strOfferType = QString::fromStdString(find_value(offerObj, "offer_type").get_str());
+			nQtyUnits = find_value(offerObj, "offer_units").get_real();
 			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strSold, strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
 			return true;
 		}

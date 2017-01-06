@@ -76,6 +76,9 @@ private:
 	QUrl m_url;
 	QStringList m_imageList;
 	QString sAddress;
+	QString strOfferType;
+	QString strCategory;
+	float nQtyUnits;
 	unsigned char paymentOptions;
 	bool usedProfileInfo;
 	bool isOfferCert;
