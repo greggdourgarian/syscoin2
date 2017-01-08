@@ -3542,7 +3542,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	float fUnits;
 	if(GetOfferUnits(offer, fUnits))
 	{
-		nTotal = fUnits*COIN;
+		nExpectedAmount = fUnits*COIN;
 	}
 
 	CAmount nTotal = nExpectedAmount*escrow.nQty;
