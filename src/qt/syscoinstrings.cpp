@@ -69,7 +69,7 @@ QT_TRANSLATE_NOOP("syscoin-core", ""
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "Cannot unserialize data inside of this transaction relating to an escrow"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
-"Cannot update multisig alias because required signatures is greator than the "
+"Cannot update multisig alias because required signatures is greater than the "
 "amount of signatures provided"),
 QT_TRANSLATE_NOOP("syscoin-core", ""
 "Cannot update this offer because the certificate alias does not match the "
