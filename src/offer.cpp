@@ -4155,7 +4155,7 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 		return false;
 	boost::char_separator<char> sep(":");
 	typedef boost::tokenizer< boost::char_separator<char> > t_tokenizer;
-	t_tokenizer tok(s, sep);
+	t_tokenizer tokens(stringFromVch(offer.sDescription), sep);
    string str;
    for (t_tokenizer::iterator tok_iter = tokens.begin();
       tok_iter != tokens.end(); ++tok_iter)
@@ -4169,14 +4169,14 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
    }
 	str.erase(0, str.find_first_not_of(" "));
 	boost::char_separator<char> sepSpace(" ");
-	t_tokenizer tok(str, sepSpace);
-   for (t_tokenizer::iterator tok_iter = tokens.begin();
-      tok_iter != tokens.end(); ++tok_iter)
+	t_tokenizer tokensSpace(str, sepSpace);
+   for (t_tokenizer::iterator toks_iter = v.begin();
+      toks_iter != tokensSpace.end(); ++toks_iter)
    {
       // if 1st token
-      if (distance(tokens.begin(), tok_iter) == 0)
+      if (distance(tokensSpace.begin(), toks_iter) == 0)
       {
-         str = *tok_iter;
+         str = *toks_iter;
 		 fUnits = boost::lexical_cast<float>(str);
          return true;
       }
