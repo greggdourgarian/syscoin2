@@ -4149,6 +4149,7 @@ bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniVal
 }
 bool GetOfferUnits(const COffer& offer, float& fUnits)
 {
+	fUnits = 0;
 	const string & strCategory = stringFromVch(offer.sCategory);
 	if(!boost::algorithm::starts_with(strCategory, "wanted > cryptocurrency") &&
 		!boost::algorithm::starts_with(strCategory, "for sale > cryptocurrency"))
