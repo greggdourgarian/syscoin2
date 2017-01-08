@@ -212,12 +212,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
+        <source>Cannot purchase a wanted offer!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Waiting for confirmation on the purchase of this offer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+73"/>
         <source>Could not find this offer, please ensure the offer has been confirmed by the blockchain: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -4843,17 +4848,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../offeracceptdialog.cpp" line="+57"/>
+        <location filename="../offeracceptdialog.cpp" line="+60"/>
+        <source>Units is not defined or is invalid in this coin offer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+12"/>
         <source>Could not find currency in the rates peg for this offer. Currency: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+7"/>
         <source>Are you sure you want to purchase</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4878,7 +4888,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>Pay For Item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4962,7 +4972,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../offeracceptdialogbtc.cpp" line="+61"/>
+        <location filename="../offeracceptdialogbtc.cpp" line="+62"/>
+        <source>Units is not defined or is invalid in this coin offer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Could not find BTC currency in the rates peg for this offer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4973,18 +4988,18 @@
     </message>
     <message>
         <location line="+2"/>
-        <location line="+143"/>
+        <location line="+146"/>
         <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the &apos;Use Escrow&apos; checkbox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-111"/>
-        <location line="+411"/>
+        <location line="-114"/>
+        <location line="+414"/>
         <source>Payment on Syscoin Decentralized Marketplace. Offer ID: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-397"/>
+        <location line="-400"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4994,7 +5009,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+49"/>
         <source>Failed to generate multisig address: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -5015,71 +5030,71 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Are you sure you want to purchase</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>from merchant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>Follow the steps below to successfully pay via Bitcoin:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the &apos;Use Escrow&apos; checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on &apos;Open BTC Wallet&apos; if you are on the desktop and have Bitcoin Core installed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>3. Pay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
-        <location line="+8"/>
+        <location line="-10"/>
+        <location line="+10"/>
         <source>4. Enter the Transaction ID and then click on the &apos;Confirm Payment&apos; button once you have paid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-9"/>
         <source>Escrow created successfully! Please fund using BTC address </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>Error making request: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -5193,7 +5208,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../offeracceptdialogzec.cpp" line="+60"/>
+        <location filename="../offeracceptdialogzec.cpp" line="+61"/>
+        <source>Units is not defined or is invalid in this coin offer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Could not find ZEC currency in the rates peg for this offer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5204,18 +5224,18 @@
     </message>
     <message>
         <location line="+2"/>
-        <location line="+144"/>
+        <location line="+146"/>
         <source>Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the &apos;Use Escrow&apos; checkbox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-111"/>
-        <location line="+433"/>
+        <location line="-113"/>
+        <location line="+435"/>
         <source>Payment on Syscoin Decentralized Marketplace. Offer ID: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-419"/>
+        <location line="-421"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5246,71 +5266,71 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+9"/>
+        <location line="+11"/>
         <source>Are you sure you want to purchase</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>from merchant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>Follow the steps below to successfully pay via ZCash:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>1. If you are using escrow, please enter your escrow arbiter in the input box below and check the &apos;Use Escrow&apos; checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on &apos;Open ZEC Wallet&apos; if you are on the desktop and have ZCash Core installed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>3. Pay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="-11"/>
+        <location line="+11"/>
         <source>4. Enter the Transaction ID and then click on the &apos;Confirm Payment&apos; button once you have paid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-10"/>
         <source>Escrow created successfully! Please fund using ZEC address </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+30"/>
         <source>Failed to generate ZCash address, please close this screen and try again</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9934,7 +9954,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+14"/>
+        <source>Cannot update multisig alias because required signatures is greater than the amount of signatures provided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10734,12 +10759,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Cannot update multisig alias because required signatures is greator than the amount of signatures provided</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>Cannot update this offer because the certificate alias does not match the offer alias</source>
         <translation type="unfinished"></translation>
     </message>
