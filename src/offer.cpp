@@ -4170,7 +4170,7 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 	str.erase(0, str.find_first_not_of(" "));
 	boost::char_separator<char> sepSpace(" ");
 	t_tokenizer tokensSpace(str, sepSpace);
-   for (t_tokenizer::iterator toks_iter = v.begin();
+   for (t_tokenizer::iterator toks_iter = tokensSpace.begin();
       toks_iter != tokensSpace.end(); ++toks_iter)
    {
       // if 1st token
