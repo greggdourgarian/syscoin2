@@ -4174,7 +4174,7 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 	} catch (std::exception &e) {
 		return false;
 	}
-	if(fUnits <= 0)
+	if(fUnits <= 1*COIN)
 		return false;
     return true;
 }
