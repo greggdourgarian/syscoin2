@@ -286,7 +286,7 @@ void AcceptandPayOfferListPage::OpenPayDialog()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, strOfferType, nQtyUnits, this);
+	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, strCategory, nQtyUnits, this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -308,7 +308,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strOfferType, nQtyUnits,this);
+	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -331,7 +331,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strOfferType, nQtyUnits,this);
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
 	
 	if(dlg.exec())
 	{
@@ -363,7 +363,7 @@ void AcceptandPayOfferListPage::acceptOffer()
 			QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
-	if(strOfferType != QString("coin") && strCategory.startsWith("wanted"))
+	if(strCategory.startsWith("wanted") && !strCategory.startsWith("wanted > cryptocurrency"))
 	{
 		QMessageBox::information(this, windowTitle(),
 			tr("Cannot purchase a wanted offer!"),
@@ -434,7 +434,6 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 				}
 
 			}
-			strOfferType = QString::fromStdString(find_value(offerObj, "offer_type").get_str());
 			nQtyUnits = find_value(offerObj, "offer_units").get_real();
 			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strSold, strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
 			return true;

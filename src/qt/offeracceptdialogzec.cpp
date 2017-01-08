@@ -34,10 +34,10 @@ using namespace std;
 #include <QNetworkReply>
 #include "qzecjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QString strOfferType, float nQtyUnits, QWidget *parent) :
+OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QString strCategory, float nQtyUnits, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strOfferType(strOfferType), nQtyUnits(nQtyUnits)
+    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strCategory(strCategory), nQtyUnits(nQtyUnits)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
@@ -52,7 +52,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	}
     int zecprecision;
     CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("ZEC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, zecprecision);
-	if(strOfferType == QString("coin"))
+	if(strCategory.startsWith("wanted > cryptocurrency"))
 	{
 		zecPrice = nQtyUnits*COIN;
 		if(zecPrice == 0)
@@ -219,7 +219,7 @@ bool OfferAcceptDialogZEC::setupEscrowCheckboxState(bool desiredStateEnabled)
 	}
 	else
 	{
-		if(strOfferType == QString("coin"))
+		if(strCategory.startsWith("wanted > cryptocurrency"))
 			ui->confirmButton->setEnabled(false);
 		convertAddress();
 		ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox") + QString("</font>"));

@@ -34,10 +34,10 @@ using namespace std;
 #include <QNetworkReply>
 #include "qbtcjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter,  QString strOfferType, float nQtyUnits, QWidget *parent) :
+OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter,  QString strCategory, float nQtyUnits, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strOfferType(strOfferType), nQtyUnits(nQtyUnits)
+    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strCategory(strCategory), nQtyUnits(nQtyUnits)
 {
 	
     ui->setupUi(this);
@@ -53,7 +53,7 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	}
     int btcprecision;
     CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("BTC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, btcprecision);
-	if(strOfferType == QString("coin"))
+	if(strCategory.startsWith("wanted > cryptocurrency"))
 	{
 		btcPrice = nQtyUnits*COIN;
 		if(btcPrice == 0)
@@ -221,7 +221,7 @@ bool OfferAcceptDialogBTC::setupEscrowCheckboxState(bool desiredStateEnabled)
 	}
 	else
 	{
-		if(strOfferType == QString("coin"))
+		if(strCategory.startsWith("wanted > cryptocurrency"))
 			ui->confirmButton->setEnabled(false);
 		ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox") + QString("</font>"));
 		qstrPrice = priceBtc;

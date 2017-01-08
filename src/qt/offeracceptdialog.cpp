@@ -19,10 +19,10 @@
 using namespace std;
 
 extern CRPCTable tableRPC;
-OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *platformStyle, QString aliaspeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString qstrPrice, QString sellerAlias, QString address, unsigned char paymentOptions, QString strOfferType, float nQtyUnits,QWidget *parent) :
+OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *platformStyle, QString aliaspeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString qstrPrice, QString sellerAlias, QString address, unsigned char paymentOptions, QString strCategory, float nQtyUnits,QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialog), platformStyle(platformStyle), aliaspeg(aliaspeg), qstrPrice(qstrPrice), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), currency(currencyCode), seller(sellerAlias), address(address), strOfferType(strOfferType), nQtyUnits(nQtyUnits)
+    ui(new Ui::OfferAcceptDialog), platformStyle(platformStyle), aliaspeg(aliaspeg), qstrPrice(qstrPrice), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), currency(currencyCode), seller(sellerAlias), address(address), strCategory(strCategory), nQtyUnits(nQtyUnits)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
@@ -51,7 +51,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	ui->acceptZecButton->setEnabled(false);
 	ui->acceptZecButton->setVisible(false);
 	CAmount sysPrice = convertCurrencyCodeToSyscoin(vchFromString(strAliasPeg), vchFromString(strCurrencyCode), dblPrice, chainActive.Tip()->nHeight, sysprecision);
-	if(strOfferType == QString("coin"))
+	if(strCategory.startsWith("wanted > cryptocurrency"))
 	{
 		sysPrice = nQtyUnits*COIN;
 		if(sysPrice == 0)
@@ -80,7 +80,7 @@ OfferAcceptDialog::OfferAcceptDialog(WalletModel* model, const PlatformStyle *pl
 	QString strTotalSYSPrice = QString::fromStdString(strprintf("%.*f", sysprecision, ValueFromAmount(sysPrice).get_real()*quantity.toUInt()));
 	ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant") + QString("</font>"));
 	QString priceStr;
-	if(strOfferType == QString("coin"))
+	if(strCategory.startsWith("wanted > cryptocurrency"))
 		priceStr = QString(" <b>%1 SYS</b>").arg(strTotalSYSPrice);
 	else
 		priceStr = QString(" <b>%1 %2 (%3 SYS)</b>").arg(qstrPrice).arg(currencyCode).arg(strTotalSYSPrice);
@@ -114,7 +114,7 @@ OfferAcceptDialog::~OfferAcceptDialog()
 }
 void OfferAcceptDialog::setupEscrowCheckboxState()
 {
-	if(ui->checkBox->isChecked() || strOfferType == QString("coin"))
+	if(ui->checkBox->isChecked() || strCategory.startsWith("wanted > cryptocurrency"))
 	{
 		ui->escrowDisclaimer->setVisible(true);
 		ui->escrowEdit->setEnabled(true);
@@ -141,7 +141,7 @@ void OfferAcceptDialog::acceptZECPayment()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialogZEC dlg(walletModel, platformStyle, this->aliaspeg, this->alias, this->offer, this->quantity, this->notes, this->title, this->currency, this->strSYSPrice, this->seller, this->address, ui->checkBox->isChecked()? ui->escrowEdit->text(): "", strOfferType,nQtyUnits,this);
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, this->aliaspeg, this->alias, this->offer, this->quantity, this->notes, this->title, this->currency, this->strSYSPrice, this->seller, this->address, ui->checkBox->isChecked()? ui->escrowEdit->text(): "", strCategory,nQtyUnits,this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -155,7 +155,7 @@ void OfferAcceptDialog::acceptBTCPayment()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialogBTC dlg(walletModel, platformStyle, this->aliaspeg, this->alias, this->offer, this->quantity, this->notes, this->title, this->currency, this->strSYSPrice, this->seller, this->address, ui->checkBox->isChecked()? ui->escrowEdit->text(): "",strOfferType,nQtyUnits,this);
+	OfferAcceptDialogBTC dlg(walletModel, platformStyle, this->aliaspeg, this->alias, this->offer, this->quantity, this->notes, this->title, this->currency, this->strSYSPrice, this->seller, this->address, ui->checkBox->isChecked()? ui->escrowEdit->text(): "",strCategory,nQtyUnits,this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();

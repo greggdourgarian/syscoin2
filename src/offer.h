@@ -27,7 +27,6 @@ bool RemoveOfferScriptPrefix(const CScript& scriptIn, CScript& scriptOut);
 #define PAYMENTOPTION_SYS 0x01
 #define PAYMENTOPTION_BTC 0x02
 #define PAYMENTOPTION_ZEC 0x04
-#define SYSSOFTFORK_212 40000
 
 bool ValidatePaymentOptionsMask(const uint32_t &paymentOptionsMask);
 bool ValidatePaymentOptionsString(const std::string &paymentOptionsString);
@@ -201,11 +200,7 @@ public:
     inline bool IsNull() const { return (entries.empty());}
 
 };
-enum TypeOfOffer {
-	OFFERTYPE_NORMAL=0,
-    OFFERTYPE_COIN
-};
-std::string GetOfferTypeString(const unsigned char &offerType);
+
 class COffer {
 
 public:
@@ -232,8 +227,6 @@ public:
 	unsigned int nSold;
 	std::vector<unsigned char> vchGeoLocation;
 	bool safeSearch;
-	unsigned char nOfferType;
-	float nQtyUnit;
 	COffer() {
         SetNull();
     }
@@ -282,14 +275,6 @@ public:
 			READWRITE(safeSearch);
 			READWRITE(vchGeoLocation);
 			READWRITE(vchLinkAlias);
-			if(nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine() != CBaseChainParams::MAIN)
-			{
-				READWRITE(VARINT(nOfferType));
-				READWRITE(nQtyUnit);
-			}
-
-
-
 	}
 	inline CAmount GetPrice(const COfferLinkWhitelistEntry& entry=COfferLinkWhitelistEntry()) const{
 		CAmount price = nPrice;
@@ -369,8 +354,6 @@ public:
 		&& a.safeSearch == b.safeSearch
 		&& a.vchGeoLocation == b.vchGeoLocation
 		&& a.vchOffer == b.vchOffer
-		&& a.nOfferType == b.nOfferType
-		&& a.nQtyUnit == b.nQtyUnit
         );
     }
 
@@ -397,8 +380,6 @@ public:
 		safeSearch = b.safeSearch;
 		vchGeoLocation = b.vchGeoLocation;
 		vchOffer = b.vchOffer;
-		nOfferType = b.nOfferType;
-		nQtyUnit = b.nQtyUnit;
         return *this;
     }
 
@@ -406,8 +387,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() { nQtyUnit = 1.0f; nOfferType = OFFERTYPE_NORMAL; vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
-    inline bool IsNull() const { return (nQtyUnit == 1.0f && nOfferType==OFFERTYPE_NORMAL && vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
+    inline void SetNull() {vchOffer.clear(); sCategory.clear(); safetyLevel = nHeight = nPrice = nQty = nSold = paymentOptions = 0; safeSearch = true; txHash.SetNull(); bPrivate = false; accept.SetNull(); sTitle.clear(); sDescription.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();vchGeoLocation.clear();}
+    inline bool IsNull() const { return (vchOffer.empty() && sCategory.empty() && safetyLevel == 0 && safeSearch && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sTitle.empty() && sDescription.empty() && vchGeoLocation.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
 
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
@@ -463,5 +444,5 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex &alias, cons
 bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const std::string &strPrivKey="");
 bool BuildOfferStatsJson(const std::vector<std::vector<COffer> > &offers, UniValue& oOfferStats);
 uint64_t GetOfferExpiration(const COffer& offer);
-void GetOfferUnits(const COffer& offer, float& fUnits);
+bool GetOfferUnits(const COffer& offer, float& fUnits);
 #endif // OFFER_H
