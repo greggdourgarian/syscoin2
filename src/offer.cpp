@@ -4167,7 +4167,8 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 	if(str.size() <= 0)
 		return false;
 	try {
-		fUnits = ValueFromAmount(AmountFromValue(str)).get_real();
+		fUnits = boost::lexical_cast<float>(str);
+
 	} catch (std::exception &e) {
 		return false;
 	}
