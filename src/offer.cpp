@@ -4153,33 +4153,25 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 	if(!boost::algorithm::starts_with(strCategory, "wanted > cryptocurrency") &&
 		!boost::algorithm::starts_with(strCategory, "for sale > cryptocurrency"))
 		return false;
-	boost::char_separator<char> sep(":");
-	typedef boost::tokenizer< boost::char_separator<char> > t_tokenizer;
-	t_tokenizer tokens(stringFromVch(offer.sDescription), sep);
-   string str;
-   for (t_tokenizer::iterator tok_iter = tokens.begin();
-      tok_iter != tokens.end(); ++tok_iter)
-   {
-      // if 2nd token
-      if (distance(tokens.begin(), tok_iter) == 1)
-      {
-         str = *tok_iter;
-         break;
-      }
-   }
-	str.erase(0, str.find_first_not_of(" "));
-	boost::char_separator<char> sepSpace(" ");
-	t_tokenizer tokensSpace(str, sepSpace);
-   for (t_tokenizer::iterator toks_iter = tokensSpace.begin();
-      toks_iter != tokensSpace.end(); ++toks_iter)
-   {
-      // if 1st token
-      if (distance(tokensSpace.begin(), toks_iter) == 0)
-      {
-         str = *toks_iter;
-		 fUnits = boost::lexical_cast<float>(str);
-         return true;
-      }
-   }
-	return false;
+	const string &descriptionStr = stringFromVch(offer.sDescription);
+	if(descriptionStr.size() < 7)
+		return false;
+	const size_t &unitsPos = descriptionStr.find_first_of("units:");
+	if(unitsPos == npos)
+		return false;
+	const size_t &valuePos = descriptionStr.find_first_of(' ', unitsPos+6);
+	if(valuePos == npos || unitsPos+6 >= valuePos)
+		return false;
+	const string &str = descriptionStr.substr(unitsPos+6, valuePos);
+	if(str.size() <= 0)
+		return false;
+	try {
+		fUnits = boost::lexical_cast<float>(str);
+
+	} catch (std::exception &e) {
+		return false;
+	}
+	if(fUnits <= 0)
+		return false;
+    return true;
 }
