@@ -292,10 +292,6 @@ public:
 		}
 		return price;
 	}
-	inline void SetUnits(float fUnits)
-	{
-		nQtyUnit = fUnits;
-	}
 	inline void SetPrice(CAmount price){
 		nPrice = price;
 	}
