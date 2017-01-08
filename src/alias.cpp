@@ -942,7 +942,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						}	
 						if(theAlias.multiSigInfo.nRequiredSigs > pubkeys.size())
 						{
-							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5024 - " + _("Cannot update multisig alias because required signatures is greator than the amount of signatures provided");
+							errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5024 - " + _("Cannot update multisig alias because required signatures is greater than the amount of signatures provided");
 							theAlias.multiSigInfo.SetNull();
 						}	
 						CScript inner = GetScriptForMultisig(theAlias.multiSigInfo.nRequiredSigs, pubkeys);
@@ -1019,7 +1019,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				if(theAlias.multiSigInfo.nRequiredSigs > pubkeys.size())
 				{
 					theAlias.multiSigInfo.SetNull();
-					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Cannot update multisig alias because required signatures is greator than the amount of signatures provided");
+					errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5030 - " + _("Cannot update multisig alias because required signatures is greater than the amount of signatures provided");
 				}
 				CScript inner = GetScriptForMultisig(theAlias.multiSigInfo.nRequiredSigs, pubkeys);
 				CScript redeemScript(theAlias.multiSigInfo.vchRedeemScript.begin(), theAlias.multiSigInfo.vchRedeemScript.end());
