@@ -4160,15 +4160,16 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 	if(unitsPos == string::npos)
 		return false;
 	size_t valuePos = descriptionStr.find_first_of(' ', unitsPos+6);
-	if(valuePos == string::npos || unitsPos+6 >= valuePos)
-		return false;
-	valuePos -= unitsPos+6;
+	if(valuePos != string::npos && valuePos > unitsPos+6)
+		valuePos -= unitsPos+6;
+	else
+		valuePos = string::npos;
+	
 	const string &str = descriptionStr.substr(unitsPos+6, valuePos);
 	if(str.size() <= 0)
 		return false;
 	try {
 		fUnits = boost::lexical_cast<float>(str);
-
 	} catch (std::exception &e) {
 		return false;
 	}
