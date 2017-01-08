@@ -4160,7 +4160,7 @@ bool GetOfferUnits(const COffer& offer, float& fUnits)
 	const size_t &unitsPos = descriptionStr.find_first_of("units:");
 	if(unitsPos == string::npos)
 		return false;
-	size_t valuePos = descriptionStr.find_first_of(' ', unitsPos+6);
+	size_t valuePos = descriptionStr.find_first_of(" \n\r\t\v\f", unitsPos+6);
 	if(valuePos != string::npos && valuePos > unitsPos+6)
 		valuePos -= unitsPos+6;
 	else
