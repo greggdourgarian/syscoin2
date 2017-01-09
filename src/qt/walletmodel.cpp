@@ -606,8 +606,7 @@ bool WalletModel::setWalletEncrypted(bool encrypted, const SecureString &passphr
     else
     {
 		// SYSCOIN
-		WalletModel::UnlockContext ctx(requestUnlock());
-		return ctx.isValid();
+		return wallet->Unlock(passPhrase);
     }
 }
 
