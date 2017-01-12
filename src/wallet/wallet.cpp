@@ -2323,7 +2323,9 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 if ((nValueToSelect-nWtxinCredit) > 0 && !SelectCoins(vAvailableCoins, nValueToSelect-nWtxinCredit, setCoins, nValueIn, coinControl))
                 {
                     strFailReason = _("Insufficient funds");
-                    return false;
+					// SYSCOIN only return false if signing, otherwise probably creating a raw tx that will fill in inputs later
+					if(sign)
+						return false;
                 }
 				// SYSCOIN attach input TX
 				nValueIn += nWtxinCredit;
