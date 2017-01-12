@@ -720,7 +720,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		}
 		if(theOffer.sCurrencyCode.size() > MAX_GUID_LENGTH)
 		{
-			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1011 - " + _("Offer curreny too long");
+			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1011 - " + _("Offer currency code too long");
 			return error(errorMessage.c_str());
 		}
 		if(theOffer.vchGeoLocation.size() > MAX_NAME_LENGTH)
@@ -763,7 +763,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			
 			if(theOffer.nCommission > 100 || theOffer.nCommission < -90)
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1019 - " + _("Commission must between -90 and 100");
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1019 - " + _("Commission percentage must be between -90 and 100");
 				return error(errorMessage.c_str());
 			}		
 			if(theOffer.vchLinkOffer.empty())
@@ -851,7 +851,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			}
 			if(theOffer.nCommission > 100 || theOffer.nCommission < -90)
 			{
-				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1034 - " + _("Commission must between -90 and 100");
+				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1034 - " + _("Commission percentage must be between -90 and 100");
 				return error(errorMessage.c_str());
 			}
 			break;
@@ -881,7 +881,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				if(theOfferAccept.feedback.size() > 1)
 				{
-					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1039 - " + _("Cannot only leave one feedback per transaction");
+					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1039 - " + _("Cannot leave more than one feedback per transaction");
 					return error(errorMessage.c_str());
 				}
 				break;
@@ -2934,9 +2934,9 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CTransaction buyeraliastx, selleraliastx;
 
 	if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1573 - " + _("Could not buyer alias"));
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1573 - " + _("Could not find buyer alias"));
 	if(!GetTxOfAlias(theOffer.vchAlias, sellerAlias, selleraliastx))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1574 - " + _("Could not merchant alias"));
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1574 - " + _("Could not find merchant alias"));
 	CSyscoinAddress buyerAddress;
 	CScript buyerScript, sellerScript;
 	GetAddress(buyerAlias, &buyerAddress, buyerScript);
@@ -3143,7 +3143,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	
 
 	if(!GetTxOfAlias(theOfferAccept.vchBuyerAlias, buyerAlias, buyeraliastx))
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1587 - " + _("Could not buyer alias"));
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1587 - " + _("Could not find buyer alias"));
 	CSyscoinAddress buyerAddress;
 	GetAddress(buyerAlias, &buyerAddress, buyerScript);
 

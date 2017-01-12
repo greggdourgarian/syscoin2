@@ -237,12 +237,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+34"/>
-        <source>Stars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+37"/>
         <source>unlimited</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4849,7 +4844,7 @@
     </message>
     <message>
         <location filename="../offeracceptdialog.cpp" line="+60"/>
-        <source>Units is not defined or is invalid in this coin offer</source>
+        <source>Unit is not defined or is invalid in this coin offer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4973,7 +4968,7 @@
     </message>
     <message>
         <location filename="../offeracceptdialogbtc.cpp" line="+62"/>
-        <source>Units is not defined or is invalid in this coin offer</source>
+        <source>Unit is not defined or is invalid in this coin offer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5209,7 +5204,7 @@
     </message>
     <message>
         <location filename="../offeracceptdialogzec.cpp" line="+61"/>
-        <source>Units is not defined or is invalid in this coin offer</source>
+        <source>Unit is not defined or is invalid in this coin offer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -8852,7 +8847,7 @@
         <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+9"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
         <translation>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
     </message>
@@ -9752,7 +9747,7 @@
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../syscoingui.cpp" line="+116"/>
+        <location filename="../syscoingui.cpp" line="+117"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9839,7 +9834,7 @@
 <context>
     <name>syscoin-core</name>
     <message>
-        <location filename="../syscoinstrings.cpp" line="+658"/>
+        <location filename="../syscoinstrings.cpp" line="+657"/>
         <source>Options:</source>
         <translation>Options:</translation>
     </message>
@@ -9849,17 +9844,17 @@
         <translation>Specify data directory</translation>
     </message>
     <message>
-        <location line="-283"/>
+        <location line="-282"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
         <translation>Connect to a node to retrieve peer addresses, and disconnect</translation>
     </message>
     <message>
-        <location line="+286"/>
+        <location line="+285"/>
         <source>Specify your own public address</source>
         <translation>Specify your own public address</translation>
     </message>
     <message>
-        <location line="-376"/>
+        <location line="-375"/>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Accept command line and JSON-RPC commands</translation>
     </message>
@@ -9889,7 +9884,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+289"/>
+        <location line="+288"/>
         <source>Error: A fatal internal error occurred, see debug.log for details</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9914,7 +9909,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-401"/>
+        <location line="-400"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
         <translation>Accept connections from outside (default: 1 if no -proxy or -connect)</translation>
     </message>
@@ -9954,12 +9949,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+14"/>
-        <source>Cannot update multisig alias because required signatures is greater than the amount of signatures provided</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+29"/>
+        <location line="+43"/>
         <source>Delete all wallet transactions and only recover those parts of the blockchain through -rescan on startup</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10024,7 +10014,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+15"/>
+        <source>Wallet will not create transactions that violate mempool chain limits (default: %u)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
         <translation>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</translation>
     </message>
@@ -10069,7 +10064,12 @@
         <translation>Block creation options:</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+34"/>
+        <source>Cannot leave more than one feedback per transaction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Cannot resolve -%s address: &apos;%s&apos;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10079,7 +10079,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>Commission percentage must be between -90 and 100</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Connect only to the specified node(s)</source>
         <translation>Connect only to the specified node(s)</translation>
     </message>
@@ -10094,7 +10099,12 @@
         <translation>Corrupted block database detected</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+32"/>
+        <source>Could not find buyer alias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>Debugging/Testing options:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10234,7 +10244,12 @@
         <translation>Not enough file descriptors available.</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+8"/>
+        <source>Offer currency code too long</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10349,7 +10364,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-714"/>
+        <location line="-713"/>
         <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10364,7 +10379,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+26"/>
+        <source>Cannot update multisig alias because the number of signatures required is greater than the number of signatures provided</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10464,7 +10484,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+78"/>
         <source>Error reading from database, shutting down.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10684,7 +10704,7 @@
         <translation>Password for JSON-RPC connections</translation>
     </message>
     <message>
-        <location line="-534"/>
+        <location line="-533"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
         <translation>Execute command when the best block changes (%s in cmd is replaced by block hash)</translation>
     </message>
@@ -10694,12 +10714,12 @@
         <translation>Allow DNS lookups for -addnode, -seednode and -connect</translation>
     </message>
     <message>
-        <location line="+242"/>
+        <location line="+241"/>
         <source>Loading addresses...</source>
         <translation>Loading addresses...</translation>
     </message>
     <message>
-        <location line="-576"/>
+        <location line="-575"/>
         <source>(1 = keep tx meta data e.g. account owner and payment request information, 2 = drop tx meta data)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -10954,12 +10974,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Wallet will not create transactions that violate mempool chain limits (default: %u</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location line="+10"/>
         <source>Warning: This transaction sends coins to an address or alias you do not own</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11249,18 +11264,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Cannot link to a wanted offer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cannot link to an offer that is already linked to another offer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Cannot only leave one feedback per transaction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -11369,22 +11379,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Commission must between -90 and 100</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+5"/>
+        <location line="+6"/>
         <source>Copyright (C) 2009-%i The Syscoin Core Developers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Could not buyer alias</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Could not create escrow transaction: Invalid response from createescrow</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11539,7 +11539,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Could not find currency in the peg alias</source>
         <translation type="unfinished"></translation>
     </message>
@@ -11606,11 +11606,6 @@
     <message>
         <location line="+1"/>
         <source>Could not get linked offer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Could not merchant alias</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -12134,12 +12129,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Offer curreny too long</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Offer description too long</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12554,17 +12544,17 @@
         <translation>Loading block index...</translation>
     </message>
     <message>
-        <location line="-259"/>
+        <location line="-258"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
         <translation>Add a node to connect to and attempt to keep the connection open</translation>
     </message>
     <message>
-        <location line="+260"/>
+        <location line="+259"/>
         <source>Loading wallet...</source>
         <translation>Loading wallet...</translation>
     </message>
     <message>
-        <location line="-228"/>
+        <location line="-227"/>
         <source>Cannot downgrade wallet</source>
         <translation>Cannot downgrade wallet</translation>
     </message>
@@ -12574,7 +12564,7 @@
         <translation>Cannot write default address</translation>
     </message>
     <message>
-        <location line="+282"/>
+        <location line="+281"/>
         <source>Rescanning...</source>
         <translation>Rescanning...</translation>
     </message>

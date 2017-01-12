@@ -58,7 +58,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 		if(zecPrice == 0)
 		{
 			QMessageBox::critical(this, windowTitle(),
-				tr("Units is not defined or is invalid in this coin offer")
+				tr("Unit is not defined or is invalid in this coin offer")
 					,QMessageBox::Ok, QMessageBox::Ok);
 			reject();
 			return;
