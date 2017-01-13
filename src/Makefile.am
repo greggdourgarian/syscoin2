@@ -18,7 +18,7 @@ endif
 SYSCOIN_CONFIG_INCLUDES=-I$(builddir)/config
 SYSCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
-SYSCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
+SYSCOIN_INCLUDES += -I$(srcdir)/secp256k1/include -I$(srcdir)/scrypt/lib/crypto
 SYSCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
 LIBSYSCOIN_SERVER=libsyscoin_server.a
