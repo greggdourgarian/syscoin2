@@ -23,7 +23,7 @@
  *
  * Return 0 on success; or -1 on error.
  */
-#include "scrypt/libscrypt.h"
+#include <libscrypt.h>
 
 
 int CCrypter::BytesToKeySHA512AES(const std::vector<unsigned char>& chSalt, const SecureString& strKeyData, int count, unsigned char *key,unsigned char *iv) const
