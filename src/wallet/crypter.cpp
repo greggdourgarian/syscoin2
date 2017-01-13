@@ -63,7 +63,7 @@ bool CCrypter::SetKeyFromPassphrase(const SecureString& strKeyData, const std::v
         i = BytesToKeySHA512AES(chSalt, strKeyData, nRounds, chKey, chIV);
 	// SYSCOIN
 	else if(nDerivationMethod == 1)
-		i = crypto_scrypt((const unsigned char*)strKeyData.c_str(), strKeyData.size(), &chSalt[0], chSalt.size(), 16384, 16, 1, chKey, WALLET_CRYPTO_KEY_SIZE);
+		i = crypto_scrypt((const uint8_t*)strKeyData.c_str(), strKeyData.size(), (const uint8_t*)&chSalt[0], chSalt.size(), 16384, 8, 1, (uint8_t*)chKey, WALLET_CRYPTO_KEY_SIZE);
 
 	// SYSCOIN
     if ((nDerivationMethod == 0 && i != (int)WALLET_CRYPTO_KEY_SIZE) || (nDerivationMethod == 1 && i < 0) )
