@@ -48,11 +48,10 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 $(LIBCRYPTOPP):
 	@echo "Building LibCryptoPP ..." && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" CC="$(CC)" OPT="$(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS)"
 	
-if TARGET_DARWIN
 $(LIBSCRYPT):
+if TARGET_DARWIN
 	@echo "Building scrypt(OSX) ..." && $(MAKE) LDFLAGS= CFLAGS_EXTRA= && $(MAKE) install-osx	
 else
-$(LIBSCRYPT):
 	@echo "Building scrypt(WIN/LINUX) ..." && $(MAKE)
 endif
 
