@@ -49,7 +49,11 @@ $(LIBCRYPTOPP):
 	@echo "Building LibCryptoPP ..." && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" CC="$(CC)" OPT="$(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS)"
 	
 $(LIBSCRYPT):
+if TARGET_DARWIN
+	@echo "Building scrypt(OSX) ..." && $(MAKE) LDFLAGS= CFLAGS_EXTRA= && $(MAKE) install-osx	
+else
 	@echo "Building scrypt(WIN/LINUX) ..." && $(MAKE)
+endif
 
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
