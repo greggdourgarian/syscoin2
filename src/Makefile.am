@@ -1,4 +1,4 @@
-DIST_SUBDIRS = secp256k1 univalue scrypt
+DIST_SUBDIRS = secp256k1 univalue
 
 AM_LDFLAGS = $(PTHREAD_CFLAGS) $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS)
 AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
@@ -30,7 +30,7 @@ LIBSYSCOIN_CRYPTO=crypto/libsyscoin_crypto.a
 LIBSYSCOINQT=qt/libsyscoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 LIBCRYPTOPP=cryptopp/libcryptopp.a
-LIBSCRYPT=scrypt/libcperciva_aesni.a scrypt/libscrypt_sse2.a
+LIBSCRYPT=scrypt/libscrypt.a
 
 if ENABLE_ZMQ
 LIBSYSCOIN_ZMQ=libsyscoin_zmq.a
