@@ -52,7 +52,7 @@ $(LIBSCRYPT):
 if TARGET_DARWIN
 	@echo $(MAKE) LDFLAGS= CFLAGS_EXTRA= && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" CC="$(CC)" OPT="$(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS)" install-osx	
 else
-	@echo "Building scrypt(WIN/LINUX) ..." && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" CC="$(CC)" OPT="$(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS)"
+	@echo "Building scrypt(WIN/LINUX) ..." && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" CC="$(CC)" OPT="$(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS)" install-static
 endif
 
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
