@@ -23,7 +23,7 @@
  *
  * Return 0 on success; or -1 on error.
  */
-#include "scrypt/crypto_scrypt.h"
+#include "scrypt/lib/crypto/crypto_scrypt.h"
 
 
 int CCrypter::BytesToKeySHA512AES(const std::vector<unsigned char>& chSalt, const SecureString& strKeyData, int count, unsigned char *key,unsigned char *iv) const
@@ -61,9 +61,11 @@ bool CCrypter::SetKeyFromPassphrase(const SecureString& strKeyData, const std::v
     int i = 0;
     if (nDerivationMethod == 0)
         i = BytesToKeySHA512AES(chSalt, strKeyData, nRounds, chKey, chIV);
+	// SYSCOIN
 	else if(nDerivationMethod == 1)
 		i = crypto_scrypt((const unsigned char*)strKeyData.c_str(), strKeyData.size(), &chSalt[0], chSalt.size(), 16384, 16, 1, chKey, WALLET_CRYPTO_KEY_SIZE);
 
+	// SYSCOIN
     if ((nDerivationMethod == 0 && i != (int)WALLET_CRYPTO_KEY_SIZE) || (nDerivationMethod == 1 && i < 0) )
     {
         memory_cleanse(chKey, sizeof(chKey));
