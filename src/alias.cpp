@@ -1699,11 +1699,12 @@ CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vch
 	return recipient.nAmount;
 }
 UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 != params.size())
-		throw runtime_error("aliasauthenticate <alias> <password>\n"
-		"Authenticates an alias with a provided password and returns the private key if successful. Warning: Calling this function over a public network can lead to someone reading your password/private key in plain text.\n");
+	if (fHelp || 3 != params.size())
+		throw runtime_error("aliasauthenticate <alias> <password> <salt>\n"
+		"Authenticates an alias with a provided password/salt combination and returns the private key if successful. Warning: Calling this function over a network can lead to an external party reading your salt/password/private key in plain text.\n");
 	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
 	const SecureString &strPassword = params[1].get_str().c_str();
+	string strSalt = vchFromString(params[2].get_str());
 	
 	CTransaction tx;
 	CAliasIndex theAlias;
@@ -1712,13 +1713,10 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 
 	CPubKey aliasPubKey(theAlias.vchPubKey);
 	CCrypter crypt;
-	uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-	vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
-	vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
 	if(strPassword.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5501 - " + _("Password cannot be empty"));
 
-    if(!crypt.SetKeyFromPassphrase(strPassword, vchAliasHash, 1, 1))
+    if(!crypt.SetKeyFromPassphrase(strPassword, ParseHex(strSalt), 1, 1))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5502 - " + _("Could not determine key from password"));
 
 	CKey key;
@@ -1906,12 +1904,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
-		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
-		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
+		vector<unsigned char> vchSalt;
+		vchSalt.resize(CSHA512::OUTPUT_SIZE);
+		GetStrongRandBytes(&vchSalt[0], CSHA512::OUTPUT_SIZE);		
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 1, 1))
+		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5509 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
@@ -2159,12 +2157,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(!strPassword.empty())
 	{
 		CCrypter crypt;
-		uint256 hashAliasNum = Hash(vchAlias.begin(), vchAlias.end());
-		vector<unsigned char> vchAliasHash = vchFromString(hashAliasNum.GetHex());
-		vchAliasHash.resize(WALLET_CRYPTO_SALT_SIZE);
+		vector<unsigned char> vchSalt;
+		vchSalt.resize(CSHA512::OUTPUT_SIZE);
+		GetStrongRandBytes(&vchSalt[0], CSHA512::OUTPUT_SIZE);	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchAliasHash, 1, 1))
+		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);

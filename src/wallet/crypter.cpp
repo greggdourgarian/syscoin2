@@ -55,7 +55,8 @@ int CCrypter::BytesToKeySHA512AES(const std::vector<unsigned char>& chSalt, cons
 
 bool CCrypter::SetKeyFromPassphrase(const SecureString& strKeyData, const std::vector<unsigned char>& chSalt, const unsigned int nRounds, const unsigned int nDerivationMethod)
 {
-    if (nRounds < 1 || chSalt.size() != WALLET_CRYPTO_SALT_SIZE)
+	// SYSCOIN
+    if (nRounds < 1 || (nDerivationMethod == 0 && chSalt.size() != WALLET_CRYPTO_SALT_SIZE))
         return false;
 
     int i = 0;
