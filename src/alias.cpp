@@ -1705,7 +1705,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 		"Authenticates an alias with a provided password/salt combination and returns the private key if successful. Warning: Calling this function over a network can lead to an external party reading your salt/password/private key in plain text.\n");
 	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
 	const SecureString &strPassword = params[1].get_str().c_str();
-	string strSalt = vchFromString(params[2].get_str());
+	string strSalt = params[2].get_str();
 	
 	CTransaction tx;
 	CAliasIndex theAlias;
