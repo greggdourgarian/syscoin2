@@ -1716,7 +1716,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	if(strPassword.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5501 - " + _("Password cannot be empty"));
 
-    if(!crypt.SetKeyFromPassphrase(strPassword, ParseHex(strSalt), 1, 1))
+    if(!crypt.SetKeyFromPassphrase(strPassword, vchFromString(strSalt), 1, 1))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5502 - " + _("Could not determine key from password"));
 
 	CKey key;
@@ -1909,7 +1909,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_KEY_SIZE);		
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
+		if(!crypt.SetKeyFromPassphrase(password, vchFromString(HexStr(vchSalt)), 1, 1))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5509 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
@@ -2162,7 +2162,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_KEY_SIZE);	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
+		if(!crypt.SetKeyFromPassphrase(password, vchFromString(HexStr(vchSalt)), 1, 1))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
