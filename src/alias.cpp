@@ -30,6 +30,7 @@
 #include <boost/thread.hpp>
 #include <boost/algorithm/hex.hpp>
 #include <boost/algorithm/string/find.hpp>
+#include "crypto/sha512.h"
 using namespace std;
 CAliasDB *paliasdb = NULL;
 COfferDB *pofferdb = NULL;
