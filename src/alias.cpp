@@ -30,7 +30,6 @@
 #include <boost/thread.hpp>
 #include <boost/algorithm/hex.hpp>
 #include <boost/algorithm/string/find.hpp>
-#include "crypto/sha512.h"
 using namespace std;
 CAliasDB *paliasdb = NULL;
 COfferDB *pofferdb = NULL;
@@ -1906,8 +1905,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		CCrypter crypt;
 		vector<unsigned char> vchSalt;
-		vchSalt.resize(CSHA512::OUTPUT_SIZE);
-		GetStrongRandBytes(&vchSalt[0], CSHA512::OUTPUT_SIZE);		
+		vchSalt.resize(WALLET_CRYPTO_SALT_SIZE);
+		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_SALT_SIZE);		
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
 		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
@@ -2159,8 +2158,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		CCrypter crypt;
 		vector<unsigned char> vchSalt;
-		vchSalt.resize(CSHA512::OUTPUT_SIZE);
-		GetStrongRandBytes(&vchSalt[0], CSHA512::OUTPUT_SIZE);	
+		vchSalt.resize(WALLET_CRYPTO_SALT_SIZE);
+		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_SALT_SIZE);	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
 		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
