@@ -1905,8 +1905,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		CCrypter crypt;
 		vector<unsigned char> vchSalt;
-		vchSalt.resize(WALLET_CRYPTO_SALT_SIZE);
-		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_SALT_SIZE);		
+		vchSalt.resize(WALLET_CRYPTO_KEY_SIZE);
+		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_KEY_SIZE);		
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
 		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
@@ -2158,8 +2158,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		CCrypter crypt;
 		vector<unsigned char> vchSalt;
-		vchSalt.resize(WALLET_CRYPTO_SALT_SIZE);
-		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_SALT_SIZE);	
+		vchSalt.resize(WALLET_CRYPTO_KEY_SIZE);
+		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_KEY_SIZE);	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
 		if(!crypt.SetKeyFromPassphrase(password, vchSalt, 1, 1))
