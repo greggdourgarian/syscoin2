@@ -18,7 +18,7 @@ libscrypt.so.0: $(OBJS)
 	ar rcs libscrypt.a  $(OBJS)
 
 libscrypt.a: $(OBJS) 
-	ar libscrypt.a $@ $^
+	ar rcs libscrypt.a $@ $^
 
 reference: libscrypt.so.0 main.o crypto_scrypt-hexconvert.o
 	ln -s -f libscrypt.so.0 libscrypt.so
