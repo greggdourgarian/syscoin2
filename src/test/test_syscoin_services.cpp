@@ -521,7 +521,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
-	string oldPasswordSalt = find_value(r.get_obj(), "passwordsale").get_str();
+	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	if(pubkey.size() <= 0)
 	{
 		UniValue pkr = CallRPC(tonode, "generatepublickey");
