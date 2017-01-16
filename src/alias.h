@@ -5,7 +5,7 @@
 #include "dbwrapper.h"
 #include "script/script.h"
 #include "serialize.h"
-#include "consensus/params.h"
+#include "chainparams.h"
 #include "sync.h" 
 class CWalletTx;
 class CTransaction;
