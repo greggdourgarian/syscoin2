@@ -3191,3 +3191,7 @@ bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAli
 	oAliasStats.push_back(Pair("aliases", oAliases)); 
 	return true;
 }
+bool CAliasIndex::IsIn212Fork()
+{
+	return (nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine() != CBaseChainParams::MAIN);
+}

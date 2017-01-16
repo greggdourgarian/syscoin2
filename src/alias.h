@@ -179,6 +179,7 @@ public:
         SetNull();
         UnserializeFromTx(tx);
     }
+	bool IsIn212Fork();
 	void ClearAlias()
 	{
 		vchEncryptionPublicKey.clear();
@@ -236,7 +237,7 @@ public:
 		READWRITE(VARINT(nRatingCountAsSeller));
 		READWRITE(VARINT(nRatingAsArbiter));
 		READWRITE(VARINT(nRatingCountAsArbiter));
-		if(nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine() != CBaseChainParams::MAIN)
+		if(IsIn212Fork())
 		{
 			READWRITE(vchPasswordSalt);
 		}
