@@ -589,7 +589,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();
-	string newPasswordSalt = find_value(r.get_obj(), "passwordSalt").get_str();
+	string newPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	
 	BOOST_CHECK_EQUAL(newPassword, myPassword);
 	if(newPassword != oldPassword)
