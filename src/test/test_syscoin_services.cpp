@@ -538,7 +538,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
 	const string &passwordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
-	if(!password.empty())
+	if(!oldPassword.empty())
 		BOOST_CHECK_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt), runtime_error);
 
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
