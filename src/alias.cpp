@@ -1899,17 +1899,17 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	}
 	else if(strPassword.empty())
 		defaultKey = pwalletMain->GenerateNewKey();
-
+	
 	CSyscoinAddress oldAddress(defaultKey.GetID());
+	vector<unsigned char> vchPasswordSalt;
 	if(!strPassword.empty())
 	{
-		CCrypter crypt;
-		vector<unsigned char> vchSalt;
-		vchSalt.resize(WALLET_CRYPTO_KEY_SIZE);
-		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_KEY_SIZE);		
+		uint256 salt = GetRandHash();
+		vchPasswordSalt = vchFromString(salt.GetHex());
+		CCrypter crypt;	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchFromString(HexStr(vchSalt)), 1, 1))
+		if(!crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5509 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
@@ -1961,6 +1961,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	}
 	vchPrivateValue = vchFromString(strCipherText);
 
+	if(!vchPasswordSalt.empty())
+	{
+		if(!EncryptMessage(vchPubKey, vchPasswordSalt, strCipherText))
+		{
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt password salt!"));
+		}
+		vchPasswordSalt = vchFromString(strCipherText);
+	}
+
 	if(!EncryptMessage(vchPubKey, vchEncryptionPrivateKey, strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt private encryption key!"));
@@ -1990,6 +1999,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchPrivateValue = vchPrivateValue;
 	newAlias.nExpireTime = nTime;
 	newAlias.vchPassword = vchFromString(strPassword);
+	newAlias.vchPasswordSalt = vchPasswordSalt;
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
@@ -2154,15 +2164,15 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CSyscoinAddress oldAddress;
 	GetAddress(theAlias, &oldAddress);
 	CPubKey pubKey(theAlias.vchPubKey);	
+	vector<unsigned char> vchPasswordSalt;
 	if(!strPassword.empty())
 	{
+		uint256 salt = GetRandHash();
+		vchPasswordSalt = vchFromString(salt.GetHex());
 		CCrypter crypt;
-		vector<unsigned char> vchSalt;
-		vchSalt.resize(WALLET_CRYPTO_KEY_SIZE);
-		GetStrongRandBytes(&vchSalt[0], WALLET_CRYPTO_KEY_SIZE);	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchFromString(HexStr(vchSalt)), 1, 1))
+		if(!crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1))
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not determine key from password"));
 		CKey key;
 		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
@@ -2219,6 +2229,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 			}
 			vchPrivateValue = vchFromString(strCipherText);
 		}
+	}
+	if(!vchPasswordSalt.empty())
+	{
+		if(!EncryptMessage(vchPubKeyByte, vchPasswordSalt, strCipherText))
+		{
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5527 - " + _("Could not encrypt password salt!"));
+		}
+		vchPasswordSalt = vchFromString(strCipherText);
 	}
 	if(!strPassword.empty())
 	{
@@ -2279,6 +2297,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.nExpireTime = nTime;
 	theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
+	theAlias.vchPasswordSalt = vchPasswordSalt;
 	
 	CSyscoinAddress newAddress;
 	CScript scriptPubKeyOrig;
@@ -2899,6 +2918,14 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted, strPrivKey))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
+
+	string strPasswordSalt = "";
+	if(!alias.vchPasswordSalt.empty())
+		strPasswordSalt = _("Encrypted for alias owner");
+	strDecrypted = "";
+	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPasswordSalt, strDecrypted, strPrivKey))
+		strPasswordSalt = strDecrypted;		
+	oName.push_back(Pair("passwordsalt", strPasswordSalt));
 
 
 	oName.push_back(Pair("txid", alias.txHash.GetHex()));
