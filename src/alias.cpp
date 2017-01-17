@@ -906,6 +906,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchEncryptionPrivateKey = dbAlias.vchEncryptionPrivateKey;
 					if(theAlias.vchEncryptionPublicKey.empty())
 						theAlias.vchEncryptionPublicKey = dbAlias.vchEncryptionPublicKey;
+					if(theAlias.vchPasswordSalt.empty())
+						theAlias.vchPasswordSalt = dbAlias.vchPasswordSalt;
 					if(theAlias.vchPassword.empty())
 						theAlias.vchPassword = dbAlias.vchPassword;
 					else
@@ -2298,6 +2300,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchEncryptionPublicKey = vchEncryptionPublicKey;
 	if(copyAlias.vchPassword != vchFromString(strPassword))
 		theAlias.vchPassword = vchFromString(strPassword);
+	if(!vchPasswordSalt.empty())
+		theAlias.vchPasswordSalt = vchPasswordSalt;
 
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
@@ -2305,7 +2309,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.nExpireTime = nTime;
 	theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
-	theAlias.vchPasswordSalt = vchPasswordSalt;
 	
 	CSyscoinAddress newAddress;
 	CScript scriptPubKeyOrig;
