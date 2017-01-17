@@ -2200,7 +2200,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchEncryptionPrivateKey = copyAlias.vchEncryptionPrivateKey;
 	vector<unsigned char> vchEncryptionPublicKey = copyAlias.vchEncryptionPublicKey;
 	string strDecryptedText = "";
-	if(!DecryptPrivateKey(copyAlias, vchEncryptionPrivateKey, strDecryptedText))
+	if(!DecryptPrivateKey(copyAlias, strDecryptedText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5523 - " + _("Could not decrypt alias encryption private key"));
 	}
