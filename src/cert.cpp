@@ -87,11 +87,10 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 	
 	return true;
 }
-bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
+bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey, const string &strPrivKey)
 {
-	strMessage.clear();
-	// get private key from alias or use one passed in to get the encryption private key
-	string strKey = "";
+	strKey.clear();
+	// if multisig get key from one of the multisig aliases otherwise it is encrypted to the alias owner private key
 	if(!alias.multiSigInfo.IsNull())
 	{
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
@@ -105,6 +104,15 @@ bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCi
 	}
 	else
 		DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strKey, strPrivKey);
+	return !strKey.empty();
+}
+bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)
+{
+	strMessage.clear();
+	// get private key from alias or use one passed in to get the encryption private key
+	string strKey;
+	if(!DecryptPrivateKey(alias, strKey, strPrivKey))
+		return false;
 	// use encryption private key to get data
 	CMessageCrypter crypter;
 	if(!crypter.Decrypt(strKey, stringFromVch(vchCipherText), strMessage))
