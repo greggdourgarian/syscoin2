@@ -1068,7 +1068,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		// store the alias owner address linked back to the alias because if we use the ms alias in an escrow we need to be able to lookup the alias from the owner address
 		if(!theAlias.multiSigInfo.IsNull())
 		{
-			CSyscoinAddress masterAddress(theAlias.vchPubKey);
+			CSyscoinAddress masterAddress(CPubKey(theAlias.vchPubKey).GetID());
 			vchMasterAddress = vchFromString(masterAddress.ToString());
 		}
 		CSyscoinAddress address;
