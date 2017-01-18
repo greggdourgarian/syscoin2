@@ -3525,7 +3525,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(escrow.vchLinkSellerAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
-	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotalFee;
+	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotal;
 	int nFeePerByte;
 	int precision = 2;
 	int tmpprecision = 2;
@@ -3541,15 +3541,14 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	{
 		nExpectedAmount = fUnits*COIN;
 	}
-
 	CAmount nTotal = nExpectedAmount*escrow.nQty;
+
+	CAmount nExpectedAmountPayment = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
+	CAmount nTotalPayment = nExpectedAmountPayment*escrow.nQty;
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
-	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
+	nEscrowFee = GetEscrowArbiterFee(nTotalPayment, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
-	nEscrowTotalFee = nEscrowFee + (nFeePerByte*400);	
-	
-
-
+	nEscrowTotal =  nTotalPayment + nEscrowFee + (nFeePerByte*400);	
 	
 	if(nExpectedAmount == 0)
 		oEscrow.push_back(Pair("price", "0"));
@@ -3558,9 +3557,10 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	
 	oEscrow.push_back(Pair("systotal", nTotal));
 	
-	oEscrow.push_back(Pair("sysfee", nEscrowTotalFee));
-	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowTotalFee).get_real() )));
+	oEscrow.push_back(Pair("sysfee", nEscrowFee));
+	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
 	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nTotal).get_real() )));
+	oEscrow.push_back(Pair("totalwithfee", nEscrowTotal));
 
 	oEscrow.push_back(Pair("currency", fUnits > 0? GetPaymentOptionsString(escrow.nPaymentOption):stringFromVch(offer.sCurrencyCode)));
 
