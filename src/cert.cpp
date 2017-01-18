@@ -90,6 +90,8 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey, const string &strPrivKey)
 {
 	strKey.clear();
+	if(DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strKey, strPrivKey))
+		return !strKey.empty();
 	// if multisig get key from one of the multisig aliases otherwise it is encrypted to the alias owner private key
 	if(!alias.multiSigInfo.IsNull())
 	{
@@ -102,8 +104,6 @@ bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey, const string &s
 				break;
 		}	
 	}
-	else
-		DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strKey, strPrivKey);
 	return !strKey.empty();
 }
 bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage, const string &strPrivKey)

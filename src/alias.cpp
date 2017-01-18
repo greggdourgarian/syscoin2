@@ -1930,10 +1930,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
 		pubkeys.push_back(defaultKey);
-		vector<unsigned char> vchMSPubKey(defaultKey.begin(), defaultKey.end());
-		if(!EncryptMessage(vchMSPubKey, vchEncryptionPrivateKey, strCipherText))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5513 - " + _("Could not encrypt private encryption key!"));
-		multiSigInfo.vchEncryptionPrivateKeys.push_back(strCipherText);
 		for(int i =0;i<aliasNames.size();i++)
 		{
 			CAliasIndex multiSigAlias;
@@ -2259,10 +2255,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
 		pubkeys.push_back(pubKey);
-		vector<unsigned char> vchMSPubKey(pubKey.begin(), pubKey.end());
-		if(!EncryptMessage(vchMSPubKey, vchEncryptionPrivateKey, strCipherText))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
-		multiSigInfo.vchEncryptionPrivateKeys.push_back(strCipherText);
 		for(int i =0;i<aliasNames.size();i++)
 		{
 			CAliasIndex multiSigAlias;
