@@ -3525,7 +3525,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("offerlink_seller", stringFromVch(escrow.vchLinkSellerAlias)));
 	oEscrow.push_back(Pair("offertitle", stringFromVch(offer.sTitle)));
 	oEscrow.push_back(Pair("quantity", strprintf("%d", escrow.nQty)));
-	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotal;
+	CAmount nExpectedCommissionAmount, nEscrowFee, nEscrowTotalFee;
 	int nFeePerByte;
 	int precision = 2;
 	int tmpprecision = 2;
@@ -3534,8 +3534,8 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	if(offer.vchLinkOffer.empty())
 		offer.linkWhitelist.GetLinkEntryByHash(escrow.vchBuyerAlias, foundEntry);
 
-	string paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
-	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), offer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
+	const string &paymentOptionStr = GetPaymentOptionsString(escrow.nPaymentOption);
+	CAmount nExpectedAmount = convertSyscoinToCurrencyCode(sellerAlias.vchAliasPeg, offer.sCurrencyCode, offer.GetPrice(foundEntry), vtxPos.front().nAcceptHeight, precision);
 	float fUnits;
 	if(GetOfferUnits(offer, fUnits))
 	{
@@ -3546,7 +3546,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	float fEscrowFee = getEscrowFee(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
 	nEscrowFee = GetEscrowArbiterFee(nTotal, fEscrowFee);	
 	nFeePerByte = getFeePerByte(sellerAlias.vchAliasPeg, vchFromString(paymentOptionStr), vtxPos.front().nAcceptHeight, tmpprecision);
-	nEscrowTotal =  nTotal + nEscrowFee + (nFeePerByte*400);	
+	nEscrowTotalFee = nEscrowFee + (nFeePerByte*400);	
 	
 
 
@@ -3558,10 +3558,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	
 	oEscrow.push_back(Pair("systotal", nTotal));
 	
-	oEscrow.push_back(Pair("sysfee", nEscrowFee));
-	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
+	oEscrow.push_back(Pair("sysfee", nEscrowTotalFee));
+	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowTotalFee).get_real() )));
 	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nTotal).get_real() )));
-	oEscrow.push_back(Pair("totalwithfee", nEscrowTotal));
 
 	oEscrow.push_back(Pair("currency", fUnits > 0? GetPaymentOptionsString(escrow.nPaymentOption):stringFromVch(offer.sCurrencyCode)));
 
