@@ -2912,7 +2912,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 
-	oName.push_back(Pair("passwordsalt", stringFromVch(alias.vchPasswordSalt)));
+	oName.push_back(Pair("passwordsalt", HexStr(alias.vchPasswordSalt)));
 
 
 	oName.push_back(Pair("txid", alias.txHash.GetHex()));
