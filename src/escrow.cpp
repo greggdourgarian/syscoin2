@@ -3555,12 +3555,12 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	else
 		oEscrow.push_back(Pair("price", strprintf("%.*f", precision, ValueFromAmount(nExpectedAmount).get_real() )));
 	
-	oEscrow.push_back(Pair("systotal", nEscrowTotal));
+	oEscrow.push_back(Pair("systotal", nTotalPayment));
 	
 	oEscrow.push_back(Pair("sysfee", nEscrowFee));
 	oEscrow.push_back(Pair("fee", strprintf("%.*f", 8, ValueFromAmount(nEscrowFee).get_real() )));
 	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nTotal).get_real() )));
-	oEscrow.push_back(Pair("totalwithfee", nEscrowTotal));
+	oEscrow.push_back(Pair("systotalwithfee", nEscrowTotal));
 
 	oEscrow.push_back(Pair("currency", fUnits > 0? GetPaymentOptionsString(escrow.nPaymentOption):stringFromVch(offer.sCurrencyCode)));
 
