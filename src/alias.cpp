@@ -1907,7 +1907,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!strPassword.empty())
 	{
 		vchPasswordSalt.resize(WALLET_CRYPTO_SALT_SIZE);
-		GetStrongRandBytes(&vchPasswordSalt, WALLET_CRYPTO_SALT_SIZE);
+		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_SALT_SIZE);
 		CCrypter crypt;	
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
@@ -2174,7 +2174,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(!strPassword.empty())
 	{
 		vchPasswordSalt.resize(WALLET_CRYPTO_SALT_SIZE);
-		GetStrongRandBytes(&vchPasswordSalt, WALLET_CRYPTO_SALT_SIZE);
+		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_SALT_SIZE);
 		CCrypter crypt;
 		string pwStr = strPassword;
 		SecureString password = pwStr.c_str();
