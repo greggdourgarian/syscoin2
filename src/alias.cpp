@@ -1970,15 +1970,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	}
 	vchPrivateValue = vchFromString(strCipherText);
 
-	if(!vchPasswordSalt.empty())
-	{
-		if(!EncryptMessage(vchPubKey, vchPasswordSalt, strCipherText))
-		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt password salt!"));
-		}
-		vchPasswordSalt = vchFromString(strCipherText);
-	}
-
 	if(!EncryptMessage(vchPubKey, vchEncryptionPrivateKey, strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt private encryption key!"));
@@ -2238,14 +2229,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 			}
 			vchPrivateValue = vchFromString(strCipherText);
 		}
-	}
-	if(!vchPasswordSalt.empty())
-	{
-		if(!EncryptMessage(vchPubKeyByte, vchPasswordSalt, strCipherText))
-		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5527 - " + _("Could not encrypt password salt!"));
-		}
-		vchPasswordSalt = vchFromString(strCipherText);
 	}
 	if(!strPassword.empty())
 	{
@@ -2929,13 +2912,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 
-	string strPasswordSalt = "";
-	if(!alias.vchPasswordSalt.empty())
-		strPasswordSalt = _("Encrypted for alias owner");
-	strDecrypted = "";
-	if(DecryptPrivateKey(alias.vchPubKey, alias.vchPasswordSalt, strDecrypted, strPrivKey))
-		strPasswordSalt = strDecrypted;		
-	oName.push_back(Pair("passwordsalt", strPasswordSalt));
+	oName.push_back(Pair("passwordsalt", stringFromVch(alias.vchPasswordSalt)));
 
 
 	oName.push_back(Pair("txid", alias.txHash.GetHex()));
