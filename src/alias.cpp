@@ -1064,12 +1064,19 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		theAlias.nHeight = nHeight;
 		theAlias.txHash = tx.GetHash();
 		PutToAliasList(vtxPos, theAlias);
+		vector<unsigned char> vchMasterAddress;
+		// store the alias owner address linked back to the alias because if we use the ms alias in an escrow we need to be able to lookup the alias from the owner address
+		if(!theAlias.multiSigInfo.IsNull())
+		{
+			CSyscoinAddress masterAddress(theAlias.vchPubKey);
+			vchMasterAddress = vchFromString(masterAddress.ToString());
+		}
 		CSyscoinAddress address;
 		GetAddress(theAlias, &address);
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
 		aliasUnprunable.nExpireTime = theAlias.nExpireTime;
-		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vtxPos))
+		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vchMasterAddress, vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5034 - " + _("Failed to write to alias DB");
 			return error(errorMessage.c_str());
