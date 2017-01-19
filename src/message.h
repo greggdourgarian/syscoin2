@@ -34,6 +34,7 @@ public:
 	std::vector<unsigned char> vchMessageTo;
 	std::vector<unsigned char> vchMessageFrom;
     uint256 txHash;
+	// unused
 	bool bHex;
     uint64_t nHeight;
     CMessage() {
@@ -124,6 +125,6 @@ public:
 };
 
 bool GetTxOfMessage(const std::vector<unsigned char> &vchMessage, CTransaction& tx);
-bool BuildMessageJson(const CMessage& message, UniValue& oName, const std::string &strPrivKey="");
+bool BuildMessageJson(const CMessage& message, UniValue& oName, const std::string &strWalletless="");
 uint64_t GetMessageExpiration(const CMessage& message);
 #endif // MESSAGE_H

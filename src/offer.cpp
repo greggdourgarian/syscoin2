@@ -2507,7 +2507,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchOffer = vchFromValue(params[1]);
 	vector<unsigned char> vchExtTxId = vchFromValue(params.size()>=5?params[4]:"");
 
-	vector<unsigned char> vchMessage = vchFromValue(params.size()>=4?params[3]:"");
+	string strMessage = params[3].get_str();
 	int64_t nHeight = chainActive.Tip()->nHeight;
 	unsigned int nQty = 1;
 	if (params.size() >= 3) {
@@ -2653,19 +2653,9 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	{
 		if (!GetTxOfAlias(linkOffer.vchAlias, theLinkedAlias, aliastx))
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1564 - " + _("Could not find an alias with this name"));
-
-		// encrypt to root offer owner if this is a linked offer you are accepting
-		if(!EncryptMessage(theLinkedAlias, vchMessage, strCipherText))
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1565 - " + _("Could not encrypt message to seller"));
-	}
-	else
-	{
-		// encrypt to offer owner
-		if(!EncryptMessage(theAlias, vchMessage, strCipherText))
-			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1566 - " + _("Could not encrypt message to seller"));
 	}
 
-	vector<unsigned char> vchPaymentMessage = vchFromString(strCipherText);
+	
 	COfferAccept txAccept;
 	txAccept.vchAcceptRand = vchAccept;
 	txAccept.nQty = nQty;
@@ -2673,7 +2663,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	// We need to do this to make sure we convert price at the time of initial buyer's accept.
 	txAccept.nAcceptHeight = nHeight;
 	txAccept.vchBuyerAlias = vchAlias;
-	txAccept.vchMessage = vchPaymentMessage;
+	txAccept.vchMessage = ParseHex(strMessage);
 	txAccept.nPaymentOption = paymentOptionsMask;
     CAmount nTotalValue = ( nPrice * nQty );
 	CAmount nTotalCommission = ( nCommission * nQty );
@@ -3257,7 +3247,7 @@ UniValue offerinfo(const UniValue& params, bool fHelp) {
 	return oOffer;
 
 }
-bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const string &strPrivKey)
+bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& oOffer, const string &strWalletless)
 {
 	if(theOffer.safetyLevel >= SAFETY_LEVEL2)
 		return false;
@@ -3487,7 +3477,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 	}
     return aoOfferAccepts;
 }
-bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept, const string &strPrivKey)
+bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, const CTransaction &aliastx, UniValue& oOfferAccept, const string &strWalletless)
 {
 	CTransaction offerTx;
 	COffer linkOffer;
@@ -3674,7 +3664,9 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
 	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	string strMessage = string("");
-	if(!DecryptMessage(theAlias, theOffer.accept.vchMessage, strMessage, strPrivKey))
+	if(strWalletless == "Yes")
+		strMessage = HexStr(theOffer.accept.vchMessage);
+	else if(!DecryptMessage(theAlias, theOffer.accept.vchMessage, strMessage))
 		strMessage = _("Encrypted for owner of offer");
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;

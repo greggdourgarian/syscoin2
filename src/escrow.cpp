@@ -1324,7 +1324,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(params.size() >= 6)
 		extTxIdStr = params[5].get_str();
 
-	vector<unsigned char> vchMessage = vchFromValue(params[3]);
+	string strMessage = params[3].get_str();
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
 	if(params.size() >= 7 && !params[6].get_str().empty() && params[6].get_str() != "NONE")
@@ -1354,10 +1354,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4511 - " + _("Invalid quantity value. Quantity must be less than 4294967296."));
 	}
-
-    if (vchMessage.size() <= 0)
-        vchMessage = vchFromString("ESCROW");
-
 
 	CAliasIndex buyeralias;
 	if (!GetTxOfAlias(vchAlias, buyeralias, buyeraliastx))
@@ -1422,14 +1418,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
     CWalletTx wtx;
 	EnsureWalletIsUnlocked();
     CScript scriptPubKey, scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyRootSeller, scriptPubKeyArbiter,scriptBuyer, scriptSeller,scriptRootSeller,scriptArbiter;
-
-	string strCipherText = "";
-	// encrypt to offer owner
-	if(!EncryptMessage(selleralias, vchMessage, strCipherText))
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4520 - " + _("Could not encrypt message to seller"));
-
-	if (strCipherText.size() > MAX_ENCRYPTED_VALUE_LENGTH)
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4521 - " + _("Payment message length cannot exceed 1024 characters"));
 
 	CSyscoinAddress arbiterAddress;
 	GetAddress(arbiteralias, &arbiterAddress, scriptArbiter);
@@ -1504,7 +1492,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	newEscrow.extTxId = uint256S(extTxIdStr);
 	newEscrow.vchSellerAlias = selleralias.vchAlias;
 	newEscrow.vchLinkSellerAlias = reselleralias.vchAlias;
-	newEscrow.vchPaymentMessage = vchFromString(strCipherText);
+	newEscrow.vchPaymentMessage = ParseHex(strMessage);
 	newEscrow.nQty = nQty;
 	newEscrow.nPaymentOption = paymentOptionsMask;
 	newEscrow.nHeight = nHeight;
@@ -3468,7 +3456,7 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4605 - " + _("Could not find this escrow"));
     return oEscrow;
 }
-bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const string &strPrivKey)
+bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const string &strWalletless)
 {
 	vector<CEscrow> vtxPos;
 	if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
@@ -3580,7 +3568,9 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
     oEscrow.push_back(Pair("txid", escrow.txHash.GetHex()));
     oEscrow.push_back(Pair("height", sHeight));
 	string strMessage = string("");
-	if(!DecryptMessage(sellerAlias, escrow.vchPaymentMessage, strMessage, strPrivKey))
+	if(strWalletless == "Yes")
+		strMessage = HexStr(escrow.vchPaymentMessage);
+	else if(!DecryptMessage(sellerAlias, escrow.vchPaymentMessage, strMessage))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int64_t expired_time = GetEscrowExpiration(escrow);

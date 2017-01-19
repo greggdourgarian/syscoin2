@@ -472,24 +472,26 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 }
 
 UniValue messagenew(const UniValue& params, bool fHelp) {
-    if (fHelp || 4 > params.size() || 5 < params.size() )
+    if (fHelp || 5 > params.size() || 6 < params.size() )
         throw runtime_error(
-		"messagenew <subject> <message> <fromalias> <toalias> [hex='No']\n"
+		"messagenew <subject> <messagefrom> <messageto> <fromalias> <toalias> [sendfrom='Yes']\n"
 						"<subject> Subject of message.\n"
-						"<message> Message to send to alias.\n"
+						"<messagefrom> Message to send to alias (encrypted to fromalias).\n"
+						"<messageto> Message to send to alias (encrypted to toalias).\n"
 						"<fromalias> Alias to send message from.\n"
 						"<toalias> Alias to send message to.\n"	
-						"<hex> Is data an hex based message(only To-Message will be displayed). No by default.\n"	
+						"<sendfrom> Encrypt a copy of the message to yourself so you can view it in your outgoing list. Yes by default. No if you wish to conserve space if your message is too long to fit within the transaction size limit.\n"	
                         + HelpRequiringPassphrase());
 	vector<unsigned char> vchMySubject = vchFromValue(params[0]);
-	vector<unsigned char> vchMyMessage = vchFromString(params[1].get_str());
-	string strFromAddress = params[2].get_str();
+	string strMyMessageFrom = params[1].get_str();
+	string strMyMessageTo = params[2].get_str();
+	string strFromAddress = params[3].get_str();
 	boost::algorithm::to_lower(strFromAddress);
-	string strToAddress = params[3].get_str();
+	string strToAddress = params[4].get_str();
 	boost::algorithm::to_lower(strToAddress);
-	bool bHex = false;
-	if(params.size() >= 5)
-		bHex = params[4].get_str() == "Yes"? true: false;
+	bool bSendFrom = true;
+	if(params.size() >= 6)
+		bSendFrom = params[5].get_str() == "Yes"? true: false;
 
 	EnsureWalletIsUnlocked();
 
@@ -557,44 +559,17 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	vector<unsigned char> vchMessageByte;
-	if(bHex)
-		boost::algorithm::unhex(vchMyMessage.begin(), vchMyMessage.end(), std::back_inserter(vchMessageByte ));
-	else
-		vchMessageByte = vchMyMessage;
-	
-	
 
-	string strCipherTextTo;
-	if(!EncryptMessage(aliasTo, vchMessageByte, strCipherTextTo))
-	{
-		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-		{
-			 LOCK2(cs_main, pwalletMain->cs_wallet);
-			 pwalletMain->UnlockCoin(outpoint);
-		}
-		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3504 - " + _("Could not encrypt message data for receiver"));
-	}
-	string strCipherTextFrom;
-	if(!EncryptMessage(aliasFrom, vchMessageByte, strCipherTextFrom))
-	{
-		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-		{
-			 LOCK2(cs_main, pwalletMain->cs_wallet);
-			 pwalletMain->UnlockCoin(outpoint);
-		}
-		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3505 - " + _("Could not encrypt message data for sender"));
-	}
+	
 
     // build message
     CMessage newMessage;
 	newMessage.vchMessage = vchMessage;
-	if(!bHex)
-		newMessage.vchMessageFrom = vchFromString(strCipherTextFrom);
-	newMessage.vchMessageTo = vchFromString(strCipherTextTo);
+	if(bSendFrom)
+		newMessage.vchMessageFrom = ParseHex(strMyMessageFrom);
+	newMessage.vchMessageTo = ParseHex(strMyMessageTo);
 	newMessage.vchSubject = vchMySubject;
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
-	newMessage.bHex = bHex;
 	newMessage.vchAliasTo = aliasTo.vchAlias;
 	newMessage.nHeight = chainActive.Tip()->nHeight;
 
@@ -769,7 +744,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 
     return oRes;
 }
-bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &strPrivKey)
+bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &strWalletless)
 {
 	CAliasIndex aliasFrom, aliasTo;
 	CTransaction aliastxtmp;
@@ -803,18 +778,23 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 
 	oName.push_back(Pair("subject", stringFromVch(message.vchSubject)));
 	string strDecrypted = "";
-	string strData = _("Encrypted for recipient of message");
-	if(DecryptMessage(aliasTo, message.vchMessageTo, strDecrypted, strPrivKey))
+	string strData = "";
+	if(strWalletless == "Yes")
+		strData = HexStr(message.vchMessageTo);
+	else if(DecryptMessage(aliasTo, message.vchMessageTo, strDecrypted))
 	{
-		if(message.bHex)
-			strData = HexStr(strDecrypted);
-		else
-			strData = strDecrypted;
-	}
-	else if(!message.bHex && DecryptMessage(aliasFrom, message.vchMessageFrom, strDecrypted, strPrivKey))
 		strData = strDecrypted;
-
-	oName.push_back(Pair("message", strData));
+	}
+	oName.push_back(Pair("messageto", strData));
+	strDecrypted = "";
+	strData = "";
+	if(strWalletless == "Yes")
+		strData = HexStr(message.vchMessageFrom);
+	else if(DecryptMessage(aliasTo, message.vchMessageFrom, strDecrypted))
+	{
+		strData = strDecrypted;
+	}
+	oName.push_back(Pair("messagefrom", strData));
 	return true;
 }
 
