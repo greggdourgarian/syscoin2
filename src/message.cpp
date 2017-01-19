@@ -781,7 +781,7 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 	string strData = "";
 	if(strWalletless == "Yes")
 		strData = HexStr(message.vchMessageTo);
-	else if(DecryptMessage(aliasTo, message.vchMessageTo, strDecrypted))
+	else if(DecryptMessage(aliasTo, HexStr(message.vchMessageTo), strDecrypted))
 	{
 		strData = strDecrypted;
 	}
@@ -790,7 +790,7 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 	strData = "";
 	if(strWalletless == "Yes")
 		strData = HexStr(message.vchMessageFrom);
-	else if(DecryptMessage(aliasTo, message.vchMessageFrom, strDecrypted))
+	else if(DecryptMessage(aliasTo, HexStr(message.vchMessageFrom), strDecrypted))
 	{
 		strData = strDecrypted;
 	}
@@ -939,9 +939,9 @@ void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, co
 
 	string strMessage =_("Encrypted for recipient of message");
 	string strDecrypted = "";
-	if(DecryptMessage(dbAliasTo, message.vchMessageTo, strDecrypted))
+	if(DecryptMessage(dbAliasTo, HexStr(message.vchMessageTo), strDecrypted))
 		strMessage = strDecrypted;
-	else if(DecryptMessage(dbAliasFrom, message.vchMessageFrom, strDecrypted))
+	else if(DecryptMessage(dbAliasFrom, HexStr(message.vchMessageFrom), strDecrypted))
 		strMessage = strDecrypted;	
 
 	entry.push_back(Pair("message", strMessage));

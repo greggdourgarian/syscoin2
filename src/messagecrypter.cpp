@@ -1,10 +1,10 @@
 #include "messagecrypter.h"
-bool CMessageCrypter::Encrypt(const string& vchPubKey, const string& vchPlaintext, string& vchCiphertext)
+bool CMessageCrypter::Encrypt(const string& strPubKey, const string& strPlaintext, string& strCiphertext)
 {
     try
     {
         AutoSeededRandomPool prng;
-        StringSource ss(vchPubKey, true);
+        StringSource ss(strPubKey, true);
 		ECIES<ECP>::Encryptor encryptor;
 
         //curve used is secp256k1
@@ -21,7 +21,7 @@ bool CMessageCrypter::Encrypt(const string& vchPubKey, const string& vchPlaintex
         encryptor.AccessKey().ThrowIfInvalid(prng, 3);
 
         // encrypted message
-        StringSource ss1(vchPlaintext, true, new PK_EncryptorFilter(prng, encryptor, new StringSink(vchCiphertext) ) );
+        StringSource ss1(strPlaintext, true, new PK_EncryptorFilter(prng, encryptor, new StringSink(strCiphertext) ) );
     }
     catch(const CryptoPP::Exception& ex)
     {
@@ -31,13 +31,13 @@ bool CMessageCrypter::Encrypt(const string& vchPubKey, const string& vchPlaintex
 	return true;
 }
 
-bool CMessageCrypter::Decrypt(const string& vchPrivKey, const string& vchCiphertext, string& vchPlaintext)
+bool CMessageCrypter::Decrypt(const string& strPrivKey, const string& strCiphertext, string& strPlaintext)
 {
     try
     {
         AutoSeededRandomPool prng;
 
-        StringSource ss(vchPrivKey, true /*pumpAll*/);
+        StringSource ss(strPrivKey, true /*pumpAll*/);
 
         Integer x;
         x.Decode(ss, ss.MaxRetrievable(), Integer::UNSIGNED);
@@ -54,7 +54,7 @@ bool CMessageCrypter::Decrypt(const string& vchPrivKey, const string& vchCiphert
            decryptor.AccessKey().ThrowIfInvalid(prng, 3);
 
         //decrypt the message using private key
-        StringSource ss2 (vchCiphertext, true, new PK_DecryptorFilter(prng, decryptor, new StringSink(vchPlaintext) ) );
+        StringSource ss2 (strCiphertext, true, new PK_DecryptorFilter(prng, decryptor, new StringSink(strPlaintext) ) );
 
     }
     catch(const CryptoPP::Exception& ex)

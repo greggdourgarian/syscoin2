@@ -21,25 +21,25 @@
 using namespace std;
 extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
 ;
-bool EncryptMessage(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchMessage, string &strCipherText)
+bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMessage, string &strCipherText)
 {
 	strCipherText.clear();
 	CMessageCrypter crypter;
-	if(!crypter.Encrypt(stringFromVch(vchPubKey), stringFromVch(vchMessage), strCipherText))
+	if(!crypter.Encrypt(HexStr(vchPubKey), strMessage, strCipherText))
 		return false;
 
 	return true;
 }
-bool EncryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchMessage, string &strCipherText)
+bool EncryptMessage(const CAliasIndex& alias, const string &strMessage, string &strCipherText)
 {
 	strCipherText.clear();
 	CMessageCrypter crypter;
-	if(!crypter.Encrypt(stringFromVch(alias.vchEncryptionPublicKey), stringFromVch(vchMessage), strCipherText))
+	if(!crypter.Encrypt(HexStr(alias.vchEncryptionPublicKey), strMessage, strCipherText))
 		return false;
 
 	return true;
 }
-bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage)
+bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &strCipherText, string &strMessage)
 {
 	strMessage.clear();
 	std::vector<unsigned char> vchPrivateKey;
@@ -54,7 +54,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 	PrivateKey = Secret.GetKey();
 	vchPrivateKey = std::vector<unsigned char>(PrivateKey.begin(), PrivateKey.end());
 	strMessage.clear();
-	if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
+	if(!crypter.Decrypt(HexStr(vchPrivateKey), strCipherText, strMessage))
 		return false;
 	
 	
@@ -63,7 +63,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsi
 bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 {
 	strKey.clear();
-	if(DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strKey))
+	if(DecryptPrivateKey(alias.vchPubKey, HexStr(alias.vchEncryptionPrivateKey), strKey))
 		return !strKey.empty();
 	// if multisig get key from one of the multisig aliases otherwise it is encrypted to the alias owner private key
 	if(!alias.multiSigInfo.IsNull())
@@ -73,13 +73,13 @@ bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 			vector<CAliasIndex> vtxPos;
 			if (!paliasdb->ReadAlias(vchFromString(alias.multiSigInfo.vchAliases[i]), vtxPos) || vtxPos.empty())
 				continue;
-			if(DecryptPrivateKey(vtxPos.back().vchPubKey, vchFromString(alias.multiSigInfo.vchEncryptionPrivateKeys[i]), strKey))
+			if(DecryptPrivateKey(vtxPos.back().vchPubKey, HexStr(vchFromString(alias.multiSigInfo.vchEncryptionPrivateKeys[i])), strKey))
 				break;
 		}	
 	}
 	return !strKey.empty();
 }
-bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage)
+bool DecryptMessage(const CAliasIndex& alias, const string &strCipherText, string &strMessage)
 {
 	strMessage.clear();
 	// get private key from alias or use one passed in to get the encryption private key
@@ -88,7 +88,7 @@ bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCi
 		return false;
 	// use encryption private key to get data
 	CMessageCrypter crypter;
-	if(!crypter.Decrypt(strKey, stringFromVch(vchCipherText), strMessage))
+	if(!crypter.Decrypt(strKey, strCipherText, strMessage))
 		return false;
 	
 	return true;
@@ -1283,7 +1283,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 		strData = _("Encrypted for owner of certificate private data");
 		if(strWalletless == "Yes")
 			strData = HexStr(cert.vchData);		
-		else if(DecryptMessage(alias, cert.vchData, strDecrypted))
+		else if(DecryptMessage(alias, HexStr(cert.vchData), strDecrypted))
 			strData = strDecrypted;		
 		
 	}
