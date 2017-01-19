@@ -2595,7 +2595,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 			}
 		}
 	}
-	else if (vchMessage.size() <= 0)
+	else if (strMessage.size() <= 0)
 	{
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR: ERRCODE: 1559 - " + _("Offer payment message cannot be empty"));
 	}
