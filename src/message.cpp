@@ -508,10 +508,10 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
 	// lock coins before going into aliasunspent if we are sending raw tx that uses inputs in our wallet
 	vector<COutPoint> lockedOutputs;
-	if(bHex)
+	CTransaction rawTx;
+	DecodeHexTx(rawTx,strMyMessageTo);
+	if(DecodeHexTx(rawTx,strMyMessageTo) && !rawTx.IsNull())
 	{
-		CTransaction rawTx;
-		DecodeHexTx(rawTx,stringFromVch(vchMyMessage));
 		BOOST_FOREACH(const CTxIn& txin, rawTx.vin)
 		{
 			if(!pwalletMain->IsLockedCoin(txin.prevout.hash, txin.prevout.n))
