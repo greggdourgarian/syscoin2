@@ -105,10 +105,10 @@ public:
 };
 class CMultiSigAliasInfo {
 public:
-	std::vector<std::string> vchAliases;
+	std::vector<std::vector<unsigned char> > vchAliases;
 	unsigned char nRequiredSigs;
 	std::vector<unsigned char> vchRedeemScript;
-	std::vector<std::string> vchEncryptionPrivateKeys;
+	std::vector<std::vector<unsigned char> > vchEncryptionPrivateKeys;
 	CMultiSigAliasInfo() {
         SetNull();
     }

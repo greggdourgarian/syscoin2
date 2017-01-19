@@ -938,7 +938,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							{
 								CAliasIndex multiSigAlias;
 								CTransaction txMultiSigAlias;
-								if (!GetTxOfAlias(vchFromString(theAlias.multiSigInfo.vchAliases[i]), multiSigAlias, txMultiSigAlias))
+								if (!GetTxOfAlias(theAlias.multiSigInfo.vchAliases[i], multiSigAlias, txMultiSigAlias))
 									continue;
 								CPubKey pubkey(multiSigAlias.vchPubKey);
 								pubkeys.push_back(pubkey);
@@ -1017,7 +1017,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				{
 					CAliasIndex multiSigAlias;
 					CTransaction txMultiSigAlias;
-					if (!GetTxOfAlias(vchFromString(theAlias.multiSigInfo.vchAliases[i]), multiSigAlias, txMultiSigAlias))
+					if (!GetTxOfAlias(theAlias.multiSigInfo.vchAliases[i], multiSigAlias, txMultiSigAlias))
 						continue;
 
 					CPubKey pubkey(multiSigAlias.vchPubKey);
@@ -1949,7 +1949,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
-		pubkeys.push_back(pubKey);
+		pubkeys.push_back(defaultKey);
 		for(int i =0;i<aliases.size();i++)
 		{
 			const UniValue &aliasObj = aliases[i].get_obj();
@@ -1960,12 +1960,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5528 - " + _("Could not find multisig alias with the name: ") + aliasName);
 			CPubKey pubkey(multiSigAlias.vchPubKey);
 			pubkeys.push_back(pubkey);
-			multiSigInfo.vchAliases.push_back(stringFromVch(multiSigAlias.vchAlias));
+			multiSigInfo.vchAliases.push_back(multiSigAlias.vchAlias);
 			// add encrypted encryption key to each alias pubkey
 			vector<unsigned char> vchMSPubKey(pubkey.begin(), pubkey.end());
 			if(!EncryptMessage(vchMSPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
-			multiSigInfo.vchEncryptionPrivateKeys.push_back(strCipherText);
+			multiSigInfo.vchEncryptionPrivateKeys.push_back(ParseHex(strCipherText));
 		}	
 		CScript script = GetScriptForMultisig(nMultiSig, pubkeys);
 		std::vector<unsigned char> vchRedeemScript(script.begin(), script.end());
@@ -2241,7 +2241,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 			if (!GetTxOfAlias( vchFromString(aliasName), multiSigAlias, txMultiSigAlias))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5523 - " + _("Could not find multisig alias with the name: ") + aliasName);
 			pubkeys.push_back(CPubKey(multiSigAlias.vchPubKey));
-			multiSigInfo.vchAliases.push_back(stringFromVch(multiSigAlias.vchAlias));
+			multiSigInfo.vchAliases.push_back(multiSigAlias.vchAlias);
 			// add encrypted encryption key to each alias pubkey
 			multiSigInfo.vchEncryptionPrivateKeys.push_back(ParseHexV(find_value(aliasObj, "encryptionprivatekey"),"encryptionprivatekey"));
 		}	
@@ -2479,7 +2479,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 		UniValue msAliases(UniValue::VARR);
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 		{
-			msAliases.push_back(alias.multiSigInfo.vchAliases[i]);
+			msAliases.push_back(stringFromVch(alias.multiSigInfo.vchAliases[i]));
 		}
 		msInfo.push_back(Pair("reqsigners", msAliases));
 		
@@ -2966,7 +2966,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	UniValue msAliases(UniValue::VARR);
 	for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 	{
-		msAliases.push_back(alias.multiSigInfo.vchAliases[i]);
+		msAliases.push_back(stringFromVch(alias.multiSigInfo.vchAliases[i]));
 	}
 	msInfo.push_back(Pair("reqsigners", msAliases));
 	msInfo.push_back(Pair("redeemscript", HexStr(alias.multiSigInfo.vchRedeemScript)));

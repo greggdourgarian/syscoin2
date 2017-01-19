@@ -71,9 +71,9 @@ bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 		{
 			vector<CAliasIndex> vtxPos;
-			if (!paliasdb->ReadAlias(vchFromString(alias.multiSigInfo.vchAliases[i]), vtxPos) || vtxPos.empty())
+			if (!paliasdb->ReadAlias(alias.multiSigInfo.vchAliases[i], vtxPos) || vtxPos.empty())
 				continue;
-			if(DecryptPrivateKey(vtxPos.back().vchPubKey, HexStr(vchFromString(alias.multiSigInfo.vchEncryptionPrivateKeys[i])), strKey))
+			if(DecryptPrivateKey(vtxPos.back().vchPubKey, HexStr(alias.multiSigInfo.vchEncryptionPrivateKeys[i]), strKey))
 				break;
 		}	
 	}
