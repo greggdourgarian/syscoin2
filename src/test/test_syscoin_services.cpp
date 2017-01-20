@@ -535,7 +535,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	}
 
 	string strCipherPrivateData = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(encryptionkey, privdata, strCipherPrivateData), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strCipherPrivateData + " Yes " + pubkey));
 	GenerateBlocks(10, tonode);
@@ -593,10 +593,10 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
 	string strCipherPrivateData = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(encryptionkey, privdata, strCipherPrivateData), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	string strCipherPassword = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(publickey, privdata, strCipherPassword), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(publickey), privdata, strCipherPassword), true);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strCipherPrivateData + " " + safesearch + " 0 " + strCipherPassword));
 	GenerateBlocks(10, node);

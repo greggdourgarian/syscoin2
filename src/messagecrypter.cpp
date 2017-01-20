@@ -1,10 +1,10 @@
 #include "messagecrypter.h"
-bool CMessageCrypter::Encrypt(const string& strPubKey, const string& strPlaintext, string& strCiphertext)
+bool CMessageCrypter::Encrypt(const vector<unsigned char>& vchPubKey, const string& strPlaintext, string& strCiphertext)
 {
     try
     {
         AutoSeededRandomPool prng;
-        StringSource ss(strPubKey, true);
+        StringSource ss(vchPubKey, true);
 		ECIES<ECP>::Encryptor encryptor;
 
         //curve used is secp256k1

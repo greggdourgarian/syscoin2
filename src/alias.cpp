@@ -1968,7 +1968,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 			multiSigInfo.vchAliases.push_back(multiSigAlias.vchAlias);
 			// add encrypted encryption key to each alias pubkey
 			vector<unsigned char> vchMSPubKey(pubkey.begin(), pubkey.end());
-			if(!EncryptMessage(HexStr(vchMSPubKey), HexStr(vchEncryptionPrivateKey), strCipherText))
+			if(!EncryptMessage(vchMSPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
 			multiSigInfo.vchEncryptionPrivateKeys.push_back(ParseHex(strCipherText));
 		}	
@@ -1984,14 +1984,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	std::vector<unsigned char> vchPubKey(defaultKey.begin(), defaultKey.end());
 	if(!strPrivateValue.empty())
 	{
-		if(!EncryptMessage(HexStr(vchEncryptionPublicKey), strPrivateValue, strCipherText))
+		if(!EncryptMessage(vchEncryptionPublicKey, strPrivateValue, strCipherText))
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5514 - " + _("Could not encrypt private alias value!"));
 		}
 		strPrivateValue = strCipherText;
 	}
 
-	if(!EncryptMessage(HexStr(vchPubKey), HexStr(vchEncryptionPrivateKey), strCipherText))
+	if(!EncryptMessage(vchPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt private encryption key!"));
 	}
@@ -1999,7 +1999,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	if(!strPassword.empty())
 	{
-		if(!EncryptMessage(HexStr(vchPubKey), strPassword, strCipherText))
+		if(!EncryptMessage(vchPubKey, strPassword, strCipherText))
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5516 - " + _("Could not encrypt alias password"));
 		}
