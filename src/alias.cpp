@@ -2019,7 +2019,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchPublicValue = vchPublicValue;
 	newAlias.vchPrivateValue = ParseHex(strPrivateValue);
 	newAlias.nExpireTime = nTime;
-	newAlias.vchPassword = vchFromString(strPassword);
+	newAlias.vchPassword = ParseHex(strPassword);
 	newAlias.vchPasswordSalt = vchPasswordSalt;
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
