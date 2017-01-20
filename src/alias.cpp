@@ -2189,8 +2189,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Could not find an alias with this name"));
 
 	const CWalletTx* wtxIn = NULL;
-	COutPoint outPoint;
-	int numResults  = aliasunspent(vchAlias, outPoint);
+	COutPoint outpoint;
+	int numResults  = aliasunspent(vchAlias, outpoint);
 	if(strWalletless == "No")
 	{
 		wtxIn = pwalletMain->GetWalletTx(outPoint.hash);

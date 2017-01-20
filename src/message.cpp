@@ -505,8 +505,8 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CSyscoinAddress fromAddr;
 	GetAddress(aliasFrom, &fromAddr, scriptPubKeyAliasOrig);
 
-	COutPoint outPoint;
-	int numResults  = aliasunspent(aliasFrom.vchAlias, outPoint);	
+	COutPoint outpoint;
+	int numResults  = aliasunspent(aliasFrom.vchAlias, outpoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 	{
