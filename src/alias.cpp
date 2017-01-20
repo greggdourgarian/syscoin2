@@ -1867,7 +1867,12 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	string strPublicValue = params[3].get_str();
 	vchPublicValue = vchFromString(strPublicValue);
 
-	string strPrivateValue = params.size()>=5?params[4].get_str():"";
+	string strPrivateValue = "";
+
+	if(params.size() >= 5)
+	{
+		strPrivateValue = params[4].get_str();
+	}
 	string strSafeSearch = "Yes";
 	string strAcceptCertTransfers = "Yes";
 
@@ -1977,12 +1982,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
 
 	std::vector<unsigned char> vchPubKey(defaultKey.begin(), defaultKey.end());
-	
-	if(!EncryptMessage(HexStr(vchEncryptionPublicKey), HexStr(vchPrivateValue), strCipherText))
+	if(!strPrivateValue.empty())
 	{
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5514 - " + _("Could not encrypt private alias value!"));
+		if(!EncryptMessage(HexStr(vchEncryptionPublicKey), strPrivateValue, strCipherText))
+		{
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5514 - " + _("Could not encrypt private alias value!"));
+		}
+		strPrivateValue = strCipherText;
 	}
-	vchPrivateValue = vchFromString(strCipherText);
 
 	if(!EncryptMessage(HexStr(vchPubKey), HexStr(vchEncryptionPrivateKey), strCipherText))
 	{
@@ -2010,7 +2017,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchEncryptionPublicKey = vchEncryptionPublicKey;
 	newAlias.vchEncryptionPrivateKey = vchEncryptionPrivateKey;
 	newAlias.vchPublicValue = vchPublicValue;
-	newAlias.vchPrivateValue = vchPrivateValue;
+	newAlias.vchPrivateValue = ParseHex(strPrivateValue);
 	newAlias.nExpireTime = nTime;
 	newAlias.vchPassword = vchFromString(strPassword);
 	newAlias.vchPasswordSalt = vchPasswordSalt;
@@ -2126,10 +2133,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(vchAliasPeg.empty())
 		vchAliasPeg = vchFromString("sysrates.peg");
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
-	vector<unsigned char> vchPublicValue;
-	vector<unsigned char> vchPrivateValue;
+	string strPrivateValue;
 	string strPublicValue = params[2].get_str();
-	string strPrivateValue = params[3].get_str();
+	if(params.size() >= 4)
+	{
+		strPrivateValue = params[3].get_str();
+	}
 	vector<unsigned char> vchPubKeyByte;
 	
 	CWalletTx wtx;
