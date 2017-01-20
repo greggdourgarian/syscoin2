@@ -1944,7 +1944,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		if(!defaultKey.IsFullyValid())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5510 - " + _("Generated public key not fully valid"));
 		CKey keyTmp;
-		if(strWalletless == "No" && !pwalletMain->GetKey(defaultKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, defaultKey))	
+		if(strWalletless != "Yes" && !pwalletMain->GetKey(defaultKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, defaultKey))	
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5511 - " + _("Please choose a different password"));
 	}
 	CScript scriptPubKeyOrig;
@@ -2197,15 +2197,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Could not find an alias with this name"));
 
-	const CWalletTx* wtxIn = NULL;
 	COutPoint outpoint;
 	int numResults  = aliasunspent(vchAlias, outpoint);
-	if(strWalletless == "No")
-	{
-		wtxIn = pwalletMain->GetWalletTx(outpoint.hash);
-		if (wtxIn == NULL)
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5519 - " + _("This alias is not in your wallet"));
-	}
+
 	CSyscoinAddress oldAddress;
 	GetAddress(theAlias, &oldAddress);
 	CPubKey pubKey(theAlias.vchPubKey);	
@@ -2226,7 +2220,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		if(!pubKey.IsFullyValid())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Generated public key not fully valid"));	
 		CKey keyTmp;
-		if(strWalletless == "No" && !pwalletMain->GetKey(pubKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, pubKey))	
+		if(strWalletless != "Yes" && !pwalletMain->GetKey(pubKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, pubKey))	
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5522 - " + _("Please choose a different password"));	
 	}
 	CAliasIndex copyAlias = theAlias;
