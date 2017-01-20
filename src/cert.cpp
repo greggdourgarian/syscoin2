@@ -20,7 +20,7 @@
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
 bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMessage, string &strCipherText)
 {
 	strCipherText.clear();

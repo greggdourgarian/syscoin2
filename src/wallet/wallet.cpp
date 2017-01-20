@@ -2352,7 +2352,9 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						int nLastIndex = setCoins.size()-1;
 						if(nLastIndex < 0)
 							nLastIndex = 0;
-						if (ExtractDestination(setCoins[nLastIndex].first->vout[setCoins[nLastIndex].second].scriptPubKey, payDest)) 
+						std::set<pair<const CWalletTx*,unsigned int> >::iterator it = setCoins.begin();
+						std::advance(it, nLastIndex);
+						if (ExtractDestination(it->first->vout[it->second].scriptPubKey, payDest)) 
 						{
 							scriptChange = GetScriptForDestination(payDest);
 							address = CSyscoinAddress(payDest);
@@ -2481,7 +2483,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 
                 // Remove scriptSigs if we used dummy signatures for fee calculation
                 if (!sign) {
-                    for (auto& vin : txNew.vin) {
+                    for (auto& vin : txNew.vin)
                         vin.scriptSig = CScript();
                     txNew.wit.SetNull();
                 }
