@@ -4,6 +4,7 @@
 #include "amount.h"
 #include "rpc/server.h"
 #include "feedback.h"
+#include "cert.h"
 #include <memory>
 #include <string>
 #include <boost/algorithm/string.hpp>
