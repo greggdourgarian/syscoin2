@@ -2305,7 +2305,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 }
                 for (const auto& pcoin : setCoins)
                 {
-                    CAmount nCredit = pcoin.first->tx->vout[pcoin.second].nValue;
+                    CAmount nCredit = pcoin.first->vout[pcoin.second].nValue;
                     //The coin age after the next block (depth+1) is used instead of the current,
                     //reflecting an assumption the user would accept a bit more delay for
                     //a chance at a free transaction.
@@ -2349,10 +2349,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						// SYSCOIN pay to input destination as change
 						CTxDestination payDest;
 						// the last input is always the one that gets the change since it wasn't fully spent
-						int nLastIndex = vecCoins.size()-1;
+						int nLastIndex = setCoins.size()-1;
 						if(nLastIndex < 0)
 							nLastIndex = 0;
-						if (ExtractDestination(vecCoins[nLastIndex].first->vout[vecCoins[nLastIndex].second].scriptPubKey, payDest)) 
+						if (ExtractDestination(setCoins[nLastIndex].first->vout[setCoins[nLastIndex].second].scriptPubKey, payDest)) 
 						{
 							scriptChange = GetScriptForDestination(payDest);
 							address = CSyscoinAddress(payDest);
@@ -2384,7 +2384,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						}
                     }
 					// SYSCOIN change as a alias payment				
-					if(address.isAlias && (wtxInAlias == NULL || setCoins.size() > 1))
+					if(address.isAlias && (!sysTx || setCoins.size() > 1))
 					{
 						CScript scriptChangeOrig;
 						scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
@@ -2459,10 +2459,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 for (const auto& coin : setCoins)
                 {
                     bool signSuccess;
-                    const CScript& scriptPubKey = coin.first->tx->vout[coin.second].scriptPubKey;
+                    const CScript& scriptPubKey = coin.first->vout[coin.second].scriptPubKey;
                     SignatureData sigdata;
                     if (sign)
-                        signSuccess = ProduceSignature(TransactionSignatureCreator(this, &txNewConst, nIn, coin.first->tx->vout[coin.second].nValue, SIGHASH_ALL), scriptPubKey, sigdata);
+                        signSuccess = ProduceSignature(TransactionSignatureCreator(this, &txNewConst, nIn, coin.first->vout[coin.second].nValue, SIGHASH_ALL), scriptPubKey, sigdata);
                     else
                         signSuccess = ProduceSignature(DummySignatureCreator(this), scriptPubKey, sigdata);
 
