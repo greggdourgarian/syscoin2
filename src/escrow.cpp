@@ -23,8 +23,7 @@
 extern CScript _createmultisig_redeemScript(const UniValue& params);
 using namespace std;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
-;
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CAmount nValue, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl);
 void PutToEscrowList(std::vector<CEscrow> &escrowList, CEscrow& index) {
 	int i = escrowList.size() - 1;
 	BOOST_REVERSE_FOREACH(CEscrow &o, escrowList) {
@@ -1549,7 +1548,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend,recipientBuyer.nAmount+recipientArbiter.nAmount+recipientSeller.nAmount+recipientRootSeller.nAmount+aliasRecipient.nAmount+recipientEscrow.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, buyeralias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(buyeralias.vchAlias, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -1897,7 +1896,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientSeller.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2053,7 +2052,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2466,7 +2465,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientSeller.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, true);
+	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, true, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
 	sendParams.push_back(rawTx);
@@ -2773,7 +2772,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -3145,7 +3144,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientSeller.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, true);
+	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, true, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
 	sendParams.push_back(rawTx);
@@ -3406,7 +3405,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientSeller.nAmount+recipientArbiter.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{

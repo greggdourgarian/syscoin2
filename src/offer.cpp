@@ -25,8 +25,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/tokenizer.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
-;
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CAmount nValue, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl);
 bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectOffer(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectCertificate(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
@@ -1645,7 +1644,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vchAlias, vecSend, wtx, alias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -1811,7 +1810,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vchAlias, vecSend, wtx, alias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0)
@@ -1943,7 +1942,7 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(theAlias.vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2054,7 +2053,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(theAlias.vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2162,7 +2161,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(theAlias.vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2446,7 +2445,10 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	CRecipient fee;
 	CreateFeeRecipient(scriptData, alias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	if(!vchAlias.empty() && vchAlias != theOffer.vchAlias)
 	{
 		CScript scriptPubKeyAliasLink, scriptPubKeyOrigLink;
@@ -2458,9 +2460,11 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		CreateRecipient(scriptPubKeyAliasLink, aliasRecipientLink);
 		for(unsigned int i =numResultsLink;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 			vecSend.push_back(aliasRecipientLink);
+		coinControl.Select(outPointLink);	
+		
 	}
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+aliasRecipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0, NULL, wtxLinkAliasIn, outPointLink.n);
+	SendMoneySyscoin(alias.vchAlias, vecSend, wtx, alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2736,7 +2740,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, buyerAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
-	SendMoneySyscoin(vecSend, acceptRecipient.nAmount+paymentRecipient.nAmount+fee.nAmount+aliasRecipient.nAmount, false, wtx, wtxAliasIn, outPoint.n, buyerAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(buyerAlias.vchAlias, vecSend, wtx, buyerAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
 	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
@@ -3048,7 +3052,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipient.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, theAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -3193,7 +3197,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 
 
 
-	SendMoneySyscoin(vecSend, recipientBuyer.nAmount+recipientAlias.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, sellerAlias.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(sellerAlias.vchAlias, vecSend, wtx, sellerAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
 	{

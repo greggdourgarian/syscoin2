@@ -17,8 +17,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <functional> 
 using namespace std;
-extern void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxInAlias=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxInLinkAlias=NULL,  int nTxOutLinkAlias = 0)
-;
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CAmount nValue, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl);
 void PutToMessageList(std::vector<CMessage> &messageList, CMessage& index) {
 	int i = messageList.size() - 1;
 	BOOST_REVERSE_FOREACH(CMessage &o, messageList) {
@@ -506,33 +505,11 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CSyscoinAddress fromAddr;
 	GetAddress(aliasFrom, &fromAddr, scriptPubKeyAliasOrig);
 
-	// lock coins before going into aliasunspent if we are sending raw tx that uses inputs in our wallet
-	vector<COutPoint> lockedOutputs;
-	CTransaction rawTx;
-	DecodeHexTx(rawTx,strMyMessageTo);
-	if(DecodeHexTx(rawTx,strMyMessageTo) && !rawTx.IsNull())
-	{
-		BOOST_FOREACH(const CTxIn& txin, rawTx.vin)
-		{
-			if(!pwalletMain->IsLockedCoin(txin.prevout.hash, txin.prevout.n))
-			{
-              LOCK2(cs_main, pwalletMain->cs_wallet);
-              pwalletMain->LockCoin(txin.prevout);
-			  lockedOutputs.push_back(txin.prevout);
-			}
-		}
-	}
-	
 	COutPoint outPoint;
 	int numResults  = aliasunspent(aliasFrom.vchAlias, outPoint);	
 	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
 	if (wtxAliasIn == NULL)
 	{
-		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-		{
-			 LOCK2(cs_main, pwalletMain->cs_wallet);
-			 pwalletMain->UnlockCoin(outpoint);
-		}
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3502 - " + _("This alias is not in your wallet"));
 	}
 
@@ -543,11 +520,6 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
 	if(!GetTxOfAlias(vchFromString(strToAddress), aliasTo, aliastx))
 	{
-		BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-		{
-			 LOCK2(cs_main, pwalletMain->cs_wallet);
-			 pwalletMain->UnlockCoin(outpoint);
-		}
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3503 - " + _("Failed to read to alias from alias DB"));
 	}
 	CSyscoinAddress toAddr;
@@ -558,9 +530,6 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchMessage = vchFromString(GenerateSyscoinGuid());
     // this is a syscoin transaction
     CWalletTx wtx;
-
-
-	
 
     // build message
     CMessage newMessage;
@@ -599,7 +568,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	
 	
 	
-	SendMoneySyscoin(vecSend, recipient.nAmount+fee.nAmount, false, wtx, wtxAliasIn, outPoint.n, aliasFrom.multiSigInfo.vchAliases.size() > 0);
+	SendMoneySyscoin(aliasFrom.vchAlias, vecSend, wtx, aliasFrom.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(aliasFrom.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -632,12 +601,6 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	{
 		res.push_back(wtx.GetHash().GetHex());
 		res.push_back(stringFromVch(vchMessage));
-	}
-	// once we have used correct inputs for this message unlock coins that were locked in the wallet
-	BOOST_FOREACH(const COutPoint& outpoint, lockedOutputs)
-	{
-		 LOCK2(cs_main, pwalletMain->cs_wallet);
-		 pwalletMain->UnlockCoin(outpoint);
 	}
 	return res;
 }

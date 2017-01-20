@@ -424,25 +424,20 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 // SYSCOIN: Send service transactions
-void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew, const CWalletTx* wtxAliasIn=NULL, int nTxOutAlias = 0, bool syscoinMultiSigTx=false, const CCoinControl* coinControl=NULL, const CWalletTx* wtxLinkAliasIn=NULL, int nTxOutLinkAlias = 0)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl)
 {
-    CAmount curBalance = pwalletMain->GetBalance();
-
-    // Check amount
-    if (nValue <= 0)
-        throw runtime_error("Invalid amount");
-
-    if (nValue > curBalance)
-        throw runtime_error(strprintf("Insufficient funds. Amount requested %f, wallet balance %f", ValueFromAmount(nValue).get_real(), ValueFromAmount(curBalance).get_real()));
-
     // Create and send the transaction
     CReserveKey reservekey(pwalletMain);
     CAmount nFeeRequired;
     std::string strError;
     int nChangePosRet = -1;
-    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !syscoinMultiSigTx, wtxAliasIn, nTxOutAlias, true, wtxLinkAliasIn, nTxOutLinkAlias)) {
-        if (!fSubtractFeeFromAmount && nValue + nFeeRequired > pwalletMain->GetBalance())
-            strError = strprintf("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!", FormatMoney(nFeeRequired));
+	CWalletTx wtxTmp;
+	// create first tmp transaction without signing to figure out total amount
+    if (!pwalletMain->CreateTransaction(vecSend, wtxTmp, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
+        throw runtime_error(strError);
+    }
+	aliasselectcoins(vchAlias, &coincontrol, wtxTmp.nAmount);	
+    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
         throw runtime_error(strError);
     }
 	// run a check on the inputs without putting them into the db, just to ensure it will go into the mempool without issues and cause wallet annoyance
@@ -501,7 +496,7 @@ void SendMoneySyscoin(const vector<CRecipient> &vecSend, CAmount nValue, bool fS
 			throw runtime_error(errorMessage.c_str());
 	}
 	
-    if (!syscoinMultiSigTx && !pwalletMain->CommitTransaction(wtxNew, reservekey))
+    if (!doNotSign && !pwalletMain->CommitTransaction(wtxNew, reservekey))
         throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin alias you are trying to use for this transaction is invalid or has been updated and not confirmed yet! Please wait a block and try again..."));
 }
 static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew)

@@ -2165,27 +2165,9 @@ bool CWallet::FundTransaction(CMutableTransaction& tx, CAmount& nFeeRet, bool ov
 
 // SYSCOIN
 bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wtxNew, CReserveKey& reservekey, CAmount& nFeeRet,
-                                int& nChangePosInOut, std::string& strFailReason, const CCoinControl* coinControl, bool sign, const CWalletTx* wtxInAlias, int nTxOutAlias, bool sysTx, const CWalletTx* wtxInLinkAlias, int nTxOutLinkAlias)
+                                int& nChangePosInOut, std::string& strFailReason, const CCoinControl* coinControl, bool sign, bool sysTx)
 {
     CAmount nValue = 0;
-	// SYSCOIN: get output amount of input transactions for syscoin service calls
-	if(wtxInAlias != NULL)
-	{
-		if (nTxOutAlias < 0)
-		{
-			strFailReason = _("Can't determine type of alias input into syscoin service transaction");
-            return false;
-		}
-	}
-	if(wtxInLinkAlias != NULL)
-	{
-		if (nTxOutLinkAlias < 0)
-		{
-			strFailReason = _("Can't determine type of linked alias input into syscoin service transaction");
-            return false;
-		}
-	}
-
     int nChangePosRequest = nChangePosInOut;
     unsigned int nSubtractFeeFromAmount = 0;
     BOOST_FOREACH (const CRecipient& recipient, vecSend)
@@ -2245,6 +2227,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
     assert(txNew.nLockTime < LOCKTIME_THRESHOLD);
 
     {
+		set<pair<const CWalletTx*,unsigned int> > setCoins;
         LOCK2(cs_main, cs_wallet);
         {
             std::vector<COutput> vAvailableCoins;
@@ -2266,7 +2249,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     nValueToSelect += nFeeRet;
                 double dPriority = 0;
                 // vouts to the payees
-                BOOST_FOREACH (const CRecipient& recipient, vecSend)
+				for (const auto& recipient : vecSend)
                 {
 					// SYSCOIN pay to alias
 					CRecipient myrecipient = recipient;
@@ -2310,35 +2293,19 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     }
                     txNew.vout.push_back(txout);
                 }
-				// SYSCOIN input credit from input tx
-				int64_t nWtxinCredit = 0;
-				if(wtxInAlias != NULL)
-					nWtxinCredit += wtxInAlias->vout[nTxOutAlias].nValue;
-				if(wtxInLinkAlias != NULL)
-					nWtxinCredit += wtxInLinkAlias->vout[nTxOutLinkAlias].nValue;
-                // Choose coins to use
-                set<pair<const CWalletTx*,unsigned int> > setCoins;
+                 // Choose coins to use
                 CAmount nValueIn = 0;
-				// SYSCOIN add input credit to current coin selection
-                if ((nValueToSelect-nWtxinCredit) > 0 && !SelectCoins(vAvailableCoins, nValueToSelect-nWtxinCredit, setCoins, nValueIn, coinControl))
+                setCoins.clear();
+                if (!SelectCoins(vAvailableCoins, nValueToSelect, setCoins, nValueIn, coinControl))
                 {
                     strFailReason = _("Insufficient funds");
 					// SYSCOIN only return false if signing, otherwise probably creating a raw sys tx that will fill in inputs later
 					if(sign || !sysTx)
 						return false;
                 }
-				// SYSCOIN attach input TX
-				nValueIn += nWtxinCredit;
-				vector<pair<const CWalletTx*, unsigned int> > vecCoins(
-					setCoins.begin(), setCoins.end());
-				if(wtxInAlias != NULL)
-					vecCoins.insert(vecCoins.begin(), make_pair(wtxInAlias, nTxOutAlias));
-				if(wtxInLinkAlias != NULL)
-					vecCoins.insert(vecCoins.begin(), make_pair(wtxInLinkAlias, nTxOutLinkAlias));
-				// SYSCOIN
-                BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, vecCoins)
+                for (const auto& pcoin : setCoins)
                 {
-                    CAmount nCredit = pcoin.first->vout[pcoin.second].nValue;
+                    CAmount nCredit = pcoin.first->tx->vout[pcoin.second].nValue;
                     //The coin age after the next block (depth+1) is used instead of the current,
                     //reflecting an assumption the user would accept a bit more delay for
                     //a chance at a free transaction.
@@ -2417,7 +2384,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						}
                     }
 					// SYSCOIN change as a alias payment				
-					if(address.isAlias && (wtxInAlias == NULL || vecCoins.size() > 1))
+					if(address.isAlias && (wtxInAlias == NULL || setCoins.size() > 1))
 					{
 						CScript scriptChangeOrig;
 						scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
@@ -2482,22 +2449,20 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 //
                 // Note how the sequence number is set to max()-1 so that the
                 // nLockTime set above actually works.
-				// SYSCOIN
-                BOOST_FOREACH(const PAIRTYPE(const CWalletTx*,unsigned int)& coin, vecCoins)
+                for (const auto& coin : setCoins)
                     txNew.vin.push_back(CTxIn(coin.first->GetHash(),coin.second,CScript(),
                                               std::numeric_limits<unsigned int>::max()-1));
 
                 // Sign
                 int nIn = 0;
                 CTransaction txNewConst(txNew);
-				// SYSCOIN
-                BOOST_FOREACH(const PAIRTYPE(const CWalletTx*,unsigned int)& coin, vecCoins)
+                for (const auto& coin : setCoins)
                 {
                     bool signSuccess;
-                    const CScript& scriptPubKey = coin.first->vout[coin.second].scriptPubKey;
+                    const CScript& scriptPubKey = coin.first->tx->vout[coin.second].scriptPubKey;
                     SignatureData sigdata;
                     if (sign)
-                        signSuccess = ProduceSignature(TransactionSignatureCreator(this, &txNewConst, nIn, coin.first->vout[coin.second].nValue, SIGHASH_ALL), scriptPubKey, sigdata);
+                        signSuccess = ProduceSignature(TransactionSignatureCreator(this, &txNewConst, nIn, coin.first->tx->vout[coin.second].nValue, SIGHASH_ALL), scriptPubKey, sigdata);
                     else
                         signSuccess = ProduceSignature(DummySignatureCreator(this), scriptPubKey, sigdata);
 
@@ -2516,7 +2481,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 
                 // Remove scriptSigs if we used dummy signatures for fee calculation
                 if (!sign) {
-                    BOOST_FOREACH (CTxIn& vin, txNew.vin)
+                    for (auto& vin : txNew.vin) {
                         vin.scriptSig = CScript();
                     txNew.wit.SetNull();
                 }
