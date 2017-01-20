@@ -27,7 +27,7 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMes
 	CMessageCrypter crypter;
 	if(!crypter.Encrypt(stringFromVch(vchPubKey), strMessage, strCipherText))
 		return false;
-
+	strCipherText = stringFromVch(HexStr(strCipherText));
 	return true;
 }
 bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &strCipherText, string &strMessage)
