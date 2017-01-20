@@ -792,19 +792,12 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	// check for alias existence in DB
 	CTransaction aliastx;
 	CAliasIndex theAlias;
-	const CWalletTx *wtxAliasIn = NULL;
+
 	if (!GetTxOfAlias(vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2500 - " + _("failed to read alias from alias DB"));
 
-	if(!IsMyAlias(theAlias)) {
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2501 - " + _("This alias is not yours"));
-	}
 	COutPoint outpoint;
 	int numResults  = aliasunspent(vchAlias, outpoint);
-	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
-	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2502 - " + _("This alias is not in your wallet"));
-
 
 	if(params.size() >= 6)
 		vchCat = vchFromValue(params[5]);
@@ -957,17 +950,12 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 
 	CTransaction aliastx;
 	CAliasIndex theAlias;
-	const CWalletTx *wtxAliasIn = NULL;
+
 	if (!GetTxOfAlias(theCert.vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2505 - " + _("Failed to read alias from alias DB"));
-	if(!IsMyAlias(theAlias)) {
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2506 - " + _("This alias is not yours"));
-	}
+
 	COutPoint outpoint;
 	int numResults  = aliasunspent(theCert.vchAlias, outpoint);
-	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
-	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2507 - " + _("This alias is not in your wallet"));
 
 	CCert copyCert = theCert;
 	theCert.ClearCert();
@@ -1088,19 +1076,13 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
         throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2510 - " + _("Could not find a certificate with this key"));
 
 	CAliasIndex fromAlias;
-	const CWalletTx *wtxAliasIn = NULL;
 	if(!GetTxOfAlias(theCert.vchAlias, fromAlias, aliastx))
 	{
 		 throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not find the certificate alias"));
 	}
-	if(!IsMyAlias(fromAlias)) {
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2512 - " + _("This alias is not yours"));
-	}
+
 	COutPoint outpoint;
 	int numResults  = aliasunspent(theCert.vchAlias, outpoint);
-	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
-	if (wtxAliasIn == NULL)
-		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2513 - " + _("This alias is not in your wallet"));
 
 	CSyscoinAddress sendAddr;
 	GetAddress(toAlias, &sendAddr, scriptPubKeyOrig);
@@ -1293,8 +1275,6 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 	oCert.push_back(Pair("safesearch", cert.safeSearch? "Yes" : "No"));
 	unsigned char safetyLevel = max(cert.safetyLevel, alias.safetyLevel );
 	oCert.push_back(Pair("safetylevel", safetyLevel));
-
-    oCert.push_back(Pair("ismine", IsMyAlias(alias) ? "true" : "false"));
 
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));

@@ -132,9 +132,6 @@ public:
 						const UniValue& status_value = find_value(o, "status");
 						if (status_value.type() == UniValue::VSTR)
 							status_str = status_value.get_str();
-						const UniValue& ismine_value = find_value(o, "ismine");
-						if (ismine_value.type() == UniValue::VSTR)
-							ismine_str = ismine_value.get_str();
 						const UniValue& buyer_value = find_value(o, "buyer");
 						if (buyer_value.type() == UniValue::VSTR)
 							buyer_str = buyer_value.get_str();
