@@ -2193,7 +2193,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	int numResults  = aliasunspent(vchAlias, outpoint);
 	if(strWalletless == "No")
 	{
-		wtxIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxIn = pwalletMain->GetWalletTx(outpoint.hash);
 		if (wtxIn == NULL)
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5519 - " + _("This alias is not in your wallet"));
 	}
