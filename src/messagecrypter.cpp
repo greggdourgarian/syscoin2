@@ -1,5 +1,5 @@
 #include "messagecrypter.h"
-bool CMessageCrypter::Encrypt(const vector<unsigned char>& vchPubKey, const string& strPlaintext, string& strCiphertext)
+bool CMessageCrypter::Encrypt(const string& vchPubKey, const string& strPlaintext, string& strCiphertext)
 {
     try
     {

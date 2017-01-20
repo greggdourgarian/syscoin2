@@ -53,7 +53,7 @@ class CMessageCrypter
 
 public:
 
-    bool Encrypt(const vector<unsigned char>& vchPubKey, const string& strPlaintext, string& strCiphertext);
+    bool Encrypt(const string& vchPubKey, const string& strPlaintext, string& strCiphertext);
     bool Decrypt(const string& strPrivKey, const string& strCiphertext, string& strPlaintext);
 
     CMessageCrypter()

@@ -25,7 +25,7 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMes
 {
 	strCipherText.clear();
 	CMessageCrypter crypter;
-	if(!crypter.Encrypt(vchPubKey, strMessage, strCipherText))
+	if(!crypter.Encrypt(stringFromVch(vchPubKey), strMessage, strCipherText))
 		return false;
 
 	return true;
