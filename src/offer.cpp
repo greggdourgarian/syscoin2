@@ -13,6 +13,7 @@
 #include "wallet/wallet.h"
 #include "consensus/validation.h"
 #include "chainparams.h"
+#include "coincontrol.h"
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
 #include <boost/xpressive/xpressive_dynamic.hpp>
 #include <boost/lexical_cast.hpp>

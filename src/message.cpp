@@ -10,6 +10,7 @@
 #include "rpc/server.h"
 #include "wallet/wallet.h"
 #include "chainparams.h"
+#include "coincontrol.h"
 #include <boost/algorithm/hex.hpp>
 #include <boost/xpressive/xpressive_dynamic.hpp>
 #include <boost/foreach.hpp>
