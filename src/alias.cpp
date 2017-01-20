@@ -37,7 +37,7 @@ CCertDB *pcertdb = NULL;
 CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CAmount nValue, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, const CCoinControl* coinControl);
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
 	if(nHeight < 0 || nHeight > chainActive.Height())
@@ -2823,7 +2823,7 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 			CRecipient recipient;
 			CreateRecipient(coins->vout[aliasPayment.nOut].scriptPubKey, recipient);
 			nDesiredAmount += recipient.nAmount;
-			OutPoint outp(aliasPayment.txHash, aliasPayment.nOut);
+			COutPoint outp(aliasPayment.txHash, aliasPayment.nOut);
 			coinControl->Select(outp);
 			if(nCurrentAmount >= nDesiredAmount)
 				return;
