@@ -522,6 +522,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	if(pubkey.size() <= 0)
 	{
 		UniValue pkr = CallRPC(tonode, "generatepublickey");
@@ -531,7 +532,11 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 		const UniValue &resultArray = pkr.get_array();
 		pubkey = resultArray[0].get_str();		
 	}
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " Yes " + pubkey));
+
+	string strCipherPrivateData = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(encryptionkey, privdata, strCipherPrivateData), true);
+
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strCipherPrivateData + " Yes " + pubkey));
 	GenerateBlocks(10, tonode);
 	GenerateBlocks(10, node);	
 	// check its not mine anymore
@@ -575,6 +580,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string myPassword = password;
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+	string publickey = find_value(r.get_obj(), "publickey").get_str();
+	
 	if(myPassword.empty())
 		myPassword = oldPassword;
 	else if(!oldPassword.empty())
@@ -583,9 +591,13 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
-	
-	
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + privdata + " " + safesearch + " 0 " + password));
+	string strCipherPrivateData = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(encryptionkey, privdata, strCipherPrivateData), true);
+
+	string strCipherPassword = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(publickey, privdata, strCipherPassword), true);
+
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strCipherPrivateData + " " + safesearch + " 0 " + strCipherPassword));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();

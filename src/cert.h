@@ -18,8 +18,7 @@ bool DecodeAndParseCertTx(const CTransaction& tx, int& op, int& nOut, std::vecto
 bool DecodeCertScript(const CScript& script, int& op, std::vector<std::vector<unsigned char> > &vvch);
 bool IsCertOp(int op);
 int IndexOfCertOutput(const CTransaction& tx);
-bool EncryptMessage(const std::vector<unsigned char> &vchPublicKey, const std::string &strMessage, std::string &strCipherText);
-bool EncryptMessage(const CAliasIndex& alias, const std::string &strMessage, std::string &strCipherText);
+bool EncryptMessage(const std::string &strPublicKey, const std::string &strMessage, std::string &strCipherText);
 bool DecryptPrivateKey(const std::vector<unsigned char> &vchPubKey, const std::string &strCipherText, std::string &strMessage);
 bool DecryptPrivateKey(const CAliasIndex& alias, std::string &strKey);
 bool DecryptMessage(const CAliasIndex& alias, const std::string &strCipherText, std::string &strMessage);

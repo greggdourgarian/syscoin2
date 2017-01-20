@@ -1963,7 +1963,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 			multiSigInfo.vchAliases.push_back(multiSigAlias.vchAlias);
 			// add encrypted encryption key to each alias pubkey
 			vector<unsigned char> vchMSPubKey(pubkey.begin(), pubkey.end());
-			if(!EncryptMessage(vchMSPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
+			if(!EncryptMessage(HexStr(vchMSPubKey), HexStr(vchEncryptionPrivateKey), strCipherText))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
 			multiSigInfo.vchEncryptionPrivateKeys.push_back(ParseHex(strCipherText));
 		}	
@@ -1978,13 +1978,13 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	std::vector<unsigned char> vchPubKey(defaultKey.begin(), defaultKey.end());
 	
-	if(!EncryptMessage(vchEncryptionPublicKey, HexStr(vchPrivateValue), strCipherText))
+	if(!EncryptMessage(HexStr(vchEncryptionPublicKey), HexStr(vchPrivateValue), strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5514 - " + _("Could not encrypt private alias value!"));
 	}
 	vchPrivateValue = vchFromString(strCipherText);
 
-	if(!EncryptMessage(vchPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
+	if(!EncryptMessage(HexStr(vchPubKey), HexStr(vchEncryptionPrivateKey), strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt private encryption key!"));
 	}
@@ -1992,7 +1992,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	
 	if(!strPassword.empty())
 	{
-		if(!EncryptMessage(vchPubKey, strPassword, strCipherText))
+		if(!EncryptMessage(HexStr(vchPubKey), strPassword, strCipherText))
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5516 - " + _("Could not encrypt alias password"));
 		}
@@ -2949,13 +2949,8 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	oName.push_back(Pair("passwordsalt", HexStr(alias.vchPasswordSalt)));
 
 	string strEncryptionPrivateKey = "";
-	if(!alias.vchEncryptionPrivateKey.empty())
-		strEncryptionPrivateKey = _("Encrypted for alias owner");
-	strDecrypted = "";
 	if(strWalletless == "Yes")
-		strEncryptionPrivateKey = HexStr(alias.vchEncryptionPrivateKey);
-	else if(DecryptPrivateKey(alias.vchPubKey, HexStr(alias.vchEncryptionPrivateKey), strDecrypted))
-		strEncryptionPrivateKey = strDecrypted;		
+		strEncryptionPrivateKey = HexStr(alias.vchEncryptionPrivateKey);	
 	oName.push_back(Pair("encryption_privatekey", strEncryptionPrivateKey));
 	oName.push_back(Pair("encryption_publickey", HexStr(alias.vchEncryptionPublicKey)));
 
@@ -2966,6 +2961,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 		return false;
 
 	oName.push_back(Pair("address", address.ToString()));
+	oName.push_back(Pair("publickey", HexStr(alias.vchPubKey)));
 
 	oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 

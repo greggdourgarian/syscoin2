@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasdata)
 	// 1025 bytes long
 	string baddata =   "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
 	AliasNew("node1", "jag",  "password", gooddata);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg jag1 password temp " + baddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg jag1 password " + baddata), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 {
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
 	string baddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";	
 		
 	AliasNew("node1", "aliasname", gooddata, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + baddata + " 3d"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + baddata), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	AliasNew("node1", "jagmultiupdate", "password", "data");
 	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
-		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
+		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1"));
 
 	GenerateBlocks(10, "node1");
 	GenerateBlocks(10, "node1");
@@ -78,19 +78,19 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	AliasTransfer("node1", "jagmultiupdate", "node2", "changeddata5", "pvtdata2");
 
 	// after transfer it can't update alias even though there are utxo's available from old owner
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1"), runtime_error);
 
 	// new owner can update
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b"));
 	// on transfer only 1 utxo available, to create more you have to run through an update first with a confirmation
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b"), runtime_error);
 	// after generation MAX_ALIAS_UPDATES_PER_BLOCK utxo's should be available
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b pvtdata"));
+		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b"));
 
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b"), runtime_error);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	// try transfers and updates in parallel
@@ -102,15 +102,15 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	{
 		if((i%2) == 0)
 		{
-			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata"));
+			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1"));
 		}
 		else
 		{
-			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 pvtdata Yes " + newPubkey));
+			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 /""/ Yes " + newPubkey));
 		}
 
 	}
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b pvtdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b"), runtime_error);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 }
@@ -255,7 +255,7 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	AliasTransfer("node1", "jagnode1", "node2", "changeddata1", "pvtdata");
 
 	// xfer an alias that isn't yours
-	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 pvtdata Yes " + newPubkey), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 /""/ Yes " + newPubkey), runtime_error);
 
 	// xfer alias and update it at the same time
 	AliasTransfer("node2", "jagnode2", "node3", "changeddata4", "pvtdata");
@@ -267,7 +267,7 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	AliasTransfer("node2", "jagnode1", "node3", "changeddata5", "pvtdata2");
 
 	// xfer an alias to another alias is prohibited
-	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate sysrates.peg jagnode2 changedata1 pvtdata Yes " + strPubKey1), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate sysrates.peg jagnode2 changedata1 /""/ Yes " + strPubKey1), runtime_error);
 	
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalance)
@@ -891,7 +891,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	const UniValue &arr = r.get_array();
 	string certguid = arr[1].get_str();
 	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasprunewithcert newdata privdata pubdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasprunewithcert newdata /""/ pubdata"));
 	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certguid + " aliasprunewithcert2"));
 	GenerateBlocks(5, "node1");
@@ -956,11 +956,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	string pubkey = resultArray[0].get_str();		
 
 	// should fail: alias update on expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 newdata1 privdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 newdata1"), runtime_error);
 	// should fail: alias transfer from expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 pvtdata Yes " + pubkey), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 /""/ Yes " + pubkey), runtime_error);
 	// should fail: alias transfer to another alias
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 pvtdata Yes " + aliasexpirenode2pubkey), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 /""/ Yes " + aliasexpirenode2pubkey), runtime_error);
 
 	// should fail: link to an expired alias in offer
 	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirednode2 " + offerguid + " 5 newdescription"), runtime_error);
@@ -980,11 +980,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire"), runtime_error);
 
 	// keep alive for later calls
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1 privdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1 privdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1"));
 	GenerateBlocks(5, "node1");
 	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata pubdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata /""/ pubdata"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " category title 100 0.05 description"));
 	GenerateBlocks(5, "node1");
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"));
@@ -1002,7 +1002,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirednode2", "passwordnew3", "somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata privdata pubdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata /""/ pubdata"));
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
