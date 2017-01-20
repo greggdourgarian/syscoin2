@@ -880,7 +880,10 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 
 	
 	
-	
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;	
 	SendMoneySyscoin(vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -1020,7 +1023,10 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 	
 	
-	
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;	
 	SendMoneySyscoin(theAlias.vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);	
  	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -1148,7 +1154,10 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 	
 	
-	
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(fromAlias.vchAlias, vecSend, wtx, fromAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);

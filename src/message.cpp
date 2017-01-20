@@ -567,7 +567,10 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 	
 	
-	
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;	
 	SendMoneySyscoin(aliasFrom.vchAlias, vecSend, wtx, aliasFrom.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(aliasFrom.multiSigInfo.vchAliases.size() > 0)

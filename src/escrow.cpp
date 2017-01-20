@@ -1547,7 +1547,10 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 
 
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(buyeralias.vchAlias, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
@@ -1895,7 +1898,10 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 
 
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2051,7 +2057,10 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 
 
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
@@ -2464,7 +2473,10 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 
 
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, true, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
@@ -2772,6 +2784,10 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CreateFeeRecipient(scriptData, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, data, fee);
 	vecSend.push_back(fee);
 
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
@@ -3143,7 +3159,10 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 
 
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, true, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
@@ -3404,7 +3423,10 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 
 
 
-
+	CCoinControl coinControl;
+	coinControl.Select(outpoint);
+	coinControl.fAllowOtherInputs = false;
+	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
