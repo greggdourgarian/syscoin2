@@ -1401,7 +1401,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4519 - " + _("You must own the buyer alias to complete this transaction"));
 	COutPoint outpoint;
 	int numResults  = aliasunspent(buyeralias.vchAlias, outpoint);	
-	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 
 	CSyscoinAddress buyerAddress;
 	GetAddress(buyeralias, &buyerAddress, scriptPubKeyAliasOrig);
@@ -1730,7 +1730,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		if(!IsMyAlias(arbiterAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4530 - " + _("You must own the arbiter alias to complete this transaction"));
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outpoint);		
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = arbiterScript;
 		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
@@ -1744,7 +1744,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4531 - " + _("You must own the buyer alias to complete this transaction"));
 		
 		numResults  = aliasunspent(buyerAliasLatest.vchAlias, outpoint);
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		CScript scriptPubKeyOrig;
 		scriptPubKeyOrig = buyerScript;
 		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
@@ -2012,7 +2012,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4539 - " + _("You must own the seller alias to complete this transaction"));
 	COutPoint outpoint;
 	int numResults  = aliasunspent(sellerAliasLatest.vchAlias, outpoint);	
-	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 	CScript scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += sellerScript;
 
@@ -2425,7 +2425,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4563 - " + _("You must own the seller alias to complete this transaction"));
 	COutPoint outpoint;
 	int numResults  = aliasunspent(sellerAliasLatest.vchAlias, outpoint);		
-	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 
 	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += sellerScript;
@@ -2643,7 +2643,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		if(!IsMyAlias(arbiterAlias))
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4570 - " + _("You must own the arbiter alias to complete this transaction"));
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outpoint);		
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += arbiterScript;
 		vchLinkAlias = arbiterAliasLatest.vchAlias;
@@ -2655,7 +2655,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4571 - " + _("You must own the seller alias to complete this transaction"));
 	
 		numResults  = aliasunspent(sellerAliasLatest.vchAlias, outpoint);		
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += sellerScript;
 		vchLinkAlias = sellerAliasLatest.vchAlias;
@@ -3113,7 +3113,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4597 - " + _("You must own the buyer alias to complete this transaction"));
 	COutPoint outpoint;
 	int numResults  = aliasunspent(buyerAliasLatest.vchAlias, outpoint);		
-	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += buyerScript;
 	vchLinkAlias = buyerAliasLatest.vchAlias;
@@ -3263,7 +3263,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4599 - " + _("You must own the buyer alias to complete this transaction"));
 		
 		numResults  = aliasunspent(buyerAliasLatest.vchAlias, outpoint);			
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += buyerScript;
 		vchLinkAlias = buyerAliasLatest.vchAlias;
@@ -3277,7 +3277,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4600 - " + _("You must own the seller alias to complete this transaction"));
 		
 		numResults  = aliasunspent(sellerAliasLatest.vchAlias, outpoint);		
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += sellerScript;
 		vchLinkAlias = sellerAliasLatest.vchAlias;
@@ -3289,7 +3289,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4601 - " + _("You must own the reseller alias to complete this transaction"));
 		
 		numResults  = aliasunspent(resellerAliasLatest.vchAlias, outpoint);		
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << resellerAliasLatest.vchAlias << resellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += resellerScript;
 		vchLinkAlias = resellerAliasLatest.vchAlias;
@@ -3302,7 +3302,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4602 - " + _("You must own the arbiter alias to complete this transaction"));
 		
 		numResults  = aliasunspent(arbiterAliasLatest.vchAlias, outpoint);			
-		wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+		wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 		scriptPubKeyAlias  = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 		scriptPubKeyAlias += arbiterScript;
 		vchLinkAlias = arbiterAliasLatest.vchAlias;

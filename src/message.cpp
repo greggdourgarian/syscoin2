@@ -507,7 +507,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 
 	COutPoint outpoint;
 	int numResults  = aliasunspent(aliasFrom.vchAlias, outpoint);	
-	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	const CWalletTx *wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 	if (wtxAliasIn == NULL)
 	{
 		throw runtime_error("SYSCOIN_MESSAGE_RPC_ERROR: ERRCODE: 3502 - " + _("This alias is not in your wallet"));

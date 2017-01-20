@@ -809,7 +809,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	}
 	COutPoint outpoint;
 	int numResults  = aliasunspent(vchAlias, outpoint);
-	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR ERRCODE: 2502 - " + _("This alias is not in your wallet"));
 
@@ -973,7 +973,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	}
 	COutPoint outpoint;
 	int numResults  = aliasunspent(theCert.vchAlias, outpoint);
-	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2507 - " + _("This alias is not in your wallet"));
 
@@ -1106,7 +1106,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	}
 	COutPoint outpoint;
 	int numResults  = aliasunspent(theCert.vchAlias, outpoint);
-	wtxAliasIn = pwalletMain->GetWalletTx(outPoint.hash);
+	wtxAliasIn = pwalletMain->GetWalletTx(outpoint.hash);
 	if (wtxAliasIn == NULL)
 		throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR ERRCODE: 2513 - " + _("This alias is not in your wallet"));
 
