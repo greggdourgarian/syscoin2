@@ -1970,7 +1970,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 			vector<unsigned char> vchMSPubKey(pubkey.begin(), pubkey.end());
 			if(!EncryptMessage(vchMSPubKey, stringFromVch(vchEncryptionPrivateKey), strCipherText))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
-			multiSigInfo.vchEncryptionPrivateKeys.push_back(strCipherText);
+			multiSigInfo.vchEncryptionPrivateKeys.push_back(vchFromString(strCipherText));
 		}	
 		CScript script = GetScriptForMultisig(nMultiSig, pubkeys);
 		std::vector<unsigned char> vchRedeemScript(script.begin(), script.end());
