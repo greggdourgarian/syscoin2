@@ -2036,13 +2036,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	scriptPubKey += scriptPubKeyOrig;
 
     vector<CRecipient> vecSend;
-	CScript scriptPayment;
-	scriptPayment << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
 	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
-	// pay 0.1 COIN to alias by default
-	CRecipient recipientPayment = {scriptPayment, 0.1*COIN, false};
-	
 	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(recipient);
 	CScript scriptData;
@@ -2067,7 +2062,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}
-	vecSend.push_back(recipientPayment);
 	SendMoneySyscoin(vchAlias, vecSend, wtx, oldAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")

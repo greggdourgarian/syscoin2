@@ -540,7 +540,9 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData)) + " Yes " + pubkey));
 	GenerateBlocks(10, tonode);
-	GenerateBlocks(10, node);	
+	GenerateBlocks(5, node);	
+	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname " 10"), runtime_error);
+	GenerateBlocks(5, node);	
 	// check its not mine anymore
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
