@@ -537,7 +537,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string strCipherPrivateData = "";
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strCipherPrivateData + " Yes " + pubkey));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData)) + " Yes " + pubkey));
 	GenerateBlocks(10, tonode);
 	GenerateBlocks(10, node);	
 	// check its not mine anymore
@@ -596,9 +596,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	string strCipherPassword = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(publickey), privdata, strCipherPassword), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(publickey), password, strCipherPassword), true);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strCipherPrivateData + " " + safesearch + " 0 " + strCipherPassword));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData) + " " + safesearch + " 0 " + HexStr(vchFromString(strCipherPassword))));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();

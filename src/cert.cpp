@@ -27,7 +27,6 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMes
 	CMessageCrypter crypter;
 	if(!crypter.Encrypt(stringFromVch(vchPubKey), strMessage, strCipherText))
 		return false;
-	strCipherText = HexStr(vchFromString(strCipherText));
 	return true;
 }
 bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &strCipherText, string &strMessage)
@@ -54,7 +53,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &str
 bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 {
 	strKey.clear();
-	if(DecryptPrivateKey(alias.vchPubKey, HexStr(alias.vchEncryptionPrivateKey), strKey))
+	if(DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strKey))
 		return !strKey.empty();
 	// if multisig get key from one of the multisig aliases otherwise it is encrypted to the alias owner private key
 	if(!alias.multiSigInfo.IsNull())
@@ -64,7 +63,7 @@ bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 			vector<CAliasIndex> vtxPos;
 			if (!paliasdb->ReadAlias(alias.multiSigInfo.vchAliases[i], vtxPos) || vtxPos.empty())
 				continue;
-			if(DecryptPrivateKey(vtxPos.back().vchPubKey, HexStr(alias.multiSigInfo.vchEncryptionPrivateKeys[i]), strKey))
+			if(DecryptPrivateKey(vtxPos.back().vchPubKey, alias.multiSigInfo.vchEncryptionPrivateKeys[i], strKey))
 				break;
 		}	
 	}
@@ -81,7 +80,6 @@ bool DecryptMessage(const CAliasIndex& alias, const string &strCipherText, strin
 	CMessageCrypter crypter;
 	if(!crypter.Decrypt(strKey, strCipherText, strMessage))
 		return false;
-	
 	return true;
 }
 void PutToCertList(std::vector<CCert> &certList, CCert& index) {
@@ -1258,14 +1256,14 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
     oCert.push_back(Pair("txid", cert.txHash.GetHex()));
     oCert.push_back(Pair("height", sHeight));
     oCert.push_back(Pair("title", stringFromVch(cert.vchTitle)));
-	string strData = stringFromVch(cert.vchData);
+	string strData = "";
 	string strDecrypted = "";
 	if(!cert.vchData.empty())
 	{
 		strData = _("Encrypted for owner of certificate private data");
 		if(strWalletless == "Yes")
 			strData = HexStr(cert.vchData);		
-		else if(DecryptMessage(alias, HexStr(cert.vchData), strDecrypted))
+		else if(DecryptMessage(alias, cert.vchData, strDecrypted))
 			strData = strDecrypted;		
 		
 	}

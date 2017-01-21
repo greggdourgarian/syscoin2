@@ -1968,9 +1968,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 			multiSigInfo.vchAliases.push_back(multiSigAlias.vchAlias);
 			// add encrypted encryption key to each alias pubkey
 			vector<unsigned char> vchMSPubKey(pubkey.begin(), pubkey.end());
-			if(!EncryptMessage(vchMSPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
+			if(!EncryptMessage(vchMSPubKey, stringFromVch(vchEncryptionPrivateKey), strCipherText))
 				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
-			multiSigInfo.vchEncryptionPrivateKeys.push_back(ParseHex(strCipherText));
+			multiSigInfo.vchEncryptionPrivateKeys.push_back(strCipherText);
 		}	
 		CScript script = GetScriptForMultisig(nMultiSig, pubkeys);
 		std::vector<unsigned char> vchRedeemScript(script.begin(), script.end());
@@ -1991,7 +1991,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		strPrivateValue = strCipherText;
 	}
 
-	if(!EncryptMessage(vchPubKey, HexStr(vchEncryptionPrivateKey), strCipherText))
+	if(!EncryptMessage(vchPubKey, stringFromVch(vchEncryptionPrivateKey), strCipherText))
 	{
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt private encryption key!"));
 	}
@@ -2017,9 +2017,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchEncryptionPublicKey = vchEncryptionPublicKey;
 	newAlias.vchEncryptionPrivateKey = vchEncryptionPrivateKey;
 	newAlias.vchPublicValue = vchPublicValue;
-	newAlias.vchPrivateValue = ParseHex(strPrivateValue);
+	newAlias.vchPrivateValue = vchFromString(strPrivateValue);
 	newAlias.nExpireTime = nTime;
-	newAlias.vchPassword = ParseHex(strPassword);
+	newAlias.vchPassword = vchFromString(strPassword);
 	newAlias.vchPasswordSalt = vchPasswordSalt;
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
@@ -2942,7 +2942,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	string strDecrypted = "";
 	if(strWalletless == "Yes")
 		strPrivateValue = HexStr(alias.vchPrivateValue);
-	else if(DecryptMessage(alias, HexStr(alias.vchPrivateValue), strDecrypted))
+	else if(DecryptMessage(alias, alias.vchPrivateValue, strDecrypted))
 		strPrivateValue = strDecrypted;		
 	oName.push_back(Pair("privatevalue", strPrivateValue));
 
@@ -2952,7 +2952,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	strDecrypted = "";
 	if(strWalletless == "Yes")
 		strPrivateValue = HexStr(alias.vchPassword);
-	else if(DecryptPrivateKey(alias.vchPubKey, HexStr(alias.vchPassword), strDecrypted))
+	else if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 

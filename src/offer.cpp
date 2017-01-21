@@ -3640,7 +3640,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	string strMessage = string("");
 	if(strWalletless == "Yes")
 		strMessage = HexStr(theOffer.accept.vchMessage);
-	else if(!DecryptMessage(theAlias, HexStr(theOffer.accept.vchMessage), strMessage))
+	else if(!DecryptMessage(theAlias, theOffer.accept.vchMessage, strMessage))
 		strMessage = _("Encrypted for owner of offer");
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;

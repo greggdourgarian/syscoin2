@@ -3543,7 +3543,7 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	string strMessage = string("");
 	if(strWalletless == "Yes")
 		strMessage = HexStr(escrow.vchPaymentMessage);
-	else if(!DecryptMessage(sellerAlias, HexStr(escrow.vchPaymentMessage), strMessage))
+	else if(!DecryptMessage(sellerAlias, escrow.vchPaymentMessage, strMessage))
 		strMessage = _("Encrypted for owner of offer");
 	oEscrow.push_back(Pair("pay_message", strMessage));
 	int64_t expired_time = GetEscrowExpiration(escrow);
