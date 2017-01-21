@@ -2038,10 +2038,10 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     vector<CRecipient> vecSend;
 	CScript scriptPayment;
 	scriptPayment << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
-	CRecipient recipient, recipientPayment;
+	CRecipient recipient;
 	CreateRecipient(scriptPubKey, recipient);
-	// pay 1 COIN to alias by default
-	CRecipient recipientPayment = {scriptPayment, COIN, false};
+	// pay 0.1 COIN to alias by default
+	CRecipient recipientPayment = {scriptPayment, 0.1*COIN, false};
 	vecSend.push_back(recipientPayment);
 	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(recipient);
