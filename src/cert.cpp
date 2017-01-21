@@ -45,7 +45,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &str
 	PrivateKey = Secret.GetKey();
 	vchPrivateKey = std::vector<unsigned char>(PrivateKey.begin(), PrivateKey.end());
 	strMessage.clear();
-	if(!crypter.Decrypt(HexStr(vchPrivateKey), strCipherText, strMessage))
+	if(!crypter.Decrypt(stringFromVch(vchPrivateKey), strCipherText, strMessage))
 		return false;
 	
 	

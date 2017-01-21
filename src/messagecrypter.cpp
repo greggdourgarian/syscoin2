@@ -31,13 +31,13 @@ bool CMessageCrypter::Encrypt(const string& vchPubKey, const string& strPlaintex
 	return true;
 }
 
-bool CMessageCrypter::Decrypt(const string& strPrivKey, const string& strCiphertext, string& strPlaintext)
+bool CMessageCrypter::Decrypt(const string& vchPrivKey, const string& strCiphertext, string& strPlaintext)
 {
     try
     {
         AutoSeededRandomPool prng;
 
-        StringSource ss(strPrivKey, true /*pumpAll*/);
+        StringSource ss(vchPrivKey, true /*pumpAll*/);
 
         Integer x;
         x.Decode(ss, ss.MaxRetrievable(), Integer::UNSIGNED);

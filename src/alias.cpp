@@ -2107,7 +2107,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || 3 > params.size() || 14 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [encryption_privatekey=""] [walletless=No]\n"
+		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [encryption_privatekey=""] [encryption_publickey=""] [walletless=No]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
@@ -2127,6 +2127,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"       ,...\n"
 						"     ]\n"	
 						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. If transferring, the key should be encrypted to toalias_pubkey.\n"
+						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias. Useful if you are changing pub/priv keypair for encryption on this alias.\n"
 						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
@@ -2185,10 +2186,15 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	{
 		strEncryptionPrivateKey = params[11].get_str();
 	}
-	string strWalletless = "No";
+	string strEncryptionPublicKey = "";
 	if(params.size() >= 13)
 	{
-		strWalletless = params[12].get_str();
+		strEncryptionPublicKey = params[12].get_str();
+	}
+	string strWalletless = "No";
+	if(params.size() >= 14)
+	{
+		strWalletless = params[13].get_str();
 	}
 	
 	EnsureWalletIsUnlocked();
@@ -2260,6 +2266,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.vchPublicValue = vchFromString(strPublicValue);
 	theAlias.vchPrivateValue = ParseHex(strPrivateValue);
 	theAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
+	theAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
 	theAlias.vchPassword = ParseHex(strPassword);
 	theAlias.vchPasswordSalt = vchPasswordSalt;
 	theAlias.vchAliasPeg = vchAliasPeg;
