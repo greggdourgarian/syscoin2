@@ -485,7 +485,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	const UniValue &resultArray = r.get_array();
 	pubkey = resultArray[1].get_str();
 	GenerateBlocks(5, node);
-	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname " 10"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname + " 10"), runtime_error);
 	GenerateBlocks(5, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
