@@ -29,7 +29,7 @@ bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMes
 		return false;
 	return true;
 }
-bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &strCipherText, string &strMessage)
+bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const vector<unsigned char> &vchCipherText, string &strMessage)
 {
 	strMessage.clear();
 	std::vector<unsigned char> vchPrivateKey;
@@ -44,7 +44,7 @@ bool DecryptPrivateKey(const vector<unsigned char> &vchPubKey, const string &str
 	PrivateKey = Secret.GetKey();
 	vchPrivateKey = std::vector<unsigned char>(PrivateKey.begin(), PrivateKey.end());
 	strMessage.clear();
-	if(!crypter.Decrypt(stringFromVch(vchPrivateKey), strCipherText, strMessage))
+	if(!crypter.Decrypt(stringFromVch(vchPrivateKey), stringFromVch(vchCipherText), strMessage))
 		return false;
 	
 	
@@ -69,7 +69,7 @@ bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 	}
 	return !strKey.empty();
 }
-bool DecryptMessage(const CAliasIndex& alias, const string &strCipherText, string &strMessage)
+bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage)
 {
 	strMessage.clear();
 	// get private key from alias or use one passed in to get the encryption private key
@@ -78,7 +78,7 @@ bool DecryptMessage(const CAliasIndex& alias, const string &strCipherText, strin
 		return false;
 	// use encryption private key to get data
 	CMessageCrypter crypter;
-	if(!crypter.Decrypt(strKey, strCipherText, strMessage))
+	if(!crypter.Decrypt(strKey, stringFromVch(vchCipherText), strMessage))
 		return false;
 	return true;
 }
