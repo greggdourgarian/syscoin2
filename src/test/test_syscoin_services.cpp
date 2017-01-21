@@ -484,7 +484,9 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	string pubkey;
 	const UniValue &resultArray = r.get_array();
 	pubkey = resultArray[1].get_str();
-	GenerateBlocks(10, node);
+	GenerateBlocks(5, node);
+	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname " 10"), runtime_error);
+	GenerateBlocks(5, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
 	const string &passwordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
@@ -540,9 +542,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData)) + " Yes " + pubkey));
 	GenerateBlocks(10, tonode);
-	GenerateBlocks(5, node);	
-	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname " 10"), runtime_error);
-	GenerateBlocks(5, node);	
+	GenerateBlocks(10, node);	
 	// check its not mine anymore
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
