@@ -5,6 +5,7 @@
 #include "rpc/server.h"
 #include "feedback.h"
 #include "cert.h"
+#include "alias.h"
 #include <memory>
 #include <string>
 #include <boost/algorithm/string.hpp>
@@ -543,7 +544,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	// check its not mine anymore
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
-	const string &passwordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
+
 	if(!oldPassword.empty())
 		BOOST_CHECK_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt), runtime_error);
 
@@ -598,7 +599,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string strCipherPassword = "";
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(publickey), password, strCipherPassword), true);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData) + " " + safesearch + " 0 " + HexStr(vchFromString(strCipherPassword))));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData) + " " + safesearch + " 0 " + HexStr(vchFromString(strCipherPassword)))));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();
