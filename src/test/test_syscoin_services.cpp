@@ -598,8 +598,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 
 	string strCipherPassword = "";
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(publickey), password, strCipherPassword), true);
-
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData) + " " + safesearch + " 0 " + HexStr(vchFromString(strCipherPassword)))));
+	
+	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + HexStr(vchFromString(strCipherPrivateData) + " " + safesearch + " 0 " + strPasswordHex)));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();
