@@ -6,6 +6,7 @@
 #include "feedback.h"
 #include "cert.h"
 #include "alias.h"
+#include "crypter.h"
 #include <memory>
 #include <string>
 #include <boost/algorithm/string.hpp>
