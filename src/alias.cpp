@@ -1803,9 +1803,9 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 	}
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
-	if (fHelp || 4 > params.size() || 14 < params.size())
+	if (fHelp || 4 > params.size() || 15 < params.size())
 		throw runtime_error(
-		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [publickey] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Should be encrypted to publickey.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
@@ -1823,6 +1823,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 						"       ,...\n"
 						"     ]\n"	
 						"<publickey> Public key for this alias.\n"
+						"<password_salt> Salt used for key derivation if password is set.\n"
 						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. Should be encrypted to publickey.\n"
 						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias.\n"				
 						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
@@ -1909,20 +1910,26 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		strPublicKey = params[10].get_str();
 	}
-	string strEncryptionPrivateKey = "";
+	string strPasswordSalt = "";
 	if(params.size() >= 12 && params[11].get_str().size() > 0)
 	{
-		strEncryptionPrivateKey = params[11].get_str();
+		strPasswordSalt = params[11].get_str();
 	}
-	string strEncryptionPublicKey = "";
+	
+	string strEncryptionPrivateKey = "";
 	if(params.size() >= 13 && params[12].get_str().size() > 0)
 	{
-		strEncryptionPublicKey = params[12].get_str();
+		strEncryptionPrivateKey = params[12].get_str();
 	}
-	string strWalletless = "No";
+	string strEncryptionPublicKey = "";
 	if(params.size() >= 14 && params[13].get_str().size() > 0)
 	{
-		strWalletless = params[13].get_str();
+		strEncryptionPublicKey = params[13].get_str();
+	}
+	string strWalletless = "No";
+	if(params.size() >= 15 && params[14].get_str().size() > 0)
+	{
+		strWalletless = params[14].get_str();
 	}	
 	CWalletTx wtx;
 
@@ -1970,10 +1977,10 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
 	newAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
 	newAlias.vchPublicValue = vchPublicValue;
-	newAlias.vchPrivateValue = vchFromString(strPrivateValue);
+	newAlias.vchPrivateValue = ParseHex(strPrivateValue);
 	newAlias.nExpireTime = nTime;
-	newAlias.vchPassword = vchFromString(strPassword);
-	newAlias.vchPasswordSalt = vchPasswordSalt;
+	newAlias.vchPassword = ParseHex(strPassword);
+	newAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	newAlias.safetyLevel = 0;
 	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
@@ -2019,7 +2026,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(strWalletless == "Yes")
 	{
 		res.push_back(EncodeHexTx(wtx));
-		res.push_back(HexStr(vchPubKey));
+		res.push_back(strPublicKey);
 		res.push_back("false");
 	}
 	else if(oldAlias.multiSigInfo.vchAliases.size() > 0)
@@ -2040,34 +2047,34 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		if(bComplete)
 		{
 			res.push_back(wtx.GetHash().GetHex());
-			res.push_back(HexStr(vchPubKey));
+			res.push_back(strPublicKey);
 		}
 		else
 		{
 			res.push_back(hex_str);
-			res.push_back(HexStr(vchPubKey));
+			res.push_back(strPublicKey);
 			res.push_back("false");
 		}
 	}
 	else
 	{
 		res.push_back(wtx.GetHash().GetHex());
-		res.push_back(HexStr(vchPubKey));
+		res.push_back(strPublicKey);
 	}
 	return res;
 }
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || 3 > params.size() || 14 < params.size())
+	if (fHelp || 3 > params.size() || 15 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [alias_pubkey=''] [password=''] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [encryption_privatekey=""] [encryption_publickey=""] [walletless=No]\n"
+		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [alias_pubkey=''] [password=''] [accept_transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [passworld_salt] [encryption_privatekey=""] [encryption_publickey=""] [walletless=No]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
-						"<public value> alias public profile data, 1024 chars max.\n"
-						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only.\n"				
+						"<public_value> alias public profile data, 1024 chars max.\n"
+						"<private_value> alias private profile data, 512 chars max. Will be private and readable by owner only.\n"				
 						"<password> used to generate your public/private key that controls this alias.\n"
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
-						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
+						"<accept_transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
 						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 1.5^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
 						"<\"aliases\"> For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
@@ -2078,6 +2085,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"       }\n"
 						"       ,...\n"
 						"     ]\n"	
+						"<password_salt> Salt used for key derivation if password is set.\n"
 						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. If transferring, the key should be encrypted to alias_pubkey.\n"
 						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias. Useful if you are changing pub/priv keypair for encryption on this alias.\n"
 						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
@@ -2127,20 +2135,21 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(params.size() >= 11 && params[10].get_str().size() > 0)
 		aliases = params[10].get_array();
 
-	string strEncryptionPrivateKey = "";
+	string strPasswordSalt = "";
 	if(params.size() >= 12 && params[11].get_str().size() > 0)
 	{
-		strEncryptionPrivateKey = params[11].get_str();
+		strPasswordSalt = params[11].get_str();
 	}
-	string strEncryptionPublicKey = "";
+
+	string strEncryptionPrivateKey = "";
 	if(params.size() >= 13 && params[12].get_str().size() > 0)
 	{
-		strEncryptionPublicKey = params[12].get_str();
+		strEncryptionPrivateKey = params[12].get_str();
 	}
-	string strPasswordSalt = "";
-	if(params.size() >= 14 && params[13].get_str().size() > 0)
+	string strEncryptionPublicKey = "";
+	if(params.size() >= 14 && params[14].get_str().size() > 0)
 	{
-		strPasswordSalt = params[13].get_str();
+		strEncryptionPublicKey = params[14].get_str();
 	}
 	string strWalletless = "No";
 	if(params.size() >= 15 && params[14].get_str().size() > 0)
