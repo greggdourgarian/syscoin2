@@ -494,7 +494,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 	
 	string strCipherPrivateData = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData), true);
+	if(!privdata.empty())
+		BOOST_CHECK_EQUAL(EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData), true);
 
 	string strCipherPassword = "";
 	string strCipherEncryptionPrivateKey = "";
@@ -524,7 +525,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	
 	BOOST_CHECK(pubKey.IsFullyValid());
 	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + HexStr(vchPrivKey) + " false"));	
-	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
+	if(!password.empty())
+		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey), true);
 
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
@@ -597,7 +599,8 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	}
 
 	string strCipherPrivateData = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
+	if(!privdata.empty())
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	string strCipherEncryptionPrivateKey = "";
 
@@ -670,7 +673,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
 	string strCipherPrivateData = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
+	if(!privdata.empty())
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	string strCipherPassword = "";
 	string strCipherEncryptionPrivateKey = "";
