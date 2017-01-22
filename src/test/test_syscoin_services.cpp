@@ -7,6 +7,7 @@
 #include "cert.h"
 #include "alias.h"
 #include "wallet/crypter.h"
+#include "random.h"
 #include <memory>
 #include <string>
 #include <boost/algorithm/string.hpp>
@@ -488,7 +489,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
 
 	BOOST_CHECK(pubEncryptionKey.IsFullyValid());
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "importprivkey " + HexStr(vchPrivEncryptionKey) + " false"));	
+	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + HexStr(vchPrivEncryptionKey) + " false"));	
 	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 	
 	string strCipherPrivateData = "";
@@ -520,7 +521,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
 	
 	BOOST_CHECK(pubKey.IsFullyValid());
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "importprivkey " + HexStr(vchPrivKey) + " false"));	
+	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + HexStr(vchPrivKey) + " false"));	
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey), true);
 
@@ -608,6 +609,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string aliases = "";
 	string password = "";
 	string passwordsalt = "";
+	string safeserach = "";
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + pubkey + " " + password + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(10, tonode);
@@ -678,8 +680,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
 		CCrypter crypt;
 		string pwStr = password;
-		SecureString password = pwStr.c_str();
-		BOOST_CHECK(crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1));
+		SecureString scpassword = pwStr.c_str();
+		BOOST_CHECK(crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1));
 			
 		CKey privKey;
 		privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
