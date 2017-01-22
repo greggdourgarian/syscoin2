@@ -511,9 +511,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	}
 	else
 	{
-		char vchKey[WALLET_CRYPTO_KEY_SIZE];
-		GetStrongRandBytes(vchKey, WALLET_CRYPTO_KEY_SIZE);
-		privKey.Set(vchKey, vchKey + sizeof(vchKey), true);
+		privKey.MakeNewKey(true);
 	}
 	CPubKey pubKey = privKey.GetPubKey();
 	vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
