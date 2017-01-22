@@ -2173,7 +2173,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CKey vchSecret;
 	if(vchPubKeyByte.empty())
 		vchPubKeyByte = theAlias.vchPubKey;
-	pubKey = CPubKey(vchPubKeyByte);
+	CPubKey pubKey = CPubKey(vchPubKeyByte);
 	string strCipherText;
 	CMultiSigAliasInfo multiSigInfo;
 	if(aliases.size() > 0)
