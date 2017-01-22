@@ -481,11 +481,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		otherNode1 = "node1";
 		otherNode2 = "node2";
 	}
-	vector<unsigned char> vchEncryptionRand;
-	vchEncryptionRand.resize(WALLET_CRYPTO_KEY_SIZE);
-	GetStrongRandBytes(&vchEncryptionRand[0], WALLET_CRYPTO_KEY_SIZE);
 	CKey privEncryptionKey;
-	privEncryptionKey.Set(&vchEncryptionRand[0], &vchEncryptionRand[0] + WALLET_CRYPTO_KEY_SIZE, true);
+	privEncryptionKey.MakeNewKey(true);
 	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
 
@@ -514,10 +511,9 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	}
 	else
 	{
-		vector<unsigned char> vchKey;
-		vchKey.resize(WALLET_CRYPTO_KEY_SIZE);
-		GetStrongRandBytes(&vchKey[0], WALLET_CRYPTO_KEY_SIZE);
-		privKey.Set(&vchKey[0], &vchKey[0] + WALLET_CRYPTO_KEY_SIZE, true);
+		char vchKey[WALLET_CRYPTO_KEY_SIZE];
+		GetStrongRandBytes(vchKey, WALLET_CRYPTO_KEY_SIZE);
+		privKey.Set(vchKey, vchKey + sizeof(vchKey), true);
 	}
 	CPubKey pubKey = privKey.GetPubKey();
 	vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
@@ -690,7 +686,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK(crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1));
 			
 		CKey privKey;
-		privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+		privKey.MakeNewKey(true);
 		CPubKey pubKey = privKey.GetPubKey();
 		vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
 		vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
