@@ -609,7 +609,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string aliases = "";
 	string password = "";
 	string passwordsalt = "";
-	string safeserach = "";
+	string safesearch = "";
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + pubkey + " " + password + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(10, tonode);
