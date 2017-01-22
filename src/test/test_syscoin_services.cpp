@@ -482,6 +482,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		otherNode2 = "node2";
 	}
 	vector<unsigned char> vchEncryptionRand;
+	vchEncryptionRand.resize(WALLET_CRYPTO_KEY_SIZE);
 	GetStrongRandBytes(&vchEncryptionRand[0], WALLET_CRYPTO_KEY_SIZE);
 	CKey privEncryptionKey;
 	privEncryptionKey.Set(&vchEncryptionRand[0], &vchEncryptionRand[0] + WALLET_CRYPTO_KEY_SIZE, true);
@@ -513,6 +514,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	else
 	{
 		vector<unsigned char> vchKey;
+		vchKey.resize(WALLET_CRYPTO_KEY_SIZE);
 		GetStrongRandBytes(&vchKey[0], WALLET_CRYPTO_KEY_SIZE);
 		privKey.Set(&vchKey[0], &vchKey[0] + WALLET_CRYPTO_KEY_SIZE, true);
 	}
