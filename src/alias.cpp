@@ -1803,13 +1803,13 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 	}
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
-	if (fHelp || 4 > params.size() || 11 < params.size())
+	if (fHelp || 4 > params.size() || 14 < params.size())
 		throw runtime_error(
-		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [walletless=No]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [publickey] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
 						"<aliasname> alias name.\n"
-						"<password> used to generate your public/private key that controls this alias. Warning: Calling this function over a public network can lead to someone reading your password in plain text.\n"
+						"<password> used to generate your public/private key that controls this alias. Should be encrypted to publickey.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
-						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only.\n"
+						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only. Should be encrypted to encryption_publickey.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
 						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
@@ -1817,10 +1817,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 						"<\"aliases\"> For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
 						"       {\n"
-						"         \"alias\":\"name\",	(string, required) The alias name\n"
+						"         \"alias\":\"name\",					(string, required) The alias name\n"
+						"         \"encryptionprivatekey\": \"hex\"		(string, required) The encryption private key (encrypted to alias's public key)\n"
 						"       }\n"
 						"       ,...\n"
-						"     ]\n"					
+						"     ]\n"	
+						"<publickey> Public key for this alias.\n"
+						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. Should be encrypted to publickey.\n"
+						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias.\n"				
 						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
@@ -1861,7 +1865,11 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchPublicValue;
 	vector<unsigned char> vchPrivateValue;
-	string strPassword = params[2].get_str().c_str();
+	string strPassword = "";
+	if(params.size() >= 3 && params[2].get_str().size() > 0)
+	{
+		strPassword = params[2].get_str();
+	}
 	if(strPassword.size() < 4 && strPassword.size() > 0)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5507 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
 	string strPublicValue = params[3].get_str();
@@ -1869,50 +1877,54 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	string strPrivateValue = "";
 
-	if(params.size() >= 5)
+	if(params.size() >= 5 && params[2].get_str().size() > 0)
 	{
 		strPrivateValue = params[4].get_str();
 	}
 	string strSafeSearch = "Yes";
 	string strAcceptCertTransfers = "Yes";
 
-	if(params.size() >= 6)
+	if(params.size() >= 6 && params[5].get_str().size() > 0)
 	{
 		strSafeSearch = params[5].get_str();
 	}
-	if(params.size() >= 7)
+	if(params.size() >= 7 && params[6].get_str().size() > 0)
 	{
 		strAcceptCertTransfers = params[6].get_str();
 	}
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
-	if(params.size() >= 8)
+	if(params.size() >= 8 && params[7].get_str().size() > 0)
 		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
 	// sanity check set to 1 hr
 	if(nTime < chainActive.Tip()->nTime+3600)
 		nTime = chainActive.Tip()->nTime+3600;
     int nMultiSig = 1;
-	if(params.size() >= 9)
+	if(params.size() >= 9 && params[8].get_str().size() > 0)
 		nMultiSig = boost::lexical_cast<int>(params[8].get_str());
     UniValue aliases;
-	if(params.size() >= 10)
+	if(params.size() >= 10 && params[9].get_str().size() > 0)
 		aliases = params[9].get_array();
-	string strWalletless = "No";
-
-	if(params.size() >= 11)
+	string strPublicKey = "";
+	if(params.size() >= 11 && params[10].get_str().size() > 0)
 	{
-		strWalletless = params[10].get_str();
+		strPublicKey = params[10].get_str();
+	}
+	string strEncryptionPrivateKey = "";
+	if(params.size() >= 12 && params[11].get_str().size() > 0)
+	{
+		strEncryptionPrivateKey = params[11].get_str();
+	}
+	string strEncryptionPublicKey = "";
+	if(params.size() >= 13 && params[12].get_str().size() > 0)
+	{
+		strEncryptionPublicKey = params[12].get_str();
+	}
+	string strWalletless = "No";
+	if(params.size() >= 14 && params[13].get_str().size() > 0)
+	{
+		strWalletless = params[13].get_str();
 	}	
-	vchPrivateValue = vchFromString(strPrivateValue);
-
 	CWalletTx wtx;
-
-	EnsureWalletIsUnlocked();
-	CPubKey defaultKey, encryptionKey;
-	encryptionKey = pwalletMain->GenerateNewKey();
-	CKey privateEncryptionKey;
-	pwalletMain->GetKey(encryptionKey.GetID(), privateEncryptionKey);
-	std::vector<unsigned char> vchEncryptionPublicKey(encryptionKey.begin(), encryptionKey.end());
-	std::vector<unsigned char> vchEncryptionPrivateKey(privateEncryptionKey.begin(), privateEncryptionKey.end());
 
 	CAliasIndex oldAlias;
 	vector<CAliasIndex> vtxPos;
@@ -1920,41 +1932,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	bool aliasExists = GetVtxOfAlias(vchAlias, oldAlias, vtxPos, isExpired);
 	if(aliasExists && !isExpired)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("This alias already exists"));
-	if(IsMyAlias(oldAlias))
-	{
-		defaultKey = CPubKey(oldAlias.vchPubKey);	
-	}
-	else if(strPassword.empty())
-		defaultKey = pwalletMain->GenerateNewKey();
-	
-	CSyscoinAddress oldAddress(defaultKey.GetID());
-	vector<unsigned char> vchPasswordSalt;
-	if(!strPassword.empty())
-	{
-		vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
-		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
-		CCrypter crypt;	
-		string pwStr = strPassword;
-		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5509 - " + _("Could not determine key from password"));
-		CKey key;
-		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
-		defaultKey = key.GetPubKey();
-		if(!defaultKey.IsFullyValid())
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5510 - " + _("Generated public key not fully valid"));
-		CKey keyTmp;
-		if(strWalletless != "Yes" && !pwalletMain->GetKey(defaultKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, defaultKey))	
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5511 - " + _("Please choose a different password"));
-	}
-	CScript scriptPubKeyOrig;
-	CMultiSigAliasInfo multiSigInfo;
+
+	CPubKey pubKey = CPubKey(ParseHex(strPublicKey));
 	string strCipherText;
+	CMultiSigAliasInfo multiSigInfo;
 	if(aliases.size() > 0)
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
-		pubkeys.push_back(defaultKey);
+		pubkeys.push_back(pubKey);
 		for(int i =0;i<aliases.size();i++)
 		{
 			const UniValue &aliasObj = aliases[i].get_obj();
@@ -1962,48 +1948,15 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 			CTransaction txMultiSigAlias;
 			const string &aliasName = find_value(aliasObj, "alias").get_str();
 			if (!GetTxOfAlias( vchFromString(aliasName), multiSigAlias, txMultiSigAlias))
-				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5528 - " + _("Could not find multisig alias with the name: ") + aliasName);
-			CPubKey pubkey(multiSigAlias.vchPubKey);
-			pubkeys.push_back(pubkey);
+				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5523 - " + _("Could not find multisig alias with the name: ") + aliasName);
+			pubkeys.push_back(CPubKey(multiSigAlias.vchPubKey));
 			multiSigInfo.vchAliases.push_back(multiSigAlias.vchAlias);
 			// add encrypted encryption key to each alias pubkey
-			vector<unsigned char> vchMSPubKey(pubkey.begin(), pubkey.end());
-			if(!EncryptMessage(vchMSPubKey, stringFromVch(vchEncryptionPrivateKey), strCipherText))
-				throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5529 - " + _("Could not encrypt private encryption key!"));
-			multiSigInfo.vchEncryptionPrivateKeys.push_back(vchFromString(strCipherText));
+			multiSigInfo.vchEncryptionPrivateKeys.push_back(ParseHexV(find_value(aliasObj, "encryptionprivatekey"),"encryptionprivatekey"));
 		}	
 		CScript script = GetScriptForMultisig(nMultiSig, pubkeys);
 		std::vector<unsigned char> vchRedeemScript(script.begin(), script.end());
 		multiSigInfo.vchRedeemScript = vchRedeemScript;
-	}	
-	else
-		scriptPubKeyOrig = GetScriptForDestination(defaultKey.GetID());
-
-	CSyscoinAddress newAddress = CSyscoinAddress(CScriptID(scriptPubKeyOrig));	
-
-	std::vector<unsigned char> vchPubKey(defaultKey.begin(), defaultKey.end());
-	if(!strPrivateValue.empty())
-	{
-		if(!EncryptMessage(vchEncryptionPublicKey, strPrivateValue, strCipherText))
-		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5514 - " + _("Could not encrypt private alias value!"));
-		}
-		strPrivateValue = strCipherText;
-	}
-
-	if(!EncryptMessage(vchPubKey, stringFromVch(vchEncryptionPrivateKey), strCipherText))
-	{
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5515 - " + _("Could not encrypt private encryption key!"));
-	}
-	vchEncryptionPrivateKey = vchFromString(strCipherText);
-	
-	if(!strPassword.empty())
-	{
-		if(!EncryptMessage(vchPubKey, strPassword, strCipherText))
-		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5516 - " + _("Could not encrypt alias password"));
-		}
-		strPassword = strCipherText;
 	}
 	vector<unsigned char> vchRandAlias = vchFromString(GenerateSyscoinGuid());
 
@@ -2013,9 +1966,9 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.vchAliasPeg = vchAliasPeg;
 	newAlias.vchAlias = vchAlias;
 	newAlias.nHeight = chainActive.Tip()->nHeight;
-	newAlias.vchPubKey = vchPubKey;
-	newAlias.vchEncryptionPublicKey = vchEncryptionPublicKey;
-	newAlias.vchEncryptionPrivateKey = vchEncryptionPrivateKey;
+	newAlias.vchPubKey = ParseHex(strPublicKey);
+	newAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
+	newAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
 	newAlias.vchPublicValue = vchPublicValue;
 	newAlias.vchPrivateValue = vchFromString(strPrivateValue);
 	newAlias.nExpireTime = nTime;
@@ -2026,6 +1979,10 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	newAlias.multiSigInfo = multiSigInfo;
 	
+	CSyscoinAddress newAddress;
+	CScript scriptPubKeyOrig;
+	GetAddress(newAlias, &newAddress, scriptPubKeyOrig);
+
 	vector<unsigned char> data;
 	newAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
@@ -2057,11 +2014,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = true;
 	coinControl.fAllowWatchOnly = true;
-	// if renewing your own alias and address changed, transfer balances
-	if(!oldAlias.IsNull() && newAddress.ToString() != oldAddress.ToString() && IsMyAlias(oldAlias))
-	{
-		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
-	}
 	SendMoneySyscoin(vchAlias, vecSend, wtx, oldAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
@@ -2107,14 +2059,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || 3 > params.size() || 14 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [toalias_pubkey=''] [password=''] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [encryption_privatekey=""] [encryption_publickey=""] [walletless=No]\n"
+		"aliasupdate <aliaspeg> <aliasname> <public value> [private value=''] [safesearch=Yes] [alias_pubkey=''] [password=''] [accept transfers=Yes] [expire=31536000] [nrequired=0] [\"alias\",...] [encryption_privatekey=""] [encryption_publickey=""] [walletless=No]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
 						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only.\n"				
 						"<password> used to generate your public/private key that controls this alias.\n"
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
-						"<toalias_pubkey> receiver syscoin alias pub key, if transferring alias.\n"
+						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
 						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 1.5^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
@@ -2122,11 +2074,11 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"     [\n"
 						"       {\n"
 						"         \"alias\":\"name\",					(string, required) The alias name\n"
-						"         \"encryptionprivatekey\": \"hex\"		(string, required) The encryption private key (encrypted to alias public key or toalias_pubkey)\n"
+						"         \"encryptionprivatekey\": \"hex\"		(string, required) The encryption private key (encrypted to alias public key or alias_pubkey)\n"
 						"       }\n"
 						"       ,...\n"
 						"     ]\n"	
-						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. If transferring, the key should be encrypted to toalias_pubkey.\n"
+						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. If transferring, the key should be encrypted to alias_pubkey.\n"
 						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias. Useful if you are changing pub/priv keypair for encryption on this alias.\n"
 						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
 						+ HelpRequiringPassphrase());
@@ -2134,9 +2086,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(vchAliasPeg.empty())
 		vchAliasPeg = vchFromString("sysrates.peg");
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
-	string strPrivateValue;
+	string strPrivateValue = "";
 	string strPublicValue = params[2].get_str();
-	if(params.size() >= 4)
+	if(params.size() >= 4 && params[3].get_str().size() > 0)
 	{
 		strPrivateValue = params[3].get_str();
 	}
@@ -2146,58 +2098,56 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CAliasIndex updateAlias;
 
 	string strSafeSearch = "Yes";
-	if(params.size() >= 5)
+	if(params.size() >= 5 && params[4].get_str().size() > 0)
 	{
 		strSafeSearch = params[4].get_str();
 	}
-	string strPubKey;
-	bool transferAlias = false;
-    if (params.size() >= 6 && params[5].get_str().size() > 1) {
-		transferAlias = true;
+    if (params.size() >= 6 && params[5].get_str().size() > 0) {
 		vchPubKeyByte = ParseHex(params[5].get_str());
 	}
-	string strPassword;
-	if(params.size() >= 7 && vchPubKeyByte.empty())
+	string strPassword = "";
+	if(params.size() >= 7 && params[6].get_str().size() > 0)
 		strPassword = params[6].get_str();
 
-	if(strPassword.size() < 4 && strPassword.size() > 0)
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5517 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
-
 	string strAcceptCertTransfers = "Yes";
-	if(params.size() >= 8)
+	if(params.size() >= 8 && params[7].get_str().size() > 0)
 	{
 		strAcceptCertTransfers = params[7].get_str();
 	}
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
-	if(params.size() >= 9)
+	if(params.size() >= 9 && params[8].get_str().size() > 0)
 		nTime = boost::lexical_cast<uint64_t>(params[8].get_str());
 	// sanity check set to 1 hr
 	if(nTime < chainActive.Tip()->nTime+3600)
 		nTime = chainActive.Tip()->nTime+3600;
     int nMultiSig = 1;
-	if(params.size() >= 10)
+	if(params.size() >= 10 && params[9].get_str().size() > 0)
 		nMultiSig = boost::lexical_cast<int>(params[9].get_str());
     UniValue aliases;
-	if(params.size() >= 11)
+	if(params.size() >= 11 && params[10].get_str().size() > 0)
 		aliases = params[10].get_array();
 
 	string strEncryptionPrivateKey = "";
-	if(params.size() >= 12)
+	if(params.size() >= 12 && params[11].get_str().size() > 0)
 	{
 		strEncryptionPrivateKey = params[11].get_str();
 	}
 	string strEncryptionPublicKey = "";
-	if(params.size() >= 13)
+	if(params.size() >= 13 && params[12].get_str().size() > 0)
 	{
 		strEncryptionPublicKey = params[12].get_str();
 	}
-	string strWalletless = "No";
-	if(params.size() >= 14)
+	string strPasswordSalt = "";
+	if(params.size() >= 14 && params[13].get_str().size() > 0)
 	{
-		strWalletless = params[13].get_str();
+		strPasswordSalt = params[13].get_str();
 	}
-	
-	EnsureWalletIsUnlocked();
+	string strWalletless = "No";
+	if(params.size() >= 15 && params[14].get_str().size() > 0)
+	{
+		strWalletless = params[14].get_str();
+	}
+
 	CTransaction tx;
 	CAliasIndex theAlias;
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
@@ -2208,34 +2158,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 	CSyscoinAddress oldAddress;
 	GetAddress(theAlias, &oldAddress);
-	CPubKey pubKey(theAlias.vchPubKey);	
-	vector<unsigned char> vchPasswordSalt;
-	if(!strPassword.empty() && strPassword != "nochange")
-	{
-		vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
-		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
-		CCrypter crypt;
-		string pwStr = strPassword;
-		SecureString password = pwStr.c_str();
-		if(!crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5520 - " + _("Could not determine key from password"));
-		CKey key;
-		key.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
-		pubKey = key.GetPubKey();
-		
-		if(!pubKey.IsFullyValid())
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5521 - " + _("Generated public key not fully valid"));	
-		CKey keyTmp;
-		if(strWalletless != "Yes" && !pwalletMain->GetKey(pubKey.GetID(), keyTmp) && !pwalletMain->AddKeyPubKey(key, pubKey))	
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5522 - " + _("Please choose a different password"));	
-	}
+
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
 	CKey vchSecret;
 	if(vchPubKeyByte.empty())
-	{
-		vchPubKeyByte = vector<unsigned char>(pubKey.begin(), pubKey.end());
-	}
+		vchPubKeyByte = theAlias.vchPubKey;
 	pubKey = CPubKey(vchPubKeyByte);
 	string strCipherText;
 	CMultiSigAliasInfo multiSigInfo;
@@ -2268,7 +2196,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
 	theAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
 	theAlias.vchPassword = ParseHex(strPassword);
-	theAlias.vchPasswordSalt = vchPasswordSalt;
+	theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
@@ -2310,8 +2238,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	// for now dont transfer balances on an alias transfer (TODO add option to transfer balances)
-	if(!transferAlias && newAddress.ToString() != oldAddress.ToString())
+
+	if(newAddress.ToString() != oldAddress.ToString())
 	{
 		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend, coinControl);
 	}	
@@ -2960,7 +2888,9 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 
 	string strEncryptionPrivateKey = "";
 	if(strWalletless == "Yes")
-		strEncryptionPrivateKey = HexStr(alias.vchEncryptionPrivateKey);	
+		strEncryptionPrivateKey = HexStr(alias.vchEncryptionPrivateKey);
+	else if(DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strDecrypted))
+		strEncryptionPrivateKey = strDecrypted;	
 	oName.push_back(Pair("encryption_privatekey", strEncryptionPrivateKey));
 	oName.push_back(Pair("encryption_publickey", HexStr(alias.vchEncryptionPublicKey)));
 
