@@ -482,7 +482,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchEncryptionRand;
 	GetStrongRandBytes(&vchEncryptionRand[0], WALLET_CRYPTO_KEY_SIZE);
 	CKey privEncryptionKey;
-	privEncryptionKey.Set(vchEncryptionRand, vchEncryptionRand + (sizeof vchEncryptionRand), true);
+	privEncryptionKey.Set(&vchEncryptionRand[0], &vchEncryptionRand[0] + WALLET_CRYPTO_KEY_SIZE, true);
 	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
 
@@ -512,7 +512,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	{
 		vector<unsigned char> vchKey;
 		GetStrongRandBytes(&vchKey[0], WALLET_CRYPTO_KEY_SIZE);
-		privKey.Set(vchKey, vchKey + (sizeof vchKey), true);
+		privKey.Set(&vchKey[0], &vchKey[0] + WALLET_CRYPTO_KEY_SIZE, true);
 	}
 	CPubKey pubKey = privKey.GetPubKey();
 	vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
