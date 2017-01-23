@@ -1878,7 +1878,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	string strPrivateValue = "";
 
-	if(params.size() >= 5 && params[2].get_str().size() > 0)
+	if(params.size() >= 5 && params[4].get_str().size() > 0)
 	{
 		strPrivateValue = params[4].get_str();
 	}
