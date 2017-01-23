@@ -8,6 +8,7 @@
 #include "alias.h"
 #include "wallet/crypter.h"
 #include "random.h"
+#include "base58.h"
 #include <memory>
 #include <string>
 #include <boost/algorithm/string.hpp>
