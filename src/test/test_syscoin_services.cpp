@@ -496,7 +496,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 	
 	string strCipherPrivateData = "";
-	if(!privdata.empty())
+	if(privdata != "\"\"")
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData), true);
 
 	string strCipherPassword = "";
@@ -504,7 +504,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchPubKey;
 	CKey privKey;
 	vector<unsigned char> vchPasswordSalt;
-	if(!password.empty())
+	if(password != "\"\"")
 	{
 		vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
 		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
@@ -524,7 +524,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	
 	BOOST_CHECK(pubKey.IsFullyValid());
 	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
-	if(!password.empty())
+	if(password != "\"\"")
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey), true);
 
@@ -547,7 +547,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
 	const string &passwordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
-	if(!password.empty())
+	if(password != "\"\"")
 		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceAfter, 10*COIN);
@@ -558,7 +558,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
-	if(!password.empty())
+	if(password != "\"\"")
 		BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
 	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
@@ -568,7 +568,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
-	if(!password.empty())
+	if(password != "\"\"")
 		BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
 	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
@@ -598,7 +598,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	}
 
 	string strCipherPrivateData = "";
-	if(!privdata.empty())
+	if(privdata != "\"\"")
 		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	string strCipherEncryptionPrivateKey = "";
@@ -656,7 +656,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	UniValue r;
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
-	string myPassword = password;
+	string myPassword = "";
+	if(password != "\"\"")
+		myPassword = password;
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
@@ -672,14 +674,14 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
 	string strCipherPrivateData = "";
-	if(!privdata.empty())
+	if(privdata != "\"\"")
 		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
 
 	string strCipherPassword = "";
 	string strCipherEncryptionPrivateKey = "";
 	vector<unsigned char> vchPubKey;
 	vector<unsigned char> vchPasswordSalt;
-	if(!password.empty())
+	if(password != "\"\"")
 	{
 		vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
 		GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
@@ -699,12 +701,16 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
 	}
-	else
-		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(publickey), password, strCipherPassword), true);
 
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
+	if(strCipherPassword.empty())
+		strPasswordHex = "\"\"";
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+	if(strCipherPrivateData.empty())
+		strCipherPrivateData = "\"\"";
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
+	if(strCipherEncryptionPrivateKey.empty())
+		strCipherEncryptionPrivateKey = "\"\"";
 	string acceptTransfers = "\"\"";
 	string expires = "\"\"";
 	string nrequired = "\"\"";
