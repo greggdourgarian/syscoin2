@@ -2878,8 +2878,6 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 		return false;
 	oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
 	string strPrivateValue = "";
-	if(!alias.vchPrivateValue.empty())
-		strPrivateValue = _("Encrypted for alias owner");
 	string strDecrypted = "";
 	if(strWalletless == "Yes")
 		strPrivateValue = HexStr(alias.vchPrivateValue);
@@ -2888,8 +2886,6 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	oName.push_back(Pair("privatevalue", strPrivateValue));
 
 	string strPassword = "";
-	if(!alias.vchPassword.empty())
-		strPassword = _("Encrypted for alias owner");
 	strDecrypted = "";
 	if(strWalletless == "Yes")
 		strPrivateValue = HexStr(alias.vchPassword);
