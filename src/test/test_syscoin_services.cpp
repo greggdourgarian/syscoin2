@@ -585,7 +585,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	return pubkey;
 }
-void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata, const string& privdata, string pubkey)
+void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata, const string& privdata)
 {
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
@@ -593,15 +593,16 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
-	if(pubkey == "\"\"")
-	{
-		UniValue pkr = CallRPC(tonode, "generatepublickey");
-		if (pkr.type() != UniValue::VARR)
-			throw runtime_error("Could not parse rpc results");
 
-		const UniValue &resultArray = pkr.get_array();
-		pubkey = resultArray[0].get_str();		
-	}
+	CKey privKey;
+	privKey.MakeNewKey(true);
+	CPubKey pubKey = privKey.GetPubKey();
+	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
+	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
+	
+	BOOST_CHECK(pubKey.IsFullyValid());
+	BOOST_CHECK_NO_THROW(CallRPC(tonode, "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
+
 
 	string strCipherPrivateData = "";
 	if(privdata != "\"\"")
@@ -609,7 +610,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 
 	string strCipherEncryptionPrivateKey = "";
 
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(pubkey), stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
 	
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 	if(strCipherPrivateData.empty())
@@ -625,7 +626,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string passwordsalt = "\"\"";
 	string safesearch = "\"\"";
 
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + pubkey + " " + password + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + HexStr(vchPubKey) + " " + password + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(10, tonode);
 	GenerateBlocks(10, node);	
 	// check its not mine anymore
