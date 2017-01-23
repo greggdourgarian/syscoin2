@@ -47,6 +47,7 @@ void StartNodes()
 	StartNode("node4", true, "-txindex");
 	StopNode("node4");
 	StartNode("node4", true, "-txindex");
+	ECC_Start();
 
 }
 void StartMainNetNodes()
@@ -72,6 +73,7 @@ void StopNodes()
 	StopNode("node2");
 	StopNode("node3");
 	StopNode("node4");
+	ECC_Stop();
 	printf("Done!\n");
 }
 void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
@@ -483,9 +485,9 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	}
 	CKey privEncryptionKey;
 	privEncryptionKey.MakeNewKey(true);
-	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
-
+	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
+	
 	BOOST_CHECK(pubEncryptionKey.IsFullyValid());
 	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + HexStr(vchPrivEncryptionKey) + " false"));	
 	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
