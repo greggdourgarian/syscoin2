@@ -9,6 +9,7 @@
 #include "wallet/crypter.h"
 #include "random.h"
 #include "base58.h"
+#include "chainparams.h"
 #include <memory>
 #include <string>
 #include <boost/algorithm/string.hpp>
@@ -49,6 +50,7 @@ void StartNodes()
 	StopNode("node4");
 	StartNode("node4", true, "-txindex");
 	ECC_Start();
+	SelectParams(CBaseChainParams::REGTEST);
 
 }
 void StartMainNetNodes()
@@ -490,9 +492,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
 	
 	BOOST_CHECK(pubEncryptionKey.IsFullyValid());
-    CSyscoinSecret privEncryptionSecret;
-    privEncryptionSecret.SetKey(privEncryptionKey);
-	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + privEncryptionSecret.ToString() + " false"));	
+	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + CSyscoinSecret(privEncryptionKey).ToString() + " false"));	
 	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 	
 	string strCipherPrivateData = "";
@@ -523,9 +523,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
 	
 	BOOST_CHECK(pubKey.IsFullyValid());
-    CSyscoinSecret privSecret;
-    privSecret.SetKey(privKey);
-	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + privSecret.ToString() + " false"));	
+	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + CSyscoinSecret(privKey).ToString() + " false"));	
 	if(!password.empty())
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey), true);
@@ -697,9 +695,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
 		
 		BOOST_CHECK(pubKey.IsFullyValid());
-		CSyscoinSecret privSecret;
-		privSecret.SetKey(privKey);
-		BOOST_CHECK_NO_THROW(r = CallRPC(node, "importprivkey " + privSecret.ToString() + " false"));	
+		BOOST_CHECK_NO_THROW(r = CallRPC(node, "importprivkey " + CSyscoinSecret(privKey).ToString() + " false"));	
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
 	}
