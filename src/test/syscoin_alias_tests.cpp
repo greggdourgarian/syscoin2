@@ -2,6 +2,8 @@
 #include "utiltime.h"
 #include "rpc/server.h"
 #include "alias.h"
+#include "base58.h"
+#include "chainparams.h"
 #include <boost/test/unit_test.hpp>
 BOOST_GLOBAL_FIXTURE( SyscoinTestingSetup );
 
