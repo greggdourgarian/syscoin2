@@ -529,8 +529,14 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey), true);
 
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
+	if(strCipherPassword.empty())
+		strPasswordHex = "\"\"";
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+	if(strCipherPrivateData.empty())
+		strPrivateHex = "\"\"";
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
+	if(strCipherEncryptionPrivateKey.empty())
+		strEncryptionPrivateKeyHex = "\"\"";
 	string expires = "\"\"";
 	string aliases = "\"\"";
 	string acceptTransfers = "\"\"";
@@ -606,7 +612,11 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(pubkey), stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
 	
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+	if(strCipherPrivateData.empty())
+		strPrivateHex = "\"\"";
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
+	if(strCipherEncryptionPrivateKey.empty())
+		strEncryptionPrivateKeyHex = "\"\"";
 	string acceptTransfers = "\"\"";
 	string expires = "\"\"";
 	string nrequired = "\"\"";
@@ -707,10 +717,10 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		strPasswordHex = "\"\"";
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 	if(strCipherPrivateData.empty())
-		strCipherPrivateData = "\"\"";
+		strPrivateHex = "\"\"";
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
 	if(strCipherEncryptionPrivateKey.empty())
-		strCipherEncryptionPrivateKey = "\"\"";
+		strEncryptionPrivateKeyHex = "\"\"";
 	string acceptTransfers = "\"\"";
 	string expires = "\"\"";
 	string nrequired = "\"\"";
