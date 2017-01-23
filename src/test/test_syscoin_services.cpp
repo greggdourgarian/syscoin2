@@ -593,7 +593,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
-	if(pubkey.size() <= 0)
+	if(pubkey == "\"\"")
 	{
 		UniValue pkr = CallRPC(tonode, "generatepublickey");
 		if (pkr.type() != UniValue::VARR)
@@ -760,8 +760,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-	if(newPassword != oldPassword)
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 	if(newPassword != oldPassword)
@@ -776,8 +775,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-	if(newPassword != oldPassword)
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 
 }
