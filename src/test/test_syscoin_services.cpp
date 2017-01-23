@@ -7,6 +7,7 @@
 #include "cert.h"
 #include "alias.h"
 #include "wallet/crypter.h"
+#include "random.h"
 #include "base58.h"
 #include "chainparams.h"
 #include <memory>
