@@ -559,7 +559,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(balanceAfter, 10*COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
@@ -569,7 +569,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
@@ -579,7 +579,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
@@ -639,14 +639,14 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_EQUAL(balanceAfter, 0);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	// check xferred right person and data changed
 	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "aliasinfo " + aliasname));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceAfter, 0);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 }
 void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch, string password)
@@ -742,7 +742,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
@@ -759,7 +759,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	if(newPassword != oldPassword)
 		BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
@@ -775,7 +775,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
-	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	if(newPassword != oldPassword)
 		BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
