@@ -20,7 +20,7 @@ void ExpireAlias(const string& alias);
 void AliasBan(const string& node, const string& alias, int severity);
 void OfferBan(const string& node, const string& offer, int severity);
 void CertBan(const string& node, const string& cert, int severity);
-string AliasNew(const string& node, const string& aliasname, const string &password, const string& pubdata, string privdata="privdata", string safesearch="Yes", string numreq = "", string multisig = "");
+string AliasNew(const string& node, const string& aliasname, const string &password, const string& pubdata, string privdata="/""/", string safesearch="/""/", string numreq = "/""/", string multisig = "/""/");
 void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch="", string password="");
 void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata, const string& privdata, string pubkey="");
 bool AliasFilter(const string& node, const string& regex, const string& safesearch);

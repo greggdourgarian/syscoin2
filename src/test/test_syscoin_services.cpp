@@ -531,12 +531,11 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-	string acceptTransfers = "";
-	string expires = "";
-	string nrequired = "";
-	string aliases = "";
-	string acceptTransfers = "";
-	string expireTime = "";
+	string acceptTransfers = "/""/";
+	string expires = "/""/";
+	string aliases = "/""/";
+	string acceptTransfers = "/""/";
+	string expireTime = "/""/";
 
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + strPasswordHex + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + acceptTransfers +  " " + expireTime + " " + numreq  + " " + multisig + " " + HexStr(vchPubKey) + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex + " " + HexStr(vchPubEncryptionKey)));
