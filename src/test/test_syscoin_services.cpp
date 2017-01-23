@@ -566,20 +566,20 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
 	if(password != "\"\"")
 		BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
-	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 	if(password != "\"\"")
 		BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
-	BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != password);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
@@ -639,7 +639,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_EQUAL(balanceAfter, 0);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 	// check xferred right person and data changed
 	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "aliasinfo " + aliasname));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -759,9 +759,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 	if(newPassword != oldPassword)
-		BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 	if(newPassword != oldPassword)
@@ -775,9 +775,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 	if(newPassword != oldPassword)
-		BOOST_CHECK(find_value(r.get_obj(), "password").get_str() != myPassword);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 
 }
