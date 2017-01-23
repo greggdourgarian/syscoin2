@@ -544,9 +544,6 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + strPasswordHex + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + acceptTransfers +  " " + expireTime + " " + numreq  + " " + multisig + " " + HexStr(vchPubKey) + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex + " " + HexStr(vchPubEncryptionKey)));
-	string pubkey;
-	const UniValue &resultArray = r.get_array();
-	pubkey = resultArray[1].get_str();
 	GenerateBlocks(5, node);
 	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname + " 10"), runtime_error);
 	GenerateBlocks(5, node);
@@ -583,7 +580,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": "No");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
-	return pubkey;
+	return HexStr(vchPubKey);
 }
 void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata, const string& privdata)
 {

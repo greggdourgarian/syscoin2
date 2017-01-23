@@ -94,10 +94,15 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	// try transfers and updates in parallel
-	UniValue pkr = CallRPC("node1", "generatepublickey");
-	BOOST_CHECK(pkr.type() == UniValue::VARR);
-	const UniValue &resultArray = pkr.get_array();
-	string newPubkey = resultArray[0].get_str();	
+	CKey privKey;
+	privKey.MakeNewKey(true);
+	CPubKey pubKey = privKey.GetPubKey();
+	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
+	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
+	
+	BOOST_CHECK(pubKey.IsFullyValid());
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
+
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 	{
 		if((i%2) == 0)
@@ -106,7 +111,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 		}
 		else
 		{
-			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 \"\" Yes " + newPubkey));
+			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 \"\" \"\" " + HexStr(vchPubKey)));
 		}
 
 	}
@@ -248,14 +253,19 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	UniValue r;
 	string strPubKey1 = AliasNew("node1", "jagnode1", "password", "changeddata1");
 	string strPubKey2 = AliasNew("node2", "jagnode2", "password", "changeddata2");
-	UniValue pkr = CallRPC("node2", "generatepublickey");
-	BOOST_CHECK(pkr.type() == UniValue::VARR);
-	const UniValue &resultArray = pkr.get_array();
-	string newPubkey = resultArray[0].get_str();	
+	CKey privKey;
+	privKey.MakeNewKey(true);
+	CPubKey pubKey = privKey.GetPubKey();
+	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
+	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
+	
+	BOOST_CHECK(pubKey.IsFullyValid());
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
+
 	AliasTransfer("node1", "jagnode1", "node2", "changeddata1", "pvtdata");
 
 	// xfer an alias that isn't yours
-	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 \"\" Yes " + newPubkey), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 \"\" \"\" " + HexStr(vchPubKey)), runtime_error);
 
 	// xfer alias and update it at the same time
 	AliasTransfer("node2", "jagnode2", "node3", "changeddata4", "pvtdata");
@@ -267,7 +277,7 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	AliasTransfer("node2", "jagnode1", "node3", "changeddata5", "pvtdata2");
 
 	// xfer an alias to another alias is prohibited
-	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate sysrates.peg jagnode2 changedata1 \"\" Yes " + strPubKey1), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate sysrates.peg jagnode2 changedata1 \"\" \"\" " + strPubKey1), runtime_error);
 	
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalance)
@@ -948,19 +958,19 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasexpire1 passwordnew somedata"));
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
-	UniValue pkr = CallRPC("node2", "generatepublickey");
-	if (pkr.type() != UniValue::VARR)
-		throw runtime_error("Could not parse rpc results");
-
-	const UniValue &resultArray = pkr.get_array();
-	string pubkey = resultArray[0].get_str();		
+	CKey privKey;
+	privKey.MakeNewKey(true);
+	CPubKey pubKey = privKey.GetPubKey();
+	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
+	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());	
+	BOOST_CHECK(pubKey.IsFullyValid());
 
 	// should fail: alias update on expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 newdata1"), runtime_error);
 	// should fail: alias transfer from expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 \"\" Yes " + pubkey), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 \"\" \"\" " + HexStr(vchPubKey)), runtime_error);
 	// should fail: alias transfer to another alias
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 \"\" Yes " + aliasexpirenode2pubkey), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 \"\" \"\" " + aliasexpirenode2pubkey), runtime_error);
 
 	// should fail: link to an expired alias in offer
 	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirednode2 " + offerguid + " 5 newdescription"), runtime_error);
