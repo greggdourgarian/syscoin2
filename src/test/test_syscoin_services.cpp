@@ -531,7 +531,6 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-	string acceptTransfers = "/""/";
 	string expires = "/""/";
 	string aliases = "/""/";
 	string acceptTransfers = "/""/";
