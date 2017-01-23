@@ -607,13 +607,13 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-	string acceptTransfers = "";
-	string expires = "";
-	string nrequired = "";
-	string aliases = "";
-	string password = "";
-	string passwordsalt = "";
-	string safesearch = "";
+	string acceptTransfers = "/""/";
+	string expires = "/""/";
+	string nrequired = "/""/";
+	string aliases = "/""/";
+	string password = "/""/";
+	string passwordsalt = "/""/";
+	string safesearch = "/""/";
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + pubkey + " " + password + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(10, tonode);
@@ -705,10 +705,10 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
 	string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 	string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-	string acceptTransfers = "";
-	string expires = "";
-	string nrequired = "";
-	string aliases = "";
+	string acceptTransfers = "/""/";
+	string expires = "/""/";
+	string nrequired = "/""/";
+	string aliases = "/""/";
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + HexStr(vchPubKey) + " " + strPasswordHex + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(10, node);

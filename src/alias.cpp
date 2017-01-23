@@ -1802,7 +1802,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 		vecSend.push_back(recipient);
 	}
 }
-bool CheckParam(const UniValue& params, int index)
+bool CheckParam(const UniValue& params, const unsigned int index)
 {
 	return (params.size() > index && params[index].get_str().size() > 0 && params[index].get_str() != "/""/");
 }
@@ -2100,7 +2100,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchAlias = vchFromString(params[1].get_str());
 	string strPrivateValue = "";
 	string strPublicValue = params[2].get_str();
-	if(params.size() >= 4 && params[3].get_str().size() > 0)
+	if(CheckParam(params, 3))
 	{
 		strPrivateValue = params[3].get_str();
 	}
@@ -2110,53 +2110,53 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CAliasIndex updateAlias;
 
 	string strSafeSearch = "Yes";
-	if(params.size() >= 5 && params[4].get_str().size() > 0)
+	if(CheckParam(params, 4))
 	{
 		strSafeSearch = params[4].get_str();
 	}
-    if (params.size() >= 6 && params[5].get_str().size() > 0) {
+    if (CheckParam(params, 5)) {
 		vchPubKeyByte = ParseHex(params[5].get_str());
 	}
 	string strPassword = "";
-	if(params.size() >= 7 && params[6].get_str().size() > 0)
+	if(CheckParam(params, 6))
 		strPassword = params[6].get_str();
 
 	string strAcceptCertTransfers = "Yes";
-	if(params.size() >= 8 && params[7].get_str().size() > 0)
+	if(CheckParam(params, 7))
 	{
 		strAcceptCertTransfers = params[7].get_str();
 	}
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
-	if(params.size() >= 9 && params[8].get_str().size() > 0)
+	if(CheckParam(params, 8))
 		nTime = boost::lexical_cast<uint64_t>(params[8].get_str());
 	// sanity check set to 1 hr
 	if(nTime < chainActive.Tip()->nTime+3600)
 		nTime = chainActive.Tip()->nTime+3600;
     int nMultiSig = 1;
-	if(params.size() >= 10 && params[9].get_str().size() > 0)
+	if(CheckParam(params, 9))
 		nMultiSig = boost::lexical_cast<int>(params[9].get_str());
     UniValue aliases;
-	if(params.size() >= 11 && params[10].get_str().size() > 0)
+	if(CheckParam(params, 10))
 		aliases = params[10].get_array();
 
 	string strPasswordSalt = "";
-	if(params.size() >= 12 && params[11].get_str().size() > 0)
+	if(CheckParam(params, 11))
 	{
 		strPasswordSalt = params[11].get_str();
 	}
 
 	string strEncryptionPrivateKey = "";
-	if(params.size() >= 13 && params[12].get_str().size() > 0)
+	if(CheckParam(params, 12))
 	{
 		strEncryptionPrivateKey = params[12].get_str();
 	}
 	string strEncryptionPublicKey = "";
-	if(params.size() >= 14 && params[14].get_str().size() > 0)
+	if(CheckParam(params, 13))
 	{
-		strEncryptionPublicKey = params[14].get_str();
+		strEncryptionPublicKey = params[13].get_str();
 	}
 	string strWalletless = "No";
-	if(params.size() >= 15 && params[14].get_str().size() > 0)
+	if(CheckParam(params, 14))
 	{
 		strWalletless = params[14].get_str();
 	}
