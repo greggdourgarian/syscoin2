@@ -1947,7 +1947,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CPubKey pubKey = CPubKey(ParseHex(strPublicKey));
 	string strCipherText;
 	CMultiSigAliasInfo multiSigInfo;
-	if(aliases.size() > 0)
+	if(!aliases.empty())
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
@@ -2180,7 +2180,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CPubKey pubKey = CPubKey(vchPubKeyByte);
 	string strCipherText;
 	CMultiSigAliasInfo multiSigInfo;
-	if(aliases.size() > 0)
+	if(!aliases.empty())
 	{
 		multiSigInfo.nRequiredSigs = nMultiSig;
 		std::vector<CPubKey> pubkeys; 
@@ -2812,11 +2812,6 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 
 			if(!coins->IsAvailable(j))
 				continue;
-			if(!pwalletMain->IsMine(coins->vout[j]))
-				continue;
-			if(pwalletMain->IsLockedCoin(alias.txHash, j))
-				continue;
-			
 			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID)
 				continue;
 			if (!ExtractDestination(coins->vout[j].scriptPubKey, aliasDest))

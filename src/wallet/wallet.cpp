@@ -2362,7 +2362,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							// if paying from an alias then send change back to sender
 							if(address.isAlias)
 							{
-								scriptChange = GetScriptForDestination(payDest);
 								if(!address.vchRedeemScript.empty())
 									scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 							}
