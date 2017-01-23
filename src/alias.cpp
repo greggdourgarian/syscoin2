@@ -1804,7 +1804,7 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 }
 bool CheckParam(const UniValue& params, const unsigned int index)
 {
-	return (params.size() > index && params[index].get_str().size() > 0 && params[index].get_str() != "/""/");
+	return (params.size() > index && params[index].get_str().size() > 0 && params[index].get_str() != "\"\"");
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 4 > params.size() || 15 < params.size())
@@ -2903,7 +2903,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	if(strWalletless == "Yes")
 		strEncryptionPrivateKey = HexStr(alias.vchEncryptionPrivateKey);
 	else if(DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strDecrypted))
-		strEncryptionPrivateKey = strDecrypted;	
+		strEncryptionPrivateKey = HexStr(strDecrypted);	
 	oName.push_back(Pair("encryption_privatekey", strEncryptionPrivateKey));
 	oName.push_back(Pair("encryption_publickey", HexStr(alias.vchEncryptionPublicKey)));
 
