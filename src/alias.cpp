@@ -1672,9 +1672,26 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	recipient = recp;
 	// include enough fees for subsequent alias updates
     size_t nSize = nMaxDatacarrierBytes*75;
-	
 	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
 	recipient.nAmount = fee;
+}
+void CreateAliasRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAlias, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, CRecipient& recipient)
+{
+	int precision = 0;
+	CAmount nFee = 0;
+	CScript scriptChangeOrig;
+	scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
+	scriptChangeOrig += scriptPubKey;
+	CRecipient recp = {scriptChangeOrig, recipient.nAmount, false};
+	recipient = recp;
+	size_t nSize = nMaxDatacarrierBytes*75;
+	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
+	if(nFeePerByte <= 0)
+		nFee = 3*minRelayTxFee.GetFee(nSize);
+	else
+		nFee = nFeePerByte * nSize;
+
+	recipient.nAmount = nFee;
 }
 void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
 {
@@ -2005,10 +2022,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	scriptPubKey += scriptPubKeyOrig;
 
     vector<CRecipient> vecSend;
-	CRecipient recipient;
+	CRecipient recipient, recipientPayment;
 	CreateRecipient(scriptPubKey, recipient);
+	CreateAliasRecipient(scriptPubKeyOrig, recipientPayment);
 	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	{
 		vecSend.push_back(recipient);
+		vecSend.push_back(recipientPayment);
+	}
 	CScript scriptData;
 	
 	scriptData << OP_RETURN << data;
@@ -2231,10 +2252,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	scriptPubKey += scriptPubKeyOrig;
 
     vector<CRecipient> vecSend;
-	CRecipient recipient;
-	CreateRecipient(scriptPubKey, recipient); 
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	CRecipient recipient, recipientPayment;
+	CreateRecipient(scriptPubKey, recipient);
+	CreateAliasRecipient(scriptPubKeyOrig, recipientPayment);
+	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	{
 		vecSend.push_back(recipient);
+		vecSend.push_back(recipientPayment);
+	}
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
