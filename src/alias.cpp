@@ -2024,7 +2024,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
     vector<CRecipient> vecSend;
 	CRecipient recipient, recipientPayment;
 	CreateRecipient(scriptPubKey, recipient);
-	CreateAliasRecipient(scriptPubKeyOrig, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
+	CreateAliasRecipient(scriptPubKeyOrig, vchAlias, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
 	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 	{
 		vecSend.push_back(recipient);
@@ -2254,7 +2254,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
     vector<CRecipient> vecSend;
 	CRecipient recipient, recipientPayment;
 	CreateRecipient(scriptPubKey, recipient);
-	CreateAliasRecipient(scriptPubKeyOrig, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
+	CreateAliasRecipient(scriptPubKeyOrig, copyAlias.vchAlias, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
 	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 	{
 		vecSend.push_back(recipient);
