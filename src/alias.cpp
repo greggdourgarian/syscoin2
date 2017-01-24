@@ -2260,7 +2260,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CRecipient recipient, recipientPayment;
 	CreateRecipient(scriptPubKey, recipient);
 	CreateAliasRecipient(scriptPubKeyOrig, copyAlias.vchAlias, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
-	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 	{
 		vecSend.push_back(recipient);
 		vecSend.push_back(recipientPayment);
