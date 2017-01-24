@@ -438,7 +438,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
     }
 
 	vector<COutPoint> outPoints;
-	// figure out how many alias utxo's are needed (outpoints) to fund this transaction
+	// figure out how many alias utxo's are needed (outPoints) to fund this transaction
 	int numResults = aliasunspent(vchAlias, wtxTmp.GetValueOut(), outPoints);
 	if(numResults <= MAX_ALIAS_UPDATES_PER_BLOCK*2)
 	{
@@ -450,7 +450,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		if (!pwalletMain->CreateTransaction(vecSend, wtxTmp1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
 			throw runtime_error(strError);
 		}
-		// find enough utxo's to cover for the new outputs
+		// find enough inputs to cover for the new outputs
 		aliasunspent(vchAlias, wtxTmp1.GetValueOut(), outPoints);
 	}
 	// add all of the inputs (outPoints) to coincontrol so that we can fund the transaction
@@ -462,7 +462,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
         throw runtime_error(strError);
     }
-	// run a check on the inputs without putting them into the db, just to ensure it will go into the mempool without issues and cause wallet annoyance
+	// run a check on the inputs without putting them into the db, just to ensure it will go into the mempool without issues
 	vector<vector<unsigned char> > vvch;
 	int op, nOut;
 	bool fJustCheck = true;
