@@ -1674,10 +1674,9 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	CRecipient recp = {scriptPubKey, recipient.nAmount, false};
 	recipient = recp;
 	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
-    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
-	// include 6.5kb alias fee as inputs so aliases can use the 5 alias inputs for <= 6.5kb alias transactions
-	if(alias)
-		nSize += 6500u;
+	// include enough fees for subsequent alias updates
+    size_t nSize = nMaxDatacarrierBytes*75;
+	
 	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
 	recipient.nAmount = fee;
 }
