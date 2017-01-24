@@ -436,7 +436,9 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecip
     if (!pwalletMain->CreateTransaction(vecSend, wtxTmp, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
         throw runtime_error(strError);
     }
-	aliasselectcoins(vchAlias, coinControl, wtxTmp.GetValueOut());	
+	// we need alias utxo for fees
+	bool skipAliasUTXO = false;
+	aliasselectcoins(vchAlias, coinControl, wtxTmp.GetValueOut(), skipAliasUTXO);	
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
         throw runtime_error(strError);
     }

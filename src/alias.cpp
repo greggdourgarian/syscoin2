@@ -689,7 +689,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return error(errorMessage.c_str());
 			}
 		}
-		else if(vvchArgs.size() != 1)
+		else if((!IsIn212Fork() && vvchArgs.size() != 1) || (IsIn212Fork() && vvchArgs.size() <= 2))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5002 - " + _("Alias arguments incorrect size");
 			return error(errorMessage.c_str());
@@ -1680,11 +1680,12 @@ void CreateAliasRecipient(CScript& scriptPubKey, const vector<unsigned char>& vc
 	int precision = 0;
 	CAmount nFee = 0;
 	CScript scriptChangeOrig;
-	scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
+	scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << vchFromString("1") << OP_DROP << OP_2DROP;
 	scriptChangeOrig += scriptPubKey;
 	CRecipient recp = {scriptChangeOrig, recipient.nAmount, false};
 	recipient = recp;
-	size_t nSize = nMaxDatacarrierBytes*75;
+	// create alias payment utxo max 1500 bytes worth of fees
+	size_t nSize = 1500;
 	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
 	CAmount nPayFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
 	if(nFeePerByte <= 0)
@@ -2031,10 +2032,11 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKey, recipient);
 	CreateAliasRecipient(scriptPubKeyOrig, vchAlias, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
 	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-	{
 		vecSend.push_back(recipient);
+	
+	for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
 		vecSend.push_back(recipientPayment);
-	}
+	
 	CScript scriptData;
 	
 	scriptData << OP_RETURN << data;
@@ -2261,10 +2263,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKey, recipient);
 	CreateAliasRecipient(scriptPubKeyOrig, copyAlias.vchAlias, vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
 	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-	{
 		vecSend.push_back(recipient);
+	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
 		vecSend.push_back(recipientPayment);
-	}
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2734,22 +2735,29 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		const CAliasPayment& aliasPayment = vtxPaymentPos[i];
 		coins = view.AccessCoins(aliasPayment.txHash);
 		if(coins == NULL)
-			continue;
-       
+			continue; 
 		if(!coins->IsAvailable(aliasPayment.nOut))
+			continue;
+		if(!DecodeAliasScript(coins->vout[aliasPayment.nOut].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias)
+			continue;  
+		if(vvch[1] == vchFromString("1"))
 			continue;
 		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
 			continue;
 		destaddy = CSyscoinAddress(payDest);
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
+			COutPoint outp(aliasPayment.txHash, aliasPayment.nOut);
+			auto it = mempool.mapNextTx.find(outp);
+			if (it != mempool.mapNextTx.end())
+				continue;
 			nAmount += coins->vout[aliasPayment.nOut].nValue;
 		}		
 		
     }
     return  ValueFromAmount(nAmount);
 }
-void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinControl, const CAmount &nAmount)
+void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinControl, const CAmount &nAmount, bool skipAliasUTXO)
 {
 	if(!coinControl)
 		return;
@@ -2784,6 +2792,8 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 		return;
 	
+  	int op;
+	vector<vector<unsigned char> > vvch;
 
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
@@ -2794,8 +2804,12 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 		coins = view.AccessCoins(aliasPayment.txHash);
 		if(coins == NULL)
 			continue;
-       
+   
 		if(!coins->IsAvailable(aliasPayment.nOut))
+			continue;
+		if(!DecodeAliasScript(coins->vout[aliasPayment.nOut].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias)
+			continue;  
+		if(vvch[1] == vchFromString("1") && skipAliasUTXO)
 			continue;
 		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
 			continue;

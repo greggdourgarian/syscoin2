@@ -413,5 +413,5 @@ void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, const uint32
 void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, CScript& script, const uint32_t nPaymentOption=1);
 bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAliasStats);
 void GetPrivateKeysFromScript(const CScript& script, std::vector<std::string> &strKeys);
-void aliasselectcoins(const std::vector<unsigned char> &vchAlias, CCoinControl* coinControl, const CAmount &nAmount);
+void aliasselectcoins(const std::vector<unsigned char> &vchAlias, CCoinControl* coinControl, const CAmount &nAmount, bool skipAliasUTXO);
 #endif // ALIAS_H
