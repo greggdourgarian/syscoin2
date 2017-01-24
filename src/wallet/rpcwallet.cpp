@@ -18,7 +18,6 @@
 #include "utilmoneystr.h"
 #include "wallet.h"
 #include "walletdb.h"
-
 #include <stdint.h>
 
 #include <boost/assign/list_of.hpp>
@@ -27,6 +26,7 @@
 
 using namespace std;
 // SYSCOIN
+#include "coincontrol.h"
 extern bool DecodeAliasTx(const CTransaction& tx, int& op, int& nOut, vector<vector<unsigned char> >& vvch, bool payment);
 extern bool DecodeOfferTx(const CTransaction& tx, int& op, int& nOut, vector<vector<unsigned char> >& vvch);
 extern bool DecodeCertTx(const CTransaction& tx, int& op, int& nOut, vector<vector<unsigned char> >& vvch);
@@ -439,7 +439,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 
 	vector<OutPoint> outPoints;
 	// figure out how many alias utxo's are needed (outpoints) to fund this transaction
-	int numResults = aliasunspent(vchAlias, wtxTmp.nAmount, outPoints);
+	int numResults = aliasunspent(vchAlias, wtxTmp.GetValueOut(), outPoints);
 	if(numResults <= MAX_ALIAS_UPDATES_PER_BLOCK*2)
 	{
 		CWalletTx wtxTmp1;
@@ -451,7 +451,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 			throw runtime_error(strError);
 		}
 		// find enough utxo's to cover for the new outputs
-		aliasunspent(vchAlias, wtxTmp1.nAmount, outPoints);
+		aliasunspent(vchAlias, wtxTmp1.GetValueOut(), outPoints);
 	}
 	// add all of the inputs (outPoints) to coincontrol so that we can fund the transaction
 	BOOST_FOREACH(const COutPoint& outpoint, outPoints)
