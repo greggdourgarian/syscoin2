@@ -2751,6 +2751,7 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 	// if allowed to select other inputs in wallet then we dont need to force to pay by alias
 	if(coinControl->fAllowOtherInputs)
 		return;
+	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
 	CAmount nCurrentAmount = 0;
@@ -2764,7 +2765,7 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 			continue;
 		nCurrentAmount += coins->vout[outpoint.n].nValue;
 	}
-	if(nCurrentAmount >= nAmount)
+	if(nCurrentAmount >= nDesiredAmount)
 		return;
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
@@ -2796,14 +2797,15 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 		destaddy = CSyscoinAddress(payDest);
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
-			auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
+			COutPoint outp(aliasPayment.txHash, aliasPayment.nOut);
+			auto it = mempool.mapNextTx.find(outp);
 			if (it != mempool.mapNextTx.end())
 				continue;
 			nCurrentAmount += coins->vout[aliasPayment.nOut].nValue;
 			CRecipient recipient;
 			CreateRecipient(coins->vout[aliasPayment.nOut].scriptPubKey, recipient);
 			nDesiredAmount += recipient.nAmount;
-			COutPoint outp(aliasPayment.txHash, aliasPayment.nOut);
+			
 			coinControl->Select(outp);
 			if(nCurrentAmount >= nDesiredAmount)
 				return;
