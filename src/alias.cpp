@@ -1668,10 +1668,15 @@ bool RemoveAliasScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
 }
 void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 {
+	int op;
+	bool alias = DecodeAliasScript(scriptPubKey, op, vvch);
 	CRecipient recp = {scriptPubKey, recipient.nAmount, false};
 	recipient = recp;
 	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
     size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+	// include 6.5kb alias fee as inputs so aliases can use the 5 alias inputs for <= 6.5kb alias transactions
+	if(alias)
+		nSize += 6500u;
 	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
 	recipient.nAmount = fee;
 }
