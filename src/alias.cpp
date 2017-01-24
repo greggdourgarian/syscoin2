@@ -2796,6 +2796,9 @@ void aliasselectcoins(const vector<unsigned char> &vchAlias, CCoinControl* coinC
 		destaddy = CSyscoinAddress(payDest);
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
+			auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
+			if (it != mempool.mapNextTx.end())
+				continue;
 			nCurrentAmount += coins->vout[aliasPayment.nOut].nValue;
 			CRecipient recipient;
 			CreateRecipient(coins->vout[aliasPayment.nOut].scriptPubKey, recipient);
