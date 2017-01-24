@@ -553,7 +553,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	if(password != "\"\"")
 		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceAfter, 10*COIN);
+	BOOST_CHECK(balanceAfter >= 10*COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);

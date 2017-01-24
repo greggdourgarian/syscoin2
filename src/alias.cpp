@@ -1670,9 +1670,14 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 {
 	CRecipient recp = {scriptPubKey, recipient.nAmount, false};
 	recipient = recp;
-	// include enough fees for subsequent alias updates
-    size_t nSize = nMaxDatacarrierBytes*75;
-	CAmount fee = 3*minRelayTxFee.GetFee(nSize);
+	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
+    size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
+	CAmount nPayFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
+	if(nFeePerByte <= 0)
+		nFee = nPayFee;
+	else
+		nFee = nFeePerByte * nSize;
+	nFee = std::max(nFee, nPayFee);
 	recipient.nAmount = fee;
 }
 void CreateAliasRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAlias, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, CRecipient& recipient)
@@ -1686,11 +1691,12 @@ void CreateAliasRecipient(CScript& scriptPubKey, const vector<unsigned char>& vc
 	recipient = recp;
 	size_t nSize = nMaxDatacarrierBytes*75;
 	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
+	CAmount nPayFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
 	if(nFeePerByte <= 0)
-		nFee = 3*minRelayTxFee.GetFee(nSize);
+		nFee = nPayFee;
 	else
 		nFee = nFeePerByte * nSize;
-
+	nFee = std::max(nFee, nPayFee);
 	recipient.nAmount = nFee;
 }
 void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
@@ -1706,10 +1712,12 @@ void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchA
 	CTxOut txout(0,	recipient.scriptPubKey);
 	size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
 	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
+	CAmount nPayFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
 	if(nFeePerByte <= 0)
-		nFee = 3*minRelayTxFee.GetFee(nSize);
+		nFee = nPayFee;
 	else
 		nFee = nFeePerByte * nSize;
+	nFee = std::max(nFee, nPayFee);
 
 	recipient.nAmount = nFee;
 }
@@ -1723,10 +1731,12 @@ CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vch
 	CTxOut txout(0,	recipient.scriptPubKey);
     size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
 	int nFeePerByte = getFeePerByte(vchAliasPeg, vchFromString("SYS"), nHeight, precision);
+	CAmount nPayFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
 	if(nFeePerByte <= 0)
-		nFee = 3*minRelayTxFee.GetFee(nSize);
+		nFee = nPayFee;
 	else
 		nFee = nFeePerByte * nSize;
+	nFee = std::max(nFee, nPayFee);
 	
 	recipient.nAmount = nFee;
 	return recipient.nAmount;
