@@ -1672,13 +1672,8 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	recipient = recp;
 	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
     size_t nSize = txout.GetSerializeSize(SER_DISK,0)+148u;
-	CAmount nPayFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
-	if(nFeePerByte <= 0)
-		nFee = nPayFee;
-	else
-		nFee = nFeePerByte * nSize;
-	nFee = std::max(nFee, nPayFee);
-	recipient.nAmount = fee;
+	CAmount nFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
+	recipient.nAmount = nFee;
 }
 void CreateAliasRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAlias, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, CRecipient& recipient)
 {
