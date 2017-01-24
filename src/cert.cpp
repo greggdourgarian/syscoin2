@@ -20,7 +20,7 @@
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
 bool EncryptMessage(const vector<unsigned char> &vchPubKey, const string &strMessage, string &strCipherText)
 {
 	strCipherText.clear();
@@ -794,9 +794,6 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2500 - " + _("failed to read alias from alias DB"));
 
-	COutPoint outpoint;
-	int numResults  = aliasunspent(vchAlias, outpoint);
-
 	if(params.size() >= 6)
 		vchCat = vchFromValue(params[5]);
 
@@ -852,8 +849,6 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -864,10 +859,9 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	
 	
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(vchAlias, aliasRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -952,9 +946,6 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(theCert.vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2505 - " + _("Failed to read alias from alias DB"));
 
-	COutPoint outpoint;
-	int numResults  = aliasunspent(theCert.vchAlias, outpoint);
-
 	CCert copyCert = theCert;
 	theCert.ClearCert();
 	CSyscoinAddress aliasAddress;
@@ -991,8 +982,6 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	scriptPubKeyAlias += scriptPubKeyOrig;
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 	
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -1002,10 +991,9 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	
 	
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(theAlias.vchAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);	
+	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);	
  	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -1079,9 +1067,6 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 		 throw runtime_error("SYSCOIN_CERTIFICATE_RPC_ERROR: ERRCODE: 2511 - " + _("Could not find the certificate alias"));
 	}
 
-	COutPoint outpoint;
-	int numResults  = aliasunspent(theCert.vchAlias, outpoint);
-
 	CSyscoinAddress sendAddr;
 	GetAddress(toAlias, &sendAddr, scriptPubKeyOrig);
 	CSyscoinAddress fromAddr;
@@ -1116,8 +1101,6 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	scriptPubKeyAlias += scriptPubKeyFromOrig;
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -1127,10 +1110,9 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	
 	
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(fromAlias.vchAlias, vecSend, wtx, fromAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(fromAlias.vchAlias, aliasRecipient, vecSend, wtx, fromAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
 	if(fromAlias.multiSigInfo.vchAliases.size() > 0)

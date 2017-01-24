@@ -18,7 +18,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <functional> 
 using namespace std;
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
 void PutToMessageList(std::vector<CMessage> &messageList, CMessage& index) {
 	int i = messageList.size() - 1;
 	BOOST_REVERSE_FOREACH(CMessage &o, messageList) {
@@ -503,9 +503,6 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CSyscoinAddress fromAddr;
 	GetAddress(aliasFrom, &fromAddr, scriptPubKeyAliasOrig);
 
-	COutPoint outpoint;
-	int numResults  = aliasunspent(aliasFrom.vchAlias, outpoint);	
-
 	scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << aliasFrom.vchAlias <<  aliasFrom.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += scriptPubKeyAliasOrig;		
 
@@ -549,8 +546,6 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -560,10 +555,9 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	
 	
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(aliasFrom.vchAlias, vecSend, wtx, aliasFrom.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(aliasFrom.vchAlias, aliasRecipient, vecSend, wtx, aliasFrom.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(aliasFrom.multiSigInfo.vchAliases.size() > 0)
 	{

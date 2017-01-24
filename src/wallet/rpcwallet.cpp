@@ -424,7 +424,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 // SYSCOIN: Send service transactions
-void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
 {
     // Create and send the transaction
     CReserveKey reservekey(pwalletMain);
@@ -436,9 +436,25 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecip
     if (!pwalletMain->CreateTransaction(vecSend, wtxTmp, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
         throw runtime_error(strError);
     }
-	// we need alias utxo for fees
-	bool skipAliasUTXO = false;
-	aliasselectcoins(vchAlias, coinControl, wtxTmp.GetValueOut(), skipAliasUTXO);	
+
+	vector<OutPoint> outPoints;
+	int numResults = aliasunspent(vchAlias, wtxTmp.nAmount, outPoints);
+	if(numResults <= MAX_ALIAS_UPDATES_PER_BLOCK*2)
+	{
+		CWalletTx wtxTmp1;
+		for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
+			vecSend.push_back(aliasRecipient);
+		// create first tmp transaction without signing to figure out total amount
+		if (!pwalletMain->CreateTransaction(vecSend, wtxTmp1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
+			throw runtime_error(strError);
+		}
+		aliasunspent(vchAlias, wtxTmp1.nAmount, outPoints);
+	}
+	BOOST_FOREACH(const COutPoint& outpoint, outPoints)
+	{
+		coinControl->Select(outpoint);
+	}
+	
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
         throw runtime_error(strError);
     }

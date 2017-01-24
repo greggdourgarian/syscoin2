@@ -24,7 +24,7 @@
 extern CScript _createmultisig_redeemScript(const UniValue& params);
 using namespace std;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
 void PutToEscrowList(std::vector<CEscrow> &escrowList, CEscrow& index) {
 	int i = escrowList.size() - 1;
 	BOOST_REVERSE_FOREACH(CEscrow &o, escrowList) {
@@ -1396,9 +1396,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	else
 		theOffer.linkWhitelist.GetLinkEntryByHash(buyeralias.vchAlias, foundEntry);
 
-	COutPoint outpoint;
-	int numResults  = aliasunspent(buyeralias.vchAlias, outpoint);	
-
 	CSyscoinAddress buyerAddress;
 	GetAddress(buyeralias, &buyerAddress, scriptPubKeyAliasOrig);
 
@@ -1531,8 +1528,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 
 	CScript scriptData;
@@ -1544,10 +1539,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(buyeralias.vchAlias, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -1717,8 +1711,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	}
 	vector<unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
-	COutPoint outpoint;
-	int numResults=0;
+
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
@@ -1875,8 +1868,6 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -1887,10 +1878,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -1996,8 +1986,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 	}
 	
-	COutPoint outpoint;
-	int numResults  = aliasunspent(sellerAliasLatest.vchAlias, outpoint);	
+
 	CScript scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += sellerScript;
 
@@ -2031,8 +2020,6 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2043,10 +2030,9 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, vecSend, wtx, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -2405,8 +2391,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	COutPoint outpoint;
-	int numResults  = aliasunspent(sellerAliasLatest.vchAlias, outpoint);		
+	
 	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << sellerAliasLatest.vchAlias << sellerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += sellerScript;
 	vchLinkAlias = sellerAliasLatest.vchAlias;
@@ -2443,8 +2428,6 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2454,10 +2437,9 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, true, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, vecSend, wtx, true, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
 	sendParams.push_back(rawTx);
@@ -2614,8 +2596,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
 	CScript scriptPubKeyAlias;
-	COutPoint outpoint;
-	int numResults = 0;
+
 	// who is initiating release arbiter or seller?
 	if(role == "arbiter")
 	{
@@ -2747,8 +2728,6 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2757,10 +2736,9 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	vecSend.push_back(fee);
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
@@ -3080,8 +3058,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	string strPrivateKey ;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
-	COutPoint outpoint;
-	int numResults  = aliasunspent(buyerAliasLatest.vchAlias, outpoint);		
+
 	scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
 	scriptPubKeyAlias += buyerScript;
 	vchLinkAlias = buyerAliasLatest.vchAlias;
@@ -3118,8 +3095,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
+
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
 	CRecipient fee;
@@ -3128,10 +3104,9 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, true, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, vecSend, wtx, true, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
 	sendParams.push_back(rawTx);
@@ -3222,8 +3197,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	vector <unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
 	CScript scriptPubKeyAlias;
-	COutPoint outpoint;
-	int numResults=0;
+
 	if(role == "buyer")
 	{
 	
@@ -3364,8 +3338,6 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	}
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		vecSend.push_back(aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -3376,10 +3348,9 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 
 
 	CCoinControl coinControl;
-	coinControl.Select(outpoint);
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(theAlias.multiSigInfo.vchAliases.size() > 0)
 	{
