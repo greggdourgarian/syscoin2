@@ -2803,10 +2803,11 @@ bool aliasselectutxo(const vector<unsigned char> &vchAlias, CCoinControl* coinCo
     }
 	return false;
 }
-int aliasunspent(const vector<unsigned char> &vchAlias, const CAmount &nDesiredAmount, vector<COutPoint>& outpoints)
+int aliasunspent(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outpoints)
 {
 	LOCK2(cs_main, mempool.cs);
 	outpoints.clear();
+	CAmount nDesiredAmount = nAmount;
 	vector<CAliasIndex> vtxPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
@@ -2821,6 +2822,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, const CAmount &nDesiredA
 	CAmount nCurrentAmount = 0;
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
+	COutPoint outpoint;
 	bool funded = false;
     for (unsigned int i = 0;i<vtxPos.size();i++)
     {
