@@ -438,23 +438,27 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
     }
 
 	vector<OutPoint> outPoints;
+	// figure out how many alias utxo's are needed (outpoints) to fund this transaction
 	int numResults = aliasunspent(vchAlias, wtxTmp.nAmount, outPoints);
 	if(numResults <= MAX_ALIAS_UPDATES_PER_BLOCK*2)
 	{
 		CWalletTx wtxTmp1;
+		// since we used some utxo's we need to add more outputs for subsequent transactions
 		for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
 			vecSend.push_back(aliasRecipient);
-		// create first tmp transaction without signing to figure out total amount
+		// since we added more outputs we need to figure out total transaction amount with fees again so create without signing again
 		if (!pwalletMain->CreateTransaction(vecSend, wtxTmp1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
 			throw runtime_error(strError);
 		}
+		// find enough utxo's to cover for the new outputs
 		aliasunspent(vchAlias, wtxTmp1.nAmount, outPoints);
 	}
+	// add all of the inputs (outPoints) to coincontrol so that we can fund the transaction
 	BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 	{
 		coinControl->Select(outpoint);
 	}
-	
+	// now create the transaction and sign it with hopefully enough funding from alias utxo's (if coinControl specified fAllowOtherInputs(true) then and only then are wallet inputs are allowed)
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
         throw runtime_error(strError);
     }
