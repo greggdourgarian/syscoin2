@@ -424,7 +424,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 // SYSCOIN: Send service transactions
-void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
 {
     // Create and send the transaction
     CReserveKey reservekey(pwalletMain);
@@ -437,7 +437,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
         throw runtime_error(strError);
     }
 
-	vector<OutPoint> outPoints;
+	vector<COutPoint> outPoints;
 	// figure out how many alias utxo's are needed (outpoints) to fund this transaction
 	int numResults = aliasunspent(vchAlias, wtxTmp.GetValueOut(), outPoints);
 	if(numResults <= MAX_ALIAS_UPDATES_PER_BLOCK*2)

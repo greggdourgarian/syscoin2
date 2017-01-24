@@ -407,7 +407,7 @@ void SysTxToJSON(const int op, const std::vector<unsigned char> &vchData, const 
 void AliasTxToJSON(const int op, const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash, UniValue &entry);
 bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName, const std::string &strWalletless="");
 void CleanupSyscoinServiceDatabases(int &servicesCleaned);
-int aliasunspent(const std::vector<unsigned char> &vchAlias, COutPoint& outpoint);
+int aliasunspent(const std::vector<unsigned char> &vchAlias, const CAmount &nDesiredAmount, COutPoint& outpoint);
 bool IsMyAlias(const CAliasIndex& alias);
 void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, const uint32_t nPaymentOption=1);
 void GetAddress(const CAliasIndex &alias, CSyscoinAddress* address, CScript& script, const uint32_t nPaymentOption=1);
