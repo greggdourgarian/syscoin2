@@ -1668,12 +1668,8 @@ bool RemoveAliasScriptPrefix(const CScript& scriptIn, CScript& scriptOut) {
 }
 void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 {
-	int op;
-	vector<vector<unsigned char> > vvch;
-	bool alias = DecodeAliasScript(scriptPubKey, op, vvch);
 	CRecipient recp = {scriptPubKey, recipient.nAmount, false};
 	recipient = recp;
-	CTxOut txout(recipient.nAmount,	recipient.scriptPubKey);
 	// include enough fees for subsequent alias updates
     size_t nSize = nMaxDatacarrierBytes*75;
 	
