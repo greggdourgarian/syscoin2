@@ -2782,6 +2782,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, const CAmount &nDesiredA
 				if (it != mempool.mapNextTx.end())
 					continue;
 				outpoints.push_back(COutPoint(alias.txHash, j));
+				nCurrentAmount += coins->vout[j].nAmount;
 				if(nCurrentAmount >= nDesiredAmount)
 					funded = true;
 			}
