@@ -2808,7 +2808,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
     }
 	return numResults;
 }
-int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoints)
+int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 {
 	LOCK2(cs_main, mempool.cs);
 	vector<CAliasIndex> vtxPos;
