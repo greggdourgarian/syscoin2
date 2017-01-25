@@ -424,36 +424,55 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 // SYSCOIN: Send service transactions
-void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
 {
     // Create and send the transaction
     CReserveKey reservekey(pwalletMain);
     CAmount nFeeRequired;
     std::string strError;
     int nChangePosRet = -1;
+	COutPoint aliasOutPoint;
+	int numResults = aliasunspent(vchAlias, aliasOutPoint);
+	// for the alias utxo (1 per transaction is used)
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		vecSend.push_back(aliasRecipient);
+
+	coinControl->Select(aliasOutPoint);
+
 	// get total output required
-	CAmount nTotal = 0;
+    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
+        throw runtime_error(strError);
+    }
+
+	CAmount nTotal = nFeeRequired;
 	BOOST_FOREACH(const CRecipient& recp, vecSend)
 	{
 		nTotal += recp.nAmount;
 	}
+
 	vector<COutPoint> outPoints;
 	// figure out how many alias utxo's are needed (outPoints) to fund this transaction based on nTotal
-	int numResults = aliasunspent(vchAlias, nTotal, outPoints);
+	bool selectAliasUTXO = true;
+	int numPaymentResults = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
 
-	CWalletTx wtxTmp1;
-	// since we used some utxo's we need to add more outputs for subsequent transactions
-	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
-		vecSend.push_back(aliasRecipient);
-
+	if(selectAliasUTXO)
+	{
+		// since we used some utxo's we need to add more outputs for subsequent transactions
+		for(unsigned int i =numPaymentResults;i<MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
+			vecSend.push_back(aliasRecipient);
+	}
+	// get total output required
+    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
+        throw runtime_error(strError);
+    }
 	// find new total based on new outputs added
-	nTotal = 0;
+	nTotal = nFeeRequired;
 	BOOST_FOREACH(const CRecipient& recp, vecSend)
 	{
 		nTotal += recp.nAmount;
 	}
 	// find final utxo set based on new total
-	aliasunspent(vchAlias, nTotal, outPoints);
+	aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
 	// add all of the inputs (outPoints) to coincontrol so that we can fund the transaction
 	BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 	{

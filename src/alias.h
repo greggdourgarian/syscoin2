@@ -366,6 +366,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const std::vecto
 void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient);
 void CreateFeeRecipient(CScript& scriptPubKey, const std::vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const std::vector<unsigned char>& data, CRecipient& recipient);
 void CreateAliasRecipient(CScript& scriptPubKey, const std::vector<unsigned char>& vchAlias, const std::vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, CRecipient& recipient);
+int aliasselectpaymentcoins(const std::vector<unsigned char> &vchAlias, const CAmount &nAmount, std::vector<OutPoints>& outPoints, bool selectAliasUTXO);
 CAmount GetDataFee(const CScript& scriptPubKey, const std::vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight);
 bool IsSyscoinTxMine(const CTransaction& tx,const std::string &type);
 bool IsAliasOp(int op);

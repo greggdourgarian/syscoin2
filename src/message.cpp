@@ -18,7 +18,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <functional> 
 using namespace std;
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
 void PutToMessageList(std::vector<CMessage> &messageList, CMessage& index) {
 	int i = messageList.size() - 1;
 	BOOST_REVERSE_FOREACH(CMessage &o, messageList) {
@@ -545,7 +545,9 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKey, recipient);
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
-	CreateAliasRecipient(scriptPubKeyAlias, aliasFrom.vchAlias, aliasFrom.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
+	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CRecipient aliasPaymentRecipient;
+	CreateAliasRecipient(scriptPubKeyAliasOrig, aliasFrom.vchAlias, aliasFrom.vchAliasPeg, chainActive.Tip()->nHeight, aliasPaymentRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -557,7 +559,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(aliasFrom.vchAlias, aliasRecipient, vecSend, wtx, aliasFrom.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(aliasFrom.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, aliasFrom.multiSigInfo.vchAliases.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
 	if(aliasFrom.multiSigInfo.vchAliases.size() > 0)
 	{
