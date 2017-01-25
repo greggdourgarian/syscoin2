@@ -2796,11 +2796,11 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 			numResults++;
 			if(!funded)
 			{
-				auto it = mempool.mapNextTx.find(COutPoint(alias.txHash, j));
+				auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
 				if (it != mempool.mapNextTx.end())
 					continue;
-				outPoints.push_back(COutPoint(alias.txHash, j));
-				nCurrentAmount += coins->vout[j].nValue;
+				outPoints.push_back(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
+				nCurrentAmount += coins->vout[aliasPayment.nOut].nValue;
 				if(nCurrentAmount >= nDesiredAmount)
 					funded = true;
 			}
