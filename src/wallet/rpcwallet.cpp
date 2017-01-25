@@ -431,28 +431,29 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
     CAmount nFeeRequired;
     std::string strError;
     int nChangePosRet = -1;
-	CWalletTx wtxTmp;
-	// create first tmp transaction without signing to figure out total amount
-    if (!pwalletMain->CreateTransaction(vecSend, wtxTmp, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
-        throw runtime_error(strError);
-    }
-
-	vector<COutPoint> outPoints;
-	// figure out how many alias utxo's are needed (outPoints) to fund this transaction
-	int numResults = aliasunspent(vchAlias, wtxTmp.GetValueOut(), outPoints);
-	if(numResults <= MAX_ALIAS_UPDATES_PER_BLOCK*2)
+	// get total output required
+	CAmount nTotal = 0;
+	BOOST_FOREACH(const CRecipient& recp, vecSend)
 	{
-		CWalletTx wtxTmp1;
-		// since we used some utxo's we need to add more outputs for subsequent transactions
-		for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
-			vecSend.push_back(aliasRecipient);
-		// since we added more outputs we need to figure out total transaction amount with fees again so create without signing again
-		if (!pwalletMain->CreateTransaction(vecSend, wtxTmp1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false ,true)) {
-			throw runtime_error(strError);
-		}
-		// find enough inputs to cover for the new outputs
-		aliasunspent(vchAlias, wtxTmp1.GetValueOut(), outPoints);
+		nTotal += recp.nAmount;
 	}
+	vector<COutPoint> outPoints;
+	// figure out how many alias utxo's are needed (outPoints) to fund this transaction based on nTotal
+	int numResults = aliasunspent(vchAlias, nTotal, outPoints);
+
+	CWalletTx wtxTmp1;
+	// since we used some utxo's we need to add more outputs for subsequent transactions
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
+		vecSend.push_back(aliasRecipient);
+
+	// find new total based on new outputs added
+	nTotal = 0;
+	BOOST_FOREACH(const CRecipient& recp, vecSend)
+	{
+		nTotal += recp.nAmount;
+	}
+	// find final utxo set based on new total
+	aliasunspent(vchAlias, nTotal, outPoints);
 	// add all of the inputs (outPoints) to coincontrol so that we can fund the transaction
 	BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 	{
