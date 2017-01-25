@@ -1636,7 +1636,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		GetAddress(sellerAliasLatest, &sellerAddressPayment, sellerScript, escrow.nPaymentOption);
 	}
 
-	CScript scriptPubKeyAlias;
+	CScript scriptPubKeyAlias, scriptPubKeyAliasOrig;
 
 	COffer theOffer, linkOffer;
 	CTransaction txOffer;
@@ -1717,19 +1717,17 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	// who is initiating release arbiter or buyer?
 	if(role == "arbiter")
 	{
-		CScript scriptPubKeyOrig;
-		scriptPubKeyOrig = arbiterScript;
+		scriptPubKeyAliasOrig = arbiterScript;
 		scriptPubKeyAlias << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << arbiterAliasLatest.vchAlias << arbiterAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
-		scriptPubKeyAlias += scriptPubKeyOrig;
+		scriptPubKeyAlias += scriptPubKeyAliasOrig;
 		vchLinkAlias = arbiterAliasLatest.vchAlias;
 		theAlias = arbiterAliasLatest;
 	}
 	else if(role == "buyer")
 	{
-		CScript scriptPubKeyOrig;
-		scriptPubKeyOrig = buyerScript;
+		scriptPubKeyAliasOrig = buyerScript;
 		scriptPubKeyAlias = CScript() << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << buyerAliasLatest.vchAlias << buyerAliasLatest.vchGUID << vchFromString("") << OP_2DROP << OP_2DROP;
-		scriptPubKeyAlias += scriptPubKeyOrig;
+		scriptPubKeyAlias += scriptPubKeyAliasOrig;
 		vchLinkAlias = buyerAliasLatest.vchAlias;
 		theAlias = buyerAliasLatest;
 	}
@@ -1869,7 +1867,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	CRecipient aliasRecipient;
 	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
 	CRecipient aliasPaymentRecipient;
-	CreateAliasRecipient(scriptPubKeyOrig, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, aliasPaymentRecipient);
+	CreateAliasRecipient(scriptPubKeyAliasOrig, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, aliasPaymentRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
