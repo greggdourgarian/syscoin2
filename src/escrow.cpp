@@ -1527,7 +1527,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	
 
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, buyeralias.vchAlias, buyeralias.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 
 	CScript scriptData;
@@ -1865,7 +1865,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientArbiter);
 
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2017,7 +2017,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientArbiter);
 
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, sellerAliasLatest.vchAlias, sellerAliasLatest.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2425,7 +2425,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientArbiter);
 
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, sellerAliasLatest.vchAlias, sellerAliasLatest.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -2723,7 +2723,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientArbiter);
 
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -3090,7 +3090,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	vecSend.push_back(recipientArbiter);
 
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, buyerAliasLatest.vchAlias, buyerAliasLatest.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
@@ -3329,7 +3329,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		vecSend.push_back(recipientSeller);
 	}
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;

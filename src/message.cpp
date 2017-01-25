@@ -545,7 +545,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CreateRecipient(scriptPubKey, recipient);
 	vecSend.push_back(recipient);
 	CRecipient aliasRecipient;
-	CreateRecipient(scriptPubKeyAlias, aliasRecipient);
+	CreateAliasRecipient(scriptPubKeyAlias, aliasFrom.vchAlias, aliasFrom.vchAliasPeg, chainActive.Tip()->nHeight, aliasRecipient);
 
 	CScript scriptData;
 	scriptData << OP_RETURN << data;
