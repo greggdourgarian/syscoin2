@@ -457,9 +457,9 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 
 	if(selectAliasUTXO)
 	{
-		// since we used some utxo's we need to add more outputs for subsequent transactions
+		// since we used some payment utxo's we need to add more outputs for subsequent transactions(for fees)
 		for(unsigned int i =numPaymentResults;i<MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
-			vecSend.push_back(aliasRecipient);
+			vecSend.push_back(aliasPaymentRecipient);
 	}
 	// get total output required
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {

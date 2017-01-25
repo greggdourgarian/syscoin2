@@ -2761,7 +2761,8 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 		return -1;
 	
-
+  	int op;
+	vector<vector<unsigned char> > vvch;
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
 	// get all alias inputs and transfer them to the new alias destination
@@ -2797,7 +2798,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 				auto it = mempool.mapNextTx.find(COutPoint(alias.txHash, j));
 				if (it != mempool.mapNextTx.end())
 					continue;
-				outpoints.push_back(COutPoint(alias.txHash, j));
+				outPoints.push_back(COutPoint(alias.txHash, j));
 				nCurrentAmount += coins->vout[j].nValue;
 				if(nCurrentAmount >= nDesiredAmount)
 					funded = true;
