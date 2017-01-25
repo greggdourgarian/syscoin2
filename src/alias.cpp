@@ -2765,6 +2765,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	vector<vector<unsigned char> > vvch;
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
+	bool funded = false;
 	// get all alias inputs and transfer them to the new alias destination
     for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
