@@ -2792,6 +2792,8 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 			else if(selectAliasUTXO)
 				continue;
 		}
+		else if(selectAliasUTXO)
+			continue;
 		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
 			continue;
 		destaddy = CSyscoinAddress(payDest);
