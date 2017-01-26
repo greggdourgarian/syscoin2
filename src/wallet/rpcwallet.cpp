@@ -432,9 +432,11 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
     std::string strError;
     int nChangePosRet = -1;
 	COutPoint aliasOutPoint;
-	int numResults = aliasunspent(vchAlias, aliasOutPoint);
+	unsigned int numResults = aliasunspent(vchAlias, aliasOutPoint);
+	if(numResults > 0 && numPaymentResults <= MAX_ALIAS_UPDATES_PER_BLOCK)
+		numResults = MAX_ALIAS_UPDATES_PER_BLOCK-1;
 	// for the alias utxo (1 per transaction is used)
-	for(unsigned int i =numResults;i<numResults <= 0? MAX_ALIAS_UPDATES_PER_BLOCK: MAX_ALIAS_UPDATES_PER_BLOCK+1;i++)
+	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
@@ -476,9 +478,10 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	// figure out how many alias utxo's are needed (outPoints) to fund this transaction based on nTotal
 	
 	unsigned int numPaymentResults = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
-
+	if(numPaymentResults > 0 && numPaymentResults <= MAX_ALIAS_UPDATES_PER_BLOCK)
+		numPaymentResults = MAX_ALIAS_UPDATES_PER_BLOCK-1;
 	// since we used some payment utxo's we need to add more outputs for subsequent transactions(for fees)
-	for(unsigned int i =numPaymentResults;i<numPaymentResults <= 0? MAX_ALIAS_UPDATES_PER_BLOCK: MAX_ALIAS_UPDATES_PER_BLOCK+1;i++)
+	for(unsigned int i =numPaymentResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasPaymentRecipient);
 	
 
