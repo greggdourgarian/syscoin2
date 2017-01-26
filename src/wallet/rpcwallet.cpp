@@ -436,8 +436,8 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	// for the alias utxo (1 per transaction is used)
 	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
-
-	coinControl->Select(aliasOutPoint);
+	if(!aliasOutPoint.IsNull())
+		coinControl->Select(aliasOutPoint);
 
 	// get total output required
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
