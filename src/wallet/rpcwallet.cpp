@@ -424,7 +424,7 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
     return ret;
 }
 // SYSCOIN: Send service transactions
-void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useAliasPaymentToFund=false)
 {
     // Create and send the transaction
     CReserveKey reservekey(pwalletMain);
@@ -438,9 +438,26 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
-
+	// if we need to use some actual funds (not pregenerated fee utxo's) to pay for this transaction, ie: its sending some funds (alias key regeneration through multsig or password changes or offer accept)
+	if(useAliasPaymentToFund)
+	{
+		// get the funds that we want to send
+		CAmount nPaymentTotal = 0;
+		BOOST_FOREACH(const CRecipient& recp, vecSend)
+		{
+			nPaymentTotal += recp.nAmount;
+		}
+		// find alias payment utxo's for this payment and add them to our inputs for coincontrol
+		vector<COutPoint> outPointsPayments;
+		aliasselectpaymentcoins(vchAlias, nPaymentTotal, outPointsPayments, false);
+		BOOST_FOREACH(const COutPoint& outpoint, outPointsPayments)
+		{
+			coinControl->Select(outpoint);
+		}
+	}
+	CWalletTx wtxNew1, wtxNew2;
 	// get total output required
-    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
+    if (!pwalletMain->CreateTransaction(vecSend, wtxNew1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
         throw runtime_error(strError);
     }
 
@@ -462,7 +479,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 			vecSend.push_back(aliasPaymentRecipient);
 	}
 	// get total output required
-    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
+    if (!pwalletMain->CreateTransaction(vecSend, wtxNew2, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
         throw runtime_error(strError);
     }
 	// find new total based on new outputs added

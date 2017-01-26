@@ -24,7 +24,7 @@
 extern CScript _createmultisig_redeemScript(const UniValue& params);
 using namespace std;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useAliasPaymentToFund=false);
 void PutToEscrowList(std::vector<CEscrow> &escrowList, CEscrow& index) {
 	int i = escrowList.size() - 1;
 	BOOST_REVERSE_FOREACH(CEscrow &o, escrowList) {
@@ -1543,7 +1543,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	bool useAliasPaymentToFund = true;
+	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl, useAliasPaymentToFund);
 	UniValue res(UniValue::VARR);
 	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
 	{

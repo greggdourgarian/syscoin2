@@ -26,7 +26,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/tokenizer.hpp>
 using namespace std;
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useAliasPaymentToFund=false);
 bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectOffer(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
 bool DisconnectCertificate(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
@@ -2659,7 +2659,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(buyerAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyerAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	bool useAliasPaymentToFund = true;
+	SendMoneySyscoin(buyerAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyerAlias.multiSigInfo.vchAliases.size() > 0, &coinControl, useAliasPaymentToFund);
 
 	UniValue res(UniValue::VARR);
 	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
