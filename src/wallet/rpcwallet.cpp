@@ -434,27 +434,31 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	COutPoint aliasOutPoint;
 	int numResults = aliasunspent(vchAlias, aliasOutPoint);
 	// for the alias utxo (1 per transaction is used)
-	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
+	CAmount nPaymentTotal = 0;
+	bool selectAliasUTXO = true;
 	// if we need to use some actual funds (not pregenerated fee utxo's) to pay for this transaction, ie: its sending some funds (alias key regeneration through multsig or password changes or offer accept)
 	if(useAliasPaymentToFund)
 	{
+		// we want to select alias payment to fund this
+		selectAliasUTXO = false;
 		// get the funds that we want to send
-		CAmount nPaymentTotal = 0;
 		BOOST_FOREACH(const CRecipient& recp, vecSend)
 		{
 			nPaymentTotal += recp.nAmount;
 		}
 		// find alias payment utxo's for this payment and add them to our inputs for coincontrol
 		vector<COutPoint> outPointsPayments;
-		aliasselectpaymentcoins(vchAlias, nPaymentTotal, outPointsPayments, false);
+		aliasselectpaymentcoins(vchAlias, nPaymentTotal, outPointsPayments, selectAliasUTXO);
 		BOOST_FOREACH(const COutPoint& outpoint, outPointsPayments)
 		{
 			coinControl->Select(outpoint);
 		}
 	}
+	selectAliasUTXO = true;
 	CWalletTx wtxNew1, wtxNew2;
 	// get total output required
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
@@ -466,16 +470,17 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	{
 		nTotal += recp.nAmount;
 	}
-
+	// deduct any alias payment as input to figure out how many utxo's to use for fees
+	nTotal = nTotal - nPaymentTotal;
 	vector<COutPoint> outPoints;
 	// figure out how many alias utxo's are needed (outPoints) to fund this transaction based on nTotal
-	bool selectAliasUTXO = true;
-	int numPaymentResults = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
+	
+	unsigned int numPaymentResults = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
 
 	if(selectAliasUTXO)
 	{
 		// since we used some payment utxo's we need to add more outputs for subsequent transactions(for fees)
-		for(unsigned int i =numPaymentResults;i<MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
+		for(unsigned int i =numPaymentResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
 			vecSend.push_back(aliasPaymentRecipient);
 	}
 	// get total output required
@@ -488,6 +493,8 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	{
 		nTotal += recp.nAmount;
 	}
+	// deduct any alias payment as input to figure out how many utxo's to use for fees
+	nTotal = nTotal - nPaymentTotal;
 	// find final utxo set based on new total
 	aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
 	// add all of the inputs (outPoints) to coincontrol so that we can fund the transaction

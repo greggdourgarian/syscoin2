@@ -2741,7 +2741,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     }
     return  ValueFromAmount(nAmount);
 }
-int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool selectAliasUTXO)
+unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool selectAliasUTXO)
 {
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
