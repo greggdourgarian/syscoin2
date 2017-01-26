@@ -2754,13 +2754,13 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
 	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
-		return -1;
+		return 0;
 
 	CSyscoinAddress addressFrom;
 	GetAddress(theAlias, &addressFrom);
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
-		return -1;
+		return 0;
 	
   	int op;
 	vector<vector<unsigned char> > vvch;
