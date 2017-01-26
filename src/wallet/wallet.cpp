@@ -2355,8 +2355,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							nLastIndex = 0;
 						std::set<pair<const CWalletTx*,unsigned int> >::iterator it = setCoins.begin();
 						std::advance(it, nLastIndex);
-						lastScriptPubKey = it->first->vout[it->second].scriptPubKey;
-						if (ExtractDestination(lastScriptPubKey, payDest)) 
+						if (ExtractDestination(it->first->vout[it->second].scriptPubKey, payDest)) 
 						{
 							scriptChange = GetScriptForDestination(payDest);
 							address = CSyscoinAddress(payDest);
@@ -2365,7 +2364,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							if(address.isAlias)
 							{
 								if(!address.vchRedeemScript.empty())
+								{
 									scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
+									lastScriptPubKey = it->first->vout[it->second].scriptPubKey;
+								}
 							}
 							// otherwise resolve back to new change address functionality
 							else
