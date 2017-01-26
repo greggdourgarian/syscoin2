@@ -1812,6 +1812,9 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 		destaddy = CSyscoinAddress(payDest);
         if (destaddy.ToString() == addressFrom.ToString())
 		{  
+			auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
+			if (it != mempool.mapNextTx.end())
+				continue;
 			nAmount += coins->vout[aliasPayment.nOut].nValue;
 		}	
 		
