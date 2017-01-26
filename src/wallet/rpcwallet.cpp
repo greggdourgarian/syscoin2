@@ -434,7 +434,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	COutPoint aliasOutPoint;
 	int numResults = aliasunspent(vchAlias, aliasOutPoint);
 	// for the alias utxo (1 per transaction is used)
-	for(unsigned int i =numResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	for(unsigned int i =numResults;i<numResults <= 0? MAX_ALIAS_UPDATES_PER_BLOCK: MAX_ALIAS_UPDATES_PER_BLOCK+1;i++)
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
@@ -477,12 +477,11 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	
 	unsigned int numPaymentResults = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, selectAliasUTXO);
 
-	if(selectAliasUTXO)
-	{
-		// since we used some payment utxo's we need to add more outputs for subsequent transactions(for fees)
-		for(unsigned int i =numPaymentResults;i<=MAX_ALIAS_UPDATES_PER_BLOCK*2;i++)
-			vecSend.push_back(aliasPaymentRecipient);
-	}
+	// since we used some payment utxo's we need to add more outputs for subsequent transactions(for fees)
+	for(unsigned int i =numPaymentResults;i<numPaymentResults <= 0? MAX_ALIAS_UPDATES_PER_BLOCK: MAX_ALIAS_UPDATES_PER_BLOCK+1;i++)
+		vecSend.push_back(aliasPaymentRecipient);
+	
+
 	// get total output required
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew2, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
         throw runtime_error(strError);
