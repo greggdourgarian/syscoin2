@@ -500,7 +500,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	param.push_back(stringFromVch(vchAlias));
 	const UniValue &result = tableRPC.execute("aliasbalance", param);
 
-	if(AmountFromValue(result) >= std::max(nTotal, nRequiredFeePlaceholderFunds))
+	if(AmountFromValue(result) >= 0)
 	{
 		// if not new alias
 		if(numResults > 0)
