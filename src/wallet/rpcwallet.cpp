@@ -523,13 +523,13 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		}
 		vector<COutPoint> outPoints;
 		aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false);
-		if(!bIsAliasPaymentFunded)
-			throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
+		//if(!bIsAliasPaymentFunded)
+		//	throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 			coinControl->Select(outpoint);
 	}
-	else if(!bAreFeePlaceholdersFunded && numResults > 0)
-		throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9001 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(std::max(nTotal, nRequiredFeePlaceholderFunds)).write());
+	//else if(!bAreFeePlaceholdersFunded && numResults > 0)
+	//	throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9001 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(std::max(nTotal, nRequiredFeePlaceholderFunds)).write());
 
 	// now create the transaction and sign it with hopefully enough funding from alias utxo's (if coinControl specified fAllowOtherInputs(true) then and only then are wallet inputs are allowed)
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
