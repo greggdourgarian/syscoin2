@@ -489,7 +489,14 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 			coinControl->Select(outpoint);	
 	}
-
+	if(numResults <= 0)
+	{
+		if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
+			numFeePlaceholders = MAX_ALIAS_UPDATES_PER_BLOCK-1;
+		// for the alias utxo (1 per transaction is used)
+		for(unsigned int i =numFeePlaceholders;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+			vecSend.push_back(aliasFeePlaceholderRecipient);
+	}
 	// step 3
 	UniValue param(UniValue::VARR);
 	param.push_back(stringFromVch(vchAlias));
@@ -497,11 +504,14 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 
 	if(AmountFromValue(result) >= std::max(nTotal, nRequiredFeePlaceholderFunds))
 	{
-		if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
-			numFeePlaceholders = MAX_ALIAS_UPDATES_PER_BLOCK-1;
-		// for the alias utxo (1 per transaction is used)
-		for(unsigned int i =numFeePlaceholders;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-			vecSend.push_back(aliasFeePlaceholderRecipient);
+		if(numResults > 0)
+		{
+			if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
+				numFeePlaceholders = MAX_ALIAS_UPDATES_PER_BLOCK-1;
+			// for the alias utxo (1 per transaction is used)
+			for(unsigned int i =numFeePlaceholders;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+				vecSend.push_back(aliasFeePlaceholderRecipient);
+		}
 
 		// get total output required
 		if (!pwalletMain->CreateTransaction(vecSend, wtxNew2, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
