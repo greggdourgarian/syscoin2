@@ -492,8 +492,8 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 
 	// step 3
 	UniValue param(UniValue::VARR);
-	param.push_back(vchAlias);
-	const UniValue &result = aliasbalance(param);
+	param.push_back(stringFromVch(vchAlias));
+	const UniValue &result = tableRPC.execute("aliasbalance", param);
 
 	if(AmountFromValue(result) >= std::max(nTotal, nRequiredFeePlaceholderFunds))
 	{
