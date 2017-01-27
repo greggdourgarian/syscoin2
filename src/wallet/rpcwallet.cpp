@@ -489,12 +489,10 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 			coinControl->Select(outpoint);	
 	}
+	// if new alias
 	if(numResults <= 0)
 	{
-		if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
-			numFeePlaceholders = MAX_ALIAS_UPDATES_PER_BLOCK-1;
-		// for the alias utxo (1 per transaction is used)
-		for(unsigned int i =numFeePlaceholders;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 			vecSend.push_back(aliasFeePlaceholderRecipient);
 	}
 	// step 3
@@ -504,6 +502,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 
 	if(AmountFromValue(result) >= std::max(nTotal, nRequiredFeePlaceholderFunds))
 	{
+		// if not new alias
 		if(numResults > 0)
 		{
 			if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
