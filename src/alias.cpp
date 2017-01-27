@@ -1695,7 +1695,7 @@ void CreateAliasRecipient(const CScript& scriptPubKeyDest, const vector<unsigned
 	nFee = std::max(nFee, nPayFee);
 	recipient.nAmount = nFee;
 }
-void CreateFeeRecipient(const CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
+void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
 {
 	int precision = 0;
 	CAmount nFee = 0;
