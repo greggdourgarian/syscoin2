@@ -37,7 +37,7 @@ CCertDB *pcertdb = NULL;
 CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
 extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useAliasPaymentToFund=false);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useAliasPaymentToFund=false, bool transferAlias=false);
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
 	if(nHeight < 0 || nHeight > chainActive.Height())
@@ -1771,65 +1771,6 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	return res;
 
 }
-void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript& scriptPubKeyTo, vector<CRecipient> &vecSend){
-
-	LOCK(cs_main);
-	CAmount nAmount = 0;
-	std::vector<CAliasPayment> vtxPaymentPos;
-	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
-		return;
-	
-	CAliasIndex theAlias;
-	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
-		return;
-
-	CSyscoinAddress addressFrom;
-	GetAddress(theAlias, &addressFrom);
-
-	CCoinsViewCache view(pcoinsTip);
-	const CCoins *coins;
-	CTxDestination payDest;
-	CSyscoinAddress destaddy;
-  	int op;
-	vector<vector<unsigned char> > vvch;
-	// get all alias inputs and transfer them to the new alias destination
-    for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
-    {
-		const CAliasPayment& aliasPayment = vtxPaymentPos[i];
-		coins = view.AccessCoins(aliasPayment.txHash);
-		if(coins == NULL)
-			continue;
-     
-		if(!coins->IsAvailable(aliasPayment.nOut))
-			continue;
-		if(!DecodeAliasScript(coins->vout[aliasPayment.nOut].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias)
-			continue;  
-		if(vvch.size() > 1 && vvch[1] == vchFromString("1"))
-			continue;
-		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
-			continue;
-		destaddy = CSyscoinAddress(payDest);
-        if (destaddy.ToString() == addressFrom.ToString())
-		{  
-			auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
-			if (it != mempool.mapNextTx.end())
-				continue;
-			nAmount += coins->vout[aliasPayment.nOut].nValue;
-		}	
-		
-    }
-	if(nAmount > 0)
-	{
-		CScript scriptChangeOrig;
-		CRecipient recipientPayment;
-		scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
-		scriptChangeOrig += scriptPubKeyTo;
-		CreateAliasRecipient(scriptPubKeyTo, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
-		CRecipient recipient  = {scriptChangeOrig, nAmount, true};
-		vecSend.push_back(recipient);
-	}
-}
 bool CheckParam(const UniValue& params, const unsigned int index)
 {
 	return (params.size() > index && params[index].get_str().size() > 0 && params[index].get_str() != "\"\"");
@@ -2276,13 +2217,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
 	bool useAliasPaymentToFund = false;
+	bool transferAlias = false;
 	if(newAddress.ToString() != oldAddress.ToString())
-	{
-		TransferAliasBalances(vchAlias, scriptPubKeyOrig, vecSend);
-		useAliasPaymentToFund = true;
-	}	
+		transferAlias = true;
+	
 
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, copyAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl, useAliasPaymentToFund);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, copyAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl, useAliasPaymentToFund, transferAlias);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
 	{
@@ -2751,7 +2691,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     }
     return  ValueFromAmount(nAmount);
 }
-unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly)
+unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll)
 {
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
@@ -2807,7 +2747,7 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
 			numResults++;
-			if(!bIsFunded)
+			if(!bIsFunded || bSelectAll)
 			{
 				auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
 				if (it != mempool.mapNextTx.end())
