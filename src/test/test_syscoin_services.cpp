@@ -590,6 +590,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
 	CKey privKey;
 	privKey.MakeNewKey(true);
@@ -641,7 +642,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	// check xferred right person and data changed
 	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "aliasinfo " + aliasname));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceAfter, 0);
+	BOOST_CHECK(balanceAfter >= (balanceBefore-COIN));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
 	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);

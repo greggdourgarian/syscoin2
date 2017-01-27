@@ -459,12 +459,14 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	unsigned int numResults = aliasunspent(vchAlias, aliasOutPoint);
 	if(numResults > 0 && numResults >= MAX_ALIAS_UPDATES_PER_BLOCK)
 		numResults = MAX_ALIAS_UPDATES_PER_BLOCK-1;
+	if(transferAlias)
+		numResults = 0;
 	// for the alias utxo (1 per transaction is used)
 	for(unsigned int i =numResults;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
-	// if new alias
+	// if new alias or transferring alias
 	if(numResults <= 0)
 	{
 		for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
@@ -493,7 +495,9 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		vector<COutPoint> outPoints;
 		numFeePlaceholders = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true, transferAlias);
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
+		{
 			coinControl->Select(outpoint);	
+		}
 	}
 	// step 3
 	UniValue param(UniValue::VARR);
@@ -507,12 +511,11 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		{
 			if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
 				numFeePlaceholders = MAX_ALIAS_UPDATES_PER_BLOCK-1;
-			if(transferAlias)
-				numFeePlaceholders = 0;
-
 			// for the alias utxo (1 per transaction is used)
 			for(unsigned int i =numFeePlaceholders;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+			{
 				vecSend.push_back(aliasFeePlaceholderRecipient);
+			}
 		}
 
 		// get total output required
@@ -547,7 +550,9 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		if(!bIsAliasPaymentFunded)
 			throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
+		{
 			coinControl->Select(outpoint);
+		}
 	}
 	//else if(!bAreFeePlaceholdersFunded && numResults > 0)
 	//	throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9001 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(std::max(nTotal, nRequiredFeePlaceholderFunds)).write());

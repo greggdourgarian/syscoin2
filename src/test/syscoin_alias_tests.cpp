@@ -77,22 +77,22 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	GenerateBlocks(10, "node1");
 	GenerateBlocks(10, "node1");
 
-	AliasTransfer("node1", "jagmultiupdate", "node2", "changeddata5", "pvtdata2");
+	AliasTransfer("node1", "jagmultiupdate", "node2", "changeddata2", "pvtdata2");
 
 	// after transfer it can't update alias even though there are utxo's available from old owner
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata3"), runtime_error);
 
 	// new owner can update
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b"));
-	// on transfer only 1 utxo available, to create more you have to run through an update first with a confirmation
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b"), runtime_error);
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata4"));
+
 	// after generation MAX_ALIAS_UPDATES_PER_BLOCK utxo's should be available
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1b"));
+		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata5"));
 
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata6"), runtime_error);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	// try transfers and updates in parallel
@@ -105,19 +105,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK(pubKey.IsFullyValid());
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
 
+	// transfer sends utxo's to new owner
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata7 \"\" \"\" " + HexStr(vchPubKey)));
+	// ensure can't update after transfer
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8"), runtime_error);
+	GenerateBlocks(10, "node2");
+	GenerateBlocks(10, "node2");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-	{
-		if((i%2) == 0)
-		{
-			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1"));
-		}
-		else
-		{
-			BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata1 \"\" \"\" " + HexStr(vchPubKey)));
-		}
-
-	}
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10b"), runtime_error);
+		BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata9"));
+	
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata10"), runtime_error);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 }
