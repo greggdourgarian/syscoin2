@@ -1675,7 +1675,7 @@ void CreateRecipient(const CScript& scriptPubKey, CRecipient& recipient)
 	CAmount nFee = CWallet::GetMinimumFee(nSize, nTxConfirmTarget, mempool);
 	recipient.nAmount = nFee;
 }
-void CreateAliasRecipient(CScript& scriptPubKeyDest, const vector<unsigned char>& vchAlias, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, CRecipient& recipient)
+void CreateAliasRecipient(const CScript& scriptPubKeyDest, const vector<unsigned char>& vchAlias, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, CRecipient& recipient)
 {
 	int precision = 0;
 	CAmount nFee = 0;
@@ -1695,7 +1695,7 @@ void CreateAliasRecipient(CScript& scriptPubKeyDest, const vector<unsigned char>
 	nFee = std::max(nFee, nPayFee);
 	recipient.nAmount = nFee;
 }
-void CreateFeeRecipient(CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
+void CreateFeeRecipient(const CScript& scriptPubKey, const vector<unsigned char>& vchAliasPeg, const uint64_t& nHeight, const vector<unsigned char>& data, CRecipient& recipient)
 {
 	int precision = 0;
 	CAmount nFee = 0;
@@ -1822,9 +1822,9 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 	if(nAmount > 0)
 	{
 		CScript scriptChangeOrig;
+		CRecipient recipientPayment;
 		scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
 		scriptChangeOrig += scriptPubKeyTo;
-		CRecipient recipientPayment;
 		CreateAliasRecipient(scriptPubKeyTo, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
 		CRecipient recipient  = {scriptChangeOrig, nAmount-recipientPayment.nAmount, false};
 		vecSend.push_back(recipient);
@@ -2801,7 +2801,7 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
 			numResults++;
-			if(!funded)
+			if(!bIsFunded)
 			{
 				auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
 				if (it != mempool.mapNextTx.end())
