@@ -464,6 +464,12 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
+	// if new alias
+	if(numResults <= 0)
+	{
+		for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+			vecSend.push_back(aliasFeePlaceholderRecipient);
+	}
 	CWalletTx wtxNew1, wtxNew2;
 	// get total output required
 	if (!pwalletMain->CreateTransaction(vecSend, wtxNew1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
@@ -488,12 +494,6 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		numFeePlaceholders = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true);
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 			coinControl->Select(outpoint);	
-	}
-	// if new alias
-	if(numResults <= 0)
-	{
-		for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-			vecSend.push_back(aliasFeePlaceholderRecipient);
 	}
 	// step 3
 	UniValue param(UniValue::VARR);
