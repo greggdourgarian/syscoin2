@@ -1824,8 +1824,9 @@ void TransferAliasBalances(const vector<unsigned char> &vchAlias, const CScript&
 		CScript scriptChangeOrig;
 		scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchAlias << OP_2DROP;
 		scriptChangeOrig += scriptPubKeyTo;
-		
-		CRecipient recipient  = {scriptChangeOrig, nAmount, false};
+		CRecipient recipientPayment;
+		CreateAliasRecipient(scriptPubKeyTo, theAlias.vchAlias, theAlias.vchAliasPeg, chainActive.Tip()->nHeight, recipientPayment);
+		CRecipient recipient  = {scriptChangeOrig, nAmount-recipientPayment.nAmount, false};
 		vecSend.push_back(recipient);
 	}
 }
@@ -2744,7 +2745,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     }
     return  ValueFromAmount(nAmount);
 }
-unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool selectAliasUTXO)
+unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly)
 {
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
@@ -2769,7 +2770,7 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 	vector<vector<unsigned char> > vvch;
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
-	bool funded = false;
+	bIsFunded = false;
 	// get all alias inputs and transfer them to the new alias destination
     for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
@@ -2786,13 +2787,13 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 		{
 			if(vvch[1] == vchFromString("1"))
 			{
-				if(!selectAliasUTXO)
+				if(!bSelectFeePlacementOnly)
 					continue;
 			}
-			else if(selectAliasUTXO)
+			else if(bSelectFeePlacementOnly)
 				continue;
 		}
-		else if(selectAliasUTXO)
+		else if(bSelectFeePlacementOnly)
 			continue;
 		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
 			continue;
@@ -2808,10 +2809,13 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 				outPoints.push_back(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
 				nCurrentAmount += coins->vout[aliasPayment.nOut].nValue;
 				if(nCurrentAmount >= nDesiredAmount)
-					funded = true;
+					bIsFunded = true;
 			}
 		}		
     }
+	nRequiredAmount = nDesiredAmount - nCurrentAmount;
+	if(nRequiredAmount < 0)
+		nRequiredAmount = 0;
 	return numResults;
 }
 int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
