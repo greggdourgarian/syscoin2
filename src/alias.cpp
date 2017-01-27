@@ -2721,6 +2721,8 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 	const CCoins *coins;
 	CTxDestination payDest;
 	CSyscoinAddress destaddy;
+  	int op;
+	vector<vector<unsigned char> > vvch;
 	// get all alias inputs and transfer them to the new alias destination
     for (unsigned int i = 0;i<vtxPaymentPos.size();i++)
     {
@@ -2731,6 +2733,10 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		if(!coins->IsAvailable(aliasPayment.nOut))
 			continue;
 		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
+			continue;
+		if(!DecodeAliasScript(coins->vout[aliasPayment.nOut].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias)
+			continue;  
+		if(vvch.size() > 1 && vvch[1] == vchFromString("1"))
 			continue;
 		destaddy = CSyscoinAddress(payDest);
 		if (destaddy.ToString() == addressFrom.ToString())
