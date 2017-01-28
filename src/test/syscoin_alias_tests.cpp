@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	balanceBefore += 90.55*COIN;
+	balanceBefore += 80.55*COIN;
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
 	// edit password and see balance is same

@@ -2896,9 +2896,8 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 
 	UniValue balanceParams(UniValue::VARR);
 	balanceParams.push_back(stringFromVch(alias.vchAlias));
-	const UniValue &resBalance = tableRPC.execute("aliasbalance", balanceParams);
-	CAmount nAliasBalance = AmountFromValue(resBalance);
-	oName.push_back(Pair("balance", ValueFromAmount(nAliasBalance)));
+	const UniValue &resBalance = aliasbalance(balanceParams, false);
+	oName.push_back(Pair("balance", resBalance));
 
 	oName.push_back(Pair("ismine", IsMyAlias(alias)? true:  false));
 	oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
