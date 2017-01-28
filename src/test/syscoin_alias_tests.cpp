@@ -347,11 +347,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
-	// transfer alias to someone else and balance should be 0
+	// transfer alias to someone else and balance should be same
 	AliasTransfer("node2", "jagnodebalance2", "node3", "changeddata4", "pvtdata");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
 	CAmount balanceAfterTransfer = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceAfterTransfer, 0);
+	BOOST_CHECK(balanceAfterTransfer >= (balanceBefore-COIN));
 
 	// send money to alias and balance updates
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance2 12.1"), runtime_error);
@@ -359,19 +359,19 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo jagnodebalance2"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceAfter, 12.1*COIN);
+	BOOST_CHECK_EQUAL(balanceAfter, 12.1*COIN+balanceAfterTransfer);
 
 	// edit and balance should remain the same
 	AliasUpdate("node3", "jagnodebalance2", "pubdata1", "privdata1", "No", "newpassword");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK(abs(12.1*COIN -  balanceAfter) < COIN);
+	BOOST_CHECK(abs((12.1*COIN+balanceAfterTransfer) -  balanceAfter) < COIN);
 
-	// transfer again and balance is 0 again
+	// transfer again and balance is same
 	AliasTransfer("node3", "jagnodebalance2", "node2", "changeddata4", "pvtdata");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceAfter, 0);
+	BOOST_CHECK(balanceAfter >= (12.1*COIN+balanceAfterTransfer)-COIN);
 
 }
 BOOST_AUTO_TEST_CASE (generate_multisigalias)
