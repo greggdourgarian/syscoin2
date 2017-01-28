@@ -2697,6 +2697,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
 	int numCoinsLeft = 0;
+	int numResults = 0;
 	CAmount nCurrentAmount = 0;
 	CAmount nDesiredAmount = nAmount;
 	outPoints.clear();
@@ -2746,12 +2747,12 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 		destaddy = CSyscoinAddress(payDest);
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
+			auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
+			if (it != mempool.mapNextTx.end())
+				continue;
+			numResults++;
 			if(!bIsFunded || bSelectAll)
 			{
-				auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
-				if (it != mempool.mapNextTx.end())
-					continue;
-				numCoinsLeft++;
 				outPoints.push_back(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
 				nCurrentAmount += coins->vout[aliasPayment.nOut].nValue;
 				if(nCurrentAmount >= nDesiredAmount)
@@ -2762,6 +2763,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	nRequiredAmount = nDesiredAmount - nCurrentAmount;
 	if(nRequiredAmount < 0)
 		nRequiredAmount = 0;
+	numCoinsLeft = numResults;
 	return numCoinsLeft;
 }
 int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
