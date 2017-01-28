@@ -2763,7 +2763,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	nRequiredAmount = nDesiredAmount - nCurrentAmount;
 	if(nRequiredAmount < 0)
 		nRequiredAmount = 0;
-	numCoinsLeft = numResults;
+	numCoinsLeft = numResults - (int)outPoints.size();
 	return numCoinsLeft;
 }
 int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
