@@ -287,7 +287,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	AliasNew("node2", "jagnodebalance1", "password", "changeddata1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, 0);
+	BOOST_CHECK_EQUAL(balanceBefore, 10*COIN);
 
 	// send money to alias and check balance is updated
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodebalance1 1.5"), runtime_error);
@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance1"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	balanceBefore += 80.55*COIN;
+	balanceBefore += 90.55*COIN;
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
 	// edit password and see balance is same
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 	AliasNew("node2", "jagnodebalance2", "password", "changeddata1");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodebalance2"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, 0);
+	BOOST_CHECK_EQUAL(balanceBefore, 10*COIN);
 
 	// send money to alias and check balance
 
