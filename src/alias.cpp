@@ -2696,7 +2696,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
-	int numCoinsLeft = -1;
+	int numCoinsLeft = 0;
 	CAmount nCurrentAmount = 0;
 	CAmount nDesiredAmount = nAmount;
 	outPoints.clear();
@@ -2704,13 +2704,13 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
 	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
-		return numCoinsLeft;
+		return -1;
 
 	CSyscoinAddress addressFrom;
 	GetAddress(theAlias, &addressFrom);
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
-		return numCoinsLeft;
+		return -1;
 	
   	int op;
 	vector<vector<unsigned char> > vvch;
