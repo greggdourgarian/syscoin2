@@ -489,12 +489,11 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	CAmount nRequiredPaymentFunds=0;
 	bool bAreFeePlaceholdersFunded = false;
 	bool bIsAliasPaymentFunded = false;
-	unsigned int numFeePlaceholders = 0;
 	int numFeeCoinsLeft = -1;
 	if(!useAliasPaymentToFund)
 	{
 		vector<COutPoint> outPoints;
-		numFeePlaceholders = aliasselectpaymentcoins(vchAlias, nTotal, numFeeCoinsLeft, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true, transferAlias);
+		numFeeCoinsLeft = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true, transferAlias);
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 		{
 			coinControl->Select(outpoint);	
@@ -549,8 +548,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		if(bNeedAliasPaymentInputs)
 		{
 			vector<COutPoint> outPoints;
-			unsigned int numCoinsLeft = 0;
-			aliasselectpaymentcoins(vchAlias, nTotal, numCoinsLeft, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false);
+			aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false);
 			if(!bIsAliasPaymentFunded)
 				throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
 			BOOST_FOREACH(const COutPoint& outpoint, outPoints)

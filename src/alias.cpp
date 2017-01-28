@@ -2691,27 +2691,26 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     }
     return  ValueFromAmount(nAmount);
 }
-unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, unsigned int &numCoinsLeft, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll)
+int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll)
 {
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
 	const CCoins *coins;
-	numCoinsLeft = 0;
+	int numCoinsLeft = -1;
 	CAmount nCurrentAmount = 0;
-	int numResults = 0;
 	CAmount nDesiredAmount = nAmount;
 	outPoints.clear();
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
 	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
-		return 0;
+		return numCoinsLeft;
 
 	CSyscoinAddress addressFrom;
 	GetAddress(theAlias, &addressFrom);
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
-		return 0;
+		return numCoinsLeft;
 	
   	int op;
 	vector<vector<unsigned char> > vvch;
@@ -2747,7 +2746,6 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 		destaddy = CSyscoinAddress(payDest);
 		if (destaddy.ToString() == addressFrom.ToString())
 		{  
-			numResults++;
 			if(!bIsFunded || bSelectAll)
 			{
 				auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
@@ -2764,7 +2762,7 @@ unsigned int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, cons
 	nRequiredAmount = nDesiredAmount - nCurrentAmount;
 	if(nRequiredAmount < 0)
 		nRequiredAmount = 0;
-	return numResults;
+	return numCoinsLeft;
 }
 int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 {
