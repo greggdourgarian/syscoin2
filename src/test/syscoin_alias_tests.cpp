@@ -114,8 +114,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata9"));
 	
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata10"), runtime_error);
-	GenerateBlocks(10, "node2");
-	GenerateBlocks(10, "node2");
+	GenerateBlocks(10, "node1");
+	GenerateBlocks(10, "node1");
+	AliasUpdate("node1", "jagmultiupdate", "changeddata11", "privdata");
 }
 
 BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)

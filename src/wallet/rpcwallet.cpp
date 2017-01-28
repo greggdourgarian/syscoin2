@@ -466,12 +466,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		vecSend.push_back(aliasRecipient);
 	if(!aliasOutPoint.IsNull())
 		coinControl->Select(aliasOutPoint);
-	// if new alias or transferring alias
-	if(numResults <= 0)
-	{
-		for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
-			vecSend.push_back(aliasFeePlaceholderRecipient);
-	}
+
 	CWalletTx wtxNew1, wtxNew2;
 	// get total output required
 	if (!pwalletMain->CreateTransaction(vecSend, wtxNew1, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
@@ -506,11 +501,9 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	CAmount nBalance = AmountFromValue(result);
 	if(nBalance > 0)
 	{
-		// if fee placement utxo's have been used up or required amount of funds is more than the fee placeholders combined then use balance for funding
-		// as well as create more fee placeholders
-		bool bNeedAliasPaymentInputs = nRequiredFeePlaceholderFunds > 0 || (numFeeCoinsLeft <= 1 && numFeeCoinsLeft >= 0);
-		// if not new alias and not xfer alias
-		if(numResults > 0 && bNeedAliasPaymentInputs)
+		// if fee placement utxo's have been used up use balance for funding as well as create more fee placeholders
+		bool bNeedAliasPaymentInputs = numFeeCoinsLeft == 0;
+		if(bNeedAliasPaymentInputs)
 		{
 			for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 			{
