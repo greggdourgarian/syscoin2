@@ -506,16 +506,14 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	CAmount nBalance = AmountFromValue(result);
 	if(nBalance > 0)
 	{
-		// if not new alias
-		if(numResults > 0)
+		bool bNeedAliasPaymentInputs = nRequiredFeePlaceholderFunds > 0 || numFeePlaceholders <= 0;
+		// if not new alias and not xfer alias
+		if(numResults > 0 && bNeedAliasPaymentInputs)
 		{
-			if(numFeePlaceholders > 0 && numFeePlaceholders >= MAX_ALIAS_UPDATES_PER_BLOCK)
-				numFeePlaceholders = MAX_ALIAS_UPDATES_PER_BLOCK-1;
-			// for the alias utxo (1 per transaction is used)
-			for(unsigned int i =numFeePlaceholders;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+			for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 			{
 				vecSend.push_back(aliasFeePlaceholderRecipient);
-			}
+			}	
 		}
 
 		// get total output required
@@ -539,19 +537,22 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 				CRecipient recipient  = {scriptChangeOrig, nBalance-nTotal-nFeeRequired, false};
 				if(recipient.nAmount > 0)
 				{
+					bNeedAliasPaymentInputs = true;
 					vecSend.push_back(recipient);
 					nTotal += recipient.nAmount;
 				}
 			}
 		}
-
-		vector<COutPoint> outPoints;
-		aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false);
-		if(!bIsAliasPaymentFunded)
-			throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
-		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
+		if(bNeedAliasPaymentInputs)
 		{
-			coinControl->Select(outpoint);
+			vector<COutPoint> outPoints;
+			aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false);
+			if(!bIsAliasPaymentFunded)
+				throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
+			BOOST_FOREACH(const COutPoint& outpoint, outPoints)
+			{
+				coinControl->Select(outpoint);
+			}
 		}
 	}
 	//else if(!bAreFeePlaceholdersFunded && numResults > 0)
