@@ -439,7 +439,7 @@ When to pay with this method:
 	- every time
 
 1) pay with utxo, create up to 5 total new outputs
-2) If not escrow, offer accept or changing an alias address (use useAliasPaymentToFund flag for this)
+2) If not escrow, offer accept(useOnlyAliasPaymentToFund) or alias transfer
 	2a) Get fee placeholders, if transaction is is not funded save amount required and goto step 3.
 	2b) transaction completely funded
 3) if alias balance is non zero
@@ -447,7 +447,7 @@ When to pay with this method:
 	3b) use total amount + required amount from 2a (if non zero) to find outputs in alias balance, if not enough balance throw error
 	3c) transaction completely funded
 4) if transaction completely funded, try to sign and send to network*/
-void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasFeePlaceholderRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useAliasPaymentToFund=false, bool transferAlias=false)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasFeePlaceholderRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false)
 {
 
     CReserveKey reservekey(pwalletMain);
@@ -485,7 +485,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	bool bAreFeePlaceholdersFunded = false;
 	bool bIsAliasPaymentFunded = false;
 	int numFeeCoinsLeft = -1;
-	if(!useAliasPaymentToFund)
+	if(!useOnlyAliasPaymentToFund)
 	{
 		vector<COutPoint> outPoints;
 		numFeeCoinsLeft = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true, transferAlias);
