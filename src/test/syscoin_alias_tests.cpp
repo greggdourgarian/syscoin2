@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
 	// transfer sends utxo's to new owner
-	AliasTransfer("node2", "jagmultiupdate", "node1", "changeddata7");
+	AliasTransfer("node2", "jagmultiupdate", "node1", "changeddata7", "");
 	// ensure can't update after transfer
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8"), runtime_error);
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
