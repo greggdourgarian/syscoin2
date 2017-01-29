@@ -698,9 +698,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		string pwStr = password;
 		SecureString scpassword = pwStr.c_str();
 		BOOST_CHECK(crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1));
-			
 		CKey privKey;
-		privKey.MakeNewKey(true);
+		privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 		CPubKey pubKey = privKey.GetPubKey();
 		vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
 		vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
