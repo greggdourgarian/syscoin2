@@ -95,21 +95,10 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata6"), runtime_error);
 	GenerateBlocks(10, "node2");
 	GenerateBlocks(10, "node2");
-	CKey privKey;
-	privKey.MakeNewKey(true);
-	CPubKey pubKey = privKey.GetPubKey();
-	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
-	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
-	
-	BOOST_CHECK(pubKey.IsFullyValid());
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
-
 	// transfer sends utxo's to new owner
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata7 \"\" \"\" " + HexStr(vchPubKey)));
+	AliasTransfer("node2", "jagmultiupdate", "node1", "changeddata7");
 	// ensure can't update after transfer
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagmultiupdate changedata8"), runtime_error);
-	GenerateBlocks(10, "node2");
-	GenerateBlocks(10, "node2");
 	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
 		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata9"));
 	
