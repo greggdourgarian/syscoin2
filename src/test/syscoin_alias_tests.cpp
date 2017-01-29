@@ -60,8 +60,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	// update an alias that isn't yours
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagupdate test"), runtime_error);
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
-	// shouldnt update data, just uses prev data because it hasnt changed
-	AliasUpdate("node1", "jagupdate", "changeddata", "privdata", "newpass");
+	// update password
+	AliasUpdate("node1", "jagupdate", "changeddata", "privdata", "No", "newpass");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
