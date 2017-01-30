@@ -50,18 +50,21 @@ BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
 	string baddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";	
 		
 	AliasNew("node1", "aliasname", gooddata, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + baddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + baddata + " " + "pubdata"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
 	printf("Running generate_aliasupdate...\n");
 	GenerateBlocks(1);
 	AliasNew("node1", "jagupdate", "password", "data");
+	AliasNew("node1", "jagupdate1", "password", "data");
 	// update an alias that isn't yours
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagupdate test"), runtime_error);
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
+	AliasUpdate("node1", "jagupdate1", "changeddata", "privdata");
 	// update password
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata", "No", "newpass");
+	AliasUpdate("node1", "jagupdate1", "changeddata", "privdata", "No", "newpass");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
