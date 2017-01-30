@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
 	string baddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";	
 		
 	AliasNew("node1", "aliasname", gooddata, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 pw " + baddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + baddata), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
@@ -422,9 +422,9 @@ BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
 	UniValue r;
 	GenerateBlocks(1);
 	// alias is safe to search
-	AliasNew("node1", "jagsafesearch", "pubdata", "password", "privdata", "Yes");
+	AliasNew("node1", "jagsafesearch", "password", "pubdata", "privdata", "Yes");
 	// not safe to search
-	AliasNew("node1", "jagnonsafesearch", "pubdata", "password", "privdata", "No");
+	AliasNew("node1", "jagnonsafesearch", "password", "pubdata", "privdata", "No");
 	// should include result in both safe search mode on and off
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "On"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "Off"), true);
