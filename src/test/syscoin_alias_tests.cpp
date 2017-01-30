@@ -113,12 +113,17 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 	printf("Running generate_sendmoneytoalias...\n");
 	GenerateBlocks(5, "node2");
 	AliasNew("node2", "sendnode2", "password", "changeddata2");
+	AliasNew("node3", "sendnode3", "password", "changeddata2");
 	UniValue r;
 	// get balance of node2 first to know we sent right amount oater
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode2"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	string node2address = find_value(r.get_obj(), "address").get_str();
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress sendnode2 1.335"), runtime_error);
 	GenerateBlocks(1);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode3"));
+	string node3address = find_value(r.get_obj(), "address").get_str();
+
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo sendnode2"));
 	balanceBefore += 1.335*COIN;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -132,6 +137,11 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
+	// pay to node2/node3 wallets for alias funding for tests
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + node2addres + " 500000"), runtime_error);
+	GenerateBlocks(10;
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + node3addres + " 500000"), runtime_error);
+	GenerateBlocks(10;
 
 }
 BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
