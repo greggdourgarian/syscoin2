@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (generate_sendmoneytoalias)
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + node2address + " 500000"), runtime_error);
 	GenerateBlocks(10);
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + node3address + " 500000"), runtime_error);
-	GenerateBlocks(10;
+	GenerateBlocks(10);
 
 }
 BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
