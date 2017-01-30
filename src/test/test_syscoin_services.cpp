@@ -544,9 +544,9 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + strPasswordHex + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + acceptTransfers +  " " + expireTime + " " + numreq  + " " + multisig + " " + HexStr(vchPubKey) + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex + " " + HexStr(vchPubEncryptionKey)));
-	GenerateBlocks(5, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname + " 10"), runtime_error);
-	GenerateBlocks(5, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
 	const string &passwordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
