@@ -74,7 +74,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
 	UniValue r;
 	AliasNew("node1", "jagmultiupdate", "password", "data");
 	AliasUpdate("node1", "jagmultiupdate", "changeddata", "privdata");
-	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
+	// can do 5 free updates, 1 above and 4 below
+	for(unsigned int i=0;i<MAX_ALIAS_UPDATES_PER_BLOCK-1;i++)
 		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagmultiupdate changedata1"));
 
 	GenerateBlocks(10, "node1");
