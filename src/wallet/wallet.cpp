@@ -1871,7 +1871,7 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
 				{
 					int op;
 					vector<vector<unsigned char> > vvchArgs;
-					if(!coinControl || !coinControl->IsSelected(COutPoint((*it).first, i)))
+					if(!coinControl || !coinControl->IsSelected(COutPoint((*it).first, i)) || coinControl->fAllowOtherInputs)
 					{
 						if (IsSyscoinScript(pcoin->vout[i].scriptPubKey, op, vvchArgs))
 							continue;
