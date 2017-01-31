@@ -500,7 +500,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	const UniValue &result = tableRPC.execute("aliasbalance", param);
 	CAmount nBalance = AmountFromValue(result);
 	// if fee placement utxo's have been used up (or we are creating a new alias) use balance(alias or wallet) for funding as well as create more fee placeholders
-	bool bNeedAliasPaymentInputs = numFeeCoinsLeft == 0;
+	bool bNeedAliasPaymentInputs = numFeeCoinsLeft == 0 || numResults <= 0;
 	if(bNeedAliasPaymentInputs)
 	{
 		for(unsigned int i =0;i<MAX_ALIAS_UPDATES_PER_BLOCK;i++)
@@ -549,8 +549,8 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 			}
 		}
 	}
-	//else if(!bAreFeePlaceholdersFunded && numResults > 0)
-	//	throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9001 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(std::max(nTotal, nRequiredFeePlaceholderFunds)).write());
+	else if(!bAreFeePlaceholdersFunded && numResults > 0)
+		throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9001 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(std::max(nTotal, nRequiredFeePlaceholderFunds)).write());
 
 	// now create the transaction and sign it with hopefully enough funding from alias utxo's (if coinControl specified fAllowOtherInputs(true) then and only then are wallet inputs are allowed)
     if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
