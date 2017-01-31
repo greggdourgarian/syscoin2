@@ -1866,6 +1866,17 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 continue;
 
             for (unsigned int i = 0; i < pcoin->vout.size(); i++) {
+				// SYSCOIN txs are unspendable by wallet by default unless using coincontrol
+				if(pcoin->nVersion == GetSyscoinTxVersion())
+				{
+					int op;
+					vector<vector<unsigned char> > vvchArgs;
+					if(!coinControl || !coinControl->IsSelected(COutPoint((*it).first, i))
+					{
+						if (IsSyscoinScript(pcoin->vout[i].scriptPubKey, op, vvchArgs))
+							continue;
+					}
+				}
                 isminetype mine = IsMine(pcoin->vout[i]);
                 if (!(IsSpent(wtxid, i)) && mine != ISMINE_NO &&
                     !IsLockedCoin((*it).first, i) && (pcoin->vout[i].nValue > 0 || fIncludeZeroValue) &&
@@ -1955,14 +1966,6 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 
         int i = output.i;
         CAmount n = pcoin->vout[i].nValue;
-		// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
-		if(pcoin->nVersion == GetSyscoinTxVersion())
-		{
-			int op;
-			vector<vector<unsigned char> > vvchArgs;
-			if (pcoin->vout.size() >= i && IsSyscoinScript(pcoin->vout[i].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
-				continue;
-		}
         pair<CAmount,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin, i));
 
         if (n == nTargetValue)
@@ -2073,7 +2076,6 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 			{
 				int op;
 				vector<vector<unsigned char> > vvchArgs;
-				// anything but a payment can't spend it
 				if (pcoin->vout.size() >= outpoint.n && IsSyscoinScript(pcoin->vout[outpoint.n].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
 					continue;
 			}

@@ -2678,6 +2678,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 			continue;
 		if(!DecodeAliasScript(coins->vout[aliasPayment.nOut].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias)
 			continue;  
+		// some outputs are reserved to pay for fees only
 		if(vvch.size() > 1 && vvch[1] == vchFromString("1"))
 			continue;
 		destaddy = CSyscoinAddress(payDest);
