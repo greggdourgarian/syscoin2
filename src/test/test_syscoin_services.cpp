@@ -365,7 +365,7 @@ void CreateSysBanIfNotExist()
 {
 	string data = "{}";
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg sysban password " + data));
- 	GenerateBlocks(5, node);
+ 	GenerateBlocks(5, "node1");
 }
 void CreateSysCategoryIfNotExist()
 {
