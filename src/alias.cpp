@@ -2707,7 +2707,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, true))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
 		return -1;
 
 	CSyscoinAddress addressFrom;
