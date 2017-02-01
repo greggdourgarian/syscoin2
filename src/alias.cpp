@@ -2776,7 +2776,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
 	bool isExpired = false;
-	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired, true))
+	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired))
 		return 0;
 	CSyscoinAddress destaddy;
 	GetAddress(theAlias, &destaddy);
