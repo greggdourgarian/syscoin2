@@ -298,7 +298,14 @@ void GenerateBlocks(int nBlocks, const string& node)
   while(!otherNode1.empty() && height < newHeight)
   {
 	  MilliSleep(100);
-	  r = CallRPC(otherNode1, "getinfo");
+	  try
+	  {
+		r = CallRPC(otherNode1, "getinfo");
+	  }
+	  catch(runtime_error &e)
+	  {
+		r = NullUniValue;
+	  }
 	  if(!r.isObject())
 	  {
 		 height = newHeight;
@@ -316,7 +323,14 @@ void GenerateBlocks(int nBlocks, const string& node)
   while(!otherNode2.empty() &&height < newHeight)
   {
 	  MilliSleep(100);
-	  r = CallRPC(otherNode2, "getinfo");
+	  try
+	  {
+		r = CallRPC(otherNode2, "getinfo");
+	  }
+	  catch(runtime_error &e)
+	  {
+		r = NullUniValue;
+	  }
 	  if(!r.isObject())
 	  {
 		 height = newHeight;
