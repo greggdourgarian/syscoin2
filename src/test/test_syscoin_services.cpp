@@ -325,47 +325,40 @@ void CreateSysRatesIfNotExist()
 	string data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":2695.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"fee\\\":75,\\\"escrowfee\\\":0.01,\\\"precision\\\":8},{\\\"currency\\\":\\\"ZEC\\\",\\\"rate\\\":1000000.0,\\\"fee\\\":50,\\\"escrowfee\\\":0.01,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"fee\\\":1000,\\\"escrowfee\\\":0.005,\\\"precision\\\":2}]}";
 	// should get runtime error if doesnt exist
 	try{
-		CallRPC("node1", "aliasupdate sysrates.peg sysrates.peg " + data);
+		AliasUpdate("node1", "sysrates.peg", data, "priv");
 	}
 	catch(const runtime_error& err)
 	{
 		GenerateBlocks(200, "node1");	
 		GenerateBlocks(200, "node2");	
 		GenerateBlocks(200, "node3");	
-		BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg sysrates.peg password " + data));
+		AliasNew("node1", "sysrates.peg", "password", data);
 	}
-	GenerateBlocks(5);
 }
 void CreateSysBanIfNotExist()
 {
 	string data = "{}";
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg sysban password " + data));
-	GenerateBlocks(5);
+	AliasNew("node1", "sysban", "password", data);
 }
 void CreateSysCategoryIfNotExist()
 {
 	string data = "\"{\\\"categories\\\":[{\\\"cat\\\":\\\"certificates\\\"},{\\\"cat\\\":\\\"certificates>music\\\"},{\\\"cat\\\":\\\"wanted\\\"},{\\\"cat\\\":\\\"for sale > general\\\"},{\\\"cat\\\":\\\"for sale > wanted\\\"},{\\\"cat\\\":\\\"services\\\"}]}\"";
-	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg syscategory password " + data));
-	GenerateBlocks(5);
+	AliasNew("node1", "syscategory", "password", data);
 }
 void AliasBan(const string& node, const string& alias, int severity)
 {
 	string data = "{\\\"aliases\\\":[{\\\"id\\\":\\\"" + alias + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	CallRPC(node, "aliasupdate sysrates.peg sysban " + data);
-	GenerateBlocks(5);
+	AliasUpdate("node1", "sysban", data, "priv");
 }
 void OfferBan(const string& node, const string& offer, int severity)
 {
 	string data = "{\\\"offers\\\":[{\\\"id\\\":\\\"" + offer + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	CallRPC(node, "aliasupdate sysrates.peg sysban " + data);
-	GenerateBlocks(5);
+	AliasUpdate("node1", "sysban", data, "priv");
 }
 void CertBan(const string& node, const string& cert, int severity)
 {
 	string data = "{\\\"certs\\\":[{\\\"id\\\":\\\"" + cert + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	CallRPC(node, "aliasupdate sysrates.peg sysban " + data);
-	GenerateBlocks(5);
+	AliasUpdate("node1", "sysban", data, "priv");
 }
 void ExpireAlias(const string& alias)
 {
@@ -456,7 +449,7 @@ void GetOtherNodes(const string& node, const string& otherNode1, const string& o
 	{
 		try
 		{
-			r = CallRPC("node2", "getinfo");
+			CallRPC("node2", "getinfo");
 			otherNode1 = "node2";
 		}
 		catch(runtime_error &e)
@@ -465,7 +458,7 @@ void GetOtherNodes(const string& node, const string& otherNode1, const string& o
 		}
 		try
 		{
-			r = CallRPC("node3", "getinfo");
+			CallRPC("node3", "getinfo");
 			otherNode2 = "node3";
 		}
 		catch(runtime_error &e)
@@ -477,7 +470,7 @@ void GetOtherNodes(const string& node, const string& otherNode1, const string& o
 	{
 		try
 		{
-			r = CallRPC("node3", "getinfo");
+			CallRPC("node3", "getinfo");
 			otherNode1 = "node3";
 		}
 		catch(runtime_error &e)
@@ -486,7 +479,7 @@ void GetOtherNodes(const string& node, const string& otherNode1, const string& o
 		}
 		try
 		{
-			r = CallRPC("node2", "getinfo");
+			CallRPC("node2", "getinfo");
 			otherNode2 = "node2";
 		}
 		catch(runtime_error &e)
@@ -498,7 +491,7 @@ void GetOtherNodes(const string& node, const string& otherNode1, const string& o
 	{
 		try
 		{
-			r = CallRPC("node1", "getinfo");
+			CallRPC("node1", "getinfo");
 			otherNode1 = "node1";
 		}
 		catch(runtime_error &e)
@@ -507,7 +500,7 @@ void GetOtherNodes(const string& node, const string& otherNode1, const string& o
 		}
 		try
 		{
-			r = CallRPC("node2", "getinfo");
+			CallRPC("node2", "getinfo");
 			otherNode2 = "node2";
 		}
 		catch(runtime_error &e)
