@@ -399,7 +399,7 @@ void CreateSysCategoryIfNotExist()
 }
 void AliasBan(const string& node, const string& alias, int severity)
 {
-	string data = "{\\\"aliases\\\":[{\\\"id\\\":\\\"" + alias + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
+	string pubdata = "{\\\"aliases\\\":[{\\\"id\\\":\\\"" + alias + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
 	string strPasswordHex =  "\"\"";
 	string strPrivateHex = "\"\"";
 	string strEncryptionPrivateKeyHex = "\"\"";
@@ -416,7 +416,7 @@ void AliasBan(const string& node, const string& alias, int severity)
 }
 void OfferBan(const string& node, const string& offer, int severity)
 {
-	string data = "{\\\"offers\\\":[{\\\"id\\\":\\\"" + offer + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
+	string pubdata = "{\\\"offers\\\":[{\\\"id\\\":\\\"" + offer + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
 	string strPasswordHex =  "\"\"";
 	string strPrivateHex = "\"\"";
 	string strEncryptionPrivateKeyHex = "\"\"";
