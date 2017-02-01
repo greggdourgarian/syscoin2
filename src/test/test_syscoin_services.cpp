@@ -22,6 +22,9 @@ static int node1LastBlock=0;
 static int node2LastBlock=0;
 static int node3LastBlock=0;
 static int node4LastBlock=0;
+static bool node1Online = false;
+static bool node2Online = false;
+static bool node3Online = false;
 
 // SYSCOIN testing setup
 void StartNodes()
@@ -111,6 +114,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 					MilliSleep(500);
 					continue;
 				}
+				node1Online = true;
 				node1LastBlock = 0;
 			}
 			else if(dataDir == "node2")
@@ -121,6 +125,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 					MilliSleep(500);
 					continue;
 				}
+				node2Online = true;
 				node2LastBlock = 0;
 			}
 			else if(dataDir == "node3")
@@ -131,6 +136,7 @@ void StartNode(const string &dataDir, bool regTest, const string& extraArgs)
 					MilliSleep(500);
 					continue;
 				}
+				node3Online = true;
 				node3LastBlock = 0;
 			}
 			else if(dataDir == "node4")
@@ -177,6 +183,12 @@ void StopNode (const string &dataDir) {
 	}
 	try{
 		CallRPC(dataDir, "stop");
+		if(dataDir == "node1")
+			node1Online = false;
+		else if(dataDir == "node2")
+			node2Online = false;
+		else if(dataDir == "node3")
+			node3Online = false;
 	}
 	catch(const runtime_error& error)
 	{
@@ -348,17 +360,17 @@ void CreateSysCategoryIfNotExist()
 void AliasBan(const string& node, const string& alias, int severity)
 {
 	string data = "{\\\"aliases\\\":[{\\\"id\\\":\\\"" + alias + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate("node1", "sysban", data, "priv");
+	AliasUpdate(node, "sysban", data, "priv");
 }
 void OfferBan(const string& node, const string& offer, int severity)
 {
 	string data = "{\\\"offers\\\":[{\\\"id\\\":\\\"" + offer + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate("node1", "sysban", data, "priv");
+	AliasUpdate(node, "sysban", data, "priv");
 }
 void CertBan(const string& node, const string& cert, int severity)
 {
 	string data = "{\\\"certs\\\":[{\\\"id\\\":\\\"" + cert + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate("node1", "sysban", data, "priv");
+	AliasUpdate(node, "sysban", data, "priv");
 }
 void ExpireAlias(const string& alias)
 {
@@ -445,68 +457,28 @@ void ExpireAlias(const string& alias)
 }
 void GetOtherNodes(const string& node, string& otherNode1, string& otherNode2)
 {
+	otherNode1 = "";
+	otherNode2 = "";
 	if(node == "node1")
 	{
-		try
-		{
-			CallRPC("node2", "getinfo");
+		if(node2Online)
 			otherNode1 = "node2";
-		}
-		catch(runtime_error &e)
-		{
-			otherNode1 = "";
-		}
-		try
-		{
-			CallRPC("node3", "getinfo");
+		if(node3Online)
 			otherNode2 = "node3";
-		}
-		catch(runtime_error &e)
-		{
-			otherNode2 = "";
-		}
 	}
 	else if(node == "node2")
 	{
-		try
-		{
-			CallRPC("node1", "getinfo");
+		if(node1Online)
 			otherNode1 = "node1";
-		}
-		catch(runtime_error &e)
-		{
-			otherNode1 = "";
-		}
-		try
-		{
-			CallRPC("node3", "getinfo");
+		if(node3Online)
 			otherNode2 = "node3";
-		}
-		catch(runtime_error &e)
-		{
-			otherNode2 = "";
-		}
 	}
 	else if(node == "node3")
 	{
-		try
-		{
-			CallRPC("node1", "getinfo");
+		if(node1Online)
 			otherNode1 = "node1";
-		}
-		catch(runtime_error &e)
-		{
-			otherNode1 = "";
-		}
-		try
-		{
-			CallRPC("node2", "getinfo");
+		if(node2Online)
 			otherNode2 = "node2";
-		}
-		catch(runtime_error &e)
-		{
-			otherNode2 = "";
-		}
 	}
 
 }
@@ -772,7 +744,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
+	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
@@ -789,7 +762,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+			BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
@@ -807,7 +781,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+			BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
