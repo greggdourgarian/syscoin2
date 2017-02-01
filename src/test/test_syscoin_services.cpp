@@ -466,12 +466,12 @@ void GetOtherNodes(const string& node, string& otherNode1, string& otherNode2)
 			otherNode2 = "";
 		}
 	}
-	if(node == "node2")
+	else if(node == "node2")
 	{
 		try
 		{
-			CallRPC("node3", "getinfo");
-			otherNode1 = "node3";
+			CallRPC("node1", "getinfo");
+			otherNode1 = "node1";
 		}
 		catch(runtime_error &e)
 		{
@@ -479,8 +479,8 @@ void GetOtherNodes(const string& node, string& otherNode1, string& otherNode2)
 		}
 		try
 		{
-			CallRPC("node2", "getinfo");
-			otherNode2 = "node2";
+			CallRPC("node3", "getinfo");
+			otherNode2 = "node3";
 		}
 		catch(runtime_error &e)
 		{
