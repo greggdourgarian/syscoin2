@@ -586,7 +586,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(balanceAfter >= 10*COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
@@ -598,7 +599,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
@@ -611,7 +613,8 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
