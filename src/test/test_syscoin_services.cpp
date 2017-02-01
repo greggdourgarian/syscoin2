@@ -301,7 +301,7 @@ void GenerateBlocks(int nBlocks, const string& node)
 	  {
 		r = CallRPC(otherNode1, "getinfo");
 	  }
-	  catch(runtime_error &e)
+	  catch(const runtime_error &e)
 	  {
 		r = NullUniValue;
 	  }
@@ -326,7 +326,7 @@ void GenerateBlocks(int nBlocks, const string& node)
 	  {
 		r = CallRPC(otherNode2, "getinfo");
 	  }
-	  catch(runtime_error &e)
+	  catch(const runtime_error &e)
 	  {
 		r = NullUniValue;
 	  }
@@ -365,7 +365,7 @@ void CreateSysRatesIfNotExist()
 		{
 			AliasNew("node1", "sysrates.peg", "password", data);
 		}
-		catch(runtime_error &e)
+		catch(const runtime_error &e)
 		{
 			throw runtime_error(e.what());
 		}
@@ -378,7 +378,7 @@ void CreateSysBanIfNotExist()
 	{
 		AliasNew("node1", "sysban", "password", data);
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		throw runtime_error(e.what());
 	}	
@@ -390,7 +390,7 @@ void CreateSysCategoryIfNotExist()
 	{
 		AliasNew("node1", "syscategory", "password", data);
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		throw runtime_error(e.what());
 	}	
@@ -404,7 +404,7 @@ void AliasBan(const string& node, const string& alias, int severity)
 	{
 		AliasUpdate(node, "sysban", data, "\"\"");
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		throw runtime_error(e.what());
 	}
@@ -416,7 +416,7 @@ void OfferBan(const string& node, const string& offer, int severity)
 	{
 		AliasUpdate(node, "sysban", data, "\"\"");
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		throw runtime_error(e.what());
 	}
@@ -428,7 +428,7 @@ void CertBan(const string& node, const string& cert, int severity)
 	{
 		AliasUpdate(node, "sysban", data, "\"\"");
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		throw runtime_error(e.what());
 	}
@@ -441,7 +441,7 @@ void ExpireAlias(const string& alias)
 	{
 		r = CallRPC("node1", "aliasinfo " + alias);
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		r = NullUniValue;
 	}
@@ -460,7 +460,7 @@ void ExpireAlias(const string& alias)
 			BOOST_CHECK_NO_THROW(CallRPC("node2", cmd, true, false));
 		}
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		r = NullUniValue;
 	}
@@ -473,7 +473,7 @@ void ExpireAlias(const string& alias)
 			BOOST_CHECK_NO_THROW(CallRPC("node3", cmd, true, false));
 		}
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		r = NullUniValue;
 	}
@@ -483,7 +483,7 @@ void ExpireAlias(const string& alias)
 	{
 		r = CallRPC("node1", "aliasinfo " + alias);
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		r = NullUniValue;
 	}
@@ -495,7 +495,7 @@ void ExpireAlias(const string& alias)
 	{
 		r = CallRPC("node2", "aliasinfo " + alias);
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		r = NullUniValue;
 	}
@@ -507,7 +507,7 @@ void ExpireAlias(const string& alias)
 	{
 		r = CallRPC("node3", "aliasinfo " + alias);
 	}
-	catch(runtime_error &e)
+	catch(const runtime_error &e)
 	{
 		r = NullUniValue;
 	}
