@@ -272,18 +272,8 @@ void GenerateBlocks(int nBlocks, const string& node)
 {
   int height, newHeight, timeoutCounter;
   UniValue r;
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
   BOOST_CHECK_NO_THROW(r = CallRPC(node, "getinfo"));
   newHeight = find_value(r.get_obj(), "blocks").get_int() + nBlocks;
   const string &sBlocks = strprintf("%d",nBlocks);
@@ -293,17 +283,10 @@ void GenerateBlocks(int nBlocks, const string& node)
   BOOST_CHECK(height >= newHeight);
   height = 0;
   timeoutCounter = 0;
-  while(height < newHeight)
+  while(!otherNode1.empty() && height < newHeight)
   {
 	  MilliSleep(100);
-	  try
-	  {
-		r = CallRPC(otherNode1, "getinfo");
-	  }
-	  catch(runtime_error &e)
-	  {
-		r = NullUniValue;
-	  }
+	  r = CallRPC(otherNode1, "getinfo");
 	  if(!r.isObject())
 	  {
 		 height = newHeight;
@@ -314,20 +297,14 @@ void GenerateBlocks(int nBlocks, const string& node)
 	  if(timeoutCounter > 300)
 		  break;
   }
-  BOOST_CHECK(height >= newHeight);
+  if(!otherNode1.empty())
+	BOOST_CHECK(height >= newHeight);
   height = 0;
   timeoutCounter = 0;
-  while(height < newHeight)
+  while(!otherNode2.empty() &&height < newHeight)
   {
 	  MilliSleep(100);
-	  try
-	  {
-		r = CallRPC(otherNode2, "getinfo");
-	  }
-	  catch(runtime_error &e)
-	  {
-		r = NullUniValue;
-	  }
+	  r = CallRPC(otherNode2, "getinfo");
 	  if(!r.isObject())
 	  {
 		 height = newHeight;
@@ -338,7 +315,8 @@ void GenerateBlocks(int nBlocks, const string& node)
 	  if(timeoutCounter > 300)
 		  break;
   }
-  BOOST_CHECK(height >= newHeight);
+  if(!otherNode2.empty())
+	BOOST_CHECK(height >= newHeight);
   height = 0;
   timeoutCounter = 0;
 }
@@ -472,20 +450,78 @@ void ExpireAlias(const string& alias)
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
 }
-string AliasNew(const string& node, const string& aliasname, const string& password, const string& pubdata, string privdata, string safesearch, string numreq, string multisig)
+void GetOtherNodes(const string& node, const string& otherNode1, const string& otherNode2)
 {
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
+	if(node == "node1")
+	{
+		try
+		{
+			r = CallRPC("node2", "getinfo");
+			otherNode1 = "node2";
+		}
+		catch(runtime_error &e)
+		{
+			otherNode1 = "";
+		}
+		try
+		{
+			r = CallRPC("node3", "getinfo");
+			otherNode2 = "node3";
+		}
+		catch(runtime_error &e)
+		{
+			otherNode2 = "";
+		}
+	}
 	if(node == "node2")
 	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
+		try
+		{
+			r = CallRPC("node3", "getinfo");
+			otherNode1 = "node3";
+		}
+		catch(runtime_error &e)
+		{
+			otherNode1 = "";
+		}
+		try
+		{
+			r = CallRPC("node2", "getinfo");
+			otherNode2 = "node2";
+		}
+		catch(runtime_error &e)
+		{
+			otherNode2 = "";
+		}
 	}
 	else if(node == "node3")
 	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
+		try
+		{
+			r = CallRPC("node1", "getinfo");
+			otherNode1 = "node1";
+		}
+		catch(runtime_error &e)
+		{
+			otherNode1 = "";
+		}
+		try
+		{
+			r = CallRPC("node2", "getinfo");
+			otherNode2 = "node2";
+		}
+		catch(runtime_error &e)
+		{
+			otherNode2 = "";
+		}
 	}
+
+}
+string AliasNew(const string& node, const string& aliasname, const string& password, const string& pubdata, string privdata, string safesearch, string numreq, string multisig)
+{
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
+
 	CKey privEncryptionKey;
 	privEncryptionKey.MakeNewKey(true);
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
@@ -562,26 +598,32 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
-	if(password != "\"\"")
-		BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
-	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
-	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
-	if(password != "\"\"")
-		BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
-	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
-	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
+		if(password != "\"\"")
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
+		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
+		if(password != "\"\"")
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
+		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	}
 	return HexStr(vchPubKey);
 }
 void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata, const string& privdata)
@@ -654,18 +696,8 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 }
 void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch, string password)
 {
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
@@ -749,37 +781,43 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
-	if(newPassword != oldPassword)
+	if(!otherNode1.empty())
 	{
-		BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-		BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
-	}
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
+		if(newPassword != oldPassword)
+		{
+			BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
+		}
 
-	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
-	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
-	if(newPassword != oldPassword)
-	{
-		BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-		BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
+		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
+		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
+		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
+		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	}
-	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
-	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
+		if(newPassword != oldPassword)
+		{
+			BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
+		}
+		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
+		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
+		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
+		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	}
 
 }
 bool AliasFilter(const string& node, const string& regex, const string& safesearch)
@@ -812,18 +850,8 @@ bool EscrowFilter(const string& node, const string& regex)
 }
 const string CertNew(const string& node, const string& alias, const string& title, const string& data, const string& pubdata, const string& safesearch)
 {
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + title + " " + data + " " + pubdata + " " + safesearch));
 	const UniValue &arr = r.get_array();
@@ -835,33 +863,28 @@ const string CertNew(const string& node, const string& alias, const string& titl
 	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
 	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
-
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
+		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+		BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
+		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+		BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+	}
 	return guid;
 }
 void CertUpdate(const string& node, const string& guid, const string& alias, const string& title, const string& data, const string& pubdata, string safesearch)
 {
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + data + " " + pubdata + " " + safesearch));
 	GenerateBlocks(10, node);
@@ -871,19 +894,24 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
 	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
-
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
+		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+		BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
+		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+		BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+	}
 }
 void CertTransfer(const string& node, const string& guid, const string& toalias)
 {
@@ -931,18 +959,8 @@ const string MessageNew(const string& fromnode, const string& tonode, const stri
 const string OfferLink(const string& node, const string& alias, const string& guid, const string& commission, const string& newdescription)
 {
 	UniValue r;
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + guid));
 	const string &olddescription = find_value(r.get_obj(), "description").get_str();
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerlink " + alias + " " + guid + " " + commission + " " + newdescription));
@@ -959,37 +977,30 @@ const string OfferLink(const string& node, const string& alias, const string& gu
 	BOOST_CHECK(find_value(r.get_obj(), "offerlink_guid").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "offerlink").get_str() == "true");
 	BOOST_CHECK(find_value(r.get_obj(), "commission").get_str() == commission);
-
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + linkedguid));
-	if(!newdescription.empty())
-		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == newdescription);
-	else
-		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == olddescription);
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == linkedguid);
-
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + linkedguid));
-	if(!newdescription.empty())
-		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == newdescription);
-	else
-		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == olddescription);
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == linkedguid);
-
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + linkedguid));
+		if(!newdescription.empty())
+			BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == newdescription);
+		else
+			BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == olddescription);
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == linkedguid);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + linkedguid));
+		if(!newdescription.empty())
+			BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == newdescription);
+		else
+			BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == olddescription);
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == linkedguid);
+	}
 	return linkedguid;
 }
 const string OfferNew(const string& node, const string& aliasname, const string& category, const string& title, const string& qty, const string& price, const string& description, const string& currency, const string& certguid, const string& paymentoptions, const string& geolocation, const string& safesearch)
 {
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	CreateSysRatesIfNotExist();
 	UniValue r;
 	string offercreatestr = "offernew " + aliasname + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency  + " " + certguid + " " + paymentoptions + " " + geolocation + " " + safesearch;
@@ -1010,44 +1021,43 @@ const string OfferNew(const string& node, const string& aliasname, const string&
 	BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
 	BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == guid);
-	if(certguid != "nocert")
-		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == guid);
+		if(certguid != "nocert")
+			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
 
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-	BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-	BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == guid);
-	if(certguid != "nocert")
-		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
+		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
+		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
+		BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
+		BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == guid);
+		if(certguid != "nocert")
+			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
 
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-	BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-	BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
+		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
+		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
+		BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
+		BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+	}
 	return guid;
 }
 
 void OfferUpdate(const string& node, const string& aliasname, const string& offerguid, const string& category, const string& title, const string& qty, const string& price, const string& description, const string& currency, const bool isPrivate, const string& certguid, const string& geolocation, string safesearch, string commission, string paymentoptions) {
 
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2") {
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	} else if(node == "node3") {
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	
 	CreateSysRatesIfNotExist();
 
@@ -1075,46 +1085,44 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
 	BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
 	
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + offerguid));
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-	if(certguid != "nocert")
-		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + offerguid));
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
+		if(certguid != "nocert")
+			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
 
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-	if(currency != "NONE")
-		BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-	BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
-	
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + offerguid));
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-	if(certguid != "nocert")
-		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
+		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
+		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
+		if(currency != "NONE")
+			BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
+		BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + offerguid));
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
+		if(certguid != "nocert")
+			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
 
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-	if(currency != "NONE")
-		BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-	BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
+		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
+		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
+		if(currency != "NONE")
+			BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
+		BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+	}
 }
 
 void OfferAcceptFeedback(const string& node, const string &alias, const string& offerguid, const string& acceptguid, const string& feedback, const string& rating, const char& user, const bool israting) {
 
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2") {
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	} else if(node == "node3") {
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	
 
 	UniValue r;
@@ -1375,18 +1383,8 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 
 const string EscrowNew(const string& node, const string& sellernode, const string& buyeralias, const string& offerguid, const string& qty, const string& message, const string& arbiteralias, const string& selleralias)
 {
-	string otherNode1 = "node2";
-	string otherNode2 = "node3";
-	if(node == "node2")
-	{
-		otherNode1 = "node3";
-		otherNode2 = "node1";
-	}
-	else if(node == "node3")
-	{
-		otherNode1 = "node1";
-		otherNode2 = "node2";
-	}
+	string otherNode1, otherNode2;
+	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
 	int nQty = atoi(qty.c_str());
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
@@ -1408,20 +1406,26 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	BOOST_CHECK(find_value(r.get_obj(), "arbiter").get_str() == arbiteralias);
 	BOOST_CHECK(find_value(r.get_obj(), "seller").get_str() == selleralias);
 	BOOST_CHECK(find_value(r.get_obj(), "pay_message").get_str() != message);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "escrowinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "systotal").get_int64() == nTotal);
-	BOOST_CHECK(find_value(r.get_obj(), "arbiter").get_str() == arbiteralias);
-	BOOST_CHECK(find_value(r.get_obj(), "seller").get_str() == selleralias);
-	BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "escrowinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "systotal").get_int64() == nTotal);
-	BOOST_CHECK(find_value(r.get_obj(), "arbiter").get_str() == arbiteralias);
-	BOOST_CHECK(find_value(r.get_obj(), "seller").get_str() == selleralias);
+	if(!otherNode1.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "escrowinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
+		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
+		BOOST_CHECK(find_value(r.get_obj(), "systotal").get_int64() == nTotal);
+		BOOST_CHECK(find_value(r.get_obj(), "arbiter").get_str() == arbiteralias);
+		BOOST_CHECK(find_value(r.get_obj(), "seller").get_str() == selleralias);
+	}
+	if(!otherNode2.empty())
+	{
+		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "escrowinfo " + guid));
+		BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
+		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
+		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
+		BOOST_CHECK(find_value(r.get_obj(), "systotal").get_int64() == nTotal);
+		BOOST_CHECK(find_value(r.get_obj(), "arbiter").get_str() == arbiteralias);
+		BOOST_CHECK(find_value(r.get_obj(), "seller").get_str() == selleralias);
+	}
 	
 	BOOST_CHECK_THROW(r = CallRPC(node, "escrowacknowledge " + guid), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid));

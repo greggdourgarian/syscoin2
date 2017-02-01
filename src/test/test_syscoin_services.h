@@ -17,6 +17,7 @@ void GenerateBlocks(int nBlocks, const string& node="node1");
 void GenerateMainNetBlocks(int nBlocks, const string& node);
 string CallExternal(string &cmd);
 void ExpireAlias(const string& alias);
+void GetOtherNodes(const string& node, const string& otherNode1, const string& otherNode2);
 void AliasBan(const string& node, const string& alias, int severity);
 void OfferBan(const string& node, const string& offer, int severity);
 void CertBan(const string& node, const string& cert, int severity);
