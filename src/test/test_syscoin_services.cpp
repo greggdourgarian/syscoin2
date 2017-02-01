@@ -183,17 +183,16 @@ void StopNode (const string &dataDir) {
 	}
 	try{
 		CallRPC(dataDir, "stop");
-		if(dataDir == "node1")
-			node1Online = false;
-		else if(dataDir == "node2")
-			node2Online = false;
-		else if(dataDir == "node3")
-			node3Online = false;
 	}
 	catch(const runtime_error& error)
 	{
 	}
-
+	if(dataDir == "node1")
+		node1Online = false;
+	else if(dataDir == "node2")
+		node2Online = false;
+	else if(dataDir == "node3")
+		node3Online = false;
 	MilliSleep(3000);
 	if(boost::filesystem::exists(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat")))
 		boost::filesystem::copy_file(boost::filesystem::system_complete(dataDir + "/regtest/wallet.dat"),boost::filesystem::system_complete(dataDir + "/wallet.dat"),boost::filesystem::copy_option::overwrite_if_exists);
