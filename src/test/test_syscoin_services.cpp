@@ -443,7 +443,7 @@ void ExpireAlias(const string& alias)
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
 	}
 }
-void GetOtherNodes(const string& node, const string& otherNode1, const string& otherNode2)
+void GetOtherNodes(const string& node, string& otherNode1, string& otherNode2)
 {
 	if(node == "node1")
 	{
