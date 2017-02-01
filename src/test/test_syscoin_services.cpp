@@ -350,40 +350,88 @@ void CreateSysRatesIfNotExist()
 	string data = "{\\\"rates\\\":[{\\\"currency\\\":\\\"USD\\\",\\\"rate\\\":2690.1,\\\"precision\\\":2},{\\\"currency\\\":\\\"EUR\\\",\\\"rate\\\":2695.2,\\\"precision\\\":2},{\\\"currency\\\":\\\"GBP\\\",\\\"rate\\\":2697.3,\\\"precision\\\":2},{\\\"currency\\\":\\\"CAD\\\",\\\"rate\\\":2698.0,\\\"precision\\\":2},{\\\"currency\\\":\\\"BTC\\\",\\\"rate\\\":100000.0,\\\"fee\\\":75,\\\"escrowfee\\\":0.01,\\\"precision\\\":8},{\\\"currency\\\":\\\"ZEC\\\",\\\"rate\\\":1000000.0,\\\"fee\\\":50,\\\"escrowfee\\\":0.01,\\\"precision\\\":8},{\\\"currency\\\":\\\"SYS\\\",\\\"rate\\\":1.0,\\\"fee\\\":1000,\\\"escrowfee\\\":0.005,\\\"precision\\\":2}]}";
 	// should get runtime error if doesnt exist
 	try{
-		AliasUpdate("node1", "sysrates.peg", data, "priv");
+		UniValue r = CallRPC("node1", "aliasinfo sysrates.peg");
+		if(r.isObject())
+			AliasUpdate("node1", "sysrates.peg", data, "priv");
+		else
+			AliasNew("node1", "sysrates.peg", "password", data);
 	}
 	catch(const runtime_error& err)
 	{
 		GenerateBlocks(200, "node1");	
 		GenerateBlocks(200, "node2");	
-		GenerateBlocks(200, "node3");	
-		AliasNew("node1", "sysrates.peg", "password", data);
+		GenerateBlocks(200, "node3");
+		try
+		{
+			AliasNew("node1", "sysrates.peg", "password", data);
+		}
+		catch(runtime_error &e)
+		{
+			throw runtime_error(e.what());
+		}
 	}
 }
 void CreateSysBanIfNotExist()
 {
 	string data = "{}";
-	AliasNew("node1", "sysban", "password", data);
+	try
+	{
+		AliasNew("node1", "sysban", "password", data);
+	}
+	catch(runtime_error &e)
+	{
+		throw runtime_error(e.what());
+	}	
 }
 void CreateSysCategoryIfNotExist()
 {
 	string data = "\"{\\\"categories\\\":[{\\\"cat\\\":\\\"certificates\\\"},{\\\"cat\\\":\\\"certificates>music\\\"},{\\\"cat\\\":\\\"wanted\\\"},{\\\"cat\\\":\\\"for sale > general\\\"},{\\\"cat\\\":\\\"for sale > wanted\\\"},{\\\"cat\\\":\\\"services\\\"}]}\"";
-	AliasNew("node1", "syscategory", "password", data);
+	try
+	{
+		AliasNew("node1", "syscategory", "password", data);
+	}
+	catch(runtime_error &e)
+	{
+		throw runtime_error(e.what());
+	}	
+	
 }
 void AliasBan(const string& node, const string& alias, int severity)
 {
 	string data = "{\\\"aliases\\\":[{\\\"id\\\":\\\"" + alias + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate(node, "sysban", data, "\"\"");
+	
+	try
+	{
+		AliasUpdate(node, "sysban", data, "\"\"");
+	}
+	catch(runtime_error &e)
+	{
+		throw runtime_error(e.what());
+	}
 }
 void OfferBan(const string& node, const string& offer, int severity)
 {
 	string data = "{\\\"offers\\\":[{\\\"id\\\":\\\"" + offer + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate(node, "sysban", data, "\"\"");
+	try
+	{
+		AliasUpdate(node, "sysban", data, "\"\"");
+	}
+	catch(runtime_error &e)
+	{
+		throw runtime_error(e.what());
+	}
 }
 void CertBan(const string& node, const string& cert, int severity)
 {
 	string data = "{\\\"certs\\\":[{\\\"id\\\":\\\"" + cert + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate(node, "sysban", data, "\"\"");
+	try
+	{
+		AliasUpdate(node, "sysban", data, "\"\"");
+	}
+	catch(runtime_error &e)
+	{
+		throw runtime_error(e.what());
+	}
 }
 void ExpireAlias(const string& alias)
 {
