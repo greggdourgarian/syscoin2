@@ -373,17 +373,17 @@ void CreateSysCategoryIfNotExist()
 void AliasBan(const string& node, const string& alias, int severity)
 {
 	string data = "{\\\"aliases\\\":[{\\\"id\\\":\\\"" + alias + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate(node, "sysban", data, "priv");
+	AliasUpdate(node, "sysban", data, "\"\"");
 }
 void OfferBan(const string& node, const string& offer, int severity)
 {
 	string data = "{\\\"offers\\\":[{\\\"id\\\":\\\"" + offer + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate(node, "sysban", data, "priv");
+	AliasUpdate(node, "sysban", data, "\"\"");
 }
 void CertBan(const string& node, const string& cert, int severity)
 {
 	string data = "{\\\"certs\\\":[{\\\"id\\\":\\\"" + cert + "\\\",\\\"severity\\\":" + boost::lexical_cast<string>(severity) + "}]}";
-	AliasUpdate(node, "sysban", data, "priv");
+	AliasUpdate(node, "sysban", data, "\"\"");
 }
 void ExpireAlias(const string& alias)
 {
