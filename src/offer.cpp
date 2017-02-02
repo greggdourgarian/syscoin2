@@ -3593,7 +3593,6 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	totalAvgRating = floor(totalAvgRating * 10) / 10;
 	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
 	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
-	string strMessage = string("");
 	string strData = "";
 	string strDecrypted = "";
 	if(!theOffer.accept.vchMessage.empty())
@@ -3603,7 +3602,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 		else if(DecryptMessage(theAlias, theOffer.accept.vchMessage, strDecrypted))
 			strData = strDecrypted;			
 	}
-	oOfferAccept.push_back(Pair("pay_message", strMessage));
+	oOfferAccept.push_back(Pair("pay_message", strData));
 	return true;
 }
 UniValue offerlist(const UniValue& params, bool fHelp) {
