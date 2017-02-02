@@ -537,7 +537,7 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 				}
 			}
 		}
-		if(bNeedAliasPaymentInputs)
+		if(bNeedAliasPaymentInputs || useOnlyAliasPaymentToFund)
 		{
 			vector<COutPoint> outPoints;
 			aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false);
