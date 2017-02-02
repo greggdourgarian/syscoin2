@@ -1407,7 +1407,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
     // this is a syscoin transaction
     CWalletTx wtx;
-	EnsureWalletIsUnlocked();
     CScript scriptPubKey, scriptPubKeyBuyer, scriptPubKeySeller, scriptPubKeyRootSeller, scriptPubKeyArbiter,scriptBuyer, scriptSeller,scriptRootSeller,scriptArbiter;
 
 	CSyscoinAddress arbiterAddress;
@@ -1595,7 +1594,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
     // look for a transaction with this key
     CTransaction tx;
@@ -1923,7 +1922,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 
 
-	EnsureWalletIsUnlocked();
+	
 	
     // this is a syscoin transaction
     CWalletTx wtx;
@@ -2080,7 +2079,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 1))
 		rawTx = params[1].get_str();
 
-	EnsureWalletIsUnlocked();
+	
 	UniValue ret(UniValue::VARR);
     // look for a transaction with this key
     CTransaction tx;
@@ -2350,7 +2349,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
     // look for a transaction with this key
     CTransaction tx;
@@ -2494,7 +2493,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
      // look for a transaction with this key
     CTransaction tx;
@@ -2789,7 +2788,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 1))
 		rawTx = params[1].get_str();
 
-	EnsureWalletIsUnlocked();
+	
     // look for a transaction with this key
     CTransaction tx;
 	CEscrow escrow;
@@ -3022,7 +3021,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
     // look for a transaction with this key
     CTransaction tx;
@@ -3174,7 +3173,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
     // look for a transaction with this key
     CTransaction tx;

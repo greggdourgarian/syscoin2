@@ -1562,7 +1562,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 
 	// generate rand identifier
 	vector<unsigned char> vchOffer = vchFromString(GenerateSyscoinGuid());
-	EnsureWalletIsUnlocked();
+	
 
 
 	// unserialize offer from txn, serialize back
@@ -1727,7 +1727,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 
 	// generate rand identifier
 	vector<unsigned char> vchOffer = vchFromString(GenerateSyscoinGuid());
-	EnsureWalletIsUnlocked();
+	
 
 	// build offer
 	COffer newOffer;
@@ -1841,7 +1841,7 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 
 
 
-	EnsureWalletIsUnlocked();
+	
 
 	// look for a transaction with this key
 	CTransaction tx;
@@ -1952,7 +1952,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	// create OFFERUPDATE txn keys
 	CScript scriptPubKey;
 
-	EnsureWalletIsUnlocked();
+	
 
 	// look for a transaction with this key
 	CTransaction tx;
@@ -2052,7 +2052,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	CWalletTx wtx;
 	CScript scriptPubKeyOrig;
 
-	EnsureWalletIsUnlocked();
+	
 
 	// look for a transaction with this key
 	CTransaction tx;
@@ -2233,8 +2233,6 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	// this is a syscoind txn
 	CWalletTx wtx;
 	CScript scriptPubKeyOrig, scriptPubKeyCertOrig;
-
-	EnsureWalletIsUnlocked();
 
 	// look for a transaction with this key
 	CTransaction tx, linktx;
@@ -2459,7 +2457,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	// create OFFERACCEPT txn keys
 	CScript scriptPubKeyAccept, scriptPubKeyPayment;
 	CScript scriptPubKeyAlias;
-	EnsureWalletIsUnlocked();
+	
 	CTransaction acceptTx;
 	COffer theOffer;
 	// if this is a linked offer accept, set the height to the first height so sysrates.peg price will match what it was at the time of the original accept
@@ -2813,7 +2811,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
     // look for a transaction with this key
     CTransaction tx;
@@ -3001,7 +2999,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
+	
 
     // look for a transaction with this key
     CTransaction tx, linkTx;

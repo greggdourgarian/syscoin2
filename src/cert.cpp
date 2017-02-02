@@ -807,7 +807,6 @@ UniValue certnew(const UniValue& params, bool fHelp) {
     // this is a syscoin transaction
     CWalletTx wtx;
 
-	EnsureWalletIsUnlocked();
     CScript scriptPubKeyOrig;
 	CSyscoinAddress aliasAddress;
 	GetAddress(theAlias, &aliasAddress, scriptPubKeyOrig);
@@ -928,7 +927,6 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
     CWalletTx wtx;
     CScript scriptPubKeyOrig;
 
-    EnsureWalletIsUnlocked();
 
     // look for a transaction with this key
     CTransaction tx;
@@ -1056,7 +1054,6 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
     CWalletTx wtx;
     CScript scriptPubKeyOrig, scriptPubKeyFromOrig;
 
-    EnsureWalletIsUnlocked();
     CTransaction aliastx;
 	CCert theCert;
     if (!GetTxOfCert( vchCert, theCert, tx))

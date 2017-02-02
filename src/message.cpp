@@ -493,7 +493,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 5))
 		bSendFrom = params[5].get_str() == "Yes"? true: false;
 
-	EnsureWalletIsUnlocked();
+	
 
 	CAliasIndex aliasFrom, aliasTo;
 	CTransaction aliastx;
