@@ -1498,7 +1498,7 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + sellernode));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + selleralias));
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string strCipherPrivateData = "";
 	if(message != "\"\"")
