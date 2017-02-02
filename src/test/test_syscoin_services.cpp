@@ -1204,6 +1204,7 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 	GetOtherNodes(node, otherNode1, otherNode2);
 	
 	CreateSysRatesIfNotExist();
+	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
 	string oldcategory = find_value(r.get_obj(), "category").get_str();
 	string oldtitle = find_value(r.get_obj(), "title").get_str();
@@ -1218,7 +1219,7 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 	string oldcommission = find_value(r.get_obj(), "commission").get_str();
 	string oldpaymentoptions = find_value(r.get_obj(), "paymentoptions").get_str();
 
-	UniValue r;
+	
 	string offerupdatestr = "offerupdate " + aliasname + " " + offerguid + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency + " " + isprivate + " " + certguid + " " +  geolocation + " " + safesearch + " " + commission + " " + paymentoptions;
 	
 
