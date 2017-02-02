@@ -2181,7 +2181,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 
 	vector<unsigned char> vchCat;
 	if(CheckParam(params, 2))
-		vchCat = vchFromValue(params[6]);	
+		vchCat = vchFromValue(params[2]);	
 	vector<unsigned char> vchTitle;
 	if(CheckParam(params, 3))
 		vchTitle = vchFromValue(params[3]);	

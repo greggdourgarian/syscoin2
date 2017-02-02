@@ -1168,7 +1168,8 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
 
 	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
+	if(category != "\"\"")
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
 	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
 	BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
 	if(currency != "\"\"")
@@ -1185,7 +1186,8 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
 
 		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
+		if(category != "\"\"")
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
 		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
 		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
 		if(currency != "\"\"")
