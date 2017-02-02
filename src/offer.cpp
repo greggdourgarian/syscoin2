@@ -2304,15 +2304,27 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.sCategory = vchCat;
 	theOffer.sTitle = vchTitle;
-	theOffer.sDescription = vchDesc;
-	theOffer.vchGeoLocation = vchGeoLocation;
+	if(vchDesc.empty())
+		theOffer.sDescription = offerCopy.sDescription;
+	else
+		theOffer.sDescription = vchDesc;
+	if(vchGeoLocation.empty())
+		theOffer.vchGeoLocation = offerCopy.vchGeoLocation;
+	else
+		theOffer.vchGeoLocation = vchGeoLocation;
 	CAmount nPricePerUnit = offerCopy.GetPrice();
-	theOffer.sCurrencyCode = sCurrencyCode;
+	if(sCurrencyCode.empty())
+		theOffer.sCurrencyCode = offerCopy.sCurrencyCode;
+	else
+		theOffer.sCurrencyCode = sCurrencyCode;
 
 	// linked offers can't change these settings, they are overrided by parent info
 	if(offerCopy.vchLinkOffer.empty())
 	{
-		theOffer.vchCert = vchCert;
+		if(vchCert.empty())
+			theOffer.vchCert = offerCopy.vchCert;
+		else
+			theOffer.vchCert = vchCert;
 		int precision = 2;
 		nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);
 		if(nPricePerUnit == 0)

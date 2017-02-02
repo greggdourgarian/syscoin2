@@ -953,7 +953,10 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	theCert.vchTitle = vchTitle;
 	theCert.vchData = ParseHex(strData);
 	theCert.vchPubData = vchPubData;
-	theCert.sCategory = vchCat;
+	if(vchCat.empty())
+		theCert.sCategory = copyCert.sCategory;
+	else
+		theCert.sCategory = vchCat;
 	theCert.vchAlias = theAlias.vchAlias;
 	if(!vchAlias.empty() && vchAlias != theAlias.vchAlias)
 		theCert.vchLinkAlias = vchAlias;
@@ -1082,7 +1085,8 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 		theCert.bTransferViewOnly = copyCert.bTransferViewOnly;
 	else
 		theCert.bTransferViewOnly = strViewOnly == "Yes"? true:false;
-	theCert.vchData = ParseHex(strData);
+	if(!strData.empty())
+		theCert.vchData = ParseHex(strData);
 
 	vector<unsigned char> data;
 	theCert.Serialize(data);

@@ -2172,13 +2172,32 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		multiSigInfo.vchRedeemScript = vchRedeemScript;
 	}
 
+
 	theAlias.nHeight = chainActive.Tip()->nHeight;
-	theAlias.vchPublicValue = vchFromString(strPublicValue);
-	theAlias.vchPrivateValue = ParseHex(strPrivateValue);
-	theAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
-	theAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
-	theAlias.vchPassword = ParseHex(strPassword);
-	theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
+	if(strPublicValue.empty())
+		theAlias.vchPublicValue = copyAlias.vchPublicValue;
+	else
+		theAlias.vchPublicValue = ParseHex(strPublicValue);
+	if(strPrivateValue.empty())
+		theAlias.vchPrivateValue = copyAlias.vchPrivateValue;
+	else
+		theAlias.vchPrivateValue = ParseHex(strPrivateValue);
+	if(strEncryptionPrivateKey.empty())
+		theAlias.vchEncryptionPrivateKey = copyAlias.vchEncryptionPrivateKey;
+	else
+		theAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
+	if(strEncryptionPublicKey.empty())
+		theAlias.vchEncryptionPublicKey = copyAlias.vchEncryptionPublicKey;
+	else
+		theAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
+	if(strPassword.empty())
+		theAlias.vchPassword = copyAlias.vchPassword;
+	else
+		theAlias.vchPassword = ParseHex(strPassword);
+	if(strPasswordSalt.empty())
+		theAlias.vchPasswordSalt = copyAlias.vchPasswordSalt;
+	else
+		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
