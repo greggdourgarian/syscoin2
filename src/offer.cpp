@@ -1459,7 +1459,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 UniValue offernew(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() < 7 || params.size() > 12)
 		throw runtime_error(
-		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='No']\n"
+		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation] [safe search=Yes] [private=No]\n"
 						"<alias> An alias you own.\n"
 						"<category> category, 255 chars max.\n"
 						"<title> title, 255 chars max.\n"
@@ -2170,23 +2170,30 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
     return oRes;
 }
 UniValue offerupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 6 || params.size() > 14)
+	if (fHelp || params.size() < 2 || params.size() > 14)
 		throw runtime_error(
-		"offerupdate <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private=No] [cert. guid=''] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
+		"offerupdate <alias> <guid> [category] [title] [quantity] [price] [description] [currency] [private=No] [cert. guid] [geolocation] [safesearch=Yes] [commission] [paymentOptions]\n"
 						"Perform an update on an offer you control.\n"
 						+ HelpRequiringPassphrase());
 	// gather & validate inputs
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchOffer = vchFromValue(params[1]);
-	vector<unsigned char> vchCat = vchFromValue(params[2]);
-	vector<unsigned char> vchTitle = vchFromValue(params[3]);
+
+	vector<unsigned char> vchCat;
+	if(CheckParam(params, 2))
+		vchCat = vchFromValue(params[6]);	
+	vector<unsigned char> vchTitle;
+	if(CheckParam(params, 3))
+		vchTitle = vchFromValue(params[3]);	
 	vector<unsigned char> vchDesc;
+	if(CheckParam(params, 4))
+		vchDesc = vchFromValue(params[4]);	
 	vector<unsigned char> vchCert;
 	vector<unsigned char> vchGeoLocation;
 	vector<unsigned char> sCurrencyCode;
 	string strPrivate = "";
-	int nQty;
-	float fPrice;
+	string strQty = "";
+	string strPrice = "";
 	int nCommission = 0;
 	string strSafeSearch = "";
 	string strCommission = "";
@@ -2198,7 +2205,26 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1"));
 	}
+	if(CheckParam(params, 4))
+	{
+		strQty = params[4].get_str();
+		try {
+			int nQty = boost::lexical_cast<int>(strQty);
 
+		} catch (std::exception &e) {
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid quantity value. Quantity must be less than 4294967296 and greater than or equal to -1"));
+		}
+	}
+	if(CheckParam(params, 5))
+	{
+		strPrice = params[5].get_str();
+		try {
+			float fPrice = boost::lexical_cast<float>(strPrice);
+
+		} catch (std::exception &e) {
+			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid price value"));
+		}
+	}
 	if(CheckParam(params, 6))
 		vchDesc = vchFromValue(params[6]);
 	if(CheckParam(params, 7))
@@ -2302,8 +2328,14 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	COffer offerCopy = theOffer;
 	theOffer.ClearOffer();
 	theOffer.nHeight = chainActive.Tip()->nHeight;
-	theOffer.sCategory = vchCat;
-	theOffer.sTitle = vchTitle;
+	if(vchCat.empty())
+		theOffer.sCategory = offerCopy.sCategory;
+	else
+		theOffer.sCategory = vchCat;
+	if(vchTitle.empty())
+		theOffer.sTitle = offerCopy.sTitle;
+	else
+		theOffer.sTitle = vchTitle;
 	if(vchDesc.empty())
 		theOffer.sDescription = offerCopy.sDescription;
 	else
@@ -2318,6 +2350,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	else
 		theOffer.sCurrencyCode = sCurrencyCode;
 
+	float fPrice = 1;
+	if(!strPrice.empty())
+		fPrice = boost::lexical_cast<float>(strPrice);
 	// linked offers can't change these settings, they are overrided by parent info
 	if(offerCopy.vchLinkOffer.empty())
 	{
@@ -2333,6 +2368,10 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			throw runtime_error(err.c_str());
 		}
 	}
+	if(!strPrice.empty())
+		theOffer.SetPrice(nPricePerUnit);
+	else
+		theOffer.SetPrice(offerCopy.GetPrice());
 	if(strCommission.empty())
 		theOffer.nCommission = offerCopy.nCommission;
 	else
@@ -2348,17 +2387,15 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		theOffer.safeSearch = offerCopy.safeSearch;
 	else
 		theOffer.safeSearch = strSafeSearch == "Yes"? true: false;;
-
-	theOffer.nQty = nQty;
+	if(strQty.empty())
+		theOffer.nQty = offerCopy.nQty;
+	else
+		theOffer.nQty = boost::lexical_cast<int>(strQty);
 	if(strPrivate.empty())
 		theOffer.bPrivate = offerCopy.bPrivate;
 	else
 		theOffer.bPrivate = strPrivate == "Yes"? true: false;;
-
-
 	theOffer.nHeight = chainActive.Tip()->nHeight;
-	theOffer.SetPrice(nPricePerUnit);
-
 
 	vector<unsigned char> data;
 	theOffer.Serialize(data);
@@ -2423,7 +2460,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 }
 UniValue offeraccept(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 > params.size() || params.size() > 6)
-		throw runtime_error("offeraccept <alias> <guid> [quantity] [message] [Ext TxId] [payment option=SYS]\n"
+		throw runtime_error("offeraccept <alias> <guid> [quantity] [message] [Ext TxId] [payment option]\n"
 				"Accept&Pay for a confirmed offer.\n"
 				"<alias> An alias of the buyer.\n"
 				"<guid> guidkey from offer.\n"
@@ -2587,7 +2624,8 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	// We need to do this to make sure we convert price at the time of initial buyer's accept.
 	txAccept.nAcceptHeight = nHeight;
 	txAccept.vchBuyerAlias = vchAlias;
-	txAccept.vchMessage = ParseHex(strMessage);
+	if(!strMessage.empty())
+		txAccept.vchMessage = ParseHex(strMessage);
 	txAccept.nPaymentOption = paymentOptionsMask;
     CAmount nTotalValue = ( nPrice * nQty );
 	CAmount nTotalCommission = ( nCommission * nQty );

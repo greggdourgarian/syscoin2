@@ -820,7 +820,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory" && pubdata != "\"\"")
 		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
@@ -838,7 +838,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory" && pubdata != "\"\"")
 			BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
@@ -857,7 +857,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory" && pubdata != "\"\"")
 			BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);

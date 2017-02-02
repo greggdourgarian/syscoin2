@@ -1297,7 +1297,7 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 UniValue escrownew(const UniValue& params, bool fHelp) {
     if (fHelp || params.size() < 5 ||  params.size() > 9)
         throw runtime_error(
-		"escrownew <alias> <offer> <quantity> <message> <arbiter alias> [extTx] [payment option=SYS] [redeemScript] [height]\n"
+		"escrownew <alias> <offer> <quantity> <message> <arbiter alias> [extTx] [payment option] [redeemScript] [height]\n"
 						"<alias> An alias you own.\n"
                         "<offer> GUID of offer that this escrow is managing.\n"
                         "<quantity> Quantity of items to buy of offer.\n"
@@ -1482,7 +1482,8 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	newEscrow.extTxId = uint256S(extTxIdStr);
 	newEscrow.vchSellerAlias = selleralias.vchAlias;
 	newEscrow.vchLinkSellerAlias = reselleralias.vchAlias;
-	newEscrow.vchPaymentMessage = ParseHex(strMessage);
+	if(!strMessage.empty())
+		newEscrow.vchPaymentMessage = ParseHex(strMessage);
 	newEscrow.nQty = nQty;
 	newEscrow.nPaymentOption = paymentOptionsMask;
 	newEscrow.nHeight = nHeight;
@@ -1587,7 +1588,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string role = params[1].get_str();
-	string rawTx;
+	string rawTx = "";
 	if(CheckParam(params, 2))
 		rawTx = params[2].get_str();
 
@@ -2075,7 +2076,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
-	string rawTx;
+	string rawTx = "";
 	if(CheckParam(params, 1))
 		rawTx = params[1].get_str();
 
@@ -2487,7 +2488,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string role = params[1].get_str();
-	string rawTx;
+	string rawTx = "";
 	if(CheckParam(params, 2))
 		rawTx = params[2].get_str();
     // this is a syscoin transaction
@@ -2784,7 +2785,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
-	string rawTx;
+	string rawTx = "";
 	if(CheckParam(params, 1))
 		rawTx = params[1].get_str();
 

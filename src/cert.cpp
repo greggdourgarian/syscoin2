@@ -774,7 +774,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 UniValue certnew(const UniValue& params, bool fHelp) {
     if (fHelp || params.size() < 4 || params.size() > 6)
         throw runtime_error(
-		"certnew <alias> <title> <private> <public> [safe search=Yes] [category=certificates]\n"
+		"certnew <alias> <title> <private> <public> [safe search=Yes] [category]\n"
 						"<alias> An alias you own.\n"
                         "<title> title, 256 characters max.\n"
 						"<private> private data, 512 characters max.\n"
@@ -898,9 +898,9 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 }
 
 UniValue certupdate(const UniValue& params, bool fHelp) {
-    if (fHelp || params.size() < 5 || params.size() > 7)
+    if (fHelp || params.size() < 2 || params.size() > 7)
         throw runtime_error(
-		"certupdate <guid> <alias> <title> <private> <public> [safesearch=Yes] [category]\n"
+		"certupdate <guid> <alias> [title] [private] [public] [safesearch=Yes] [category]\n"
                         "Perform an update on an certificate you control.\n"
                         "<guid> certificate guidkey.\n"
 						"<alias> an alias you own to associate with this certificate.\n"
@@ -912,10 +912,16 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchCert = vchFromValue(params[0]);
-	vector<unsigned char> vchAlias = vchFromValue(params[1]);
-    vector<unsigned char> vchTitle = vchFromValue(params[2]);
-    string strData = params[3].get_str();
-	vector<unsigned char> vchPubData = vchFromValue(params[4]);
+    vector<unsigned char> vchAlias = vchFromValue(params[1]);
+    vector<unsigned char> vchTitle;
+	if(CheckParam(params, 2))
+		vchTitle = vchFromValue(params[2]);
+    string strData = "";
+	if(CheckParam(params, 3))
+		strData = params[3].get_str();
+	vector<unsigned char> vchPubData;
+	if(CheckParam(params, 4))
+		vchPubData =  vchFromValue(params[4]);
 	vector<unsigned char> vchCat;
 	string strSafeSearch = "";
 	if(CheckParam(params, 5))
@@ -949,14 +955,23 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
     // create CERTUPDATE txn keys
     CScript scriptPubKey;
 
-    
-	theCert.vchTitle = vchTitle;
-	theCert.vchData = ParseHex(strData);
-	theCert.vchPubData = vchPubData;
+ 	if(vchTitle.empty())
+		theCert.vchTitle = copyCert.vchTitle;
+	else
+		theCert.vchTitle = vchTitle;
+	if(vchData.empty())
+		theCert.vchData = copyCert.vchData;
+	else
+		theCert.vchData = ParseHex(strData);
+	if(vchPubData.empty())
+		theCert.vchPubData = copyCert.vchPubData;
+	else
+		theCert.vchPubData = vchPubData;
 	if(vchCat.empty())
 		theCert.sCategory = copyCert.sCategory;
 	else
 		theCert.sCategory = vchCat;
+
 	theCert.vchAlias = theAlias.vchAlias;
 	if(!vchAlias.empty() && vchAlias != theAlias.vchAlias)
 		theCert.vchLinkAlias = vchAlias;
@@ -1031,7 +1046,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 UniValue certtransfer(const UniValue& params, bool fHelp) {
  if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
-		"certtransfer <certkey> <alias> [private=""] [viewonly=No]\n"
+		"certtransfer <certkey> <alias> [private] [viewonly=No]\n"
                 "<certkey> certificate guidkey.\n"
 				"<alias> Alias to transfer this certificate to.\n"
 				"<private> private certificate data, 512 characters max.\n"
