@@ -2320,26 +2320,16 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	COffer offerCopy = theOffer;
 	theOffer.ClearOffer();
 	theOffer.nHeight = chainActive.Tip()->nHeight;
-	if(vchCat.empty())
-		theOffer.sCategory = offerCopy.sCategory;
-	else
+	if(!vchCat.empty())
 		theOffer.sCategory = vchCat;
-	if(vchTitle.empty())
-		theOffer.sTitle = offerCopy.sTitle;
-	else
+	if(!vchTitle.empty())
 		theOffer.sTitle = vchTitle;
-	if(vchDesc.empty())
-		theOffer.sDescription = offerCopy.sDescription;
-	else
+	if(!vchDesc.empty())
 		theOffer.sDescription = vchDesc;
-	if(vchGeoLocation.empty())
-		theOffer.vchGeoLocation = offerCopy.vchGeoLocation;
-	else
+	if(!vchGeoLocation.empty())
 		theOffer.vchGeoLocation = vchGeoLocation;
 	CAmount nPricePerUnit = offerCopy.GetPrice();
-	if(sCurrencyCode.empty())
-		theOffer.sCurrencyCode = offerCopy.sCurrencyCode;
-	else
+	if(!sCurrencyCode.empty())
 		theOffer.sCurrencyCode = sCurrencyCode;
 
 	float fPrice = 1;
@@ -2348,9 +2338,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	// linked offers can't change these settings, they are overrided by parent info
 	if(offerCopy.vchLinkOffer.empty())
 	{
-		if(vchCert.empty())
-			theOffer.vchCert = offerCopy.vchCert;
-		else
+		if(!vchCert.empty())
 			theOffer.vchCert = vchCert;
 		int precision = 2;
 		nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);

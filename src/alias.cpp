@@ -1778,14 +1778,14 @@ bool CheckParam(const UniValue& params, const unsigned int index)
 UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if (fHelp || 4 > params.size() || 15 < params.size())
 		throw runtime_error(
-		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire] [nrequired] [\"alias\",...] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire_timestamp] [nrequired] [\"alias\",...] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Should be encrypted to publickey.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
 						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only. Should be encrypted to encryption_publickey.\n"
 						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
-						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(1.5^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
+						"<expire_timestamp> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update. 0 by default.\n"
 						"<\"aliases\"> For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -2048,7 +2048,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 > params.size() || 15 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [safesearch=Yes] [alias_pubkey] [password] [accept_transfers=Yes] [expire] [nrequired] [\"alias\",...] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
+		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [safesearch=Yes] [alias_pubkey] [password] [accept_transfers=Yes] [expire_timestamp] [nrequired] [\"alias\",...] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public_value> alias public profile data, 1024 chars max.\n"
@@ -2057,7 +2057,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"
 						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
 						"<accept_transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
-						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 1.5^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
+						"<expire_timestamp> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 2.88^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
 						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update. 0 by default.\n"
 						"<\"aliases\"> For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
@@ -2184,37 +2184,23 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 
 	theAlias.nHeight = chainActive.Tip()->nHeight;
-	if(strPublicValue.empty())
-		theAlias.vchPublicValue = copyAlias.vchPublicValue;
-	else
+	if(!strPublicValue.empty())
 		theAlias.vchPublicValue = vchFromString(strPublicValue);
-	if(strPrivateValue.empty())
-		theAlias.vchPrivateValue = copyAlias.vchPrivateValue;
-	else
+	if(!strPrivateValue.empty())
 		theAlias.vchPrivateValue = ParseHex(strPrivateValue);
-	if(strEncryptionPrivateKey.empty())
-		theAlias.vchEncryptionPrivateKey = copyAlias.vchEncryptionPrivateKey;
-	else
+	if(!strEncryptionPrivateKey.empty())
 		theAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
-	if(strEncryptionPublicKey.empty())
-		theAlias.vchEncryptionPublicKey = copyAlias.vchEncryptionPublicKey;
-	else
+	if(!strEncryptionPublicKey.empty())
 		theAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
-	if(strPassword.empty())
-		theAlias.vchPassword = copyAlias.vchPassword;
-	else
+	if(!strPassword.empty())
 		theAlias.vchPassword = ParseHex(strPassword);
-	if(strPasswordSalt.empty())
-		theAlias.vchPasswordSalt = copyAlias.vchPasswordSalt;
-	else
+	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
-	if(strSafeSearch.empty())
-		theAlias.safeSearch = copyAlias.safeSearch;
-	else
+	if(!strSafeSearch.empty())
 		theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	if(strAcceptCertTransfers.empty())
 		theAlias.acceptCertTransfers = copyAlias.acceptCertTransfers;

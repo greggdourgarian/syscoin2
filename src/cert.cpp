@@ -955,21 +955,13 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
     // create CERTUPDATE txn keys
     CScript scriptPubKey;
 
- 	if(vchTitle.empty())
-		theCert.vchTitle = copyCert.vchTitle;
-	else
+ 	if(!vchTitle.empty())
 		theCert.vchTitle = vchTitle;
-	if(strData.empty())
-		theCert.vchData = copyCert.vchData;
-	else
+	if(!strData.empty())
 		theCert.vchData = ParseHex(strData);
-	if(vchPubData.empty())
-		theCert.vchPubData = copyCert.vchPubData;
-	else
+	if(!vchPubData.empty())
 		theCert.vchPubData = vchPubData;
-	if(vchCat.empty())
-		theCert.sCategory = copyCert.sCategory;
-	else
+	if(!vchCat.empty())
 		theCert.sCategory = vchCat;
 
 	theCert.vchAlias = theAlias.vchAlias;
