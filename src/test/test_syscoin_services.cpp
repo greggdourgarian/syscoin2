@@ -1109,7 +1109,7 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 	CreateSysRatesIfNotExist();
 
 	UniValue r;
-	string privatetmp = isPrivate ? "1" : "0";
+	string privatetmp = isPrivate ? "Yes" : "No";
 	string offerupdatestr = "offerupdate " + aliasname + " " + offerguid + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency + " " + privatetmp + " " + certguid + " " +  geolocation + " " + safesearch + " " + commission + " " + paymentoptions;
 	
 

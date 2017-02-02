@@ -823,7 +823,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	AliasNew("node1", "aliasprunewithoffer1", "password", "pubdata", "privdata");
 	AliasNew("node2", "aliasprunewithoffer2", "password", "pubdata", "privdata");
 	string offerguid = OfferNew("node1", "aliasprunewithoffer", "category", "title", "1", "0.05", "description", "USD");
-	string escrowguid = EscrowNew("node2", "node1", "aliasprunewithoffer2", offerguid, "1", message, "aliasprunewithoffer1", "aliasprunewithoffer");
+	string escrowguid = EscrowNew("node2", "node1", "aliasprunewithoffer2", offerguid, "1", "message", "aliasprunewithoffer1", "aliasprunewithoffer");
 	EscrowRelease("node2", "buyer", escrowguid);
 	EscrowClaimRelease("node1", escrowguid);
 	// last created alias should have furthest expiry
@@ -851,7 +851,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	string offerguid = OfferNew("node1", "aliasprunewithcertoffer", "category", "title", "1", "0.05", "description", "USD");
 	
 	OfferUpdate("node1", "aliasprunewithcertoffer", offerguid, "category", "title", "1", "0.05", "description");	
-	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "certificates", "title", "1", "0.05", "description", "USD", certguid);
+	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "certificates", "title", "1", "0.05", "description", "USD", false, certguid);
 	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", certofferguid, "1", "message");
 	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", offerguid, "1", "message");
 	ExpireAlias("aliasprunewithcertoffer2");
