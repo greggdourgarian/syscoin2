@@ -588,7 +588,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		CCrypter crypt;
 		string pwStr = password;
 		SecureString password = pwStr.c_str();
-		BOOST_CHECK(crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1));	
+		BOOST_CHECK(crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 2));	
 		privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 	}
 	else
@@ -788,7 +788,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		CCrypter crypt;
 		string pwStr = password;
 		SecureString scpassword = pwStr.c_str();
-		BOOST_CHECK(crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1));
+		BOOST_CHECK(crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 2));
 		CKey privKey;
 		privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 		CPubKey pubKey = privKey.GetPubKey();

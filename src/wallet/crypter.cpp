@@ -65,8 +65,10 @@ bool CCrypter::SetKeyFromPassphrase(const SecureString& strKeyData, const std::v
 	// SYSCOIN
 	else if(nDerivationMethod == 1)
 		i = libscrypt_scrypt((const unsigned char*)strKeyData.c_str(), strKeyData.size(), &chSalt[0], chSalt.size(), 16384, 16, 2, chKey, WALLET_CRYPTO_KEY_SIZE);
+	else if(nDerivationMethod == 2)
+		i = libscrypt_scrypt((const unsigned char*)strKeyData.c_str(), strKeyData.size(), &chSalt[0], chSalt.size(), 16, 1, 1, chKey, WALLET_CRYPTO_KEY_SIZE);
 	// SYSCOIN
-    if ((nDerivationMethod == 0 && i != (int)WALLET_CRYPTO_KEY_SIZE) || (nDerivationMethod == 1 && i < 0) )
+    if ((nDerivationMethod == 0 && i != (int)WALLET_CRYPTO_KEY_SIZE) || (nDerivationMethod >= 1 && i < 0) )
     {
         memory_cleanse(chKey, sizeof(chKey));
         memory_cleanse(chIV, sizeof(chIV));
