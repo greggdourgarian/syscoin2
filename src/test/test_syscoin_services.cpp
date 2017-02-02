@@ -1350,16 +1350,6 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	CreateSysRatesIfNotExist();
 
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + ownernode));
-	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
-	string strCipherPrivateData = "";
-	if(pay_message != "\"\"")
-		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), pay_message, strCipherPrivateData), true);
-	if(strCipherPrivateData.empty())
-		strCipherPrivateData = "\"\"";
-	else
-		strCipherPrivateData = HexStr(strCipherPrivateData);
-
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));
 	string selleralias = find_value(r.get_obj(), "alias").get_str();
 	int nCurrentQty = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
@@ -1369,6 +1359,14 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + selleralias));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+	string strCipherPrivateData = "";
+	if(pay_message != "\"\"")
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), pay_message, strCipherPrivateData), true);
+	if(strCipherPrivateData.empty())
+		strCipherPrivateData = "\"\"";
+	else
+		strCipherPrivateData = HexStr(strCipherPrivateData);
 
 
 	string offeracceptstr = "offeraccept " + aliasname + " " + offerguid + " " + qty + " " + strCipherPrivateData;
@@ -1411,15 +1409,6 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	CreateSysRatesIfNotExist();
 
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + ownernode));
-	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
-	string strCipherPrivateData = "";
-	if(pay_message != "\"\"")
-		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), pay_message, strCipherPrivateData), true);
-	if(strCipherPrivateData.empty())
-		strCipherPrivateData = "\"\"";
-	else
-		strCipherPrivateData = HexStr(strCipherPrivateData);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(buyernode, "offerinfo " + offerguid));
 	string selleralias = find_value(r.get_obj(), "alias").get_str();
@@ -1433,6 +1422,15 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	string sTargetQty = boost::to_string(nCurrentQty-nQtyToAccept);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + rootalias));
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+	string strCipherPrivateData = "";
+	if(pay_message != "\"\"")
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), pay_message, strCipherPrivateData), true);
+	if(strCipherPrivateData.empty())
+		strCipherPrivateData = "\"\"";
+	else
+		strCipherPrivateData = HexStr(strCipherPrivateData);
+
 	CAmount balanceOwnerBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_NO_THROW(r = CallRPC(resellernode, "aliasinfo " + selleralias));
 	CAmount balanceResellerBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
