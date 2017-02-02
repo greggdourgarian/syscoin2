@@ -760,7 +760,6 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string oldsafesearch = find_value(r.get_obj(), "safesearch").get_str();
 	string oldvalue = find_value(r.get_obj(), "value").get_str();
 	string oldprivatevalue = find_value(r.get_obj(), "privatevalue").get_str();
-	string oldsafesearch = find_value(r.get_obj(), "safesearch").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
