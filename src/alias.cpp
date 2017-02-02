@@ -2187,7 +2187,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(strPublicValue.empty())
 		theAlias.vchPublicValue = copyAlias.vchPublicValue;
 	else
-		theAlias.vchPublicValue = strPublicValue;
+		theAlias.vchPublicValue = vchFromString(strPublicValue);
 	if(strPrivateValue.empty())
 		theAlias.vchPrivateValue = copyAlias.vchPrivateValue;
 	else
