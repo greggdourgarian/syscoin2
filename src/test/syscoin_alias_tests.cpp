@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 	// 65 bytes long
 	string badname =  "sfsdfdfsdsfsfsdfdfsdsfdsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdsfsddfda";
 	AliasNew("node1", goodname, "password", "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg " + badname  + HexStr(vchFromString("password")) +  " 3d"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg " + badname + " " + HexStr(vchFromString("password")) +  " 3d"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
 {
