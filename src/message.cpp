@@ -490,7 +490,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	string strToAddress = params[4].get_str();
 	boost::algorithm::to_lower(strToAddress);
 	bool bSendFrom = true;
-	if(params.size() >= 6)
+	if(CheckParam(params, 5))
 		bSendFrom = params[5].get_str() == "Yes"? true: false;
 
 	EnsureWalletIsUnlocked();

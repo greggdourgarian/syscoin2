@@ -794,15 +794,13 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, aliastx))
 		throw runtime_error("SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2500 - " + _("failed to read alias from alias DB"));
 
-	if(params.size() >= 6)
+	string strSafeSearch = "Yes";
+	if(CheckParam(params, 4))
+		strSafeSearch = params[4].get_str();
+
+	if(CheckParam(params, 5))
 		vchCat = vchFromValue(params[5]);
 
-
-	string strSafeSearch = "Yes";
-	if(params.size() >= 5)
-	{
-		strSafeSearch = params[4].get_str();
-	}
 	
     // gather inputs
 	vector<unsigned char> vchCert = vchFromString(GenerateSyscoinGuid());
@@ -903,7 +901,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 UniValue certupdate(const UniValue& params, bool fHelp) {
     if (fHelp || params.size() < 5 || params.size() > 7)
         throw runtime_error(
-		"certupdate <guid> <alias> <title> <private> <public> [safesearch=Yes] [category=certificates]\n"
+		"certupdate <guid> <alias> <title> <private> <public> [safesearch=Yes] [category]\n"
                         "Perform an update on an certificate you control.\n"
                         "<guid> certificate guidkey.\n"
 						"<alias> an alias you own to associate with this certificate.\n"
@@ -911,7 +909,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
                         "<private> private certificate data, 512 characters max.\n"
 						"<public> public certificate data, 1024 characters max.\n"
 						"<safe search> set to No if this cert should only show in the search when safe search is not selected. Defaults to Yes (cert shows with or without safe search selected in search lists).\n"                     
-						"<category> category, 256 characters max. Defaults to certificates\n"
+						"<category> category, 256 characters max.\n"
                         + HelpRequiringPassphrase());
     // gather & validate inputs
     vector<unsigned char> vchCert = vchFromValue(params[0]);
@@ -919,15 +917,12 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchTitle = vchFromValue(params[2]);
     string strData = params[3].get_str();
 	vector<unsigned char> vchPubData = vchFromValue(params[4]);
-	vector<unsigned char> vchCat = vchFromString("certificates");
-	if(params.size() >= 7)
-		vchCat = vchFromValue(params[6]);
-
-	string strSafeSearch = "Yes";
-	if(params.size() >= 6)
-	{
+	vector<unsigned char> vchCat;
+	string strSafeSearch = "";
+	if(CheckParam(params, 5))
 		strSafeSearch = params[5].get_str();
-	}
+	if(CheckParam(params, 6))
+		vchCat = vchFromValue(params[6]);
 
     // this is a syscoind txn
     CWalletTx wtx;
@@ -965,8 +960,10 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	if(!vchAlias.empty() && vchAlias != theAlias.vchAlias)
 		theCert.vchLinkAlias = vchAlias;
 	theCert.nHeight = chainActive.Tip()->nHeight;
-	theCert.safeSearch = strSafeSearch == "Yes"? true: false;
-
+	if(strSafeSearch.empty())
+		theCert.safeSearch = copyCert.safeSearch;
+	else
+		theCert.safeSearch = strSafeSearch == "Yes"? true: false;
 	vector<unsigned char> data;
 	theCert.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
@@ -1033,7 +1030,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 UniValue certtransfer(const UniValue& params, bool fHelp) {
  if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
-		"certtransfer <certkey> <alias> [private=""] [viewonly=0]\n"
+		"certtransfer <certkey> <alias> [private=""] [viewonly=No]\n"
                 "<certkey> certificate guidkey.\n"
 				"<alias> Alias to transfer this certificate to.\n"
 				"<private> private certificate data, 512 characters max.\n"
@@ -1041,14 +1038,14 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
                  + HelpRequiringPassphrase());
 
     // gather & validate inputs
-	bool bViewOnly = false;
+	string strViewOnly = "";
 	vector<unsigned char> vchCert = vchFromValue(params[0]);
 	vector<unsigned char> vchAlias = vchFromValue(params[1]);
 	string strData;
-	if(params.size() >= 3)
+	if(CheckParam(params, 2))
 		strData = params[2].get_str();
-	if(params.size() >= 4)
-		bViewOnly = params[3].get_str() == "1"? true: false;
+	if(CheckParam(params, 3))
+		strViewOnly = params[3].get_str();
 	// check for alias existence in DB
 	CTransaction tx;
 	CAliasIndex toAlias;
@@ -1084,7 +1081,10 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	theCert.vchLinkAlias = toAlias.vchAlias;
 	theCert.safeSearch = copyCert.safeSearch;
 	theCert.safetyLevel = copyCert.safetyLevel;
-	theCert.bTransferViewOnly = bViewOnly;
+	if(strViewOnly.empty())
+		theCert.bTransferViewOnly = copyCert.bTransferViewOnly;
+	else
+		theCert.bTransferViewOnly = strViewOnly == "Yes"? true:false;
 	theCert.vchData = ParseHex(strData);
 
 	vector<unsigned char> data;

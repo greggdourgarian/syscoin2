@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release)
 	string description = "newdescription";
 	// by default linking isn't allowed
 	BOOST_CHECK_THROW(CallRPC("node3", "offerlink arbiteralias2 " + offerguid + " " + commission + " " + description), runtime_error);
-	offerguid = OfferNew("node2", "selleralias22", "category", "title", "100", "0.04", "description", "EUR", "nocert");
+	offerguid = OfferNew("node2", "selleralias22", "category", "title", "100", "0.04", "description", "EUR", "");
 	OfferAddWhitelist("node2", offerguid, "arbiteralias2", "5");
 	string offerlinkguid = OfferLink("node3", "arbiteralias2", offerguid, commission, description);
 	string guid = EscrowNew("node1", "node2", "buyeralias2", offerlinkguid, qty, message, "arbiteralias2", "selleralias22");
@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release)
 	AliasUpdate("node1", "buyeralias2", "changeddata1", "priv");
 	AliasUpdate("node2", "selleralias22", "changeddata1", "priv");
 	AliasUpdate("node3", "arbiteralias2", "changeddata1", "priv");
-	OfferUpdate("node2", "selleralias22", offerguid, "category", "titlenew", "100", "0.04", "descriptionnew", "EUR", false, "nocert", "location");
+	OfferUpdate("node2", "selleralias22", offerguid, "category", "titlenew", "100", "0.04", "descriptionnew", "EUR", false, "", "location");
 	EscrowClaimRelease("node2", guid);
 }
 BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	AliasNew("node3", "arbiteralias333", "password", "changeddata3");
 	string qty = "3";
 	string message = "paymentmessage";
-	string offerguid = OfferNew("node2", "selleralias33", "category", "title", "100", "0.05", "description", "EUR", "nocert");
+	string offerguid = OfferNew("node2", "selleralias33", "category", "title", "100", "0.05", "description", "EUR", "");
 	OfferAddWhitelist("node2", offerguid, "arbiteralias333", "5");
 	string commission = "3";
 	string description = "newdescription";
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
-	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", false, "nocert", "location");
+	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", false, "", "location");
 	GenerateBlocks(5, "node2");
 	EscrowClaimRelease("node2", guid);
 	// restore EUR peg

@@ -616,11 +616,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearchoffer", "Off"), true);
 
 	// good case, safe offer with safe alias
-	string offerguidsafe1 = OfferNew("node1", "jagbansafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "nocert", "NONE", "location", "Yes");
+	string offerguidsafe1 = OfferNew("node1", "jagbansafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "Yes");
 	// good case, unsafe offer with safe alias
-	string offerguidsafe2 = OfferNew("node1", "jagbansafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "nocert", "NONE", "location", "No");
+	string offerguidsafe2 = OfferNew("node1", "jagbansafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "No");
 	// good case, unsafe offer with unsafe alias
-	string offerguidsafe3 = OfferNew("node1", "jagbannonsafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "nocert", "NONE", "location", "No");
+	string offerguidsafe3 = OfferNew("node1", "jagbannonsafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "No");
 
 	// safe offer with safe alias should show regardless of safe search
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "On"), true);
@@ -633,7 +633,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// safe offer with unsafe alias
-	string offerguidunsafe = OfferNew("node1", "jagbannonsafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "nocert", "NONE", "location", "Yes");
+	string offerguidunsafe = OfferNew("node1", "jagbannonsafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "Yes");
 	// safe offer with unsafe alias should show only in safe search off mode
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidunsafe, "On"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidunsafe, "Off"), true);
@@ -653,8 +653,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// keep alive
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "nocert", "location", "Yes");
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "nocert", "location", "No");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "Yes");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "\"\"", "location", "No");
 	// swap them back and check filters again
 	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "Yes");	
 	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "No");
@@ -670,22 +670,22 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// unsafe offer with unsafe alias, edit the offer to safe set offer to not safe
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "nocert", "location", "No");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "No");
 	// you won't be able to find it unless in safe search off mode because the alias doesn't actually change
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "On"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);	
 
 	// unsafe offer with safe alias, edit to safe offer and change alias to unsafe 
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "nocert", "location", "Yes");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "\"\"", "location", "Yes");
 	// safe offer with unsafe alias should show when safe search off mode only
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "On"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Off"), true);
 
 	// safe offer with safe alias, edit to unsafe offer
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe3, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "nocert", "location", "No");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe3, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "\"\"", "location", "No");
 
 	// keep alive and revert settings
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "nocert", "location", "Yes");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "Yes");
 	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "Yes");	
 	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "No");
 
@@ -694,8 +694,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// revert settings of offers
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "nocert", "location", "No");
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "nocert", "location", "No");	
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "No");	
 
 	// ban both aliases level 1 (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearchoffer",SAFETY_LEVEL1));
@@ -756,7 +756,7 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	printf("Running generate_aliaspruning...\n");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprune password data"));
+	AliasNew("node1", "aliasprune", "password", "pubdata", "privdata");
 	GenerateBlocks(5, "node1");
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune", "Off"), true);
@@ -778,20 +778,19 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	// stop node3
 	StopNode("node3");
 	// create a new service
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprune1 password data"));
+	AliasNew("node1", "aliasprune1", "password", "pubdata", "privdata");
 	GenerateBlocks(5, "node1");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
 	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasprune1 newdata privdata"));
+	AliasUpdate("node1", "aliasprune1", "newdata", "privdata");
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "Off"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "Off"), true);
-	GenerateBlocks(5, "node1");
 	// ensure service is still active since its supposed to expire at 100 blocks of non updated services
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasprune1 newdata1 privdata"));
+	AliasUpdate("node1", "aliasprune1", "newdata1", "privdata1");
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "Off"), true);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "Off"), true);
@@ -820,25 +819,13 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasprunewithoffer password somedata"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasprunewithoffer1 password somedata"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasprunewithoffer2 password somedata"));
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithoffer category title 1 0.05 description USD"));
-	const UniValue &arr = r.get_array();
-	string offerguid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasprunewithoffer2 " + offerguid + " 1 message aliasprunewithoffer1"));
-	const UniValue &array = r.get_array();
-	string escrowguid = array[1].get_str();	
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowrelease " + escrowguid + " buyer"));
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowclaimrelease " + escrowguid));
-	UniValue retArray = r.get_array();
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "escrowcompleterelease " + escrowguid + " " + retArray[0].get_str()));
-	GenerateBlocks(5, "node1");
+	AliasNew("node1", "aliasprunewithoffer", "password", "pubdata", "privdata");
+	AliasNew("node1", "aliasprunewithoffer1", "password", "pubdata", "privdata");
+	AliasNew("node2", "aliasprunewithoffer2", "password", "pubdata", "privdata");
+	string offerguid = OfferNew("node1", "aliasprunewithoffer", "category", "title", "1", "0.05", "description", "USD");
+	string escrowguid = EscrowNew("node2", "node1", "aliasprunewithoffer2", offerguid, "1", message, "aliasprunewithoffer1", "aliasprunewithoffer");
+	EscrowRelease("node2", "buyer", escrowguid);
+	EscrowClaimRelease("node1", escrowguid);
 	// last created alias should have furthest expiry
 	ExpireAlias("aliasprunewithoffer2");
 	StartNode("node3");
@@ -857,31 +844,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprunewithcertoffer password somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew sysrates.peg aliasprunewithcertoffer2 password somedata"));
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	MilliSleep(2500);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasprunewithcertoffer jag1 data pubdata"));
-	const UniValue &arr = r.get_array();
-	string certguid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithcertoffer certificates title 1 0.05 description USD " + certguid));
-	const UniValue &arr1 = r.get_array();
-	string certofferguid = arr1[1].get_str();
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew aliasprunewithcertoffer category title 1 0.05 description USD"));
-	const UniValue &arr2 = r.get_array();
-	string offerguid = arr2[1].get_str();
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + offerguid + " category title 1 0.05 description"));
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasprunewithcertoffer " + certofferguid + " certificates title 1 0.05 description USD 0 " + certguid));
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept aliasprunewithcertoffer2 " + certofferguid + " 1 message"));
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept aliasprunewithcertoffer2 " + offerguid + " 1 message"));
-	GenerateBlocks(5, "node2");
+	AliasNew("node1", "aliasprunewithcertoffer", "password", "pubdata", "privdata");
+	AliasNew("node2", "aliasprunewithcertoffer2", "password", "pubdata", "privdata");
+	string certguid = CertNew("node1", "aliasprunewithcertoffer", "jag1", "data", "pubdata");
+	string certofferguid = OfferNew("node1", "aliasprunewithcertoffer", "certificates", "title", "1", "0.05", "description", "USD", certguid);
+	string offerguid = OfferNew("node1", "aliasprunewithcertoffer", "category", "title", "1", "0.05", "description", "USD");
+	
+	OfferUpdate("node1", "aliasprunewithcertoffer", offerguid, "category", "title", "1", "0.05", "description");	
+	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "certificates", "title", "1", "0.05", "description", "USD", certguid);
+	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", certofferguid, "1", "message");
+	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", offerguid, "1", "message");
 	ExpireAlias("aliasprunewithcertoffer2");
 	StartNode("node3");
 	ExpireAlias("aliasprunewithcertoffer2");
@@ -900,17 +872,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
 	StopNode("node3");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasprunewithcert password somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasnew sysrates.peg aliasprunewithcert2 password somedata"));
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasprunewithcert jag1 data pubdata"));
-	const UniValue &arr = r.get_array();
-	string certguid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasprunewithcert newdata \"\" pubdata"));
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certguid + " aliasprunewithcert2"));
+	AliasNew("node1", "aliasprunewithcert", "password", "pubdata", "privdata");
+	AliasNew("node2", "aliasprunewithcert2", "password", "pubdata", "privdata");
+	string certguid = CertNew("node1", "aliasprunewithcert", "jag1", "data", "pubdata");
+	CertUpdate("node1", certguid, "aliasprunewithcert", "title", "newdata", "pubdata");
+	CertTransfer("node1", certguid, "aliasprunewithcert2");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("aliasprunewithcert2");
 	StartNode("node3");
@@ -937,34 +903,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	OfferAddWhitelist("node1", offerguid, "aliasexpirednode2", "5");
 	string certguid = CertNew("node1", "aliasexpire", "certtitle", "certdata", "pubdata", "Yes");
 	StopNode("node3");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire2 passwordnew somedata"));
-	const UniValue &array1 = r.get_array();
-	string aliasexpire2pubkey = array1[1].get_str();
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire0"));
-	const UniValue &array = r.get_array();
-	string escrowguid = array[1].get_str();	
-	GenerateBlocks(5, "node2");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasexpire2node2 passwordnew somedata"));
-	const UniValue &array2 = r.get_array();
-	string aliasexpire2node2pubkey = array2[1].get_str();	
-	GenerateBlocks(5, "node2");
-
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew aliasexpire2 certtitle certdata pubdata"));
-	const UniValue &array3 = r.get_array();
-	string certgoodguid = array3[1].get_str();	
+	string aliasexpire2pubkey = AliasNew("node1", "aliasexpire2", "password", "pubdata", "privdata");
+	string escrowguid = EscrowNew("node2", "node1", "aliasexpirednode2", offerguid, "1", "message", "aliasexpire0", "aliasexpire2");
+	string aliasexpire2node2pubkey = AliasNew("node2", "aliasexpire2node2", "password", "pubdata", "privdata");
+	string certgoodguid = CertNew("node1", "aliasexpire2", "certtitle", "certdata", "pubdata");
 	// expire aliasexpirednode2 and everything before
 	ExpireAlias("aliasexpirednode2");
 	GenerateBlocks(5, "node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire passwordnew somedata"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasnew sysrates.peg aliasexpire0 passwordnew somedata"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasnew sysrates.peg aliasexpire1 passwordnew somedata"));
-	GenerateBlocks(5, "node1");
-	GenerateBlocks(5, "node2");
+	AliasNew("node1", "aliasexpire", "passwordnew", "pubdata", "privdata");
+	AliasNew("node1", "aliasexpire0", "passwordnew", "pubdata", "privdata");
+	AliasNew("node2", "aliasexpire1", "passwordnew", "pubdata", "privdata");
 	CKey privKey;
 	privKey.MakeNewKey(true);
 	CPubKey pubKey = privKey.GetPubKey();
@@ -996,16 +944,12 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: new escrow with expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire"), runtime_error);
 
-	// keep alive for later calls
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1"));
-	GenerateBlocks(5, "node1");
+	AliasUpdate("node1", "aliasexpire", "newdata", "privdata");
+	AliasUpdate("node1", "aliasexpire2", "newdata", "privdata");
 	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata \"\" pubdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " category title 100 0.05 description"));
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"));
-	GenerateBlocks(5, "node1");
+	CertUpdate("node1", certgoodguid, "aliasexpire2", "title", "newdata", "pubdata");
+	OfferUpdate("node1", "aliasexpire0", offerguid, "category", "title", "100", "0.05", "description");	
+	CertUpdate("node1", certguid, "aliasexpire", "jag1", "data", "pubdata");
 
 	StartNode("node3");
 	ExpireAlias("aliasexpirednode2");
@@ -1019,7 +963,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirednode2", "passwordnew3", "somedata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata \"\" pubdata"));
+	CertUpdate("node1", certgoodguid, "aliasexpire2", "jag1", "newdata", "pubdata");
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
@@ -1039,8 +983,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	AliasNew("node2", "aliasexpirednode2", "passwordnew3a", "somedataa");
 	AliasNew("node1", "aliasexpire2", "passwordnew3b", "somedatab");
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certtransfer " + certgoodguid + " aliasexpirednode2"));
-	GenerateBlocks(5, "node1");
+	CertTransfer("node1", certgoodguid, "aliasexpirednode2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certgoodguid));
 	// ensure it got transferred
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirednode2");

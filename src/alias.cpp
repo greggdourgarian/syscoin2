@@ -2081,7 +2081,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CWalletTx wtx;
 	CAliasIndex updateAlias;
 
-	string strSafeSearch = "Yes";
+	string strSafeSearch = "";
 	if(CheckParam(params, 4))
 	{
 		strSafeSearch = params[4].get_str();
@@ -2093,7 +2093,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 6))
 		strPassword = params[6].get_str();
 
-	string strAcceptCertTransfers = "Yes";
+	string strAcceptCertTransfers = "";
 	if(CheckParam(params, 7))
 	{
 		strAcceptCertTransfers = params[7].get_str();
@@ -2183,8 +2183,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
-	theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
-	theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
+	if(strSafeSearch.empty())
+		theAlias.safeSearch = copyAlias.safeSearch;
+	else
+		theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
+	if(strAcceptCertTransfers.empty())
+		theAlias.acceptCertTransfers = copyAlias.acceptCertTransfers;
+	else
+		theAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	
 	CSyscoinAddress newAddress;
 	CScript scriptPubKeyOrig;

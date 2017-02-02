@@ -1205,10 +1205,9 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchArbiter = vchFromValue(params[3]);
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOption = "SYS";
-	if(params.size() >= 5 && !params[4].get_str().empty() && params[4].get_str() != "NONE")
-	{
+	if(CheckParam(params, 4))
 		paymentOption = params[4].get_str();
-	}
+	
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOption))
 	{
@@ -1320,14 +1319,14 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchFromString(strArbiter), arbiteralias, aliastx))
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4509 - " + _("Failed to read arbiter alias from DB"));
 	
-	string extTxIdStr;
-	if(params.size() >= 6)
+	string extTxIdStr = "";
+	if(CheckParam(params, 5))
 		extTxIdStr = params[5].get_str();
 
 	string strMessage = params[3].get_str();
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(params.size() >= 7 && !params[6].get_str().empty() && params[6].get_str() != "NONE")
+	if(CheckParam(params, 6))
 	{
 		paymentOptions = params[6].get_str();
 		boost::algorithm::to_upper(paymentOptions);
@@ -1342,9 +1341,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		// payment options - and convert payment options string to a bitmask for the txn
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 	vector<unsigned char> vchRedeemScript;
-	if(params.size() >= 8)
+	if(CheckParam(params, 7))
 		vchRedeemScript = vchFromValue(params[7]);
-	if(params.size() >= 9)
+	if(CheckParam(params, 8))
 		nHeight = boost::lexical_cast<uint64_t>(params[8].get_str());
 
 	unsigned int nQty = 1;
@@ -1590,7 +1589,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string role = params[1].get_str();
 	string rawTx;
-	if(params.size() >= 3)
+	if(CheckParam(params, 2))
 		rawTx = params[2].get_str();
 
     // this is a syscoin transaction
@@ -2078,7 +2077,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string rawTx;
-	if(params.size() >= 2)
+	if(CheckParam(params, 1))
 		rawTx = params[1].get_str();
 
 	EnsureWalletIsUnlocked();
@@ -2490,7 +2489,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string role = params[1].get_str();
 	string rawTx;
-	if(params.size() >= 3)
+	if(CheckParam(params, 2))
 		rawTx = params[2].get_str();
     // this is a syscoin transaction
     CWalletTx wtx;
@@ -2787,7 +2786,7 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
     // gather & validate inputs
     vector<unsigned char> vchEscrow = vchFromValue(params[0]);
 	string rawTx;
-	if(params.size() >= 2)
+	if(CheckParam(params, 1))
 		rawTx = params[1].get_str();
 
 	EnsureWalletIsUnlocked();

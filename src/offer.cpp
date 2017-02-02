@@ -1459,7 +1459,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 UniValue offernew(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() < 7 || params.size() > 12)
 		throw runtime_error(
-		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='0']\n"
+		"offernew <alias> <category> <title> <quantity> <price> <description> <currency> [cert. guid] [payment options=SYS] [geolocation=''] [safe search=Yes] [private='No']\n"
 						"<alias> An alias you own.\n"
 						"<category> category, 255 chars max.\n"
 						"<title> title, 255 chars max.\n"
@@ -1471,7 +1471,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						"<paymentOptions> 'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'.\n"
 						"<geolocation> set to your geolocation. Defaults to empty. \n"
 						"<safe search> set to No if this offer should only show in the search when safe search is not selected. Defaults to Yes (offer shows with or without safe search selected in search lists).\n"
-						"<private> set to 1 if this offer should be private not be searchable. Defaults to 0.\n"
+						"<private> set to Yes if this offer should be private not be searchable. Defaults to No.\n"
 						+ HelpRequiringPassphrase());
 	// gather inputs
 	float fPrice;
@@ -1499,23 +1499,15 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	vchDesc = vchFromValue(params[5]);
 	CScript scriptPubKeyOrig;
 	CScript scriptPubKey;
-	if(params.size() >= 8)
-	{
-
+	if(CheckParam(params, 7))
 		vchCert = vchFromValue(params[7]);
-		if(vchCert == vchFromString("nocert"))
-			vchCert.clear();
-	}
-
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(params.size() >= 9 && !params[8].get_str().empty() && params[8].get_str() != "NONE")
-	{
-		paymentOptions = params[8].get_str();
-		boost::algorithm::to_upper(paymentOptions);
-	}
+	if(CheckParam(params, 8))
+		paymentOptions = params[8].get_str();		
+	boost::algorithm::to_upper(paymentOptions);
 	// payment options - validate payment options string
-	if(!ValidatePaymentOptionsString(paymentOptions))
+	if(!paymentOptions.empty() && !ValidatePaymentOptionsString(paymentOptions))
 	{
 		// TODO change error number to something unique
 		string err = "SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1504 - " + _("Could not validate the payment options value");
@@ -1525,17 +1517,16 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 
 	string strGeoLocation = "";
-	if(params.size() >= 10)
-	{
+	if(CheckParam(params, 9))
 		strGeoLocation = params[9].get_str();
-	}
+	
 	string strSafeSearch = "Yes";
-	if(params.size() >= 11)
-	{
+	if(CheckParam(params, 10))
 		strSafeSearch = params[10].get_str();
-	}
+	
 	bool bPrivate = false;
-	if (params.size() >= 12) bPrivate = boost::lexical_cast<int>(params[11].get_str()) == 1? true: false;
+	if(CheckParam(params, 11))
+		bPrivate = params[11].get_str() == "Yes"? true: false;
 
 	int precision = 2;
 	CAmount nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, vchCurrency, fPrice, chainActive.Tip()->nHeight, precision);
@@ -2181,7 +2172,7 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
 UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() < 6 || params.size() > 14)
 		throw runtime_error(
-		"offerupdate <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private='0'] [cert. guid=''] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
+		"offerupdate <alias> <guid> <category> <title> <quantity> <price> [description] [currency] [private=No] [cert. guid=''] [geolocation=''] [safesearch=Yes] [commission=0] [paymentOptions=0]\n"
 						"Perform an update on an offer you control.\n"
 						+ HelpRequiringPassphrase());
 	// gather & validate inputs
@@ -2193,39 +2184,13 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchCert;
 	vector<unsigned char> vchGeoLocation;
 	vector<unsigned char> sCurrencyCode;
-	int bPrivate = false;
+	string strPrivate = "";
 	int nQty;
 	float fPrice;
 	int nCommission = 0;
-	if (params.size() >= 7) vchDesc = vchFromValue(params[6]);
-	if (params.size() >= 8) sCurrencyCode = vchFromValue(params[7]);
-	if (params.size() >= 9) bPrivate = boost::lexical_cast<int>(params[8].get_str()) == 1? true: false;
-	if (params.size() >= 10) vchCert = vchFromValue(params[9]);
-	if(vchCert == vchFromString("nocert"))
-		vchCert.clear();
-	if (params.size() >= 11) vchGeoLocation = vchFromValue(params[10]);
-	string strSafeSearch = "Yes";
-	if(params.size() >= 12)
-	{
-		strSafeSearch = params[11].get_str();
-	}
-	if(params.size() >= 13 && !params[12].get_str().empty() && params[12].get_str() != "NONE")
-	{
-		nCommission = boost::lexical_cast<int>(params[12].get_str());
-	}
-
-	string paymentOptions = "SYS";
-	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
-	{
-		paymentOptions = params[13].get_str();
-		boost::algorithm::to_upper(paymentOptions);
-	}
-	if(!ValidatePaymentOptionsString(paymentOptions))
-	{
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1532 - " + _("Could not validate payment options string"));
-	}
-	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
-
+	string strSafeSearch = "";
+	string strCommission = "";
+	string paymentOptions = "";
 	try {
 		nQty = boost::lexical_cast<int>(params[4].get_str());
 		fPrice = boost::lexical_cast<float>(params[5].get_str());
@@ -2233,6 +2198,33 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1"));
 	}
+
+	if(CheckParam(params, 6))
+		vchDesc = vchFromValue(params[6]);
+	if(CheckParam(params, 7))
+		sCurrencyCode = vchFromValue(params[7]);
+	if(CheckParam(params, 8))
+		strPrivate = params[8].get_str();
+	if(CheckParam(params, 9))
+		vchCert = vchFromValue(params[9]);
+	if(CheckParam(params, 10))
+		vchGeoLocation = vchFromValue(params[10]);
+	if(CheckParam(params, 11))
+		strSafeSearch = params[11].get_str();
+	if(CheckParam(params, 12))
+		strCommission = params[12].get_str();	
+	if(CheckParam(params, 13))
+	{
+		paymentOptions = params[13].get_str();	
+		boost::algorithm::to_upper(paymentOptions);
+	}
+	
+	if(!paymentOptions.empty() && !ValidatePaymentOptionsString(paymentOptions))
+	{
+		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1532 - " + _("Could not validate payment options string"));
+	}
+	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
+
 
 	CAliasIndex alias, linkAlias;
 	CTransaction aliastx, linkaliastx;
@@ -2312,25 +2304,17 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	COffer offerCopy = theOffer;
 	theOffer.ClearOffer();
 	theOffer.nHeight = chainActive.Tip()->nHeight;
-	if(offerCopy.sCategory != vchCat)
-		theOffer.sCategory = vchCat;
-	if(offerCopy.sTitle != vchTitle)
-		theOffer.sTitle = vchTitle;
-	if(offerCopy.sDescription != vchDesc)
-		theOffer.sDescription = vchDesc;
-	if(offerCopy.vchGeoLocation != vchGeoLocation)
-		theOffer.vchGeoLocation = vchGeoLocation;
+	theOffer.sCategory = vchCat;
+	theOffer.sTitle = vchTitle;
+	theOffer.sDescription = vchDesc;
+	theOffer.vchGeoLocation = vchGeoLocation;
 	CAmount nPricePerUnit = offerCopy.GetPrice();
-	if(sCurrencyCode.empty() || sCurrencyCode == vchFromString("NONE"))
-		sCurrencyCode = offerCopy.sCurrencyCode;
-	if(offerCopy.sCurrencyCode != sCurrencyCode)
-		theOffer.sCurrencyCode = sCurrencyCode;
+	theOffer.sCurrencyCode = sCurrencyCode;
 
 	// linked offers can't change these settings, they are overrided by parent info
 	if(offerCopy.vchLinkOffer.empty())
 	{
-		if(offerCopy.vchCert != vchCert)
-			theOffer.vchCert = vchCert;
+		theOffer.vchCert = vchCert;
 		int precision = 2;
 		nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);
 		if(nPricePerUnit == 0)
@@ -2339,17 +2323,28 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			throw runtime_error(err.c_str());
 		}
 	}
-	if(params.size() >= 13 && !params[12].get_str().empty() && params[12].get_str() != "NONE")
-		theOffer.nCommission = nCommission;
-	if(params.size() >= 14 && !params[13].get_str().empty() && params[13].get_str() != "NONE")
+	if(strCommission.empty())
+		theOffer.nCommission = offerCopy.nCommission;
+	else
+		theOffer.nCommission = boost::lexical_cast<int>(strCommission);
+	if(paymentOptions.empty())
+		theOffer.paymentOptions = offerCopy.paymentOptions;
+	else
 		theOffer.paymentOptions = paymentOptionsMask;
 
 	if(!vchAlias.empty() && vchAlias != alias.vchAlias)
 		theOffer.vchLinkAlias = vchAlias;
-	theOffer.safeSearch = strSafeSearch == "Yes"? true: false;
+	if(strSafeSearch.empty())
+		theOffer.safeSearch = offerCopy.safeSearch;
+	else
+		theOffer.safeSearch = safeSearch == "Yes"? true: false;;
+
 	theOffer.nQty = nQty;
-	if (params.size() >= 9)
-		theOffer.bPrivate = bPrivate;
+	if(strPrivate.empty())
+		theOffer.bPrivate = offerCopy.bPrivate;
+	else
+		theOffer.bPrivate = strPrivate == "Yes"? true: false;;
+
 
 	theOffer.nHeight = chainActive.Tip()->nHeight;
 	theOffer.SetPrice(nPricePerUnit);
@@ -2435,7 +2430,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	string strMessage = params[3].get_str();
 	int64_t nHeight = chainActive.Tip()->nHeight;
 	unsigned int nQty = 1;
-	if (params.size() >= 3) {
+	if(CheckParam(params, 2))
 		try {
 			nQty = boost::lexical_cast<unsigned int>(params[2].get_str());
 		} catch (std::exception &e) {
@@ -2444,19 +2439,16 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	}
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(params.size() >= 6 && !params[5].get_str().empty() && params[5].get_str() != "NONE")
-	{
+	if(CheckParam(params, 5))
 		paymentOptions = params[5].get_str();
-		boost::algorithm::to_upper(paymentOptions);
-	}
+	boost::algorithm::to_upper(paymentOptions);
 	// payment options - validate payment options string
 	if(!ValidatePaymentOptionsString(paymentOptions))
 	{
-		// TODO change error number to something unique
 		string err = "SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1551 - " + _("Could not validate the payment options value");
 		throw runtime_error(err.c_str());
 	}
-		// payment options - and convert payment options string to a bitmask for the txn
+	// payment options - and convert payment options string to a bitmask for the txn
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 	// this is a syscoin txn
 	CWalletTx wtx;

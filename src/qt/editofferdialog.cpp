@@ -682,7 +682,7 @@ bool EditOfferDialog::saveCurrentRow()
 		}
 		else
 		{
-			params.push_back("nocert");
+			params.push_back("");
 		}
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());
 		params.push_back(ui->geoLocationEdit->text().toStdString());
@@ -761,7 +761,7 @@ bool EditOfferDialog::saveCurrentRow()
 			}
 			else
 			{
-				params.push_back("nocert");
+				params.push_back("");
 			}
 
 			params.push_back(ui->geoLocationEdit->text().toStdString());
