@@ -2431,6 +2431,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	int64_t nHeight = chainActive.Tip()->nHeight;
 	unsigned int nQty = 1;
 	if(CheckParam(params, 2))
+	{
 		try {
 			nQty = boost::lexical_cast<unsigned int>(params[2].get_str());
 		} catch (std::exception &e) {
