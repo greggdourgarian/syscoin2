@@ -675,6 +675,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
+	string oldvalue = find_value(r.get_obj(), "value").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
@@ -727,15 +728,22 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(balanceAfter >= (balanceBefore-COIN));
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
+
 	// check xferred right person and data changed
 	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "aliasinfo " + aliasname));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(balanceAfter >= (balanceBefore-COIN));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
-	BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata != "\"\""? privdata: "");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , encryptionprivkey);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 }
 void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch, string password)
@@ -749,6 +757,10 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	if(password != "\"\"")
 		myPassword = password;
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
+	string oldsafesearch = find_value(r.get_obj(), "safesearch").get_str();
+	string oldvalue = find_value(r.get_obj(), "value").get_str();
+	string oldprivatevalue = find_value(r.get_obj(), "privatevalue").get_str();
+	string oldsafesearch = find_value(r.get_obj(), "safesearch").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
@@ -820,11 +832,22 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory" && pubdata != "\"\"")
-		BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
+
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata != "\"\""? privdata: oldprivatevalue);
+	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , password != "\"\""? password: oldPassword);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , encryptionprivkey);
+	if(password == "\"\"")
+	{
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , oldPasswordSalt);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
+	}
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
+	
+	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
 	if(!otherNode1.empty())
 	{
@@ -838,13 +861,21 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory" && pubdata != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
+		if(password == "\"\"")
+		{
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
+		}
 	}
 	if(!otherNode2.empty())
 	{
@@ -857,13 +888,21 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory" && pubdata != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "value").get_str() == pubdata);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
+		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
+		if(password == "\"\"")
+		{
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
+		}
 	}
 
 }
@@ -953,31 +992,45 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 	else
 		strCipherPrivateData = HexStr(strCipherPrivateData);
 
+
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
+	string oldtitle = find_value(r.get_obj(), "title").get_str();
+	string olddata = find_value(r.get_obj(), "data").get_str();
+	string oldpubdata = find_value(r.get_obj(), "pubdata").get_str();
+	string oldsafesearch = find_value(r.get_obj(), "safesearch").get_str();
+
+
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + alias + " " + title + " " + strCipherPrivateData + " " + pubdata + " " + safesearch));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == data);
-	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "data").get_str() , data != "\"\""? data: olddata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "title").get_str() , title != "\"\""? title: oldtitle);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "pubdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+
 	if(!otherNode1.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
-		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-		BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "title").get_str() , title != "\"\""? title: oldtitle);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "pubdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "data").get_str() , "");
+
 	}
 	if(!otherNode2.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
-		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
-		BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "title").get_str() , title != "\"\""? title: oldtitle);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "pubdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "data").get_str() , "");
+
 	}
 }
 void CertTransfer(const string& node, const string& guid, const string& toalias)
@@ -1145,16 +1198,28 @@ const string OfferNew(const string& node, const string& aliasname, const string&
 	return guid;
 }
 
-void OfferUpdate(const string& node, const string& aliasname, const string& offerguid, const string& category, const string& title, const string& qty, const string& price, const string& description, const string& currency, const bool isPrivate, const string& certguid, const string& geolocation, string safesearch, string commission, string paymentoptions) {
+void OfferUpdate(const string& node, const string& aliasname, const string& offerguid, const string& category, const string& title, const string& qty, const string& price, const string& description, const string& currency, const string isprivate, const string& certguid, const string& geolocation, string safesearch, string commission, string paymentoptions) {
 
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
 	
 	CreateSysRatesIfNotExist();
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
+	string oldcategory = find_value(r.get_obj(), "category").get_str();
+	string oldtitle = find_value(r.get_obj(), "title").get_str();
+	string oldqty = find_value(r.get_obj(), "quantity").get_str();
+	string oldprice = find_value(r.get_obj(), "price").get_str();
+	string olddescription = find_value(r.get_obj(), "description").get_str();
+	string oldcurrency = find_value(r.get_obj(), "currency").get_str();
+	string oldprivate = find_value(r.get_obj(), "private").get_str();
+	string oldcert = find_value(r.get_obj(), "cert").get_str();
+	string oldgeolocation = find_value(r.get_obj(), "geolocation").get_str();
+	string oldsafesearch = find_value(r.get_obj(), "safesearch").get_str();
+	string oldcommission = find_value(r.get_obj(), "commission").get_str();
+	string oldpaymentoptions = find_value(r.get_obj(), "paymentoptions").get_str();
 
 	UniValue r;
-	string privatetmp = isPrivate ? "Yes" : "No";
-	string offerupdatestr = "offerupdate " + aliasname + " " + offerguid + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency + " " + privatetmp + " " + certguid + " " +  geolocation + " " + safesearch + " " + commission + " " + paymentoptions;
+	string offerupdatestr = "offerupdate " + aliasname + " " + offerguid + " " + category + " " + title + " " + qty + " " + price + " " + description + " " + currency + " " + isprivate + " " + certguid + " " +  geolocation + " " + safesearch + " " + commission + " " + paymentoptions;
 	
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, offerupdatestr));
@@ -1163,55 +1228,53 @@ void OfferUpdate(const string& node, const string& aliasname, const string& offe
 
 		
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
-	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-	if(certguid != "\"\"")
-		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
-
-	BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-	if(category != "\"\"")
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-	BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-	BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-	if(currency != "\"\"")
-		BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-	if(geolocation != "\"\"")
-		BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "offer").get_str() , offerguid);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "cert").get_str() , certguid != "\"\""? certguid: oldcert);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "title").get_str() , title != "\"\""? title: oldtitle);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category != "\"\""? category: oldcategory);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "quantity").get_str() , qty != "\"\""? qty: oldqty);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "description").get_str() , description != "\"\""? description: olddescription);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "currency").get_str() , currency != "\"\""? currency: oldcurrency);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price != "\"\""? price: oldprice);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "geolocation").get_str() , geolocation != "\"\""? geolocation: oldgeolocation);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "commission").get_str() , commission != "\"\""? commission: oldcommission);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "paymentoptions").get_str() , paymentoptions != "\"\""? paymentoptions: oldpaymentoptions);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "private").get_str() , isprivate != "\"\""? isprivate: oldprivate);
 	
 	if(!otherNode1.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "offerinfo " + offerguid));
-		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-		if(certguid != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
-
-		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-		if(category != "\"\"")
-			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-		if(currency != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-		if(geolocation != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "offer").get_str() , offerguid);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "cert").get_str() , certguid != "\"\""? certguid: oldcert);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "title").get_str() , title != "\"\""? title: oldtitle);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category != "\"\""? category: oldcategory);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "quantity").get_str() , qty != "\"\""? qty: oldqty);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "description").get_str() , description != "\"\""? description: olddescription);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "currency").get_str() , currency != "\"\""? currency: oldcurrency);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price != "\"\""? price: oldprice);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "geolocation").get_str() , geolocation != "\"\""? geolocation: oldgeolocation);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "commission").get_str() , commission != "\"\""? commission: oldcommission);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "paymentoptions").get_str() , paymentoptions != "\"\""? paymentoptions: oldpaymentoptions);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "private").get_str() , isprivate != "\"\""? isprivate: oldprivate);
 	}
 	if(!otherNode2.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "offerinfo " + offerguid));
-		BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
-		if(certguid != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == certguid);
-
-		BOOST_CHECK(find_value(r.get_obj(), "title").get_str() == title);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category);
-		BOOST_CHECK(find_value(r.get_obj(), "quantity").get_str() == qty);
-		BOOST_CHECK(find_value(r.get_obj(), "description").get_str() == description);
-		if(currency != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "currency").get_str() == currency);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price);
-		if(geolocation != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "geolocation").get_str() == geolocation);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "offer").get_str() , offerguid);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "cert").get_str() , certguid != "\"\""? certguid: oldcert);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "title").get_str() , title != "\"\""? title: oldtitle);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "category").get_str(), category != "\"\""? category: oldcategory);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "quantity").get_str() , qty != "\"\""? qty: oldqty);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "description").get_str() , description != "\"\""? description: olddescription);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "currency").get_str() , currency != "\"\""? currency: oldcurrency);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "price").get_str(), price != "\"\""? price: oldprice);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "geolocation").get_str() , geolocation != "\"\""? geolocation: oldgeolocation);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch != "\"\""? safesearch: oldsafesearch);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "commission").get_str() , commission != "\"\""? commission: oldcommission);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "paymentoptions").get_str() , paymentoptions != "\"\""? paymentoptions: oldpaymentoptions);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "private").get_str() , isprivate != "\"\""? isprivate: oldprivate);
 	}
 }
 

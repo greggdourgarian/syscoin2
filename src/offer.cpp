@@ -2341,7 +2341,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 		if(!vchCert.empty())
 			theOffer.vchCert = vchCert;
 		int precision = 2;
-		nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);
+		nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, sCurrencyCode.empty()? offerCopy.sCurrencyCode: sCurrencyCode, fPrice, chainActive.Tip()->nHeight, precision);
 		if(nPricePerUnit == 0)
 		{
 			string err = "SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1549 - " + _("Could not find currency in the peg alias");

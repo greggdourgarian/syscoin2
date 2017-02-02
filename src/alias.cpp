@@ -966,7 +966,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					{
 						// if transfer clear pw
 						if(!pwChange)
+						{
 							theAlias.vchPassword.clear();
+							theAlias.vchPasswordSalt.clear();
+						}
 						CSyscoinAddress myAddress;
 						GetAddress(theAlias, &myAddress);
 						const vector<unsigned char> &vchAddress = vchFromString(myAddress.ToString());

@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release)
 	AliasUpdate("node1", "buyeralias2", "changeddata1", "priv");
 	AliasUpdate("node2", "selleralias22", "changeddata1", "priv");
 	AliasUpdate("node3", "arbiteralias2", "changeddata1", "priv");
-	OfferUpdate("node2", "selleralias22", offerguid, "category", "titlenew", "100", "0.04", "descriptionnew", "EUR", false, "", "location");
+	OfferUpdate("node2", "selleralias22", offerguid, "category", "titlenew", "100", "0.04", "descriptionnew", "EUR", "No", "", "location");
 	EscrowClaimRelease("node2", guid);
 }
 BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
-	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", false, "", "location");
+	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", "No", "", "location");
 	GenerateBlocks(5, "node2");
 	EscrowClaimRelease("node2", guid);
 	// restore EUR peg
