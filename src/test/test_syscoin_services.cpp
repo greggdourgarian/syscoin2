@@ -1556,7 +1556,7 @@ const string LinkOfferAccept(const string& ownernode, const string& buyernode, c
 	return acceptguid;
 }
 
-const string EscrowNew(const string& node, const string& sellernode, const string& buyeralias, const string& offerguid, const string& qty, const string& message, const string& arbiteralias, const string& selleralias)
+const string EscrowNew(const string& node, const string& sellernode, const string& buyeralias, const string& offerguid, const string& qty, const string& message, const string& arbiteralias, const string& selleralias, const string &discountexpected)
 {
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
@@ -1582,6 +1582,8 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	int nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	BOOST_CHECK_EQUAL(nQtyAfter, nQtyBefore-nQty);
 	CAmount nTotal = offerprice*nQty;
+	if(discountexpected != "\"\"")
+		nTotal = nTotal*(100-atoi(discountexpected.c_str()));
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
