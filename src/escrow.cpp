@@ -3521,12 +3521,16 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	oEscrow.push_back(Pair("redeem_txid", strRedeemTxId));
     oEscrow.push_back(Pair("txid", escrow.txHash.GetHex()));
     oEscrow.push_back(Pair("height", sHeight));
-	string strMessage = string("");
-	if(strWalletless == "Yes")
-		strMessage = HexStr(escrow.vchPaymentMessage);
-	else if(!DecryptMessage(sellerAlias, escrow.vchPaymentMessage, strMessage))
-		strMessage = _("Encrypted for owner of offer");
-	oEscrow.push_back(Pair("pay_message", strMessage));
+	string strData = "";
+	string strDecrypted = "";
+	if(!escrow.vchPaymentMessage.empty())
+	{
+		if(strWalletless == "Yes")
+			strData = HexStr(escrow.vchPaymentMessage);		
+		else if(DecryptMessage(sellerAlias, escrow.vchPaymentMessage, strDecrypted))
+			strData = strDecrypted;			
+	}
+	oEscrow.push_back(Pair("pay_message", strData));
 	int64_t expired_time = GetEscrowExpiration(escrow);
 	int expired = 0;
     if(expired_time <= chainActive.Tip()->nTime)

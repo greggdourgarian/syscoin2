@@ -3594,10 +3594,15 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 	oOfferAccept.push_back(Pair("avg_rating", totalAvgRating));
 	oOfferAccept.push_back(Pair("avg_rating_display", strprintf("%.1f/5 (%d %s)", totalAvgRating, ratingCount, _("Votes"))));
 	string strMessage = string("");
-	if(strWalletless == "Yes")
-		strMessage = HexStr(theOffer.accept.vchMessage);
-	else if(!DecryptMessage(theAlias, theOffer.accept.vchMessage, strMessage))
-		strMessage = _("Encrypted for owner of offer");
+	string strData = "";
+	string strDecrypted = "";
+	if(!theOffer.accept.vchMessage.empty())
+	{
+		if(strWalletless == "Yes")
+			strData = HexStr(theOffer.accept.vchPaymentMessage);		
+		else if(DecryptMessage(theAlias, theOffer.accept.vchPaymentMessage, strDecrypted))
+			strData = strDecrypted;			
+	}
 	oOfferAccept.push_back(Pair("pay_message", strMessage));
 	return true;
 }

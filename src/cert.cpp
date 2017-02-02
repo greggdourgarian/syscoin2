@@ -1256,12 +1256,10 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 	string strDecrypted = "";
 	if(!cert.vchData.empty())
 	{
-		strData = _("Encrypted for owner of certificate private data");
 		if(strWalletless == "Yes")
 			strData = HexStr(cert.vchData);		
 		else if(DecryptMessage(alias, cert.vchData, strDecrypted))
-			strData = strDecrypted;		
-		
+			strData = strDecrypted;			
 	}
     oCert.push_back(Pair("data", strData));
 	oCert.push_back(Pair("pubdata", stringFromVch(cert.vchPubData)));

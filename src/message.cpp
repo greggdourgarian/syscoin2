@@ -891,7 +891,7 @@ void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, co
 	string subjectValue = stringFromVch(message.vchSubject);
 	entry.push_back(Pair("subject", subjectValue));
 
-	string strMessage =_("Encrypted for recipient of message");
+	string strMessage = "";
 	string strDecrypted = "";
 	if(DecryptMessage(dbAliasTo, message.vchMessageTo, strDecrypted))
 		strMessage = strDecrypted;
