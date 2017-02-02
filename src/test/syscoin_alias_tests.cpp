@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
 	string strCipherBadPassword = "";
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, baddata, strCipherBadPassword), true);	
 	AliasNew("node1", "aliasname", gooddata, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + strCipherBadPassword + " pubdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + HexStr(vchFromString(strCipherBadPassword)) + " pubdata"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
