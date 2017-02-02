@@ -2337,7 +2337,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if(strSafeSearch.empty())
 		theOffer.safeSearch = offerCopy.safeSearch;
 	else
-		theOffer.safeSearch = safeSearch == "Yes"? true: false;;
+		theOffer.safeSearch = strSafeSearch == "Yes"? true: false;;
 
 	theOffer.nQty = nQty;
 	if(strPrivate.empty())
