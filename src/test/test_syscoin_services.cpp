@@ -900,17 +900,16 @@ const string CertNew(const string& node, const string& alias, const string& titl
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + alias));
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string strCipherPrivateData = "";
-	if(privdata != "\"\"")
-		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
+	if(data != "\"\"")
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), data, strCipherPrivateData), true);
 	if(strCipherPrivateData.empty())
 		strCipherPrivateData = "\"\"";
 	else
 		strCipherPrivateData = HexStr(strCipherPrivateData);
 
-	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + title + " " + strCipherPrivateData + " " + pubdata + " " + safesearch));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
@@ -1351,7 +1350,7 @@ const string OfferAccept(const string& ownernode, const string& buyernode, const
 	CreateSysRatesIfNotExist();
 
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + ownernode));
+	BOOST_CHECK_NO_THROW(r = CallRPC(ownernode, "aliasinfo " + ownernode));
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string strCipherPrivateData = "";
 	if(pay_message != "\"\"")
