@@ -630,7 +630,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), password);
 	const string &passwordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	if(password != "\"\"")
-		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
+		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt + " Yes"));
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(balanceAfter >= 10*COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
@@ -644,7 +644,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
 		if(password != "\"\"")
-			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt + " Yes"));
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
@@ -658,7 +658,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 		if(password != "\"\"")
-			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt));
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + password + " " + passwordSalt + " Yes"));
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
@@ -723,7 +723,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
 
 	if(!oldPassword.empty())
-		BOOST_CHECK_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt), runtime_error);
+		BOOST_CHECK_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt + " Yes"), runtime_error);
 
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(balanceAfter >= (balanceBefore-COIN));
@@ -768,7 +768,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	if(myPassword.empty())
 		myPassword = oldPassword;
 	else if(!oldPassword.empty())
-		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt));
+		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt + " Yes"));
 	string address = find_value(r.get_obj(), "address").get_str();
 	
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -826,7 +826,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	if(newPassword != oldPassword)
 	{
 		BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
+		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
 	}
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
@@ -854,7 +854,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		if(newPassword != oldPassword)
 		{
 			BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
 		}
 
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -882,7 +882,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		if(newPassword != oldPassword)
 		{
 			BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt));
+			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
 		}
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);

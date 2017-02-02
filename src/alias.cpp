@@ -1741,13 +1741,15 @@ CAmount GetDataFee(const CScript& scriptPubKey, const vector<unsigned char>& vch
 	return recipient.nAmount;
 }
 UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
-	if (fHelp || 3 != params.size())
-		throw runtime_error("aliasauthenticate <alias> <password> <salt>\n"
+	if (fHelp || params.size() < 3 || params.size() > 4)
+		throw runtime_error("aliasauthenticate <alias> <password> <salt> [unittest]\n"
 		"Authenticates an alias with a provided password/salt combination and returns the private key if successful. Warning: Calling this function over a network can lead to an external party reading your salt/password/private key in plain text.\n");
 	vector<unsigned char> vchAlias = vchFromString(params[0].get_str());
 	const SecureString &strPassword = params[1].get_str().c_str();
 	string strSalt = params[2].get_str();
-	
+    string strUnitTest = "";
+	if(CheckParam(params, 3))
+		strUnitTest = params[3].get_str();	
 	CTransaction tx;
 	CAliasIndex theAlias;
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
@@ -1758,7 +1760,7 @@ UniValue aliasauthenticate(const UniValue& params, bool fHelp) {
 	if(strPassword.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5501 - " + _("Password cannot be empty"));
 
-    if(!crypt.SetKeyFromPassphrase(strPassword, ParseHex(strSalt), 1, 1))
+	if(!crypt.SetKeyFromPassphrase(strPassword, ParseHex(strSalt), 1, strUnitTest == "Yes"? 2: 1))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5502 - " + _("Could not determine key from password"));
 
 	CKey key;
