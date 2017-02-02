@@ -959,7 +959,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 		theCert.vchTitle = copyCert.vchTitle;
 	else
 		theCert.vchTitle = vchTitle;
-	if(vchData.empty())
+	if(strData.empty())
 		theCert.vchData = copyCert.vchData;
 	else
 		theCert.vchData = ParseHex(strData);
