@@ -1,7 +1,9 @@
 #include "test/test_syscoin_services.h"
 #include "utiltime.h"
+#include "util.h"
 #include "rpc/server.h"
 #include "alias.h"
+#include "cert.h"
 #include "base58.h"
 #include "chainparams.h"
 #include <boost/test/unit_test.hpp>
@@ -25,7 +27,7 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasdata)
 	// 1025 bytes long
 	string baddata =   "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
 	AliasNew("node1", "jag",  "password", gooddata);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg jag1 password " + baddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg jag1 " + HexStr(vchFromString("password")) +  " " + baddata), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 {
@@ -38,19 +40,24 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 	// 65 bytes long
 	string badname =  "sfsdfdfsdsfsfsdfdfsdsfdsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdsfsddfda";
 	AliasNew("node1", goodname, "password", "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg " + badname + " password 3d"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg " + badname  + HexStr(vchFromString("password")) +  " 3d"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
 {
 	printf("Running generate_big_aliaspassword...\n");
 	GenerateBlocks(5);
+	CKey privKey;
+	privKey.MakeNewKey(true);
+	CPubKey pubKey = privKey.GetPubKey();
+	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
 	// 256 bytes long
 	string gooddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";	
 	// 257 bytes long
 	string baddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";	
-		
+	string strCipherBadPassword = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, baddata, strCipherBadPassword), true);	
 	AliasNew("node1", "aliasname", gooddata, "a");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + baddata + " " + "pubdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasname1 " + strCipherBadPassword + " pubdata"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 {
@@ -59,7 +66,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	AliasNew("node1", "jagupdate", "password", "data");
 	AliasNew("node1", "jagupdate1", "password", "data");
 	// update an alias that isn't yours
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagupdate test"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagupdate " + HexStr(vchFromString("pass"))), runtime_error);
 	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
 	AliasUpdate("node1", "jagupdate1", "changeddata", "privdata");
 	// update password
@@ -471,7 +478,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	
 	AliasNew("node1", "aliasexpirebuyback", "passwordnew1", "somedata", "data");
 	// can't renew aliases that aren't expired
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback password data"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback " + HexStr(vchFromString("password")) + " data"), runtime_error);
 	ExpireAlias("aliasexpirebuyback");
 	// expired aliases shouldnt be searchable
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "On"), false);
@@ -534,9 +541,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	GenerateBlocks(10, "node1");
 	GenerateBlocks(10, "node2");
 	AliasNew("node2", "aliasexpirebuyback", "passwordnew8", "somedata", "data");
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew sysrates.peg aliasexpirebuyback passwordnew9 data"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback passwordnew10 data"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpirebuyback changedata1 pvtdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasnew sysrates.peg aliasexpirebuyback " + HexStr(vchFromString("passwordnew9")) + " data"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback " + HexStr(vchFromString("password10")) + " data"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpirebuyback changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
 
 	// this time steal the alias and try to recreate at the same time
 	ExpireAlias("aliasexpirebuyback");
@@ -544,7 +551,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	ExpireAlias("aliasexpirebuyback");
 	AliasNew("node2", "aliasexpirebuyback", "passwordnew12", "somedata", "data");
 	GenerateBlocks(5,"node2");
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback passwordnew13 data2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback " + HexStr(vchFromString("passwordnew13")) + " data2"), runtime_error);
 	GenerateBlocks(5);
 }
 
@@ -796,7 +803,7 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "Off"), true);
 	ExpireAlias("aliasprune1");
 	// now it should be expired
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasprune1 newdata2 privdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasprune1 newdata2 " + HexStr(vchFromString("privatedata"))), runtime_error);
 	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "Off"), false);
 	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "Off"), false);
 	// and it should say its expired
@@ -933,16 +940,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 category title 1 0.05 description USD nocert"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpirednode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject " + HexStr(vchFromString("messagefrom")) + " " +   HexStr(vchFromString("messageto")) + " aliasexpirednode2 aliasexpirednode2"), runtime_error);
 	// should fail: send message from expired alias to non-expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject title aliasexpirednode2 aliasexpire"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject " + HexStr(vchFromString("messagefrom")) + " " +   HexStr(vchFromString("messageto")) + " aliasexpirednode2 aliasexpire"), runtime_error);
 	// should fail: send message from non-expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew subject title aliasexpire aliasexpirednode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew subject " + HexStr(vchFromString("messagefrom")) + " " +   HexStr(vchFromString("messageto")) + " aliasexpire aliasexpirednode2"), runtime_error);
 
 	// should fail: new escrow with expired arbiter alias
-	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 message aliasexpirednode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 " + HexStr(vchFromString("message")) + " aliasexpirednode2"), runtime_error);
 	// should fail: new escrow with expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 message aliasexpire"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 " + HexStr(vchFromString("message")) + " aliasexpire"), runtime_error);
 
 	AliasUpdate("node1", "aliasexpire", "newdata", "privdata");
 	AliasUpdate("node1", "aliasexpire2", "newdata", "privdata");
@@ -970,7 +977,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 
 	ExpireAlias("aliasexpire2");
 	// should fail: update cert with expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 \"\" pubdata"), runtime_error);
 	// should fail: xfer an cert with expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certguid + " aliasexpire2"), runtime_error);
 	// should fail: xfer an cert to an expired alias even though transferring cert is good
@@ -990,7 +997,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 
 	ExpireAlias("aliasexpire2");
 	// should fail: generate a cert using expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 data pubdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 " + HexStr(vchFromString("privatedata")) + " pubdata"), runtime_error);
 	// renew alias with new password after expiry
 	AliasNew("node2", "aliasexpirednode2", "passwordnew4", "somedata");
 }
