@@ -870,9 +870,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
 		if(password == "\"\"")
 		{
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , oldPasswordSalt);
 			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
 		}
 	}
@@ -897,9 +897,9 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
 		if(password == "\"\"")
 		{
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , oldPasswordSalt);
 			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
 		}
 	}
