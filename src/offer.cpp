@@ -2194,17 +2194,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	string strPrivate = "";
 	string strQty = "";
 	string strPrice = "";
-	int nCommission = 0;
 	string strSafeSearch = "";
 	string strCommission = "";
 	string paymentOptions = "";
-	try {
-		nQty = boost::lexical_cast<int>(params[4].get_str());
-		fPrice = boost::lexical_cast<float>(params[5].get_str());
-
-	} catch (std::exception &e) {
-		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid price and/or quantity values. Quantity must be less than 4294967296 and greater than or equal to -1"));
-	}
 	if(CheckParam(params, 4))
 	{
 		strQty = params[4].get_str();

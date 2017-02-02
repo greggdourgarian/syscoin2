@@ -2048,7 +2048,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 > params.size() || 15 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [safesearch=Yes] [alias_pubkey] [password] [accept_transfers=Yes] [expire] [nrequired=0] [\"alias\",...] [passworld_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
+		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [safesearch=Yes] [alias_pubkey] [password] [accept_transfers=Yes] [expire] [nrequired] [\"alias\",...] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public_value> alias public profile data, 1024 chars max.\n"
@@ -2058,7 +2058,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
 						"<accept_transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
 						"<expire> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 1.5^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
-						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update.\n"
+						"<nrequired> For multisig aliases only. The number of required signatures out of the n aliases for a multisig alias update. 0 by default.\n"
 						"<\"aliases\"> For multisig aliases only. A json array of aliases which are used to sign on an update to this alias.\n"
 						"     [\n"
 						"       {\n"
