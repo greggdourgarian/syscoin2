@@ -67,11 +67,12 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	AliasNew("node1", "jagupdate1", "password", "data");
 	// update an alias that isn't yours
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagupdate " + HexStr(vchFromString("pass"))), runtime_error);
-	AliasUpdate("node1", "jagupdate", "changeddata", "privdata");
-	AliasUpdate("node1", "jagupdate1", "changeddata", "privdata");
-	// update password
-	AliasUpdate("node1", "jagupdate", "changeddata", "privdata", "No", "newpass");
-	AliasUpdate("node1", "jagupdate1", "changeddata", "privdata", "No", "newpass");
+	// only update alias, no data
+	AliasUpdate("node1", "jagupdate");
+	AliasUpdate("node1", "jagupdate1");
+	// update password only
+	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "\"\"", "newpass");
+	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"", "\"\"", "newpass");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
@@ -655,8 +656,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// keep alive
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "Yes");
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "Yes");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", "No", "\"\"", "location", "No");
 	// swap them back and check filters again
 	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "Yes");	
 	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "No");
@@ -672,22 +673,22 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// unsafe offer with unsafe alias, edit the offer to safe set offer to not safe
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "No");
 	// you won't be able to find it unless in safe search off mode because the alias doesn't actually change
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "On"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);	
 
 	// unsafe offer with safe alias, edit to safe offer and change alias to unsafe 
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "\"\"", "location", "Yes");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", "No", "\"\"", "location", "Yes");
 	// safe offer with unsafe alias should show when safe search off mode only
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "On"), false);
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Off"), true);
 
 	// safe offer with safe alias, edit to unsafe offer
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe3, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", false, "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe3, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", "No", "\"\"", "location", "No");
 
 	// keep alive and revert settings
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "Yes");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "Yes");
 	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "Yes");	
 	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "No");
 
@@ -696,8 +697,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Off"), true);
 
 	// revert settings of offers
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "No");
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", false, "\"\"", "location", "No");	
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "No");	
 
 	// ban both aliases level 1 (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearchoffer",SAFETY_LEVEL1));
@@ -853,7 +854,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	string offerguid = OfferNew("node1", "aliasprunewithcertoffer", "category", "title", "1", "0.05", "description", "SYS");
 	
 	OfferUpdate("node1", "aliasprunewithcertoffer", offerguid, "category", "title", "1", "0.05", "description");	
-	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "certificates", "title", "1", "0.05", "description", "SYS", false, certguid);
+	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "certificates", "title", "1", "0.05", "description", "SYS", "No", certguid);
 	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", certofferguid, "1", "message");
 	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", offerguid, "1", "message");
 	ExpireAlias("aliasprunewithcertoffer2");
