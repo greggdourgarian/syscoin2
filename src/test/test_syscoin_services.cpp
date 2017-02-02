@@ -943,7 +943,7 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + alias));
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string strCipherPrivateData = "";
 	if(data != "\"\"")
