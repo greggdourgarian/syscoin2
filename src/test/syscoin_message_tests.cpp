@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 	string fromalias = "jagmsg1";
 	string toalias = "jagmsg2";
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "aliasinfo " + toalias));
+	BOOST_CHECK_NO_THROW(r = CallRPC(toalias, "aliasinfo " + toalias));
 	string encryptionkeyto = find_value(r.get_obj(), "encryption_publickey").get_str();
 
 	// good data cipher
@@ -34,10 +34,10 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 		strCipherGoodPrivateDataTo = "\"\"";
 	else
 		strCipherGoodPrivateDataTo = HexStr(strCipherGoodPrivateDataTo);
-	BOOST_CHECK_NO_THROW(r = CallRPC(fromnode, "aliasinfo " + fromalias));
+	BOOST_CHECK_NO_THROW(r = CallRPC(fromalias, "aliasinfo " + fromalias));
 	string encryptionkeyfrom = find_value(r.get_obj(), "encryption_publickey").get_str();
+
 	string strCipherGoodPrivateDataFrom = "";
-	
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), gooddata, strCipherGoodPrivateDataFrom), true);
 	if(strCipherGoodPrivateDataFrom.empty())
 		strCipherGoodPrivateDataFrom = "\"\"";
@@ -51,10 +51,8 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 		strCipherBadPrivateDataTo = "\"\"";
 	else
 		strCipherBadPrivateDataTo = HexStr(strCipherBadPrivateDataTo);
-	BOOST_CHECK_NO_THROW(r = CallRPC(fromnode, "aliasinfo " + fromalias));
-	string encryptionkeyfrom = find_value(r.get_obj(), "encryption_publickey").get_str();
+
 	string strCipherBadPrivateDataFrom = "";
-	
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), gooddata, strCipherBadPrivateDataFrom), true);
 	if(strCipherBadPrivateDataFrom.empty())
 		strCipherBadPrivateDataFrom = "\"\"";
@@ -70,7 +68,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 	// 1024 bytes long
 	// largest from message allowed
 	string goodfromdata = "asdfasdfdsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
-	strCipherGoodPrivateDataFrom.clear()'
+	strCipherGoodPrivateDataFrom.clear();
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), goodfromdata, strCipherGoodPrivateDataFrom), true);
 	if(strCipherGoodPrivateDataFrom.empty())
 		strCipherGoodPrivateDataFrom = "\"\"";
