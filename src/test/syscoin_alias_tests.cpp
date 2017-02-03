@@ -878,7 +878,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	AliasNew("node2", "aliasprunewithcert2", "password", "pubdata", "privdata");
 	string certguid = CertNew("node1", "aliasprunewithcert", "jag1", "data", "pubdata");
 	CertUpdate("node1", certguid, "aliasprunewithcert", "title", "newdata", "pubdata");
-	CertTransfer("node1", certguid, "aliasprunewithcert2");
+	CertTransfer("node1", "mode2", certguid, "aliasprunewithcert2");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("aliasprunewithcert2");
 	StartNode("node3");
@@ -988,7 +988,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	AliasNew("node2", "aliasexpirednode2", "passwordnew3a", "somedataa");
 	AliasNew("node1", "aliasexpire2", "passwordnew3b", "somedatab");
 	// should pass: confirm that the transferring cert is good by transferring to a good alias
-	CertTransfer("node1", certgoodguid, "aliasexpirednode2");
+	CertTransfer("node1", "node2", certgoodguid, "aliasexpirednode2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + certgoodguid));
 	// ensure it got transferred
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "alias").get_str(), "aliasexpirednode2");

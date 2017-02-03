@@ -85,16 +85,9 @@ BOOST_AUTO_TEST_CASE (generate_certtransfer)
 	pvtguid = CertNew("node1", "jagcert1", certtitle, certdata, "pubdata");
 	CertUpdate("node1", pvtguid, "jagcert1", certtitle, certdata, "pub3");
 	UniValue r;
-	CertTransfer("node1", guid, "jagcert2");
-	CertTransfer("node1", pvtguid, "jagcert3");
-	// it got xferred to right person
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "certinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == "jagcert2");
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == certdata);
+	CertTransfer("node1", "node2", guid, "jagcert2");
+	CertTransfer("node1", "node3", pvtguid, "jagcert3");
 
-	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "certinfo " + pvtguid));
-	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == "jagcert3");
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() == certdata);
 	// xfer an cert that isn't yours
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + guid + " jagcert2"), runtime_error);
 
@@ -104,7 +97,7 @@ BOOST_AUTO_TEST_CASE (generate_certtransfer)
 	CertUpdate("node2", guid, "jagcert2", certtitle, certdata, "public");
 
 	// retransfer cert
-	CertTransfer("node2", guid, "jagcert3");
+	CertTransfer("node2","node3", guid, "jagcert3");
 }
 BOOST_AUTO_TEST_CASE (generate_certsafesearch)
 {
