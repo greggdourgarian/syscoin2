@@ -47,14 +47,14 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 
 	// bad data cipher
 	string strCipherBadPrivateDataTo = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyto), gooddata, strCipherBadPrivateDataTo), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyto), baddata, strCipherBadPrivateDataTo), true);
 	if(strCipherBadPrivateDataTo.empty())
 		strCipherBadPrivateDataTo = "\"\"";
 	else
 		strCipherBadPrivateDataTo = HexStr(strCipherBadPrivateDataTo);
 
 	string strCipherBadPrivateDataFrom = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), gooddata, strCipherBadPrivateDataFrom), true);
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), baddata, strCipherBadPrivateDataFrom), true);
 	if(strCipherBadPrivateDataFrom.empty())
 		strCipherBadPrivateDataFrom = "\"\"";
 	else
@@ -77,6 +77,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 		strCipherGoodPrivateDataFrom = HexStr(strCipherGoodPrivateDataFrom);
 	// you can send from message if from msg is 1kb, so to msg would also be 1kb
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + goodtitle + " " + strCipherGoodPrivateDataFrom + " " +  strCipherGoodPrivateDataFrom + " " + fromalias + " " + toalias + " Yes"));
+	GenerateBlocks(5);
 	// ensure you can't send to msg of 4kb+1 when sending from msg (which is nothing)
 	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + goodtitle + " \"\" " +  strCipherBadPrivateDataTo + " " + fromalias + " " + toalias + " Yes"), runtime_error);
 
