@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 	string fromalias = "jagmsg1";
 	string toalias = "jagmsg2";
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(toalias, "aliasinfo " + toalias));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + toalias));
 	string encryptionkeyto = find_value(r.get_obj(), "encryption_publickey").get_str();
 
 	// good data cipher
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 		strCipherGoodPrivateDataTo = "\"\"";
 	else
 		strCipherGoodPrivateDataTo = HexStr(strCipherGoodPrivateDataTo);
-	BOOST_CHECK_NO_THROW(r = CallRPC(fromalias, "aliasinfo " + fromalias));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + fromalias));
 	string encryptionkeyfrom = find_value(r.get_obj(), "encryption_publickey").get_str();
 
 	string strCipherGoodPrivateDataFrom = "";
