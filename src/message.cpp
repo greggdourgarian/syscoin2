@@ -474,7 +474,7 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 UniValue messagenew(const UniValue& params, bool fHelp) {
     if (fHelp || 5 > params.size() || 6 < params.size() )
         throw runtime_error(
-		"messagenew <subject> <messagefrom> <messageto> <fromalias> <toalias> [sendfrom=Yes]\n"
+		"messagenew <subject> <messagefrom> <messageto> <fromalias> <toalias> [sendfrom]\n"
 						"<subject> Subject of message.\n"
 						"<messagefrom> Message to send to alias (encrypted to fromalias).\n"
 						"<messageto> Message to send to alias (encrypted to toalias).\n"
@@ -744,7 +744,7 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 	strData = "";
 	if(strWalletless == "Yes")
 		strData = HexStr(message.vchMessageFrom);
-	else if(DecryptMessage(aliasTo, message.vchMessageFrom, strDecrypted))
+	else if(DecryptMessage(aliasFrom, message.vchMessageFrom, strDecrypted))
 	{
 		strData = strDecrypted;
 	}
