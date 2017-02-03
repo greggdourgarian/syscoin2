@@ -2,6 +2,7 @@
 #include "utiltime.h"
 #include "rpc/server.h"
 #include "alias.h"
+#include "cert.h"
 #include <boost/test/unit_test.hpp>
 BOOST_FIXTURE_TEST_SUITE (syscoin_cert_tests, BasicSyscoinTestingSetup)
 
