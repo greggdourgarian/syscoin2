@@ -1712,7 +1712,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	{
 		if(balanceBuyerBefore != balanceBuyerAfter)
 			balanceBuyerBefore += nEscrowFee;	
-		BOOST_CHECK_EQUAL(balanceBuyerBefore, balanceBuyerAfter);
+		BOOST_CHECK(abs(balanceSellerAfter - balanceSellerBefore) <= 0.1*COIN);
 	}
 
 }
