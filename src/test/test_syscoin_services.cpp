@@ -1710,9 +1710,9 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	balanceBuyerBefore += nBuyerTotal;
 	if(rootselleralias.empty())
 	{
-		if(balanceBuyerBefore != balanceBuyerAfter)
+		if(abs(balanceBuyerAfter - balanceBuyerBefore) > 0.1*COIN)
 			balanceBuyerBefore += nEscrowFee;	
-		BOOST_CHECK(abs(balanceBuyerAfter - balanceBuyerBefore) <= COIN);
+		BOOST_CHECK(abs(balanceBuyerAfter - balanceBuyerBefore) <= 0.1*COIN);
 	}
 
 }
