@@ -1579,7 +1579,7 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	BOOST_CHECK_EQUAL(nQtyAfter, nQtyBefore-nQty);
 	CAmount nTotal = offerprice*nQty;
 	if(discountexpected != "\"\"")
-		nTotal = nTotal*(100-atoi(discountexpected.c_str()));
+		nTotal = nTotal*(float)((100-atoi(discountexpected.c_str()))/100.0f);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "escrow").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "offer").get_str() == offerguid);
