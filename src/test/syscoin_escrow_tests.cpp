@@ -48,7 +48,6 @@ BOOST_AUTO_TEST_CASE (generate_escrow_big)
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + goodname1 + " 600"), runtime_error);
 	GenerateBlocks(10);
 	// payment message too long
-	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + goodname2));
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 
