@@ -30,7 +30,7 @@ void CertUpdate(const string& node, const string& guid, const string& alias, con
 void CertTransfer(const string& node, const string& tonode, const string& guid, const string& toalias);
 bool CertFilter(const string& node, const string& regex, const string& safesearch);
 bool EscrowFilter(const string& node, const string& regex);
-const string MessageNew(const string& fromnode, const string& tonode, const string& title, const string& data, const string& fromalias, const string& toalias);
+const string MessageNew(const string& fromnode, const string& tonode, const string& title, const string& data, const string& fromalias, const string& toalias, const string& sendfrom="\"\"");
 void CreateSysRatesIfNotExist();
 void CreateSysBanIfNotExist();
 void CreateSysCategoryIfNotExist();

@@ -1062,7 +1062,7 @@ void CertTransfer(const string& node, const string &tonode, const string& guid, 
 	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 
 }
-const string MessageNew(const string& fromnode, const string& tonode, const string& title, const string& data, const string& fromalias, const string& toalias)
+const string MessageNew(const string& fromnode, const string& tonode, const string& title, const string& data, const string& fromalias, const string& toalias, const string& sendfrom)
 {
 	string otherNode = "";
 	if(fromnode != "node1" && tonode != "node1" && node1Online)
@@ -1090,13 +1090,17 @@ const string MessageNew(const string& fromnode, const string& tonode, const stri
 		strCipherPrivateDataFrom = "\"\"";
 	else
 		strCipherPrivateDataFrom = HexStr(strCipherPrivateDataFrom);
-	BOOST_CHECK_NO_THROW(r = CallRPC(fromnode, "messagenew " + title + " " + strCipherPrivateDataFrom + " " + strCipherPrivateDataTo + " " + fromalias + " " + toalias));
+	BOOST_CHECK_NO_THROW(r = CallRPC(fromnode, "messagenew " + title + " " + strCipherPrivateDataFrom + " " + strCipherPrivateDataTo + " " + fromalias + " " + toalias + " " + sendfrom));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
 	GenerateBlocks(5, fromnode);
 	BOOST_CHECK_NO_THROW(r = CallRPC(fromnode, "messageinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "GUID").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "message").get_str() == data);
+	if(sendfrom == "\"\"")
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "message").get_str() , data);
+	else
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "message").get_str() , "");
+
 	BOOST_CHECK(find_value(r.get_obj(), "subject").get_str() == title);
 	if(!otherNode.empty())
 	{
