@@ -2668,16 +2668,18 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
             "\nReturns the total amount received by the given alias in transactions with at least minconf confirmations.\n"
             "\nArguments:\n"
             "1. \"alias\"  (string, required) The syscoin alias for transactions.\n"
-            "2. minconf             (numeric, optional, default=1) Only include transactions confirmed at least this many times.\n"
+            "2. include_expired   (string, optional, default=No) Include balance of expired alias or not.\n"
        );
 	LOCK(cs_main);
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-
+    string includeExpired = "";
+	if(CheckParam(params, 2))
+		includeExpired = params[2].get_str();
 	CAmount nAmount = 0;
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, includeExpired == "Yes"? true: false))
 		return ValueFromAmount(nAmount);
 
 	CSyscoinAddress addressFrom;
@@ -2720,7 +2722,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     }
     return  ValueFromAmount(nAmount);
 }
-int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll)
+int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll, bool bIncludeExpired)
 {
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
@@ -2733,7 +2735,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, bIncludeExpired))
 		return -1;
 
 	CSyscoinAddress addressFrom;
