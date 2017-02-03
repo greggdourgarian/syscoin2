@@ -43,10 +43,10 @@ BOOST_AUTO_TEST_CASE (generate_escrow_big)
 	string qty = "3";
 
 	string offerguid = OfferNew("node2", goodname2, "category", "title", "100", "0.05", "description", "USD");
-	// payment message too long
-	BOOST_CHECK_THROW(r = CallRPC("node1", "escrownew " + goodname1 + " " + offerguid + " " + qty + " " + baddata + " " + goodname3), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + goodname1 + " 500"), runtime_error);
 	GenerateBlocks(10);
+	// payment message too long
+	BOOST_CHECK_THROW(r = CallRPC("node1", "escrownew " + goodname1 + " " + offerguid + " " + qty + " " + baddata + " " + goodname3), runtime_error);
 	string guid = EscrowNew("node1", "node2", goodname1, offerguid, qty, gooddata, goodname3, goodname2);
 	EscrowRelease("node1", "buyer", guid);	
 	EscrowClaimRelease("node2", guid);
