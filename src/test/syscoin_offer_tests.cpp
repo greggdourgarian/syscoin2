@@ -22,8 +22,6 @@ BOOST_AUTO_TEST_CASE (generate_offernew)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias1", "category", "title", "100", "0.05", "description", "USD");
-	// by default offers are set to private and not searchable
-	BOOST_CHECK_EQUAL(OfferFilter("node1", "", "On"), false);
 	// direct search should work
 	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguid, "On"), true);
 
@@ -127,7 +125,7 @@ BOOST_AUTO_TEST_CASE (generate_offerwhitelists)
 	AliasNew("node2", "selleraddwhitelistalias1", "password", "changeddata1");
 
 	// generate a good offer
-	string offerguid = OfferNew("node1", "sellerwhitelistalias", "category", "title", "100", "10.00", "description", "SYS", "\"\"");
+	string offerguid = OfferNew("node1", "sellerwhitelistalias", "category", "title", "100", "10.00", "description", "SYS");
 	// add to whitelist
 	OfferAddWhitelist("node1", offerguid, "selleraddwhitelistalias", "5");
 	BOOST_CHECK_THROW(CallRPC("node1", "offeraddwhitelist " + offerguid + " selleraddwhitelistalias 5"), runtime_error);
@@ -290,6 +288,9 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate)
 	// should fail: generate an offer too-large description
 	string s1025ytes =   "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate selleralias2 " + offerguid + " category title 90 0.15 " + s1025ytes), runtime_error);
+
+	// don't update any info
+	OfferUpdate("node1", "selleralias2", offerguid);
 
 }
 
@@ -549,7 +550,7 @@ BOOST_AUTO_TEST_CASE (generate_offerexpiredexmode)
 	AliasNew("node2", "selleralias11", "password", "changeddata1");
 
 	// generate a good offer 
-	string offerguid = OfferNew("node1", "selleralias10", "category", "title", "100", "0.05", "description", "USD", "\"\"");
+	string offerguid = OfferNew("node1", "selleralias10", "category", "title", "100", "0.05", "description", "USD");
 
 	// should succeed: offer seller adds affiliate to whitelist
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offeraddwhitelist " + offerguid + " selleralias11 10"));
@@ -702,10 +703,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	AliasNew("node1", "pruneoffer", "password", "changeddata1");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew pruneoffer category title 1 0.05 description USD"));
-	const UniValue &arr = r.get_array();
-	string guid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
+	string guid = OfferNew("node2", "pruneoffer", "category", "title", "1", "0.05", "description", "USD");
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(OfferFilter("node1", guid, "Off"), true);
 	GenerateBlocks(5, "node1");
@@ -729,25 +727,20 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"), runtime_error);
 	GenerateBlocks(5, "node1");
 	// create a new service
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg pruneoffer password1 temp data"));
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offernew pruneoffer category title 1 0.05 description USD"));
-	const UniValue &arr1 = r.get_array();
-	string guid1 = arr1[1].get_str();
-	GenerateBlocks(5, "node1");
+	AliasNew("node2", "pruneoffer", "password1", "data");
+	string guid1 = OfferNew("node2", "pruneoffer", "category", "title", "1", "0.05", "description", "USD");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
 	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate pruneoffer " + guid1 + " category title 1 0.05 description"));
+	OfferUpdate("node1", "pruneoffer", guid1, "category", "title", "1", "0.05", "description");
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(OfferFilter("node1", guid1, "Off"), true);
 	BOOST_CHECK_EQUAL(OfferFilter("node2", guid1, "Off"), true);
 	GenerateBlocks(5, "node1");
 	// make sure our offer alias doesn't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"));
-	GenerateBlocks(5, "node1");
+	AliasUpdate("node1", "pruneoffer");
 	ExpireAlias("pruneoffer");
 	// now it should be expired
 	BOOST_CHECK_THROW(CallRPC("node1", "offerupdate pruneoffer " + guid1 + " category title 1 0.05 description"), runtime_error);
