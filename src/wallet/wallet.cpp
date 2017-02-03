@@ -2365,11 +2365,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							// if paying from an alias then send change back to sender
 							if(address.isAlias)
 							{
+								lastScriptPubKey = it->first->vout[it->second].scriptPubKey;
 								if(!address.vchRedeemScript.empty())
-								{
 									scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
-									lastScriptPubKey = it->first->vout[it->second].scriptPubKey;
-								}
+								
 							}
 							// otherwise resolve back to new change address functionality
 							else
