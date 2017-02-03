@@ -488,8 +488,8 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	if(!useOnlyAliasPaymentToFund)
 	{
 		vector<COutPoint> outPoints;
-		// select all and include expired if alias transfer
-		numFeeCoinsLeft = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true, transferAlias, transferAlias);
+		// select all if alias transfer
+		numFeeCoinsLeft = aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bAreFeePlaceholdersFunded, nRequiredFeePlaceholderFunds, true, transferAlias);
 		BOOST_FOREACH(const COutPoint& outpoint, outPoints)
 		{
 			coinControl->Select(outpoint);	
@@ -498,7 +498,6 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 	// step 3
 	UniValue param(UniValue::VARR);
 	param.push_back(stringFromVch(vchAlias));
-	param.push_back(transferAlias? "Yes": "No");
 	const UniValue &result = tableRPC.execute("aliasbalance", param);
 	CAmount nBalance = AmountFromValue(result);
 	// if fee placement utxo's have been used up (or we are creating a new alias) use balance(alias or wallet) for funding as well as create more fee placeholders
@@ -542,8 +541,8 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		if(bNeedAliasPaymentInputs || useOnlyAliasPaymentToFund)
 		{
 			vector<COutPoint> outPoints;
-			// select all and include expired if transfer alias
-			aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false, transferAlias, transferAlias);
+			// select all if alias transferred
+			aliasselectpaymentcoins(vchAlias, nTotal, outPoints, bIsAliasPaymentFunded, nRequiredPaymentFunds, false, transferAlias);
 			if(!bIsAliasPaymentFunded && !coinControl->fAllowOtherInputs)
 				throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9000 - " + _("The Syscoin Alias does not have enough funds to complete this transaction. You need to deposit the following amount of coins in order for the transaction to succeed: ") + ValueFromAmount(nRequiredPaymentFunds).write());
 			BOOST_FOREACH(const COutPoint& outpoint, outPoints)

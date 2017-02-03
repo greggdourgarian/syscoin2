@@ -2008,7 +2008,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = true;
 	bool useOnlyAliasPaymentToFund = false;
 
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, isExpired);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
 	{
@@ -2662,24 +2662,20 @@ string GenerateSyscoinGuid()
 }
 UniValue aliasbalance(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() < 1 || params.size() > 2)
+    if (fHelp || params.size() != 1)
         throw runtime_error(
             "aliasbalance \"alias\" ( minconf )\n"
-            "\nReturns the total amount received by the given alias in transactions with at least minconf confirmations.\n"
+            "\nReturns the total amount received by the given alias in transactions with at least 1 confirmation.\n"
             "\nArguments:\n"
             "1. \"alias\"  (string, required) The syscoin alias for transactions.\n"
-            "2. include_expired   (string, optional, default=No) Include balance of expired alias or not.\n"
        );
 	LOCK(cs_main);
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-    string includeExpired = "";
-	if(CheckParam(params, 2))
-		includeExpired = params[2].get_str();
 	CAmount nAmount = 0;
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, includeExpired == "Yes"? true: false))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
 		return ValueFromAmount(nAmount);
 
 	CSyscoinAddress addressFrom;
@@ -2722,7 +2718,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
     }
     return  ValueFromAmount(nAmount);
 }
-int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll, bool bIncludeExpired)
+int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount &nAmount, vector<COutPoint>& outPoints, bool& bIsFunded, CAmount &nRequiredAmount, bool bSelectFeePlacementOnly, bool bSelectAll)
 {
 	LOCK2(cs_main, mempool.cs);
 	CCoinsViewCache view(pcoinsTip);
@@ -2735,7 +2731,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	vector<CAliasPayment> vtxPaymentPos;
 	CAliasIndex theAlias;
 	CTransaction aliasTx;
-	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx, bIncludeExpired))
+	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
 		return -1;
 
 	CSyscoinAddress addressFrom;
