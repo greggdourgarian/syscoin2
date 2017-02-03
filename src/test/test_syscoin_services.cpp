@@ -52,7 +52,6 @@ void StartNodes()
 	StartNode("node4", true, "-txindex");
 	StopNode("node4");
 	StartNode("node4", true, "-txindex");
-	ECC_Start();
 	SelectParams(CBaseChainParams::REGTEST);
 
 }
@@ -79,7 +78,6 @@ void StopNodes()
 	StopNode("node2");
 	StopNode("node3");
 	StopNode("node4");
-	ECC_Stop();
 	printf("Done!\n");
 }
 void StartNode(const string &dataDir, bool regTest, const string& extraArgs)

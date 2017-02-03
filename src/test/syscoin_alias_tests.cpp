@@ -14,6 +14,7 @@ BOOST_FIXTURE_TEST_SUITE (syscoin_alias_tests, BasicSyscoinTestingSetup)
 BOOST_AUTO_TEST_CASE (generate_sysrates_alias)
 {
 	printf("Running generate_sysrates_alias...\n");
+	ECC_Start();
 	CreateSysRatesIfNotExist();
 	CreateSysBanIfNotExist();
 	CreateSysCategoryIfNotExist();
