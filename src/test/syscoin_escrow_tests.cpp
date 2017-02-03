@@ -3,6 +3,8 @@
 #include "rpc/server.h"
 #include <boost/test/unit_test.hpp>
 #include "feedback.h"
+#include "alias.h"
+#include "cert.h"
 BOOST_FIXTURE_TEST_SUITE (syscoin_escrow_tests, BasicSyscoinTestingSetup)
 
 BOOST_AUTO_TEST_CASE (generate_escrow_release)
