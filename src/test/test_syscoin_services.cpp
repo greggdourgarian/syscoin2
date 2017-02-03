@@ -1858,8 +1858,9 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	CAmount balanceSellerAfter = AmountFromValue(find_value(a.get_obj(), "balance"));
 
 	balanceSellerBefore += nSellerTotal;
+	// check balance after and before within 0.1 COIN (because of escrow output sent to the seller which adds to seller balance)
 	if(rootselleralias.empty())
-		BOOST_CHECK_EQUAL(balanceSellerBefore, balanceSellerAfter);
+		BOOST_CHECK(abs(balanceSellerAfter - balanceSellerBefore) <= 0.1*COIN);
 
 }
 BasicSyscoinTestingSetup::BasicSyscoinTestingSetup()

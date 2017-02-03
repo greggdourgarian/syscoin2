@@ -328,7 +328,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	GenerateBlocks(5);
 	ExpireAlias("jagnodebalance1");
 	// renew alias, should transfer balances
+	balanceBefore = balanceAfter;
 	AliasNew("node2", "jagnodebalance1", "newpassword123", "changeddata1");
+	balanceBefore += 10*COIN;
 	// ensure balance is transferred on renewal
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
