@@ -148,6 +148,9 @@ BOOST_AUTO_TEST_CASE (generate_offerwhitelists)
 
 	OfferAccept("node1", "node2", "selleraddwhitelistalias1", offerguid, "1", "message");
 
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress selleraddwhitelistalias1 100"), runtime_error);
+	GenerateBlocks(10);
+
 	AliasUpdate("node1", "sellerwhitelistalias", "changeddata2", "privdata2");
 	AliasUpdate("node2", "selleraddwhitelistalias", "changeddata2", "privdata2");
 	AliasUpdate("node2", "selleraddwhitelistalias1", "changeddata2", "privdata2");
@@ -308,6 +311,8 @@ BOOST_AUTO_TEST_CASE (generate_offerupdate_editcurrency)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleraliascurrency", "category", "title", "100", "0.05", "description", "USD");
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliascurrency 10000"), runtime_error);
+	GenerateBlocks(10);
 	// accept and confirm payment is accurate with usd
 	string acceptguid = OfferAccept("node1", "node2", "buyeraliascurrency", offerguid, "2", "message");
 	UniValue acceptRet = FindOfferAcceptList("node1", "selleraliascurrency", offerguid, acceptguid);
