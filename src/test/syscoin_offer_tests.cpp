@@ -387,7 +387,7 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias3", "category", "title", "100", "0.01", "description", "USD");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeralias3 20"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeralias3 10000"), runtime_error);
 	GenerateBlocks(10);
 	// perform a valid accept
 	string acceptguid = OfferAccept("node1", "node2", "buyeralias3", offerguid, "1", "message");
@@ -473,7 +473,7 @@ BOOST_AUTO_TEST_CASE (generate_offeracceptfeedback)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleraliasfeedback", "category", "title", "100", "0.01", "description", "USD");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress node3alias 20"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasfeedback 50"), runtime_error);
 	GenerateBlocks(10);
 	// perform a valid accept
 	string acceptguid = OfferAccept("node1", "node2", "buyeraliasfeedback", offerguid, "1", "message");
@@ -593,10 +593,9 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 
 	// generate a good cert offer
 	string offerguid = OfferNew("node1", "node1alias2", "certificates", "title", "1", "0.05", "description", "USD", certguid);
-
-	// updates the alias which updates the offer and cert using this alias
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"));
-	GenerateBlocks(5, "node2");
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress node2alias2 125"), runtime_error);
+	GenerateBlocks(10);
+	OfferAccept("node1", "node2", "node2alias2", offerguid, "1", "message");
 	offerguid = OfferNew("node1", "node1alias2", "certificates", "title", "1", "0.05", "description", "USD", certguid);
 	ExpireAlias("node2alias2");
 	// should fail: accept an offer with expired alias
@@ -713,7 +712,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	AliasNew("node1", "pruneoffer", "password", "changeddata1");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	string guid = OfferNew("node2", "pruneoffer", "category", "title", "1", "0.05", "description", "USD");
+	string guid = OfferNew("node1", "pruneoffer", "category", "title", "1", "0.05", "description", "USD");
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(OfferFilter("node1", guid, "Off"), true);
 	GenerateBlocks(5, "node1");
@@ -737,8 +736,8 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg pruneoffer newdata privdata"), runtime_error);
 	GenerateBlocks(5, "node1");
 	// create a new service
-	AliasNew("node2", "pruneoffer", "password1", "data");
-	string guid1 = OfferNew("node2", "pruneoffer", "category", "title", "1", "0.05", "description", "USD");
+	AliasNew("node1", "pruneoffer", "password1", "data");
+	string guid1 = OfferNew("node1", "pruneoffer", "category", "title", "1", "0.05", "description", "USD");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
