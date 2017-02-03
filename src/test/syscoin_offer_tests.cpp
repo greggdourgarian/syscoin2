@@ -391,18 +391,26 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 	GenerateBlocks(10);
 	// perform a valid accept
 	string acceptguid = OfferAccept("node1", "node2", "buyeralias3", offerguid, "1", "message");
+
 	// should fail: generate an offer accept with too-large message
 	string s1024bytes =   "asdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 1 " + s1024bytes), runtime_error);
+	UniValue r;
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo selleralias3"));
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+	string strCipherData = "";
+
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), s1024bytes, strCipherData), true);
+	
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 1 " + strCipherData), runtime_error);
 
 	// perform an accept on negative quantity
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " -1 message"), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " -1 " + HexStr(vchFromString("message")), runtime_error);
 
 	// perform an accept on zero quantity
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 0 message"), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 0 " +  HexStr(vchFromString("message")), runtime_error);
 
 	// perform an accept on more items than available
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 100 message"), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 100 " +  HexStr(vchFromString("message")), runtime_error);
 
 
 }
@@ -536,7 +544,7 @@ BOOST_AUTO_TEST_CASE (generate_offerexpired)
 	ExpireAlias("buyeralias4");
 
 	// should fail: perform an accept on expired offer
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias4 " + offerguid + " 1 message"), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias4 " + offerguid + " 1 " + HexStr(vchFromString("message")), runtime_error);
 
 	// should fail: offer update on an expired offer
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offerupdate selleralias4 " + offerguid + " category title 90 0.15 description"), runtime_error);
@@ -599,7 +607,7 @@ BOOST_AUTO_TEST_CASE (generate_certofferexpired)
 	offerguid = OfferNew("node1", "node1alias2", "certificates", "title", "1", "0.05", "description", "USD", certguid);
 	ExpireAlias("node2alias2");
 	// should fail: accept an offer with expired alias
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 message"), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept node2alias2 " + offerguid + " 1 " +  HexStr(vchFromString("message")), runtime_error);
 	// should fail: generate a cert offer using an expired cert
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias2 certificates title 1 0.05 description USD " + certguid1), runtime_error);
 	/// should fail: generate a cert offer using an expired cert
