@@ -910,16 +910,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	string escrowguid = EscrowNew("node2", "node1", "aliasexpirednode2", offerguid, "1", "message", "aliasexpire0", "aliasexpire0", "5");
 	string aliasexpire2node2pubkey = AliasNew("node2", "aliasexpire2node2", "password", "pubdata", "privdata");
 	string certgoodguid = CertNew("node1", "aliasexpire2", "certtitle", "certdata", "pubdata");
-	// expire aliasexpirednode2 and everything before
-	r = CallRPC("node1", "aliasinfo aliasexpirednode2");
-	long expiryTime1 = find_value(r.get_obj(), "expires_on").get_int64();
-	r = CallRPC("node1", "aliasinfo aliasexpire2");
-	long expiryTime2 = find_value(r.get_obj(), "expires_on").get_int64();
-
-	printf("aliasexpirednode2 expiration %lld vs aliasexpire2 expiration %lld\n", expiryTime1, expiryTime2);
 	ExpireAlias("aliasexpirednode2");
-
 	GenerateBlocks(5, "node2");
+
 	AliasNew("node1", "aliasexpire", "passwordnew", "pubdata", "privdata");
 	AliasNew("node1", "aliasexpire0", "passwordnew", "pubdata", "privdata");
 	AliasNew("node2", "aliasexpire1", "passwordnew", "pubdata", "privdata");

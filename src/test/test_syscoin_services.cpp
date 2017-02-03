@@ -1037,7 +1037,8 @@ void CertTransfer(const string& node, const string& guid, const string& toalias)
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certtransfer " + guid + " " + toalias));
 	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
-	BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
+	if(!data.empty())
+		BOOST_CHECK(find_value(r.get_obj(), "data").get_str() != data);
 	BOOST_CHECK(find_value(r.get_obj(), "pubdata").get_str() == pubdata);
 
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
