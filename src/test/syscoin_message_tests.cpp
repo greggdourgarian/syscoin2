@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgsubject)
 	// 257 bytes long
 	string badtitle =   "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
 	MessageNew("node1", "node2", goodtitle, gooddata, "jagmsg1", "jagmsg2");
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + badtitle + " \"\"  \"\" jagmsg1 jagmsg2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + badtitle + " " + HexStr(vchFromString("message")) + " " + HexStr(vchFromString("message")) + " jagmsg1 jagmsg2"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_msgaliastransfer)
 {
@@ -115,9 +115,10 @@ BOOST_AUTO_TEST_CASE (generate_messagepruning)
 	printf("Running generate_messagepruning...\n");
 	AliasNew("node1", "messageprune1", "password", "changeddata1");
 	AliasNew("node2", "messageprune2", "password", "changeddata2");
+	AliasNew("node3", "messageprune3", "password", "changeddata2");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	string guid = MessageNew("node1", "node2", "subject", "title", "messageprune1", "messageprune2");
+	string guid = MessageNew("node1", "node3", "subject", "title", "messageprune1", "messageprune3");
 	// messages expire by checking the recipient alias
 	ExpireAlias("messageprune2");
 	StartNode("node2");
