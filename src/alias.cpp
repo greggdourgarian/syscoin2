@@ -2008,7 +2008,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = true;
 	bool useOnlyAliasPaymentToFund = false;
 
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, aliasExists);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.multiSigInfo.vchAliases.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, isExpired);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
 	{
