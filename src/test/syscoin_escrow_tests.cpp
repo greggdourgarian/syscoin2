@@ -43,10 +43,20 @@ BOOST_AUTO_TEST_CASE (generate_escrow_big)
 	string qty = "3";
 
 	string offerguid = OfferNew("node2", goodname2, "category", "title", "100", "0.05", "description", "USD");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + goodname1 + " 500"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress " + goodname1 + " 600"), runtime_error);
 	GenerateBlocks(10);
 	// payment message too long
-	BOOST_CHECK_THROW(r = CallRPC("node1", "escrownew " + goodname1 + " " + offerguid + " " + qty + " " + baddata + " " + goodname3), runtime_error);
+	UniValue r;
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + goodname2));
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+
+	string strCipherPrivateData = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), baddata, strCipherPrivateData), true);
+	if(strCipherPrivateData.empty())
+		strCipherPrivateData = "\"\"";
+	else
+		strCipherPrivateData = HexStr(strCipherPrivateData);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "escrownew " + goodname1 + " " + offerguid + " " + qty + " " + strCipherPrivateData + " " + goodname3), runtime_error);
 	string guid = EscrowNew("node1", "node2", goodname1, offerguid, qty, gooddata, goodname3, goodname2);
 	EscrowRelease("node1", "buyer", guid);	
 	EscrowClaimRelease("node2", guid);
@@ -60,7 +70,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrefund_seller)
 	string qty = "4";
 	string message = "paymentmessage";
 	string offerguid = OfferNew("node2", "selleraliasrefund", "category", "title", "100", "1.22", "description", "CAD");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 5000"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 15000"), runtime_error);
 	GenerateBlocks(10);
 	string guid = EscrowNew("node1", "node2", "buyeraliasrefund", offerguid, qty, message, "arbiteraliasrefund", "selleraliasrefund");
 	EscrowRefund("node2", "seller", guid);
@@ -71,6 +81,8 @@ BOOST_AUTO_TEST_CASE (generate_escrowrefund_arbiter)
 	printf("Running generate_escrowrefund_arbiter...\n");
 	string qty = "5";
 	string offerguid = OfferNew("node2", "selleraliasrefund", "category", "title", "100", "0.25", "description", "EUR");
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 2000"), runtime_error);
+	GenerateBlocks(10);
 	string message = "paymentmessage";
 	string guid = EscrowNew("node1", "node2", "buyeraliasrefund", offerguid, qty, message, "arbiteraliasrefund", "selleraliasrefund");
 	EscrowRefund("node3", "arbiter", guid);
@@ -85,7 +97,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrefund_invalid)
 	AliasNew("node3", "arbiteraliasrefund2", "password", "changeddata3");
 	string qty = "2";
 	string offerguid = OfferNew("node2", "selleraliasrefund2", "category", "title", "100", "1.45", "description", "EUR");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund2 5000"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund2 10000"), runtime_error);
 	GenerateBlocks(10);
 	string guid = EscrowNew("node1", "node2", "buyeraliasrefund2", offerguid, qty, "message", "arbiteraliasrefund2", "selleraliasrefund2");
 	// try to claim refund even if not refunded
