@@ -2328,7 +2328,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     CScript scriptChange;
 					// SYSCOIN
 					CSyscoinAddress address;
-					CScript lastScriptPubKey;
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
 					{
                         scriptChange = GetScriptForDestination(coinControl->destChange);
@@ -2365,7 +2364,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 							// if paying from an alias then send change back to sender
 							if(address.isAlias)
 							{
-								lastScriptPubKey = it->first->vout[it->second].scriptPubKey;
 								if(!address.vchRedeemScript.empty())
 									scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 								
@@ -2395,10 +2393,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
   						int op;
 						vector<vector<unsigned char> > vvch;
 						CScript scriptChangeOrig;
-						if(DecodeAliasScript(lastScriptPubKey, op, vvch) && vvch.size() > 1 && vvch[1] == vchFromString("1"))
-							scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << vchFromString("1") << OP_2DROP << OP_DROP;
-						else 
-							scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
+						scriptChangeOrig << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
 						scriptChangeOrig += scriptChange;
 						scriptChange = scriptChangeOrig;
 						txNew.nVersion = GetSyscoinTxVersion();				
