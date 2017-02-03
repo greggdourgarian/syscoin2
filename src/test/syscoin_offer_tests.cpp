@@ -387,7 +387,8 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleralias3", "category", "title", "100", "0.01", "description", "USD");
-
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeralias3 20"), runtime_error);
+	GenerateBlocks(10);
 	// perform a valid accept
 	string acceptguid = OfferAccept("node1", "node2", "buyeralias3", offerguid, "1", "message");
 	// should fail: generate an offer accept with too-large message
@@ -421,7 +422,8 @@ BOOST_AUTO_TEST_CASE (generate_linkedaccept)
 	string offerguid = OfferNew("node1", "node1aliaslinked", "category", "title", "10", "0.05", "description", "USD", "\"\"");
 	OfferAddWhitelist("node1", offerguid, "node2aliaslinked", "0");
 	string lofferguid = OfferLink("node2", "node2aliaslinked", offerguid, "5", "newdescription");
-
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress node3aliaslinked 850"), runtime_error);
+	GenerateBlocks(10);
 	LinkOfferAccept("node1", "node3", "node3aliaslinked", lofferguid, "6", "message", "node2");
 }
 BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
@@ -448,6 +450,8 @@ BOOST_AUTO_TEST_CASE (generate_cert_linkedaccept)
 	AliasUpdate("node1", "node1alias", "changeddata2", "privdata2");
 	AliasUpdate("node2", "node2alias", "changeddata2", "privdata2");
 	AliasUpdate("node3", "node3alias", "changeddata3", "privdata3");
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress node3alias 135"), runtime_error);
+	GenerateBlocks(10);
 	LinkOfferAccept("node1", "node3", "node3alias", lofferguid, "1", "message", "node2");
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node3");
@@ -469,7 +473,8 @@ BOOST_AUTO_TEST_CASE (generate_offeracceptfeedback)
 
 	// generate a good offer
 	string offerguid = OfferNew("node1", "selleraliasfeedback", "category", "title", "100", "0.01", "description", "USD");
-
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress node3alias 20"), runtime_error);
+	GenerateBlocks(10);
 	// perform a valid accept
 	string acceptguid = OfferAccept("node1", "node2", "buyeraliasfeedback", offerguid, "1", "message");
 	// seller leaves feedback first
