@@ -26,7 +26,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 void AliasTransfer(const string& node, const string& aliasname, const string& tonode, const string& pubdata="\"\"", const string& privdata="\"\"");
 bool AliasFilter(const string& node, const string& regex, const string& safesearch);
 const string CertNew(const string& node, const string& alias, const string& title, const string& data, const string& pubdata, const string& safesearch="\"\"");
-void CertUpdate(const string& node, const string& guid, const string& alias="\"\"", const string& title="\"\"", const string& data="\"\"", const string& pubdata="\"\"",string safesearch="\"\"");
+void CertUpdate(const string& node, const string& guid, const string& alias, const string& title="\"\"", const string& data="\"\"", const string& pubdata="\"\"",string safesearch="\"\"");
 void CertTransfer(const string& node, const string& guid, const string& toalias);
 bool CertFilter(const string& node, const string& regex, const string& safesearch);
 bool EscrowFilter(const string& node, const string& regex);

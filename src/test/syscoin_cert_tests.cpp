@@ -10,18 +10,35 @@ BOOST_AUTO_TEST_CASE (generate_big_certdata)
 	printf("Running generate_big_certdata...\n");
 	GenerateBlocks(5);
 	AliasNew("node1", "jagcertbig1", "password", "data");
+	// 256 bytes long
+	string gooddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";	
+	// 257 bytes long
+	string baddata = "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";	
+	
 	// 1024 bytes long
-	string gooddata = "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";
+	string goodpubdata = "asdfadsdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
 	// 1025 bytes long
-	string baddata =  "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
-	string guid = CertNew("node1", "jagcertbig1", "jag", gooddata, gooddata);
+	string badpubdata = "zasdfadsdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
+		
+
+	string strCipherBadData = "";
+	string strCipherGoodData = "";
+	CKey privKey;
+	privKey.MakeNewKey(true);
+	CPubKey pubKey = privKey.GetPubKey();
+	vector<unsigned char> vchPubKey(pubKey.begin(), pubKey.end());
+	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, baddata, strCipherBadData), true);	
+	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, gooddata, strCipherGoodData), true);	
+	string guid = CertNew("node1", "jagcertbig1", "jag", gooddata, goodpubdata);
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherGoodData)) + " \"\"");
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherBadData)) + " \"\""), runtime_error);
 	// unencrypted 1025 bytes should cause us to trip 1108 bytes once encrypted
-	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + baddata + " " + gooddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherBadData)) + " " + goodpubdata), runtime_error);
 	// update cert with long pub data
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + gooddata + " " + baddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " +  HexStr(vchFromString(strCipherGoodData)) + " " + badpubdata, runtime_error);
 	MilliSleep(2500);
 	// trying to update to bad data for pub and priv
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + baddata + " " + baddata), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 jag1 " + HexStr(vchFromString(strCipherBadData)) + " " + badpubdata), runtime_error);
 
 }
 BOOST_AUTO_TEST_CASE (generate_big_certtitle)
@@ -35,8 +52,8 @@ BOOST_AUTO_TEST_CASE (generate_big_certtitle)
 	string gooddata = "asdfadsdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
 	// 257 bytes long
 	string badtitle =   "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
-	CertNew("node1", "jagcertbig2", goodtitle, "a", "pub");
-	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig2 " + badtitle + " priv pub"), runtime_error);
+	CertNew("node1", "jagcertbig2", goodtitle, "\"\"", "pub");
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig2 " + badtitle + " \"\" pub"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_certupdate)
 {
@@ -45,9 +62,9 @@ BOOST_AUTO_TEST_CASE (generate_certupdate)
 	string guid = CertNew("node1", "jagcertupdate", "password", "title", "data");
 	// update an cert that isn't yours
 	BOOST_CHECK_THROW(CallRPC("node2", "certupdate " + guid + " jagcertupdate title data pubdata"), runtime_error);
-	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata", "pub1");
+	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "\"\"", "pub1");
 	// shouldnt update data, just uses prev data because it hasnt changed
-	CertUpdate("node1", guid, "jagcertupdate", "changedtitle", "changeddata", "pub2");
+	CertUpdate("node1", guid, "jagcertupdate");
 
 }
 BOOST_AUTO_TEST_CASE (generate_certtransfer)
@@ -188,14 +205,11 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	AliasNew("node1", "jagprune1", "password", "changeddata1");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
-	const UniValue &arr = r.get_array();
-	string guid = arr[1].get_str();
-	GenerateBlocks(5, "node1");
+	string guid = CertNew("node1", "jagprune1", "jag1", "data", "pub");
 	// we can find it as normal first
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "Off"), true);
-	// make sure our offer alias doesn't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
+	
+	AliasUpdate("node1", "jagprune1");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("jagprune1");
 	StartNode("node2");
@@ -213,31 +227,26 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	// stop node3
 	StopNode("node3");
 	// should fail: already expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata \"\""), runtime_error);
 	GenerateBlocks(5, "node1");
 	// create a new service
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasnew sysrates.peg jagprune1 password1 temp data"));
-	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certnew jagprune1 jag1 data pub"));
-	const UniValue &arr1 = r.get_array();
-	string guid1 = arr1[1].get_str();
-	GenerateBlocks(5, "node1");
+	AliasNew("node1", "jagprune1", "password1", "temp", "data");
+	string guid1 = CertNew("node1", "jagprune1", "jag1", "data", "pub");
 	// stop and start node1
 	StopNode("node1");
 	StartNode("node1");
 	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + guid1 + " jagprune1 newdata privdata pubdata1"));
-	GenerateBlocks(5, "node1");
+	CertUpdate("node1", guid1, "jagprune1", "newdata", "privdata", "pubdata1");
 	// you can search it still on node1/node2
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), true);
 	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "Off"), true);
 	// make sure our offer alias doesn't expire
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg jagprune1 newdata privdata"));
+	AliasUpdate("node1", "jagprune1");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("jagprune1");
 	// now it should be expired
-	BOOST_CHECK_THROW(CallRPC("node1",  "certupdate " + guid1 + " jagprune1 newdata1 privdata1 pubdata3"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1",  "certupdate " + guid1 + " jagprune1 newdata1 \"\" pubdata3"), runtime_error);
 	GenerateBlocks(5, "node1");
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid1, "Off"), false);
 	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "Off"), false);
