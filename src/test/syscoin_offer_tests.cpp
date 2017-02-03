@@ -401,7 +401,7 @@ BOOST_AUTO_TEST_CASE (generate_offeraccept)
 
 	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), s1024bytes, strCipherData), true);
 	
-	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 1 " + strCipherData), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " 1 " + HexStr(vchFromString(strCipherData))), runtime_error);
 
 	// perform an accept on negative quantity
 	BOOST_CHECK_THROW(r = CallRPC("node2", "offeraccept buyeralias3 " + offerguid + " -1 " + HexStr(vchFromString("message"))), runtime_error);
