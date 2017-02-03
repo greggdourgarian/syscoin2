@@ -906,8 +906,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	OfferAddWhitelist("node1", offerguid, "aliasexpirednode2", "5");
 	string certguid = CertNew("node1", "aliasexpire", "certtitle", "certdata", "pubdata", "Yes");
 	StopNode("node3");
-	printf("Sleeping 5 seconds between the creation of the two aliases for this test...\n");
-	MilliSleep(5000);
 	string aliasexpire2pubkey = AliasNew("node1", "aliasexpire2", "password", "pubdata", "privdata");
 	string escrowguid = EscrowNew("node2", "node1", "aliasexpirednode2", offerguid, "1", "message", "aliasexpire0", "aliasexpire0", "5");
 	string aliasexpire2node2pubkey = AliasNew("node2", "aliasexpire2node2", "password", "pubdata", "privdata");
@@ -956,12 +954,15 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: new escrow with expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 " + HexStr(vchFromString("message")) + " aliasexpire"), runtime_error);
 
-	AliasUpdate("node1", "aliasexpire", "newdata1", "privdata1");
-	AliasUpdate("node1", "aliasexpire2", "newdata2", "privdata2");
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1"));
+	GenerateBlocks(5, "node1");
 	
-	CertUpdate("node1", certgoodguid, "aliasexpire2", "title", "newdata", "pubdata");
-	OfferUpdate("node1", "aliasexpire0", offerguid, "category", "title", "100", "0.05", "description");	
-	CertUpdate("node1", certguid, "aliasexpire", "jag1", "data", "pubdata");
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " category title 100 0.05 description"));
+	GenerateBlocks(5, "node1");
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"));
+	GenerateBlocks(5, "node1");
 
 	StartNode("node3");
 	ExpireAlias("aliasexpirednode2");
