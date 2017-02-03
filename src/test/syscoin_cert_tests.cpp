@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE (generate_big_certdata)
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, baddata, strCipherBadData), true);	
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, gooddata, strCipherGoodData), true);	
 	string guid = CertNew("node1", "jagcertbig1", "jag", gooddata, goodpubdata);
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherGoodData)) + " \"\"");
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherGoodData))) + " \"\"");
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherBadData)) + " \"\""), runtime_error);
 	// unencrypted 1025 bytes should cause us to trip 1108 bytes once encrypted
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 jag1 " + HexStr(vchFromString(strCipherBadData)) + " " + goodpubdata), runtime_error);
