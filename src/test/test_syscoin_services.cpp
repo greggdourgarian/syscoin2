@@ -1091,15 +1091,16 @@ const string MessageNew(const string& fromnode, const string& tonode, const stri
 	BOOST_CHECK_NO_THROW(r = CallRPC(fromnode, "messageinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "GUID").get_str() == guid);
 	if(sendfrom == "\"\"")
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "message").get_str() , data);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "messagefrom").get_str() , data);
 	else
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "message").get_str() , "");
-
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "messagefrom").get_str() , "");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "messageto").get_str() , "");
 	BOOST_CHECK(find_value(r.get_obj(), "subject").get_str() == title);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "messageinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "GUID").get_str() == guid);
-	BOOST_CHECK(find_value(r.get_obj(), "message").get_str() == data);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "messageto").get_str() , data);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "messagefrom").get_str() , "");
 	BOOST_CHECK(find_value(r.get_obj(), "subject").get_str() == title);
 	return guid;
 }
