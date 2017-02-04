@@ -72,8 +72,12 @@ BOOST_AUTO_TEST_CASE (generate_escrowrefund_seller)
 	string qty = "4";
 	string message = "paymentmessage";
 	string offerguid = OfferNew("node2", "selleraliasrefund", "category", "title", "100", "1.22", "description", "CAD");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 15000"), runtime_error);
-	GenerateBlocks(10);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 5000"), runtime_error);
+	GenerateBlocks(3);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 5000"), runtime_error);
+	GenerateBlocks(3);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund 5000"), runtime_error);
+	GenerateBlocks(3);
 	string guid = EscrowNew("node1", "node2", "buyeraliasrefund", offerguid, qty, message, "arbiteraliasrefund", "selleraliasrefund");
 	EscrowRefund("node2", "seller", guid);
 	EscrowClaimRefund("node1", guid);
