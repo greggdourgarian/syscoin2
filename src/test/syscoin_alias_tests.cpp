@@ -879,7 +879,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	AliasNew("node2", "aliasprunewithcert2", "password", "pubdata", "privdata");
 	string certguid = CertNew("node1", "aliasprunewithcert", "jag1", "data", "pubdata");
 	CertUpdate("node1", certguid, "aliasprunewithcert", "title", "newdata", "pubdata");
-	CertTransfer("node1", "mode2", certguid, "aliasprunewithcert2");
+	CertTransfer("node1", "node2", certguid, "aliasprunewithcert2");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("aliasprunewithcert2");
 	StartNode("node3");
