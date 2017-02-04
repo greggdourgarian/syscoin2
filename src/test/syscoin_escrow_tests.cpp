@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release)
 	AliasUpdate("node1", "buyeralias2", "changeddata1", "priv");
 	AliasUpdate("node2", "selleralias22", "changeddata1", "priv");
 	AliasUpdate("node3", "arbiteralias2", "changeddata1", "priv");
-	OfferUpdate("node2", "selleralias22", offerguid, "category", "titlenew", "100", "0.04", "descriptionnew", "EUR", "No", "", "location");
+	OfferUpdate("node2", "selleralias22", offerguid, "category", "titlenew", "100", "0.04", "descriptionnew");
 	EscrowClaimRelease("node2", guid);
 }
 BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
@@ -266,7 +266,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	AliasNew("node3", "arbiteralias333", "password", "changeddata3");
 	string qty = "3";
 	string message = "paymentmessage";
-	string offerguid = OfferNew("node2", "selleralias33", "category", "title", "100", "0.05", "description", "EUR", "");
+	string offerguid = OfferNew("node2", "selleralias33", "category", "title", "100", "0.05", "description", "EUR");
 	OfferAddWhitelist("node2", offerguid, "arbiteralias333", "5");
 	string commission = "3";
 	string description = "newdescription";
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE (generate_escrow_linked_release_with_peg_update)
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5, "node3");
-	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew", "EUR", "No", "", "location");
+	OfferUpdate("node2", "selleralias33", offerguid, "category", "titlenew", "100", "0.05", "descriptionnew");
 	GenerateBlocks(5, "node2");
 	EscrowClaimRelease("node2", guid);
 	// restore EUR peg
@@ -314,7 +314,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	// stop node3
 	StopNode("node3");
 	// create a new service
-	string guid1 = EscrowNew("node1", "node2", "buyeraliasprune", offerguid, "1", "message", "selleraliasprune", "selleraliasprune");
+	string guid1 = EscrowNew("node2", "node1", "buyeraliasprune", offerguid, "1", "message", "selleraliasprune", "selleraliasprune");
 
 	OfferUpdate("node1", "selleraliasprune", offerguid, "category", "title", "100", "0.05", "description");
 	// stop and start node1
