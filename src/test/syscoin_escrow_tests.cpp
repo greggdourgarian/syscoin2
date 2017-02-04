@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	EscrowFeedback("node1", "seller", guid1,"feedbackbuyer", "1", FEEDBACKBUYER, "feedbackarbiter", "2", FEEDBACKARBITER, true);
 
 	// try to leave feedback it should let you because aliases not expired
-	EscrowFeedback("node1", "buyer", guid1,"feedbackseller", "1", FEEDBACKSELLER, "feedbackarbiter", "2", FEEDBACKARBITER, true);
+	EscrowFeedback("node2", "buyer", guid1,"feedbackseller", "1", FEEDBACKSELLER, "feedbackarbiter", "2", FEEDBACKARBITER, true);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrowinfo " + guid1));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
