@@ -498,7 +498,7 @@ bool EditAliasDialog::saveCurrentRow()
 			// if pw change or xfer
 			if(password != m_oldPassword.toStdString() || !ui->transferEdit->text().toStdString().empty())
 			{
-				vchPubKey = ui->transferEdit->text().toStdString();
+				vchPubKey = vchFromString(ui->transferEdit->text().toStdString());
 				// if xfer
 				if(!vchPubKey.empty())
 					password = "\"\"";
