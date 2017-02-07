@@ -502,7 +502,7 @@ bool EditAliasDialog::saveCurrentRow()
 				if(!vchPubKey.empty())
 					password = "\"\"";
 				// if pw change
-				if(password != "\"\"" && password != m_oldPassword)
+				if(password != "\"\"" && password != m_oldPassword.toStdString())
 				{
 					vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
 					GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
