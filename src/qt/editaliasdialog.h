@@ -2,7 +2,7 @@
 #define EDITALIASDIALOG_H
 
 #include <QDialog>
-
+#include <QListWidget>
 namespace Ui {
     class EditAliasDialog;
 }
