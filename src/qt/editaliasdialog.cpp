@@ -486,7 +486,7 @@ bool EditAliasDialog::saveCurrentRow()
 			privdata = ui->privateEdit->toPlainText().toStdString();
 			if(privdata != m_oldprivatevalue.toStdString())
 			{
-				if(!EncryptMessage(ParseHex(m_encryptionkey), privdata, strCipherPrivateData))
+				if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), privdata, strCipherPrivateData))
 				{
 					QMessageBox::critical(this, windowTitle(),
 						tr("Could not encrypt alias private data!"),
