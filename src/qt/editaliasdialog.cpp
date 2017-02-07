@@ -3,6 +3,7 @@
 #include "cert.h"
 #include "alias.h"
 #include "wallet/crypter.h"
+#include "random.h"
 #include "aliastablemodel.h"
 #include "guiutil.h"
 #include "walletmodel.h"
@@ -321,7 +322,7 @@ bool EditAliasDialog::saveCurrentRow()
 			CCrypter crypt;
 			string pwStr = password;
 			SecureString password = pwStr.c_str();
-			BOOST_CHECK(crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 2));	
+			crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 2);	
 			privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 		}
 		else
@@ -341,11 +342,11 @@ bool EditAliasDialog::saveCurrentRow()
 		}
 		try {
 			params.push_back(CSyscoinSecret(privEncryptionKey).ToString());
-			params.push_back(false);
+			params.push_back("false");
             tableRPC.execute("importprivkey", params);
 			params.clear();
 			params.push_back(CSyscoinSecret(privKey).ToString());
-			params.push_back(false);
+			params.push_back("false");
             tableRPC.execute("importprivkey", params);
 			params.clear();			
 		}
