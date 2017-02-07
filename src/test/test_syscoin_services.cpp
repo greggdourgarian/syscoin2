@@ -794,7 +794,12 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
 	}
-
+	string strPubKey = HexStr(vchPubKey);
+	if(strPubKey.empty())
+		strPubKey = "\"\"";
+	string strPasswordSalt = HexStr(vchPasswordSalt);
+	if(strPasswordSalt.empty())
+		strPasswordSalt = "\"\"";
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
 	if(strCipherPassword.empty())
 		strPasswordHex = "\"\"";
@@ -809,7 +814,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string nrequired = "\"\"";
 	string aliases = "\"\"";
 
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + HexStr(vchPubKey) + " " + strPasswordHex + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + strPubKey + " " + strPasswordHex + " " + acceptTransfers + " " + expires + " " + nrequired + " " + aliases + " " + strPasswordSalt + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(5, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();

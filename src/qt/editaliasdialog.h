@@ -56,6 +56,14 @@ private:
 	WalletModel* walletModel;
     QString alias;
 	QString expiredStr;
+	string m_oldPassword;
+	string m_oldsafesearch;
+	string m_oldvalue;
+	string m_oldprivatevalue;
+	string m_encryptionkey;
+	string m_encryptionprivkey;
+	string m_oldAcceptCertTransfers;
+	QListWidget m_multisigList;
 };
 
 #endif // EDITALIASDIALOG_H

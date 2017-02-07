@@ -129,10 +129,18 @@ void EditAliasDialog::loadAliasDetails()
 		result = tableRPC.execute(strMethod, params);
 		if (result.type() == UniValue::VOBJ)
 		{
+			m_oldPassword = find_value(result.get_obj(), "password").get_str();
+			m_oldsafesearch = find_value(result.get_obj(), "safesearch").get_str();
+			m_oldvalue = find_value(result.get_obj(), "value").get_str();
+			m_oldprivatevalue = find_value(result.get_obj(), "privatevalue").get_str();
+			m_encryptionkey = find_value(result.get_obj(), "encryption_publickey").get_str();
+			m_encryptionprivkey = find_value(result.get_obj(), "encryption_privatekey").get_str();
+
 			const UniValue& aliasPegValue = find_value(result.get_obj(), "alias_peg");
 			ui->aliasPegEdit->setText(QString::fromStdString(aliasPegValue.get_str()));
 			const UniValue& acceptTransferValue = find_value(result.get_obj(), "acceptcerttransfers");
 			ui->acceptCertTransfersEdit->setCurrentIndex(ui->acceptCertTransfersEdit->findText(QString::fromStdString(acceptTransferValue.get_str())));
+			m_oldAcceptCertTransfers = ui->acceptCertTransfersEdit->currentText().toStdString();
 			const UniValue& multisigValue = find_value(result.get_obj(), "multisiginfo");
 			if (multisigValue.type() == UniValue::VOBJ)
 			{
@@ -150,6 +158,7 @@ void EditAliasDialog::loadAliasDetails()
 					}
 				}
 			}
+			m_multisigList = ui->multisigList;
 		}
 	}
 	catch (UniValue& objError)
@@ -259,6 +268,10 @@ bool EditAliasDialog::saveCurrentRow()
 	string strPrivateHex = "";
 	string strEncryptionPrivateKeyHex = "";
 	CPubKey pubEncryptionKey;
+	string safeSearch, pubData;
+	string strPubKey = "";
+	string strPasswordSalt = "";
+	string acceptCertTransfers = "";
     if(!model || !walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
     if(!ctx.isValid())
@@ -322,7 +335,7 @@ bool EditAliasDialog::saveCurrentRow()
 			CCrypter crypt;
 			string pwStr = password;
 			SecureString password = pwStr.c_str();
-			crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 2);	
+			crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 1);	
 			privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
 		}
 		else
@@ -416,7 +429,7 @@ bool EditAliasDialog::saveCurrentRow()
 		else
 		{
 			// num required
-			params.push_back("0");
+			params.push_back("\"\"");
 			// multisig
 			params.push_back("\"\"");
 		}
@@ -466,35 +479,163 @@ bool EditAliasDialog::saveCurrentRow()
         break;
     case EditDataAlias:
     case EditAlias:
+	case TransferAlias:
         if(mapper->submit())
         {
+			privdata = ui->privateEdit->toPlainText().toStdString();
+			if(privdata != m_oldprivatevalue)
+			{
+				if(!EncryptMessage(ParseHex(m_encryptionkey), privdata, strCipherPrivateData))
+				{
+					QMessageBox::critical(this, windowTitle(),
+						tr("Could not encrypt alias private data!"),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}
+			}
+			password = ui->passwordEdit->text().toStdString();
+			// if pw change or xfer
+			if(password != m_oldPassword || !ui->transferEdit->text().toStdString().empty())
+			{
+				vchPubKey = ui->transferEdit->text().toStdString();
+				// if xfer
+				if(!vchPubKey.empty())
+					password = "\"\"";
+				// if pw change
+				if(password != "\"\"" && password != m_oldPassword)
+				{
+					vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
+					GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
+					CCrypter crypt;
+					string pwStr = password;
+					SecureString scpassword = pwStr.c_str();
+					crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1);
+					privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+					pubKey = privKey.GetPubKey();
+					vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
+					vchPrivKey = vector<unsigned char>(privKey.begin(), privKey.end());
+					
+					if(!pubKey.IsFullyValid())
+					{
+						QMessageBox::critical(this, windowTitle(),
+							tr("Public key is invalid!"),
+							QMessageBox::Ok, QMessageBox::Ok);
+						return false;
+					}
+					try {
+						params.push_back(CSyscoinSecret(privKey).ToString());
+						params.push_back("false");
+						tableRPC.execute("importprivkey", params);
+						params.clear();			
+					}
+					catch (UniValue& objError)
+					{
+						string strError = find_value(objError, "message").get_str();
+						QMessageBox::critical(this, windowTitle(),
+						tr("Error importing key into wallet: ") + QString::fromStdString(strError),
+							QMessageBox::Ok, QMessageBox::Ok);
+						return false;
+					}
+					catch(std::exception& e)
+					{
+						QMessageBox::critical(this, windowTitle(),
+							tr("General exception importing key into wallet"),
+							QMessageBox::Ok, QMessageBox::Ok);
+						return false;
+					}
+					if(!EncryptMessage(vchPubKey, password, strCipherPassword))
+					{
+						QMessageBox::critical(this, windowTitle(),
+							tr("Could not encrypt alias password!"),
+							QMessageBox::Ok, QMessageBox::Ok);
+						return false;
+					}
+				}
+				if(!EncryptMessage(vchPubKey, stringFromVch(ParseHex(m_encryptionprivkey)), strCipherEncryptionPrivateKey))
+				{
+					QMessageBox::critical(this, windowTitle(),
+						tr("Could not encrypt alias encryption key!"),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}	
+			}
+			strPubKey = HexStr(vchPubKey);
+			if(strPubKey.empty())
+				strPubKey = "\"\"";
+			strPasswordSalt = HexStr(vchPasswordSalt);
+			if(strPasswordSalt.empty())
+				strPasswordSalt = "\"\"";
+			strPasswordHex = HexStr(vchFromString(strCipherPassword));
+			if(strCipherPassword.empty())
+				strPasswordHex = "\"\"";
+			strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+			if(strCipherPrivateData.empty())
+				strPrivateHex = "\"\"";
+			strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
+			if(strCipherEncryptionPrivateKey.empty())
+				strEncryptionPrivateKeyHex = "\"\"";
+
+			acceptCertTransfers = "\"\"";
+			if(m_oldAcceptCertTransfers != ui->acceptCertTransfersEdit->currentText().toStdString())
+				acceptCertTransfers = ui->acceptCertTransfersEdit->currentText().toStdString();
+			pubData = "\"\"";
+			if(ui->nameEdit->toPlainText().toStdString() != m_oldvalue)
+				pubData = ui->nameEdit->toPlainText().toStdString();
+			safeSearch = "\"\"";
+			if(ui->safeSearchEdit->currentText().toStdString() != m_oldsafesearch)
+				safeSearch = ui->nameEdit->toPlainText().toStdString();
+			
 			strMethod = string("aliasupdate");
 			params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->text().toStdString());
-			params.push_back(ui->nameEdit->toPlainText().toStdString());
-			params.push_back(ui->privateEdit->toPlainText().toStdString());
-			params.push_back(ui->safeSearchEdit->currentText().toStdString());	
-			params.push_back("");
-			params.push_back(ui->passwordEdit->text().toStdString());	
-			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
+			params.push_back(pubData);
+			params.push_back(strPrivateHex);
+			params.push_back(safeSearch);	
+			params.push_back(strPubKey);
+			params.push_back(strPasswordHex);	
+			params.push_back(acceptCertTransfers);
 			params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
 			if(ui->multisigList->count() > 0)
 			{
-				params.push_back(ui->reqSigsEdit->text().toStdString());
+				bool notEqual = false;
 				for(int i = 0; i < ui->multisigList->count(); ++i)
 				{
 					QString str = ui->multisigList->item(i)->text();
-					arraySendParams.push_back(str.toStdString());
+					if(ui->m_multisigList->count() <= i || ui->m_multisigList->item(i)->text() != str)
+						notEqual = true;
 				}
-				params.push_back(arraySendParams);
+				if(notEqual)
+				{
+					params.push_back(ui->reqSigsEdit->text().toStdString());
+					for(int i = 0; i < ui->multisigList->count(); ++i)
+					{
+						QString str = ui->multisigList->item(i)->text();
+						arraySendParams.push_back(str.toStdString());
+					}
+					params.push_back(arraySendParams);
+				}
+				else
+				{
+					// num required
+					params.push_back("\"\"");
+					// multisig
+					params.push_back("\"\"");
+				}
 			}
+			else
+			{
+				// num required
+				params.push_back("\"\"");
+				// multisig
+				params.push_back("\"\"");
+			}
+			params.push_back(strPasswordSalt);
+			params.push_back(strEncryptionPrivateKeyHex);
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)
 				{
-				
-					alias = ui->nameEdit->toPlainText() + ui->aliasEdit->text();
-						
+					alias = ui->nameEdit->toPlainText() + ui->aliasEdit->text();		
 				}
 				const UniValue& resArray = result.get_array();
 				if(resArray.size() > 1)
@@ -521,80 +662,14 @@ bool EditAliasDialog::saveCurrentRow()
 				QMessageBox::critical(this, windowTitle(),
 				tr("Error updating Alias: ") + QString::fromStdString(strError),
 					QMessageBox::Ok, QMessageBox::Ok);
-				break;
+				return false;
 			}
 			catch(std::exception& e)
 			{
 				QMessageBox::critical(this, windowTitle(),
 					tr("General exception updating Alias"),
 					QMessageBox::Ok, QMessageBox::Ok);
-				break;
-			}	
-        }
-        break;
-    case TransferAlias:
-        if(mapper->submit())
-        {
-			strMethod = string("aliasupdate");
-			params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
-			params.push_back(ui->aliasEdit->text().toStdString());
-			params.push_back(ui->nameEdit->toPlainText().toStdString());
-			params.push_back(ui->privateEdit->toPlainText().toStdString());
-			params.push_back(ui->safeSearchEdit->currentText().toStdString());
-			params.push_back(ui->transferEdit->text().toStdString());
-			params.push_back(ui->passwordEdit->text().toStdString());	
-			params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
-			params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
-			if(ui->multisigList->count() > 0)
-			{
-				params.push_back(ui->reqSigsEdit->text().toStdString());
-				for(int i = 0; i < ui->multisigList->count(); ++i)
-				{
-					QString str = ui->multisigList->item(i)->text();
-					arraySendParams.push_back(str.toStdString());
-				}
-				params.push_back(arraySendParams);
-			}
-			try {
-				UniValue result = tableRPC.execute(strMethod, params);
-				if (result.type() != UniValue::VNULL)
-				{
-
-					alias = ui->nameEdit->toPlainText() + ui->aliasEdit->text()+ui->transferEdit->text();
-						
-				}
-				const UniValue& resArray = result.get_array();
-				if(resArray.size() > 1)
-				{
-					const UniValue& complete_value = resArray[1];
-					bool bComplete = false;
-					if (complete_value.isStr())
-						bComplete = complete_value.get_str() == "true";
-					if(!bComplete)
-					{
-						string hex_str = resArray[0].get_str();
-						GUIUtil::setClipboard(QString::fromStdString(hex_str));
-						QMessageBox::information(this, windowTitle(),
-							tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
-								QMessageBox::Ok, QMessageBox::Ok);
-						return true;
-					}
-				}
-			}
-			catch (UniValue& objError)
-			{
-				string strError = find_value(objError, "message").get_str();
-				QMessageBox::critical(this, windowTitle(),
-                tr("Error transferring Alias: ") + QString::fromStdString(strError),
-					QMessageBox::Ok, QMessageBox::Ok);
-				break;
-			}
-			catch(std::exception& e)
-			{
-				QMessageBox::critical(this, windowTitle(),
-                    tr("General exception transferring Alias"),
-					QMessageBox::Ok, QMessageBox::Ok);
-				break;
+				return false;
 			}	
         }
         break;
