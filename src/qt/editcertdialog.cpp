@@ -1,6 +1,9 @@
 #include "editcertdialog.h"
 #include "ui_editcertdialog.h"
-
+#include "cert.h"
+#include "alias.h"
+#include "wallet/crypter.h"
+#include "random.h"
 #include "certtablemodel.h"
 #include "guiutil.h"
 #include "walletmodel.h"
@@ -174,7 +177,7 @@ void EditCertDialog::aliasChanged(const QString& alias)
 			expired = safetyLevel = 0;
 
 
-			m_encryptionprivkey = QString::fromStdString(find_valueo, "encryption_privatekey").get_str());
+			m_encryptionkey = QString::fromStdString(find_value(o, "encryption_publickey").get_str());
 
 			const UniValue& name_value = find_value(o, "name");
 			if (name_value.type() == UniValue::VSTR)
@@ -478,8 +481,8 @@ bool EditCertDialog::saveCurrentRow()
 			if(strCipherPrivateData.empty())
 				strPrivateHex = "\"\"";
 			titleData = "\"\"";
-			if(ui->nameEdit->toPlainText() != m_oldtitle)
-				titleData = ui->nameEdit->toPlainText().toStdString();
+			if(ui->nameEdit->text() != m_oldtitle)
+				titleData = ui->nameEdit->text().toStdString();
 			pubData = "\"\"";
 			if(ui->certPubDataEdit->toPlainText() != m_oldpubdata)
 				pubData = ui->certPubDataEdit->toPlainText().toStdString();
