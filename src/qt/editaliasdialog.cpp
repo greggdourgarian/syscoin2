@@ -129,18 +129,18 @@ void EditAliasDialog::loadAliasDetails()
 		result = tableRPC.execute(strMethod, params);
 		if (result.type() == UniValue::VOBJ)
 		{
-			m_oldPassword = find_value(result.get_obj(), "password").get_str();
-			m_oldsafesearch = find_value(result.get_obj(), "safesearch").get_str();
-			m_oldvalue = find_value(result.get_obj(), "value").get_str();
-			m_oldprivatevalue = find_value(result.get_obj(), "privatevalue").get_str();
-			m_encryptionkey = find_value(result.get_obj(), "encryption_publickey").get_str();
-			m_encryptionprivkey = find_value(result.get_obj(), "encryption_privatekey").get_str();
+			m_oldPassword = QString::fromStdString(find_value(result.get_obj(), "password").get_str());
+			m_oldsafesearch = QString::fromStdString(find_value(result.get_obj(), "safesearch").get_str());
+			m_oldvalue = QString::fromStdString(find_value(result.get_obj(), "value").get_str());
+			m_oldprivatevalue = QString::fromStdString(find_value(result.get_obj(), "privatevalue").get_str());
+			m_encryptionkey = QString::fromStdString(find_value(result.get_obj(), "encryption_publickey").get_str());
+			m_encryptionprivkey = QString::fromStdString(find_value(result.get_obj(), "encryption_privatekey").get_str());
 
 			const UniValue& aliasPegValue = find_value(result.get_obj(), "alias_peg");
 			ui->aliasPegEdit->setText(QString::fromStdString(aliasPegValue.get_str()));
 			const UniValue& acceptTransferValue = find_value(result.get_obj(), "acceptcerttransfers");
 			ui->acceptCertTransfersEdit->setCurrentIndex(ui->acceptCertTransfersEdit->findText(QString::fromStdString(acceptTransferValue.get_str())));
-			m_oldAcceptCertTransfers = ui->acceptCertTransfersEdit->currentText().toStdString();
+			m_oldAcceptCertTransfers = ui->acceptCertTransfersEdit->currentText();
 			const UniValue& multisigValue = find_value(result.get_obj(), "multisiginfo");
 			if (multisigValue.type() == UniValue::VOBJ)
 			{
@@ -495,7 +495,7 @@ bool EditAliasDialog::saveCurrentRow()
 			}
 			password = ui->passwordEdit->text().toStdString();
 			// if pw change or xfer
-			if(password != m_oldPassword || !ui->transferEdit->text().toStdString().empty())
+			if(password != m_oldPassword.toStdString() || !ui->transferEdit->text().toStdString().empty())
 			{
 				vchPubKey = ui->transferEdit->text().toStdString();
 				// if xfer
@@ -576,13 +576,13 @@ bool EditAliasDialog::saveCurrentRow()
 				strEncryptionPrivateKeyHex = "\"\"";
 
 			acceptCertTransfers = "\"\"";
-			if(m_oldAcceptCertTransfers != ui->acceptCertTransfersEdit->currentText().toStdString())
+			if(m_oldAcceptCertTransfers != ui->acceptCertTransfersEdit->currentText())
 				acceptCertTransfers = ui->acceptCertTransfersEdit->currentText().toStdString();
 			pubData = "\"\"";
-			if(ui->nameEdit->toPlainText().toStdString() != m_oldvalue)
+			if(ui->nameEdit->toPlainText() != m_oldvalue)
 				pubData = ui->nameEdit->toPlainText().toStdString();
 			safeSearch = "\"\"";
-			if(ui->safeSearchEdit->currentText().toStdString() != m_oldsafesearch)
+			if(ui->safeSearchEdit->currentText() != m_oldsafesearch)
 				safeSearch = ui->nameEdit->toPlainText().toStdString();
 			
 			strMethod = string("aliasupdate");

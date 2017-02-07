@@ -10,6 +10,7 @@ class AliasTableModel;
 class WalletModel;
 QT_BEGIN_NAMESPACE
 class QDataWidgetMapper;
+class QListWidget;
 QT_END_NAMESPACE
 
 /** Dialog for editing an address and associated information.
@@ -56,13 +57,13 @@ private:
 	WalletModel* walletModel;
     QString alias;
 	QString expiredStr;
-	string m_oldPassword;
-	string m_oldsafesearch;
-	string m_oldvalue;
-	string m_oldprivatevalue;
-	string m_encryptionkey;
-	string m_encryptionprivkey;
-	string m_oldAcceptCertTransfers;
+	QString m_oldPassword;
+	QString m_oldsafesearch;
+	QString m_oldvalue;
+	QString m_oldprivatevalue;
+	QString m_encryptionkey;
+	QString m_encryptionprivkey;
+	QString m_oldAcceptCertTransfers;
 	QListWidget m_multisigList;
 };
 
