@@ -53,6 +53,12 @@ private:
 	WalletModel* walletModel;
     QString cert;
 	QString expiredStr;
+	QString m_oldprivatevalue;
+	QString m_encryptionkey;
+	QString m_oldtitle;
+	QString m_oldpubdata;
+	QString m_oldsafesearch;
+	QString m_oldcategory;
 };
 
 #endif // EDITCERTDIALOG_H

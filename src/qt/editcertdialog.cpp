@@ -174,7 +174,8 @@ void EditCertDialog::aliasChanged(const QString& alias)
 			expired = safetyLevel = 0;
 
 
-	
+			m_encryptionprivkey = QString::fromStdString(find_valueo, "encryption_privatekey").get_str());
+
 			const UniValue& name_value = find_value(o, "name");
 			if (name_value.type() == UniValue::VSTR)
 				name_str = name_value.get_str();		
@@ -310,6 +311,7 @@ void EditCertDialog::loadRow(int row)
 {
     mapper->setCurrentIndex(row);
 	const QModelIndex tmpIndex;
+	QVariant currentCategory;
 	if(model)
 	{
 		QModelIndex indexAlias = model->index(row, CertTableModel::Alias, tmpIndex);
@@ -343,11 +345,23 @@ void EditCertDialog::loadRow(int row)
 			}
 		}
 	}
-
+	m_oldprivatevalue = ui->certDataEdit->toPlainText();
+	m_oldtitle = ui->nameEdit->text();
+	m_oldpubdata = ui->certPubDataEdit->toPlainText();
+	m_oldsafesearch = ui->safeSearchEdit->currentText();
+	currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+	if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
+		m_oldcategory = currentCategory.toString();
+	else
+		m_oldcategory = ui->categoryEdit->currentText();
 }
 
 bool EditCertDialog::saveCurrentRow()
 {
+	string strCipherPrivateData = "";
+	string privdata = "";
+	string strPrivateHex = "";
+	string titleData, pubData, safesearch, category;
 
     if(!model || !walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -379,10 +393,24 @@ bool EditCertDialog::saveCurrentRow()
                 QMessageBox::Ok, QMessageBox::Ok);
             return false;
         }
+		privdata = ui->certDataEdit->toPlainText().toStdString();
+		if(privdata != "\"\"")
+		{
+			if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), privdata, strCipherPrivateData))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt private certificate data!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+		}
+		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+		if(strCipherPrivateData.empty())
+			strPrivateHex = "\"\"";
 		strMethod = string("certnew");
 		params.push_back(ui->aliasEdit->currentText().toStdString());
 		params.push_back(ui->nameEdit->text().toStdString());
-		params.push_back(ui->certDataEdit->toPlainText().toStdString());
+		params.push_back(strPrivateHex);
 		params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
@@ -435,18 +463,46 @@ bool EditCertDialog::saveCurrentRow()
     case EditCert:
         if(mapper->submit())
         {
+			privdata = ui->certDataEdit->toPlainText().toStdString();
+			if(privdata != m_oldprivatevalue.toStdString())
+			{
+				if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), privdata, strCipherPrivateData))
+				{
+					QMessageBox::critical(this, windowTitle(),
+						tr("Could not encrypt private certificate data!"),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}
+			}
+			strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+			if(strCipherPrivateData.empty())
+				strPrivateHex = "\"\"";
+			titleData = "\"\"";
+			if(ui->nameEdit->toPlainText() != m_oldtitle)
+				titleData = ui->nameEdit->toPlainText().toStdString();
+			pubData = "\"\"";
+			if(ui->certPubDataEdit->toPlainText() != m_oldpubdata)
+				pubData = ui->certPubDataEdit->toPlainText().toStdString();
+			safesearch = "\"\"";
+			if(ui->safeSearchEdit->currentText() != m_oldsafesearch)
+				safesearch = ui->safeSearchEdit->currentText().toStdString();
+
+			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
+				category = currentCategory.toString().toStdString();
+			else
+				category = ui->categoryEdit->currentText().toStdString();
+			if(category == m_oldcategory)
+				category = "\"\"";
+
 			strMethod = string("certupdate");
 			params.push_back(ui->certEdit->text().toStdString());
 			params.push_back(ui->aliasEdit->currentText().toStdString());
-			params.push_back(ui->nameEdit->text().toStdString());
-			params.push_back(ui->certDataEdit->toPlainText().toStdString());
-			params.push_back(ui->certPubDataEdit->toPlainText().toStdString());
-			params.push_back(ui->safeSearchEdit->currentText().toStdString());
-			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
-			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
-				params.push_back(currentCategory.toString().toStdString());
-			else
-				params.push_back(ui->categoryEdit->currentText().toStdString());
+			params.push_back(titleData);
+			params.push_back(strPrivateHex);
+			params.push_back(pubData);
+			params.push_back(safesearch);
+			params.push_back(category);
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)
