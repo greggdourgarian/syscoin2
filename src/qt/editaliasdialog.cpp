@@ -239,6 +239,19 @@ bool EditAliasDialog::saveCurrentRow()
 	UniValue params(UniValue::VARR);
 	UniValue arraySendParams(UniValue::VARR);
 	string strMethod;
+	CKey privEncryptionKey;
+	string strCipherPrivateData = "";
+	string privdata = "";
+	string strCipherPassword = "";
+	string strCipherEncryptionPrivateKey = "";
+	vector<unsigned char> vchPubKey;
+	CKey privKey;
+	vector<unsigned char> vchPasswordSalt;
+	string password = "";
+	vector<unsigned char> vchPubEncryptionKey;
+	vector<unsigned char> vchPrivEncryptionKey;
+	CPubKey pubKey;
+	vector<unsigned char> vchPrivKey;
     if(!model || !walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
     if(!ctx.isValid())
@@ -271,11 +284,10 @@ bool EditAliasDialog::saveCurrentRow()
                 QMessageBox::Ok, QMessageBox::Ok);
             return false;
         }
-		CKey privEncryptionKey;
+		
 		privEncryptionKey.MakeNewKey(true);
 		CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
-		vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
-		
+		vchPrivEncryptionKey = vector<unsigned char>(privEncryptionKey.begin(), privEncryptionKey.end());
 		if(!pubEncryptionKey.IsFullyValid())
 		{
 			QMessageBox::critical(this, windowTitle(),
@@ -283,10 +295,8 @@ bool EditAliasDialog::saveCurrentRow()
 				QMessageBox::Ok, QMessageBox::Ok);
 			return false;
 		}
-		vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
-		
-		string strCipherPrivateData = "";
-		string privdata = ui->privateEdit->toPlainText().toStdString();
+		vchPubEncryptionKey = vector<unsigned char>(pubEncryptionKey.begin(), pubEncryptionKey.end());
+		privdata = ui->privateEdit->toPlainText().toStdString();
 		if(privdata != "\"\"")
 		{
 			if(!EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData))
@@ -297,13 +307,7 @@ bool EditAliasDialog::saveCurrentRow()
 				return false;
 			}
 		}	
-
-		string strCipherPassword = "";
-		string strCipherEncryptionPrivateKey = "";
-		vector<unsigned char> vchPubKey;
-		CKey privKey;
-		vector<unsigned char> vchPasswordSalt;
-		string password = ui->passwordEdit->text().trimmed().toStdString();
+		password = ui->passwordEdit->text().trimmed().toStdString();
 		if(password != "\"\"")
 		{
 			vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
@@ -318,10 +322,9 @@ bool EditAliasDialog::saveCurrentRow()
 		{
 			privKey.MakeNewKey(true);
 		}
-		CPubKey pubKey = privKey.GetPubKey();
+		pubKey = privKey.GetPubKey();
 		vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
-		vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
-		
+		vchPrivKey = vector<unsigned char>(privKey.begin(), privKey.end());
 		
 		if(!pubKey.IsFullyValid())
 		{
