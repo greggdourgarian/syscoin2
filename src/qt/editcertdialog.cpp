@@ -492,7 +492,7 @@ bool EditCertDialog::saveCurrentRow()
 				category = currentCategory.toString().toStdString();
 			else
 				category = ui->categoryEdit->currentText().toStdString();
-			if(category == m_oldcategory)
+			if(category == m_oldcategory.toStdString())
 				category = "\"\"";
 
 			strMethod = string("certupdate");
