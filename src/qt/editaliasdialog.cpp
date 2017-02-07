@@ -1,6 +1,8 @@
 #include "editaliasdialog.h"
 #include "ui_editaliasdialog.h"
-
+#include "cert.h"
+#include "alias.h"
+#include "wallet/crypter.h"
 #include "aliastablemodel.h"
 #include "guiutil.h"
 #include "walletmodel.h"
@@ -252,6 +254,10 @@ bool EditAliasDialog::saveCurrentRow()
 	vector<unsigned char> vchPrivEncryptionKey;
 	CPubKey pubKey;
 	vector<unsigned char> vchPrivKey;
+	string strPasswordHex = "";
+	string strPrivateHex = "";
+	string strEncryptionPrivateKeyHex = "";
+	CPubKey pubEncryptionKey;
     if(!model || !walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
     if(!ctx.isValid())
@@ -286,7 +292,7 @@ bool EditAliasDialog::saveCurrentRow()
         }
 		
 		privEncryptionKey.MakeNewKey(true);
-		CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
+		pubEncryptionKey = privEncryptionKey.GetPubKey();
 		vchPrivEncryptionKey = vector<unsigned char>(privEncryptionKey.begin(), privEncryptionKey.end());
 		if(!pubEncryptionKey.IsFullyValid())
 		{
@@ -377,13 +383,13 @@ bool EditAliasDialog::saveCurrentRow()
 				QMessageBox::Ok, QMessageBox::Ok);
 			return false;
 		}
-		string strPasswordHex = HexStr(vchFromString(strCipherPassword));
+		strPasswordHex = HexStr(vchFromString(strCipherPassword));
 		if(strCipherPassword.empty())
 			strPasswordHex = "\"\"";
-		string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
 		if(strCipherPrivateData.empty())
 			strPrivateHex = "\"\"";
-		string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
+		strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
 		if(strCipherEncryptionPrivateKey.empty())
 			strEncryptionPrivateKeyHex = "\"\"";
 	
