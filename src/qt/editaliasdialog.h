@@ -2,7 +2,6 @@
 #define EDITALIASDIALOG_H
 
 #include <QDialog>
-#include <QListWidget>
 namespace Ui {
     class EditAliasDialog;
 }
@@ -10,7 +9,6 @@ class AliasTableModel;
 class WalletModel;
 QT_BEGIN_NAMESPACE
 class QDataWidgetMapper;
-class QListWidget;
 QT_END_NAMESPACE
 
 /** Dialog for editing an address and associated information.
@@ -64,7 +62,7 @@ private:
 	QString m_encryptionkey;
 	QString m_encryptionprivkey;
 	QString m_oldAcceptCertTransfers;
-	QListWidget m_multisigList;
+	QString m_multisigListStr;
 };
 
 #endif // EDITALIASDIALOG_H

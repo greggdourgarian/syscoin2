@@ -155,10 +155,10 @@ void EditAliasDialog::loadAliasDetails()
 					{
 						string signer = reqsignersArray[i].get_str();
 						ui->multisigList->addItem(QString::fromStdString(signer));
+						m_multisigListStr += QString::fromStdString(signer);
 					}
 				}
 			}
-			m_multisigList = ui->multisigList;
 		}
 	}
 	catch (UniValue& objError)
@@ -272,6 +272,7 @@ bool EditAliasDialog::saveCurrentRow()
 	string strPubKey = "";
 	string strPasswordSalt = "";
 	string acceptCertTransfers = "";
+	QString multisigListStr;
     if(!model || !walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
     if(!ctx.isValid())
@@ -483,7 +484,7 @@ bool EditAliasDialog::saveCurrentRow()
         if(mapper->submit())
         {
 			privdata = ui->privateEdit->toPlainText().toStdString();
-			if(privdata != m_oldprivatevalue)
+			if(privdata != m_oldprivatevalue.toStdString())
 			{
 				if(!EncryptMessage(ParseHex(m_encryptionkey), privdata, strCipherPrivateData))
 				{
@@ -551,7 +552,7 @@ bool EditAliasDialog::saveCurrentRow()
 						return false;
 					}
 				}
-				if(!EncryptMessage(vchPubKey, stringFromVch(ParseHex(m_encryptionprivkey)), strCipherEncryptionPrivateKey))
+				if(!EncryptMessage(vchPubKey, stringFromVch(ParseHex(m_encryptionprivkey.toStdString())), strCipherEncryptionPrivateKey))
 				{
 					QMessageBox::critical(this, windowTitle(),
 						tr("Could not encrypt alias encryption key!"),
@@ -597,14 +598,13 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
 			if(ui->multisigList->count() > 0)
 			{
-				bool notEqual = false;
+				// ensure multisig list hasn't changed
 				for(int i = 0; i < ui->multisigList->count(); ++i)
 				{
 					QString str = ui->multisigList->item(i)->text();
-					if(ui->m_multisigList->count() <= i || ui->m_multisigList->item(i)->text() != str)
-						notEqual = true;
+					multisigListStr += str;
 				}
-				if(notEqual)
+				if(multisigListStr != m_multisigListStr)
 				{
 					params.push_back(ui->reqSigsEdit->text().toStdString());
 					for(int i = 0; i < ui->multisigList->count(); ++i)
