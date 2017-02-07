@@ -271,12 +271,125 @@ bool EditAliasDialog::saveCurrentRow()
                 QMessageBox::Ok, QMessageBox::Ok);
             return false;
         }
+		CKey privEncryptionKey;
+		privEncryptionKey.MakeNewKey(true);
+		CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
+		vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
+		
+		if(!pubEncryptionKey.IsFullyValid())
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Encryption key is invalid!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
+		
+		string strCipherPrivateData = "";
+		string privdata = ui->privateEdit->toPlainText().toStdString();
+		if(privdata != "\"\"")
+		{
+			if(!EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt private alias data!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+		}	
+
+		string strCipherPassword = "";
+		string strCipherEncryptionPrivateKey = "";
+		vector<unsigned char> vchPubKey;
+		CKey privKey;
+		vector<unsigned char> vchPasswordSalt;
+		string password = ui->passwordEdit->text().trimmed().toStdString();
+		if(password != "\"\"")
+		{
+			vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
+			GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
+			CCrypter crypt;
+			string pwStr = password;
+			SecureString password = pwStr.c_str();
+			BOOST_CHECK(crypt.SetKeyFromPassphrase(password, vchPasswordSalt, 1, 2));	
+			privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+		}
+		else
+		{
+			privKey.MakeNewKey(true);
+		}
+		CPubKey pubKey = privKey.GetPubKey();
+		vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
+		vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
+		
+		
+		if(!pubKey.IsFullyValid())
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Public key is invalid!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		try {
+			params.push_back(CSyscoinSecret(privEncryptionKey).ToString());
+			params.push_back(false);
+            tableRPC.execute("importprivkey", params);
+			params.clear();
+			params.push_back(CSyscoinSecret(privKey).ToString());
+			params.push_back(false);
+            tableRPC.execute("importprivkey", params);
+			params.clear();			
+		}
+		catch (UniValue& objError)
+		{
+			string strError = find_value(objError, "message").get_str();
+			QMessageBox::critical(this, windowTitle(),
+			tr("Error importing key into wallet: ") + QString::fromStdString(strError),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		catch(std::exception& e)
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("General exception importing key into wallet"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+			
+		if(password != "\"\"")
+		{
+			if(!EncryptMessage(vchPubKey, password, strCipherPassword))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt alias password!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+		}
+		
+		if(!EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Could not encrypt alias encryption key!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		string strPasswordHex = HexStr(vchFromString(strCipherPassword));
+		if(strCipherPassword.empty())
+			strPasswordHex = "\"\"";
+		string strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+		if(strCipherPrivateData.empty())
+			strPrivateHex = "\"\"";
+		string strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
+		if(strCipherEncryptionPrivateKey.empty())
+			strEncryptionPrivateKeyHex = "\"\"";
+	
 		strMethod = string("aliasnew");
 		params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
         params.push_back(ui->aliasEdit->text().trimmed().toStdString());
-		params.push_back(ui->passwordEdit->text().trimmed().toStdString());
+		params.push_back(strPasswordHex);
 		params.push_back(ui->nameEdit->toPlainText().toStdString());
-		params.push_back(ui->privateEdit->toPlainText().toStdString());
+		params.push_back(strPrivateHex);
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 		params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
@@ -290,7 +403,17 @@ bool EditAliasDialog::saveCurrentRow()
 			}
 			params.push_back(arraySendParams);
 		}
-
+		else
+		{
+			// num required
+			params.push_back("0");
+			// multisig
+			params.push_back("\"\"");
+		}
+		params.push_back(HexStr(vchPubKey));
+		params.push_back(HexStr(vchPasswordSalt));
+		params.push_back(strEncryptionPrivateKeyHex);
+		params.push_back(HexStr(vchPubEncryptionKey));
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
 			const UniValue &arr = result.get_array();
@@ -320,14 +443,14 @@ bool EditAliasDialog::saveCurrentRow()
 			QMessageBox::critical(this, windowTitle(),
 			tr("Error creating new Alias: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
-			break;
+			return false;
 		}
 		catch(std::exception& e)
 		{
 			QMessageBox::critical(this, windowTitle(),
 				tr("General exception creating new Alias"),
 				QMessageBox::Ok, QMessageBox::Ok);
-			break;
+			return false;
 		}							
 
         break;
