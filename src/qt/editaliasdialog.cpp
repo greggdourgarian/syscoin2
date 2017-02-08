@@ -355,13 +355,13 @@ bool EditAliasDialog::saveCurrentRow()
 			return false;
 		}
 		try {
-			params.push_back(CSyscoinSecret(privEncryptionKey).ToString());
-			params.push_back("");
+			UniValue keyparams(UniValue::VARR);
+			keyparams.push_back(CSyscoinSecret(privEncryptionKey).ToString());
+			keyparams.push_back("");
 			UniValue value(UniValue::VBOOL);
 			value.setBool(false);
 			params.push_back(value);
-            tableRPC.execute("importprivkey", params);
-			params.clear();		
+            tableRPC.execute("importprivkey", keyparams);	
 		}
 		catch (UniValue& objError)
 		{
@@ -379,13 +379,13 @@ bool EditAliasDialog::saveCurrentRow()
 			return false;
 		}
 		try {
+			UniValue keyparams(UniValue::VARR);
 			UniValue value(UniValue::VBOOL);
 			value.setBool(false);
-			params.push_back(CSyscoinSecret(privKey).ToString());
-			params.push_back("");
-			params.push_back(value);
-            tableRPC.execute("importprivkey", params);
-			params.clear();			
+			keyparams.push_back(CSyscoinSecret(privKey).ToString());
+			keyparams.push_back("");
+			keyparams.push_back(value);
+            tableRPC.execute("importprivkey", params);	
 		}
 		catch (UniValue& objError)
 		{
@@ -546,13 +546,13 @@ bool EditAliasDialog::saveCurrentRow()
 						return false;
 					}
 					try {
-						params.push_back(CSyscoinSecret(privKey).ToString());
-						params.push_back("");
+						UniValue keyparams(UniValue::VARR);
+						keyparams.push_back(CSyscoinSecret(privKey).ToString());
+						keyparams.push_back("");
 						UniValue value(UniValue::VBOOL);
 						value.setBool(false);
-						params.push_back(value);
-						tableRPC.execute("importprivkey", params);
-						params.clear();			
+						keyparams.push_back(value);
+						tableRPC.execute("importprivkey", params);		
 					}
 					catch (UniValue& objError)
 					{
