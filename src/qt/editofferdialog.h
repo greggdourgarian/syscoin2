@@ -69,7 +69,7 @@ private:
 	QString m_oldprice;
 	QString m_olddescription;
 	QString m_oldcurrency;
-	QString m_oldprivate);
+	QString m_oldprivate;
 	QString m_oldcert;
 	QString m_oldgeolocation;
 	QString m_oldsafesearch;
