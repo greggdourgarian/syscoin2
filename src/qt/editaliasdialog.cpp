@@ -105,6 +105,10 @@ EditAliasDialog::~EditAliasDialog()
 {
     delete ui;
 }
+void EditAliasDialog::on_showPasswordButton_clicked()
+{
+	ui->passwordEdit->setEchoMode(QLineEdit::Normal);
+}
 void EditAliasDialog::onCustomExpireCheckBoxChanged(bool toggled)
 {
 	ui->expireTimeEdit->setEnabled(toggled);

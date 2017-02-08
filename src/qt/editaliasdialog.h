@@ -45,6 +45,7 @@ public Q_SLOTS:
 	void reqSigsChanged();
 	void expiryChanged(const QString& alias);
 	void onCustomExpireCheckBoxChanged(bool toggled);
+	void on_showPasswordButton_clicked();
 private:
     bool saveCurrentRow();
 
