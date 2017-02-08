@@ -1,6 +1,7 @@
 #include "newmessagedialog.h"
 #include "ui_newmessagedialog.h"
-
+#include "cert.h"
+#include "alias.h"
 #include "messagetablemodel.h"
 #include "guiutil.h"
 #include "walletmodel.h"
