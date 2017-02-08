@@ -361,7 +361,26 @@ bool EditAliasDialog::saveCurrentRow()
 			value.setBool(false);
 			params.push_back(value);
             tableRPC.execute("importprivkey", params);
-			params.clear();
+			params.clear();		
+		}
+		catch (UniValue& objError)
+		{
+			string strError = find_value(objError, "message").get_str();
+			QMessageBox::critical(this, windowTitle(),
+			tr("Error importing encryption key into wallet: ") + QString::fromStdString(strError),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		catch(std::exception& e)
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("General exception importing encryption key into wallet"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		try {
+			UniValue value(UniValue::VBOOL);
+			value.setBool(false);
 			params.push_back(CSyscoinSecret(privKey).ToString());
 			params.push_back("");
 			params.push_back(value);
@@ -372,18 +391,17 @@ bool EditAliasDialog::saveCurrentRow()
 		{
 			string strError = find_value(objError, "message").get_str();
 			QMessageBox::critical(this, windowTitle(),
-			tr("Error importing key into wallet: ") + QString::fromStdString(strError),
+			tr("Error importing alias key into wallet: ") + QString::fromStdString(strError),
 				QMessageBox::Ok, QMessageBox::Ok);
 			return false;
 		}
 		catch(std::exception& e)
 		{
 			QMessageBox::critical(this, windowTitle(),
-				tr("General exception importing key into wallet"),
+				tr("General exception importing alias key into wallet"),
 				QMessageBox::Ok, QMessageBox::Ok);
 			return false;
-		}
-			
+		}			
 		if(password != "\"\"")
 		{
 			if(!EncryptMessage(vchPubKey, password, strCipherPassword))

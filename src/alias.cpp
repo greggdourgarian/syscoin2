@@ -1909,6 +1909,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	{
 		strWalletless = params[14].get_str();
 	}	
+	if(strWalletless == "No")
+		EnsureWalletIsUnlocked();
 	CWalletTx wtx;
 
 	CAliasIndex oldAlias;
