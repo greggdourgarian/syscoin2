@@ -266,7 +266,7 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	vector<unsigned char> vchPrivKey(privKey.begin(), privKey.end());
 	
 	BOOST_CHECK(pubKey.IsFullyValid());
-	BOOST_CHECK_NO_THROW(CallRPC("node2", "importprivkey " + CSyscoinSecret(privKey).ToString() + " false", true, false));	
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "importprivkey " + CSyscoinSecret(privKey).ToString() + " \"\" false", true, false));	
 
 	AliasTransfer("node1", "jagnode1", "node2", "changeddata1", "pvtdata");
 
