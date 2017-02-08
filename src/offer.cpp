@@ -3200,7 +3200,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 			return false;
 		if(linkAlias.safetyLevel >= SAFETY_LEVEL2)
 			return false;
-		vchEncryptionPublicKey = linkOffer.vchEncryptionPublicKey;
+		vchEncryptionPublicKey = linkAlias.vchEncryptionPublicKey;
 	}
 
 	uint64_t nHeight;
