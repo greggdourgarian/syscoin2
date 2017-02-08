@@ -357,12 +357,16 @@ bool EditAliasDialog::saveCurrentRow()
 		try {
 			params.push_back(CSyscoinSecret(privEncryptionKey).ToString());
 			params.push_back("");
-			params.push_back("0");
+			UniValue value(UniValue::VBOOL);
+			value.setBool(false);
+			params.push_back(value);
             tableRPC.execute("importprivkey", params);
 			params.clear();
 			params.push_back(CSyscoinSecret(privKey).ToString());
 			params.push_back("");
-			params.push_back("0");
+			UniValue value(UniValue::VBOOL);
+			value.setBool(false);
+			params.push_back(value);
             tableRPC.execute("importprivkey", params);
 			params.clear();			
 		}
@@ -528,7 +532,9 @@ bool EditAliasDialog::saveCurrentRow()
 					try {
 						params.push_back(CSyscoinSecret(privKey).ToString());
 						params.push_back("");
-						params.push_back("0");
+						UniValue value(UniValue::VBOOL);
+						value.setBool(false);
+						params.push_back(value);
 						tableRPC.execute("importprivkey", params);
 						params.clear();			
 					}
