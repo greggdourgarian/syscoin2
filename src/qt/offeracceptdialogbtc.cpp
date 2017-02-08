@@ -6,6 +6,9 @@
 #include "offerescrowdialog.h"
 #include "guiconstants.h"
 #include "guiutil.h"
+#include "offer.h"
+#include "alias.h"
+#include "cert.h"
 #include "platformstyle.h"
 #include "syscoingui.h"
 #include <QMessageBox>

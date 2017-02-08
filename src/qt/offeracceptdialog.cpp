@@ -9,6 +9,7 @@
 #include "offerescrowdialog.h"
 #include "offer.h"
 #include "alias.h"
+#include "cert.h"
 #include "guiutil.h"
 #include "syscoingui.h"
 #include <QMessageBox>
@@ -299,7 +300,7 @@ void OfferAcceptDialog::acceptEscrow()
 				QMessageBox::critical(this, windowTitle(),
 					tr("Could not encrypt private shipping notes!"),
 					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
+				return;
 			}
 		}
 		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
