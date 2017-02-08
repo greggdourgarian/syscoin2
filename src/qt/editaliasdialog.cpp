@@ -358,7 +358,7 @@ bool EditAliasDialog::saveCurrentRow()
 			keyparams.push_back("");
 			UniValue value(UniValue::VBOOL);
 			value.setBool(false);
-			params.push_back(value);
+			keyparams.push_back(value);
             tableRPC.execute("importprivkey", keyparams);	
 		}
 		catch (UniValue& objError)
