@@ -364,8 +364,6 @@ bool EditAliasDialog::saveCurrentRow()
 			params.clear();
 			params.push_back(CSyscoinSecret(privKey).ToString());
 			params.push_back("");
-			UniValue value(UniValue::VBOOL);
-			value.setBool(false);
 			params.push_back(value);
             tableRPC.execute("importprivkey", params);
 			params.clear();			
