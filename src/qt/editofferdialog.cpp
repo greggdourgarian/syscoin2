@@ -563,6 +563,7 @@ void EditOfferDialog::setModel(WalletModel* walletModel, OfferTableModel *model)
 void EditOfferDialog::loadRow(int row)
 {
 	const QModelIndex tmpIndex;
+	QVariant currentCategory;
 	if(model)
 	{
 		mapper->setCurrentIndex(row);
@@ -645,7 +646,7 @@ void EditOfferDialog::loadRow(int row)
 
 bool EditOfferDialog::saveCurrentRow()
 {
-	string paymentoptions, commission, safesearch, geolocation, cert, privates, currency, price, category, qty, title;
+	string paymentoptions, commission, safesearch, description, geolocation, cert, privates, currency, price, category, qty, title;
 
     if(!walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -713,7 +714,7 @@ bool EditOfferDialog::saveCurrentRow()
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());
 		params.push_back(ui->geoLocationEdit->text().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
-		params.push_back(ui->privateEdit->currentText();
+		params.push_back(ui->privateEdit->currentText());
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
 			const UniValue &arr = result.get_array();
