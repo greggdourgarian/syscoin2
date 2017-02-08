@@ -554,7 +554,7 @@ bool EditCertDialog::saveCurrentRow()
 			strMethod = string("certtransfer");
 			params.push_back(ui->certEdit->text().toStdString());
 			params.push_back(ui->transferEdit->text().toStdString());
-			params.push_back(ui->viewOnlyBox->currentText() == QString("Yes")? "1": "0");
+			params.push_back(ui->viewOnlyBox->currentText());
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)

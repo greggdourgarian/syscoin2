@@ -1,6 +1,9 @@
 #include "editofferdialog.h"
 #include "ui_editofferdialog.h"
-
+#include "cert.h"
+#include "alias.h"
+#include "wallet/crypter.h"
+#include "random.h"
 #include "offertablemodel.h"
 #include "guiutil.h"
 #include "walletmodel.h"
@@ -616,10 +619,33 @@ void EditOfferDialog::loadRow(int row)
 				ui->qtyEdit->setText(qtyStr);
 		}
 	}
+	currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+	if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
+		m_oldcategory = currentCategory.toString();
+	else
+		m_oldcategory = ui->categoryEdit->currentText();
+	m_oldtitle = ui->nameEdit->text();
+	m_oldqty = ui->qtyEdit->text();
+	m_oldprice = ui->priceEdit->text();
+	m_olddescription = ui->descriptionEdit->toPlainText();
+	m_oldcurrency = ui->currencyEdit->currentText();
+	m_oldprivate = ui->privateEdit->currentText();
+	if(ui->certEdit->currentIndex() > 0)
+	{
+		m_oldcert = ui->certEdit->itemData(ui->certEdit->currentIndex()).toString();
+	}
+	else
+		m_oldcert = "";
+	
+	m_oldgeolocation = ui->geoLocationEdit->text();
+	m_oldsafesearch = ui->safeSearchEdit->currentText();
+	m_oldcommission = ui->commissionEdit->text();
+	m_oldpaymentoptions = ui->paymentOptionsEdit->text();
 }
 
 bool EditOfferDialog::saveCurrentRow()
 {
+	string paymentoptions, commission, safesearch, geolocation, cert, privates, currency, price, category, qty, title;
 
     if(!walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -682,12 +708,12 @@ bool EditOfferDialog::saveCurrentRow()
 		}
 		else
 		{
-			params.push_back("");
+			params.push_back("\"\"");
 		}
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());
 		params.push_back(ui->geoLocationEdit->text().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
-		params.push_back(ui->privateEdit->currentText() == QString("Yes")? "1": "0");
+		params.push_back(ui->privateEdit->currentText();
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
 			const UniValue &arr = result.get_array();
@@ -741,35 +767,80 @@ bool EditOfferDialog::saveCurrentRow()
 		}
         if(mapper->submit())
         {
+			title = "\"\"";
+			if(ui->nameEdit->text() != m_oldtitle)
+				title = ui->nameEdit->text().toStdString();
+
+			qty = "\"\"";
+			if(ui->qtyEdit->text() != m_oldqty)
+				qty = ui->qtyEdit->text().toStdString();
+
+			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
+			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
+				category = currentCategory.toString().toStdString();
+			else
+				category = ui->categoryEdit->currentText().toStdString();
+			if(category == m_oldcategory.toStdString())
+				category = "\"\"";
+
+			price = "\"\"";
+			if(ui->priceEdit->text() != m_oldprice)
+				price = ui->priceEdit->text().toStdString();
+
+			description = "\"\"";
+			if(ui->descriptionEdit->toPlainText() != m_olddescription)
+				description = ui->descriptionEdit->toPlainText().toStdString();
+
+			currency = "\"\"";
+			if(ui->currencyEdit->currentText() != m_oldcurrency)
+				currency = ui->currencyEdit->currentText().toStdString();
+
+			privates = "\"\"";
+			if(ui->privateEdit->currentText() != m_oldprivate)
+				privates = ui->privateEdit->currentText().toStdString();
+
+			if(ui->certEdit->currentIndex() > 0)
+			{
+				cert = ui->certEdit->itemData(ui->certEdit->currentIndex()).toString().toStdString();
+			}
+			else
+			{
+				cert = "";
+			}
+			if(cert == m_oldcert.toStdString())
+				cert = "\"\"";
+
+			geolocation = "\"\"";
+			if(ui->geoLocationEdit->text() != m_oldgeolocation)
+				geolocation = ui->geoLocationEdit->text().toStdString();
+
+			safesearch = "\"\"";
+			if(ui->safeSearchEdit->currentText() != m_oldsafesearch)
+				safesearch = ui->safeSearchEdit->currentText().toStdString();
+
+			commission = "\"\"";
+			if(ui->commissionEdit->text() != m_oldcommission)
+				commission = ui->commissionEdit->text().toStdString();
+
+			paymentoptions = "\"\"";
+			if(ui->paymentOptionsEdit->text() != m_oldpaymentoptions)
+				paymentoptions = ui->paymentOptionsEdit->text().toStdString();
+
 			strMethod = string("offerupdate");
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->offerEdit->text().toStdString());
-			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
-			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
-				params.push_back(currentCategory.toString().toStdString());
-			else
-				params.push_back(ui->categoryEdit->currentText().toStdString());
-			params.push_back(ui->nameEdit->text().toStdString());
-			params.push_back(ui->qtyEdit->text().toStdString());
-			params.push_back(ui->priceEdit->text().toStdString());
-			params.push_back(ui->descriptionEdit->toPlainText().toStdString());
-			params.push_back(ui->currencyEdit->currentText().toStdString());
-			params.push_back(ui->privateEdit->currentText() == QString("Yes")? "1": "0");
-			if(ui->certEdit->currentIndex() > 0)
-			{
-				params.push_back(ui->certEdit->itemData(ui->certEdit->currentIndex()).toString().toStdString());
-			}
-			else
-			{
-				params.push_back("");
-			}
-
-			params.push_back(ui->geoLocationEdit->text().toStdString());
-			params.push_back(ui->safeSearchEdit->currentText().toStdString());
-			params.push_back(ui->commissionEdit->text().toStdString());
-			params.push_back(ui->paymentOptionsEdit->text().toStdString());
-
-
+			params.push_back(category);
+			params.push_back(title);
+			params.push_back(qty);
+			params.push_back(price);
+			params.push_back(description);
+			params.push_back(currency);
+			params.push_back(privates);
+			params.push_back(cert);
+			params.push_back(geolocation);
+			params.push_back(safesearch);
+			params.push_back(commission);
+			params.push_back(paymentoptions);
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)

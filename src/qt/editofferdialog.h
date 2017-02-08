@@ -63,6 +63,18 @@ private:
 	QString commission;
 	bool overrideSafeSearch;
 	QString expiredStr;
+	QString m_oldcategory;
+	QString m_oldtitle;
+	QString m_oldqty;
+	QString m_oldprice;
+	QString m_olddescription;
+	QString m_oldcurrency;
+	QString m_oldprivate);
+	QString m_oldcert;
+	QString m_oldgeolocation;
+	QString m_oldsafesearch;
+	QString m_oldcommission;
+	QString m_oldpaymentoptions;
 };
 
 #endif // EDITOFFERDIALOG_H
