@@ -376,7 +376,7 @@ void OfferAcceptDialogBTC::acceptOffer(){
 				QMessageBox::critical(this, windowTitle(),
 					tr("Could not encrypt private shipping notes!"),
 					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
+				return;
 			}
 		}
 		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
@@ -475,7 +475,7 @@ void OfferAcceptDialogBTC::acceptEscrow()
 				QMessageBox::critical(this, windowTitle(),
 					tr("Could not encrypt private shipping notes!"),
 					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
+				return;
 			}
 		}
 		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
