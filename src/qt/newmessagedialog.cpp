@@ -29,7 +29,7 @@ NewMessageDialog::NewMessageDialog(Mode mode, const QString &to, const QString &
 	{
 		ui->topicEdit->setText(title);
 	}
-	ui->hexDisclaimer->setText(QString("<font color='blue'>") + tr("Choose 'Yes' if you want to send a message to yourself so you can read it in your outgoing mailbox. If you select 'No' the outgoing message will not be readable but can be used to save space if you are sending a large message. The maximum size of a message is 4Kb if 'No' is selected or 1Kb if 'Yes' is selected.") + QString("</font>"));
+	ui->sendFromDisclaimer->setText(QString("<font color='blue'>") + tr("Choose 'Yes' if you want to send a message to yourself so you can read it in your outgoing mailbox. If you select 'No' the outgoing message will not be readable but can be used to save space if you are sending a large message. The maximum size of a message is 4Kb if 'No' is selected or 1Kb if 'Yes' is selected.") + QString("</font>"));
 	
 	QSettings settings;
 	QString defaultMessageAlias;
