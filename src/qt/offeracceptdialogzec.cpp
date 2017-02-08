@@ -34,10 +34,10 @@ using namespace std;
 #include <QNetworkReply>
 #include "qzecjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QString strCategory, float nQtyUnits, QWidget *parent) :
+OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey,QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QString strCategory, float nQtyUnits, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strCategory(strCategory), nQtyUnits(nQtyUnits)
+    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), m_encryptionkey(encryptionkey), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strCategory(strCategory), nQtyUnits(nQtyUnits)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
@@ -384,7 +384,22 @@ void OfferAcceptDialogZEC::acceptOffer(){
 		UniValue result ;
 		string strReply;
 		string strError;
-
+		string strPrivateHex;
+		string strCipherPrivateData;
+		string privdata = this->notes.toStdString();
+		if(privdata != "\"\"")
+		{
+			if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), privdata, strCipherPrivateData))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt private shipping notes!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+		}
+		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+		if(strCipherPrivateData.empty())
+			strPrivateHex = "\"\"";
 		string strMethod = string("offeraccept");
 		if(this->quantity.toLong() <= 0)
 		{
@@ -397,7 +412,7 @@ void OfferAcceptDialogZEC::acceptOffer(){
 		params.push_back(this->alias.toStdString());
 		params.push_back(this->offer.toStdString());
 		params.push_back(this->quantity.toStdString());
-		params.push_back(this->notes.toStdString());
+		params.push_back(strPrivateHex);
 		params.push_back(ui->exttxidEdit->text().trimmed().toStdString());
 		params.push_back("ZEC");
 
@@ -468,7 +483,22 @@ void OfferAcceptDialogZEC::acceptEscrow()
 		UniValue result ;
 		string strReply;
 		string strError;
-
+		string strPrivateHex;
+		string strCipherPrivateData;
+		string privdata = this->notes.toStdString();
+		if(privdata != "\"\"")
+		{
+			if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), privdata, strCipherPrivateData))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt private shipping notes!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+		}
+		strPrivateHex = HexStr(vchFromString(strCipherPrivateData));
+		if(strCipherPrivateData.empty())
+			strPrivateHex = "\"\"";
 		string strMethod = string("escrownew");
 		if(this->quantity.toLong() <= 0)
 		{
@@ -481,7 +511,7 @@ void OfferAcceptDialogZEC::acceptEscrow()
 		params.push_back(this->alias.toStdString());
 		params.push_back(this->offer.toStdString());
 		params.push_back(this->quantity.toStdString());
-		params.push_back(this->notes.toStdString());
+		params.push_back(strPrivateHex);
 		params.push_back(ui->escrowEdit->text().toStdString());
 		params.push_back(ui->exttxidEdit->text().trimmed().toStdString());
 		params.push_back("ZEC");

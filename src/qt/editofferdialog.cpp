@@ -714,7 +714,7 @@ bool EditOfferDialog::saveCurrentRow()
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());
 		params.push_back(ui->geoLocationEdit->text().toStdString());
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
-		params.push_back(ui->privateEdit->currentText());
+		params.push_back(ui->privateEdit->currentText().toStdString());
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
 			const UniValue &arr = result.get_array();

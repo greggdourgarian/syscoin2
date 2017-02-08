@@ -146,7 +146,7 @@ bool AcceptandPayOfferListPage::getProfileData(QString& publicData, QString& pri
 				publicData = QString::fromStdString(pub_value.get_str());
 			const UniValue& priv_value = find_value(o, "privatevalue");
 			if (priv_value.type() == UniValue::VSTR)
-				privateData = QString::fromStdString(priv_value.get_str());				
+				privateData = QString::fromStdString(priv_value.get_str());		
 			return true;					
 		}
 	}
@@ -286,7 +286,7 @@ void AcceptandPayOfferListPage::OpenPayDialog()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, strCategory, nQtyUnits, this);
+	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), m_encryptionkey, ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, strCategory, nQtyUnits, this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -308,7 +308,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
+	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), m_encryptionkey, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -331,7 +331,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), m_encryptionkey, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
 	
 	if(dlg.exec())
 	{
@@ -399,6 +399,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 		if (result.type() == UniValue::VOBJ)
 		{
 			const UniValue &offerObj = result.get_obj();
+			m_encryptionkey = QString::fromStdString(find_value(offerObj, "encryption_publickey").get_str());
 			COffer offerOut;
 			const string &strRand = find_value(offerObj, "offer").get_str();
 			const string &strAddress = find_value(offerObj, "address").get_str();
@@ -417,7 +418,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 				offerOut.nQty = QString::fromStdString(find_value(offerObj, "quantity").get_str()).toUInt();	
 			offerOut.paymentOptions = find_value(offerObj, "paymentoptions").get_int();	
 			string descString = find_value(offerObj, "description").get_str();
-
+		
 			offerOut.sDescription = vchFromString(descString);
 			UniValue outerDescValue(UniValue::VSTR);
 			bool read = outerDescValue.read(descString);

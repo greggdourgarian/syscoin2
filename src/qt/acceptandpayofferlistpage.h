@@ -81,6 +81,7 @@ private:
 	unsigned char paymentOptions;
 	bool usedProfileInfo;
 	bool isOfferCert;
+	QString m_encryptionkey;
 };
 
 #endif // ACCEPTANDPAYOFFERLISTPAGE_H

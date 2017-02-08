@@ -3189,6 +3189,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	vector<COffer> myLinkedVtxPos;
 	CTransaction linkaliastx;
 	CAliasIndex linkAlias;
+	vector<unsigned char> vchEncryptionPublicKey = alias.vchEncryptionPublicKey;
 	if( !theOffer.vchLinkOffer.empty())
 	{
 		if(!GetTxAndVtxOfOffer( theOffer.vchLinkOffer, linkOffer, linkTx, myLinkedVtxPos, true))
@@ -3199,6 +3200,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 			return false;
 		if(linkAlias.safetyLevel >= SAFETY_LEVEL2)
 			return false;
+		vchEncryptionPublicKey = linkOffer.vchEncryptionPublicKey;
 	}
 
 	uint64_t nHeight;
@@ -3276,6 +3278,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	oOffer.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
 	oOffer.push_back(Pair("description", stringFromVch(theOffer.sDescription)));
 	oOffer.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
+	oOffer.push_back(Pair("encryption_publickey", HexStr(vchEncryptionPublicKey)));
 	CSyscoinAddress address;
 	GetAddress(alias, &address);
 	if(!address.IsValid())
