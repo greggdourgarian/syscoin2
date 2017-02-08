@@ -28,7 +28,7 @@ NewMessageDialog::NewMessageDialog(Mode mode, const QString &to, const QString &
 	{
 		ui->topicEdit->setText(title);
 	}
-	ui->hexDisclaimer->setText(QString("<font color='blue'>") + tr("Choose 'Yes' if you are sending a Hex string as a message such as a raw transaction for multisignature signing purposes. To compress the message this will convert the message data from hex to binary and send it to the recipient. The outgoing message field will not be utilized to save space.") + QString("</font>"));
+	ui->hexDisclaimer->setText(QString("<font color='blue'>") + tr("Choose 'Yes' if you want to send a message to yourself so you can read it in your outgoing mailbox. If you select 'No' the outgoing message will not be readable but can be used to save space if you are sending a large message. The maximum size of a message is 4Kb if 'No' is selected or 1Kb if 'Yes' is selected.") + QString("</font>"));
 	
 	QSettings settings;
 	QString defaultMessageAlias;
@@ -155,10 +155,66 @@ void NewMessageDialog::loadRow(int row)
 	}
 
 }
+void NewMessageDialog::GetEncryptionKeys(const QString& fromalias, const QString& toalias)
+{
+	string strMethod = string("aliasinfo");
+    UniValue params(UniValue::VARR); 
+	params.push_back(fromalias.toStdString());
+	UniValue result ;
 
+	try {
+		result = tableRPC.execute(strMethod, params);
+
+		if (result.type() == UniValue::VOBJ)
+		{
+	
+			const UniValue& o = result.get_obj();
+			m_encryptionkeyfrom = QString::fromStdString(find_value(o, "encryption_publickey").get_str());	
+		}
+	}
+	catch (UniValue& objError)
+	{
+        QMessageBox::information(this, windowTitle(),
+			tr("Could not find alias: ") + toalias,
+            QMessageBox::Ok, QMessageBox::Ok);
+	}
+	catch(std::exception& e)
+	{
+        QMessageBox::information(this, windowTitle(),
+        tr("General exception when trying to get alias information"),
+            QMessageBox::Ok, QMessageBox::Ok);
+	} 
+	string strMethod1 = string("aliasinfo");
+    UniValue params1(UniValue::VARR); 
+	params1.push_back(toalias.toStdString());
+	UniValue result1 ;
+
+	try {
+		result1 = tableRPC.execute(strMethod1, params1);
+
+		if (result.type() == UniValue::VOBJ)
+		{
+	
+			const UniValue& o = result.get_obj();
+			m_encryptionkeyto = QString::fromStdString(find_value(o, "encryption_publickey").get_str());	
+		}
+	}
+	catch (UniValue& objError)
+	{
+        QMessageBox::information(this, windowTitle(),
+			tr("Could not find alias: ") + toalias,
+            QMessageBox::Ok, QMessageBox::Ok);
+	}
+	catch(std::exception& e)
+	{
+        QMessageBox::information(this, windowTitle(),
+        tr("General exception when trying to get alias information"),
+            QMessageBox::Ok, QMessageBox::Ok);
+	} 
+}
 bool NewMessageDialog::saveCurrentRow()
 {
-
+	string privdata, strPrivateHexTo, strCipherPrivateDataTo, strPrivateHexFrom, strCipherPrivateDataFrom;
     if(walletModel)
 	{
 		WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -179,12 +235,39 @@ bool NewMessageDialog::saveCurrentRow()
                 QMessageBox::Ok, QMessageBox::Ok);
             return false;
         }
+		GetEncryptionKeys(ui->aliasEdit->currentText(), ui->toEdit->text());
+		privdata = ui->messageEdit->toPlainText().trimmed().toStdString();
+		if(privdata != "\"\"")
+		{
+			if(!EncryptMessage(ParseHex(m_encryptionkeyto.toStdString()), privdata, strCipherPrivateDataTo))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt private certificate data!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+			if(!EncryptMessage(ParseHex(m_encryptionkeyfrom.toStdString()), privdata, strCipherPrivateDataFrom))
+			{
+				QMessageBox::critical(this, windowTitle(),
+					tr("Could not encrypt private certificate data!"),
+					QMessageBox::Ok, QMessageBox::Ok);
+				return false;
+			}
+		}
+		strPrivateHexTo = HexStr(vchFromString(strCipherPrivateDataTo));
+		if(strCipherPrivateDataTo.empty())
+			strPrivateHexTo = "\"\"";
+		strPrivateHexFrom = HexStr(vchFromString(strCipherPrivateDataFrom));
+		if(strCipherPrivateDataFrom.empty())
+			strPrivateHexFrom = "\"\"";
+
 		strMethod = string("messagenew");
 		params.push_back(ui->topicEdit->text().toStdString());
-		params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
+		params.push_back(strPrivateHexFrom);
+		params.push_back(strPrivateHexTo);
 		params.push_back(ui->aliasEdit->currentText().toStdString());
 		params.push_back(ui->toEdit->text().toStdString());
-		params.push_back(ui->hexEdit->currentText().toStdString());
+		params.push_back(ui->sendFrom->currentText().toStdString());
 		
 
 		try {
@@ -237,12 +320,39 @@ bool NewMessageDialog::saveCurrentRow()
         }
         if(mapper->submit())
         {
+			privdata = ui->messageEdit->toPlainText().trimmed().toStdString();
+			if(privdata != "\"\"")
+			{
+				if(!EncryptMessage(ParseHex(m_encryptionkeyto.toStdString()), privdata, strCipherPrivateDataTo))
+				{
+					QMessageBox::critical(this, windowTitle(),
+						tr("Could not encrypt private certificate data!"),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}
+				if(!EncryptMessage(ParseHex(m_encryptionkeyfrom.toStdString()), privdata, strCipherPrivateDataFrom))
+				{
+					QMessageBox::critical(this, windowTitle(),
+						tr("Could not encrypt private certificate data!"),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}
+			}
+			strPrivateHexTo = HexStr(vchFromString(strCipherPrivateDataTo));
+			if(strCipherPrivateDataTo.empty())
+				strPrivateHexTo = "\"\"";
+			strPrivateHexFrom = HexStr(vchFromString(strCipherPrivateDataFrom));
+			if(strCipherPrivateDataFrom.empty())
+				strPrivateHexFrom = "\"\"";
+
 			strMethod = string("messagenew");
 			params.push_back(ui->topicEdit->text().toStdString());
+			params.push_back(strPrivateHexFrom);
+			params.push_back(strPrivateHexTo);
 			params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->toEdit->text().toStdString());
-			params.push_back(ui->hexEdit->currentText().toStdString());
+			params.push_back(ui->sendFrom->currentText().toStdString());
 			
 			try {
 				UniValue result = tableRPC.execute(strMethod, params);
