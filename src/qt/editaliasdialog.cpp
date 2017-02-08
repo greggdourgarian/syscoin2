@@ -57,6 +57,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	connect(ui->reqSigsEdit, SIGNAL(textChanged(QString)), this, SLOT(reqSigsChanged()));
 	connect(ui->customExpireBox,SIGNAL(clicked(bool)),SLOT(onCustomExpireCheckBoxChanged(bool)));
 	connect(ui->expiryEdit,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(expiryChanged(const QString&)));
+	ui->passwordEdit->setEchoMode(QLineEdit::PasswordEchoOnEdit);
 	QString defaultPegAlias;
 	QSettings settings;
 	switch(mode)
@@ -135,7 +136,8 @@ void EditAliasDialog::loadAliasDetails()
 			m_oldprivatevalue = QString::fromStdString(find_value(result.get_obj(), "privatevalue").get_str());
 			m_encryptionkey = QString::fromStdString(find_value(result.get_obj(), "encryption_publickey").get_str());
 			m_encryptionprivkey = QString::fromStdString(find_value(result.get_obj(), "encryption_privatekey").get_str());
-
+			
+			ui->passwordEdit->setText(m_oldPassword);
 			const UniValue& aliasPegValue = find_value(result.get_obj(), "alias_peg");
 			ui->aliasPegEdit->setText(QString::fromStdString(aliasPegValue.get_str()));
 			const UniValue& acceptTransferValue = find_value(result.get_obj(), "acceptcerttransfers");
