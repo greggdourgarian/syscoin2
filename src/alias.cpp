@@ -2207,7 +2207,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.multiSigInfo = multiSigInfo;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
-	if(!strSafeSearch.empty())
+	if(strSafeSearch.empty())
+		theAlias.safeSearch = copyAlias.safeSearch;
+	else
 		theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	if(strAcceptCertTransfers.empty())
 		theAlias.acceptCertTransfers = copyAlias.acceptCertTransfers;
