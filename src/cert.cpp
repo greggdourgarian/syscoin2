@@ -1187,8 +1187,8 @@ UniValue certinfo(const UniValue& params, bool fHelp) {
 
 UniValue certlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
-        throw runtime_error("certlist [\"alias\",...] [<cert>] [<privatekey>]\n"
-                "list certificates that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in certificates.");
+        throw runtime_error("certlist [\"alias\",...] [<cert>] [walletless=No]\n"
+                "list certificates that an array of aliases own. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -1216,9 +1216,9 @@ UniValue certlist(const UniValue& params, bool fHelp) {
     if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 3)
-		strPrivateKey = params[2].get_str();
+		strWalletless = params[2].get_str();
 	
 	
 	UniValue oRes(UniValue::VARR);
@@ -1236,7 +1236,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 			continue;
 		const CAliasIndex &alias = vtxPos.back();
 		UniValue oCert(UniValue::VOBJ);
-		if(BuildCertJson(cert, alias, oCert, strPrivateKey))
+		if(BuildCertJson(cert, alias, oCert, strWalletless))
 			oRes.push_back(oCert);
 	}
     return oRes;
@@ -1356,7 +1356,7 @@ UniValue certfilter(const UniValue& params, bool fHelp) {
 		vchCert = vchFromValue(params[1]);
 
 	if (params.size() > 2)
-		safeSearch = params[2].get_str()=="On"? true: false;
+		safeSearch = params[2].get_str()=="Yes"? true: false;
 
 	if (params.size() > 3)
 		strCategory = params[3].get_str();

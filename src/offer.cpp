@@ -3306,8 +3306,8 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 }
 UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
-        throw runtime_error("offeracceptlist [\"alias\",...] [<acceptguid>] [<privatekey>]\n"
-                "list offer purchases that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer purchase.");
+        throw runtime_error("offeracceptlist [\"alias\",...] [<acceptguid>] [walletless=No]\n"
+                "list offer purchases that an array of aliases own. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -3335,9 +3335,9 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
     if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 3)
-		strPrivateKey = params[2].get_str();
+		strWalletless = params[2].get_str();
 
 	UniValue aoOfferAccepts(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -3398,7 +3398,7 @@ UniValue offeracceptlist(const UniValue& params, bool fHelp) {
 						continue;
 					UniValue oAccept(UniValue::VOBJ);
 					vNamesA[theOffer.accept.vchAcceptRand] = theOffer.accept.nAcceptHeight;
-					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, strPrivateKey))
+					if(BuildOfferAcceptJson(theOffer, theAlias, tx, oAccept, strWalletless))
 					{
 						aoOfferAccepts.push_back(oAccept);
 					}
@@ -3610,8 +3610,8 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, c
 }
 UniValue offerlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
-        throw runtime_error("offerlist [\"alias\",...] [<offer>] [<privatekey>]\n"
-                "list offers that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in offer.");
+        throw runtime_error("offerlist [\"alias\",...] [<offer>] [walletless=No]\n"
+                "list offers that an array of aliases own. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -3639,9 +3639,9 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
     if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 3)
-		strPrivateKey = params[2].get_str();
+		strWalletless = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	vector<COffer> offerScan;
@@ -3686,7 +3686,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					
 					UniValue oOffer(UniValue::VOBJ);
 					vNamesI[offer.vchOffer] = theOffer.nHeight;
-					if(BuildOfferJson(theOffer, theAlias, oOffer, strPrivateKey))
+					if(BuildOfferJson(theOffer, theAlias, oOffer, strWalletless))
 					{
 						oRes.push_back(oOffer);
 					}
@@ -3772,7 +3772,7 @@ UniValue offerfilter(const UniValue& params, bool fHelp) {
 		vchOffer = vchFromValue(params[1]);
 
 	if (params.size() > 2)
-		safeSearch = params[2].get_str()=="On"? true: false;
+		safeSearch = params[2].get_str()=="Yes"? true: false;
 
 	if (params.size() > 3)
 		strCategory = params[3].get_str();

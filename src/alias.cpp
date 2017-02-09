@@ -2509,7 +2509,7 @@ bool IsMyAlias(const CAliasIndex& alias)
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
 	if (fHelp || 2 < params.size())
-		throw runtime_error("aliaslist [<aliasname>] [<privatekey>]\n"
+		throw runtime_error("aliaslist [<aliasname>] [walletless=No]\n"
 				"list my own aliases.\n"
 				"<aliasname> alias name to use as filter.\n");
 
@@ -2517,9 +2517,9 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 	if (params.size() >= 1)
 		vchAlias = vchFromValue(params[0]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 2)
-		strPrivateKey = params[1].get_str();	
+		strWalletless = params[1].get_str();	
 
 	UniValue oRes(UniValue::VARR);
 	map<vector<unsigned char>, int> vNamesI;
@@ -2569,7 +2569,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 		if (vNamesI.find(alias.vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[alias.vchAlias] || vNamesI[alias.vchAlias] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, pending, oName, strPrivateKey))
+		if(BuildAliasJson(alias, pending, oName, strWalletless))
 		{
 			vNamesI[alias.vchAlias] = alias.nHeight;
 			vNamesO[alias.vchAlias] = oName;	
@@ -2858,20 +2858,20 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
  * @return        [description]
  */
 UniValue aliasinfo(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 < params.size())
-		throw runtime_error("aliasinfo <aliasname> [<privatekey>]\n"
+	if (fHelp || 1 < params.size())
+		throw runtime_error("aliasinfo <aliasname> [walletless=No]\n"
 				"Show values of an alias.\n");
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 2)
-		strPrivateKey = params[1].get_str();
+		strWalletless = params[1].get_str();
 
 	vector<CAliasIndex> vtxPos;
 	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5535 - " + _("Failed to read from alias DB"));
 
 	UniValue oName(UniValue::VOBJ);
-	if(!BuildAliasJson(vtxPos.back(), 0, oName, strPrivateKey))
+	if(!BuildAliasJson(vtxPos.back(), 0, oName, strWalletless))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5536 - " + _("Could not find this alias"));
 		
 	return oName;
@@ -3075,14 +3075,12 @@ UniValue generatepublickey(const UniValue& params, bool fHelp) {
 UniValue aliasfilter(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() > 3)
 		throw runtime_error(
-				"aliasfilter [[[[[regexp]] from='']] safesearch='Yes']\n"
+				"aliasfilter [[[[[regexp]] from='']] safesearch=Yes]\n"
 						"scan and filter aliases\n"
 						"[regexp] : apply [regexp] on aliases, empty means all aliases\n"
 						"[from] : show results from this GUID [from], empty means first.\n"
-						"[aliasfilter] : shows all aliases that are safe to display (not on the ban list)\n"
-						"aliasfilter \"\" 5 # list aliases updated in last 5 blocks\n"
-						"aliasfilter \"^alias\" # list all aliases starting with \"alias\"\n"
-						"aliasfilter 36000 0 0 stat # display stats (number of aliases) on active aliases\n");
+						"[safesearch] : shows all aliases that are safe to display (not on the ban list)\n"
+						"aliasfilter \"^alias\": list all aliases starting with \"alias\"\n");
 
 	vector<unsigned char> vchAlias;
 	string strRegexp;
@@ -3100,7 +3098,7 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 	}
 
 	if (params.size() > 2)
-		safeSearch = params[2].get_str()=="On"? true: false;
+		safeSearch = params[2].get_str()=="Yes"? true: false;
 
 	UniValue oRes(UniValue::VARR);
 

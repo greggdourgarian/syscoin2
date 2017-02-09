@@ -3061,7 +3061,6 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	}
 
 
-	string strPrivateKey ;
 	vector<unsigned char> vchLinkAlias;
 	CScript scriptPubKeyAlias;
 
@@ -3647,8 +3646,8 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 
 UniValue escrowlist(const UniValue& params, bool fHelp) {
    if (fHelp || 3 < params.size())
-        throw runtime_error("escrowlist [\"alias\",...] [<escrow>] [<privatekey>]\n"
-                "list escrows that an array of aliases are involved in. Set of aliases to look up based on alias, and private key to decrypt any data found in escrow.");
+        throw runtime_error("escrowlist [\"alias\",...] [<escrow>] [walletless=No]\n"
+                "list escrows that an array of aliases are involved in. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -3676,9 +3675,9 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
     if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 3)
-		strPrivateKey = params[2].get_str();
+		strWalletless = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -3692,7 +3691,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 	pair<CEscrow, CEscrow> pairScan;
 	BOOST_FOREACH(pairScan, escrowScan) {
 		UniValue oEscrow(UniValue::VOBJ);
-		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow, strPrivateKey))
+		if(BuildEscrowJson(pairScan.first, pairScan.second, oEscrow, strWalletless))
 			oRes.push_back(oEscrow);
 	}
     return oRes;

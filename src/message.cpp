@@ -623,8 +623,8 @@ UniValue messageinfo(const UniValue& params, bool fHelp) {
 
 UniValue messagereceivelist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
-        throw runtime_error("messagereceivelist [\"alias\",...] [<message>] [<privatekey>]\n"
-                "list received messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.");
+        throw runtime_error("messagereceivelist [\"alias\",...] [<message>] [walletless=No]\n"
+                "list received messages that an array of aliases own. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -652,9 +652,9 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
     if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 3)
-		strPrivateKey = params[2].get_str();
+		strWalletless = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -683,7 +683,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 				messageScan.push_back(message);
 				vNamesI[message.vchMessage] = message.nHeight;
 				UniValue oName(UniValue::VOBJ);
-				if(BuildMessageJson(message, oName, strPrivateKey))
+				if(BuildMessageJson(message, oName, strWalletless))
 					oRes.push_back(oName);
 			}
 		}
@@ -754,8 +754,8 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 
 UniValue messagesentlist(const UniValue& params, bool fHelp) {
     if (fHelp || 3 < params.size())
-        throw runtime_error("messagesentlist [\"alias\",...] [<message>] [<privatekey>]\n"
-                "list sent messages that an array of aliases own. Set of aliases to look up based on alias, and private key to decrypt any data found in message.");
+        throw runtime_error("messagesentlist [\"alias\",...] [<message>] [walletless=No]\n"
+                "list sent messages that an array of aliases own. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
 	vector<string> aliases;
 	if(params.size() >= 1)
@@ -783,9 +783,9 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
     if (params.size() >= 2 && !params[1].get_str().empty())
         vchNameUniq = vchFromValue(params[1]);
 
-	string strPrivateKey;
+	string strWalletless;
 	if(params.size() >= 3)
-		strPrivateKey = params[2].get_str();
+		strWalletless = params[2].get_str();
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
@@ -851,7 +851,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName, strPrivateKey))
+		if(BuildMessageJson(message, oName, strWalletless))
 			oRes.push_back(oName);
 	}
     return oRes;
