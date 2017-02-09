@@ -691,7 +691,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 	BOOST_FOREACH(const CMessage &message, messageScan) {
 		// build the output
 		UniValue oName(UniValue::VOBJ);
-		if(BuildMessageJson(message, oName, strPrivateKey))
+		if(BuildMessageJson(message, oName, strWalletless))
 			oRes.push_back(oName);
 	}
 	
