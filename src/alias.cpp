@@ -2290,7 +2290,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 }
 UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 != params.size())
-		throw runtime_error("syscoindecoderawtransaction <alias> <hexstring>\n"
+		throw runtime_error("syscoindecoderawtransaction <hexstring>\n"
 		"Decode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)\n"
 				"<hexstring> The transaction hex string.\n");
 	string hexstring = params[0].get_str();
@@ -2425,21 +2425,25 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	UniValue msInfo(UniValue::VOBJ);
 
 	string reqsigsValue = noDifferentStr;
+	UniValue msAliases(UniValue::VARR);
 	if(alias.multiSigInfo != dbAlias.multiSigInfo)
 	{
-		msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
-		UniValue msAliases(UniValue::VARR);
+		if(alias.multiSigInfo.nRequiredSigs != dbAlias.multiSigInfo.nRequiredSigs)
+			msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
+		else
+			msInfo.push_back(Pair("reqsigs", -1);
+
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 		{
-			msAliases.push_back(stringFromVch(alias.multiSigInfo.vchAliases[i]));
+			if(i < dbAlias.multiSigInfo.size() && alias.multiSigInfo.vchAliases[i] != dbAlias.multiSigInfo.vchAliases[i])
+				msAliases.push_back(stringFromVch(alias.multiSigInfo.vchAliases[i]));
+			else
+				msAliases.push_back(noDifferentStr);
 		}
-		msInfo.push_back(Pair("reqsigners", msAliases));
-		
-	}
-	else
-	{
-		msInfo.push_back(Pair("reqsigs", noDifferentStr));
-		msInfo.push_back(Pair("reqsigners", noDifferentStr));
+		if(alias.multiSigInfo.vchRedeemScript != dbAlias.multiSigInfo.vchRedeemScript)
+			msInfo.push_back(Pair("redeemscript", HexStr(alias.multiSigInfo.vchRedeemScript)));
+		else
+			msInfo.push_back(Pair("redeemscript", noDifferentStr);
 	}
 	entry.push_back(Pair("multisiginfo", msInfo));
 
@@ -2527,7 +2531,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 
 	uint256 hash;
 	CTransaction tx;
-	int pending = 0;
+	bool pending = false;
 	BOOST_FOREACH(PAIRTYPE(const uint256, CWalletTx)& item, pwalletMain->mapWallet) {
 		pending = 0;
 		// get txn hash, read txn index
@@ -2546,7 +2550,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			continue;
 		if (!paliasdb->ReadAlias(alias.vchAlias, vtxPos) || vtxPos.empty())
 		{
-			pending = 1;
+			pending = true;
 			if(!IsSyscoinTxMine(wtx, "alias"))
 				continue;
 		}
@@ -2556,7 +2560,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 			CTransaction tx;
 			if (!GetSyscoinTransaction(alias.nHeight, alias.txHash, tx, Params().GetConsensus()))
 			{
-				pending = 1;
+				pending = true;
 				if(!IsSyscoinTxMine(wtx, "alias"))
 					continue;
 			}
@@ -2876,10 +2880,10 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		
 	return oName;
 }
-bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName, const string &strWalletless)
+bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oName, const string &strWalletless)
 {
 	uint64_t nHeight;
-	int expired = 0;
+	bool expired = false;
 	int64_t expires_in = 0;
 	int64_t expired_time = 0;
 	nHeight = alias.nHeight;
@@ -2967,7 +2971,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 		expired_time = alias.nExpireTime;
 		if(expired_time <= chainActive.Tip()->nTime)
 		{
-			expired = 1;
+			expired = true;
 		}  
 		expires_in = expired_time - chainActive.Tip()->nTime;
 		if(expires_in < -1)
@@ -2976,7 +2980,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const int pending, UniValue& oName
 	else
 	{
 		expires_in = -1;
-		expired = 0;
+		expired = false;
 		expired_time = -1;
 	}
 	oName.push_back(Pair("expires_in", expires_in));
@@ -3049,9 +3053,13 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 		else
 			continue;
 		UniValue oName(UniValue::VOBJ);
+		UniValue oDetails(UniValue::VOBJ);
 		oName.push_back(Pair("type", opName));
-		if(BuildAliasJson(txPos2, 0, oName))
+		if(BuildAliasJson(txPos2, false, oDetails))
+		{
+			oName.push_back(Pair("details", oDetails));
 			oRes.push_back(oName);
+		}
 	}
 	
 	return oRes;
@@ -3112,7 +3120,7 @@ UniValue aliasfilter(const UniValue& params, bool fHelp) {
 
 	BOOST_FOREACH(const CAliasIndex &alias, nameScan) {
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, 0, oName))
+		if(BuildAliasJson(alias, false, oName))
 			oRes.push_back(oName);
 	}
 
@@ -3168,7 +3176,7 @@ bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAli
 	UniValue oAliases(UniValue::VARR);
 	BOOST_REVERSE_FOREACH(const CAliasIndex& alias, aliases) {
 		UniValue oAlias(UniValue::VOBJ);
-		if(!BuildAliasJson(alias, 0, oAlias))
+		if(!BuildAliasJson(alias, false, oAlias))
 			continue;
 		oAliases.push_back(oAlias);
 	}
