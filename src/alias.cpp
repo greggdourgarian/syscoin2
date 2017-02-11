@@ -2437,7 +2437,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 		{
-			if(i < dbAlias.multiSigInfo.size() && alias.multiSigInfo.vchAliases[i] != dbAlias.multiSigInfo.vchAliases[i])
+			if(i < dbAlias.multiSigInfo.vchAliases.size() && alias.multiSigInfo.vchAliases[i] != dbAlias.multiSigInfo.vchAliases[i])
 				msAliases.push_back(stringFromVch(alias.multiSigInfo.vchAliases[i]));
 			else
 				msAliases.push_back(noDifferentStr);
