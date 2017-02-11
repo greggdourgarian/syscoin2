@@ -2445,7 +2445,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 		if(alias.multiSigInfo.vchRedeemScript != dbAlias.multiSigInfo.vchRedeemScript)
 			msInfo.push_back(Pair("redeemscript", HexStr(alias.multiSigInfo.vchRedeemScript)));
 		else
-			msInfo.push_back(Pair("redeemscript", noDifferentStr);
+			msInfo.push_back(Pair("redeemscript", noDifferentStr));
 	}
 	entry.push_back(Pair("multisiginfo", msInfo));
 
