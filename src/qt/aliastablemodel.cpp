@@ -78,7 +78,7 @@ public:
 			string privvalue_str;
 
 			string expired_str;
-			int expired = 0;
+			bool expired = false;
 			string buyer_rating = "";
 			string seller_rating = "";
 			string arbiter_rating = "";
@@ -95,7 +95,7 @@ public:
 					value_str = "";
 					privvalue_str = "";
 					safesearch_str = "";
-					expired = 0;
+					expired = false;
 					expires_on = 0;
 					lastupdate_height = 0;
 					buyer_rating = "";
@@ -133,8 +133,8 @@ public:
 						if (expires_on_value.type() == UniValue::VNUM)
 							expires_on = expires_on_value.get_int64();
 						const UniValue& expired_value = find_value(o, "expired");
-						if (expired_value.type() == UniValue::VNUM)
-							expired = expired_value.get_int();
+						if (expired_value.type() == UniValue::VBOOL)
+							expired = expired_value.get_bool();
 						const UniValue& buyer_rating_value = find_value(o, "buyer_rating_display");
 						if (buyer_rating_value.type() == UniValue::VSTR)
 							buyer_rating = buyer_rating_value.get_str();
@@ -158,15 +158,15 @@ public:
 						}
 
 						const UniValue& pending_value = find_value(o, "pending");
-						int pending = 0;
-						if (pending_value.type() == UniValue::VNUM)
-							pending = pending_value.get_int();
+						bool pending = false;
+						if (pending_value.type() == UniValue::VBOOL)
+							pending = pending_value.get_bool();
 
-						if(expired == 1)
+						if(expired)
 						{
 							expired_str = "Expired";
 						}
-						else if(pending == 1)
+						else if(pending)
 						{
 							expired_str = "Pending";
 						}

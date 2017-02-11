@@ -2877,7 +2877,7 @@ UniValue aliasinfo(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5535 - " + _("Failed to read from alias DB"));
 
 	UniValue oName(UniValue::VOBJ);
-	if(!BuildAliasJson(vtxPos.back(), 0, oName, strWalletless))
+	if(!BuildAliasJson(vtxPos.back(), false, oName, strWalletless))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5536 - " + _("Could not find this alias"));
 		
 	return oName;
