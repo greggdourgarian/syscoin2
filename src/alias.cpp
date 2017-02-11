@@ -2326,6 +2326,8 @@ UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
 	}
 	if(sendCoin)
 		output.push_back(Pair("warning", _("Warning: This transaction sends coins to an address or alias you do not own")));
+	else
+		output.push_back(Pair("warning", ""));
 	return output;
 }
 void SysTxToJSON(const int op, const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash, UniValue &entry)
@@ -2365,18 +2367,18 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	if(!alias.vchAliasPeg.empty() && alias.vchAliasPeg != dbAlias.vchAliasPeg)
 		aliasPegValue = stringFromVch(alias.vchAliasPeg);
 
-	entry.push_back(Pair("aliaspeg", aliasPegValue));
+	entry.push_back(Pair("alias_peg", aliasPegValue));
 
 	string publicValue = noDifferentStr;
 	if(!alias.vchPublicValue .empty() && alias.vchPublicValue != dbAlias.vchPublicValue)
 		publicValue = stringFromVch(alias.vchPublicValue);
-	entry.push_back(Pair("publicvalue", publicValue));
+	entry.push_back(Pair("public_value", publicValue));
 
 	string privateValue = noDifferentStr;
 	if(!alias.vchPrivateValue.empty() && alias.vchPrivateValue != dbAlias.vchPrivateValue)
 		privateValue = HexStr(alias.vchPrivateValue);
 
-	entry.push_back(Pair("privatevalue", privateValue));
+	entry.push_back(Pair("private_value", privateValue));
 	
 
 	string password = noDifferentStr;
