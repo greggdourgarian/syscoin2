@@ -733,7 +733,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	BOOST_CHECK_EQUAL(OfferFilter("node1", guid, "No"), false);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + guid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 
 	// should be pruned
 	BOOST_CHECK_THROW(CallRPC("node2", "offerinfo " + guid), runtime_error);
@@ -765,7 +765,7 @@ BOOST_AUTO_TEST_CASE (generate_offerpruning)
 	BOOST_CHECK_EQUAL(OfferFilter("node2", guid1, "No"), false);
 	// and it should say its expired
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + guid1));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 	GenerateBlocks(5, "node1");
 	StartNode("node3");
 	ExpireAlias("pruneoffer");

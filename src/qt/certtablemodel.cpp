@@ -84,7 +84,7 @@ public:
 			string expired_str;
 			string safesearch_str;
 			string alias_str;
-			int expired = 0;
+			bool expired = false;
 			int64_t expires_on = 0;
 			
 
@@ -99,7 +99,7 @@ public:
 					data_str = "";
 					pubdata_str = "";
 					category_str = "";
-					expired = 0;
+					expired = false;
 					expires_on = 0;
 
 			
@@ -116,7 +116,7 @@ public:
 						category_str = "";
 						alias_str = "";
 						safesearch_str = "";
-						expired = 0;
+						expired = false;
 						expires_on = 0;
 
 				
@@ -142,12 +142,12 @@ public:
 						if (expires_on_value.type() == UniValue::VNUM)
 							expires_on = expires_on_value.get_int64();
 						const UniValue& expired_value = find_value(o, "expired");
-						if (expired_value.type() == UniValue::VNUM)
-							expired = expired_value.get_int();
+						if (expired_value.type() == UniValue::VBOOL)
+							expired = expired_value.get_bool();
 						const UniValue& safesearch_value = find_value(o, "safesearch");
 						if (safesearch_value.type() == UniValue::VSTR)
 							safesearch_str = safesearch_value.get_str();
-						if(expired == 1)
+						if(expired)
 						{
 							expired_str = "Expired";
 						}

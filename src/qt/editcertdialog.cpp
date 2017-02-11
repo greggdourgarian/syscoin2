@@ -160,7 +160,7 @@ void EditCertDialog::aliasChanged(const QString& alias)
 	params.push_back(alias.toStdString());
 	UniValue result ;
 	string name_str;
-	int expired = 0;
+	bool expired = false;
 	bool safeSearch;
 	int safetyLevel;
 	try {
@@ -183,8 +183,8 @@ void EditCertDialog::aliasChanged(const QString& alias)
 			if (name_value.type() == UniValue::VSTR)
 				name_str = name_value.get_str();		
 			const UniValue& expired_value = find_value(o, "expired");
-			if (expired_value.type() == UniValue::VNUM)
-				expired = expired_value.get_int();
+			if (expired_value.type() == UniValue::VBOOL)
+				expired = expired_value.get_bool();
 			const UniValue& ss_value = find_value(o, "safesearch");
 			if (ss_value.type() == UniValue::VSTR)
 				safeSearch = ss_value.get_str() == "Yes";	
@@ -198,7 +198,7 @@ void EditCertDialog::aliasChanged(const QString& alias)
 			else
 				resetSafeSearch();
 
-			if(expired != 0)
+			if(expired)
 			{
 				ui->aliasDisclaimer->setText(QString("<font color='red'>") + tr("This alias has expired, please choose another one") + QString("</font>"));				
 			}
@@ -241,14 +241,14 @@ void EditCertDialog::loadAliases()
     UniValue params(UniValue::VARR); 
 	UniValue result ;
 	string name_str;
-	int expired = 0;
+	bool expired = false;
 	try {
 		result = tableRPC.execute(strMethod, params);
 
 		if (result.type() == UniValue::VARR)
 		{
 			name_str = "";
-			expired = 0;
+			expired = false;
 
 
 	
@@ -265,9 +265,9 @@ void EditCertDialog::loadAliases()
 				if (name_value.type() == UniValue::VSTR)
 					name_str = name_value.get_str();		
 				const UniValue& expired_value = find_value(o, "expired");
-				if (expired_value.type() == UniValue::VNUM)
-					expired = expired_value.get_int();
-				if(expired == 0)
+				if (expired_value.type() == UniValue::VBOOL)
+					expired = expired_value.get_bool();
+				if(expired == false)
 				{
 					QString name = QString::fromStdString(name_str);
 					ui->aliasEdit->addItem(name);					

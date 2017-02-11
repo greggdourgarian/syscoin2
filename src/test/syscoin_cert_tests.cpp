@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "No"), false);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "certinfo " + guid));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 
 	// should be pruned
 	BOOST_CHECK_THROW(CallRPC("node2", "offerinfo " + guid), runtime_error);
@@ -247,7 +247,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	BOOST_CHECK_EQUAL(CertFilter("node2", guid1, "No"), false);
 	// and it should say its expired
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "certinfo " + guid1));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 	GenerateBlocks(5, "node1");
 	StartNode("node3");
 	ExpireAlias("jagprune1");

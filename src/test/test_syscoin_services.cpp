@@ -502,7 +502,7 @@ void ExpireAlias(const string& alias)
 	}
 	if(r.isObject())
 	{
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 	}
 	try
 	{
@@ -514,7 +514,7 @@ void ExpireAlias(const string& alias)
 	}
 	if(r.isObject())
 	{
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 	}
 	try
 	{
@@ -526,7 +526,7 @@ void ExpireAlias(const string& alias)
 	}
 	if(r.isObject())
 	{
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 1);	
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 	}
 }
 void GetOtherNodes(const string& node, string& otherNode1, string& otherNode2)
@@ -635,7 +635,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 	if(!otherNode1.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
@@ -648,7 +648,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 	}
 	if(!otherNode2.empty())
 	{
@@ -662,7 +662,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "safesearch").get_str() , safesearch == "\"\""? "Yes": safesearch);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 	}
 	return HexStr(vchPubKey);
 }
@@ -845,7 +845,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	
 	
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 	if(!otherNode1.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
@@ -859,7 +859,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
@@ -886,7 +886,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")

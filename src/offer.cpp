@@ -3204,7 +3204,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	}
 
 	uint64_t nHeight;
-	int expired;
+	bool expired = false;
 	int64_t expires_in;
 	int64_t expired_time;
 
@@ -3221,7 +3221,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	expired_time =  GetOfferExpiration(theOffer);
     if(expired_time <= chainActive.Tip()->nTime)
 	{
-		expired = 1;
+		expired = true;
 	}
 	expires_in = expired_time - chainActive.Tip()->nTime;
 	if(expires_in < -1)

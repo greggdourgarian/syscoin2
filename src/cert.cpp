@@ -1271,10 +1271,10 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 	oCert.push_back(Pair("alias", stringFromVch(cert.vchAlias)));
 	oCert.push_back(Pair("transferviewonly", cert.bTransferViewOnly? "true": "false"));
 	int64_t expired_time = GetCertExpiration(cert);
-	int expired = 0;
+	bool expired = false;
     if(expired_time <= chainActive.Tip()->nTime)
 	{
-		expired = 1;
+		expired = true;
 	}  
 	int64_t expires_in = expired_time - chainActive.Tip()->nTime;
 	if(expires_in < -1)

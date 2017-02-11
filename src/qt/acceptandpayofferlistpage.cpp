@@ -175,7 +175,7 @@ void AcceptandPayOfferListPage::loadAliases()
     UniValue params(UniValue::VARR); 
 	UniValue result ;
 	string name_str;
-	int expired = 0;
+	bool expired = false;
 	
 	try {
 		result = tableRPC.execute(strMethod, params);
@@ -183,7 +183,7 @@ void AcceptandPayOfferListPage::loadAliases()
 		if (result.type() == UniValue::VARR)
 		{
 			name_str = "";
-			expired = 0;
+			expired = false;
 
 
 	
@@ -203,10 +203,10 @@ void AcceptandPayOfferListPage::loadAliases()
 				if (name_value.type() == UniValue::VSTR)
 					name_str = name_value.get_str();		
 				const UniValue& expired_value = find_value(o, "expired");
-				if (expired_value.type() == UniValue::VNUM)
-					expired = expired_value.get_int();
+				if (expired_value.type() == UniValue::VBOOL)
+					expired = expired_value.get_bool();
 				
-				if(expired == 0)
+				if(!expired)
 				{
 					QString name = QString::fromStdString(name_str);
 					ui->aliasEdit->addItem(name);					

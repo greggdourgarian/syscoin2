@@ -3531,10 +3531,10 @@ bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue
 	}
 	oEscrow.push_back(Pair("pay_message", strData));
 	int64_t expired_time = GetEscrowExpiration(escrow);
-	int expired = 0;
+	bool expired = false;
     if(expired_time <= chainActive.Tip()->nTime)
 	{
-		expired = 1;
+		expired = true;
 	}
 	bool escrowRelease = false;
 	bool escrowRefund = false;

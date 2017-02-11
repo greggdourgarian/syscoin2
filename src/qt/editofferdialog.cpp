@@ -209,7 +209,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 	UniValue result ;
 	string name_str;
 	string alias_peg;
-	int expired = 0;
+	bool expired = false;
 	bool safeSearch;
 	int safetyLevel;
 	try {
@@ -231,8 +231,8 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 			if (name_value.type() == UniValue::VSTR)
 				name_str = name_value.get_str();		
 			const UniValue& expired_value = find_value(o, "expired");
-			if (expired_value.type() == UniValue::VNUM)
-				expired = expired_value.get_int();
+			if (expired_value.type() == UniValue::VBOOL)
+				expired = expired_value.get_bool();
 			const UniValue& ss_value = find_value(o, "safesearch");
 			if (ss_value.type() == UniValue::VSTR)
 				safeSearch = ss_value.get_str() == "Yes";	
@@ -250,7 +250,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 			else
 				resetSafeSearch();
 
-			if(expired != 0)
+			if(expired)
 			{
 				ui->aliasDisclaimer->setText(QString("<font color='red'>") + tr("This alias has expired, please choose another one") + QString("</font>"));				
 			}
@@ -375,7 +375,7 @@ void EditOfferDialog::loadCerts(const QString &alias)
 	string name_str;
 	string title_str;
 	string alias_str;
-	int expired = 0;
+	bool expired = false;
 	
 	try {
 		result = tableRPC.execute(strMethod, params);
@@ -385,7 +385,7 @@ void EditOfferDialog::loadCerts(const QString &alias)
 			name_str = "";
 			title_str = "";
 			alias_str = "";
-			expired = 0;
+			expired = false;
 
 
 	
@@ -397,7 +397,7 @@ void EditOfferDialog::loadCerts(const QString &alias)
 				const UniValue& o = input.get_obj();
 				name_str = "";
 
-				expired = 0;
+				expired = false;
 
 
 		
@@ -411,10 +411,10 @@ void EditOfferDialog::loadCerts(const QString &alias)
 				if (alias_value.type() == UniValue::VSTR)
 					alias_str = alias_value.get_str();	
 				const UniValue& expired_value = find_value(o, "expired");
-				if (expired_value.type() == UniValue::VNUM)
-					expired = expired_value.get_int();
+				if (expired_value.type() == UniValue::VBOOL)
+					expired = expired_value.get_bool();
 				
-				if(expired == 0)
+				if(expired == false)
 				{
 					QString name = QString::fromStdString(name_str);
 					QString title = QString::fromStdString(title_str);
@@ -462,7 +462,7 @@ void EditOfferDialog::loadAliases()
     UniValue params(UniValue::VARR); 
 	UniValue result ;
 	string name_str;
-	int expired = 0;
+	bool expired = false;
 	bool safeSearch;
 	int safetyLevel;
 	try {
@@ -484,7 +484,8 @@ void EditOfferDialog::loadAliases()
 				const UniValue& o = input.get_obj();
 				name_str = "";
 				safeSearch = false;
-				expired = safetyLevel = 0;
+				expired = false;
+				safetyLevel = 0;
 
 
 		
@@ -492,8 +493,8 @@ void EditOfferDialog::loadAliases()
 				if (name_value.type() == UniValue::VSTR)
 					name_str = name_value.get_str();		
 				const UniValue& expired_value = find_value(o, "expired");
-				if (expired_value.type() == UniValue::VNUM)
-					expired = expired_value.get_int();
+				if (expired_value.type() == UniValue::VBOOL)
+					expired = expired_value.get_bool();
 				const UniValue& ss_value = find_value(o, "safesearch");
 				if (ss_value.type() == UniValue::VSTR)
 					safeSearch = ss_value.get_str() == "Yes";	
@@ -504,7 +505,7 @@ void EditOfferDialog::loadAliases()
 				{
 					setOfferNotSafeBecauseOfAlias(QString::fromStdString(name_str));
 				}				
-				if(expired == 0)
+				if(expired == false)
 				{
 					QString name = QString::fromStdString(name_str);
 					ui->aliasEdit->addItem(name, name);		

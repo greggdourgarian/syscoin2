@@ -342,7 +342,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowpruning)
 	EscrowFeedback("node2", "buyer", guid1,"feedbackseller", "1", FEEDBACKSELLER, "feedbackarbiter", "2", FEEDBACKARBITER, true);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "escrowinfo " + guid1));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_int(), 0);	
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);	
 	ExpireAlias("buyeraliasprune");
 	StartNode("node3");
 	ExpireAlias("buyeraliasprune");
