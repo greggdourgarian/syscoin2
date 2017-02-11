@@ -2433,7 +2433,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 		if(alias.multiSigInfo.nRequiredSigs != dbAlias.multiSigInfo.nRequiredSigs)
 			msInfo.push_back(Pair("reqsigs", (int)alias.multiSigInfo.nRequiredSigs));
 		else
-			msInfo.push_back(Pair("reqsigs", -1);
+			msInfo.push_back(Pair("reqsigs", -1));
 
 		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
 		{
