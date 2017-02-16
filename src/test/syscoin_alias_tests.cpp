@@ -396,7 +396,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	arrayParams.push_back(arrayOfKeys);
 	UniValue resCreate;
 	string redeemScript;
-	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig", arrayParams));	
+	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig " + arrayParams.write()));	
 	const UniValue& redeemScript_value = find_value(resCreate, "redeemScript");
 	BOOST_CHECK_THROW(redeemScript_value.isStr(), runtime_error);
 	redeemScript = redeemScript_value.get_str();
