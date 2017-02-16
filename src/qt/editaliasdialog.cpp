@@ -143,7 +143,7 @@ void EditAliasDialog::loadAliasDetails()
 			m_encryptionprivkey = QString::fromStdString(find_value(result.get_obj(), "encryption_privatekey").get_str());
 			m_oldRedeemScript = QString::fromStdString(find_value(result.get_obj(), "redeemscript").get_str());
 			try {
-				params1.push_back(m_oldRedeemScript);
+				params1.push_back(m_oldRedeemScript.toStdString());
 				result1 = tableRPC.execute("aliasdecodemultisigredeemscript", params1);
 				const UniValue& reqsigsValue = find_value(result1.get_obj(), "reqsigs");
 				int reqsigs = reqsigsValue.get_int();
