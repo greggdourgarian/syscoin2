@@ -401,7 +401,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_THROW(redeemScript_value.isStr(), runtime_error);
 	redeemScript = redeemScript_value.get_str();
 		
-	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "newpassword", redeemScript);
+	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
 	// create 1 of 2
 	// create 2 of 3
 

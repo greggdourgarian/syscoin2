@@ -338,10 +338,6 @@ QVariant AliasTableModel::data(const QModelIndex &index, int role) const
     {
         return rec->expired;
     }
-    else if (role == SafeSearchRole)
-    {
-         return rec->safesearch;
-    }
     else if (role == BuyerRatingRole)
     {
          return rec->buyer_rating;

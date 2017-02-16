@@ -43,8 +43,7 @@ public:
 		SellerRatingRole,
 		ArbiterRatingRole,
 		PrivateRole,
-		PublicRole,
-		SafeSearchRole
+		PublicRole
 	};
 
     /** Return status of edit/insert operation */
