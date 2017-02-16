@@ -400,6 +400,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
 	// change the multisigs pw
 	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
+	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
 	
 	// pay to multisig and check balance
