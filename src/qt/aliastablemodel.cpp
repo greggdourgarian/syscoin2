@@ -352,7 +352,7 @@ QVariant AliasTableModel::data(const QModelIndex &index, int role) const
     }
     else if (role == PrivateRole)
     {
-         return rec->private;
+         return rec->privvalue;
     }
     else if (role == PublicRole)
     {
