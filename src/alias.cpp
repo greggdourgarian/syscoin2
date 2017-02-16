@@ -1839,7 +1839,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	string strCipherText;
 	if(!strRedeemScript.empty())
 	{
-		vector<valtype> vSolutions;
+		vector<unsigned char> vSolutions;
 		txnouttype whichType;
 		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
@@ -2043,7 +2043,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 	if(!strRedeemScript.empty())
 	{
-		vector<valtype> vSolutions;
+		vector<unsigned char> vSolutions;
 		txnouttype whichType;
 		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
@@ -2075,8 +2075,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPassword = ParseHex(strPassword);
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
-	if(!strRedemScript.empty())
-		theAlias.vchRedeemScript = vchRedeemScript;
+	if(!strRedeemScript.empty())
+		theAlias.vchRedeemScript = ParseHex(strRedeemScript);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
@@ -2840,7 +2840,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 	oName.push_back(Pair("expires_on", expired_time));
 	oName.push_back(Pair("expired", expired));
 	oName.push_back(Pair("pending", pending));
-	oName.push_back(Pair("redeemscript", theAlias.vchRedeemScript));
+	oName.push_back(Pair("redeemscript", HexStr(alias.vchRedeemScript)));
 	return true;
 }
 /**
@@ -3037,7 +3037,7 @@ UniValue aliasdecodemultisigredeemscript(const UniValue& params, bool fHelp) {
 				"decodes an alias redeemscript and returns required signatures and aliases in the multisig redeem script if the type of redeemscript is TX_MULTISIG.\n");
 	string strRedeemScript = params[0].get_str();
 	
-	vector<valtype> vSolutions;
+	vector<unsigned char> vSolutions;
 	txnouttype whichType;
 	const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 	CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
