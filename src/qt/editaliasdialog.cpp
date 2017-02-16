@@ -644,7 +644,7 @@ bool EditAliasDialog::saveCurrentRow()
 				}
 			}
 			strRedeemScript = "\"\"";
-			if(m_oldRedeemScript != redeemScript)
+			if(m_oldRedeemScript.toStdString() != redeemScript)
 				strRedeemScript = redeemScript;
 			strMethod = string("aliasupdate");
 			params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
