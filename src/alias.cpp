@@ -1766,9 +1766,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	vector<unsigned char> vchPrivateValue;
 	string strPassword = "";
 	if(CheckParam(params, 2))
-	{
 		strPassword = params[2].get_str();
-	}
 	if(strPassword.size() < 4 && strPassword.size() > 0)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5507 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
 	string strPublicValue = params[3].get_str();
@@ -1777,20 +1775,14 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	string strPrivateValue = "";
 
 	if(CheckParam(params, 4))
-	{
 		strPrivateValue = params[4].get_str();
-	}
 	string strSafeSearch = "Yes";
 	string strAcceptCertTransfers = "Yes";
 
 	if(CheckParam(params, 5))
-	{
 		strSafeSearch = params[5].get_str();
-	}
 	if(CheckParam(params, 6))
-	{
 		strAcceptCertTransfers = params[6].get_str();
-	}
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
 	if(CheckParam(params, 7))
 		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
@@ -1798,32 +1790,23 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(nTime < chainActive.Tip()->nTime+3600)
 		nTime = chainActive.Tip()->nTime+3600;
 
-	string strPasswordSalt = "";
+	string strPublicKey = "";
 	if(CheckParam(params, 8))
-	{
-		strPasswordSalt = params[8].get_str();
-	}
+		strPublicKey = params[8].get_str();
+	string strPasswordSalt = "";
+
+	if(CheckParam(params, 9))
+		strPasswordSalt = params[9].get_str();
 	
 	string strEncryptionPrivateKey = "";
-	if(CheckParam(params, 9))
-	{
-		strEncryptionPrivateKey = params[9].get_str();
-	}
-	string strEncryptionPublicKey = "";
 	if(CheckParam(params, 10))
-	{
-		strEncryptionPublicKey = params[10].get_str();
-	}
-	string strPublicKey = "";
+		strEncryptionPrivateKey = params[10].get_str();
+	string strEncryptionPublicKey = "";
 	if(CheckParam(params, 11))
-	{
-		strPublicKey = params[11].get_str();
-	}
+		strEncryptionPublicKey = params[11].get_str();
 	string strWalletless = "No";
 	if(CheckParam(params, 12))
-	{
-		strWalletless = params[12].get_str();
-	}	
+		strWalletless = params[12].get_str();	
 	if(strWalletless == "No")
 		EnsureWalletIsUnlocked();
 	CWalletTx wtx;
@@ -2747,7 +2730,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 	string strPassword = "";
 	strDecrypted = "";
 	if(strWalletless == "Yes")
-		strPrivateValue = HexStr(alias.vchPassword);
+		strPassword = HexStr(alias.vchPassword);
 	else if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
