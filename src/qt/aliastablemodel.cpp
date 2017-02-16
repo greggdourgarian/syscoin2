@@ -23,7 +23,6 @@ struct AliasTableEntry
 
     Type type;
     QString value;
-	QString multisig;
 	QString privvalue;
     QString alias;
 	QString expires_on;
@@ -33,8 +32,8 @@ struct AliasTableEntry
 	QString seller_rating;
 	QString arbiter_rating;
     AliasTableEntry() {}
-    AliasTableEntry(Type type, const QString &alias, const QString &multisig, const QString &value,  const QString &privvalue, const QString &expires_on,const QString &expired,  const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating):
-        type(type), alias(alias), multisig(multisig), value(value), privvalue(privvalue), expires_on(expires_on), expired(expired), safesearch(safesearch), buyer_rating(buyer_rating), seller_rating(seller_rating), arbiter_rating(arbiter_rating) {}
+    AliasTableEntry(Type type, const QString &alias, const QString &value,  const QString &privvalue, const QString &expires_on,const QString &expired,  const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating):
+        type(type), alias(alias), value(value), privvalue(privvalue), expires_on(expires_on), expired(expired), safesearch(safesearch), buyer_rating(buyer_rating), seller_rating(seller_rating), arbiter_rating(arbiter_rating) {}
 };
 
 struct AliasTableEntryLessThan
@@ -73,7 +72,6 @@ public:
 			UniValue params(UniValue::VARR); 
 			UniValue result;
 			string name_str;
-			string multisig_str;
 			string value_str;
 			string privvalue_str;
 
@@ -91,7 +89,6 @@ public:
 				if (result.type() == UniValue::VARR)
 				{
 					name_str = "";
-					multisig_str = "";
 					value_str = "";
 					privvalue_str = "";
 					safesearch_str = "";
@@ -109,7 +106,6 @@ public:
 							continue;
 						const UniValue& o = input.get_obj();
 						name_str = "";
-						multisig_str = "";
 						value_str = "";
 						privvalue_str = "";
 						safesearch_str = "";
@@ -149,13 +145,6 @@ public:
 						if (safesearch_value.type() == UniValue::VSTR)
 							safesearch_str = safesearch_value.get_str();
 
-						const UniValue& multisigValue = find_value(o, "multisiginfo");
-						if (multisigValue.type() == UniValue::VOBJ)
-						{
-							const UniValue& reqsigsValue = find_value(multisigValue.get_obj(), "reqsigs");
-							int reqsigs = reqsigsValue.get_int();
-							multisig_str = reqsigs > 0? "Yes": "No";
-						}
 
 						const UniValue& pending_value = find_value(o, "pending");
 						bool pending = false;
@@ -176,7 +165,7 @@ public:
 						}
 
 						const QString& dateTimeString = GUIUtil::dateTimeStr(expires_on);	
-						updateEntry(QString::fromStdString(name_str), QString::fromStdString(multisig_str), QString::fromStdString(value_str), QString::fromStdString(privvalue_str), dateTimeString,QString::fromStdString(expired_str), QString::fromStdString(safesearch_str),QString::fromStdString(buyer_rating), QString::fromStdString(seller_rating), QString::fromStdString(arbiter_rating), type, CT_NEW); 
+						updateEntry(QString::fromStdString(name_str), QString::fromStdString(value_str), QString::fromStdString(privvalue_str), dateTimeString,QString::fromStdString(expired_str), QString::fromStdString(safesearch_str),QString::fromStdString(buyer_rating), QString::fromStdString(seller_rating), QString::fromStdString(arbiter_rating), type, CT_NEW); 
 					}
 				}
  			}
@@ -192,7 +181,7 @@ public:
 
     }
 
-    void updateEntry(const QString &alias, const QString &multisig, const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating,AliasModelType type, int status)
+    void updateEntry(const QString &alias, const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating,AliasModelType type, int status)
     {
 		if(!parent || parent->modelType != type)
 		{
@@ -219,7 +208,7 @@ public:
             
             }
             parent->beginInsertRows(QModelIndex(), lowerIndex, lowerIndex);
-            cachedAliasTable.insert(lowerIndex, AliasTableEntry(newEntryType, alias, multisig, value, privvalue, expires_on, expired, safesearch, buyer_rating, seller_rating, arbiter_rating));
+            cachedAliasTable.insert(lowerIndex, AliasTableEntry(newEntryType, alias, value, privvalue, expires_on, expired, safesearch, buyer_rating, seller_rating, arbiter_rating));
             parent->endInsertRows();
             break;
         case CT_UPDATED:
@@ -229,7 +218,6 @@ public:
             }
             lower->type = newEntryType;
             lower->value = value;
-			lower->multisig = multisig;
 			lower->privvalue = privvalue;
 			lower->expires_on = expires_on;
 			lower->expired = expired;
@@ -273,7 +261,7 @@ AliasTableModel::AliasTableModel(CWallet *wallet, WalletModel *parent,  AliasMod
     QAbstractTableModel(parent),walletModel(parent),wallet(wallet),priv(0), modelType(type)
 {
 
-	columns << tr("Alias")  << tr("Multisignature") << tr("Expires On") << tr("Alias Status") << tr("Buyer Rating") << tr("Seller Rating") << tr("Arbiter Rating");		 
+	columns << tr("Alias")  << tr("Expires On") << tr("Alias Status") << tr("Buyer Rating") << tr("Seller Rating") << tr("Arbiter Rating");		 
     priv = new AliasTablePriv(wallet, this);
 	refreshAliasTable();
 }
@@ -319,8 +307,6 @@ QVariant AliasTableModel::data(const QModelIndex &index, int role) const
             return rec->privvalue;
         case Name:
             return rec->alias;
-       case Multisig:
-            return rec->multisig;
         case ExpiresOn:
             return rec->expires_on;
         case Expired:
@@ -348,11 +334,6 @@ QVariant AliasTableModel::data(const QModelIndex &index, int role) const
     {
          return rec->alias;
     }
-    else if (role == MultisigRole)
-    {
-         return rec->multisig;
-    }
-
     else if (role == ExpiredRole)
     {
         return rec->expired;
@@ -372,6 +353,18 @@ QVariant AliasTableModel::data(const QModelIndex &index, int role) const
     else if (role == ArbiterRatingRole)
     {
          return rec->arbiter_rating;
+    }
+    else if (role == PrivateRole)
+    {
+         return rec->private;
+    }
+    else if (role == PublicRole)
+    {
+         return rec->value;
+    }
+    else if (role == SafeSearchRole)
+    {
+         return rec->safesearch;
     }
     return QVariant();
 }
@@ -433,14 +426,6 @@ bool AliasTableModel::setData(const QModelIndex &index, const QVariant &value, i
         case Value:
             // Do nothing, if old value == new value
             if(rec->value == value.toString())
-            {
-                editStatus = NO_CHANGES;
-                return false;
-            }
-            break;
-        case Multisig:
-            // Do nothing, if old value == new value
-            if(rec->multisig == value.toString())
             {
                 editStatus = NO_CHANGES;
                 return false;
@@ -515,13 +500,13 @@ QModelIndex AliasTableModel::index(int row, int column, const QModelIndex &paren
     }
 }
 
-void AliasTableModel::updateEntry(const QString &alias, const QString &multisig, const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating, AliasModelType type, int status)
+void AliasTableModel::updateEntry(const QString &alias, const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating, AliasModelType type, int status)
 {
     // Update alias book model from Syscoin core
-    priv->updateEntry(alias, multisig, value, privvalue, expires_on, expired, safesearch, buyer_rating, seller_rating, arbiter_rating, type, status);
+    priv->updateEntry(alias, value, privvalue, expires_on, expired, safesearch, buyer_rating, seller_rating, arbiter_rating, type, status);
 }
 
-QString AliasTableModel::addRow(const QString &type, const QString &alias,const QString &multisig, const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating)
+QString AliasTableModel::addRow(const QString &type, const QString &alias, const QString &value, const QString &privvalue, const QString &expires_on, const QString &expired, const QString &safesearch, const QString &buyer_rating, const QString &seller_rating, const QString &arbiter_rating)
 {
     std::string strAlias = alias.toStdString();
     editStatus = OK;

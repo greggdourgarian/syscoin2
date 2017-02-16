@@ -383,13 +383,25 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 BOOST_AUTO_TEST_CASE (generate_multisigalias)
 {
 	printf("Running generate_multisigalias...\n");
+	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1");
 	AliasNew("node2", "jagnodemultisig2", "password", "changeddata1");
 	AliasNew("node3", "jagnodemultisig3", "password", "changeddata1");
+	UniValue arrayParams(UniValue::VARR);
+	UniValue arrayOfKeys(UniValue::VARR);
+
 	// create 2 of 2
-	//UniValue v(UniValue::VARR);
-	//v.push_back("jagnodemultisig2");
-	//AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", v.write());
-	//AliasNew("node1", "jagnodemultisig1", "password", "changeddata1", "privdata", "Yes", "2", "[{\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"}]");
+	arrayParams.push_back(2);
+	arrayOfKeys.push_back("jagnodemultisig2");
+	arrayOfKeys.push_back("jagnodemultisig3");
+	arrayParams.push_back(arrayOfKeys);
+	UniValue resCreate;
+	string redeemScript;
+	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig", arrayParams));	
+	const UniValue& redeemScript_value = find_value(resCreate, "redeemScript");
+	BOOST_CHECK_THROW(redeemScript_value.isStr(), runtime_error);
+	redeemScript = redeemScript_value.get_str();
+		
+	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "newpassword", redeemScript);
 	// create 1 of 2
 	// create 2 of 3
 

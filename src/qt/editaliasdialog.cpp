@@ -128,8 +128,9 @@ void EditAliasDialog::loadAliasDetails()
 {
 	string strMethod = string("aliasinfo");
     UniValue params(UniValue::VARR); 
+	UniValue params1(UniValue::VARR); 
 	params.push_back(ui->aliasEdit->text().toStdString());
-	UniValue result ;
+	UniValue result, result1 ;
 	try {
 		result = tableRPC.execute(strMethod, params);
 		if (result.type() == UniValue::VOBJ)
@@ -140,20 +141,14 @@ void EditAliasDialog::loadAliasDetails()
 			m_oldprivatevalue = QString::fromStdString(find_value(result.get_obj(), "privatevalue").get_str());
 			m_encryptionkey = QString::fromStdString(find_value(result.get_obj(), "encryption_publickey").get_str());
 			m_encryptionprivkey = QString::fromStdString(find_value(result.get_obj(), "encryption_privatekey").get_str());
-			
-			ui->passwordEdit->setText(m_oldPassword);
-			const UniValue& aliasPegValue = find_value(result.get_obj(), "alias_peg");
-			ui->aliasPegEdit->setText(QString::fromStdString(aliasPegValue.get_str()));
-			const UniValue& acceptTransferValue = find_value(result.get_obj(), "acceptcerttransfers");
-			ui->acceptCertTransfersEdit->setCurrentIndex(ui->acceptCertTransfersEdit->findText(QString::fromStdString(acceptTransferValue.get_str())));
-			m_oldAcceptCertTransfers = ui->acceptCertTransfersEdit->currentText();
-			const UniValue& multisigValue = find_value(result.get_obj(), "multisiginfo");
-			if (multisigValue.type() == UniValue::VOBJ)
-			{
-				const UniValue& reqsigsValue = find_value(multisigValue.get_obj(), "reqsigs");
+			m_oldRedeemScript = QString::fromStdString(find_value(result.get_obj(), "redeemscript").get_str());
+			try {
+				params1.push_back(m_oldRedeemScript);
+				result1 = tableRPC.execute("aliasdecodemultisigredeemscript", params1);
+				const UniValue& reqsigsValue = find_value(result1.get_obj(), "reqsigs");
 				int reqsigs = reqsigsValue.get_int();
 				ui->reqSigsEdit->setText(QString::number(reqsigs));
-				const UniValue& reqsignersValue = find_value(multisigValue.get_obj(), "reqsigners");
+				const UniValue& reqsignersValue = find_value(result1.get_obj(), "reqsigners");
 				if (reqsignersValue.type() == UniValue::VARR)
 				{
 					const UniValue& reqsignersArray = reqsignersValue.get_array();
@@ -161,10 +156,26 @@ void EditAliasDialog::loadAliasDetails()
 					{
 						string signer = reqsignersArray[i].get_str();
 						ui->multisigList->addItem(QString::fromStdString(signer));
-						m_multisigListStr += QString::fromStdString(signer);
 					}
 				}
 			}
+			catch (UniValue& objError)
+			{
+				ui->reqSigsEdit->setText(QString::number(0));
+				ui->multisigList->clear();
+			}
+			catch(std::exception& e)
+			{
+				ui->reqSigsEdit->setText(QString::number(0));
+				ui->multisigList->clear();
+			} 
+			ui->passwordEdit->setText(m_oldPassword);
+			const UniValue& aliasPegValue = find_value(result.get_obj(), "alias_peg");
+			ui->aliasPegEdit->setText(QString::fromStdString(aliasPegValue.get_str()));
+			const UniValue& acceptTransferValue = find_value(result.get_obj(), "acceptcerttransfers");
+			ui->acceptCertTransfersEdit->setCurrentIndex(ui->acceptCertTransfersEdit->findText(QString::fromStdString(acceptTransferValue.get_str())));
+			m_oldAcceptCertTransfers = ui->acceptCertTransfersEdit->currentText();
+			
 		}
 	}
 	catch (UniValue& objError)
@@ -276,6 +287,8 @@ bool EditAliasDialog::saveCurrentRow()
 	string safeSearch, pubData;
 	string strPubKey = "";
 	string strPasswordSalt = "";
+	string strRedeemScript = "";
+	string redeemScript = "";
 	string acceptCertTransfers = "";
 	QString multisigListStr;
     if(!model || !walletModel) return false;
@@ -443,23 +456,6 @@ bool EditAliasDialog::saveCurrentRow()
 		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 		params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
-		if(ui->multisigList->count() > 0)
-		{
-			params.push_back(ui->reqSigsEdit->text().toStdString());
-			for(int i = 0; i < ui->multisigList->count(); ++i)
-			{
-				QString str = ui->multisigList->item(i)->text();
-				arraySendParams.push_back(str.toStdString());
-			}
-			params.push_back(arraySendParams);
-		}
-		else
-		{
-			// num required
-			params.push_back("\"\"");
-			// multisig
-			params.push_back("\"\"");
-		}
 		params.push_back(HexStr(vchPubKey));
 		params.push_back(HexStr(vchPasswordSalt));
 		params.push_back(strEncryptionPrivateKeyHex);
@@ -613,7 +609,43 @@ bool EditAliasDialog::saveCurrentRow()
 			safeSearch = "\"\"";
 			if(ui->safeSearchEdit->currentText() != m_oldsafesearch)
 				safeSearch = ui->nameEdit->toPlainText().toStdString();
-			
+
+			if(ui->multisigList->count() > 0)
+			{
+				try {
+					UniValue arrayParams(UniValue::VARR);
+					UniValue arrayOfKeys(UniValue::VARR);
+					arrayParams.push_back(ui->reqSigsEdit->text().toStdString());
+					for(int i = 0; i < ui->multisigList->count(); ++i)
+					{
+						QString str = ui->multisigList->item(i)->text();
+						arrayOfKeys.push_back(str.toStdString());
+					}
+					arrayParams.push_back(arrayOfKeys);
+					UniValue resCreate;
+					resCreate = tableRPC.execute("createmultisig", arrayParams);	
+					const UniValue& redeemScript_value = find_value(resCreate, "redeemScript");
+					redeemScript = redeemScript_value.get_str();
+				}
+				catch (UniValue& objError)
+				{
+					string strError = find_value(objError, "message").get_str();
+					QMessageBox::critical(this, windowTitle(),
+					tr("Error creating multisig redeemscript: ") + QString::fromStdString(strError),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}
+				catch(std::exception& e)
+				{
+					QMessageBox::critical(this, windowTitle(),
+						tr("General exception creating multisig redeemscript"),
+						QMessageBox::Ok, QMessageBox::Ok);
+					return false;
+				}
+			}
+			strRedeemScript = "\"\"";
+			if(m_oldRedeemScript != redeemScript)
+				strRedeemScript = redeemScript;
 			strMethod = string("aliasupdate");
 			params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->text().toStdString());
@@ -624,39 +656,7 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(strPasswordHex);	
 			params.push_back(acceptCertTransfers);
 			params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
-			if(ui->multisigList->count() > 0)
-			{
-				// ensure multisig list hasn't changed
-				for(int i = 0; i < ui->multisigList->count(); ++i)
-				{
-					QString str = ui->multisigList->item(i)->text();
-					multisigListStr += str;
-				}
-				if(multisigListStr != m_multisigListStr)
-				{
-					params.push_back(ui->reqSigsEdit->text().toStdString());
-					for(int i = 0; i < ui->multisigList->count(); ++i)
-					{
-						QString str = ui->multisigList->item(i)->text();
-						arraySendParams.push_back(str.toStdString());
-					}
-					params.push_back(arraySendParams);
-				}
-				else
-				{
-					// num required
-					params.push_back("\"\"");
-					// multisig
-					params.push_back("\"\"");
-				}
-			}
-			else
-			{
-				// num required
-				params.push_back("\"\"");
-				// multisig
-				params.push_back("\"\"");
-			}
+			params.push_back(strRedeemScript);
 			params.push_back(strPasswordSalt);
 			params.push_back(strEncryptionPrivateKeyHex);
 			try {

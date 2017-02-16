@@ -1616,9 +1616,9 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, alias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, alias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(alias.multiSigInfo.vchAliases.size() > 0)
+	if(alias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -1776,10 +1776,10 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, alias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, alias.vchRedeemScript.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
-	if(alias.multiSigInfo.vchAliases.size() > 0)
+	if(alias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -1901,10 +1901,10 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2007,10 +2007,10 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2108,10 +2108,10 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2407,9 +2407,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = false;
 
 
-	SendMoneySyscoin(alias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(alias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, alias.vchRedeemScript.size() > 0 || linkAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(alias.multiSigInfo.vchAliases.size() > 0 || linkAlias.multiSigInfo.vchAliases.size() > 0)
+	if(alias.vchRedeemScript.size() > 0 || linkAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2681,10 +2681,10 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
 	bool useOnlyAliasPaymentToFund = true;
-	SendMoneySyscoin(buyerAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyerAlias.multiSigInfo.vchAliases.size() > 0, &coinControl, useOnlyAliasPaymentToFund);
+	SendMoneySyscoin(buyerAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyerAlias.vchRedeemScript.size() > 0, &coinControl, useOnlyAliasPaymentToFund);
 
 	UniValue res(UniValue::VARR);
-	if(buyerAlias.multiSigInfo.vchAliases.size() > 0)
+	if(buyerAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2985,9 +2985,9 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(vchLinkAlias, recipientAlias, recipientPaymentAlias, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(vchLinkAlias, recipientAlias, recipientPaymentAlias, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -3124,9 +3124,9 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(sellerAlias.vchAlias, recipientAlias, recipientPaymentAlias, vecSend, wtx, sellerAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(sellerAlias.vchAlias, recipientAlias, recipientPaymentAlias, vecSend, wtx, sellerAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(sellerAlias.multiSigInfo.vchAliases.size() > 0)
+	if(sellerAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));

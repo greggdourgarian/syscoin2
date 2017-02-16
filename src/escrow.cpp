@@ -1260,9 +1260,9 @@ UniValue generateescrowmultisig(const UniValue& params, bool fHelp) {
 
 	// standard 2 of 3 multisig
 	arrayParams.push_back(2);
-	arrayOfKeys.push_back(HexStr(arbiteralias.vchPubKey));
-	arrayOfKeys.push_back(HexStr(selleralias.vchPubKey));
-	arrayOfKeys.push_back(HexStr(buyeralias.vchPubKey));
+	arrayOfKeys.push_back(stringFromVch(arbiteralias.vchAlias));
+	arrayOfKeys.push_back(stringFromVch(selleralias.vchAlias));
+	arrayOfKeys.push_back(stringFromVch(buyeralias.vchAlias));
 	arrayParams.push_back(arrayOfKeys);
 	UniValue resCreate;
 	CScript redeemScript;
@@ -1543,9 +1543,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
 	bool useOnlyAliasPaymentToFund = true;
-	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyeralias.multiSigInfo.vchAliases.size() > 0, &coinControl, useOnlyAliasPaymentToFund);
+	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyeralias.vchRedeemScript.size() > 0, &coinControl, useOnlyAliasPaymentToFund);
 	UniValue res(UniValue::VARR);
-	if(buyeralias.multiSigInfo.vchAliases.size() > 0)
+	if(buyeralias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -1880,9 +1880,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2034,9 +2034,9 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, sellerAliasLatest.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, sellerAliasLatest.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(sellerAliasLatest.multiSigInfo.vchAliases.size() > 0)
+	if(sellerAliasLatest.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -2744,9 +2744,9 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -3359,9 +3359,9 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));

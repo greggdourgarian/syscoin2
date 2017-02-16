@@ -55,18 +55,6 @@ bool DecryptPrivateKey(const CAliasIndex& alias, string &strKey)
 	strKey.clear();
 	if(DecryptPrivateKey(alias.vchPubKey, alias.vchEncryptionPrivateKey, strKey))
 		return !strKey.empty();
-	// if multisig get key from one of the multisig aliases otherwise it is encrypted to the alias owner private key
-	if(!alias.multiSigInfo.IsNull())
-	{
-		for(int i =0;i<alias.multiSigInfo.vchAliases.size();i++)
-		{
-			vector<CAliasIndex> vtxPos;
-			if (!paliasdb->ReadAlias(alias.multiSigInfo.vchAliases[i], vtxPos) || vtxPos.empty())
-				continue;
-			if(DecryptPrivateKey(vtxPos.back().vchPubKey, alias.multiSigInfo.vchEncryptionPrivateKeys[i], strKey))
-				break;
-		}	
-	}
 	return !strKey.empty();
 }
 bool DecryptMessage(const CAliasIndex& alias, const vector<unsigned char> &vchCipherText, string &strMessage)
@@ -860,9 +848,9 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -1002,9 +990,9 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);	
+	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);	
  	UniValue res(UniValue::VARR);
-	if(theAlias.multiSigInfo.vchAliases.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));
@@ -1126,10 +1114,10 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(fromAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, fromAlias.multiSigInfo.vchAliases.size() > 0, &coinControl);
+	SendMoneySyscoin(fromAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, fromAlias.vchRedeemScript.size() > 0, &coinControl);
 
 	UniValue res(UniValue::VARR);
-	if(fromAlias.multiSigInfo.vchAliases.size() > 0)
+	if(fromAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(EncodeHexTx(wtx));

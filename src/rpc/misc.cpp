@@ -259,7 +259,10 @@ CScript _createmultisig_redeemScript(const UniValue& params)
 #ifdef ENABLE_WALLET
         // Case 1: Syscoin address and we have full public key:
         CSyscoinAddress address(ks);
-        if (pwalletMain && address.IsValid())
+		// SYSCOIN
+		if(address.isAlias && address.IsValid())
+			pubkeys[i] = address.vchPubKey;
+        else if (pwalletMain && address.IsValid())
         {
             CKeyID keyID;
             if (!address.GetKeyID(keyID))
