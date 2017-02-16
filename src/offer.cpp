@@ -1621,6 +1621,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	if(alias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(alias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -1782,6 +1783,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	if(alias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(alias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -1907,6 +1909,7 @@ UniValue offeraddwhitelist(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2013,6 +2016,7 @@ UniValue offerremovewhitelist(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2114,6 +2118,7 @@ UniValue offerclearwhitelist(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2412,6 +2417,7 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	if(alias.vchRedeemScript.size() > 0 || linkAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(alias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2687,6 +2693,7 @@ UniValue offeraccept(const UniValue& params, bool fHelp) {
 	if(buyerAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(buyerAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2990,6 +2997,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -3129,6 +3137,7 @@ UniValue offeracceptacknowledge(const UniValue& params, bool fHelp) {
 	if(sellerAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(sellerAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();

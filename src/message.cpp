@@ -564,6 +564,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	if(aliasFrom.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(aliasFrom.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();

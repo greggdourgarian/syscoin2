@@ -98,6 +98,8 @@ bool SignRawTxDialog::saveCurrentRow()
 	UniValue arraySendParams(UniValue::VARR);
 	string strMethod;
 	strMethod = string("syscoinsignrawtransaction");
+	// enter the alias you are signing for (if multisig transaction enter the multisig alias here)
+	params.push_back("");
 	params.push_back(ui->rawTxEdit->toPlainText().toStdString());
 
 	try {

@@ -398,11 +398,26 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	redeemScript = redeemScript_value.get_str();
 		
 	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	// change the multisigs pw
+	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	
+	// pay to multisig and check balance
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, 10*COIN);
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 9"), runtime_error);
+	GenerateBlocks(5);
+	GenerateBlocks(5, "node2");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore += 9*COIN;
+	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	// create 1 of 2
 	// create 2 of 3
 
-	// change the multisigs pw
-	// pay to multisig and check balance
+
+	
 	// remove multisig and update as normal
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)

@@ -739,7 +739,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 }
-void AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch, string password, string redeemScript)
+string AliasUpdate(const string& node, const string& aliasname, const string& pubdata, const string& privdata, string safesearch, string password, string redeemScript)
 {
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
@@ -813,6 +813,19 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 	string expires = "\"\"";
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + safesearch + " " + strPubKey + " " + strPasswordHex + " " + acceptTransfers + " " + expires + " " + redeemScript + " " + strPasswordSalt + " " + strEncryptionPrivateKeyHex));
+	const UniValue& resArray = r.get_array();
+	if(resArray.size() > 1)
+	{
+		const UniValue& complete_value = resArray[1];
+		bool bComplete = false;
+		if (complete_value.isStr())
+			bComplete = complete_value.get_str() == "true";
+		if(!bComplete)
+		{
+			string hex_str = resArray[0].get_str();	
+			return hex_str;
+		}
+	}
 	GenerateBlocks(5, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string newPassword = find_value(r.get_obj(), "password").get_str();
@@ -841,7 +854,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , oldPasswordSalt);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
 	}
-	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
+	if(redeemScript == "\"\"")
+		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	
 	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
@@ -857,7 +871,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
+		if(redeemScript == "\"\"")
+			BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
@@ -885,7 +900,8 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
+		if(redeemScript == "\"\"")
+			BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
@@ -902,6 +918,7 @@ void AliasUpdate(const string& node, const string& aliasname, const string& pubd
 			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
 		}
 	}
+	return "";
 
 }
 bool AliasFilter(const string& node, const string& regex, const string& safesearch)

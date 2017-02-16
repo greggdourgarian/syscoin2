@@ -1548,6 +1548,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(buyeralias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(buyeralias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -1885,6 +1886,7 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2039,6 +2041,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	if(sellerAliasLatest.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(sellerAliasLatest.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2457,6 +2460,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	{
 	}
 	UniValue signParams(UniValue::VARR);
+	signParams.push_back(stringFromVch(sellerAliasLatest.vchAlias));
 	signParams.push_back(EncodeHexTx(wtx));
 	UniValue res(UniValue::VARR);
 	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
@@ -2749,6 +2753,7 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -3127,6 +3132,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	{
 	}
 	UniValue signParams(UniValue::VARR);
+	signParams.push_back(stringFromVch(buyerAliasLatest.vchAlias));
 	signParams.push_back(EncodeHexTx(wtx));
 	UniValue res(UniValue::VARR);
 	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
@@ -3364,6 +3370,7 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();

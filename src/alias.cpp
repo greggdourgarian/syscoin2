@@ -1894,6 +1894,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	else if(oldAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(oldAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2110,6 +2111,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	else if(copyAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(copyAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -2277,12 +2279,23 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 }
 UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 != params.size())
-		throw runtime_error("syscoinsignrawtransaction <hexstring>\n"
+	if (fHelp || 2 != params.size())
+		throw runtime_error("syscoinsignrawtransaction <alias> <hexstring>\n"
 				"Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete\n"
+				"<alias> The alias related to this transaction.\n"
 				"<hexstring> The transaction hex string.\n");
-	string hexstring = params[0].get_str();
-	string doNotSend = params.size() >= 2? params[1].get_str(): "0";
+	const string &hexstring = params[1].get_str();
+	const vector<unsigned char> &vchAlias = vchFromString(params[0].get_str());
+	CTransaction tx;
+	CAliasIndex theAlias;
+	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5531 - " + _("Could not find an alias with this name"));
+
+	if(pwalletMain && !theAlias.vchRedeemScript.empty())
+	{
+		CScript inner(theAlias.vchRedeemScript.begin(), theAlias.vchRedeemScript.end());
+		pwalletMain->AddCScript(inner);
+	}
 	UniValue res;
 	UniValue arraySignParams(UniValue::VARR);
 	arraySignParams.push_back(hexstring);

@@ -853,6 +853,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -995,6 +996,7 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	if(theAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(theAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
@@ -1120,6 +1122,7 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	if(fromAlias.vchRedeemScript.size() > 0)
 	{
 		UniValue signParams(UniValue::VARR);
+		signParams.push_back(stringFromVch(fromAlias.vchAlias));
 		signParams.push_back(EncodeHexTx(wtx));
 		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 		const UniValue& so = resSign.get_obj();
