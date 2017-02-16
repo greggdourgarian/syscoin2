@@ -397,7 +397,8 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK(redeemScript_value.isStr());
 	redeemScript = redeemScript_value.get_str();
 		
-	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	string tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	BOOST_CHECK_EQUAL(tmp, "");
 	// change the multisigs pw
 	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
 	UniValue r;
