@@ -390,15 +390,11 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	UniValue arrayOfKeys(UniValue::VARR);
 
 	// create 2 of 2
-	arrayParams.push_back(2);
-	arrayOfKeys.push_back("jagnodemultisig2");
-	arrayOfKeys.push_back("jagnodemultisig3");
-	arrayParams.push_back(arrayOfKeys);
 	UniValue resCreate;
 	string redeemScript;
-	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig " + arrayParams.write()));	
+	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"]\""));	
 	const UniValue& redeemScript_value = find_value(resCreate, "redeemScript");
-	BOOST_CHECK_THROW(redeemScript_value.isStr(), runtime_error);
+	BOOST_CHECK(redeemScript_value.isStr());
 	redeemScript = redeemScript_value.get_str();
 		
 	AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
