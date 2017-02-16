@@ -1836,16 +1836,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("This alias already exists"));
 
 	CPubKey pubKey = CPubKey(ParseHex(strPublicKey));
-	string strCipherText;
-	if(!strRedeemScript.empty())
-	{
-		vector<unsigned char> vSolutions;
-		txnouttype whichType;
-		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
-		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
-		if (!Solver(redeemScript, whichType, vSolutions))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5509 - " + _("Invalid alias redeem script"));
-	}
 	const vector<unsigned char> &vchRandAlias = vchFromString(GenerateSyscoinGuid());
 
     // build alias
@@ -2043,7 +2033,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 	if(!strRedeemScript.empty())
 	{
-		vector<unsigned char> vSolutions;
+		vector<vector<unsigned char> > vSolutions;
 		txnouttype whichType;
 		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
@@ -3037,7 +3027,7 @@ UniValue aliasdecodemultisigredeemscript(const UniValue& params, bool fHelp) {
 				"decodes an alias redeemscript and returns required signatures and aliases in the multisig redeem script if the type of redeemscript is TX_MULTISIG.\n");
 	string strRedeemScript = params[0].get_str();
 	
-	vector<unsigned char> vSolutions;
+	vector<vector<unsigned char> > vSolutions;
 	txnouttype whichType;
 	const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 	CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
