@@ -68,6 +68,7 @@ struct SignatureData {
 };
 
 /** Produce a script signature using a generic signature creator. */
+// SYSCOIN script verification fix
 bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& scriptPubKey, SignatureData& sigdata, const unsigned int scriptVerificationFlags=0);
 
 /** Produce a script signature for a transaction. */

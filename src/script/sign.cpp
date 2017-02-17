@@ -139,7 +139,7 @@ static CScript PushAll(const vector<valtype>& values)
     }
     return result;
 }
-
+// SYSCOIN
 bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPubKey, SignatureData& sigdata, const unsigned int scriptVerificationFlags)
 {
     CScript script = fromPubKey;
@@ -186,6 +186,7 @@ bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPu
     sigdata.scriptSig = PushAll(result);
 
     // Test solution
+	// SYSCOIN script verification fix
 	return solved && VerifyScript(sigdata.scriptSig, fromPubKey, &sigdata.scriptWitness, scriptVerificationFlags <= 0? STANDARD_SCRIPT_VERIFY_FLAGS: scriptVerificationFlags, creator.Checker());
 }
 

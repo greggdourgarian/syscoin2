@@ -409,7 +409,6 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, 10*COIN);
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 9"), runtime_error);
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
