@@ -186,7 +186,7 @@ bool ProduceSignature(const BaseSignatureCreator& creator, const CScript& fromPu
     sigdata.scriptSig = PushAll(result);
 
     // Test solution
-    return solved && VerifyScript(sigdata.scriptSig, fromPubKey, &sigdata.scriptWitness, scriptVerificationFlags, creator.Checker());
+	return solved && VerifyScript(sigdata.scriptSig, fromPubKey, &sigdata.scriptWitness, scriptVerificationFlags <= 0? STANDARD_SCRIPT_VERIFY_FLAGS: scriptVerificationFlags, creator.Checker());
 }
 
 SignatureData DataFromTransaction(const CMutableTransaction& tx, unsigned int nIn)
