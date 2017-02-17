@@ -142,8 +142,12 @@ isminetype IsMine(const CKeyStore &keystore, const CScript& scriptPubKey, bool& 
                 }
             }
         }
-        if (HaveKeys(keys, keystore) == keys.size())
+		// SYSCOIN 
+        unsigned int nNumKeysFound = HaveKeys(keys, keystore);
+		if (nNumKeysFound == keys.size())
             return ISMINE_SPENDABLE;
+		else if(nNumKeysFound > 0)
+			return ISMINE_WATCH_SOLVABLE;	
         break;
     }
     }
