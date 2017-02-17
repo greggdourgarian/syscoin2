@@ -2674,7 +2674,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 
 			if(!coins->IsAvailable(j))
 				continue;
-			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID)
+			if(!DecodeAliasScript(coins->vout[j].scriptPubKey, op, vvch) || vvch[0] != theAlias.vchAlias || vvch[1] != theAlias.vchGUID || op == OP_ALIAS_PAYMENT)
 				continue;
 			if (!ExtractDestination(coins->vout[j].scriptPubKey, aliasDest))
 				continue;

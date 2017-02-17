@@ -409,7 +409,8 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         if (nOutput < 0)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, vout must be positive");
 
-        uint32_t nSequence = (rawTx.nLockTime ? std::numeric_limits<uint32_t>::max() - 1 : std::numeric_limits<uint32_t>::max());
+		// SYSCOIN
+        uint32_t nSequence = (rawTx.nLockTime ? std::numeric_limits<uint32_t>::max() - 2 : std::numeric_limits<uint32_t>::max());
 
         // set the sequence number if passed in the parameters object
         const UniValue& sequenceObj = find_value(o, "sequence");
