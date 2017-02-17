@@ -2487,8 +2487,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 unsigned int nBytes = GetVirtualTransactionSize(txNew);
 
                 // Remove scriptSigs if we used dummy signatures for fee calculation
-				// SYSCOIN
-                if (!sign && !sysTx) {
+                if (!sign) {
                     for (auto& vin : txNew.vin)
                         vin.scriptSig = CScript();
                     txNew.wit.SetNull();
