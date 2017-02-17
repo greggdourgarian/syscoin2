@@ -52,7 +52,7 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->publicDisclaimer->setText(QString("<font color='blue'>") + tr("This is public profile information that anyone on the network can see. Fill this in with things you would like others to know about you.") + QString("</font>"));
 	ui->reqsigsDisclaimer->setText(QString("<font color='blue'>") + tr("The number of required signatures ensures that not one person can control this alias and anything service that this alias uses (certificates, messages, offers, escrows).") + QString("</font>"));
 	ui->acceptCertTransfersDisclaimer->setText(QString("<font color='blue'>") + tr("Would you like to accept certificates transferred to this alias? Select 'Yes' otherwise if you want to block others from sending certificates to this alias select 'No'.") + QString("</font>"));	
-	ui->multisigTitle->setText(QString("<font color='blue'>") + tr("Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the 'Sign Multisig Tx' button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology.") + QString("</font>"));
+	ui->multisigTitle->setText(QString("<font color='blue'>") + tr("Set up your multisig alias here with the required number of signatures and the aliases that are capable of signing when this alias is updated. A user from this list can request an update to the alias and the other signers must sign the raw multisig transaction using the 'Sign Multisig Tx' button in order for the alias to complete the update. Services that use this alias require alias updates prior to updating those services which allows all services to benefit from alias multisig technology. This feature is enabled for confirmed aliases and not available upon creation of a new alias.") + QString("</font>"));
 	ui->reqSigsEdit->setValidator( new QIntValidator(0, 50, this) );
 	connect(ui->reqSigsEdit, SIGNAL(textChanged(QString)), this, SLOT(reqSigsChanged()));
 	connect(ui->customExpireBox,SIGNAL(clicked(bool)),SLOT(onCustomExpireCheckBoxChanged(bool)));
@@ -68,6 +68,10 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 		setWindowTitle(tr("New Alias"));
 		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
 		ui->aliasPegEdit->setText(defaultPegAlias);
+		ui->reqSigsEdit->setEnabled(false);
+		ui->multisigList->setEnabled(false);
+		ui->addButton->setEnabled(false);
+		ui->deleteButton->setEnabled(false);
         break;
     case EditDataAlias:
         setWindowTitle(tr("Edit Data Alias"));
@@ -95,6 +99,10 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 		ui->passwordDisclaimer->setVisible(false);
 		ui->passwordEdit->setEnabled(false);
 		ui->EditAliasDialogTab->setCurrentIndex(1);
+		ui->reqSigsEdit->setEnabled(false);
+		ui->multisigList->setEnabled(false);
+		ui->addButton->setEnabled(false);
+		ui->deleteButton->setEnabled(false);
         break;
     }
     mapper = new QDataWidgetMapper(this);
@@ -121,7 +129,7 @@ void EditAliasDialog::reqSigsChanged()
 {
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count())) + tr("multisig alias.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::loadAliasDetails()
@@ -188,7 +196,7 @@ void EditAliasDialog::loadAliasDetails()
 	}  
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count())) + tr("multisig alias.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::on_cancelButton_clicked()
@@ -208,7 +216,7 @@ void EditAliasDialog::on_addButton_clicked()
 	}
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count())) + tr("multisig alias.") + QString("</font>"));
 	}
 }
 void EditAliasDialog::on_deleteButton_clicked()
@@ -219,7 +227,7 @@ void EditAliasDialog::on_deleteButton_clicked()
 
 	if(ui->multisigList->count() > 0)
 	{
-		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count()+1)) + tr("multisig alias.") + QString(" <b>%1</b> ").arg(ui->aliasEdit->text()) + QString("is assumed to also be a signer.") + QString("</font>"));
+		ui->multisigDisclaimer->setText(QString("<font color='blue'>") + tr("This is a") + QString(" <b>%1</b> ").arg(ui->reqSigsEdit->text()) + tr("of") + QString(" <b>%1</b> ").arg(QString::number(ui->multisigList->count())) + tr("multisig alias.") + QString("</font>"));
 	}
 }
 
@@ -615,7 +623,7 @@ bool EditAliasDialog::saveCurrentRow()
 				try {
 					UniValue arrayParams(UniValue::VARR);
 					UniValue arrayOfKeys(UniValue::VARR);
-					arrayParams.push_back(ui->reqSigsEdit->text().toStdString());
+					arrayParams.push_back(ui->reqSigsEdit->text().toInt());
 					for(int i = 0; i < ui->multisigList->count(); ++i)
 					{
 						QString str = ui->multisigList->item(i)->text();
