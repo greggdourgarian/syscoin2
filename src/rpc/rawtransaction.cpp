@@ -835,8 +835,9 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
 
         SignatureData sigdata;
         // Only sign SIGHASH_SINGLE if there's a corresponding output:
+		// SYSCOIN
         if (!fHashSingle || (i < mergedTx.vout.size()))
-            ProduceSignature(MutableTransactionSignatureCreator(&keystore, &mergedTx, i, amount, nHashType), prevPubKey, sigdata);
+            ProduceSignature(MutableTransactionSignatureCreator(&keystore, &mergedTx, i, amount, nHashType), prevPubKey, sigdata, STANDARD_SCRIPT_VERIFY_FLAGS & ~SCRIPT_VERIFY_CLEANSTACK);
 
         // ... and merge in other signatures:
         BOOST_FOREACH(const CMutableTransaction& txv, txVariants) {
