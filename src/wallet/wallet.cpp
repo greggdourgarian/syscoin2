@@ -2318,6 +2318,8 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 }
 
                 const CAmount nChange = nValueIn - nValueToSelect;
+				// SYSCOIN 
+				CSyscoinAddress address;
                 if (nChange > 0)
                 {
                     // Fill a vout to ourself
@@ -2349,7 +2351,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						std::advance(it, nLastIndex);
 						if (ExtractDestination(it->first->vout[it->second].scriptPubKey, payDest)) 
 						{
-							CSyscoinAddress address(payDest);
+							address = CSyscoinAddress(payDest);
 							address = CSyscoinAddress(address.ToString());
 							scriptChange = GetScriptForDestination(payDest);
 							// if not paying from an alias fall back to pay to new change address
