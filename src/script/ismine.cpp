@@ -16,6 +16,7 @@
 using namespace std;
 // SYSCOIN
 #include "base58.h"
+#include "policy/policy.h"
 typedef vector<unsigned char> valtype;
 
 unsigned int HaveKeys(const vector<valtype>& pubkeys, const CKeyStore& keystore)
