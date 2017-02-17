@@ -2100,7 +2100,11 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(newAddress.ToString() != oldAddress.ToString())
 		transferAlias = true;
 	
-
+	if(pwalletMain && !copyAlias.vchRedeemScript.empty())
+	{
+		CScript inner(copyAlias.vchRedeemScript.begin(), copyAlias.vchRedeemScript.end());
+		pwalletMain->AddCScript(inner);
+	}
 	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, copyAlias.vchRedeemScript.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, transferAlias);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
