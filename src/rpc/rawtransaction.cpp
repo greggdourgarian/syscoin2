@@ -448,8 +448,6 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
 
 			// SYSCOIN
 			CScript scriptPubKey =  GetScriptForDestination(address.Get());
-			if(!address.vchRedeemScript.empty())
-				scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 			if(address.isAlias && bSyscoinBlockchainTx)
 			{
 				CScript scriptPubKeyOrig;

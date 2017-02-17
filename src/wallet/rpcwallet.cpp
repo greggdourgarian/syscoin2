@@ -218,19 +218,9 @@ UniValue getzaddress(const UniValue& params, bool fHelp)
 
 	if(!sysAddress.isAlias)
 		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
-    
-	if(!sysAddress.vchRedeemScript.empty())
-	{
-		CScript inner(sysAddress.vchRedeemScript.begin(), sysAddress.vchRedeemScript.end());
-		CScriptID innerID(inner);
-		sysAddress = CSyscoinAddress(innerID, CChainParams::ADDRESS_ZEC);
-		return sysAddress.ToString();
-	}
-	else
-	{
-		CPubKey pubkey(sysAddress.vchPubKey);
-		return CSyscoinAddress(pubkey.GetID(), CChainParams::ADDRESS_ZEC).ToString();
-	}
+    CSyscoinAddress zecAddress;
+	GetAddress(sysAddress, &zecAddress, CChainParams::ADDRESS_ZEC);
+	return zecAddress.ToString();
 }
 CSyscoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 {
@@ -855,10 +845,7 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
     CSyscoinAddress address = CSyscoinAddress(params[0].get_str());
     if (!address.IsValid())
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Syscoin address");
-	// SYSCOIN
 	CScript scriptPubKey =  GetScriptForDestination(address.Get());
-	if(!address.vchRedeemScript.empty())
-		scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
     if (!IsMine(*pwalletMain, scriptPubKey))
         return ValueFromAmount(0);
 

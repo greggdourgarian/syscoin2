@@ -2261,13 +2261,11 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 					if (!myrecipient.scriptPubKey.IsUnspendable() && !IsSyscoinScript(myrecipient.scriptPubKey, op, vvchArgs)) {
 						if (ExtractDestination(myrecipient.scriptPubKey, payDest)) 
 						{
-							CSyscoinAddress address = CSyscoinAddress(payDest);
+							CSyscoinAddress address(payDest);
 							address = CSyscoinAddress(address.ToString());
 							if(address.isAlias)
 							{
 								myrecipient.scriptPubKey = GetScriptForDestination(payDest);
-								if(!address.vchRedeemScript.empty())
-									myrecipient.scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 								CScript scriptPubKey;
 								scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << vchFromString(address.aliasName) << OP_2DROP;
 								scriptPubKey += myrecipient.scriptPubKey;
@@ -2326,17 +2324,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     // TODO: pass in scriptChange instead of reservekey so
                     // change transaction isn't always pay-to-syscoin-address
                     CScript scriptChange;
-					// SYSCOIN
-					CSyscoinAddress address;
                     if (coinControl && !boost::get<CNoDestination>(&coinControl->destChange))
 					{
                         scriptChange = GetScriptForDestination(coinControl->destChange);
-						address = CSyscoinAddress(coinControl->destChange);
-						address = CSyscoinAddress(address.ToString());
-						if(!address.vchRedeemScript.empty())
-							scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
 					}
-
                     // no coin control: send change to newly generated address
                     else
                     {
@@ -2358,18 +2349,11 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						std::advance(it, nLastIndex);
 						if (ExtractDestination(it->first->vout[it->second].scriptPubKey, payDest)) 
 						{
-							scriptChange = GetScriptForDestination(payDest);
-							address = CSyscoinAddress(payDest);
+							CSyscoinAddress address(payDest);
 							address = CSyscoinAddress(address.ToString());
-							// if paying from an alias then send change back to sender
-							if(address.isAlias)
-							{
-								if(!address.vchRedeemScript.empty())
-									scriptChange = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
-								
-							}
-							// otherwise resolve back to new change address functionality
-							else
+							scriptChange = GetScriptForDestination(payDest);
+							// if not paying from an alias fall back to pay to new change address
+							if(!address.isAlias)
 							{
 								CPubKey vchPubKey;
 								bool ret;

@@ -210,9 +210,6 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
 		ret.push_back(Pair("alias", address.aliasName));	
 
         CScript scriptPubKey = GetScriptForDestination(dest);
-		// SYSCOIN
-		if(!address.vchRedeemScript.empty())
-			scriptPubKey = CScript(address.vchRedeemScript.begin(), address.vchRedeemScript.end());
         ret.push_back(Pair("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
 
 #ifdef ENABLE_WALLET

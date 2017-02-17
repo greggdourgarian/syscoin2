@@ -1086,6 +1086,20 @@ bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData,
 		return false;
 	return true;
 }
+void GetAddress(const CSyscoinAddress& addressIn, CSyscoinAddress* address,const uint32_t nPaymentOption)
+{
+	if(!address)
+		return;
+	CPubKey aliasPubKey(addressIn.vchPubKey);
+	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
+	if(!addressIn.vchRedeemScript.empty())
+	{
+		CScriptID innerID(CScript(addressIn.vchRedeemScript.begin(), addressIn.vchRedeemScript.end()));
+		address[0] = CSyscoinAddress(innerID, myAddressType);
+	}
+	else
+		address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
+}
 void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_t nPaymentOption)
 {
 	if(!address)
