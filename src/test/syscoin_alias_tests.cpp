@@ -73,7 +73,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	AliasUpdate("node1", "jagupdate1");
 	// update password only
 	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "\"\"", "newpass");
+	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "\"\"", "newpass1");
 	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"", "\"\"", "newpass");
+	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"", "\"\"", "newpass1");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
