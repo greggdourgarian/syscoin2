@@ -600,7 +600,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(pubKey.IsFullyValid());
 	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + CSyscoinSecret(privKey).ToString() + " \"\" false", true, false));	
 	if(password != "\"\"")
-		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
+		BOOST_CHECK_EQUAL(EncryptMessage(vchPrivEncryptionKey, password, strCipherPassword), true);
 	BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey), true);
 
 	string strPasswordHex = HexStr(vchFromString(strCipherPassword));
@@ -689,7 +689,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 
 	string strCipherPrivateData = "";
 	if(privdata != "\"\"")
-		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), privdata, strCipherPrivateData), true);
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionprivkey), privdata, strCipherPrivateData), true);
 
 	string strCipherEncryptionPrivateKey = "";
 
@@ -791,7 +791,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		
 		BOOST_CHECK(pubKey.IsFullyValid());
 		BOOST_CHECK_NO_THROW(r = CallRPC(node, "importprivkey " + CSyscoinSecret(privKey).ToString() + " \"\" false", true, false));	
-		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, password, strCipherPassword), true);
+		BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), password, strCipherPassword), true);
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubKey, stringFromVch(ParseHex(encryptionprivkey)), strCipherEncryptionPrivateKey), true);
 	}
 	string strPubKey = HexStr(vchPubKey);

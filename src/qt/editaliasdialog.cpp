@@ -344,7 +344,7 @@ bool EditAliasDialog::saveCurrentRow()
 		}
 		vchPubEncryptionKey = vector<unsigned char>(pubEncryptionKey.begin(), pubEncryptionKey.end());
 		privdata = ui->privateEdit->toPlainText().toStdString();
-		if(privdata != "\"\"")
+		if(privdata != "")
 		{
 			if(!EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData))
 			{
@@ -355,7 +355,7 @@ bool EditAliasDialog::saveCurrentRow()
 			}
 		}	
 		password = ui->passwordEdit->text().trimmed().toStdString();
-		if(password != "\"\"")
+		if(password != "")
 		{
 			vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
 			GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
@@ -427,9 +427,9 @@ bool EditAliasDialog::saveCurrentRow()
 				QMessageBox::Ok, QMessageBox::Ok);
 			return false;
 		}			
-		if(password != "\"\"")
+		if(password != "")
 		{
-			if(!EncryptMessage(vchPubKey, password, strCipherPassword))
+			if(!EncryptMessage(vchPrivEncryptionKey, password, strCipherPassword))
 			{
 				QMessageBox::critical(this, windowTitle(),
 					tr("Could not encrypt alias password!"),
@@ -529,19 +529,24 @@ bool EditAliasDialog::saveCurrentRow()
 			if(password != m_oldPassword.toStdString() || !ui->transferEdit->text().toStdString().empty())
 			{
 				vchPubKey = vchFromString(ui->transferEdit->text().toStdString());
-				// if xfer
-				if(!vchPubKey.empty())
-					password = "\"\"";
-				// if pw change
-				if(password != "\"\"" && password != m_oldPassword.toStdString())
+
+				// if pw change and not xfer
+				if(vchPubKey.empty() && password != m_oldPassword.toStdString())
 				{
-					vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
-					GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
-					CCrypter crypt;
-					string pwStr = password;
-					SecureString scpassword = pwStr.c_str();
-					crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1);
-					privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+					if(password != "")
+					{
+						vchPasswordSalt.resize(WALLET_CRYPTO_KEY_SIZE);
+						GetStrongRandBytes(&vchPasswordSalt[0], WALLET_CRYPTO_KEY_SIZE);
+						CCrypter crypt;
+						string pwStr = password;
+						SecureString scpassword = pwStr.c_str();
+						crypt.SetKeyFromPassphrase(scpassword, vchPasswordSalt, 1, 1);
+						privKey.Set(crypt.chKey, crypt.chKey + (sizeof crypt.chKey), true);
+					}
+					else
+					{
+						privKey.MakeNewKey(true);
+					}
 					pubKey = privKey.GetPubKey();
 					vchPubKey = vector<unsigned char>(pubKey.begin(), pubKey.end());
 					
