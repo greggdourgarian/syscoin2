@@ -429,7 +429,7 @@ bool EditAliasDialog::saveCurrentRow()
 		}			
 		if(password != "")
 		{
-			if(!EncryptMessage(vchPrivEncryptionKey, password, strCipherPassword))
+			if(!EncryptMessage(vchPubEncryptionKey, password, strCipherPassword))
 			{
 				QMessageBox::critical(this, windowTitle(),
 					tr("Could not encrypt alias password!"),
@@ -581,7 +581,7 @@ bool EditAliasDialog::saveCurrentRow()
 							QMessageBox::Ok, QMessageBox::Ok);
 						return false;
 					}
-					if(!EncryptMessage(vchPubKey, password, strCipherPassword))
+					if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), password, strCipherPassword))
 					{
 						QMessageBox::critical(this, windowTitle(),
 							tr("Could not encrypt alias password!"),

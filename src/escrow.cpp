@@ -1417,6 +1417,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	GetAddress(reselleralias, &resellerAddress, scriptSeller);
 
 	vector<unsigned char> redeemScript;
+	string strAddress;
 	if(vchRedeemScript.empty())
 	{
 		UniValue arrayParams(UniValue::VARR);
@@ -1443,12 +1444,15 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 		}
 		else
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4523 - " + _("Could not create escrow transaction: could not find redeem script in response"));
+		const UniValue& address_value = find_value(o, "address");
+		strAddress = address_value.get_str();
 	}
 	else
 	{
 			redeemScript = ParseHex(stringFromVch(vchRedeemScript));
 	}
-	scriptPubKey = CScript(redeemScript.begin(), redeemScript.end());
+	CSyscoinAddress address(strAddress);
+	scriptPubKey = GetScriptForDestination(address.Get());
 	int precision = 2;
 	// send to escrow address
 
@@ -1787,35 +1791,19 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4532 - " + _("Could not create escrow transaction: Invalid response from createrawtransaction"));
 	string createEscrowSpendingTx = resCreate.get_str();
 
-
-	// Buyer/Arbiter signs it
-	vector<string> strKeys;
-	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
-	if(strKeys.empty())
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4533 - " + _("No private keys found involved in this escrow"));
-
-	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
- 	UniValue arraySignParams(UniValue::VARR);
- 	UniValue arraySignInputs(UniValue::VARR);
-	UniValue arrayPrivateKeys(UniValue::VARR);
-
- 	UniValue signUniValue(UniValue::VOBJ);
- 	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
- 	signUniValue.push_back(Pair("vout", (int)nOutMultiSig));
- 	signUniValue.push_back(Pair("scriptPubKey", strEscrowScriptPubKey));
- 	signUniValue.push_back(Pair("redeemScript", HexStr(escrow.vchRedeemScript)));
-  	arraySignParams.push_back(createEscrowSpendingTx);
- 	arraySignInputs.push_back(signUniValue);
- 	arraySignParams.push_back(arraySignInputs);
-	BOOST_FOREACH(const string& strKey, strKeys) {
-		arrayPrivateKeys.push_back(strKey);
+	if(pwalletMain)
+	{
+		CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+		pwalletMain->AddCScript(inner);
 	}
-	arraySignParams.push_back(arrayPrivateKeys);
+
+ 	UniValue signUniValue(UniValue::VARR);
+ 	signUniValue.push_back(createEscrowSpendingTx);
 
 	UniValue resSign;
 	try
 	{
-		resSign = tableRPC.execute("signrawtransaction", arraySignParams);
+		resSign = tableRPC.execute("signrawtransaction", signUniValue);
 	}
 	catch (UniValue& objError)
 	{
@@ -2281,32 +2269,18 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4558 - " + _("Expected commission to affiliate not found in escrow"));
 
     // Seller signs it
-	vector<string> strKeys;
-	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
-	if(strKeys.empty())
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4559 - " + _("No private keys found involved in this escrow"));
-
-	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
- 	UniValue arraySignParams(UniValue::VARR);
- 	UniValue arraySignInputs(UniValue::VARR);
-	UniValue arrayPrivateKeys(UniValue::VARR);
-
- 	UniValue signUniValue(UniValue::VOBJ);
- 	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
- 	signUniValue.push_back(Pair("vout", (int)nOutMultiSig));
- 	signUniValue.push_back(Pair("scriptPubKey", strEscrowScriptPubKey));
- 	signUniValue.push_back(Pair("redeemScript", HexStr(escrow.vchRedeemScript)));
-  	arraySignParams.push_back(HexStr(escrow.rawTx));
- 	arraySignInputs.push_back(signUniValue);
- 	arraySignParams.push_back(arraySignInputs);
-	BOOST_FOREACH(const string& strKey, strKeys) {
-		arrayPrivateKeys.push_back(strKey);
+	if(pwalletMain)
+	{
+		CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+		pwalletMain->AddCScript(inner);
 	}
-	arraySignParams.push_back(arrayPrivateKeys);
+
+ 	UniValue signUniValue(UniValue::VARR);
+ 	signUniValue.push_back(HexStr(escrow.rawTx));
 	UniValue resSign;
 	try
 	{
-		resSign = tableRPC.execute("signrawtransaction", arraySignParams);
+		resSign = tableRPC.execute("signrawtransaction", signUniValue);
 	}
 	catch (UniValue& objError)
 	{
@@ -2658,33 +2632,17 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4572 - " + _("Could not create escrow transaction: Invalid response from createrawtransaction"));
 	string createEscrowSpendingTx = resCreate.get_str();
 	// Buyer/Arbiter signs it
-	vector<string> strKeys;
-	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
-	if(strKeys.empty())
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4573 - " + _("No private keys found involved in this escrow"));
-
-	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
- 	UniValue arraySignParams(UniValue::VARR);
- 	UniValue arraySignInputs(UniValue::VARR);
-	UniValue arrayPrivateKeys(UniValue::VARR);
-
- 	UniValue signUniValue(UniValue::VOBJ);
- 	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
- 	signUniValue.push_back(Pair("vout", (int)nOutMultiSig));
- 	signUniValue.push_back(Pair("scriptPubKey", strEscrowScriptPubKey));
- 	signUniValue.push_back(Pair("redeemScript", HexStr(escrow.vchRedeemScript)));
-  	arraySignParams.push_back(createEscrowSpendingTx);
- 	arraySignInputs.push_back(signUniValue);
- 	arraySignParams.push_back(arraySignInputs);
-	BOOST_FOREACH(const string& strKey, strKeys) {
-		arrayPrivateKeys.push_back(strKey);
+	if(pwalletMain)
+	{
+		CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+		pwalletMain->AddCScript(inner);
 	}
-	arraySignParams.push_back(arrayPrivateKeys);
-
+ 	UniValue signUniValue(UniValue::VARR);
+ 	signUniValue.push_back(createEscrowSpendingTx);
 	UniValue resSign;
 	try
 	{
-		resSign = tableRPC.execute("signrawtransaction", arraySignParams);
+		resSign = tableRPC.execute("signrawtransaction", signUniValue);
 	}
 	catch (UniValue& objError)
 	{
@@ -2957,32 +2915,17 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4592 - " + _("Expected refund amount not found"));
 
     // Buyer signs it
-	string strEscrowScriptPubKey = HexStr(fundingTx.vout[nOutMultiSig].scriptPubKey.begin(), fundingTx.vout[nOutMultiSig].scriptPubKey.end());
- 	UniValue arraySignParams(UniValue::VARR);
- 	UniValue arraySignInputs(UniValue::VARR);
-	UniValue arrayPrivateKeys(UniValue::VARR);
-
-	vector<string> strKeys;
-	GetPrivateKeysFromScript(CScript(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end()), strKeys);
-	if(strKeys.empty())
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4593 - " + _("No private keys found involved in this escrow"));
-
- 	UniValue signUniValue(UniValue::VOBJ);
- 	signUniValue.push_back(Pair("txid", fundingTx.GetHash().ToString()));
- 	signUniValue.push_back(Pair("vout", (int)nOutMultiSig));
- 	signUniValue.push_back(Pair("scriptPubKey", strEscrowScriptPubKey));
- 	signUniValue.push_back(Pair("redeemScript", HexStr(escrow.vchRedeemScript)));
-  	arraySignParams.push_back(HexStr(escrow.rawTx));
- 	arraySignInputs.push_back(signUniValue);
- 	arraySignParams.push_back(arraySignInputs);
-	BOOST_FOREACH(const string& strKey, strKeys) {
-		arrayPrivateKeys.push_back(strKey);
+	if(pwalletMain)
+	{
+		CScript inner(escrow.vchRedeemScript.begin(), escrow.vchRedeemScript.end());
+		pwalletMain->AddCScript(inner);
 	}
-	arraySignParams.push_back(arrayPrivateKeys);
+ 	UniValue signUniValue(UniValue::VARR);
+ 	signUniValue.push_back(HexStr(escrow.rawTx));
 	UniValue resSign;
 	try
 	{
-		resSign = tableRPC.execute("signrawtransaction", arraySignParams);
+		resSign = tableRPC.execute("signrawtransaction", signUniValue);
 	}
 	catch (UniValue& objError)
 	{
