@@ -2761,7 +2761,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 	strDecrypted = "";
 	if(strWalletless == "Yes")
 		strPassword = HexStr(alias.vchPassword);
-	else if(DecryptPrivateKey(alias.vchPubKey, alias.vchPassword, strDecrypted))
+	else if(DecryptMessage(alias, alias.vchPassword, strDecrypted))
 		strPassword = strDecrypted;		
 	oName.push_back(Pair("password", strPassword));
 
