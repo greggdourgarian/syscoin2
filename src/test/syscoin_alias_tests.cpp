@@ -434,11 +434,13 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
 	BOOST_CHECK_EQUAL(tmp, "");
 	// 2 sigs needed, remove redeemScript to make it a normal alias
-	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword", "\"\"");
+	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", "\"\"");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
 	
 	// no multisig so update as normal
-	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node3", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
 	BOOST_CHECK_EQUAL(hex_str, "");
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
