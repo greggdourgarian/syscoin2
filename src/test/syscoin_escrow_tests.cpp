@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowfeedback)
 	EscrowRelease("node3", "arbiter", guid);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowinfo " + guid));
 	EscrowClaimRelease("node1", guid);
-	GenerateBlocks(5);
+	GenerateBlocks(10);
 	// seller leaves feedback first
 	EscrowFeedback("node1", "seller", guid,"feedbackbuyer", "1", FEEDBACKBUYER, "feedbackarbiter", "2", FEEDBACKARBITER, true);
 	// he can more if he wishes to
