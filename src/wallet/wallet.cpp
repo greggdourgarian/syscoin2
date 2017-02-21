@@ -2047,6 +2047,8 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
     if (coinControl && coinControl->HasSelected())
     {
 		// add all coin control inputs to setCoinsRet based on UTXO db lookup, and return without adding wallet inputs if target amount is fulfilled
+		CCoinsViewCache view(pcoinsTip);
+		const CCoins *coins;	
 		CTransaction tx;
 		uint256 hashBlock;
 		std::vector<COutPoint> vInputs;
