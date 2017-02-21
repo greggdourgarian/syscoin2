@@ -395,7 +395,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	UniValue resCreate;
 	string redeemScript;
 	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"]\""));	
-	const UniValue& redeemScript_value = find_value(resCreate, "redeemScript");
+	UniValue redeemScript_value = find_value(resCreate, "redeemScript");
 	BOOST_CHECK(redeemScript_value.isStr());
 	redeemScript = redeemScript_value.get_str();
 		
@@ -417,11 +417,29 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	// create 1 of 2
+	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 1 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"]\""));	
+	redeemScript_value = find_value(resCreate, "redeemScript");
+	BOOST_CHECK(redeemScript_value.isStr());
+	redeemScript = redeemScript_value.get_str();
+	tmp = AliasUpdate("node2", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	BOOST_CHECK_EQUAL(tmp, "");
+	// ensure only one signature is needed
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
+	BOOST_CHECK_EQUAL(hex_str, "");
 	// create 2 of 3
-
-
+	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\", ,\\\"jagnodemultisig3\\\"]\""));	
+	redeemScript_value = find_value(resCreate, "redeemScript");
+	BOOST_CHECK(redeemScript_value.isStr());
+	redeemScript = redeemScript_value.get_str();
+	tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	BOOST_CHECK_EQUAL(tmp, "");
+	// 2 sigs needed, remove redeemScript to make it a normal alias
+	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword", "\"\"");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
 	
-	// remove multisig and update as normal
+	// no multisig so update as normal
+	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
+	BOOST_CHECK_EQUAL(hex_str, "");
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
 {
