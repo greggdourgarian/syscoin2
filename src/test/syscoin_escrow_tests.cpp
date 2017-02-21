@@ -169,21 +169,7 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_arbiter)
 	GenerateBlocks(10);
 	string guid = EscrowNew("node1", "node2", "buyeralias1", offerguid, qty, "message", "arbiteralias1", "selleralias111");
 	EscrowRelease("node3", "arbiter", guid);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowinfo " + guid));
-	CAmount escrowfee = find_value(r.get_obj(), "sysfee").get_int64();
-	// get arbiter balance (ensure he gets escrow fees, since he stepped in and released)
-	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo arbiteralias1"));
-	CAmount balanceBeforeArbiter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	EscrowClaimRelease("node2", guid);
-	GenerateBlocks(10, "node3");
-	// get arbiter balance after release
-	BOOST_CHECK_NO_THROW(r = CallRPC("node3", "aliasinfo arbiteralias1"));
-	balanceBeforeArbiter += escrowfee;
-	CAmount balanceAfterArbiter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBeforeArbiter, balanceAfterArbiter);
-	
-
-
 }
 BOOST_AUTO_TEST_CASE (generate_escrowfeedback)
 {

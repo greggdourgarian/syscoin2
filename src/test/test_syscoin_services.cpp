@@ -1862,6 +1862,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowinfo " + guid));
 	string selleralias = find_value(r.get_obj(), "seller").get_str();
+	CAmount nEscrowFee = find_value(r.get_obj(), "sysfee").get_int64();
 	CAmount nSellerTotal = find_value(r.get_obj(), "systotal").get_int64();
 	BOOST_CHECK(!selleralias.empty());
 	string offer = find_value(r.get_obj(), "offer").get_str();
@@ -1891,7 +1892,11 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	balanceSellerBefore += nSellerTotal;
 	// check balance after and before within 0.1 COIN (because of escrow output sent to the seller which adds to seller balance)
 	if(rootselleralias.empty())
+	{
+		if(abs(balanceSellerAfter - balanceSellerBefore) > 0.1*COIN)
+			balanceSellerBefore += nEscrowFee;	
 		BOOST_CHECK(abs(balanceSellerAfter - balanceSellerBefore) <= 0.1*COIN);
+	}
 
 }
 BasicSyscoinTestingSetup::BasicSyscoinTestingSetup()
