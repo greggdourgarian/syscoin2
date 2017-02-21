@@ -23,7 +23,6 @@
 #include <boost/algorithm/string/predicate.hpp>
 extern CScript _createmultisig_redeemScript(const UniValue& params);
 using namespace std;
-extern CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
 extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false);
 void PutToEscrowList(std::vector<CEscrow> &escrowList, CEscrow& index) {
 	int i = escrowList.size() - 1;
@@ -2203,27 +2202,6 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		if(!address.isStr())
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4552 - " + _("Could not decode escrow transaction: Invalid address"));
 		string strAddress = address.get_str();
-		if(typeValue.get_str() == "multisig")
-		{
-			const UniValue &reqSigsValue = find_value(scriptPubKeyValueObj, "reqSigs");
-			if(!reqSigsValue.isNum())
-				throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4553 - " + _("Could not decode escrow transaction: Invalid number of signatures"));
-			vector<CPubKey> pubKeys;
-			for (unsigned int idx = 0; idx < addresses.size(); idx++) {
-				const UniValue& address = addresses[idx];
-				if(!address.isStr())
-					throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4554 - " + _("Could not decode escrow transaction: Invalid address"));
-				CSyscoinAddress aliasAddress = CSyscoinAddress(address.get_str());
-				if(aliasAddress.vchPubKey.empty())
-					throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4555 - " + _("Could not decode escrow transaction: One or more of the multisig addresses do not refer to an alias"));
-				CPubKey pubkey(aliasAddress.vchPubKey);
-				pubKeys.push_back(pubkey);
-			}
-			CScript script = GetScriptForMultisig(reqSigsValue.get_int(), pubKeys);
-			CScriptID innerID(script);
-			CSyscoinAddress aliasAddress(innerID);
-			strAddress = aliasAddress.ToString();
-		}
 		CSyscoinAddress aliasAddress(strAddress);
 		// check arb fee is paid to arbiter or buyer
 		if(!foundFeePayment)
@@ -2882,27 +2860,6 @@ UniValue escrowclaimrefund(const UniValue& params, bool fHelp) {
 		if(!address.isStr())
 			throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4588 - " + _("Could not decode escrow transaction: Invalid address"));
 		string strAddress = address.get_str();
-		if(typeValue.get_str() == "multisig")
-		{
-			const UniValue &reqSigsValue = find_value(scriptPubKeyValueObj, "reqSigs");
-			if(!reqSigsValue.isNum())
-				throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4589 - " + _("Could not decode escrow transaction: Invalid number of signatures"));
-			vector<CPubKey> pubKeys;
-			for (unsigned int idx = 0; idx < addresses.size(); idx++) {
-				const UniValue& address = addresses[idx];
-				if(!address.isStr())
-					throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4590 - " + _("Could not decode escrow transaction: Invalid address"));
-				CSyscoinAddress aliasAddress = CSyscoinAddress(address.get_str());
-				if(aliasAddress.vchPubKey.empty())
-					throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4591 - " + _("Could not decode escrow transaction: One or more of the multisig addresses do not refer to an alias"));
-				CPubKey pubkey(aliasAddress.vchPubKey);
-				pubKeys.push_back(pubkey);
-			}
-			CScript script = GetScriptForMultisig(reqSigsValue.get_int(), pubKeys);
-			CScriptID innerID(script);
-			CSyscoinAddress aliasAddress(innerID);
-			strAddress = aliasAddress.ToString();
-		}
 		if(!foundRefundPayment)
 		{
 			CSyscoinAddress address(strAddress);

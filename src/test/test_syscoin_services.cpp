@@ -1605,7 +1605,7 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrownew " + buyeralias + " " + offerguid + " " + qty + " " + strCipherPrivateData + " " + arbiteralias));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
-	GenerateBlocks(5, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offerguid));
 	CAmount offerprice = find_value(r.get_obj(), "sysprice").get_int64();
 	int nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
@@ -1650,7 +1650,7 @@ const string EscrowNew(const string& node, const string& sellernode, const strin
 
 	BOOST_CHECK_THROW(r = CallRPC(node, "escrowacknowledge " + guid), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid));
-	GenerateBlocks(5, sellernode);
+	GenerateBlocks(10, sellernode);
 	BOOST_CHECK_THROW(r = CallRPC(sellernode, "escrowacknowledge " + guid), runtime_error);
 	BOOST_CHECK_NO_THROW(r = CallRPC(sellernode, "offerinfo " + offerguid));
 	nQtyAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
@@ -1718,7 +1718,7 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	UniValue resArray = r.get_array();
 	string strRawTx = resArray[0].get_str();
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowcompleterefund " + guid + " " + strRawTx));
-	GenerateBlocks(5, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// claim doesn't touch qty
@@ -1878,7 +1878,7 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	UniValue resArray = r.get_array();
 	string strRawTx = resArray[0].get_str();
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowcompleterelease " + guid + " " + strRawTx));
-	GenerateBlocks(5, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// release doesnt touch qty

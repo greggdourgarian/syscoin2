@@ -133,7 +133,6 @@ BOOST_AUTO_TEST_CASE (generate_escrowrelease_invalid)
 	AliasNew("node2", "selleraliasrefund3", "password", "changeddata2");
 	AliasNew("node3", "arbiteraliasrefund3", "password", "changeddata3");
 	string offerguid = OfferNew("node2", "selleraliasrefund3", "category", "title", "100", "1.45", "description", "SYS");
-	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress buyeraliasrefund3 5000"), runtime_error);
 	GenerateBlocks(10);
 	string guid = EscrowNew("node1", "node2", "buyeraliasrefund3", offerguid, qty, "message", "arbiteraliasrefund3", "selleraliasrefund3");
 	// try to claim release even if not released
