@@ -405,7 +405,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
-	
+	GenerateBlocks(5);
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
@@ -421,8 +421,10 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	redeemScript_value = find_value(resCreate, "redeemScript");
 	BOOST_CHECK(redeemScript_value.isStr());
 	redeemScript = redeemScript_value.get_str();
-	tmp = AliasUpdate("node2", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
-	BOOST_CHECK_EQUAL(tmp, "");
+	hex_str = AliasUpdate("node2", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	GenerateBlocks(5, "node2");
+	GenerateBlocks(5);
 	// ensure only one signature is needed
 	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
 	BOOST_CHECK_EQUAL(hex_str, "");
@@ -445,6 +447,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// 2 sigs needed, remove redeemScript to make it a normal alias
 	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", "\"\"");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	GenerateBlocks(5);
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
