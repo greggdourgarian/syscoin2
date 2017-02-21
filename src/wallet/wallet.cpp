@@ -2043,51 +2043,80 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount& nTargetValue, set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, CAmount& nValueRet, const CCoinControl* coinControl) const
 {
     vector<COutput> vCoins(vAvailableCoins);
-
-    // coin control -> return all selected outputs (we want all selected to go into the transaction for sure)
-    if (coinControl && coinControl->HasSelected() && !coinControl->fAllowOtherInputs)
+	// SYSCOIN
+    if (coinControl && coinControl->HasSelected())
     {
-        BOOST_FOREACH(const COutput& out, vCoins)
-        {
-			// SYSCOIN
-            //if (!out.fSpendable)
-              //   continue;
-            nValueRet += out.tx->vout[out.i].nValue;
-            setCoinsRet.insert(make_pair(out.tx, out.i));
-        }
-        return (nValueRet >= nTargetValue);
-    }
+		// add all coin control inputs to setCoinsRet based on UTXO db lookup, and return without adding wallet inputs if target amount is fulfilled
+		CTransaction tx;
+		uint256 hashBlock;
+		std::vector<COutPoint> vInputs;
+		if (coinControl)
+			coinControl->ListSelected(vInputs);
+		BOOST_FOREACH(const COutPoint& outpoint, vInputs)
+		{
+			coins = view.AccessCoins(outpoint.hash);
+			if(coins == NULL)
+				continue;
+			// Clearly invalid input, fail
+			if (coins->vout.size() <= outpoint.n)
+				return false;
+			if(!coins->IsAvailable(outpoint.n))
+				continue;
+			auto it = mempool.mapNextTx.find(outpoint);
+			if (it != mempool.mapNextTx.end())
+				continue;
+			if (!GetSyscoinTransaction(coins->nHeight, outpoint.hash, tx, hashBlock, Params().GetConsensus()))
+				continue;
+			nValueRet += coins->vout[outpoint.n].nValue;
+			CWalletTx wtx(pwalletMain, tx);
+			wtx.nIndex = outpoint.n;
+			wtx.hashBlock = hashBlock;
+			setCoinsRet.insert(make_pair(&wtx, outpoint.n));
+		}
+		if(nValueRet >= nTargetValue)
+			return true;
+		// coin control -> return all selected outputs (we want all selected to go into the transaction for sure)
+		if (!coinControl->fAllowOtherInputs)
+		{
+			BOOST_FOREACH(const COutput& out, vCoins)
+			{
+				if (!out.fSpendable)
+					 continue;
+				nValueRet += out.tx->vout[out.i].nValue;
+				setCoinsRet.insert(make_pair(out.tx, out.i));
+			}
+			return (nValueRet >= nTargetValue);
+		}
+	}
 
     // calculate value from preset inputs and store them
     set<pair<const CWalletTx*, uint32_t> > setPresetCoins;
     CAmount nValueFromPresetInputs = 0;
-	CTransaction tx;
-	uint256 hashBlock;
+
     std::vector<COutPoint> vPresetInputs;
     if (coinControl)
         coinControl->ListSelected(vPresetInputs);
     BOOST_FOREACH(const COutPoint& outpoint, vPresetInputs)
     {
-		coins = view.AccessCoins(outpoint.hash);
-		if(coins == NULL)
-			continue;
-        // Clearly invalid input, fail
-        if (coins->vout.size() <= outpoint.n)
-            return false;
-		if(!coins->IsAvailable(outpoint.n))
-			continue;
-		// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
-		int op;
-		vector<vector<unsigned char> > vvchArgs;
-		if (IsSyscoinScript(coins->vout[outpoint.n].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
-			continue;
-		if (!GetSyscoinTransaction(coins->nHeight, outpoint.hash, tx, hashBlock, Params().GetConsensus()))
-			continue;
-        nValueFromPresetInputs += coins->vout[outpoint.n].nValue;
-		CWalletTx wtx(pwalletMain, tx);
-		wtx.nIndex = outpoint.n;
-		wtx.hashBlock = hashBlock;
-        setPresetCoins.insert(make_pair(&wtx, outpoint.n));
+        map<uint256, CWalletTx>::const_iterator it = mapWallet.find(outpoint.hash);
+        if (it != mapWallet.end())
+        {
+            const CWalletTx* pcoin = &it->second;
+			// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
+			if(pcoin->nVersion == GetSyscoinTxVersion())
+			{
+				int op;
+				vector<vector<unsigned char> > vvchArgs;
+				if (pcoin->vout.size() >= outpoint.n && IsSyscoinScript(pcoin->vout[outpoint.n].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
+					continue;
+			}
+            // Clearly invalid input, fail
+            if (pcoin->vout.size() <= outpoint.n)
+                return false;
+            nValueFromPresetInputs += pcoin->vout[outpoint.n].nValue;
+            setPresetCoins.insert(make_pair(pcoin, outpoint.n));
+        } else
+            return false; // TODO: Allow non-wallet inputs
     }
 
     // remove preset inputs from vCoins
