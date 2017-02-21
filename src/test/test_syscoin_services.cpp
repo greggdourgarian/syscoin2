@@ -1669,6 +1669,7 @@ void EscrowRelease(const string& node, const string& role, const string& guid)
 
 	BOOST_CHECK_NO_THROW(CallRPC(node, "escrowrelease " + guid + " " + role));
 	GenerateBlocks(10, node);
+	GenerateBlocks(10, node);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
@@ -1687,6 +1688,7 @@ void EscrowRefund(const string& node, const string& role, const string& guid)
 	int nQtyOfferBefore = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 
 	BOOST_CHECK_NO_THROW(CallRPC(node, "escrowrefund " + guid + " " + role));
+	GenerateBlocks(10, node);
 	GenerateBlocks(10, node);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
@@ -1718,7 +1720,8 @@ void EscrowClaimRefund(const string& node, const string& guid)
 	UniValue resArray = r.get_array();
 	string strRawTx = resArray[0].get_str();
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowcompleterefund " + guid + " " + strRawTx));
-	GenerateBlocks(100, node);
+	GenerateBlocks(10, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// claim doesn't touch qty
@@ -1879,7 +1882,8 @@ void EscrowClaimRelease(const string& node, const string& guid)
 	UniValue resArray = r.get_array();
 	string strRawTx = resArray[0].get_str();
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "escrowcompleterelease " + guid + " " + strRawTx));
-	GenerateBlocks(100, node);
+	GenerateBlocks(10, node);
+	GenerateBlocks(10, node);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "offerinfo " + offer));
 	int nQtyOfferAfter = atoi(find_value(r.get_obj(), "quantity").get_str().c_str());
 	// release doesnt touch qty

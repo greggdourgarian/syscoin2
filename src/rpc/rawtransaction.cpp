@@ -385,7 +385,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
 
     CMutableTransaction rawTx;
 	// SYSCOIN
-	rawTx.nLockTime = chainActive.Tip()->nTime;
+	rawTx.nLockTime = chainActive.Height();
     if (params.size() > 2 && !params[2].isNull()) {
         int64_t nLockTime = params[2].get_int64();
         if (nLockTime < 0 || nLockTime > std::numeric_limits<uint32_t>::max())

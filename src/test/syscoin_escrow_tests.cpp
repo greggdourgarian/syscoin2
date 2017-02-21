@@ -190,16 +190,12 @@ BOOST_AUTO_TEST_CASE (generate_escrowfeedback)
 	GenerateBlocks(10);
 	string guid = EscrowNew("node2", "node1", "buyerescrowfeedback", offerguid, qty, "message", "arbiterescrowfeedback", "sellerescrowfeedback");
 	EscrowRelease("node3", "arbiter", guid);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "escrowinfo " + guid));
 	EscrowClaimRelease("node1", guid);
-	GenerateBlocks(10);
 	// seller leaves feedback first
 	EscrowFeedback("node1", "seller", guid,"feedbackbuyer", "1", FEEDBACKBUYER, "feedbackarbiter", "2", FEEDBACKARBITER, true);
 	// he can more if he wishes to
 	EscrowFeedback("node1", "seller", guid, "feedbackbuyer", "1", FEEDBACKBUYER, "feedbackarbiter", "2", FEEDBACKARBITER, false);
 	EscrowFeedback("node1", "seller", guid, "feedbackbuyer", "1", FEEDBACKBUYER, "feedbackarbiter", "2", FEEDBACKARBITER, false);
-
-
 	// then buyer can leave feedback
 	EscrowFeedback("node2", "buyer", guid, "feedbackseller", "1", FEEDBACKSELLER, "feedbackarbiter", "3", FEEDBACKARBITER, true);
 	// he can more if he wishes to
