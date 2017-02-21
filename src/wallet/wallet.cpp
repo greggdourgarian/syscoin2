@@ -2061,31 +2061,33 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
     // calculate value from preset inputs and store them
     set<pair<const CWalletTx*, uint32_t> > setPresetCoins;
     CAmount nValueFromPresetInputs = 0;
-
+	CTransaction tx;
+	uint256 hashBlock;
     std::vector<COutPoint> vPresetInputs;
     if (coinControl)
         coinControl->ListSelected(vPresetInputs);
     BOOST_FOREACH(const COutPoint& outpoint, vPresetInputs)
     {
-        map<uint256, CWalletTx>::const_iterator it = mapWallet.find(outpoint.hash);
-        if (it != mapWallet.end())
-        {
-            const CWalletTx* pcoin = &it->second;
-			// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
-			if(pcoin->nVersion == GetSyscoinTxVersion())
-			{
-				int op;
-				vector<vector<unsigned char> > vvchArgs;
-				if (pcoin->vout.size() >= outpoint.n && IsSyscoinScript(pcoin->vout[outpoint.n].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
-					continue;
-			}
-            // Clearly invalid input, fail
-            if (pcoin->vout.size() <= outpoint.n)
-                return false;
-            nValueFromPresetInputs += pcoin->vout[outpoint.n].nValue;
-            setPresetCoins.insert(make_pair(pcoin, outpoint.n));
-        } else
-            return false; // TODO: Allow non-wallet inputs
+		coins = view.AccessCoins(outpoint.hash);
+		if(coins == NULL)
+			continue;
+        // Clearly invalid input, fail
+        if (coins->vout.size() <= outpoint.n)
+            return false;
+		if(!coins->IsAvailable(outpoint.n))
+			continue;
+		// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
+		int op;
+		vector<vector<unsigned char> > vvchArgs;
+		if (IsSyscoinScript(coins->vout[outpoint.n].scriptPubKey, op, vvchArgs) && op != OP_ALIAS_PAYMENT)
+			continue;
+		if (!GetSyscoinTransaction(coins->nHeight, outpoint.hash, tx, hashBlock, Params().GetConsensus()))
+			continue;
+        nValueFromPresetInputs += coins->vout[outpoint.n].nValue;
+		CWalletTx wtx(pwalletMain, tx);
+		wtx.nIndex = outpoint.n;
+		wtx.hashBlock = hashBlock;
+        setPresetCoins.insert(make_pair(&wtx, outpoint.n));
     }
 
     // remove preset inputs from vCoins
