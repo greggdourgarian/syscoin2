@@ -426,6 +426,15 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// ensure only one signature is needed
 	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
 	BOOST_CHECK_EQUAL(hex_str, "");
+	// pay to multisig and check balance
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 8"), runtime_error);
+	GenerateBlocks(5);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore += 8*COIN;
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	// create 2 of 3
 	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\", ,\\\"jagnodemultisig3\\\"]\""));	
 	redeemScript_value = find_value(resCreate, "redeemScript");
@@ -436,12 +445,30 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// 2 sigs needed, remove redeemScript to make it a normal alias
 	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", "\"\"");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
-	
+	// pay to multisig and check balance
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 7"), runtime_error);
+	GenerateBlocks(5);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore += 7*COIN;
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+
 	// no multisig so update as normal
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
 	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
 	BOOST_CHECK_EQUAL(hex_str, "");
+	// pay to multisig and check balance
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 6"), runtime_error);
+	GenerateBlocks(5);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	balanceBefore += 6*COIN;
+	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
+	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
 {
