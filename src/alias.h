@@ -405,6 +405,7 @@ bool GetSyscoinData(const CScript &scriptPubKey, std::vector<unsigned char> &vch
 bool IsSysServiceExpired(const uint64_t &nTime);
 bool GetTimeToPrune(const CScript& scriptPubKey, uint64_t &nTime);
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams);
+bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, uint256& hashBlock, const Consensus::Params& consensusParams);
 bool IsSyscoinScript(const CScript& scriptPubKey, int &op, std::vector<std::vector<unsigned char> > &vvchArgs);
 void RemoveSyscoinScript(const CScript& scriptPubKeyIn, CScript& scriptPubKeyOut);
 void PutToAliasList(std::vector<CAliasIndex> &aliasList, CAliasIndex& index);
