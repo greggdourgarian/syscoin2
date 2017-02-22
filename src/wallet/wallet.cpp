@@ -2044,8 +2044,8 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount& nTargetValue, set<pair<const CWalletTx*,unsigned int> >& setCoinsRet, CAmount& nValueRet, const CCoinControl* coinControl) const
 {
     vector<COutput> vCoins(vAvailableCoins);
-
 	// SYSCOIN
+	set<pair<const CWalletTx*, uint32_t> > setPresetCoins;
     if (coinControl && coinControl->HasSelected())
     {
 		// add all coin control inputs to setCoinsRet based on UTXO db lookup, and return without adding wallet inputs if target amount is fulfilled
@@ -2076,10 +2076,14 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 			wtx->nIndex = coins->nHeight;
 			wtx->hashBlock = hashBlock;
 			mapWtxToDelete.push_back(wtx);
-			setCoinsRet.insert(make_pair(wtx, outpoint.n));
+			setPresetCoins.insert(make_pair(wtx, outpoint.n));
 		}
+
 		if(nValueRet >= nTargetValue)
+		{
+			setCoinsRet.insert(setPresetCoins.begin(), setPresetCoins.end());
 			return true;
+		}
 		// coin control -> return all selected outputs (we want all selected to go into the transaction for sure)
 		if (!coinControl->fAllowOtherInputs)
 		{
@@ -2095,7 +2099,8 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 	}
 
     // calculate value from preset inputs and store them
-    set<pair<const CWalletTx*, uint32_t> > setPresetCoins;
+	// SYSCOIN
+    //set<pair<const CWalletTx*, uint32_t> > setPresetCoins;
     CAmount nValueFromPresetInputs = 0;
 
     std::vector<COutPoint> vPresetInputs;
@@ -2119,7 +2124,9 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
             if (pcoin->vout.size() <= outpoint.n)
                 return false;
             nValueFromPresetInputs += pcoin->vout[outpoint.n].nValue;
-            setPresetCoins.insert(make_pair(pcoin, outpoint.n));
+			// SYSCOIN
+			if (!setPresetCoins.count(make_pair(pcoin, outpoint.n)))
+				setPresetCoins.insert(make_pair(pcoin, outpoint.n));
         } else
             return false; // TODO: Allow non-wallet inputs
     }
