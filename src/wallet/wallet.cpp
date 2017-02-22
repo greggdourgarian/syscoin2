@@ -38,6 +38,7 @@ extern int IndexOfAliasOutput(const CTransaction& tx);
 extern bool IsSyscoinScript(const CScript& scriptPubKey, int &op, vector<vector<unsigned char> > &vvchArgs);
 extern int GetSyscoinTxVersion();
 extern vector<unsigned char> vchFromString(const string &str);
+vector<CWalletTx*> mapWtxToDelete;
 CWallet* pwalletMain = NULL;
 /** Transaction fee set by the user */
 CFeeRate payTxFee(DEFAULT_TRANSACTION_FEE);
@@ -2074,6 +2075,7 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 			CWalletTx *wtx = new CWalletTx(pwalletMain, tx);
 			wtx->nIndex = coins->nHeight;
 			wtx->hashBlock = hashBlock;
+			mapWtxToDelete.push_back(wtx);
 			setCoinsRet.insert(make_pair(wtx, outpoint.n));
 		}
 		if(nValueRet >= nTargetValue)
@@ -2329,6 +2331,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                 }
                  // Choose coins to use
                 CAmount nValueIn = 0;
+				// SYSCOIN
+				for (CWalletTx* wtx : mapWtxToDelete)
+					delete wtx;
+				mapWtxToDelete.clear();
                 setCoins.clear();
                 if (!SelectCoins(vAvailableCoins, nValueToSelect, setCoins, nValueIn, coinControl))
                 {
@@ -2504,7 +2510,10 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 
                     nIn++;
                 }
-
+				// SYSCOIN
+				for (CWalletTx* wtx : mapWtxToDelete)
+					delete wtx;
+				mapWtxToDelete.clear();
                 unsigned int nBytes = GetVirtualTransactionSize(txNew);
 
                 // Remove scriptSigs if we used dummy signatures for fee calculation
@@ -2550,7 +2559,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
                     strFailReason = _("Transaction too large for fee policy");
                     return false;
                 }
-
                 if (nFeeRet >= nFeeNeeded)
                     break; // Done, enough fee included.
 
@@ -2560,7 +2568,6 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
             }
         }
     }
-
     if (GetBoolArg("-walletrejectlongchains", DEFAULT_WALLET_REJECT_LONG_CHAINS)) {
         // Lastly, ensure this tx will pass the mempool's chain limits
         LockPoints lp;
