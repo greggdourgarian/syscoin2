@@ -2069,7 +2069,7 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
         map<uint256, CWalletTx>::const_iterator it = mapWallet.find(outpoint.hash);
         if (it != mapWallet.end())
         {
-            const CWalletTx* pcoin = &it->second;
+            CWalletTx* pcoin = &it->second;
 			// SYSCOIN txs are unspendable unless input to another syscoin tx (passed into createtransaction)
 			if(pcoin->nVersion == GetSyscoinTxVersion())
 			{
