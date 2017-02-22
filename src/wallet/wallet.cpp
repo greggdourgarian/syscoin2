@@ -1989,7 +1989,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     {
         for (unsigned int i = 0; i < vValue.size(); ++i)
         {
-            setCoinsRet.insert(vValue[i].second);
+            setCoinsRet.insert(make_pair(*vValue[i].second.first, vValue[i].second.second)); 
             nValueRet += vValue[i].first;
         }
         return true;
