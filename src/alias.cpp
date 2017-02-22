@@ -1091,7 +1091,7 @@ bool GetSyscoinData(const CTransaction &tx, vector<unsigned char> &vchData, vect
 }
 bool IsValidAliasName(const std::vector<unsigned char> &vchAlias)
 {
-	return (vchAlias.size() <= MAX_GUID_LENGTH && vchAlias.size() >= 3);
+	return (vchAlias.size() <= 32 && vchAlias.size() >= 3);
 }
 bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData, vector<unsigned char> &vchHash)
 {
@@ -2056,7 +2056,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
 		if (!Solver(redeemScript, whichType, vSolutions))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5519 - " + _("Invalid alias redeem script"));
+			strRedeemScript.clear();
 	}
 
 	CSyscoinAddress oldAddress;
@@ -2067,7 +2067,6 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CKey vchSecret;
 	if(vchPubKeyByte.empty())
 		vchPubKeyByte = theAlias.vchPubKey;
-	CPubKey pubKey = CPubKey(vchPubKeyByte);
 	string strCipherText;
 
 	theAlias.nHeight = chainActive.Tip()->nHeight;
@@ -2375,7 +2374,7 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 		if (!returnRes.isStr())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not send raw transaction: Invalid response from sendrawtransaction"));
 	}
-	if(hexstring == hex_str)
+	else if(hexstring == hex_str)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: Signature not added to transaction"));
 	return res;
 }
