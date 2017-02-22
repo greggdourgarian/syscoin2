@@ -2057,7 +2057,7 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 			if (!GetTransaction(outpoint.hash, tx, hashBlock, Params().GetConsensus(), true)
 				continue;
 			if (tx.vout.size() <= outpoint.n)
-				return false;
+				continue;
 			nValueRet += tx.vout[outpoint.n].nValue;
 			CWalletTx wtx(pwalletMain, tx);
 			wtx.nIndex = outpoint.n;
