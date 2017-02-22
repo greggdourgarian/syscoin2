@@ -1999,7 +1999,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     {
         if (coinLowestLarger.second.first == NULL)
             return false;
-        setCoinsRet.insert(coinLowestLarger.second);
+        setCoinsRet.insert(make_pair(*coinLowestLarger.second.first, coinLowestLarger.second.second));
         nValueRet += coinLowestLarger.first;
         return true;
     }
@@ -2019,14 +2019,14 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     if (coinLowestLarger.second.first &&
         ((nBest != nTargetValue && nBest < nTargetValue + MIN_CHANGE) || coinLowestLarger.first <= nBest))
     {
-        setCoinsRet.insert(coinLowestLarger.second);
+        setCoinsRet.insert(make_pair(*coinLowestLarger.second.first, coinLowestLarger.second.second));
         nValueRet += coinLowestLarger.first;
     }
     else {
         for (unsigned int i = 0; i < vValue.size(); i++)
             if (vfBest[i])
             {
-                setCoinsRet.insert(vValue[i].second);
+                setCoinsRet.insert(make_pair(*vValue[i].second.first, vValue[i].second.second)); 
                 nValueRet += vValue[i].first;
             }
 
