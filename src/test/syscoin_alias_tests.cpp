@@ -401,13 +401,16 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 		
 	string tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
 	BOOST_CHECK_EQUAL(tmp, "");
-	// change the multisigs pw
-	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
+	// change the multisigs pw and public data
+	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata1", "\"\"", "\"\"", "newpassword");
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	GenerateBlocks(5, "node2");
 	GenerateBlocks(5);
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	// make sure alias was updated with new public data
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), "pubdata1");
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 9"), runtime_error);
 	GenerateBlocks(5);
