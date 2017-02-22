@@ -2054,7 +2054,7 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 			coinControl->ListSelected(vInputs);
 		BOOST_FOREACH(const COutPoint& outpoint, vInputs)
 		{
-			if (!GetTransaction(outpoint.hash, tx, hashBlock, Params().GetConsensus(), true))
+			if (!GetTransaction(outpoint.hash, tx, Params().GetConsensus(), hashBlock, true))
 				continue;
 			if (tx.vout.size() <= outpoint.n)
 				continue;
