@@ -2088,7 +2088,7 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 				if (!out.fSpendable)
 					 continue;
 				nValueRet += out.tx->vout[out.i].nValue;
-				setCoinsRet.insert(make_pair(*out.tx, out.i));
+				setCoinsRet.insert(make_pair(out.tx, out.i));
 			}
 			return (nValueRet >= nTargetValue);
 		}
