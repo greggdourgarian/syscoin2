@@ -1997,7 +1997,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 
     if (nTotalLower < nTargetValue)
     {
-        if (coinLowestLarger.second.first == NULL)
+        if (coinLowestLarger.second.IsNull())
             return false;
         setCoinsRet.insert(make_pair(*coinLowestLarger.second.first, coinLowestLarger.second.second));
         nValueRet += coinLowestLarger.first;
