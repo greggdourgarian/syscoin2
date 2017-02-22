@@ -69,8 +69,8 @@ const uint256 CMerkleTx::ABANDON_HASH(uint256S("00000000000000000000000000000000
 
 struct CompareValueOnly
 {
-    bool operator()(const pair<CAmount, pair<const CWalletTx*, unsigned int> >& t1,
-                    const pair<CAmount, pair<const CWalletTx*, unsigned int> >& t2) const
+    bool operator()(const pair<CAmount, pair<const CWalletTx, unsigned int> >& t1,
+                    const pair<CAmount, pair<const CWalletTx, unsigned int> >& t2) const
     {
         return t1.first < t2.first;
     }
