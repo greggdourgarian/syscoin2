@@ -1866,7 +1866,7 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
                 continue;
 
             for (unsigned int i = 0; i < pcoin->vout.size(); i++) {
-				// SYSCOIN txs are unspendable by wallet by default unless using coincontrol
+				// SYSCOIN txs are unspendable by wallet unless using coincontrol(and the tx is selected by CC) and not allowing other wallet inputs (fAllowOtherInputs)
 				if(pcoin->nVersion == GetSyscoinTxVersion())
 				{
 					int op;
@@ -1937,7 +1937,7 @@ static void ApproximateBestSubset(vector<pair<CAmount, pair<const CWalletTx*,uns
 }
 
 bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMine, const int nConfTheirs, const uint64_t nMaxAncestors, vector<COutput> vCoins,
-                                 set<pair<const CWalletTx,unsigned int> >& setCoinsRet, CAmount& nValueRet) const
+                                 set<pair<CWalletTx,unsigned int> >& setCoinsRet, CAmount& nValueRet) const
 {
     setCoinsRet.clear();
     nValueRet = 0;
@@ -1970,7 +1970,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 
         if (n == nTargetValue)
         {
-            setCoinsRet.insert(make_pair(*pcoin, i));
+            setCoinsRet.insert(make_pair(*coin.second.first, coin.second.second));
             nValueRet += coin.first;
             return true;
         }
@@ -1989,7 +1989,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     {
         for (unsigned int i = 0; i < vValue.size(); ++i)
         {
-            setCoinsRet.insert(make_pair(*vValue[i].second.first, vValue[i].second.second)); 
+            setCoinsRet.insert(make_pair(*vValue[i].second.first, vValue[i].second.second));
             nValueRet += vValue[i].first;
         }
         return true;
@@ -1997,7 +1997,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 
     if (nTotalLower < nTargetValue)
     {
-        if (coinLowestLarger.second.IsNull())
+        if (coinLowestLarger.second.first == NULL)
             return false;
         setCoinsRet.insert(make_pair(*coinLowestLarger.second.first, coinLowestLarger.second.second));
         nValueRet += coinLowestLarger.first;
@@ -2026,7 +2026,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
         for (unsigned int i = 0; i < vValue.size(); i++)
             if (vfBest[i])
             {
-                setCoinsRet.insert(make_pair(*vValue[i].second.first, vValue[i].second.second)); 
+                setCoinsRet.insert(make_pair(*vValue[i].second.first, vValue[i].second.second));
                 nValueRet += vValue[i].first;
             }
 
@@ -2040,59 +2040,25 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     return true;
 }
 
-bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount& nTargetValue, set<pair<const CWalletTx,unsigned int> >& setCoinsRet, CAmount& nValueRet, const CCoinControl* coinControl) const
+bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount& nTargetValue, set<pair<CWalletTx,unsigned int> >& setCoinsRet, CAmount& nValueRet, const CCoinControl* coinControl) const
 {
     vector<COutput> vCoins(vAvailableCoins);
-	// SYSCOIN
-    if (coinControl && coinControl->HasSelected())
+
+    // coin control -> return all selected outputs (we want all selected to go into the transaction for sure)
+    if (coinControl && coinControl->HasSelected() && !coinControl->fAllowOtherInputs)
     {
-		// add all coin control inputs to setCoinsRet based on UTXO db lookup, and return without adding wallet inputs if target amount is fulfilled
-		CCoinsViewCache view(pcoinsTip);
-		const CCoins *coins;	
-		CTransaction tx;
-		uint256 hashBlock;
-		std::vector<COutPoint> vInputs;
-		if (coinControl)
-			coinControl->ListSelected(vInputs);
-		BOOST_FOREACH(const COutPoint& outpoint, vInputs)
-		{
-			coins = view.AccessCoins(outpoint.hash);
-			if(coins == NULL)
-				continue;
-			// Clearly invalid input, fail
-			if (coins->vout.size() <= outpoint.n)
-				return false;
-			if(!coins->IsAvailable(outpoint.n))
-				continue;
-			auto it = mempool.mapNextTx.find(outpoint);
-			if (it != mempool.mapNextTx.end())
-				continue;
-			if (!GetSyscoinTransaction(coins->nHeight, outpoint.hash, tx, hashBlock, Params().GetConsensus()))
-				continue;
-			nValueRet += coins->vout[outpoint.n].nValue;
-			CWalletTx wtx(pwalletMain, tx);
-			wtx.nIndex = coins->nHeight;
-			wtx.hashBlock = hashBlock;
-			setCoinsRet.insert(make_pair(wtx, outpoint.n));
-		}
-		if(nValueRet >= nTargetValue)
-			return true;
-		// coin control -> return all selected outputs (we want all selected to go into the transaction for sure)
-		if (!coinControl->fAllowOtherInputs)
-		{
-			BOOST_FOREACH(const COutput& out, vCoins)
-			{
-				if (!out.fSpendable)
-					 continue;
-				nValueRet += out.tx->vout[out.i].nValue;
-				setCoinsRet.insert(make_pair(*out.tx, out.i));
-			}
-			return (nValueRet >= nTargetValue);
-		}
-	}
+        BOOST_FOREACH(const COutput& out, vCoins)
+        {
+            if (!out.fSpendable)
+                 continue;
+            nValueRet += out.tx->vout[out.i].nValue;
+            setCoinsRet.insert(make_pair(*out.tx, out.i));
+        }
+        return (nValueRet >= nTargetValue);
+    }
 
     // calculate value from preset inputs and store them
-    set<pair<const CWalletTx, uint32_t> > setPresetCoins;
+    set<pair<CWalletTx, uint32_t> > setPresetCoins;
     CAmount nValueFromPresetInputs = 0;
 
     std::vector<COutPoint> vPresetInputs;
@@ -2262,7 +2228,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
     assert(txNew.nLockTime < LOCKTIME_THRESHOLD);
 
     {
-		set<pair<const CWalletTx,unsigned int> > setCoins;
+		set<pair<CWalletTx,unsigned int> > setCoins;
         LOCK2(cs_main, cs_wallet);
         {
             std::vector<COutput> vAvailableCoins;
@@ -2380,7 +2346,7 @@ bool CWallet::CreateTransaction(const vector<CRecipient>& vecSend, CWalletTx& wt
 						int nLastIndex = setCoins.size()-1;
 						if(nLastIndex < 0)
 							nLastIndex = 0;
-						std::set<pair<const CWalletTx,unsigned int> >::iterator it = setCoins.begin();
+						std::set<pair<CWalletTx,unsigned int> >::iterator it = setCoins.begin();
 						std::advance(it, nLastIndex);
 						if (ExtractDestination(it->first.vout[it->second].scriptPubKey, payDest)) 
 						{
