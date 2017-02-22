@@ -69,8 +69,8 @@ const uint256 CMerkleTx::ABANDON_HASH(uint256S("00000000000000000000000000000000
 
 struct CompareValueOnly
 {
-    bool operator()(const pair<CAmount, pair<const CWalletTx, unsigned int> >& t1,
-                    const pair<CAmount, pair<const CWalletTx, unsigned int> >& t2) const
+    bool operator()(const pair<CAmount, pair<const CWalletTx*, unsigned int> >& t1,
+                    const pair<CAmount, pair<const CWalletTx*, unsigned int> >& t2) const
     {
         return t1.first < t2.first;
     }
@@ -1943,10 +1943,10 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
     nValueRet = 0;
 
     // List of values less than target
-    pair<CAmount, pair<const CWalletTx,unsigned int> > coinLowestLarger;
+    pair<CAmount, pair<const CWalletTx*,unsigned int> > coinLowestLarger;
     coinLowestLarger.first = std::numeric_limits<CAmount>::max();
     coinLowestLarger.second.first = NULL;
-    vector<pair<CAmount, pair<const CWalletTx,unsigned int> > > vValue;
+    vector<pair<CAmount, pair<const CWalletTx*,unsigned int> > > vValue;
     CAmount nTotalLower = 0;
 
     random_shuffle(vCoins.begin(), vCoins.end(), GetRandInt);
@@ -1966,11 +1966,11 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, const int nConfMin
 
         int i = output.i;
         CAmount n = pcoin->vout[i].nValue;
-        pair<CAmount,pair<const CWalletTx,unsigned int> > coin = make_pair(n,make_pair(*pcoin, i));
+        pair<CAmount,pair<const CWalletTx*,unsigned int> > coin = make_pair(n,make_pair(pcoin, i));
 
         if (n == nTargetValue)
         {
-            setCoinsRet.insert(coin.second);
+            setCoinsRet.insert(make_pair(*pcoin, i));
             nValueRet += coin.first;
             return true;
         }
