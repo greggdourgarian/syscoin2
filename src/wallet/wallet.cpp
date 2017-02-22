@@ -2124,7 +2124,7 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
     // remove preset inputs from vCoins
     for (vector<COutput>::iterator it = vCoins.begin(); it != vCoins.end() && coinControl && coinControl->HasSelected();)
     {
-        if (setPresetCoins.count(make_pair(it->tx, it->i)))
+        if (setPresetCoins.count(make_pair(*it->tx, it->i)))
             it = vCoins.erase(it);
         else
             ++it;
