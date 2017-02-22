@@ -424,7 +424,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	redeemScript_value = find_value(resCreate, "redeemScript");
 	BOOST_CHECK(redeemScript_value.isStr());
 	redeemScript = redeemScript_value.get_str();
-	hex_str = AliasUpdate("node2", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5);
@@ -441,7 +441,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 	// create 2 of 3
-	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\", ,\\\"jagnodemultisig3\\\"]\""));	
+	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\", \\\"jagnodemultisig3\\\"]\""));	
 	redeemScript_value = find_value(resCreate, "redeemScript");
 	BOOST_CHECK(redeemScript_value.isStr());
 	redeemScript = redeemScript_value.get_str();
