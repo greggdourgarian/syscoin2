@@ -2046,7 +2046,9 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 	// SYSCOIN
     if (coinControl && coinControl->HasSelected())
     {
-		// add all coin control inputs to setCoinsRet based on tx db lookup, and return without adding wallet inputs if target amount is fulfilled	
+		// add all coin control inputs to setCoinsRet based on UTXO db lookup, and return without adding wallet inputs if target amount is fulfilled
+		CCoinsViewCache view(pcoinsTip);
+		const CCoins *coins;	
 		CTransaction tx;
 		uint256 hashBlock;
 		std::vector<COutPoint> vInputs;
@@ -2054,13 +2056,22 @@ bool CWallet::SelectCoins(const vector<COutput>& vAvailableCoins, const CAmount&
 			coinControl->ListSelected(vInputs);
 		BOOST_FOREACH(const COutPoint& outpoint, vInputs)
 		{
-			if (!GetTransaction(outpoint.hash, tx, Params().GetConsensus(), hashBlock, true))
+			coins = view.AccessCoins(outpoint.hash);
+			if(coins == NULL)
 				continue;
-			if (tx.vout.size() <= outpoint.n)
+			// Clearly invalid input, fail
+			if (coins->vout.size() <= outpoint.n)
+				return false;
+			if(!coins->IsAvailable(outpoint.n))
 				continue;
-			nValueRet += tx.vout[outpoint.n].nValue;
+			auto it = mempool.mapNextTx.find(outpoint);
+			if (it != mempool.mapNextTx.end())
+				continue;
+			if (!GetSyscoinTransaction(coins->nHeight, outpoint.hash, tx, hashBlock, Params().GetConsensus()))
+				continue;
+			nValueRet += coins->vout[outpoint.n].nValue;
 			CWalletTx wtx(pwalletMain, tx);
-			wtx.nIndex = outpoint.n;
+			wtx.nIndex = coins->nHeight;
 			wtx.hashBlock = hashBlock;
 			setCoinsRet.insert(make_pair(&wtx, outpoint.n));
 		}
