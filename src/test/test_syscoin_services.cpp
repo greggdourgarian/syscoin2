@@ -834,15 +834,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 	BOOST_CHECK_EQUAL(newPassword, myPassword);
 	if(newPassword != oldPassword)
 	{
-		if(redeemScript != "\"\"")
-		{
-			if(oldRedeemScript != redeemScript)
-				BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-			else
-				BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , address);
-		}
-		else
-			BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 		BOOST_CHECK(find_value(r.get_obj(), "publickey").get_str() != publickey);
 		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
 	}
@@ -873,15 +864,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
 		if(newPassword != oldPassword)
 		{
-			if(redeemScript != "\"\"")
-			{
-				if(oldRedeemScript != redeemScript)
-					BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-				else
-					BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , address);
-			}
-			else
-				BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 			BOOST_CHECK(find_value(r.get_obj(), "publickey").get_str() != publickey);
 			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
 		}
@@ -912,15 +894,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 		if(newPassword != oldPassword)
 		{
-			if(redeemScript != "\"\"")
-			{
-				if(oldRedeemScript != redeemScript)
-					BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
-				else
-					BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , address);
-			}
-			else
-				BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 			BOOST_CHECK(find_value(r.get_obj(), "publickey").get_str() != publickey);
 			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
 		}
