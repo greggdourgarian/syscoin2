@@ -834,7 +834,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 	BOOST_CHECK_EQUAL(newPassword, myPassword);
 	if(newPassword != oldPassword)
 	{
-		if(oldRedeemScript != redeemScript)
+		if(oldRedeemScript != redeemScript && redeemScript != "\"\"")
 			BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 		else
 			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , address);
@@ -868,7 +868,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "aliasinfo " + aliasname));
 		if(newPassword != oldPassword)
 		{
-			if(oldRedeemScript != redeemScript)
+			if(oldRedeemScript != redeemScript && redeemScript != "\"\"")
 				BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 			else
 				BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , address);
@@ -902,7 +902,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "aliasinfo " + aliasname));
 		if(newPassword != oldPassword)
 		{
-			if(oldRedeemScript != redeemScript)
+			if(oldRedeemScript != redeemScript && redeemScript != "\"\"")
 				BOOST_CHECK(find_value(r.get_obj(), "address").get_str() != address);
 			else
 				BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , address);
