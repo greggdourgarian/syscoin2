@@ -848,9 +848,9 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 1, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.vchRedeemScript.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(theAlias.vchAlias));
@@ -991,9 +991,9 @@ UniValue certupdate(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);	
+	SendMoneySyscoin(theAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 1, &coinControl);	
  	UniValue res(UniValue::VARR);
-	if(theAlias.vchRedeemScript.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(theAlias.vchAlias));
@@ -1116,10 +1116,10 @@ UniValue certtransfer(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(fromAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, fromAlias.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(fromAlias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, fromAlias.vchRedeemScript.size() > 1, &coinControl);
 
 	UniValue res(UniValue::VARR);
-	if(fromAlias.vchRedeemScript.size() > 0)
+	if(fromAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(fromAlias.vchAlias));

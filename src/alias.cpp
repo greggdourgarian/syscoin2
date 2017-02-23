@@ -1918,7 +1918,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = true;
 	bool useOnlyAliasPaymentToFund = false;
 
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.vchRedeemScript.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.vchRedeemScript.size() > 1 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
 	{
@@ -1926,7 +1926,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		res.push_back(strPublicKey);
 		res.push_back("false");
 	}
-	else if(oldAlias.vchRedeemScript.size() > 0)
+	else if(oldAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(oldAlias.vchAlias));
@@ -2085,7 +2085,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	if(strRedeemScript == " ")
 		theAlias.vchRedeemScript = vchFromString(strRedeemScript);
-	else if(!strRedeemScript.empty())
+	else if(strRedeemScript.size() > 1)
 		theAlias.vchRedeemScript = ParseHex(strRedeemScript);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.vchPubKey = vchPubKeyByte;
@@ -2141,14 +2141,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		CScript inner(copyAlias.vchRedeemScript.begin(), copyAlias.vchRedeemScript.end());
 		pwalletMain->AddCScript(inner);
 	}
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, copyAlias.vchRedeemScript.size() > 0 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, transferAlias);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, copyAlias.vchRedeemScript.size() > 1 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, transferAlias);
 	UniValue res(UniValue::VARR);
 	if(strWalletless == "Yes")
 	{
 		res.push_back(EncodeHexTx(wtx));
 		res.push_back("false");
 	}
-	else if(copyAlias.vchRedeemScript.size() > 0)
+	else if(copyAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(copyAlias.vchAlias));
@@ -2394,7 +2394,7 @@ bool IsMyAlias(const CAliasIndex& alias)
 
 	CPubKey aliasPubKey(alias.vchPubKey);
 	CSyscoinAddress address(aliasPubKey.GetID());
-	if(alias.vchRedeemScript.size() > 0)
+	if(alias.vchRedeemScript.size() > 1)
 	{
 		CScript inner(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end());
 		return IsMine(*pwalletMain, inner);

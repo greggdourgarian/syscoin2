@@ -1546,9 +1546,9 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
 	bool useOnlyAliasPaymentToFund = true;
-	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyeralias.vchRedeemScript.size() > 0, &coinControl, useOnlyAliasPaymentToFund);
+	SendMoneySyscoin(buyeralias.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, buyeralias.vchRedeemScript.size() > 1, &coinControl, useOnlyAliasPaymentToFund);
 	UniValue res(UniValue::VARR);
-	if(buyeralias.vchRedeemScript.size() > 0)
+	if(buyeralias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(buyeralias.vchAlias));
@@ -1868,9 +1868,9 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 1, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.vchRedeemScript.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(theAlias.vchAlias));
@@ -2023,9 +2023,9 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, sellerAliasLatest.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, sellerAliasLatest.vchRedeemScript.size() > 1, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(sellerAliasLatest.vchRedeemScript.size() > 0)
+	if(sellerAliasLatest.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(sellerAliasLatest.vchAlias));
@@ -2684,9 +2684,9 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 1, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.vchRedeemScript.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(theAlias.vchAlias));
@@ -3265,9 +3265,9 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, theAlias.vchRedeemScript.size() > 1, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(theAlias.vchRedeemScript.size() > 0)
+	if(theAlias.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(theAlias.vchAlias));

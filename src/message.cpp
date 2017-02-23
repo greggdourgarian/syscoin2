@@ -559,9 +559,9 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;	
-	SendMoneySyscoin(aliasFrom.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, aliasFrom.vchRedeemScript.size() > 0, &coinControl);
+	SendMoneySyscoin(aliasFrom.vchAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, aliasFrom.vchRedeemScript.size() > 1, &coinControl);
 	UniValue res(UniValue::VARR);
-	if(aliasFrom.vchRedeemScript.size() > 0)
+	if(aliasFrom.vchRedeemScript.size() > 1)
 	{
 		UniValue signParams(UniValue::VARR);
 		signParams.push_back(stringFromVch(aliasFrom.vchAlias));
