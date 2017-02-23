@@ -2374,8 +2374,16 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 		if (!returnRes.isStr())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not send raw transaction: Invalid response from sendrawtransaction"));
 	}
-	else if(hexstring == hex_str)
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: Signature not added to transaction"));
+	else
+	{
+		const UniValue& error_value = find_value(so, "errors");
+		if(error_value.isObj())
+		{
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: " + find_value(error_value.get_obj(), "error").get_str()));
+		}
+		if(hexstring == hex_str)
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: Signature not added to transaction"));
+	}
 	return res;
 }
 bool IsMyAlias(const CAliasIndex& alias)
