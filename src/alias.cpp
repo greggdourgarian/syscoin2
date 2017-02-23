@@ -2084,7 +2084,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	if(strRedeemScript.size() <= 1)
-		theAlias.vchRedeemScript = stringFromVch(" ");
+		theAlias.vchRedeemScript = vchFromString(" ");
 	else if(!strRedeemScript.empty())
 		theAlias.vchRedeemScript = ParseHex(strRedeemScript);
 	theAlias.vchAliasPeg = vchAliasPeg;
