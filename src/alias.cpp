@@ -1113,7 +1113,7 @@ void GetAddress(const CSyscoinAddress& addressIn, CSyscoinAddress* address,const
 		return;
 	CPubKey aliasPubKey(addressIn.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(!addressIn.vchRedeemScript.size() > 1)
+	if(addressIn.vchRedeemScript.size() > 1)
 	{
 		CScriptID innerID(CScript(addressIn.vchRedeemScript.begin(), addressIn.vchRedeemScript.end()));
 		address[0] = CSyscoinAddress(innerID, myAddressType);
@@ -1127,7 +1127,7 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_
 		return;
 	CPubKey aliasPubKey(alias.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(!alias.vchRedeemScript.empty())
+	if(alias.vchRedeemScript.size() > 1)
 	{
 		CScriptID innerID(CScript(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end()));
 		address[0] = CSyscoinAddress(innerID, myAddressType);
@@ -1141,7 +1141,7 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& scri
 		return;
 	CPubKey aliasPubKey(alias.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(!alias.vchRedeemScript.size() > 1)
+	if(alias.vchRedeemScript.size() > 1)
 	{
 		CScriptID innerID(CScript(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end()));
 		address[0] = CSyscoinAddress(innerID, myAddressType);
@@ -2134,7 +2134,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(newAddress.ToString() != oldAddress.ToString())
 		transferAlias = true;
 	
-	if(pwalletMain && !copyAlias.vchRedeemScript.size() > 1)
+	if(pwalletMain && copyAlias.vchRedeemScript.size() > 1)
 	{
 		CScript inner(copyAlias.vchRedeemScript.begin(), copyAlias.vchRedeemScript.end());
 		pwalletMain->AddCScript(inner);
@@ -2329,7 +2329,7 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5531 - " + _("Could not find an alias with this name"));
 
-	if(pwalletMain && !theAlias.vchRedeemScript.size() > 1)
+	if(pwalletMain && theAlias.vchRedeemScript.size() > 1)
 	{
 		CScript inner(theAlias.vchRedeemScript.begin(), theAlias.vchRedeemScript.end());
 		pwalletMain->AddCScript(inner);
