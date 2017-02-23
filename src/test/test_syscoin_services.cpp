@@ -858,7 +858,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , oldPasswordSalt);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publickey").get_str() , publickey);
 	}
-	if(redeemScript == "\"\"")
+	if(find_value(r.get_obj(), "redeemscript").get_str().size() <= 1)
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	
 	
@@ -879,7 +879,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		if(redeemScript == "\"\"")
+		if(find_value(r.get_obj(), "redeemscript").get_str().size() <= 1)
 			BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 
@@ -912,7 +912,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
-		if(redeemScript == "\"\"")
+		if(find_value(r.get_obj(), "redeemscript").get_str().size() <= 1)
 			BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
 

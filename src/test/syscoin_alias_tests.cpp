@@ -456,13 +456,13 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), redeemScript);
 	// 2 sigs needed, remove redeemScript to make it a normal alias
-	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", " ");
+	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", "X");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
 	GenerateBlocks(5, "node3");
 	GenerateBlocks(5);
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), " ");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), "X");
 	balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 7"), runtime_error);
 	GenerateBlocks(5);
