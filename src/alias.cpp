@@ -2341,10 +2341,10 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	}
 	catch (UniValue& objError)
 	{
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5532 - " + _("Could not sign multisig transaction: ") + find_value(objError, "message").get_str());
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5532 - " + _("Could not sign raw transaction: ") + find_value(objError, "message").get_str());
 	}	
 	if (!res.isObject())
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5533 - " + _("Could not sign multisig transaction: Invalid response from signrawtransaction"));
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5533 - " + _("Could not sign raw transaction: Invalid response from signrawtransaction"));
 	
 	const UniValue& so = res.get_obj();
 	string hex_str = "";
@@ -2378,10 +2378,10 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 		const UniValue& error_value = find_value(so, "errors");
 		if(error_value.isObject())
 		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: ") + find_value(error_value.get_obj(), "error").get_str());
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign raw transaction: ") + find_value(error_value.get_obj(), "error").get_str());
 		}
 		if(hexstring == hex_str)
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: Signature not added to transaction"));
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign raw transaction: Signature not added to transaction"));
 	}
 	return res;
 }
