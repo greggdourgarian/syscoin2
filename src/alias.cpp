@@ -2048,14 +2048,14 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Could not find an alias with this name"));
 
-	if(!strRedeemScript.empty())
+	if(strRedeemScript.size() > 1)
 	{
 		vector<vector<unsigned char> > vSolutions;
 		txnouttype whichType;
 		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
 		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
 		if (!Solver(redeemScript, whichType, vSolutions))
-			strRedeemScript.clear();
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Invalid redeem script"));
 	}
 
 	CSyscoinAddress oldAddress;
