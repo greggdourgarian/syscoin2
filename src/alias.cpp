@@ -2377,7 +2377,7 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	else
 	{
 		const UniValue& error_value = find_value(so, "errors");
-		if(error_value.isObj())
+		if(error_value.isObject())
 		{
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: " + find_value(error_value.get_obj(), "error").get_str()));
 		}
