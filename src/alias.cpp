@@ -952,8 +952,6 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						{
 							theAlias.vchPassword.clear();
 							theAlias.vchPasswordSalt.clear();
-							// on transfer cannot change alias redeemscript
-							theAlias.vchRedeemScript = dbAlias.vchRedeemScript;
 						}
 						CSyscoinAddress myAddress;
 						GetAddress(theAlias, &myAddress);
