@@ -1852,7 +1852,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(aliasExists && !isExpired)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("This alias already exists"));
 
-	CPubKey pubKey = CPubKey(ParseHex(strPublicKey));
 	const vector<unsigned char> &vchRandAlias = vchFromString(GenerateSyscoinGuid());
 
     // build alias
@@ -2379,7 +2378,7 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 		const UniValue& error_value = find_value(so, "errors");
 		if(error_value.isObject())
 		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: " + find_value(error_value.get_obj(), "error").get_str()));
+			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: ") + find_value(error_value.get_obj(), "error").get_str());
 		}
 		if(hexstring == hex_str)
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign multisig transaction: Signature not added to transaction"));
