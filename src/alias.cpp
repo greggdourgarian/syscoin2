@@ -928,6 +928,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchEncryptionPublicKey = dbAlias.vchEncryptionPublicKey;
 					if(theAlias.vchPasswordSalt.empty())
 						theAlias.vchPasswordSalt = dbAlias.vchPasswordSalt;
+					if(theAlias.vchRedeemScript.empty())
+						theAlias.vchRedeemScript = dbAlias.vchRedeemScript;
 					if(theAlias.vchPassword.empty())
 						theAlias.vchPassword = dbAlias.vchPassword;
 					else
@@ -1024,7 +1026,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		PutToAliasList(vtxPos, theAlias);
 		vector<unsigned char> vchMasterAddress;
 		// store the alias owner address linked back to the alias because if we use the redeemscript alias in an escrow we need to be able to lookup the alias from the owner address
-		if(!theAlias.vchRedeemScript.empty())
+		if(theAlias.vchRedeemScript.size() > 1)
 		{
 			CSyscoinAddress masterAddress(CPubKey(theAlias.vchPubKey).GetID());
 			vchMasterAddress = vchFromString(masterAddress.ToString());
@@ -1113,7 +1115,7 @@ void GetAddress(const CSyscoinAddress& addressIn, CSyscoinAddress* address,const
 		return;
 	CPubKey aliasPubKey(addressIn.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(!addressIn.vchRedeemScript.empty())
+	if(!addressIn.vchRedeemScript.size() > 1)
 	{
 		CScriptID innerID(CScript(addressIn.vchRedeemScript.begin(), addressIn.vchRedeemScript.end()));
 		address[0] = CSyscoinAddress(innerID, myAddressType);
@@ -1141,7 +1143,7 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& scri
 		return;
 	CPubKey aliasPubKey(alias.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(!alias.vchRedeemScript.empty())
+	if(!alias.vchRedeemScript.size() > 1)
 	{
 		CScriptID innerID(CScript(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end()));
 		address[0] = CSyscoinAddress(innerID, myAddressType);
@@ -2081,7 +2083,9 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPassword = ParseHex(strPassword);
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
-	if(!strRedeemScript.empty())
+	if(strRedeemScript.size() <= 1)
+		theAlias.vchRedeemScript = stringFromVch(" ");
+	else if(!strRedeemScript.empty())
 		theAlias.vchRedeemScript = ParseHex(strRedeemScript);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.vchPubKey = vchPubKeyByte;
@@ -2132,7 +2136,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(newAddress.ToString() != oldAddress.ToString())
 		transferAlias = true;
 	
-	if(pwalletMain && !copyAlias.vchRedeemScript.empty())
+	if(pwalletMain && !copyAlias.vchRedeemScript.size() > 1)
 	{
 		CScript inner(copyAlias.vchRedeemScript.begin(), copyAlias.vchRedeemScript.end());
 		pwalletMain->AddCScript(inner);
@@ -2327,7 +2331,7 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5531 - " + _("Could not find an alias with this name"));
 
-	if(pwalletMain && !theAlias.vchRedeemScript.empty())
+	if(pwalletMain && !theAlias.vchRedeemScript.size() > 1)
 	{
 		CScript inner(theAlias.vchRedeemScript.begin(), theAlias.vchRedeemScript.end());
 		pwalletMain->AddCScript(inner);
