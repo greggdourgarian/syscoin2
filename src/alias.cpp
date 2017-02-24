@@ -740,7 +740,10 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			if(prevCoins == NULL)
 				continue;
 			if(prevCoins->vout.size() <= prevOutput->n || !IsSyscoinScript(prevCoins->vout[prevOutput->n].scriptPubKey, pop, vvch) || pop == OP_ALIAS_PAYMENT)
+			{
+				prevCoins = NULL;
 				continue;
+			}
 
 			if (IsAliasOp(pop) && vvchArgs[0] == vvch[0]) {
 				prevOp = pop;
@@ -899,10 +902,9 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				else
 				{
-					const CAliasIndex& destAlias = vtxPos.back();
 					CSyscoinAddress prevaddy(aliasDest);	
 					CSyscoinAddress destaddy;
-					GetAddress(destAlias, &destaddy);
+					GetAddress(dbAlias, &destaddy);
 					if(destaddy.ToString() != prevaddy.ToString())
 					{
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5021 - " + _("You are not the owner of this alias");

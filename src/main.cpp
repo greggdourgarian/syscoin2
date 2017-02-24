@@ -1164,6 +1164,7 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, b
 				break;
 			if(DecodeAliasScript(tx.vout[j].scriptPubKey, op, vvchArgs))
 			{
+				errorMessage.clear();
 				good = CheckAliasInputs(tx, op, j, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);
 				if(fDebug && !errorMessage.empty())
 					LogPrintf("%s\n", errorMessage.c_str());
@@ -1173,24 +1174,28 @@ bool CheckSyscoinInputs(const CTransaction& tx, const CCoinsViewCache& inputs, b
 		{
 			if(DecodeCertTx(tx, op, nOut, vvchArgs))
 			{
+				errorMessage.clear();
 				good = CheckCertInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	
 				if(fDebug && !errorMessage.empty())
 					LogPrintf("%s\n", errorMessage.c_str());
 			}
 			else if(DecodeEscrowTx(tx, op, nOut, vvchArgs))
 			{
+				errorMessage.clear();
 				good = CheckEscrowInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);		
 				if(fDebug && !errorMessage.empty())
 					LogPrintf("%s\n", errorMessage.c_str());
 			}
 			else if(DecodeMessageTx(tx, op, nOut, vvchArgs))
 			{
+				errorMessage.clear();
 				good = CheckMessageInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	
 				if(fDebug && !errorMessage.empty())
 					LogPrintf("%s\n", errorMessage.c_str());
 			}
 			else if(DecodeOfferTx(tx, op, nOut, vvchArgs))
 			{	
+				errorMessage.clear();
 				good = CheckOfferInputs(tx, op, nOut, vvchArgs, inputs, fJustCheck, nHeight, errorMessage);	 
 				if(fDebug && !errorMessage.empty())
 					LogPrintf("%s\n", errorMessage.c_str());
