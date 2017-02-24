@@ -2107,7 +2107,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 	// if redeem script is empty meaning don't update it, use the stored db redeem script to get address
-	if(strRedeemScript.size() <= 1)
+	if(strRedeemScript.empty())
 		theAlias.vchRedeemScript = copyAlias.vchRedeemScript;
 	GetAddress(theAlias, &newAddress, scriptPubKeyOrig);
 

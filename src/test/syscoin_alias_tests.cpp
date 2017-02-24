@@ -417,7 +417,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	CAmount balanceBefore = 19*COIN;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	BOOST_CHECK(abs(balanceBefore - balanceAfter) < COIN);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), redeemScript);
 	hex_str = AliasUpdate("node2", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
 	BOOST_CHECK(hex_str != "");
@@ -442,7 +442,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	balanceBefore += 8*COIN;
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	BOOST_CHECK(abs(balanceBefore - balanceAfter) < COIN);
 	// create 2 of 3
 	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\", \\\"jagnodemultisig3\\\"]\""));	
 	redeemScript_value = find_value(resCreate, "redeemScript");
@@ -465,7 +465,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	balanceBefore += 7*COIN;
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	BOOST_CHECK(abs(balanceBefore - balanceAfter) < COIN);
 
 	// no multisig so update as normal
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	balanceBefore += 6*COIN;
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
-	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
+	BOOST_CHECK(abs(balanceBefore - balanceAfter) < COIN);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfermultisig)
 {
