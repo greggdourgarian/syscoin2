@@ -3093,6 +3093,7 @@ UniValue aliasdecodemultisigredeemscript(const UniValue& params, bool fHelp) {
         if (!pubKey.IsValid())
             continue;
 		CSyscoinAddress address(pubKey.GetID());
+		address = CSyscoinAddress(address.ToString());
 		if(address.IsValid() && address.isAlias)
 			oRedeemKeys.push_back(address.aliasName);		
     }
