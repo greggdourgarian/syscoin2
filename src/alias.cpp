@@ -2101,11 +2101,15 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	CSyscoinAddress newAddress;
 	CScript scriptPubKeyOrig;
-	GetAddress(theAlias, &newAddress, scriptPubKeyOrig);
+	
 	vector<unsigned char> data;
 	theAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
+	// if redeem script is empty meaning don't update it, use the stored db redeem script to get address
+	if(strRedeemScript.size() <= 1)
+		theAlias.vchRedeemScript = copyAlias.vchRedeemScript;
+	GetAddress(theAlias, &newAddress, scriptPubKeyOrig);
 
 	CScript scriptPubKey;
 	scriptPubKey << CScript::EncodeOP_N(OP_ALIAS_UPDATE) << copyAlias.vchAlias << copyAlias.vchGUID << vchHashAlias << OP_2DROP << OP_2DROP;
