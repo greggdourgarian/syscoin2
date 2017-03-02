@@ -1024,7 +1024,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
 		aliasUnprunable.nExpireTime = theAlias.nExpireTime;
-		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, theAlias.vchAddress, vtxPos))
+		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(EncodeBase58(theAlias.vchAddress)), vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5034 - " + _("Failed to write to alias DB");
 			return error(errorMessage.c_str());
@@ -1360,8 +1360,7 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 
 bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, std::vector<unsigned char> &vchPubKey) {
 
-	vector<unsigned char> vchAddress;
-	DecodeBase58(strAddress, vchAddress);
+	const vector<unsigned char> &vchAddress = vchFromString(strAddress);
 	if (!paliasdb || !paliasdb->ExistsAddress(vchAddress))
 		return false;
 
