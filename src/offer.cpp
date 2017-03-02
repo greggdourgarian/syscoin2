@@ -1199,7 +1199,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				theOffer.vchCert = linkOffer.vchCert;
 				theOffer.paymentOptions = linkOffer.paymentOptions;
 				theOffer.bCoinOffer = linkOffer.bCoinOffer;
-				theOffer.fUnits = linkOffer.fUnits
+				theOffer.fUnits = linkOffer.fUnits;
 				theOffer.SetPrice(linkOffer.nPrice);
 			}
 		}
@@ -1421,7 +1421,7 @@ UniValue offerlink(const UniValue& params, bool fHelp) {
 	{
 
 		vchDetails = vchFromValue(params[3]);
-		if(vchDesc.empty())
+		if(vchDetails.empty())
 		{
 			vchDetails = linkOffer.sDetails;
 		}
@@ -2641,6 +2641,7 @@ UniValue offeracceptfeedback(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = false;
 	SendMoneySyscoin(vchLinkAlias, recipientAlias, recipientPaymentAlias, vecSend, wtx, &coinControl);
 	UniValue res(UniValue::VARR);
+	UniValue signParams(UniValue::VARR);
 	signParams.push_back(EncodeHexTx(wtx));
 	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
 	const UniValue& so = resSign.get_obj();
@@ -2924,7 +2925,7 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	oOffer.push_back(Pair("details", stringFromVch(theOffer.sDetails)));
 	oOffer.push_back(Pair("alias", stringFromVch(theOffer.vchAlias)));
 	oOffer.push_back(Pair("encryption_publickey", HexStr(vchEncryptionPublicKey)));
-	oOffer.push_back(Pair("address", EncodeBase58(alias.vchAddress));
+	oOffer.push_back(Pair("address", EncodeBase58(alias.vchAddress)));
 
 	float rating = 0;
 	if(alias.nRatingCountAsSeller > 0)
@@ -3173,7 +3174,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 	map<uint256, uint64_t> vtxHeight;
 	CTransaction tx;
 	CAliasIndex txPos;
-	CAliasIndex txPaymentPos;
+	CAliasPayment txPaymentPos;
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
 	map< vector<unsigned char>, UniValue > vNamesO;
@@ -3206,7 +3207,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				vtxHeight[txPaymentPos.txHash] = txPaymentPos.nHeight;
 			}
 			CTransaction tx;
-			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
+			for(map<uint256, CTransaction>::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
 				const uint64_t& nHeight = vtxHeight[it->first]->second;
 				const Ctransaction& tx = it->second;
 				

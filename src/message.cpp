@@ -604,7 +604,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 				continue;
 			CTransaction tx;
-			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+			for(map<uint256, CTransaction>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 				const CAliasIndex& theAlias = *it;
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;
@@ -757,7 +757,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 			if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 				continue;
 			CTransaction tx;
-			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
+			for(map<uint256, CTransaction>::reverse_iterator it = vtxPos.rbegin(); it != vtxPos.rend(); ++it) {
 				const CAliasIndex& theAlias = *it;
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;

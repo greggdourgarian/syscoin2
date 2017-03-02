@@ -3459,7 +3459,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 	map<uint256, uint64_t> vtxHeight;
 	CTransaction tx;
 	CAliasIndex txPos;
-	CAliasIndex txPaymentPos;
+	CAliasPayment txPaymentPos;
 
 	UniValue oRes(UniValue::VARR);
 	map< vector<unsigned char>, int > vNamesI;
