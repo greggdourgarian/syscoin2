@@ -606,7 +606,7 @@ UniValue messagereceivelist(const UniValue& params, bool fHelp) {
 				continue;
 			CTransaction tx;
 			for(auto& it : boost::adaptors::reverse(vtxPos)) {
-				const CAliasIndex& theAlias = *it;
+				const CAliasIndex& theAlias = it;
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;
 				CMessage message(tx);
@@ -759,7 +759,7 @@ UniValue messagesentlist(const UniValue& params, bool fHelp) {
 				continue;
 			CTransaction tx;
 			for(auto& it : boost::adaptors::reverse(vtxPos)) {
-				const CAliasIndex& theAlias = *it;
+				const CAliasIndex& theAlias = it;
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;
 				CMessage message(tx);
@@ -825,8 +825,8 @@ void MessageTxToJSON(const int op, const std::vector<unsigned char> &vchData, co
 	string strEncryptionPrivateKeyTo = "";
 	string strKey = "";
 
-	strEncryptionPrivateKeyFrom = HexStr(alias.vchEncryptionPrivateKeyFrom);
-	strEncryptionPrivateKeyTo = HexStr(alias.vchEncryptionPrivateKeyTo);
+	strEncryptionPrivateKeyFrom = HexStr(message.vchEncryptionPrivateKeyFrom);
+	strEncryptionPrivateKeyTo = HexStr(message.vchEncryptionPrivateKeyTo);
 
 	entry.push_back(Pair("encryption_privatekey_from", strEncryptionPrivateKeyFrom));
 	entry.push_back(Pair("encryption_privatekey_to", strEncryptionPrivateKeyTo));

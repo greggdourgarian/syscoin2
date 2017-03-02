@@ -1080,7 +1080,7 @@ UniValue certlist(const UniValue& params, bool fHelp) {
 				continue;
 			CTransaction tx;
 			for(auto& it : boost::adaptors::reverse(vtxPos)) {
-				const CAliasIndex& theAlias = *it;
+				const CAliasIndex& theAlias = it;
 				if(!GetSyscoinTransaction(theAlias.nHeight, theAlias.txHash, tx, Params().GetConsensus()))
 					continue;
 				CCert cert(tx);

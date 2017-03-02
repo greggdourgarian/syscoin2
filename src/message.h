@@ -119,7 +119,7 @@ public:
     bool ExistsMessage(const std::vector<unsigned char>& name) {
         return Exists(make_pair(std::string("messagei"), name));
     }
-	bool GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
+	bool GetDBMessages(std::vector<std::vector<CMessage> >& message, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };
@@ -127,4 +127,5 @@ public:
 bool GetTxOfMessage(const std::vector<unsigned char> &vchMessage, CTransaction& tx);
 bool BuildMessageJson(const CMessage& message, UniValue& oName, const std::string &strWalletless="");
 uint64_t GetMessageExpiration(const CMessage& message);
+bool BuildMessageStatsJson(const std::vector<CMessage> &messages, UniValue& oMessageStats);
 #endif // MESSAGE_H
