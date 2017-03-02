@@ -757,8 +757,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		myPassword = oldPassword;
 	else if(!oldPassword.empty())
 		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + oldPassword + " " + oldPasswordSalt + " Yes"));
-	string address = find_value(r.get_obj(), "address").get_str();
-	
 	CAmount balanceBefore = AmountFromValue(find_value(r.get_obj(), "balance"));
 
 	string strCipherPrivateData = "";
@@ -830,7 +828,11 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 	{
 		BOOST_CHECK(find_value(r.get_obj(), "publickey").get_str() != publickey);
 		BOOST_CHECK_NO_THROW(CallRPC(node, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
+		if(addressStr == "\"\"")
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 	}
+	else
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
@@ -840,7 +842,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , password != "\"\""? password: oldPassword);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , encryptionprivkey);
 	if(password == "\"\"")
@@ -858,8 +859,11 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		{
 			BOOST_CHECK(find_value(r.get_obj(), "publickey").get_str() != publickey);
 			BOOST_CHECK_NO_THROW(CallRPC(otherNode1, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
+			if(addressStr == "\"\"")
+				BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 		}
-
+		else
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);	
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
@@ -870,7 +874,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
 		if(password == "\"\"")
@@ -886,7 +889,11 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		{
 			BOOST_CHECK(find_value(r.get_obj(), "publickey").get_str() != publickey);
 			BOOST_CHECK_NO_THROW(CallRPC(otherNode2, "aliasauthenticate " + aliasname + " " + myPassword + " " + newPasswordSalt + " Yes"));
+			if(addressStr == "\"\"")
+				BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 		}
+		else
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
 		balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 		BOOST_CHECK(abs(balanceBefore-balanceAfter) < COIN);
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
@@ -897,7 +904,6 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 		
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
 		if(password == "\"\"")
