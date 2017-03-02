@@ -928,7 +928,7 @@ bool CMessageDB::GetDBMessages(std::vector<CMessage>& messages, const uint64_t &
 				if(aliasArray.size() > 0)
 				{
 					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAliasTo)) == aliasArray.end() &&
-						std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAliasFrom)) == aliasArray.end()
+						std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAliasFrom)) == aliasArray.end())
 					{
 						pcursor->Next();
 						continue;
