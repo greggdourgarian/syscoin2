@@ -272,16 +272,16 @@ bool EditCertDialog::saveCurrentRow()
 	UniValue params(UniValue::VARR);
 	string strMethod;
 	QVariant currentCategory;
+	CKey privEncryptionKey;
+	CPubKey pubEncryptionKey;
+	vector<unsigned char> vchPrivEncryptionKey, vchPubEncryptionKey;
     switch(mode)
     {
     case NewCert:
-		CKey privEncryptionKey;
 		privEncryptionKey.MakeNewKey(true);
-		CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
-		vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
-		
-		BOOST_CHECK(pubEncryptionKey.IsFullyValid());
-		vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
+		pubEncryptionKey = privEncryptionKey.GetPubKey();
+		vchPrivEncryptionKey = vector<unsigned char>(privEncryptionKey.begin(), privEncryptionKey.end());
+		vchPubEncryptionKey = vector<unsigned char>(pubEncryptionKey.begin(), pubEncryptionKey.end());
 		
 		privdata = ui->certDataEdit->toPlainText().toStdString();
 		if(privdata != m_oldprivatevalue.toStdString())
@@ -293,7 +293,7 @@ bool EditCertDialog::saveCurrentRow()
 						QMessageBox::Ok, QMessageBox::Ok);
 					return false;
 			}
-			if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString(), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
+			if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
 			{
 					QMessageBox::critical(this, windowTitle(),
 						tr("Could not encrypt certificate private encryption key!"),
@@ -377,7 +377,7 @@ bool EditCertDialog::saveCurrentRow()
 							QMessageBox::Ok, QMessageBox::Ok);
 						return false;
 				}
-				if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString(), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
+				if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
 				{
 						QMessageBox::critical(this, windowTitle(),
 							tr("Could not encrypt certificate private encryption key!"),
@@ -465,7 +465,7 @@ bool EditCertDialog::saveCurrentRow()
 							QMessageBox::Ok, QMessageBox::Ok);
 						return false;
 				}
-				if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString(), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
+				if(!EncryptMessage(ParseHex(m_encryptionkey.toStdString()), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKey))
 				{
 						QMessageBox::critical(this, windowTitle(),
 							tr("Could not encrypt certificate private encryption key!"),
