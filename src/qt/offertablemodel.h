@@ -23,7 +23,7 @@ public:
         Name = 0,   /**< offer name */
 		Cert = 1, 
 		Details = 2,
-		Price = 3
+		Price = 3,
 		Currency = 4,
 		Qty = 5,
 		Expired = 6,
