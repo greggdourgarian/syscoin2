@@ -69,10 +69,10 @@ BOOST_AUTO_TEST_CASE (generate_aliasupdate)
 	AliasUpdate("node1", "jagupdate");
 	AliasUpdate("node1", "jagupdate1");
 	// update password only
-	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "\"\"", "newpass");
-	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "\"\"", "newpass1");
-	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"", "\"\"", "newpass");
-	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"", "\"\"", "newpass1");
+	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "newpass");
+	AliasUpdate("node1", "jagupdate", "\"\"", "\"\"", "newpass1");
+	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"","newpass");
+	AliasUpdate("node1", "jagupdate1", "\"\"", "\"\"","newpass1");
 
 }
 BOOST_AUTO_TEST_CASE (generate_aliasmultiupdate)
@@ -319,7 +319,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalance)
 	BOOST_CHECK_EQUAL(balanceBefore, balanceAfter);
 
 	// edit password and see balance is same
-	AliasUpdate("node2", "jagnodebalance1", "pubdata1", "privdata1", "No", "newpassword");
+	AliasUpdate("node2", "jagnodebalance1", "pubdata1", "privdata1", "newpassword");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance1"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore -  balanceAfter) < COIN);
@@ -365,7 +365,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 	BOOST_CHECK_EQUAL(balanceAfter, 12.1*COIN+balanceAfterTransfer);
 
 	// edit and balance should remain the same
-	AliasUpdate("node3", "jagnodebalance2", "pubdata1", "privdata1", "No", "newpassword");
+	AliasUpdate("node3", "jagnodebalance2", "pubdata1", "privdata1", "newpassword");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo jagnodebalance2"));
 	balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs((12.1*COIN+balanceAfterTransfer) -  balanceAfter) < COIN);
@@ -401,11 +401,11 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	redeemScript = redeemScript_value.get_str();
 	addressStr = address_value.get_str();
 		
-	string tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", "\"\"", addressStr);
+	string tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "password", addressStr);
 	BOOST_CHECK_EQUAL(tmp, "");
 	// change the multisigs pw and public data
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasaddscript " + redeemScript));
-	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata1", "\"\"", "\"\"", "newpassword");
+	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata1", "\"\"", "newpassword");
 	
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasaddscript " + redeemScript));
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction " + hex_str));
@@ -423,7 +423,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore - balanceAfter) < COIN);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
-	hex_str = AliasUpdate("node2", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
+	hex_str = AliasUpdate("node2", "jagnodemultisig1", "\"\"", "\"\"", "newpassword1");
 	BOOST_CHECK(hex_str != "");
 
 	// create 1 of 2
@@ -434,7 +434,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK(address_value.isStr());
 	redeemScript = redeemScript_value.get_str();
 	addressStr = address_value.get_str();
-	hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", addressStr);
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "password", addressStr);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction " + hex_str));
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5);
@@ -442,7 +442,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 	// ensure only one signature is needed
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasaddscript " + redeemScript));
-	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "newpassword");
 	BOOST_CHECK_EQUAL(hex_str, "");
 	// pay to multisig and check balance
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 8"), runtime_error);
@@ -459,13 +459,13 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	BOOST_CHECK(address_value.isStr());
 	redeemScript = redeemScript_value.get_str();
 	addressStr = address_value.get_str();
-	tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", addressStr);
+	tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "password", addressStr);
 	BOOST_CHECK_EQUAL(tmp, "");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 	// 2 sigs needed, remove redeemScript to make it a normal alias
 	BOOST_CHECK_NO_THROW(CallRPC("node3", "aliasaddscript " + redeemScript));
-	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", oldAddressStr);
+	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", oldAddressStr);
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasaddscript " + redeemScript));
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction " + hex_str));
 	GenerateBlocks(5, "node3");
@@ -483,7 +483,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// no multisig so update as normal
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasupdate sysrates.peg jagnodemultisig1 changedata1 " + HexStr(vchFromString("pvtdata"))), runtime_error);
-	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "newpassword1");
 	BOOST_CHECK_EQUAL(hex_str, "");
 	// pay to multisig and check balance
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 6"), runtime_error);
@@ -915,7 +915,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirednode2", "passwordnew3", "somedata"));
-	CertUpdate("node1", certgoodguid, "aliasexpire2", "pubdata", "newdata");
+	CertUpdate("node1", certgoodguid, "pubdata", "newdata");
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
