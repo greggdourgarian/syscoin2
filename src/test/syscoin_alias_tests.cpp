@@ -472,7 +472,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	GenerateBlocks(5);
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address"), oldAddressStr);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), oldAddressStr);
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 7"), runtime_error);
 	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
