@@ -2088,7 +2088,7 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 	string addressValue = noDifferentStr;
 	if(EncodeBase58(alias.vchAddress) != EncodeBase58(dbAlias.vchAddress))
-		addressValue = address.ToString();
+		addressValue = EncodeBase58(alias.vchAddress);
 
 	entry.push_back(Pair("address", addressValue));
 	
@@ -2671,7 +2671,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
     vector<vector<unsigned char> > vvch;
     int op, nOut;
 	string opName;
-	BOOST_FOREACH(map<uint256, CTransaction> &txIt, vtxTx) {
+	BOOST_FOREACH(const PAIRTYPE(uint256, CTransaction)& txIt, vtxTx) {
 		const CTransaction& tx = txIt->first;
 		if(DecodeOfferTx(tx, op, nOut, vvch) )
 		{
