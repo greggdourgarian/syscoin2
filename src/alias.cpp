@@ -36,7 +36,7 @@ COfferDB *pofferdb = NULL;
 CCertDB *pcertdb = NULL;
 CEscrowDB *pescrowdb = NULL;
 CMessageDB *pmessagedb = NULL;
-extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false);
+extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false);
 bool GetSyscoinTransaction(int nHeight, const uint256 &hash, CTransaction &txOut, const Consensus::Params& consensusParams)
 {
 	if(nHeight < 0 || nHeight > chainActive.Height())
@@ -903,9 +903,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				else
 				{
 					CSyscoinAddress prevaddy(aliasDest);	
-					CSyscoinAddress destaddy;
-					GetAddress(dbAlias, &destaddy);
-					if(destaddy.ToString() != prevaddy.ToString())
+					if(EncodeBase58(dbAlias.vchAddress) != prevaddy.ToString())
 					{
 						errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5021 - " + _("You are not the owner of this alias");
 						theAlias = dbAlias;
@@ -930,8 +928,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchEncryptionPublicKey = dbAlias.vchEncryptionPublicKey;
 					if(theAlias.vchPasswordSalt.empty())
 						theAlias.vchPasswordSalt = dbAlias.vchPasswordSalt;
-					if(theAlias.vchRedeemScript.empty())
-						theAlias.vchRedeemScript = dbAlias.vchRedeemScript;
+					if(theAlias.vchAddress.empty())
+						theAlias.vchAddress = dbAlias.vchAddress;
 					if(theAlias.vchPassword.empty())
 						theAlias.vchPassword = dbAlias.vchPassword;
 					else
@@ -947,7 +945,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theAlias.vchGUID = dbAlias.vchGUID;
 					theAlias.vchAlias = dbAlias.vchAlias;
 					// if transfer or change pw
-					if(dbAlias.vchPubKey != theAlias.vchPubKey)
+					if(dbAlias.vchAddress != theAlias.vchAddress)
 					{
 						// if transfer clear pw
 						if(!pwChange)
@@ -955,15 +953,12 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							theAlias.vchPassword.clear();
 							theAlias.vchPasswordSalt.clear();
 						}
-						CSyscoinAddress myAddress;
-						GetAddress(theAlias, &myAddress);
-						const vector<unsigned char> &vchAddress = vchFromString(myAddress.ToString());
 						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
 						// we want to avoid aliases with duplicate public keys (addresses)
-						if (paliasdb->ExistsAddress(vchAddress))
+						if (paliasdb->ExistsAddress(theAlias.vchAddress))
 						{
 							vector<unsigned char> vchMyAlias;
-							if (paliasdb->ReadAddress(vchAddress, vchMyAlias) && !vchMyAlias.empty() && vchMyAlias != dbAlias.vchAlias)
+							if (paliasdb->ReadAddress(theAlias.vchAddress, vchMyAlias) && !vchMyAlias.empty() && vchMyAlias != dbAlias.vchAlias)
 							{
 								errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5026 - " + _("An alias already exists with that address, try another public key");
 								theAlias = dbAlias;
@@ -1007,6 +1002,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			CAliasPayment payment;
 			payment.txHash = txHash;
 			payment.nOut = nOut;
+			payment.nHeight = nHeight;
 			vtxPaymentPos.push_back(payment);
 			if (!dontaddtodb && !paliasdb->WriteAliasPayment(vchAlias, vtxPaymentPos))
 			{
@@ -1024,19 +1020,11 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		theAlias.nHeight = nHeight;
 		theAlias.txHash = tx.GetHash();
 		PutToAliasList(vtxPos, theAlias);
-		vector<unsigned char> vchMasterAddress;
-		// store the alias owner address linked back to the alias because if we use the redeemscript alias in an escrow we need to be able to lookup the alias from the owner address
-		if(theAlias.vchRedeemScript.size() > 1)
-		{
-			CSyscoinAddress masterAddress(CPubKey(theAlias.vchPubKey).GetID());
-			vchMasterAddress = vchFromString(masterAddress.ToString());
-		}
-		CSyscoinAddress address;
-		GetAddress(theAlias, &address);
+	
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
 		aliasUnprunable.nExpireTime = theAlias.nExpireTime;
-		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(address.ToString()), vchMasterAddress, vtxPos))
+		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, theAlias.vchAddress, vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5034 - " + _("Failed to write to alias DB");
 			return error(errorMessage.c_str());
@@ -1109,47 +1097,12 @@ bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData,
 		return false;
 	return true;
 }
-void GetAddress(const CSyscoinAddress& addressIn, CSyscoinAddress* address,const uint32_t nPaymentOption)
-{
-	if(!address)
-		return;
-	CPubKey aliasPubKey(addressIn.vchPubKey);
-	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(addressIn.vchRedeemScript.size() > 1)
-	{
-		CScriptID innerID(CScript(addressIn.vchRedeemScript.begin(), addressIn.vchRedeemScript.end()));
-		address[0] = CSyscoinAddress(innerID, myAddressType);
-	}
-	else
-		address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
-}
-void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,const uint32_t nPaymentOption)
-{
-	if(!address)
-		return;
-	CPubKey aliasPubKey(alias.vchPubKey);
-	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(alias.vchRedeemScript.size() > 1)
-	{
-		CScriptID innerID(CScript(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end()));
-		address[0] = CSyscoinAddress(innerID, myAddressType);
-	}
-	else
-		address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
-}
 void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& script,const uint32_t nPaymentOption)
 {
 	if(!address)
 		return;
-	CPubKey aliasPubKey(alias.vchPubKey);
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	if(alias.vchRedeemScript.size() > 1)
-	{
-		CScriptID innerID(CScript(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end()));
-		address[0] = CSyscoinAddress(innerID, myAddressType);
-	}
-	else
-		address[0] = CSyscoinAddress(aliasPubKey.GetID(), myAddressType);
+	address[0] = CSyscoinAddress(DecodeBase58(alias.vchAddress), myAddressType);
 	script = GetScriptForDestination(address[0].Get());
 }
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
@@ -1193,78 +1146,6 @@ void CAliasIndex::Serialize(vector<unsigned char>& vchData) {
     vchData = vector<unsigned char>(dsAlias.begin(), dsAlias.end());
 
 }
-bool CAliasDB::ScanNames(const std::vector<unsigned char>& vchAlias, const string& strRegexp, bool safeSearch, 
-		unsigned int nMax,
-		vector<CAliasIndex>& nameScan) {
-	// regexp
-	using namespace boost::xpressive;
-	smatch nameparts;
-	string strRegexpLower = strRegexp;
-	boost::algorithm::to_lower(strRegexpLower);
-	sregex cregex = sregex::compile(strRegexpLower);
-	boost::scoped_ptr<CDBIterator> pcursor(NewIterator());
-	if(!vchAlias.empty())
-		pcursor->Seek(make_pair(string("namei"), vchAlias));
-	else
-		pcursor->SeekToFirst();
-	vector<CAliasIndex> vtxPos;
-	pair<string, vector<unsigned char> > key;
-    while (pcursor->Valid()) {
-        boost::this_thread::interruption_point();
-        try {
-			if (pcursor->GetKey(key) && key.first == "namei") {
-            	const vector<unsigned char> &vchMyAlias = key.second;
-				
-                
-				pcursor->GetValue(vtxPos);
-				
-				if (vtxPos.empty()){
-					pcursor->Next();
-					continue;
-				}
-				const CAliasIndex &txPos = vtxPos.back();
-  				if (chainActive.Tip()->nTime >= txPos.nExpireTime)
-				{
-					pcursor->Next();
-					continue;
-				} 
-				if(txPos.safetyLevel >= SAFETY_LEVEL1)
-				{
-					if(safeSearch)
-					{
-						pcursor->Next();
-						continue;
-					}
-					if(txPos.safetyLevel > SAFETY_LEVEL1)
-					{
-						pcursor->Next();
-						continue;
-					}
-				}
-				if(!txPos.safeSearch && safeSearch)
-				{
-					pcursor->Next();
-					continue;
-				}
-				const string &name = stringFromVch(vchMyAlias);
-				if (strRegexp != "" && !regex_search(name, nameparts, cregex) && strRegexp != name)
-				{
-					pcursor->Next();
-					continue;
-				}
-                nameScan.push_back(txPos);
-            }
-            if (nameScan.size() >= nMax)
-                break;
-
-            pcursor->Next();
-        } catch (std::exception &e) {
-            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
-        }
-    }
-    return true;
-}
-
 // TODO: need to cleanout CTxOuts (transactions stored on disk) which have data stored in them after expiry, erase at same time on startup so pruning can happen properly
 bool CAliasDB::CleanupDatabase(int &servicesCleaned)
 {
@@ -1454,7 +1335,7 @@ bool GetVtxOfAlias(const vector<unsigned char> &vchAlias,
 	}
 	return true;
 }
-bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, unsigned char& safetyLevel, bool& safeSearch, std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
+bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, unsigned char& safetyLevel, std::vector<unsigned char> &vchPubKey) {
 
 	string strLowerAlias = strAlias;
 	boost::algorithm::to_lower(strLowerAlias);
@@ -1470,19 +1351,15 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 		return false;
 
 	const CAliasIndex &alias = vtxPos.back();
-	CSyscoinAddress address;
-	GetAddress(alias, &address);
-	strAddress = address.ToString();
+	strAddress = EncodeBase58(alias.vchAddress);
 	safetyLevel = alias.safetyLevel;
-	safeSearch = alias.safeSearch;
-	vchRedeemScript = alias.vchRedeemScript;
 	vchPubKey = alias.vchPubKey;
 	return true;
 }
 
-bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, bool& safeSearch,  std::vector<unsigned char> &vchRedeemScript, std::vector<unsigned char> &vchPubKey) {
+bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, std::vector<unsigned char> &vchPubKey) {
 
-	const vector<unsigned char> &vchAddress = vchFromValue(strAddress);
+	const vector<unsigned char> &vchAddress = DecodeBase58(strAddress);
 	if (!paliasdb || !paliasdb->ExistsAddress(vchAddress))
 		return false;
 
@@ -1501,8 +1378,6 @@ bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, u
 		return false;
 	const CAliasIndex &alias = vtxPos.back();
 	safetyLevel = alias.safetyLevel;
-	safeSearch = alias.safeSearch;
-	vchRedeemScript = alias.vchRedeemScript;
 	vchPubKey = alias.vchPubKey;
 	return true;
 }
@@ -1746,21 +1621,19 @@ bool CheckParam(const UniValue& params, const unsigned int index)
 	return (params.size() > index && params[index].get_str().size() > 0 && params[index].get_str() != "\"\"");
 }
 UniValue aliasnew(const UniValue& params, bool fHelp) {
-	if (fHelp || 4 > params.size() || 13 < params.size())
+	if (fHelp || 4 > params.size() || 11 < params.size())
 		throw runtime_error(
-		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [safe search=Yes] [accept transfers=Yes] [expire_timestamp] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
+		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [accept transfers=Yes] [expire_timestamp] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Should be encrypted to publickey.\n"
 						"<public value> alias public profile data, 1024 chars max.\n"
 						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only. Should be encrypted to encryption_publickey.\n"
-						"<safe search> set to No if this alias should only show in the search when safe search is not selected. Defaults to Yes (alias shows with or without safe search selected in search lists).\n"	
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
 						"<expire_timestamp> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
 						"<publickey> Public key for this alias.\n"		
 						"<password_salt> Salt used for key derivation if password is set.\n"
 						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. Should be encrypted to publickey.\n"
 						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias.\n"							
-						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
 	if(vchAliasPeg.empty())
@@ -1812,39 +1685,34 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 	if(CheckParam(params, 4))
 		strPrivateValue = params[4].get_str();
-	string strSafeSearch = "Yes";
+
 	string strAcceptCertTransfers = "Yes";
 
 	if(CheckParam(params, 5))
-		strSafeSearch = params[5].get_str();
-	if(CheckParam(params, 6))
-		strAcceptCertTransfers = params[6].get_str();
+		strAcceptCertTransfers = params[5].get_str();
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
-	if(CheckParam(params, 7))
-		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
+	if(CheckParam(params, 6))
+		nTime = boost::lexical_cast<uint64_t>(params[6].get_str());
 	// sanity check set to 1 hr
 	if(nTime < chainActive.Tip()->nTime+3600)
 		nTime = chainActive.Tip()->nTime+3600;
 
 	string strPublicKey = "";
-	if(CheckParam(params, 8))
-		strPublicKey = params[8].get_str();
+	if(CheckParam(params, 7))
+		strPublicKey = params[7].get_str();
 	string strPasswordSalt = "";
 
-	if(CheckParam(params, 9))
-		strPasswordSalt = params[9].get_str();
+	if(CheckParam(params, 8))
+		strPasswordSalt = params[8].get_str();
 	
 	string strEncryptionPrivateKey = "";
-	if(CheckParam(params, 10))
-		strEncryptionPrivateKey = params[10].get_str();
+	if(CheckParam(params, 9))
+		strEncryptionPrivateKey = params[9].get_str();
 	string strEncryptionPublicKey = "";
-	if(CheckParam(params, 11))
-		strEncryptionPublicKey = params[11].get_str();
-	string strWalletless = "No";
-	if(CheckParam(params, 12))
-		strWalletless = params[12].get_str();	
-	if(strWalletless == "No")
-		EnsureWalletIsUnlocked();
+	if(CheckParam(params, 10))
+		strEncryptionPublicKey = params[10].get_str();
+
+
 	CWalletTx wtx;
 
 	CAliasIndex oldAlias;
@@ -1877,7 +1745,6 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(!strPasswordSalt.empty())
 		newAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	newAlias.safetyLevel = 0;
-	newAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
 	
 	CSyscoinAddress newAddress;
@@ -1918,67 +1785,51 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = true;
 	bool useOnlyAliasPaymentToFund = false;
 
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, oldAlias.vchRedeemScript.size() > 1 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, &coinControl, useOnlyAliasPaymentToFund);
 	UniValue res(UniValue::VARR);
-	if(strWalletless == "Yes")
-	{
-		res.push_back(EncodeHexTx(wtx));
-		res.push_back(strPublicKey);
-		res.push_back("false");
-	}
-	else if(oldAlias.vchRedeemScript.size() > 1)
-	{
-		UniValue signParams(UniValue::VARR);
-		signParams.push_back(stringFromVch(oldAlias.vchAlias));
-		signParams.push_back(EncodeHexTx(wtx));
-		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
-		const UniValue& so = resSign.get_obj();
-		string hex_str = "";
 
-		const UniValue& hex_value = find_value(so, "hex");
-		if (hex_value.isStr())
-			hex_str = hex_value.get_str();
-		const UniValue& complete_value = find_value(so, "complete");
-		bool bComplete = false;
-		if (complete_value.isBool())
-			bComplete = complete_value.get_bool();
-		if(bComplete)
-		{
-			res.push_back(wtx.GetHash().GetHex());
-			res.push_back(strPublicKey);
-		}
-		else
-		{
-			res.push_back(hex_str);
-			res.push_back(strPublicKey);
-			res.push_back("false");
-		}
-	}
-	else
+	UniValue signParams(UniValue::VARR);
+	signParams.push_back(EncodeHexTx(wtx));
+	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
+	const UniValue& so = resSign.get_obj();
+	string hex_str = "";
+
+	const UniValue& hex_value = find_value(so, "hex");
+	if (hex_value.isStr())
+		hex_str = hex_value.get_str();
+	const UniValue& complete_value = find_value(so, "complete");
+	bool bComplete = false;
+	if (complete_value.isBool())
+		bComplete = complete_value.get_bool();
+	if(bComplete)
 	{
 		res.push_back(wtx.GetHash().GetHex());
 		res.push_back(strPublicKey);
 	}
+	else
+	{
+		res.push_back(hex_str);
+		res.push_back(strPublicKey);
+		res.push_back("false");
+	}
 	return res;
 }
 UniValue aliasupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 > params.size() || 14 < params.size())
+	if (fHelp || 2 > params.size() || 12 < params.size())
 		throw runtime_error(
-		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [safesearch=Yes] [alias_pubkey] [password] [accept_transfers=Yes] [expire_timestamp] [redeemscript] [password_salt] [encryption_privatekey] [encryption_publickey] [walletless=No]\n"
+		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [alias_pubkey] [password] [accept_transfers=Yes] [expire_timestamp] [address] [password_salt] [encryption_privatekey] [encryption_publickey]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
 						"<public_value> alias public profile data, 1024 chars max.\n"
 						"<private_value> alias private profile data, 512 chars max. Will be private and readable by owner only.\n"				
-						"<safesearch> is this alias safe to search. Defaults to Yes, No for not safe and to hide in GUI search queries\n"	
 						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
 						"<password> used to generate your public/private key that controls this alias.\n"						
 						"<accept_transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
 						"<expire_timestamp> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is 2.88^years. FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"		
-						"<redeemscript> For a contract based redeem script for the coins that are paid to this alias. Useful currently only for multisignature aliases.\n"	
+						"<address> by default address associated to alias is based on alias_pubkey, but you can override this for example if setting a p2sh address for a smart contract alias. Coins spent services updated with this alias will be controlled by this address. If using P2SH, redeemscript should be stored in public or private data scheme.\n"	
 						"<password_salt> Salt used for key derivation if password is set.\n"
 						"<encryption_privatekey> Encrypted private key used for encryption/decryption of private data related to this alias. If transferring, the key should be encrypted to alias_pubkey.\n"
 						"<encryption_publickey> Public key used for encryption/decryption of private data related to this alias. Useful if you are changing pub/priv keypair for encryption on this alias.\n"						
-						"<walletless> Sign and send transaction to network? If Yes, then don't sign resulting transaction, just return it for signing by external service.\n"
 						+ HelpRequiringPassphrase());
 	vector<unsigned char> vchAliasPeg = vchFromString(params[0].get_str());
 	if(vchAliasPeg.empty())
@@ -1996,53 +1847,43 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	
 	CWalletTx wtx;
 	CAliasIndex updateAlias;
-
-	string strSafeSearch = "";
-	if(CheckParam(params, 4))
-		strSafeSearch = params[4].get_str();
 	
-    if (CheckParam(params, 5)) 
-		vchPubKeyByte = ParseHex(params[5].get_str());
+    if (CheckParam(params, 4)) 
+		vchPubKeyByte = ParseHex(params[4].get_str());
 	
 	string strPassword = "";
-	if(CheckParam(params, 6))
-		strPassword = params[6].get_str();
+	if(CheckParam(params, 5))
+		strPassword = params[5].get_str();
 	string strAcceptCertTransfers = "";
-	if(CheckParam(params, 7))
-		strAcceptCertTransfers = params[7].get_str();
+	if(CheckParam(params, 6))
+		strAcceptCertTransfers = params[6].get_str();
 	
 	uint64_t nTime = chainActive.Tip()->nTime+ONE_YEAR_IN_SECONDS;
-	if(CheckParam(params, 8))
-		nTime = boost::lexical_cast<uint64_t>(params[8].get_str());
+	if(CheckParam(params, 7))
+		nTime = boost::lexical_cast<uint64_t>(params[7].get_str());
 	// sanity check set to 1 hr
 	if(nTime < chainActive.Tip()->nTime+3600)
 		nTime = chainActive.Tip()->nTime+3600;
 
-    string strRedeemScript = "";
-	if(CheckParam(params, 9))
-		strRedeemScript = params[9].get_str();
+    string strAddress = "";
+	if(CheckParam(params, 8))
+		strAddress = params[8].get_str();
 
 	string strPasswordSalt = "";
-	if(CheckParam(params, 10))
+	if(CheckParam(params, 9))
 	{
-		strPasswordSalt = params[10].get_str();
+		strPasswordSalt = params[9].get_str();
 	}
 
 	string strEncryptionPrivateKey = "";
-	if(CheckParam(params, 11))
+	if(CheckParam(params, 10))
 	{
-		strEncryptionPrivateKey = params[11].get_str();
+		strEncryptionPrivateKey = params[10].get_str();
 	}
 	string strEncryptionPublicKey = "";
-	if(CheckParam(params, 12))
+	if(CheckParam(params, 11))
 	{
-		strEncryptionPublicKey = params[12].get_str();
-	}
-
-	string strWalletless = "No";
-	if(CheckParam(params, 13))
-	{
-		strWalletless = params[13].get_str();
+		strEncryptionPublicKey = params[11].get_str();
 	}
 
 	CTransaction tx;
@@ -2050,18 +1891,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Could not find an alias with this name"));
 
-	if(strRedeemScript.size() > 1)
-	{
-		vector<vector<unsigned char> > vSolutions;
-		txnouttype whichType;
-		const vector<unsigned char> &vchRedeemScript = ParseHex(strRedeemScript); 
-		CScript redeemScript(vchRedeemScript.begin(), vchRedeemScript.end());
-		if (!Solver(redeemScript, whichType, vSolutions))
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Invalid redeem script"));
-	}
 
-	CSyscoinAddress oldAddress;
-	GetAddress(theAlias, &oldAddress);
 
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
@@ -2083,17 +1913,11 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPassword = ParseHex(strPassword);
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
-	if(strRedeemScript.size() == 1)
-		theAlias.vchRedeemScript = vchFromString(strRedeemScript);
-	else if(strRedeemScript.size() > 1)
-		theAlias.vchRedeemScript = ParseHex(strRedeemScript);
+	if(!strAddress.empty())
+		theAlias.vchAddress = DecodeBase58(strAddress);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
-	if(strSafeSearch.empty())
-		theAlias.safeSearch = copyAlias.safeSearch;
-	else
-		theAlias.safeSearch = strSafeSearch == "Yes"? true: false;
 	if(strAcceptCertTransfers.empty())
 		theAlias.acceptCertTransfers = copyAlias.acceptCertTransfers;
 	else
@@ -2106,9 +1930,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	theAlias.Serialize(data);
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
-	// if redeem script is empty meaning don't update it, use the stored db redeem script to get address
-	if(strRedeemScript.empty())
-		theAlias.vchRedeemScript = copyAlias.vchRedeemScript;
+
 	GetAddress(theAlias, &newAddress, scriptPubKeyOrig);
 
 	CScript scriptPubKey;
@@ -2137,47 +1959,32 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = false;
 	bool useOnlyAliasPaymentToFund = false;
 	bool transferAlias = false;
-	if(newAddress.ToString() != oldAddress.ToString())
+	if(newAddress.ToString() != EncodeBase58(theAlias.vchAddress))
 		transferAlias = true;
 	
-	if(pwalletMain && copyAlias.vchRedeemScript.size() > 1)
-	{
-		CScript inner(copyAlias.vchRedeemScript.begin(), copyAlias.vchRedeemScript.end());
-		pwalletMain->AddCScript(inner);
-	}
-	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, copyAlias.vchRedeemScript.size() > 1 || strWalletless == "Yes", &coinControl, useOnlyAliasPaymentToFund, transferAlias);
+	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, &coinControl, useOnlyAliasPaymentToFund, transferAlias);
 	UniValue res(UniValue::VARR);
-	if(strWalletless == "Yes")
+	UniValue signParams(UniValue::VARR);
+	signParams.push_back(EncodeHexTx(wtx));
+	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
+	const UniValue& so = resSign.get_obj();
+	string hex_str = "";
+
+	const UniValue& hex_value = find_value(so, "hex");
+	if (hex_value.isStr())
+		hex_str = hex_value.get_str();
+	const UniValue& complete_value = find_value(so, "complete");
+	bool bComplete = false;
+	if (complete_value.isBool())
+		bComplete = complete_value.get_bool();
+	if(bComplete)
+		res.push_back(wtx.GetHash().GetHex());
+	else
 	{
-		res.push_back(EncodeHexTx(wtx));
+		res.push_back(hex_str);
 		res.push_back("false");
 	}
-	else if(copyAlias.vchRedeemScript.size() > 1)
-	{
-		UniValue signParams(UniValue::VARR);
-		signParams.push_back(stringFromVch(copyAlias.vchAlias));
-		signParams.push_back(EncodeHexTx(wtx));
-		const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
-		const UniValue& so = resSign.get_obj();
-		string hex_str = "";
-
-		const UniValue& hex_value = find_value(so, "hex");
-		if (hex_value.isStr())
-			hex_str = hex_value.get_str();
-		const UniValue& complete_value = find_value(so, "complete");
-		bool bComplete = false;
-		if (complete_value.isBool())
-			bComplete = complete_value.get_bool();
-		if(bComplete)
-			res.push_back(wtx.GetHash().GetHex());
-		else
-		{
-			res.push_back(hex_str);
-			res.push_back("false");
-		}
-	}
-	else
-		res.push_back(wtx.GetHash().GetHex());
+	
 	return res;
 }
 UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp) {
@@ -2259,18 +2066,18 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	if(!alias.vchAliasPeg.empty() && alias.vchAliasPeg != dbAlias.vchAliasPeg)
 		aliasPegValue = stringFromVch(alias.vchAliasPeg);
 
-	entry.push_back(Pair("alias_peg", aliasPegValue));
+	entry.push_back(Pair("aliaspeg", aliasPegValue));
 
 	string publicValue = noDifferentStr;
 	if(!alias.vchPublicValue .empty() && alias.vchPublicValue != dbAlias.vchPublicValue)
 		publicValue = stringFromVch(alias.vchPublicValue);
-	entry.push_back(Pair("public_value", publicValue));
+	entry.push_back(Pair("publicvalue", publicValue));
 
 	string privateValue = noDifferentStr;
 	if(!alias.vchPrivateValue.empty() && alias.vchPrivateValue != dbAlias.vchPrivateValue)
 		privateValue = HexStr(alias.vchPrivateValue);
 
-	entry.push_back(Pair("private_value", privateValue));
+	entry.push_back(Pair("privatevalue", privateValue));
 	
 	string password = noDifferentStr;
 	if(!alias.vchPassword.empty() && alias.vchPassword != dbAlias.vchPassword)
@@ -2278,23 +2085,11 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 	entry.push_back(Pair("password", password));
 
-	CSyscoinAddress address;
-	GetAddress(alias, &address);
-	CSyscoinAddress dbaddress;
-	GetAddress(dbAlias, &dbaddress);
-
 	string addressValue = noDifferentStr;
-	if(address.ToString() != dbaddress.ToString())
+	if(EncodeBase58(alias.vchAddress) != EncodeBase58(dbAlias.vchAddress))
 		addressValue = address.ToString();
 
 	entry.push_back(Pair("address", addressValue));
-
-
-	string safeSearchValue = noDifferentStr;
-	if(alias.safeSearch != dbAlias.safeSearch)
-		safeSearchValue = alias.safeSearch? "Yes": "No";
-
-	entry.push_back(Pair("safesearch", safeSearchValue));
 	
 	string acceptTransfersValue = noDifferentStr;
 	if(alias.acceptCertTransfers != dbAlias.acceptCertTransfers)
@@ -2314,32 +2109,15 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 
 	entry.push_back(Pair("safetylevel", safetyLevelValue ));
 
-	string redeemScriptValue = noDifferentStr;
-	if(alias.vchRedeemScript != dbAlias.vchRedeemScript)
-		redeemScriptValue = stringFromVch(alias.vchRedeemScript);
-		
-	entry.push_back(Pair("redeemscript", redeemScriptValue ));
 
 
 }
 UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 != params.size())
-		throw runtime_error("syscoinsignrawtransaction <alias> <hexstring>\n"
+	if (fHelp || 1 != params.size())
+		throw runtime_error("syscoinsignrawtransaction <hexstring>\n"
 				"Sign inputs for raw transaction (serialized, hex-encoded) and sends them out to the network if signing is complete\n"
-				"<alias> The alias related to this transaction.\n"
 				"<hexstring> The transaction hex string.\n");
-	const string &hexstring = params[1].get_str();
-	const vector<unsigned char> &vchAlias = vchFromString(params[0].get_str());
-	CTransaction tx;
-	CAliasIndex theAlias;
-	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5531 - " + _("Could not find an alias with this name"));
-
-	if(pwalletMain && theAlias.vchRedeemScript.size() > 1)
-	{
-		CScript inner(theAlias.vchRedeemScript.begin(), theAlias.vchRedeemScript.end());
-		pwalletMain->AddCScript(inner);
-	}
+	const string &hexstring = params[0].get_str();
 	UniValue res;
 	UniValue arraySignParams(UniValue::VARR);
 	arraySignParams.push_back(hexstring);
@@ -2381,34 +2159,16 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 		if (!returnRes.isStr())
 			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not send raw transaction: Invalid response from sendrawtransaction"));
 	}
-	else
-	{
-		const UniValue& error_value = find_value(so, "errors");
-		if(error_value.isObject())
-		{
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign raw transaction: ") + find_value(error_value.get_obj(), "error").get_str());
-		}
-		if(hexstring == hex_str)
-			throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5534 - " + _("Could not sign raw transaction: Signature not added to transaction"));
-	}
 	return res;
 }
 bool IsMyAlias(const CAliasIndex& alias)
 {
-
-	CPubKey aliasPubKey(alias.vchPubKey);
-	CSyscoinAddress address(aliasPubKey.GetID());
-	if(alias.vchRedeemScript.size() > 1)
-	{
-		CScript inner(alias.vchRedeemScript.begin(), alias.vchRedeemScript.end());
-		return IsMine(*pwalletMain, inner);
-	}
-	else
-		return IsMine(*pwalletMain, address.Get());
+	CSyscoinAddress address(EncodeBase58(alias.vchAddress));
+	return IsMine(*pwalletMain, address.Get());
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
-	if (fHelp || 2 < params.size())
-		throw runtime_error("aliaslist [<aliasname>] [walletless=No]\n"
+	if (fHelp || 1 < params.size())
+		throw runtime_error("aliaslist [<aliasname>]\n"
 				"list my own aliases.\n"
 				"<aliasname> alias name to use as filter.\n");
 
@@ -2416,9 +2176,6 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 	if (params.size() >= 1)
 		vchAlias = vchFromValue(params[0]);
 
-	string strWalletless;
-	if(params.size() >= 2)
-		strWalletless = params[1].get_str();	
 
 	UniValue oRes(UniValue::VARR);
 	map<vector<unsigned char>, int> vNamesI;
@@ -2468,7 +2225,7 @@ UniValue aliaslist(const UniValue& params, bool fHelp) {
 		if (vNamesI.find(alias.vchAlias) != vNamesI.end() && (alias.nHeight <= vNamesI[alias.vchAlias] || vNamesI[alias.vchAlias] < 0))
 			continue;	
 		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, pending, oName, strWalletless))
+		if(BuildAliasJson(alias, pending, oName))
 		{
 			vNamesI[alias.vchAlias] = alias.nHeight;
 			vNamesO[alias.vchAlias] = oName;	
@@ -2581,9 +2338,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
 		return ValueFromAmount(nAmount);
 
-	CSyscoinAddress addressFrom;
-	GetAddress(theAlias, &addressFrom);
-
+	const string &strAddressFrom = EncodeBase58(theAlias.vchAddress);
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 		return ValueFromAmount(nAmount);
 	CCoinsViewCache view(pcoinsTip);
@@ -2609,7 +2364,7 @@ UniValue aliasbalance(const UniValue& params, bool fHelp)
 		if(vvch.size() > 1 && vvch[1] == vchFromString("1"))
 			continue;
 		destaddy = CSyscoinAddress(payDest);
-		if (destaddy.ToString() == addressFrom.ToString())
+		if (destaddy.ToString() == strAddressFrom)
 		{  
 			COutPoint outp(aliasPayment.txHash, aliasPayment.nOut);
 			auto it = mempool.mapNextTx.find(outp);
@@ -2637,8 +2392,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 	if (!GetTxOfAlias(vchAlias, theAlias, aliasTx))
 		return -1;
 
-	CSyscoinAddress addressFrom;
-	GetAddress(theAlias, &addressFrom);
+	const string &strAddressFrom = EncodeBase58(theAlias.vchAddress);
 
 	if(!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos))
 		return -1;
@@ -2675,7 +2429,7 @@ int aliasselectpaymentcoins(const vector<unsigned char> &vchAlias, const CAmount
 		if (!ExtractDestination(coins->vout[aliasPayment.nOut].scriptPubKey, payDest)) 
 			continue;
 		destaddy = CSyscoinAddress(payDest);
-		if (destaddy.ToString() == addressFrom.ToString())
+		if (destaddy.ToString() == strAddressFrom)
 		{  
 			auto it = mempool.mapNextTx.find(COutPoint(aliasPayment.txHash, aliasPayment.nOut));
 			if (it != mempool.mapNextTx.end())
@@ -2705,8 +2459,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 	bool isExpired = false;
 	if (!GetTxAndVtxOfAlias(vchAlias, theAlias, aliasTx, vtxPos, isExpired))
 		return 0;
-	CSyscoinAddress destaddy;
-	GetAddress(theAlias, &destaddy);
+	const string &strAddressDest = EncodeBase58(theAlias.vchAddress);
 	CTxDestination aliasDest;
 	CSyscoinAddress prevaddy;
 	int numResults = 0;
@@ -2733,7 +2486,7 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
 			if (!ExtractDestination(coins->vout[j].scriptPubKey, aliasDest))
 				continue;
 			prevaddy = CSyscoinAddress(aliasDest);
-			if(destaddy.ToString() != prevaddy.ToString())
+			if(strAddressDest != prevaddy.ToString())
 				continue;
 
 			numResults++;
@@ -2757,11 +2510,11 @@ int aliasunspent(const vector<unsigned char> &vchAlias, COutPoint& outpoint)
  * @return        [description]
  */
 UniValue aliasinfo(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 < params.size())
+	if (fHelp || 1 < params.size() || 2 < params.size())
 		throw runtime_error("aliasinfo <aliasname> [walletless=No]\n"
 				"Show values of an alias.\n");
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	string strWalletless;
+	string strWalletless = "No";
 	if(params.size() >= 2)
 		strWalletless = params[1].get_str();
 
@@ -2786,7 +2539,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
 		return false;
-	oName.push_back(Pair("value", stringFromVch(alias.vchPublicValue)));
+	oName.push_back(Pair("publicvalue", stringFromVch(alias.vchPublicValue)));
 	string strPrivateValue = "";
 	string strDecrypted = "";
 	if(strWalletless == "Yes")
@@ -2812,12 +2565,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 	oName.push_back(Pair("encryption_privatekey", strEncryptionPrivateKey));
 	oName.push_back(Pair("encryption_publickey", HexStr(alias.vchEncryptionPublicKey)));
 	oName.push_back(Pair("txid", alias.txHash.GetHex()));
-	CSyscoinAddress address;
-	GetAddress(alias, &address);
-	if(!address.IsValid())
-		return false;
-
-	oName.push_back(Pair("address", address.ToString()));
+	oName.push_back(Pair("address", EncodeBase58(alias.vchAddress)));
 	oName.push_back(Pair("publickey", HexStr(alias.vchPubKey)));
 
 	oName.push_back(Pair("alias_peg", stringFromVch(alias.vchAliasPeg)));
@@ -2828,7 +2576,6 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 	oName.push_back(Pair("balance", resBalance));
 
 	oName.push_back(Pair("ismine", IsMyAlias(alias)? true:  false));
-	oName.push_back(Pair("safesearch", alias.safeSearch ? "Yes" : "No"));
 	oName.push_back(Pair("acceptcerttransfers", alias.acceptCertTransfers ? "Yes" : "No"));
 	oName.push_back(Pair("safetylevel", alias.safetyLevel ));
 	float ratingAsBuyer = 0;
@@ -2880,7 +2627,6 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 	oName.push_back(Pair("expires_on", expired_time));
 	oName.push_back(Pair("expired", expired));
 	oName.push_back(Pair("pending", pending));
-	oName.push_back(Pair("redeemscript", HexStr(alias.vchRedeemScript)));
 	return true;
 }
 /**
@@ -2890,25 +2636,42 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
  * @return        [description]
  */
 UniValue aliashistory(const UniValue& params, bool fHelp) {
-	if (fHelp || 1 != params.size())
-		throw runtime_error("aliashistory <aliasname>\n"
+	if (fHelp || 1 < params.size() || 2 < params.size())
+		throw runtime_error("aliashistory <aliasname> [walletless=No]\n"
 				"List all stored values of an alias.\n");
 	UniValue oRes(UniValue::VARR);
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
-	
+	string strWalletless = "No";
+	if(params.size() >= 2)
+		strWalletless = params[1].get_str();	
 	vector<CAliasIndex> vtxPos;
 	if (!paliasdb->ReadAlias(vchAlias, vtxPos) || vtxPos.empty())
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5537 - " + _("Failed to read from alias DB"));
-
-	CAliasIndex txPos2;
+	vector<CAliasPayment> vtxPaymentPos;
+	if (!paliasdb->ReadAliasPayment(vchAlias, vtxPaymentPos) || vtxPaymentPos.empty())
+		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5537 - " + _("Failed to read from alias payment DB"));
+	map<uint256, CTransaction> vtxTx;
 	CTransaction tx;
+	CAliasIndex txPos;
+	CAliasIndex txPaymentPos;
+	BOOST_FOREACH(txPos, vtxPos) {
+		if (!GetSyscoinTransaction(txPos.nHeight, txPos.txHash, tx, Params().GetConsensus()))
+			continue;
+		vtxTx[txPos.txHash] = tx;
+	}
+	BOOST_FOREACH(txPaymentPos, vtxPaymentPos) {
+		if(vtxTx.find(txPaymentPos.txHash) != vtxTx.end())
+			continue;
+		if (!GetSyscoinTransaction(txPaymentPos.nHeight, txPaymentPos.txHash, tx, Params().GetConsensus()))
+			continue;
+		vtxTx[txPaymentPos.txHash] = tx;
+	}
+	
     vector<vector<unsigned char> > vvch;
     int op, nOut;
 	string opName;
-	BOOST_FOREACH(txPos2, vtxPos) {
-		if (!GetSyscoinTransaction(txPos2.nHeight, txPos2.txHash, tx, Params().GetConsensus()))
-			continue;
-
+	BOOST_FOREACH(txIt, vtxTx) {
+		const CTransaction& tx = txIt->first;
 		if(DecodeOfferTx(tx, op, nOut, vvch) )
 		{
 			opName = offerFromOp(op);
@@ -2939,11 +2702,15 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 		UniValue oName(UniValue::VOBJ);
 		UniValue oDetails(UniValue::VOBJ);
 		oName.push_back(Pair("type", opName));
-		if(BuildAliasJson(txPos2, false, oDetails))
+		if(IsAliasOp(op))
 		{
-			oName.push_back(Pair("details", oDetails));
-			oRes.push_back(oName);
+			CAliasIndex alias(tx);
+			if(!alias.isNull() && BuildAliasJson(alias, false, oDetails, strWalletless)
+				oName.push_back(oDetails);
 		}
+		else
+			oName.push_back(Pair("txid", tx.GetHash()));
+		oRes.push_back(oName);
 	}
 	
 	return oRes;
@@ -2957,59 +2724,6 @@ UniValue generatepublickey(const UniValue& params, bool fHelp) {
 	UniValue res(UniValue::VARR);
 	res.push_back(HexStr(vchPubKey));
 	return res;
-}
-/**
- * [aliasfilter description]
- * @param  params [description]
- * @param  fHelp  [description]
- * @return        [description]
- */
-UniValue aliasfilter(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() > 3)
-		throw runtime_error(
-				"aliasfilter [[[[[regexp]] from='']] safesearch=Yes]\n"
-						"scan and filter aliases\n"
-						"[regexp] : apply [regexp] on aliases, empty means all aliases\n"
-						"[from] : show results from this GUID [from], empty means first.\n"
-						"[safesearch] : shows all aliases that are safe to display (not on the ban list)\n"
-						"aliasfilter \"^alias\": list all aliases starting with \"alias\"\n");
-
-	vector<unsigned char> vchAlias;
-	string strRegexp;
-	string strName;
-	bool safeSearch = true;
-
-
-	if (params.size() > 0)
-		strRegexp = params[0].get_str();
-
-	if (params.size() > 1)
-	{
-		vchAlias = vchFromValue(params[1]);
-		strName = params[1].get_str();
-	}
-
-	if (params.size() > 2)
-		safeSearch = params[2].get_str()=="Yes"? true: false;
-
-	UniValue oRes(UniValue::VARR);
-
-	
-	vector<CAliasIndex> nameScan;
-	boost::algorithm::to_lower(strName);
-	vchAlias = vchFromString(strName);
-	CTransaction aliastx;
-	if (!paliasdb->ScanNames(vchAlias, strRegexp, safeSearch, 25, nameScan))
-		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5538 - " + _("Scan failed"));
-
-	BOOST_FOREACH(const CAliasIndex &alias, nameScan) {
-		UniValue oName(UniValue::VOBJ);
-		if(BuildAliasJson(alias, false, oName))
-			oRes.push_back(oName);
-	}
-
-
-	return oRes;
 }
 void GetPrivateKeysFromScript(const CScript& script, vector<string> &strKeys)
 {
@@ -3044,7 +2758,7 @@ UniValue aliasstats(const UniValue& params, bool fHelp) {
 	std::vector<CAliasIndex> aliases;
 	if (!paliasdb->GetDBAliases(aliases, nExpireFilter))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5539 - " + _("Scan failed"));	
-	if(!BuildAliasStatsJson(aliases, oAliasStats))
+	if(!BuildAliasStatsJson(aliases, oAliasStats, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5540 - " + _("Could not find this alias"));
 
 	return oAliasStats;
@@ -3066,10 +2780,6 @@ bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAli
 	}
 	oAliasStats.push_back(Pair("aliases", oAliases)); 
 	return true;
-}
-bool CAliasIndex::IsIn212Fork()
-{
-	return (nHeight >= SYSSOFTFORK_212 || ChainNameFromCommandLine() != CBaseChainParams::MAIN);
 }
 UniValue aliasdecodemultisigredeemscript(const UniValue& params, bool fHelp) {
 	if (fHelp || 1 != params.size())
@@ -3101,3 +2811,15 @@ UniValue aliasdecodemultisigredeemscript(const UniValue& params, bool fHelp) {
 	oRedeemScript.push_back(Pair("reqsigners", oRedeemKeys));
 	return oRedeemScript;
 }
+UniValue aliasaddscript(const UniValue& params, bool fHelp) {
+	if (fHelp || 1 != params.size())
+		throw runtime_error("aliasaddscript redeemscript\n"
+				"Add redeemscript to local wallet for signing smart contract based alias transactions.\n");
+	std::vector<unsigned char> data(ParseHex(params[0].get_str()));
+	if(pwalletMain)
+		pwalletMain->AddCScript(CScript(data.begin(), data.end()));
+	UniValue res(UniValue::VOBJ);
+	res.push_back(Pair("result", "success");
+	return res;
+}
+	

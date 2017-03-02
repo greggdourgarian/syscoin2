@@ -11,6 +11,7 @@ enum FeedbackUser {
 
 class CFeedback {
 public:
+	// offline
 	std::vector<unsigned char> vchFeedback;
 	unsigned char nRating;
 	unsigned char nFeedbackUserTo;

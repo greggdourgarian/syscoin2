@@ -27,6 +27,7 @@ public:
 	std::vector<unsigned char> vchArbiterAlias;
 	std::vector<unsigned char> vchRedeemScript;
 	std::vector<unsigned char> vchOffer;
+	// offline
 	std::vector<unsigned char> vchPaymentMessage;
 	std::vector<unsigned char> rawTx;
 	std::vector<unsigned char> vchBuyerAlias;
@@ -169,10 +170,6 @@ public:
     bool ExistsEscrowTx(const uint256& txid) {
         return Exists(make_pair(std::string("escrowt"), txid));
     }
-    bool ScanEscrows(
-		const std::vector<unsigned char>& vchEscrow, const std::string& strRegExp, const std::vector<std::string>& aliasArray,
-            unsigned int nMax,
-            std::vector<std::pair<CEscrow, CEscrow> >& escrowScan);
 	bool GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 };
@@ -181,7 +178,7 @@ bool GetTxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, 
 bool GetTxAndVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx, std::vector<CEscrow> &vtxPos);
 bool GetVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, std::vector<CEscrow> &vtxPos);
 void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, std::vector<CEscrow> &vtxPos);
-bool BuildEscrowJson(const CEscrow &escrow, const CEscrow &firstEscrow, UniValue& oEscrow, const std::string &strWalletless="");
+bool BuildEscrowJson(const vector<CEscrow> &vtxPos, UniValue& oEscrow, const std::string &strWalletless="");
 bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, UniValue& oEscrowStats);
 uint64_t GetEscrowExpiration(const CEscrow& escrow);
 #endif // ESCROW_H

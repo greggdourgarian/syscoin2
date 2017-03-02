@@ -23,12 +23,10 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasdata)
 {
 	printf("Running generate_big_aliasdata...\n");
 	GenerateBlocks(5);
-	// 1024 bytes long
-	string gooddata = "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";
-	// 1025 bytes long
-	string baddata =   "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsdz";
-	AliasNew("node1", "jag",  "password", gooddata);
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg jag1 " + HexStr(vchFromString("password")) +  " " + baddata), runtime_error);
+	string s256bytes =   "dSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";
+	string s257bytes =   "dSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
+	AliasNew("node1", "jag",  "password", s256bytes);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg jag1 " + HexStr(vchFromString("password")) +  " " + s257bytes), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 {
@@ -36,11 +34,10 @@ BOOST_AUTO_TEST_CASE (generate_big_aliasname)
 	GenerateBlocks(5);
 	// 64 bytes long
 	string goodname = "sfsdfdfsdsfsfsdfdfsdsfdsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdsfsdfdd";
-	// 1024 bytes long
-	string gooddata = "dasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
+	string s256bytes =   "dSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";
 	// 65 bytes long
 	string badname =  "sfsdfdfsdsfsfsdfdfsdsfdsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdsfsddfda";
-	AliasNew("node1", goodname, "password", "a");
+	AliasNew("node1", goodname, s256bytes, s256bytes);
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg " + badname + " " + HexStr(vchFromString("password")) +  " 3d"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_aliaspassword)
@@ -185,11 +182,11 @@ BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
 	BOOST_CHECK(aliasoldexpiry < aliasnewexpiry);
 	StopNode("node3");
 	GenerateBlocks(5, "node1");
-	string offerguid = OfferNew("node1", "aliasnew", "category", "title", "1", "0.05", "description", "USD");
+	string offerguid = OfferNew("node1", "aliasnew", "1", "0.05", "details", "USD");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(aliasnewexpiry ,  find_value(r.get_obj(), "expires_on").get_int64());
 	
-	OfferUpdate("node1", "aliasold", offerguid, "category", "titlenew", "1", "0.05", "descriptionnew", "USD");
+	OfferUpdate("node1", "aliasold", offerguid, "1", "0.05", "detailsnew", "USD");
 	GenerateBlocks(5, "node1");
 	GenerateBlocks(5, "node2");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguid));
@@ -244,8 +241,6 @@ BOOST_AUTO_TEST_CASE (generate_alias_offerexpiry_resync)
 
 	// node 3 doesn't download the offer since it expired while node 3 was offline
 	BOOST_CHECK_THROW(r = CallRPC("node3", "offerinfo " + offerguid), runtime_error);
-	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "No"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "Yes"), false);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "offerinfo " + offerguid));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
@@ -385,26 +380,35 @@ BOOST_AUTO_TEST_CASE (generate_aliasbalancewithtransfer)
 BOOST_AUTO_TEST_CASE (generate_multisigalias)
 {
 	printf("Running generate_multisigalias...\n");
+	UniValue r;
 	AliasNew("node1", "jagnodemultisig1", "password", "changeddata1");
 	AliasNew("node2", "jagnodemultisig2", "password", "changeddata1");
 	AliasNew("node3", "jagnodemultisig3", "password", "changeddata1");
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
+	// used for when setting multisig alias back to normal alias
+	string oldAddressStr = find_value(r, "address").get_str();
 	UniValue arrayParams(UniValue::VARR);
 	UniValue arrayOfKeys(UniValue::VARR);
 
 	// create 2 of 2
 	UniValue resCreate;
-	string redeemScript;
+	string redeemScript, addressStr;
 	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"]\""));	
 	UniValue redeemScript_value = find_value(resCreate, "redeemScript");
+	UniValue address_value = find_value(resCreate, "address");
 	BOOST_CHECK(redeemScript_value.isStr());
+	BOOST_CHECK(address_value.isStr());
 	redeemScript = redeemScript_value.get_str();
+	addressStr = address_value.get_str();
 		
-	string tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	string tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", "\"\"", addressStr);
 	BOOST_CHECK_EQUAL(tmp, "");
 	// change the multisigs pw and public data
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasaddscript " + redeemScript));
 	string hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata1", "\"\"", "\"\"", "newpassword");
-	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	
+	BOOST_CHECK_NO_THROW(CallRPC("node2", "aliasaddscript " + redeemScript));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction " + hex_str));
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5);
 	// pay to multisig and check balance
@@ -418,22 +422,26 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	CAmount balanceBefore = 19*COIN;
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(abs(balanceBefore - balanceAfter) < COIN);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), redeemScript);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 	hex_str = AliasUpdate("node2", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword1");
 	BOOST_CHECK(hex_str != "");
 
 	// create 1 of 2
 	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 1 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\"]\""));	
 	redeemScript_value = find_value(resCreate, "redeemScript");
+	address_value = find_value(resCreate, "address");
 	BOOST_CHECK(redeemScript_value.isStr());
+	BOOST_CHECK(address_value.isStr());
 	redeemScript = redeemScript_value.get_str();
-	hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	addressStr = address_value.get_str();
+	hex_str = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", addressStr);
+	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "syscoinsignrawtransaction " + hex_str));
 	GenerateBlocks(5, "node2");
 	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), redeemScript);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 	// ensure only one signature is needed
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasaddscript " + redeemScript));
 	hex_str = AliasUpdate("node1", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "newpassword");
 	BOOST_CHECK_EQUAL(hex_str, "");
 	// pay to multisig and check balance
@@ -446,20 +454,25 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// create 2 of 3
 	BOOST_CHECK_NO_THROW(resCreate = CallRPC("node1", "createmultisig 2 \"[\\\"jagnodemultisig1\\\",\\\"jagnodemultisig2\\\", \\\"jagnodemultisig3\\\"]\""));	
 	redeemScript_value = find_value(resCreate, "redeemScript");
+	address_value = find_value(resCreate, "address");
 	BOOST_CHECK(redeemScript_value.isStr());
+	BOOST_CHECK(address_value.isStr());
 	redeemScript = redeemScript_value.get_str();
-	tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", redeemScript);
+	addressStr = address_value.get_str();
+	tmp = AliasUpdate("node1", "jagnodemultisig1", "pubdata", "privdata", "Yes", "password", addressStr);
 	BOOST_CHECK_EQUAL(tmp, "");
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "redeemscript").get_str(), redeemScript);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str(), addressStr);
 	// 2 sigs needed, remove redeemScript to make it a normal alias
-	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", "X");
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction jagnodemultisig1 " + hex_str));
+	BOOST_CHECK_NO_THROW(CallRPC("node3", "aliasaddscript " + redeemScript));
+	hex_str = AliasUpdate("node3", "jagnodemultisig1", "\"\"", "\"\"", "\"\"", "\"\"", oldAddressStr);
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasaddscript " + redeemScript));
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "syscoinsignrawtransaction " + hex_str));
 	GenerateBlocks(5, "node3");
 	GenerateBlocks(5);
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
-	BOOST_CHECK(find_value(r.get_obj(), "redeemscript").get_str().size() <= 2);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address"), oldAddressStr);
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 7"), runtime_error);
 	GenerateBlocks(5);
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
@@ -506,45 +519,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasauthenticationmultisig)
 	// edit alias with authentication key from wallet that doesnt own that alias
 	// pass that tx to another alias and verify it got signed and pushed to network
 }
-BOOST_AUTO_TEST_CASE (generate_aliassafesearch)
-{
-	printf("Running generate_aliassafesearch...\n");
-	UniValue r;
-	GenerateBlocks(1);
-	// alias is safe to search
-	AliasNew("node1", "jagsafesearch", "password", "pubdata", "privdata", "Yes");
-	// not safe to search
-	AliasNew("node1", "jagnonsafesearch", "password", "pubdata", "privdata", "No");
-	// should include result in both safe search mode on and off
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "Yes"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "No"), true);
 
-	// should only show up if safe search is off
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagnonsafesearch", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagnonsafesearch", "No"), true);
-
-	// shouldn't affect aliasinfo
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagsafesearch"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnonsafesearch"));
-
-	// reverse the rolls
-	AliasUpdate("node1", "jagsafesearch", "pubdata1", "privdata1", "No");
-	AliasUpdate("node1", "jagnonsafesearch", "pubdata2", "privdata2", "Yes");
-
-	// should include result in both safe search mode on and off
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "No"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagsafesearch", "Yes"), false);
-
-	// should only regardless of safesearch
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagnonsafesearch", "No"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagnonsafesearch", "Yes"), true);
-
-	// shouldn't affect aliasinfo
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagsafesearch"));
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnonsafesearch"));
-
-
-}
 
 BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 {
@@ -559,14 +534,9 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	// can't renew aliases that aren't expired
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasnew sysrates.peg aliasexpirebuyback " + HexStr(vchFromString("password")) + " data"), runtime_error);
 	ExpireAlias("aliasexpirebuyback");
-	// expired aliases shouldnt be searchable
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "Yes"), false);
-	
+
 	// renew alias (with same password) and now its searchable
 	AliasNew("node1", "aliasexpirebuyback", "passwordnew1", "somedata1", "data1");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback", "Yes"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback", "Yes"), true);
 
 	ExpireAlias("aliasexpirebuyback");
 	// try to renew alias again second time
@@ -577,15 +547,10 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	AliasNew("node1", "aliasexpirebuyback1", "passwordnew3", "somedata1", "data1");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("aliasexpirebuyback1");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback1", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback1", "Yes"), false);
 
 	StartNode("node3");
 	ExpireAlias("aliasexpirebuyback1");
 	GenerateBlocks(5, "node3");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback1", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback1", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node3", "aliasexpirebuyback1", "Yes"), false);
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasinfo aliasexpirebuyback1"), runtime_error);
 
@@ -595,22 +560,15 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpiredbuyback)
 	GenerateBlocks(10, "node1");
 	GenerateBlocks(10, "node1");
 	ExpireAlias("aliasexpirebuyback2");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "Yes"), false);
 	// renew second time
 	AliasNew("node1", "aliasexpirebuyback2", "passwordnew6", "data2", "data2");
 	GenerateBlocks(10, "node1");
 	GenerateBlocks(10, "node1");
 	ExpireAlias("aliasexpirebuyback2");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "Yes"), false);
 	StartNode("node3");
 	ExpireAlias("aliasexpirebuyback2");
 	GenerateBlocks(10, "node3");
 	GenerateBlocks(10, "node3");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasexpirebuyback2", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasexpirebuyback2", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node3", "aliasexpirebuyback2", "Yes"), false);
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasinfo aliasexpirebuyback2"), runtime_error);
 	ExpireAlias("aliasexpirebuyback");
@@ -640,19 +598,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasban)
 	UniValue r;
 	GenerateBlocks(10);
 	// 2 aliases, one will be banned that is safe searchable other is banned that is not safe searchable
-	AliasNew("node1", "jagbansafesearch", "password", "pubdata", "privdata", "Yes");
-	AliasNew("node1", "jagbannonsafesearch", "password", "pubdata", "privdata", "No");
+	AliasNew("node1", "jagbansafesearch", "password", "pubdata", "privdata");
+	AliasNew("node1", "jagbannonsafesearch", "password", "pubdata", "privdata");
 	// can't ban on any other node than one that created sysban
 	BOOST_CHECK_THROW(AliasBan("node2","jagbansafesearch",SAFETY_LEVEL1), runtime_error);
 	BOOST_CHECK_THROW(AliasBan("node3","jagbansafesearch",SAFETY_LEVEL1), runtime_error);
 	// ban both aliases level 1 (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearch",SAFETY_LEVEL1));
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbannonsafesearch",SAFETY_LEVEL1));
-	// should only show level 1 banned if safe search filter is not used
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearch", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearch", "No"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearch", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearch", "No"), true);
 	// should be able to aliasinfo on level 1 banned aliases
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagbansafesearch"));
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagbannonsafesearch"));
@@ -660,11 +613,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasban)
 	// ban both aliases level 2 (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearch",SAFETY_LEVEL2));
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbannonsafesearch",SAFETY_LEVEL2));
-	// no matter what filter won't show banned aliases
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearch", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearch", "No"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearch", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearch", "No"), false);
 
 	// shouldn't be able to aliasinfo on level 2 banned aliases
 	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasinfo jagbansafesearch"), runtime_error);
@@ -673,14 +621,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasban)
 	// unban both aliases (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearch",0));
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbannonsafesearch",0));
-	// safe to search regardless of filter
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearch", "Yes"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearch", "No"), true);
-
-	// since safesearch is set to false on this alias, it won't show up in search still
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearch", "Yes"), false);
-	// it will if you are not doing a safe search
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearch", "No"), true);
 
 	// should be able to aliasinfo on non banned aliases
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagbansafesearch"));
@@ -694,105 +634,53 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	UniValue r;
 	GenerateBlocks(10);
 	// 2 aliases, one will be banned that is safe searchable other is banned that is not safe searchable
-	AliasNew("node1", "jagbansafesearchoffer", "password", "pubdata", "privdata", "Yes");
-	AliasNew("node1", "jagbannonsafesearchoffer", "password", "pubdata", "privdata", "No");
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearchoffer", "Yes"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbansafesearchoffer", "No"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearchoffer", "Yes"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "jagbannonsafesearchoffer", "No"), true);
+	AliasNew("node1", "jagbansafesearchoffer", "password", "pubdata", "privdata");
+	AliasNew("node1", "jagbannonsafesearchoffer", "password", "pubdata", "privdata");
 
 	// good case, safe offer with safe alias
-	string offerguidsafe1 = OfferNew("node1", "jagbansafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "Yes");
+	string offerguidsafe1 = OfferNew("node1", "jagbansafesearchoffer", "100", "1.00", "details", "USD");
 	// good case, unsafe offer with safe alias
-	string offerguidsafe2 = OfferNew("node1", "jagbansafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "No");
+	string offerguidsafe2 = OfferNew("node1", "jagbansafesearchoffer", "100", "1.00", "details", "USD");
 	// good case, unsafe offer with unsafe alias
-	string offerguidsafe3 = OfferNew("node1", "jagbannonsafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "No");
-
-	// safe offer with safe alias should show regardless of safe search
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "Yes"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "No"), true);
-	// unsafe offer with safe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), true);
-	// unsafe offer with unsafe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);
+	string offerguidsafe3 = OfferNew("node1", "jagbannonsafesearchoffer", "100", "1.00", "details", "USD");
 
 	// safe offer with unsafe alias
-	string offerguidunsafe = OfferNew("node1", "jagbannonsafesearchoffer", "category", "title", "100", "1.00", "description", "USD", "\"\"", "\"\"", "location", "Yes");
-	// safe offer with unsafe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidunsafe, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidunsafe, "No"), true);
+	string offerguidunsafe = OfferNew("node1", "jagbannonsafesearchoffer", "100", "1.00", "details", "USD");
 
 	// swap safe search fields on the aliases
-	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "No");	
-	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "Yes");
-
-	// safe offer with unsafe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "No"), true);
-	// unsafe offer with unsafe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), true);
-	// unsafe offer with safe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);
+	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1");	
+	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1");
 
 	// keep alive
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "Yes");
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", "No", "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "10", "1.00", "detailsnew", "USD");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "90", "0.15", "detailsnew", "USD");
 	// swap them back and check filters again
-	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "Yes");	
-	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "No");
+	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1");	
+	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1");
 
-	// safe offer with safe alias should show regardless of safe search
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "Yes"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "No"), true);
-	// unsafe offer with safe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), true);
-	// unsafe offer with unsafe alias should show only in safe search off mode
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);
 
 	// unsafe offer with unsafe alias, edit the offer to safe set offer to not safe
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "No");
-	// you won't be able to find it unless in safe search off mode because the alias doesn't actually change
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);	
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "10", "1.00", "detailsnew", "USD");
 
 	// unsafe offer with safe alias, edit to safe offer and change alias to unsafe 
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe2, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", "No", "\"\"", "location", "Yes");
-	// safe offer with unsafe alias should show when safe search off mode only
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), true);
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe2, "90", "0.15", "detailsnew", "USD");
 
 	// safe offer with safe alias, edit to unsafe offer
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe3, "category", "titlenew", "90", "0.15", "descriptionnew", "USD", "No", "\"\"", "location", "No");
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe3, "90", "0.15", "detailsnew", "USD");
 
 	// keep alive and revert settings
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "Yes");
-	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1", "Yes");	
-	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1", "No");
-
-	// unsafe offer with safe alias should show in safe off mode only
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe1, "10", "1.00", "detailsnew", "USD");
+	AliasUpdate("node1", "jagbansafesearchoffer", "pubdata1", "privatedata1");	
+	AliasUpdate("node1", "jagbannonsafesearchoffer", "pubdata1", "privatedata1");
 
 	// revert settings of offers
-	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "No");
-	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "category", "titlenew", "10", "1.00", "descriptionnew", "USD", "No", "\"\"", "location", "No");	
+	OfferUpdate("node1", "jagbansafesearchoffer", offerguidsafe2,"10", "1.00", "detailsnew", "USD");
+	OfferUpdate("node1", "jagbannonsafesearchoffer", offerguidsafe3, "10", "1.00", "detailsnew", "USD");	
 
 	// ban both aliases level 1 (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearchoffer",SAFETY_LEVEL1));
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbannonsafesearchoffer",SAFETY_LEVEL1));
-	// should only show level 1 banned if safe search filter is used
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "No"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);
+
 	// should be able to offerinfo on level 1 banned aliases
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguidsafe1));
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "offerinfo " + offerguidsafe2));
@@ -802,13 +690,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	// ban both aliases level 2 (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearchoffer",SAFETY_LEVEL2));
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbannonsafesearchoffer",SAFETY_LEVEL2));
-	// no matter what filter won't show banned aliases
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "No"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), false);
 
 	// shouldn't be able to offerinfo on level 2 banned aliases
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offerinfo " + offerguidsafe1), runtime_error);
@@ -819,13 +700,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasbanwithoffers)
 	// unban both aliases (only owner of syscategory can do this)
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbansafesearchoffer",0));
 	BOOST_CHECK_NO_THROW(AliasBan("node1","jagbannonsafesearchoffer",0));
-	// back to original settings
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "Yes"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe1, "No"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe2, "No"), true);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "Yes"), false);
-	BOOST_CHECK_EQUAL(OfferFilter("node1", offerguidsafe3, "No"), true);
 
 
 	// should be able to offerinfo on non banned aliases
@@ -844,22 +718,19 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	StopNode("node2");
 	AliasNew("node1", "aliasprune", "password", "pubdata", "privdata");
 	GenerateBlocks(5, "node1");
-	// we can find it as normal first
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune", "No"), true);
 	// then we let the service expire
 	ExpireAlias("aliasprune");
 	StartNode("node2");
 	ExpireAlias("aliasprune");
 	GenerateBlocks(5, "node2");
-	// now we shouldn't be able to search it
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune", "No"), false);
+
 	// and it should say its expired
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo aliasprune"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
 
 	// node2 shouldn't find the service at all (meaning node2 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasinfo aliasprune"), runtime_error);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune", "No"), false);
+
 
 	// stop node3
 	StopNode("node3");
@@ -872,19 +743,14 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
 	AliasUpdate("node1", "aliasprune1", "newdata", "privdata");
-	// you can search it still on node1/node2
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "No"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "No"), true);
+
 	// ensure service is still active since its supposed to expire at 100 blocks of non updated services
 	AliasUpdate("node1", "aliasprune1", "newdata1", "privdata1");
-	// you can search it still on node1/node2
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "No"), true);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "No"), true);
+
 	ExpireAlias("aliasprune1");
 	// now it should be expired
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasprune1 newdata2 " + HexStr(vchFromString("privatedata"))), runtime_error);
-	BOOST_CHECK_EQUAL(AliasFilter("node1", "aliasprune1", "No"), false);
-	BOOST_CHECK_EQUAL(AliasFilter("node2", "aliasprune1", "No"), false);
+
 	// and it should say its expired
 	BOOST_CHECK_NO_THROW(r = CallRPC("node2", "aliasinfo aliasprune1"));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 1);	
@@ -894,7 +760,7 @@ BOOST_AUTO_TEST_CASE (generate_aliaspruning)
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "aliasinfo aliasprune1"), runtime_error);
-	BOOST_CHECK_EQUAL(AliasFilter("node3", "aliasprune1", "No"), false);
+
 }
 BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 {
@@ -908,7 +774,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	AliasNew("node1", "aliasprunewithoffer", "password", "pubdata", "privdata");
 	AliasNew("node1", "aliasprunewithoffer1", "password", "pubdata", "privdata");
 	AliasNew("node2", "aliasprunewithoffer2", "password", "pubdata", "privdata");
-	string offerguid = OfferNew("node1", "aliasprunewithoffer", "category", "title", "1", "0.05", "description", "SYS");
+	string offerguid = OfferNew("node1", "aliasprunewithoffer", "1", "0.05", "details", "SYS");
 	string escrowguid = EscrowNew("node2", "node1", "aliasprunewithoffer2", offerguid, "1", "message", "aliasprunewithoffer1", "aliasprunewithoffer");
 	EscrowRelease("node2", "buyer", escrowguid);
 	EscrowClaimRelease("node1", escrowguid);
@@ -919,7 +785,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithoffer)
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "escrowinfo " + escrowguid), runtime_error);
-	BOOST_CHECK_EQUAL(EscrowFilter("node3", escrowguid), false);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 {
@@ -932,12 +797,12 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	StopNode("node3");
 	AliasNew("node1", "aliasprunewithcertoffer", "password", "pubdata", "privdata");
 	AliasNew("node2", "aliasprunewithcertoffer2", "password", "pubdata", "privdata");
-	string certguid = CertNew("node1", "aliasprunewithcertoffer", "jag1", "data", "pubdata");
-	string certofferguid = OfferNew("node1", "aliasprunewithcertoffer", "certificates", "title", "1", "0.05", "description", "SYS", certguid);
-	string offerguid = OfferNew("node1", "aliasprunewithcertoffer", "category", "title", "1", "0.05", "description", "SYS");
+	string certguid = CertNew("node1", "aliasprunewithcertoffer", "pubdata", "data");
+	string certofferguid = OfferNew("node1", "aliasprunewithcertoffer", "1", "0.05", "details", "SYS", certguid);
+	string offerguid = OfferNew("node1", "aliasprunewithcertoffer", "1", "0.05", "details", "SYS");
 	
-	OfferUpdate("node1", "aliasprunewithcertoffer", offerguid, "category", "title", "1", "0.05", "description");	
-	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "certificates", "title", "1", "0.05", "description", "SYS", "No", certguid);
+	OfferUpdate("node1", "aliasprunewithcertoffer", offerguid, "1", "0.05", "details");	
+	OfferUpdate("node1", "aliasprunewithcertoffer", certofferguid, "1", "0.05", "details", "SYS", "No", certguid);
 	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", certofferguid, "1", "message");
 	OfferAccept("node1", "node2", "aliasprunewithcertoffer2", offerguid, "1", "message");
 	ExpireAlias("aliasprunewithcertoffer2");
@@ -946,7 +811,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcertoffer)
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "offerinfo " + offerguid), runtime_error);
-	BOOST_CHECK_EQUAL(OfferFilter("node3", offerguid, "No"), false);
 }
 
 BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
@@ -960,8 +824,8 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	StopNode("node3");
 	AliasNew("node1", "aliasprunewithcert", "password", "pubdata", "privdata");
 	AliasNew("node2", "aliasprunewithcert2", "password", "pubdata", "privdata");
-	string certguid = CertNew("node1", "aliasprunewithcert", "jag1", "data", "pubdata");
-	CertUpdate("node1", certguid, "aliasprunewithcert", "title", "newdata", "pubdata");
+	string certguid = CertNew("node1", "aliasprunewithcert", "pubdata", "data");
+	CertUpdate("node1", certguid, "pubdata", "newdata");
 	CertTransfer("node1", "node2", certguid, "aliasprunewithcert2");
 	GenerateBlocks(5, "node1");
 	ExpireAlias("aliasprunewithcert2");
@@ -970,7 +834,6 @@ BOOST_AUTO_TEST_CASE (generate_aliasprunewithcert)
 	GenerateBlocks(5, "node3");
 	// node3 shouldn't find the service at all (meaning node3 doesn't sync the data)
 	BOOST_CHECK_THROW(CallRPC("node3", "certinfo " + certguid), runtime_error);
-	BOOST_CHECK_EQUAL(OfferFilter("node3", certguid, "No"), false);
 }
 BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 {
@@ -985,14 +848,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	AliasNew("node1", "aliasexpire0", "password", "somedata");
 	AliasNew("node2", "aliasexpire1", "password", "somedata");
 	string aliasexpirenode2pubkey = AliasNew("node2", "aliasexpirednode2", "password", "somedata");
-	string offerguid = OfferNew("node1", "aliasexpire0", "category", "title", "100", "0.01", "description", "SYS");
+	string offerguid = OfferNew("node1", "aliasexpire0", "100", "0.01", "details", "SYS");
 	OfferAddWhitelist("node1", offerguid, "aliasexpirednode2", "5");
-	string certguid = CertNew("node1", "aliasexpire", "certtitle", "certdata", "pubdata", "Yes");
+	string certguid = CertNew("node1", "aliasexpire", "pubdata", "certdata");
 	StopNode("node3");
 	string aliasexpire2pubkey = AliasNew("node1", "aliasexpire2", "password", "pubdata", "privdata");
 	string escrowguid = EscrowNew("node2", "node1", "aliasexpirednode2", offerguid, "1", "message", "aliasexpire", "aliasexpire0", "5");
 	string aliasexpire2node2pubkey = AliasNew("node2", "aliasexpire2node2", "password", "pubdata", "privdata");
-	string certgoodguid = CertNew("node1", "aliasexpire2", "certtitle", "certdata", "pubdata");
+	string certgoodguid = CertNew("node1", "aliasexpire2", "pubdata", "certdata");
 	ExpireAlias("aliasexpirednode2");
 	GenerateBlocks(5, "node2");
 
@@ -1014,16 +877,16 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 \"\" \"\" " + aliasexpirenode2pubkey), runtime_error);
 
 	// should fail: link to an expired alias in offer
-	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirednode2 " + offerguid + " 5 newdescription"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirednode2 " + offerguid + " 5 newdetails"), runtime_error);
 	// should fail: generate an offer using expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 category title 1 0.05 description USD nocert"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 1 0.05 details USD nocert"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject " + HexStr(vchFromString("messagefrom")) + " " +   HexStr(vchFromString("messageto")) + " aliasexpirednode2 aliasexpirednode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpirednode2 "  + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))), runtime_error);
 	// should fail: send message from expired alias to non-expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew subject " + HexStr(vchFromString("messagefrom")) + " " +   HexStr(vchFromString("messageto")) + " aliasexpirednode2 aliasexpire"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpire "  + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))), runtime_error);
 	// should fail: send message from non-expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew subject " + HexStr(vchFromString("messagefrom")) + " " +   HexStr(vchFromString("messageto")) + " aliasexpire aliasexpirednode2"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpire aliasexpirednode2 "  + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))), runtime_error);
 
 	// should fail: new escrow with expired arbiter alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 " + HexStr(vchFromString("message")) + " aliasexpirednode2"), runtime_error);
@@ -1034,10 +897,10 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1"));
 	GenerateBlocks(5, "node1");
 	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " aliasexpire2 newdata"));
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " category title 100 0.05 description"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certgoodguid + " newpubdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "offerupdate aliasexpire0 " + offerguid + " 100 0.05 details"));
 	GenerateBlocks(5, "node1");
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 data pubdata"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "certupdate " + certguid + " pubdata data"));
 	GenerateBlocks(5, "node1");
 
 	StartNode("node3");
@@ -1052,14 +915,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_NO_THROW(CallRPC("node2", "escrowinfo " + escrowguid));
 	// this will recreate the alias and give it a new pubkey.. we need to use the old pubkey to sign the multisig, the escrow rpc call must check for the right pubkey
 	BOOST_CHECK(aliasexpirenode2pubkey != AliasNew("node2", "aliasexpirednode2", "passwordnew3", "somedata"));
-	CertUpdate("node1", certgoodguid, "aliasexpire2", "jag1", "newdata", "pubdata");
+	CertUpdate("node1", certgoodguid, "aliasexpire2", "pubdata", "newdata");
 	// able to release and claim release on escrow with non-expired aliases with new pubkeys
 	EscrowRelease("node2", "buyer", escrowguid);	 
 	EscrowClaimRelease("node1", escrowguid); 
 
 	ExpireAlias("aliasexpire2");
 	// should fail: update cert with expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " aliasexpire jag1 \"\" pubdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + certguid + " pubdata"), runtime_error);
 	// should fail: xfer an cert with expired alias
 	BOOST_CHECK_THROW(CallRPC("node1", "certtransfer " + certguid + " aliasexpire2"), runtime_error);
 	// should fail: xfer an cert to an expired alias even though transferring cert is good
@@ -1079,7 +942,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 
 	ExpireAlias("aliasexpire2");
 	// should fail: generate a cert using expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 jag1 " + HexStr(vchFromString("privatedata")) + " pubdata"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certnew aliasexpire2 pubdata " + HexStr(vchFromString("privatedata"))), runtime_error);
 	// renew alias with new password after expiry
 	AliasNew("node2", "aliasexpirednode2", "passwordnew4", "somedata");
 }

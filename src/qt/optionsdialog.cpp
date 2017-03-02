@@ -278,7 +278,6 @@ void OptionsDialog::setMapper()
 	mapper->addMapping(ui->theme, OptionsModel::Theme);
 	mapper->addMapping(ui->defaultAlias, OptionsModel::DefaultAlias);
 	mapper->addMapping(ui->defaultPegAlias, OptionsModel::DefaultPegAlias);
-	mapper->addMapping(ui->safeSearch, OptionsModel::SafeSearch);
     mapper->addMapping(ui->lang, OptionsModel::Language);
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);

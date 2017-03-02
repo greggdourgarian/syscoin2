@@ -57,7 +57,6 @@ private:
     QString alias;
 	QString expiredStr;
 	QString m_oldPassword;
-	QString m_oldsafesearch;
 	QString m_oldvalue;
 	QString m_oldprivatevalue;
 	QString m_encryptionkey;

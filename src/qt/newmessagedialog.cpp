@@ -215,7 +215,10 @@ void NewMessageDialog::GetEncryptionKeys(const QString& fromalias, const QString
 }
 bool NewMessageDialog::saveCurrentRow()
 {
-	string privdata, strPrivateHexTo, strCipherPrivateDataTo, strPrivateHexFrom, strCipherPrivateDataFrom;
+	string strCipherPrivateData = "";
+	string strCipherEncryptionPrivateKeyTo = "";
+	string strCipherEncryptionPrivateKeyFrom = "";
+	string privdata = "";
     if(walletModel)
 	{
 		WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -230,6 +233,7 @@ bool NewMessageDialog::saveCurrentRow()
     switch(mode)
     {
     case NewMessage:
+	case ReplyMessage:
         if (ui->messageEdit->toPlainText().trimmed().isEmpty()) {
             QMessageBox::information(this, windowTitle(),
             tr("Empty message not allowed. Please try again"),
@@ -238,37 +242,48 @@ bool NewMessageDialog::saveCurrentRow()
         }
 		GetEncryptionKeys(ui->aliasEdit->currentText(), ui->toEdit->text());
 		privdata = ui->messageEdit->toPlainText().trimmed().toStdString();
-		if(privdata != "\"\"")
+		CKey privEncryptionKey;
+		privEncryptionKey.MakeNewKey(true);
+		CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
+		vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
+		
+		BOOST_CHECK(pubEncryptionKey.IsFullyValid());	
+		vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
+		if(!EncryptMessage(ParseHex(m_encryptionkeyto.toStdString()), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKeyTo))
 		{
-			if(!EncryptMessage(ParseHex(m_encryptionkeyto.toStdString()), privdata, strCipherPrivateDataTo))
-			{
-				QMessageBox::critical(this, windowTitle(),
-					tr("Could not encrypt private certificate data!"),
-					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
-			}
-			if(!EncryptMessage(ParseHex(m_encryptionkeyfrom.toStdString()), privdata, strCipherPrivateDataFrom))
-			{
-				QMessageBox::critical(this, windowTitle(),
-					tr("Could not encrypt private certificate data!"),
-					QMessageBox::Ok, QMessageBox::Ok);
-				return false;
-			}
+			QMessageBox::critical(this, windowTitle(),
+				tr("Could not encrypt private key to receiver alias!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
 		}
-		strPrivateHexTo = HexStr(vchFromString(strCipherPrivateDataTo));
-		if(strCipherPrivateDataTo.empty())
-			strPrivateHexTo = "\"\"";
-		strPrivateHexFrom = HexStr(vchFromString(strCipherPrivateDataFrom));
-		if(strCipherPrivateDataFrom.empty())
-			strPrivateHexFrom = "\"\"";
-
+		if(!EncryptMessage(ParseHex(m_encryptionkeyfrom.toStdString()), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKeyFrom))
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Could not encrypt private key to sender alias!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
+		if(!EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData))
+		{
+			QMessageBox::critical(this, windowTitle(),
+				tr("Could not encrypt message!"),
+				QMessageBox::Ok, QMessageBox::Ok);
+			return false;
+		}
 		strMethod = string("messagenew");
+		params.push_back(HexStr(vchFromString(strCipherPrivateData)));
 		params.push_back(ui->topicEdit->text().toStdString());
-		params.push_back(strPrivateHexFrom);
-		params.push_back(strPrivateHexTo);
-		params.push_back(ui->aliasEdit->currentText().toStdString());
-		params.push_back(ui->toEdit->text().toStdString());
-		params.push_back(ui->sendFrom->currentText().toStdString());
+		if(mode == NewMessage)
+			params.push_back(ui->aliasEdit->currentText().toStdString());
+		else if(mode == ReplyMessage);
+			params.push_back(ui->toEdit->text().toStdString());
+		if(mode == NewMessage)
+			params.push_back(ui->toEdit->text().toStdString());
+		else if(mode == ReplyMessage);
+			params.push_back(ui->aliasEdit->currentText().toStdString());
+		params.push_back(HexStr(vchPubEncryptionKey));
+		params.push_back(HexStr(vchFromString(strCipherEncryptionPrivateKeyFrom)));
+		params.push_back(HexStr(vchFromString(strCipherEncryptionPrivateKeyTo)));
 		
 
 		try {
@@ -311,90 +326,6 @@ bool NewMessageDialog::saveCurrentRow()
 			break;
 		}							
 
-        break;
-    case ReplyMessage:
-        if (ui->messageEdit->toPlainText().trimmed().isEmpty()) {
-            QMessageBox::information(this, windowTitle(),
-            tr("Empty message not allowed. Please try again"),
-                QMessageBox::Ok, QMessageBox::Ok);
-            return false;
-        }
-        if(mapper->submit())
-        {
-			privdata = ui->messageEdit->toPlainText().trimmed().toStdString();
-			if(privdata != "\"\"")
-			{
-				if(!EncryptMessage(ParseHex(m_encryptionkeyto.toStdString()), privdata, strCipherPrivateDataTo))
-				{
-					QMessageBox::critical(this, windowTitle(),
-						tr("Could not encrypt private certificate data!"),
-						QMessageBox::Ok, QMessageBox::Ok);
-					return false;
-				}
-				if(!EncryptMessage(ParseHex(m_encryptionkeyfrom.toStdString()), privdata, strCipherPrivateDataFrom))
-				{
-					QMessageBox::critical(this, windowTitle(),
-						tr("Could not encrypt private certificate data!"),
-						QMessageBox::Ok, QMessageBox::Ok);
-					return false;
-				}
-			}
-			strPrivateHexTo = HexStr(vchFromString(strCipherPrivateDataTo));
-			if(strCipherPrivateDataTo.empty())
-				strPrivateHexTo = "\"\"";
-			strPrivateHexFrom = HexStr(vchFromString(strCipherPrivateDataFrom));
-			if(strCipherPrivateDataFrom.empty())
-				strPrivateHexFrom = "\"\"";
-
-			strMethod = string("messagenew");
-			params.push_back(ui->topicEdit->text().toStdString());
-			params.push_back(strPrivateHexFrom);
-			params.push_back(strPrivateHexTo);
-			params.push_back(ui->messageEdit->toPlainText().trimmed().toStdString());
-			params.push_back(ui->aliasEdit->currentText().toStdString());
-			params.push_back(ui->toEdit->text().toStdString());
-			params.push_back(ui->sendFrom->currentText().toStdString());
-			
-			try {
-				UniValue result = tableRPC.execute(strMethod, params);
-				if (result.type() != UniValue::VNULL)
-				{
-					message = ui->messageEdit->toPlainText();	
-				}
-				const UniValue& resArray = result.get_array();
-				if(resArray.size() > 2)
-				{
-					const UniValue& complete_value = resArray[2];
-					bool bComplete = false;
-					if (complete_value.isStr())
-						bComplete = complete_value.get_str() == "true";
-					if(!bComplete)
-					{
-						string hex_str = resArray[0].get_str();
-						GUIUtil::setClipboard(QString::fromStdString(hex_str));
-						QMessageBox::information(this, windowTitle(),
-							tr("This transaction requires more signatures. Transaction hex has been copied to your clipboard for your reference. Please provide it to a signee that has not yet signed."),
-								QMessageBox::Ok, QMessageBox::Ok);
-						return true;
-					}
-				}
-			}
-			catch (UniValue& objError)
-			{
-				string strError = find_value(objError, "message").get_str();
-				QMessageBox::critical(this, windowTitle(),
-				tr("Error replying to message: ") + QString::fromStdString(strError),
-					QMessageBox::Ok, QMessageBox::Ok);
-				break;
-			}
-			catch(std::exception& e)
-			{
-				QMessageBox::critical(this, windowTitle(),
-					tr("General exception replying to message"),
-					QMessageBox::Ok, QMessageBox::Ok);
-				break;
-			}	
-        }
         break;
 	}
     return !message.isEmpty();

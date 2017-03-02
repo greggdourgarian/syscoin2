@@ -37,10 +37,10 @@ using namespace std;
 #include <QNetworkReply>
 #include "qzecjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey,QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, QString strCategory, float nQtyUnits, QWidget *parent) :
+OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey,QString offer, QString quantity, QString notes, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, float nQtyUnits, bool bCoinOffer,QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), m_encryptionkey(encryptionkey), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strCategory(strCategory), nQtyUnits(nQtyUnits)
+    ui(new Ui::OfferAcceptDialogZEC), platformStyle(platformStyle), alias(alias), m_encryptionkey(encryptionkey), offer(offer), notes(notes), quantity(quantity), sellerAlias(sellerAlias), address(address), arbiter(arbiter), nQtyUnits(nQtyUnits)
 {
     ui->setupUi(this);
 	QString theme = GUIUtil::getThemeName();
@@ -55,7 +55,7 @@ OfferAcceptDialogZEC::OfferAcceptDialogZEC(WalletModel* model, const PlatformSty
 	}
     int zecprecision;
     CAmount zecPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("ZEC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, zecprecision);
-	if(strCategory.startsWith("wanted > cryptocurrency"))
+	if(bCoinOffer)
 	{
 		zecPrice = nQtyUnits*COIN;
 		if(zecPrice == 0)
@@ -216,18 +216,16 @@ bool OfferAcceptDialogZEC::setupEscrowCheckboxState(bool desiredStateEnabled)
 			return false;
 		}
 		qstrPrice = QString::number(total);
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via ZCash:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open ZEC Wallet' if you are on the desktop and have ZCash Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 ZEC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(multisigaddress) + tr("using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via ZCash:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open ZEC Wallet' if you are on the desktop and have ZCash Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 ZEC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(multisigaddress) + tr("using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
 		ui->escrowDisclaimer->setText(QString("<font color='green'>") + tr("Escrow created successfully! Please fund using ZEC address ") + QString("<b>%1</b></font>").arg(multisigaddress));
 		ui->confirmButton->setEnabled(true);
 	}
 	else
 	{
-		if(strCategory.startsWith("wanted > cryptocurrency"))
-			ui->confirmButton->setEnabled(false);
 		convertAddress();
 		ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox") + QString("</font>"));
 		qstrPrice = priceZec;
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via ZCash:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open ZEC Wallet' if you are on the desktop and have ZCash Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 ZEC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(zaddress) + tr("using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via ZCash:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your ZCash wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open ZEC Wallet' if you are on the desktop and have ZCash Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 ZEC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(zaddress) + tr("using your ZCash wallet. Please enable dynamic fees in your ZEC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
 		SetupQRCode(qstrPrice);
 		return false;
 	}
@@ -446,7 +444,7 @@ void OfferAcceptDialogZEC::acceptOffer(){
 				QString offerAcceptTXID = QString::fromStdString(strResult);
 				if(offerAcceptTXID != QString(""))
 				{
-					OfferPayDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "ZEC", this);
+					OfferPayDialog dlg(platformStyle, this->quantity, this->qstrPrice, "ZEC", this);
 					dlg.exec();
 					this->offerPaid = true;
 					OfferAcceptDialogZEC::accept();
@@ -547,7 +545,7 @@ void OfferAcceptDialogZEC::acceptEscrow()
 				QString escrowTXID = QString::fromStdString(strResult);
 				if(escrowTXID != QString(""))
 				{
-					OfferEscrowDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "ZEC", this);
+					OfferEscrowDialog dlg(platformStyle, this->quantity, this->qstrPrice, "ZEC", this);
 					dlg.exec();
 					this->offerPaid = true;
 					OfferAcceptDialogZEC::accept();

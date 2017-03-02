@@ -151,8 +151,6 @@ void OptionsModel::Init(bool resetSettings)
         settings.setValue("defaultPegAlias", "sysrates.peg");
     if (!settings.contains("defaultListAlias"))
         settings.setValue("defaultListAlias", tr("All"));
-    if (!settings.contains("safesearch"))
-        settings.setValue("safesearch", "Yes");
     if (!settings.contains("zecEndPoint"))
 		settings.setValue("zecEndPoint", "http://zec.syscoin.org:8080/");
     if (!settings.contains("btcEndPoint"))
@@ -276,8 +274,6 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("defaultAlias");   
         case DefaultPegAlias:
             return settings.value("defaultPegAlias");
-       case SafeSearch:
-            return settings.value("safesearch");
        case ZecEndPoint:
             return settings.value("zecEndPoint");
        case BTCEndPoint:
@@ -433,11 +429,6 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 					settings.setValue("defaultPegAlias", "sysrates.peg");
 				else
 					settings.setValue("defaultPegAlias", value);
-            }
-            break;
-        case SafeSearch:
-            if (settings.value("safesearch") != value) {
-				settings.setValue("safesearch", value);
             }
             break;
        case ZecEndPoint:

@@ -131,7 +131,7 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 {
 	
 	string strError;
-	string strMethod = string("offeracceptlist");
+	string strMethod = string("offerlist");
 	UniValue params(UniValue::VARR); 
 	UniValue listAliases(UniValue::VARR);
 	appendListAliases(listAliases);
@@ -139,7 +139,7 @@ bool MyAcceptedOfferListPage::lookup(const QString &lookupid, const QString &acc
 	UniValue offerAcceptsValue;
 	QString offerAcceptHash;
 	params.push_back(acceptid.toStdString());
-
+	params.push_back("Yes");
     try {
         offerAcceptsValue = tableRPC.execute(strMethod, params);
 		const UniValue &offerAccepts = offerAcceptsValue.get_array();
@@ -670,7 +670,6 @@ void MyAcceptedOfferListPage::on_exportButton_clicked()
 
     writer.addColumn(tr("Offer ID"), OfferAcceptTableModel::Name, Qt::EditRole);
     writer.addColumn(tr("Accept ID"), OfferAcceptTableModel::GUID, Qt::EditRole);
-	writer.addColumn(tr("Title"), OfferAcceptTableModel::Title, Qt::EditRole);
 	writer.addColumn(tr("Height"), OfferAcceptTableModel::Height, Qt::EditRole);
 	writer.addColumn(tr("Price"), OfferAcceptTableModel::Price, Qt::EditRole);
 	writer.addColumn(tr("Currency"), OfferAcceptTableModel::Currency, Qt::EditRole);

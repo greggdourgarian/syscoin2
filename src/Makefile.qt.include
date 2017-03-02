@@ -106,18 +106,15 @@ QT_FORMS_UI = \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/transactiondescdialog.ui \
-  qt/forms/aliaslistpage.ui \
   qt/forms/editaliasdialog.ui \
   qt/forms/newmessagedialog.ui \
   qt/forms/signrawtxdialog.ui \
   qt/forms/manageescrowdialog.ui \
   qt/forms/offerfeedbackdialog.ui \
   qt/forms/messageinfodialog.ui \
-  qt/forms/escrowlistpage.ui \
   qt/forms/myescrowlistpage.ui \
   qt/forms/messagelistpage.ui \
   qt/forms/myaliaslistpage.ui \
-  qt/forms/offerlistpage.ui \
   qt/forms/editofferdialog.ui \
   qt/forms/myofferlistpage.ui \
   qt/forms/editwhitelistofferdialog.ui \
@@ -135,8 +132,7 @@ QT_FORMS_UI = \
   qt/forms/offeracceptdialog.ui \
   qt/forms/offeracceptdialogbtc.ui \
   qt/forms/offeracceptdialogzec.ui \
-  qt/forms/editcertdialog.ui \
-  qt/forms/certlistpage.ui
+  qt/forms/editcertdialog.ui
   
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -190,7 +186,6 @@ QT_MOC_CPP = \
   qt/moc_messageview.cpp  \
   qt/moc_aliastablemodel.cpp \
   qt/moc_escrowtablemodel.cpp \
-  qt/moc_escrowlistpage.cpp \
   qt/moc_myescrowlistpage.cpp \
   qt/moc_messagetablemodel.cpp \
   qt/moc_editaliasdialog.cpp \
@@ -201,7 +196,6 @@ QT_MOC_CPP = \
   qt/moc_messageinfodialog.cpp \
   qt/moc_inmessagelistpage.cpp \
   qt/moc_outmessagelistpage.cpp \
-  qt/moc_aliaslistpage.cpp \
   qt/moc_myaliaslistpage.cpp \
   qt/moc_offertablemodel.cpp \
   qt/moc_offeraccepttablemodel.cpp \
@@ -214,7 +208,6 @@ QT_MOC_CPP = \
   qt/moc_myofferwhitelisttablemodel.cpp \
   qt/moc_editwhitelistofferdialog.cpp \
   qt/moc_mywhitelistofferdialog.cpp \
-  qt/moc_offerlistpage.cpp \
   qt/moc_myofferlistpage.cpp \
   qt/moc_myacceptedofferlistpage.cpp \
   qt/moc_acceptedofferlistpage.cpp \
@@ -227,7 +220,6 @@ QT_MOC_CPP = \
   qt/moc_certtablemodel.cpp \
   qt/moc_editcertdialog.cpp \
   qt/moc_mycertlistpage.cpp \
-  qt/moc_certlistpage.cpp \
   qt/moc_qcomboboxdelegate.cpp
 
 SYSCOIN_MM = \
@@ -312,7 +304,6 @@ SYSCOIN_QT_H = \
   qt/messageview.h  \
   qt/aliastablemodel.h \
   qt/escrowtablemodel.h \
-  qt/escrowlistpage.h \
   qt/myescrowlistpage.h \
   qt/messagetablemodel.h \
   qt/editaliasdialog.h \
@@ -323,7 +314,6 @@ SYSCOIN_QT_H = \
   qt/messageinfodialog.h \
   qt/inmessagelistpage.h \
   qt/outmessagelistpage.h \
-  qt/aliaslistpage.h \
   qt/myaliaslistpage.h \
   qt/offertablemodel.h \
   qt/offeraccepttablemodel.h \
@@ -336,7 +326,6 @@ SYSCOIN_QT_H = \
   qt/myofferwhitelisttablemodel.h \
   qt/editwhitelistofferdialog.h \
   qt/mywhitelistofferdialog.h \
-  qt/offerlistpage.h \
   qt/myofferlistpage.h \
   qt/myacceptedofferlistpage.h \
   qt/acceptedofferlistpage.h \
@@ -349,8 +338,7 @@ SYSCOIN_QT_H = \
   qt/certtablemodel.h \
   qt/editcertdialog.h \
   qt/mycertlistpage.h \
-  qt/qcomboboxdelegate.h \
-  qt/certlistpage.h
+  qt/qcomboboxdelegate.h
 
 RES_ICONS = \
   qt/res/icons/syscoin.ico \
@@ -622,7 +610,6 @@ SYSCOIN_QT_CPP += \
   qt/messageview.cpp  \
   qt/aliastablemodel.cpp \
   qt/escrowtablemodel.cpp \
-  qt/escrowlistpage.cpp \
   qt/myescrowlistpage.cpp \
   qt/messagetablemodel.cpp \
   qt/editaliasdialog.cpp \
@@ -633,7 +620,6 @@ SYSCOIN_QT_CPP += \
   qt/messageinfodialog.cpp \
   qt/inmessagelistpage.cpp \
   qt/outmessagelistpage.cpp \
-  qt/aliaslistpage.cpp \
   qt/myaliaslistpage.cpp \
   qt/offertablemodel.cpp \
   qt/offeraccepttablemodel.cpp \
@@ -646,7 +632,6 @@ SYSCOIN_QT_CPP += \
   qt/myofferwhitelisttablemodel.cpp \
   qt/editwhitelistofferdialog.cpp \
   qt/mywhitelistofferdialog.cpp \
-  qt/offerlistpage.cpp \
   qt/myofferlistpage.cpp \
   qt/myacceptedofferlistpage.cpp \
   qt/acceptedofferlistpage.cpp \
@@ -659,8 +644,7 @@ SYSCOIN_QT_CPP += \
   qt/certtablemodel.cpp \
   qt/editcertdialog.cpp \
   qt/mycertlistpage.cpp \
-  qt/qcomboboxdelegate.cpp \
-  qt/certlistpage.cpp
+  qt/qcomboboxdelegate.cpp
 endif
 
 RES_IMAGES = \

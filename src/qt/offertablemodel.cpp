@@ -23,26 +23,21 @@ struct OfferTableEntry
     };
 
     Type type;
-    QString title;
 	QString cert;
-	QString description;
+	QString details;
     QString offer;
-	QString category;
 	QString price;
 	QString currency;
 	QString qty;
-	QString sold;
 	QString expired;
 	QString private_str;
 	QString alias;
 	QString aliasRating;
 	QString paymentoptions;
 	QString alias_peg;
-	QString safesearch;
-	QString geolocation;
     OfferTableEntry() {}
-    OfferTableEntry(Type type,const QString &cert,  const QString &title, const QString &offer, const QString &description, const QString &category,const QString &price, const QString &currency,const QString &qty,const QString &sold,const QString &expired, const QString &private_str,const QString &alias,const QString &aliasRating, const QString &paymentoptions, const QString &alias_peg, const QString &safesearch, const QString &geolocation):
-        type(type), cert(cert), title(title), offer(offer), description(description), category(category),price(price), currency(currency),qty(qty), sold(sold),expired(expired),private_str(private_str), alias(alias), aliasRating(aliasRating), paymentoptions(paymentoptions),alias_peg(alias_peg), safesearch(safesearch), geolocation(geolocation) {}
+    OfferTableEntry(Type type,const QString &cert,const QString &offer, const QString &details, const QString &price, const QString &currency,const QString &qty,const QString &expired, const QString &private_str,const QString &alias,const QString &aliasRating, const QString &paymentoptions, const QString &alias_peg):
+        type(type), cert(cert), offer(offer), details(details), price(price), currency(currency),qty(qty), expired(expired),private_str(private_str), alias(alias), aliasRating(aliasRating), paymentoptions(paymentoptions),alias_peg(alias_peg) {}
 };
 struct OfferTableEntryLessThan
 {
@@ -84,21 +79,19 @@ public:
 			
 			UniValue result ;
 			string name_str;
-			string value_str;
+		
 			string cert_str;
 			string desc_str;
-			string category_str;
+		
 			string price_str;
 			string currency_str;
 			string qty_str;
-			int sold;
 			string expired_str;
 			string private_str;
 			string alias_str;
 			string paymentoptions_str;
 			string alias_peg_str;
-			string safesearch_str;
-			string geolocation_str;
+
 			string aliasRating_str;
 			bool expired = false;
 
@@ -110,12 +103,10 @@ public:
 				if (result.type() == UniValue::VARR)
 				{
 					name_str = "";
-					sold = 0;
 					cert_str = "";
-					value_str = "";
+
 					desc_str = "";
-					safesearch_str = "";
-					geolocation_str = "";
+
 					expired = false;
 					aliasRating_str = "";
 
@@ -128,15 +119,12 @@ public:
 							continue;
 						const UniValue& o = input.get_obj();
 						name_str = "";
-						value_str = "";
 						private_str = "";
 						alias_str = "";
 						paymentoptions_str = "";
 						alias_peg_str = "";
-						safesearch_str = "";
-						geolocation_str = "";
+
 						expired = false;
-						sold = 0;
 						aliasRating_str = "";
 
 				
@@ -148,15 +136,10 @@ public:
 							cert_str = cert_value.get_str();
 						if(showDigitalOffers && cert_str.size() <= 0)
 							continue;
-						const UniValue& value_value = find_value(o, "title");
-						if (value_value.type() == UniValue::VSTR)
-							value_str = value_value.get_str();
-						const UniValue& desc_value = find_value(o, "description");
+						const UniValue& desc_value = find_value(o, "details");
 						if (desc_value.type() == UniValue::VSTR)
 							desc_str = desc_value.get_str();
-						const UniValue& category_value = find_value(o, "category");
-						if (category_value.type() == UniValue::VSTR)
-							category_str = category_value.get_str();
+
 						const UniValue& price_value = find_value(o, "price");
 						if (price_value.type() == UniValue::VSTR)
 							price_str = price_value.get_str();
@@ -180,21 +163,12 @@ public:
 						const UniValue& aliasRating_value = find_value(o, "alias_rating_display");
 						if (aliasRating_value.type() == UniValue::VSTR)
 							aliasRating_str = aliasRating_value.get_str();
-						const UniValue& sold_value = find_value(o, "offers_sold");
-						if (sold_value.type() == UniValue::VNUM)
-							sold = sold_value.get_int();
 						const UniValue& paymentoptions_value = find_value(o, "paymentoptions_display");
 						if (paymentoptions_value.type() == UniValue::VSTR)
 							paymentoptions_str = paymentoptions_value.get_str();
 						const UniValue& alias_peg_value = find_value(o, "alias_peg");
 						if (alias_peg_value.type() == UniValue::VSTR)
 							alias_peg_str = alias_peg_value.get_str();
-						const UniValue& safesearch_value = find_value(o, "safesearch");
-						if (safesearch_value.type() == UniValue::VSTR)
-							safesearch_str = safesearch_value.get_str();
-						const UniValue& geolocation_value = find_value(o, "geolocation");
-						if (geolocation_value.type() == UniValue::VSTR)
-							geolocation_str = geolocation_value.get_str();
 						
 						if(expired == 1)
 						{
@@ -205,7 +179,7 @@ public:
 							expired_str = "Valid";
 						}
 
-						updateEntry( QString::fromStdString(name_str), QString::fromStdString(cert_str), QString::fromStdString(value_str), QString::fromStdString(desc_str), QString::fromStdString(category_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::number(sold), QString::fromStdString(expired_str), QString::fromStdString(private_str),QString::fromStdString(alias_str), QString::fromStdString(aliasRating_str), QString::fromStdString(paymentoptions_str), QString::fromStdString(alias_peg_str), QString::fromStdString(safesearch_str), QString::fromStdString(geolocation_str), type, CT_NEW); 
+						updateEntry( QString::fromStdString(name_str), QString::fromStdString(cert_str), QString::fromStdString(desc_str), QString::fromStdString(price_str), QString::fromStdString(currency_str), QString::fromStdString(qty_str), QString::fromStdString(expired_str), QString::fromStdString(private_str),QString::fromStdString(alias_str), QString::fromStdString(aliasRating_str), QString::fromStdString(paymentoptions_str), QString::fromStdString(alias_peg_str), type, CT_NEW); 
 					}
 				}
    			}
@@ -220,7 +194,7 @@ public:
          }
     }
 
-    void updateEntry(const QString &offer, const QString &cert, const QString &title,  const QString &description, const QString &category,const QString &price, const QString &currency,const QString &qty,const QString &sold, const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString &paymentOptions, const QString &alias_peg,  const QString &safesearch, const QString &geolocation, OfferModelType type, int status)
+    void updateEntry(const QString &offer, const QString &cert, const QString &details, const QString &price, const QString &currency,const QString &qty,const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString &paymentOptions, const QString &alias_peg, OfferModelType type, int status)
     {
 		if(!parent || parent->modelType != type)
 		{
@@ -244,7 +218,7 @@ public:
                 break;
             }
             parent->beginInsertRows(QModelIndex(), lowerIndex, lowerIndex);
-            cachedOfferTable.insert(lowerIndex, OfferTableEntry(newEntryType, cert, title, offer, description, category, price, currency, qty, sold, expired, private_str, alias, aliasRating, paymentOptions, alias_peg, safesearch, geolocation));
+            cachedOfferTable.insert(lowerIndex, OfferTableEntry(newEntryType, cert, offer, details, price, currency, qty, expired, private_str, alias, aliasRating, paymentOptions, alias_peg));
             parent->endInsertRows();
             break;
         case CT_UPDATED:
@@ -254,21 +228,16 @@ public:
             }
             lower->type = newEntryType;
 			lower->cert = cert;
-            lower->title = title;
-			lower->description = description;
-			lower->category = category;
+			lower->details = details;
 			lower->price = price;
 			lower->currency = currency;
 			lower->qty = qty;
-			lower->sold = sold;
 			lower->expired = expired;
 			lower->private_str = private_str;
 			lower->alias = alias;
 			lower->aliasRating = aliasRating;
 			lower->paymentoptions = paymentOptions;
 			lower->alias_peg = alias_peg;
-			lower->geolocation = geolocation;
-			lower->safesearch = safesearch;
             parent->emitDataChanged(lowerIndex);
             break;
         case CT_DELETED:
@@ -304,7 +273,7 @@ public:
 OfferTableModel::OfferTableModel(CWallet *wallet, WalletModel *parent,  OfferModelType type) :
     QAbstractTableModel(parent),walletModel(parent),wallet(wallet),priv(0), modelType(type)
 {
-    columns << tr("Offer") << tr("Certificate") << tr("Title") << tr("Description") << tr("Category") << tr("Price") << tr("Currency") << tr("Qty") << tr("Sold") << tr("Status") << tr("Private") << tr("Seller Alias") << tr("Rating") << tr("Payment Options");
+    columns << tr("Offer") << tr("Certificate") << tr("Details") << tr("Price") << tr("Currency") << tr("Qty") << tr("Status") << tr("Private") << tr("Seller Alias") << tr("Rating") << tr("Payment Options");
     priv = new OfferTablePriv(wallet, this);
     refreshOfferTable();
 }
@@ -352,24 +321,18 @@ QVariant OfferTableModel::data(const QModelIndex &index, int role) const
     {
         switch(index.column())
         {
-        case Title:
-            return rec->title;
         case Cert:
             return rec->cert;
         case Name:
             return rec->offer;
-        case Description:
-            return rec->description;
-        case Category:
-            return rec->category;
+        case Details:
+            return rec->details;
         case Price:
             return rec->price;
         case Currency:
             return rec->currency;
         case Qty:
             return rec->qty;
-        case Sold:
-            return rec->sold;
         case Expired:
             return rec->expired;
         case Private:
@@ -382,10 +345,6 @@ QVariant OfferTableModel::data(const QModelIndex &index, int role) const
 			return rec->paymentoptions;
 		case AliasPeg:
 			return rec->alias_peg;
-		case SafeSearch:
-			return rec->safesearch;
-		case GeoLocation:
-			return rec->geolocation;
         }
     }
     else if (role == NameRole)
@@ -401,33 +360,21 @@ QVariant OfferTableModel::data(const QModelIndex &index, int role) const
         default: break;
         }
     }
-	else if(role == CategoryRole)
-	{
-		return rec->category;
-	}
 	else if(role == CertRole)
 	{
 		return rec->cert;
-	}
-	else if(role == TitleRole)
-	{
-		return rec->title;
 	}
 	else if(role == QtyRole)
 	{
 		return rec->qty;
 	}
-	else if(role == SoldRole)
-	{
-		return rec->sold;
-	}
 	else if(role == PriceRole)
 	{
 		return rec->price;
 	}
-	else if(role == DescriptionRole)
+	else if(role == DetailsRole)
 	{
-		return rec->description;
+		return rec->details;
 	}
 	else if(role == ExpiredRole)
 	{
@@ -457,10 +404,6 @@ QVariant OfferTableModel::data(const QModelIndex &index, int role) const
 	{
 		return rec->alias_peg;
 	}
-	else if(role == SafeSearchRole)
-	{
-		return rec->safesearch;
-	}
 
     return QVariant();
 }
@@ -476,15 +419,6 @@ bool OfferTableModel::setData(const QModelIndex &index, const QVariant &value, i
     {
         switch(index.column())
         {
-        case Category:
-            // Do nothing, if old value == new value
-            if(rec->category == value.toString())
-            {
-                editStatus = NO_CHANGES;
-                return false;
-            }
-           
-            break;
         case Private:
 	         // Do nothing, if old value == new value
             if(rec->private_str == value.toString())
@@ -557,15 +491,6 @@ bool OfferTableModel::setData(const QModelIndex &index, const QVariant &value, i
             }
            
             break;
-        case Sold:
-            // Do nothing, if old value == new value
-            if(rec->sold == value.toString())
-            {
-                editStatus = NO_CHANGES;
-                return false;
-            }
-           
-            break;
         case Expired:
             // Do nothing, if old value == new value
             if(rec->expired == value.toString())
@@ -575,17 +500,9 @@ bool OfferTableModel::setData(const QModelIndex &index, const QVariant &value, i
             }
            
             break;
-       case Title:
+       case Details:
             // Do nothing, if old value == new value
-            if(rec->title == value.toString())
-            {
-                editStatus = NO_CHANGES;
-                return false;
-            }
-            break;
-       case Description:
-            // Do nothing, if old value == new value
-            if(rec->description == value.toString())
+            if(rec->details == value.toString())
             {
                 editStatus = NO_CHANGES;
                 return false;
@@ -594,22 +511,6 @@ bool OfferTableModel::setData(const QModelIndex &index, const QVariant &value, i
        case AliasPeg:
             // Do nothing, if old value == new value
             if(rec->alias_peg == value.toString())
-            {
-                editStatus = NO_CHANGES;
-                return false;
-            }
-            break;
-      case SafeSearch:
-            // Do nothing, if old value == new value
-            if(rec->safesearch == value.toString())
-            {
-                editStatus = NO_CHANGES;
-                return false;
-            }
-            break;
-      case GeoLocation:
-            // Do nothing, if old value == new value
-            if(rec->geolocation == value.toString())
             {
                 editStatus = NO_CHANGES;
                 return false;
@@ -674,13 +575,13 @@ QModelIndex OfferTableModel::index(int row, int column, const QModelIndex &paren
     }
 }
 
-void OfferTableModel::updateEntry(const QString &offer, const QString &cert, const QString &value, const QString &description, const QString &category,const QString &price, const QString &currency, const QString &qty, const QString &sold, const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString& paymentOptions, const QString& alias_peg, const QString &safesearch, const QString &geolocation, OfferModelType type, int status)
+void OfferTableModel::updateEntry(const QString &offer, const QString &cert, const QString &details, const QString &price, const QString &currency, const QString &qty,  const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString& paymentOptions, const QString& alias_peg, OfferModelType type, int status)
 {
-    // Update alias book model from Syscoin core
-    priv->updateEntry(offer, cert, value, description, category, price, currency, qty, sold, expired, private_str, alias, aliasRating, paymentOptions, alias_peg, safesearch, geolocation, type, status);
+    // Update book model from Syscoin core
+    priv->updateEntry(offer, cert, details, price, currency, qty, expired, private_str, alias, aliasRating, paymentOptions, alias_peg, type, status);
 }
 
-QString OfferTableModel::addRow(const QString &type, const QString &offer, const QString &cert, const QString &value, const QString &description, const QString &category,const QString &price, const QString &currency, const QString &qty, const QString &sold, const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString &paymentOptions, const QString &alias_peg, const QString &safesearch, const QString &geolocation)
+QString OfferTableModel::addRow(const QString &type, const QString &offer, const QString &cert, const QString &details, const QString &price, const QString &currency, const QString &qty, const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString &paymentOptions, const QString &alias_peg)
 {
     std::string strOffer = offer.toStdString();
     editStatus = OK;

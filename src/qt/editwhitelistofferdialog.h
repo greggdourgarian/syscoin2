@@ -41,11 +41,9 @@ private:
 	WalletModel* walletModel;
     QString newEntryToSelect;
 	QString offerGUID;
-	QString offerCategory;
-	QString offerTitle;
 	QString offerQty;
 	QString offerPrice;
-	QString offerDescription;
+	QString offerDetails;
 	QString offerCurrency;
 	QString offerPrivate;
 

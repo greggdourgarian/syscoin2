@@ -9,7 +9,6 @@ class WalletModel;
 class MyOfferListPage;
 class MyAcceptedOfferListPage;
 class AcceptedOfferListPage;
-class OfferListPage;
 class AcceptandPayOfferListPage;
 class SendCoinsRecipient;
 class PlatformStyle;
@@ -60,7 +59,6 @@ private:
     MyOfferListPage *myOfferListPage;
 	MyAcceptedOfferListPage *myAcceptedOfferListPage;
 	AcceptedOfferListPage *acceptedOfferListPage;
-    OfferListPage *offerListPage;	
 
 public:
     /** Switch to offer page */

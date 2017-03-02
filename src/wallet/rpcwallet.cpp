@@ -218,8 +218,9 @@ UniValue getzaddress(const UniValue& params, bool fHelp)
 
 	if(!sysAddress.isAlias)
 		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
-    CSyscoinAddress zecAddress;
-	GetAddress(sysAddress, &zecAddress, CChainParams::ADDRESS_ZEC);
+	CTxDestination dest = sysAddress.Get();
+	CSyscoinAddress zecAddress;
+	zecAddress.Set(dest, CChainParams::ADDRESS_ZEC);
 	return zecAddress.ToString();
 }
 CSyscoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
@@ -437,7 +438,7 @@ When to pay with this method:
 	3b) use total amount + required amount from 2a (if non zero) to find outputs in alias balance, if not enough balance throw error
 	3c) transaction completely funded
 4) if transaction completely funded, try to sign and send to network*/
-void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasFeePlaceholderRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, bool doNotSign, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false)
+void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasFeePlaceholderRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false)
 {
 
     CReserveKey reservekey(pwalletMain);
@@ -555,8 +556,9 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 			}
 		}
 	}
-	// now create the transaction and sign it with hopefully enough funding from alias utxo's (if coinControl specified fAllowOtherInputs(true) then and only then are wallet inputs are allowed)
-    if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, !doNotSign,true)) {
+	// now create the transaction and fake sign with enough funding from alias utxo's (if coinControl specified fAllowOtherInputs(true) then and only then are wallet inputs are allowed)
+    // actual signing happens in syscoinsignrawtransaction outside of this function call after the wtxNew raw transaction is returned back to it
+	if (!pwalletMain->CreateTransaction(vecSend, wtxNew, reservekey, nFeeRequired, nChangePosRet, strError, coinControl, false,true)) {
         throw runtime_error(strError);
     }
 	// run a check on the inputs without putting them into the db, just to ensure it will go into the mempool without issues
@@ -614,9 +616,6 @@ void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &a
 		if(!errorMessage.empty())
 			throw runtime_error(errorMessage.c_str());
 	}
-	
-    if (!doNotSign && !pwalletMain->CommitTransaction(wtxNew, reservekey))
-        throw runtime_error("SYSCOIN_RPC_ERROR ERRCODE: 9002 - " + _("The Syscoin alias you are trying to use for this transaction is invalid or has been updated and not confirmed yet! Please wait a block and try again..."));
 }
 static void SendMoney(const CTxDestination &address, CAmount nValue, bool fSubtractFeeFromAmount, CWalletTx& wtxNew)
 {
@@ -2878,9 +2877,9 @@ extern UniValue aliasaffiliates(const UniValue& params, bool fHelp);
 extern UniValue aliasinfo(const UniValue& params, bool fHelp);
 extern UniValue aliasbalance(const UniValue& params, bool fHelp);
 extern UniValue aliashistory(const UniValue& params, bool fHelp);
-extern UniValue aliasfilter(const UniValue& params, bool fHelp);
 extern UniValue aliasstats(const UniValue& params, bool fHelp);
 extern UniValue aliasdecodemultisigredeemscript(const UniValue& params, bool fHelp);
+extern UniValue aliasaddscript(const UniValue& params, bool fHelp);
 extern UniValue generatepublickey(const UniValue& params, bool fHelp);
 extern UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp);
 extern UniValue syscoindecoderawtransaction(const UniValue& params, bool fHelp);
@@ -2898,9 +2897,7 @@ extern UniValue offerwhitelist(const UniValue& params, bool fHelp);
 extern UniValue offerinfo(const UniValue& params, bool fHelp);
 extern UniValue offerstats(const UniValue& params, bool fHelp);
 extern UniValue offerlist(const UniValue& params, bool fHelp);
-extern UniValue offeracceptlist(const UniValue& params, bool fHelp);
 extern UniValue offerhistory(const UniValue& params, bool fHelp);
-extern UniValue offerfilter(const UniValue& params, bool fHelp);
 
 extern UniValue certupdate(const UniValue& params, bool fHelp);
 extern UniValue certnew(const UniValue& params, bool fHelp);
@@ -2908,7 +2905,6 @@ extern UniValue certtransfer(const UniValue& params, bool fHelp);
 extern UniValue certinfo(const UniValue& params, bool fHelp);
 extern UniValue certlist(const UniValue& params, bool fHelp);
 extern UniValue certhistory(const UniValue& params, bool fHelp);
-extern UniValue certfilter(const UniValue& params, bool fHelp);
 extern UniValue certstats(const UniValue& params, bool fHelp);
 
 extern UniValue generateescrowmultisig(const UniValue& params, bool fHelp);
@@ -2922,7 +2918,6 @@ extern UniValue escrowcompleterefund(const UniValue& params, bool fHelp);
 extern UniValue escrowinfo(const UniValue& params, bool fHelp);
 extern UniValue escrowlist(const UniValue& params, bool fHelp);
 extern UniValue escrowhistory(const UniValue& params, bool fHelp);
-extern UniValue escrowfilter(const UniValue& params, bool fHelp);
 extern UniValue escrowfeedback(const UniValue& params, bool fHelp);
 extern UniValue escrowacknowledge(const UniValue& params, bool fHelp);
 extern UniValue escrowstats(const UniValue& params, bool fHelp);
@@ -2931,6 +2926,7 @@ extern UniValue messagenew(const UniValue& params, bool fHelp);
 extern UniValue messageinfo(const UniValue& params, bool fHelp);
 extern UniValue messagereceivelist(const UniValue& params, bool fHelp);
 extern UniValue messagesentlist(const UniValue& params, bool fHelp);
+extern UniValue messagestats(const UniValue& params, bool fHelp);
 static const CRPCCommand commands[] =
 { //  category              name                        actor (function)           okSafeMode
     //  --------------------- ------------------------    -----------------------    ----------
@@ -2992,9 +2988,9 @@ static const CRPCCommand commands[] =
     { "wallet", "aliasinfo",         &aliasinfo,         false },
 	{ "wallet", "aliasbalance",      &aliasbalance,         false },
     { "wallet", "aliashistory",      &aliashistory,      false },
-    { "wallet", "aliasfilter",       &aliasfilter,       false },
 	{ "wallet", "aliasstats",        &aliasstats,       false },
 	{ "wallet", "aliasdecodemultisigredeemscript",        &aliasdecodemultisigredeemscript,       false },
+	{ "wallet", "aliasaddscript",        &aliasaddscript,       false },
 	{ "wallet", "generatepublickey", &generatepublickey, false },
 	{ "wallet", "syscoinsignrawtransaction",		 &syscoinsignrawtransaction,	false },
 	{ "wallet", "syscoindecoderawtransaction",		 &syscoindecoderawtransaction,	false },
@@ -3011,10 +3007,8 @@ static const CRPCCommand commands[] =
 	{ "wallet", "offerclearwhitelist",	&offerclearwhitelist,  false },
 	{ "wallet", "offerwhitelist",		&offerwhitelist,	   false },
     { "wallet", "offerlist",            &offerlist,            false },
-	{ "wallet", "offeracceptlist",      &offeracceptlist,      false },
     { "wallet", "offerinfo",            &offerinfo,            false },
     { "wallet", "offerhistory",         &offerhistory,         false },
-    { "wallet", "offerfilter",          &offerfilter,          false },
 	{ "wallet", "offerstats",           &offerstats,           false },
 
 	// use the blockchain as a certificate issuance platform
@@ -3024,7 +3018,6 @@ static const CRPCCommand commands[] =
 	{ "wallet", "certlist",              &certlist,          false },
 	{ "wallet", "certinfo",              &certinfo,          false },
 	{ "wallet", "certhistory",     &certhistory, false },
-	{ "wallet", "certfilter",      &certfilter,  false },
 	{ "wallet", "certstats",      &certstats,  false },
 
 	// use the blockchain for escrow linked to offers
@@ -3039,7 +3032,6 @@ static const CRPCCommand commands[] =
 	{ "wallet", "escrowlist",              &escrowlist,          false },
 	{ "wallet", "escrowinfo",              &escrowinfo,          false },
 	{ "wallet", "escrowhistory",     &escrowhistory, false },
-	{ "wallet", "escrowfilter",      &escrowfilter,  false },
 	{ "wallet", "escrowfeedback",      &escrowfeedback,  false },
 	{ "wallet", "escrowacknowledge",      &escrowacknowledge,  false },
 	{ "wallet", "escrowstats",           &escrowstats,           false },
@@ -3049,6 +3041,7 @@ static const CRPCCommand commands[] =
 	{ "wallet", "messagereceivelist",              &messagereceivelist,          false },
 	{ "wallet", "messagesentlist",              &messagesentlist,          false },
 	{ "wallet", "messageinfo",              &messageinfo,          false },
+	{ "wallet", "messagestats",      &messagestats,  false },
 };
 
 void RegisterWalletRPCCommands(CRPCTable &tableRPC)

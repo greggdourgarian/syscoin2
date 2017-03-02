@@ -37,10 +37,10 @@ using namespace std;
 #include <QNetworkReply>
 #include "qbtcjsonrpcclient.h"
 extern CRPCTable tableRPC;
-OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey, QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter,  QString strCategory, float nQtyUnits, QWidget *parent) :
+OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey, QString offer, QString quantity, QString notes, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, float nQtyUnits, bool bCoinOffer, QWidget *parent) :
     QDialog(parent),
 	walletModel(model),
-    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), m_encryptionkey(encryptionkey), offer(offer), notes(notes), quantity(quantity), title(title), sellerAlias(sellerAlias), address(address), arbiter(arbiter), strCategory(strCategory), nQtyUnits(nQtyUnits)
+    ui(new Ui::OfferAcceptDialogBTC), platformStyle(platformStyle), alias(alias), m_encryptionkey(encryptionkey), offer(offer), notes(notes), quantity(quantity), sellerAlias(sellerAlias), address(address), arbiter(arbiter), nQtyUnits(nQtyUnits)
 {
 	
     ui->setupUi(this);
@@ -56,7 +56,7 @@ OfferAcceptDialogBTC::OfferAcceptDialogBTC(WalletModel* model, const PlatformSty
 	}
     int btcprecision;
     CAmount btcPrice = convertSyscoinToCurrencyCode(vchFromString(strAliasPeg.toStdString()), vchFromString("BTC"), AmountFromValue(sysPrice.toStdString()), chainActive.Tip()->nHeight, btcprecision);
-	if(strCategory.startsWith("wanted > cryptocurrency"))
+	if(bCoinOffer)
 	{
 		btcPrice = nQtyUnits*COIN;
 		if(btcPrice == 0)
@@ -218,17 +218,15 @@ bool OfferAcceptDialogBTC::setupEscrowCheckboxState(bool desiredStateEnabled)
 			return false;
 		}
 		qstrPrice = QString::number(total);
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via Bitcoin:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 BTC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(multisigaddress) + tr("using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via Bitcoin:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 BTC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(multisigaddress) + tr("using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
 		ui->escrowDisclaimer->setText(QString("<font color='green'>") + tr("Escrow created successfully! Please fund using BTC address ") + QString("<b>%1</b></font>").arg(multisigaddress));
 		ui->confirmButton->setEnabled(true);
 	}
 	else
 	{
-		if(strCategory.startsWith("wanted > cryptocurrency"))
-			ui->confirmButton->setEnabled(false);
 		ui->escrowDisclaimer->setText(QString("<font color='blue'>") + tr("Enter a Syscoin arbiter that is mutally trusted between yourself and the merchant. Then enable the 'Use Escrow' checkbox") + QString("</font>"));
 		qstrPrice = priceBtc;
-		ui->acceptMessage->setText(tr("Are you sure you want to purchase") + QString(" <b>%1</b> ").arg(quantity) + tr("of") +  QString(" <b>%1</b> ").arg(title) + tr("from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via Bitcoin:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 BTC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(address) + tr("using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
+		ui->acceptMessage->setText(tr("Are you sure you want to purchase from merchant") + QString(" <b>%1</b>").arg(sellerAlias) + QString("? ") + tr("Follow the steps below to successfully pay via Bitcoin:") + QString("<br/><br/>") + tr("1. If you are using escrow, please enter your escrow arbiter in the input box below and check the 'Use Escrow' checkbox. Leave the escrow checkbox unchecked if you do not wish to use escrow.") + QString("<br/>") + tr("2. Open your Bitcoin wallet. You may use the QR Code to the left to scan the payment request into your wallet or click on 'Open BTC Wallet' if you are on the desktop and have Bitcoin Core installed.") + QString("<br/>") + tr("3. Pay") + QString(" <b>%1 BTC</b> ").arg(qstrPrice) + tr("to") + QString(" <b>%5</b> ").arg(address) + tr("using your Bitcoin wallet. Please enable dynamic fees in your BTC wallet upon payment for confirmation in a timely manner.") + QString("<br/>") + tr("4. Enter the Transaction ID and then click on the 'Confirm Payment' button once you have paid."));
 		SetupQRCode(qstrPrice);
 		return false;
 	}
@@ -425,7 +423,7 @@ void OfferAcceptDialogBTC::acceptOffer(){
 				QString offerAcceptTXID = QString::fromStdString(strResult);
 				if(offerAcceptTXID != QString(""))
 				{
-					OfferPayDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "BTC", this);
+					OfferPayDialog dlg(platformStyle, this->quantity, this->qstrPrice, "BTC", this);
 					dlg.exec();
 					this->offerPaid = true;
 					OfferAcceptDialogBTC::accept();
@@ -526,7 +524,7 @@ void OfferAcceptDialogBTC::acceptEscrow()
 				QString escrowTXID = QString::fromStdString(strResult);
 				if(escrowTXID != QString(""))
 				{
-					OfferEscrowDialog dlg(platformStyle, this->title, this->quantity, this->qstrPrice, "BTC", this);
+					OfferEscrowDialog dlg(platformStyle, this->quantity, this->qstrPrice, "BTC", this);
 					dlg.exec();
 					this->offerPaid = true;
 					OfferAcceptDialogBTC::accept();

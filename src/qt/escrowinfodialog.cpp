@@ -178,7 +178,6 @@ bool EscrowInfoDialog::lookup()
 			ui->offerEdit->setText(QString::fromStdString(find_value(result.get_obj(), "offer").get_str()));
 			
 			ui->txidEdit->setText(QString::fromStdString(find_value(result.get_obj(), "txid").get_str()));
-			ui->titleEdit->setText(QString::fromStdString(find_value(result.get_obj(), "offertitle").get_str()));
 			ui->heightEdit->setText(QString::fromStdString(find_value(result.get_obj(), "height").get_str()));
 			unixTime = atoi(find_value(result.get_obj(), "time").get_str().c_str());
 			dateTime.setTime_t(unixTime);	

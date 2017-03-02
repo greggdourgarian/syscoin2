@@ -59,7 +59,7 @@ private Q_SLOTS:
 	void onEditWhitelistAction();
     void on_newOffer_clicked();
     void on_copyOffer_clicked();
-	void onCopyOfferDescriptionAction();
+	void onCopyOfferDetailsAction();
     void onCopyOfferValueAction();
     void on_editButton_clicked();
     /** Export button clicked */

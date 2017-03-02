@@ -30,7 +30,6 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 	ui->expiryDisclaimer->setText(QString("<font color='blue'>") + tr("Choose a standard expiration time(in UTC) for this alias from 1 to 5 years or check the 'Use Custom Expire Time' check box to enter an expiration timestamp. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setText(QString("<font color='red'>") + tr("Warning: Transferring your alias will transfer ownership of all your Syscoin services that use this alias.") + QString("</font>"));
 	ui->transferDisclaimer->setVisible(false);
-	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this alias safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an alias that is offensive and do not set this option to 'No' your alias will be banned!") + QString("</font>"));
 	ui->expiryEdit->clear();
 	QDateTime dateTime = QDateTime::currentDateTimeUtc();	
 	dateTime = dateTime.addYears(1);
@@ -87,10 +86,8 @@ EditAliasDialog::EditAliasDialog(Mode mode, QWidget *parent) :
 		ui->aliasPegEdit->setEnabled(false);
 		ui->aliasPegDisclaimer->setVisible(false);
 		ui->nameEdit->setEnabled(false);
-		ui->safeSearchEdit->setEnabled(false);
 		ui->acceptCertTransfersEdit->setEnabled(false);
 		ui->acceptCertTransfersDisclaimer->setVisible(false);
-		ui->safeSearchDisclaimer->setVisible(false);
 		ui->privateEdit->setEnabled(false);
 		ui->privateDisclaimer->setVisible(false);
 		ui->transferEdit->setVisible(true);
@@ -144,7 +141,6 @@ void EditAliasDialog::loadAliasDetails()
 		if (result.type() == UniValue::VOBJ)
 		{
 			m_oldPassword = QString::fromStdString(find_value(result.get_obj(), "password").get_str());
-			m_oldsafesearch = QString::fromStdString(find_value(result.get_obj(), "safesearch").get_str());
 			m_oldvalue = QString::fromStdString(find_value(result.get_obj(), "value").get_str());
 			m_oldprivatevalue = QString::fromStdString(find_value(result.get_obj(), "privatevalue").get_str());
 			m_encryptionkey = QString::fromStdString(find_value(result.get_obj(), "encryption_publickey").get_str());
@@ -256,16 +252,10 @@ void EditAliasDialog::loadRow(int row)
 	const QModelIndex tmpIndex;
 	if(model)
 	{
-		QModelIndex indexSafeSearch= model->index(row, AliasTableModel::SafeSearch, tmpIndex);
 		QModelIndex indexExpired = model->index(row, AliasTableModel::Expired, tmpIndex);
 		if(indexExpired.isValid())
 		{
 			expiredStr = indexExpired.data(AliasTableModel::ExpiredRole).toString();
-		}
-		if(indexSafeSearch.isValid())
-		{
-			QString safeSearchStr = indexSafeSearch.data(AliasTableModel::SafeSearchRole).toString();
-			ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText(safeSearchStr));
 		}
 	}
 	loadAliasDetails();
@@ -292,7 +282,7 @@ bool EditAliasDialog::saveCurrentRow()
 	string strPrivateHex = "";
 	string strEncryptionPrivateKeyHex = "";
 	CPubKey pubEncryptionKey;
-	string safeSearch, pubData;
+	string pubData;
 	string strPubKey = "";
 	string strPasswordSalt = "";
 	string strRedeemScript = "";
@@ -461,7 +451,6 @@ bool EditAliasDialog::saveCurrentRow()
 		params.push_back(strPasswordHex);
 		params.push_back(ui->nameEdit->toPlainText().toStdString());
 		params.push_back(strPrivateHex);
-		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 		params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
 		params.push_back(HexStr(vchPubKey));
@@ -619,9 +608,6 @@ bool EditAliasDialog::saveCurrentRow()
 			pubData = "\"\"";
 			if(ui->nameEdit->toPlainText() != m_oldvalue)
 				pubData = ui->nameEdit->toPlainText().toStdString();
-			safeSearch = "\"\"";
-			if(ui->safeSearchEdit->currentText() != m_oldsafesearch)
-				safeSearch = ui->nameEdit->toPlainText().toStdString();
 
 			if(ui->multisigList->count() > 0)
 			{
@@ -666,7 +652,6 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(ui->aliasEdit->text().toStdString());
 			params.push_back(pubData);
 			params.push_back(strPrivateHex);
-			params.push_back(safeSearch);	
 			params.push_back(strPubKey);
 			params.push_back(strPasswordHex);	
 			params.push_back(acceptCertTransfers);

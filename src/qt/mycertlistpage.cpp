@@ -55,7 +55,6 @@ MyCertListPage::MyCertListPage(const PlatformStyle *platformStyle, QWidget *pare
 	
     // Context menu actions
     QAction *copyCertAction = new QAction(ui->copyCert->text(), this);
-    QAction *copyCertValueAction = new QAction(tr("Copy Title"), this);
     QAction *editAction = new QAction(tr("Edit"), this);
     QAction *transferCertAction = new QAction(tr("Transfer"), this);
 	QAction *sellCertAction = new QAction(tr("Sell"), this);
@@ -63,7 +62,6 @@ MyCertListPage::MyCertListPage(const PlatformStyle *platformStyle, QWidget *pare
     // Build context menu
     contextMenu = new QMenu();
     contextMenu->addAction(copyCertAction);
-    contextMenu->addAction(copyCertValueAction);
     contextMenu->addAction(editAction);
     contextMenu->addSeparator();
     contextMenu->addAction(transferCertAction);
@@ -71,7 +69,6 @@ MyCertListPage::MyCertListPage(const PlatformStyle *platformStyle, QWidget *pare
 
     // Connect signals for context menu actions
     connect(copyCertAction, SIGNAL(triggered()), this, SLOT(on_copyCert_clicked()));
-    connect(copyCertValueAction, SIGNAL(triggered()), this, SLOT(onCopyCertValueAction()));
     connect(editAction, SIGNAL(triggered()), this, SLOT(on_editButton_clicked()));
     connect(transferCertAction, SIGNAL(triggered()), this, SLOT(on_transferButton_clicked()));
 	connect(sellCertAction, SIGNAL(triggered()), this, SLOT(on_sellCertButton_clicked()));
@@ -124,7 +121,6 @@ void MyCertListPage::on_sellCertButton_clicked()
 
 	QString certGUID = indexes.at(0).data(CertTableModel::NameRole).toString();
 	QString status = indexes.at(0).data(CertTableModel::ExpiredRole).toString();
-	QString category = indexes.at(0).data(CertTableModel::CategoryRole).toString();
 	QString alias = indexes.at(0).data(CertTableModel::AliasRole).toString();
 	if(status == QString("expired"))
 	{
@@ -133,7 +129,7 @@ void MyCertListPage::on_sellCertButton_clicked()
                QMessageBox::Ok, QMessageBox::Ok);
 		   return;
 	}
-    EditOfferDialog dlg(EditOfferDialog::NewCertOffer, "", certGUID, alias, category);
+    EditOfferDialog dlg(EditOfferDialog::NewCertOffer, "", certGUID, alias);
     dlg.setModel(walletModel,0);
     dlg.exec();
 }
@@ -171,13 +167,11 @@ void MyCertListPage::setModel(WalletModel *walletModel, CertTableModel *model)
 
     // Set column widths
     ui->tableView->setColumnWidth(0, 75); //cert
-    ui->tableView->setColumnWidth(1, 150); //title
-    ui->tableView->setColumnWidth(2, 100); //data
-	ui->tableView->setColumnWidth(3, 200); //pubdata
-	ui->tableView->setColumnWidth(4, 150); //category
-    ui->tableView->setColumnWidth(5, 150); //expires on
-    ui->tableView->setColumnWidth(6, 75); //cert state
-    ui->tableView->setColumnWidth(7, 0); //owner
+    ui->tableView->setColumnWidth(1, 100); //data
+	ui->tableView->setColumnWidth(2, 200); //pubdata
+    ui->tableView->setColumnWidth(3, 150); //expires on
+    ui->tableView->setColumnWidth(4, 75); //cert state
+    ui->tableView->setColumnWidth(5, 0); //owner
 
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
@@ -201,10 +195,6 @@ void MyCertListPage::on_copyCert_clicked()
     GUIUtil::copyEntryData(ui->tableView, CertTableModel::Name);
 }
 
-void MyCertListPage::onCopyCertValueAction()
-{
-    GUIUtil::copyEntryData(ui->tableView, CertTableModel::Title);
-}
 
 void MyCertListPage::on_editButton_clicked()
 {
@@ -330,10 +320,8 @@ void MyCertListPage::on_exportButton_clicked()
     // name, column, role
     writer.setModel(proxyModel);
     writer.addColumn(tr("Cert"), CertTableModel::Name, Qt::EditRole);
-    writer.addColumn(tr("Title"), CertTableModel::Title, Qt::EditRole);
 	writer.addColumn(tr("Private Data"), CertTableModel::Data, Qt::EditRole);
 	writer.addColumn(tr("Public Data"), CertTableModel::PubData, Qt::EditRole);
-	writer.addColumn(tr("Category"), CertTableModel::Category, Qt::EditRole);
 	writer.addColumn(tr("Expires On"), CertTableModel::ExpiresOn, Qt::EditRole);
 	writer.addColumn(tr("Status"), CertTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Owner"), CertTableModel::Alias, Qt::EditRole);

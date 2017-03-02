@@ -56,23 +56,20 @@ MyOfferListPage::MyOfferListPage(const PlatformStyle *platformStyle, QWidget *pa
 	
     // Context menu actions
     QAction *copyOfferAction = new QAction(ui->copyOffer->text(), this);
-    QAction *copyOfferValueAction = new QAction(tr("Copy Title"), this);
-	QAction *copyOfferDescriptionAction = new QAction(tr("Copy Description"), this);
+	QAction *copyOfferDetailsAction = new QAction(tr("Copy Details"), this);
     QAction *editAction = new QAction(tr("Edit"), this);
 	QAction *editWhitelistAction = new QAction(tr("Manage Affiliates"), this);
     // Build context menu
     contextMenu = new QMenu();
     contextMenu->addAction(copyOfferAction);
-    contextMenu->addAction(copyOfferValueAction);
-	contextMenu->addAction(copyOfferDescriptionAction);
+	contextMenu->addAction(copyOfferDetailsAction);
     contextMenu->addSeparator();
 	contextMenu->addAction(editAction);
 	contextMenu->addAction(editWhitelistAction);
 
     // Connect signals for context menu actions
     connect(copyOfferAction, SIGNAL(triggered()), this, SLOT(on_copyOffer_clicked()));
-    connect(copyOfferValueAction, SIGNAL(triggered()), this, SLOT(onCopyOfferValueAction()));
-	connect(copyOfferDescriptionAction, SIGNAL(triggered()), this, SLOT(onCopyOfferDescriptionAction()));
+	connect(copyOfferDetailsAction, SIGNAL(triggered()), this, SLOT(onCopyOfferDetailsAction()));
     connect(editAction, SIGNAL(triggered()), this, SLOT(on_editButton_clicked()));
 	connect(editWhitelistAction, SIGNAL(triggered()), this, SLOT(onEditWhitelistAction()));
 	connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_editButton_clicked()));
@@ -163,18 +160,15 @@ void MyOfferListPage::setModel(WalletModel *walletModel, OfferTableModel *model)
         // Set column widths
         ui->tableView->setColumnWidth(0, 75); //offer
         ui->tableView->setColumnWidth(1, 75); //cert
-        ui->tableView->setColumnWidth(2, 250); //title
-        ui->tableView->setColumnWidth(3, 300); //description
-        ui->tableView->setColumnWidth(4, 75); //category
-        ui->tableView->setColumnWidth(5, 50); //price
-        ui->tableView->setColumnWidth(6, 75); //currency
-        ui->tableView->setColumnWidth(7, 75); //qty
-		ui->tableView->setColumnWidth(8, 75); //sold
-        ui->tableView->setColumnWidth(9, 50); //status
-        ui->tableView->setColumnWidth(10, 50); //private
-        ui->tableView->setColumnWidth(11, 100); //seller alias
-		ui->tableView->setColumnWidth(12, 150); //seller rating
-        ui->tableView->setColumnWidth(13, 0); //btc only
+        ui->tableView->setColumnWidth(2, 300); //details
+        ui->tableView->setColumnWidth(3, 50); //price
+        ui->tableView->setColumnWidth(4, 75); //currency
+        ui->tableView->setColumnWidth(5, 75); //qty
+        ui->tableView->setColumnWidth(6, 50); //status
+        ui->tableView->setColumnWidth(7, 50); //private
+        ui->tableView->setColumnWidth(8, 100); //seller alias
+		ui->tableView->setColumnWidth(9, 150); //seller rating
+        ui->tableView->setColumnWidth(10, 0); //payment options
 	
 
         ui->tableView->horizontalHeader()->setStretchLastSection(true);
@@ -202,15 +196,9 @@ void MyOfferListPage::on_copyOffer_clicked()
 {
     GUIUtil::copyEntryData(ui->tableView, OfferTableModel::Name);
 }
-void MyOfferListPage::onCopyOfferDescriptionAction()
+void MyOfferListPage::onCopyOfferDetailsAction()
 {
-    GUIUtil::copyEntryData(ui->tableView, OfferTableModel::Description);
-}
-
-
-void MyOfferListPage::onCopyOfferValueAction()
-{
-    GUIUtil::copyEntryData(ui->tableView, OfferTableModel::Title);
+    GUIUtil::copyEntryData(ui->tableView, OfferTableModel::Details);
 }
 
 void MyOfferListPage::on_editButton_clicked()
@@ -341,13 +329,10 @@ void MyOfferListPage::on_exportButton_clicked()
     writer.setModel(proxyModel);
     writer.addColumn(tr("Offer"), OfferTableModel::Name, Qt::EditRole);
 	writer.addColumn(tr("Cert"), OfferTableModel::Cert, Qt::EditRole);
-    writer.addColumn(tr("Title"), OfferTableModel::Title, Qt::EditRole);
-	writer.addColumn(tr("Description"), OfferTableModel::Description, Qt::EditRole);
-	writer.addColumn(tr("Category"), OfferTableModel::Category, Qt::EditRole);
+	writer.addColumn(tr("Details"), OfferTableModel::Details, Qt::EditRole);
 	writer.addColumn(tr("Price"), OfferTableModel::Price, Qt::EditRole);
 	writer.addColumn(tr("Currency"), OfferTableModel::Currency, Qt::EditRole);
 	writer.addColumn(tr("Qty"), OfferTableModel::Qty, Qt::EditRole);
-	writer.addColumn(tr("Sold"), OfferTableModel::Sold, Qt::EditRole);
 	writer.addColumn(tr("Private"), OfferTableModel::Private, Qt::EditRole);
 	writer.addColumn(tr("Expired"), OfferTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Seller Alias"), OfferTableModel::Alias, Qt::EditRole);

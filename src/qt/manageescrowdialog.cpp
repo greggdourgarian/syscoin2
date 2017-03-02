@@ -29,14 +29,14 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	refundWarningStr = releaseWarningStr = "";
 	QString theme = GUIUtil::getThemeName();  
 	ui->aboutEscrow->setPixmap(QPixmap(":/images/" + theme + "/escrow"));
-	QString buyer, seller, reseller, arbiter, status, offertitle, total;
+	QString buyer, seller, reseller, arbiter, status, total;
 	ui->primaryLabel->setVisible(false);
 	ui->primaryRating->setVisible(false);
 	ui->primaryFeedback->setVisible(false);
 	ui->secondaryLabel->setVisible(false);
 	ui->secondaryRating->setVisible(false);
 	ui->secondaryFeedback->setVisible(false);
-	if(!loadEscrow(escrow, buyer, seller, reseller, arbiter, status, offertitle, total, m_exttxid, m_paymentOption, m_redeemTxId))
+	if(!loadEscrow(escrow, buyer, seller, reseller, arbiter, status, total, m_exttxid, m_paymentOption, m_redeemTxId))
 	{
 		ui->manageInfo2->setText(tr("Cannot find this escrow on the network, please try again later."));
 		ui->releaseButton->setEnabled(false);
@@ -45,7 +45,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	}
 
 	escrowRoleType = findYourEscrowRoleFromAliases(buyer, seller, reseller, arbiter);
-	ui->manageInfo->setText(tr("You are managing escrow ID") + QString(" <b>%1</b>. ").arg(escrow) + tr("Offer:") + QString(" <b>%1</b> ").arg(offertitle) + tr("totalling") + QString(" <b>%1</b>. ").arg(total) + tr("The buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:") + QString(" <b>%1</b>, ").arg(reseller.size() == 0? seller: reseller) + tr("arbiter:") + QString(" <b>%1</b>.").arg(arbiter));
+	ui->manageInfo->setText(tr("You are managing escrow ID") + QString(" <b>%1</b>. ").arg(escrow) + tr(" totalling") + QString(" <b>%1</b>. ").arg(total) + tr("The buyer:") + QString(" <b>%1</b>, ").arg(buyer) + tr("merchant:") + QString(" <b>%1</b>, ").arg(reseller.size() == 0? seller: reseller) + tr("arbiter:") + QString(" <b>%1</b>.").arg(arbiter));
 	if(escrowRoleType == None)
 	{
 		ui->manageInfo2->setText(tr("You cannot manage this escrow because you do not own one of either the buyer, merchant or arbiter aliases."));
@@ -56,7 +56,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 	{
 		if(escrowRoleType == Buyer)
 		{
-			ui->manageInfo2->setText(tr("You are the 'buyer' of the offer held in escrow, you may release the coins to the merchant once you have confirmed that you have received the item as per the description of the offer."));
+			ui->manageInfo2->setText(tr("You are the 'buyer' of the offer held in escrow, you may release the coins to the merchant once you have confirmed that you have received the item as per the details of the offer."));
 			ui->refundButton->setEnabled(false);
 		}
 		else if(escrowRoleType == Seller)
@@ -182,7 +182,7 @@ ManageEscrowDialog::ManageEscrowDialog(WalletModel* model, const QString &escrow
 		ui->releaseButton->setEnabled(false);
 	}
 }
-bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller,  QString &reseller, QString &arbiter, QString &status, QString &offertitle, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid)
+bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QString &seller,  QString &reseller, QString &arbiter, QString &status, QString &total, QString &exttxid, QString &paymentOption, QString &redeemtxid)
 {
 	QSettings settings;
 	string strMethod = string("escrowinfo");
@@ -213,9 +213,6 @@ bool ManageEscrowDialog::loadEscrow(const QString &escrow, QString &buyer, QStri
 			const UniValue& buyer_value = find_value(o, "buyer");
 			if (buyer_value.type() == UniValue::VSTR)
 				buyer = QString::fromStdString(buyer_value.get_str());
-			const UniValue& offertitle_value = find_value(o, "offertitle");
-			if (offertitle_value.type() == UniValue::VSTR)
-				offertitle = QString::fromStdString(offertitle_value.get_str());
 			string currency_str = "";
 			const UniValue& currency_value = find_value(o, "currency");
 			if (currency_value.type() == UniValue::VSTR)

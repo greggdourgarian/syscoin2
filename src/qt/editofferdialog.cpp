@@ -25,11 +25,10 @@ extern CRPCTable tableRPC;
 string getCurrencyToSYSFromAlias(const vector<unsigned char> &vchAliasPeg, const vector<unsigned char> &vchCurrency, double &nFee, const unsigned int &nHeightToFind, vector<string>& rateList, int &precision, int &nFeePerByte, float &fEscrowFee);
 extern bool getCategoryList(vector<string>& categoryList);
 extern vector<unsigned char> vchFromString(const std::string &str);
-EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QString &strCert,  const QString &strAlias, const QString &strCategory, QWidget *parent) :
+EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QString &strCert,  const QString &strAlias, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditOfferDialog), mapper(0), mode(mode), model(0)
 {
-	overrideSafeSearch = false;
     ui->setupUi(this);
 	ui->aliasPegEdit->setEnabled(false);
 	
@@ -49,7 +48,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 	ui->privateEdit->setEnabled(true);
 	ui->currencyEdit->addItem(QString("USD"));
 
-	ui->geolocationDisclaimer->setText(QString("<font color='blue'>") + tr("If you wish you may enter your merchant geolocation (latitude and longitude coordinates) to help track shipping rates and other logistics information") + QString("</font>"));
 	ui->currencyDisclaimer->setText(QString("<font color='blue'>") + tr("You will receive payment in Syscoin equivalent to the Market-value of the currency you have selected") + QString("</font>"));
 	ui->paymentOptionsDisclaimer->setText(QString("<font color='blue'>") + tr("Choose which crypto-currency you want to allow as a payment method for this offer. Your choices are any combination of SYS, BTC or ZEC. An example setting for all three: 'SYS+BTC+ZEC'. For SYS and ZEC: 'SYS+ZEC'. Please note that in order to spend coins paid to you via Syscoin Marketplace, you will need to import your Syscoin private key in external wallet(s) if BTC or ZEC are chosen.") + QString("</font>"));
 	cert = strCert;
@@ -58,8 +56,7 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
 	ui->certEdit->addItem(tr("Select Certificate (optional)"));
 	loadAliases();
 	connect(ui->aliasEdit,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(aliasChanged(const QString&)));
-	loadCategories();
-	ui->descriptionEdit->setStyleSheet("color: rgb(0, 0, 0); background-color: rgb(255, 255, 255)");
+	ui->detailsEdit->setStyleSheet("color: rgb(0, 0, 0); background-color: rgb(255, 255, 255)");
 	connect(ui->certEdit, SIGNAL(currentIndexChanged(int)), this, SLOT(certChanged(int)));
     QSettings settings;
 	QString defaultPegAlias, defaultOfferAlias;
@@ -107,13 +104,6 @@ EditOfferDialog::EditOfferDialog(Mode mode,  const QString &strOffer,  const QSt
         setWindowTitle(tr("New Offer(Certificate)"));
 		ui->qtyEdit->setText("1");
 		ui->qtyEdit->setEnabled(false);
-		
-		int index = ui->categoryEdit->findText(strCategory);
-		if(index == -1)
-			index = ui->categoryEdit->findText(tr("certificates"));
-		if(index >= 0)
-			ui->categoryEdit->setCurrentIndex(index);
-
         break;
 	}
 	aliasChanged(ui->aliasEdit->currentText());
@@ -187,20 +177,6 @@ void EditOfferDialog::on_aliasPegEdit_editingFinished()
 		ui->currencyEdit->setCurrentIndex(currencyIndex);
 
 }
-void EditOfferDialog::setOfferNotSafeBecauseOfAlias(const QString &alias)
-{
-	ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText("No"));
-	ui->safeSearchEdit->setEnabled(false);
-	ui->safeSearchDisclaimer->setText(QString("<font color='red'><b>%1</b>").arg(alias) + tr(" is not safe to search so this setting can only be set to 'No'") + QString("</font>"));
-	overrideSafeSearch = true;
-}
-void EditOfferDialog::resetSafeSearch()
-{
-	ui->safeSearchEdit->setEnabled(true);
-	ui->safeSearchDisclaimer->setText(QString("<font color='blue'>") + tr("Is this offer safe to search? Anything that can be considered offensive to someone should be set to 'No' here. If you do create an offer that is offensive and do not set this option to 'No' your offer will be banned aswell as possibly your store alias!") + QString("</font>"));
-		
-	
-}
 void EditOfferDialog::aliasChanged(const QString& alias)
 {
 	string strMethod = string("aliasinfo");
@@ -210,7 +186,6 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 	string name_str;
 	string alias_peg;
 	bool expired = false;
-	bool safeSearch;
 	int safetyLevel;
 	try {
 		result = tableRPC.execute(strMethod, params);
@@ -218,11 +193,11 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 		if (result.type() == UniValue::VOBJ)
 		{
 			name_str = "";
-			safeSearch = false;
+	
 			expired = safetyLevel = 0;
 			const UniValue& o = result.get_obj();
 			name_str = alias_peg = "";
-			safeSearch = false;
+
 			expired = safetyLevel = 0;
 
 
@@ -233,9 +208,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 			const UniValue& expired_value = find_value(o, "expired");
 			if (expired_value.type() == UniValue::VBOOL)
 				expired = expired_value.get_bool();
-			const UniValue& ss_value = find_value(o, "safesearch");
-			if (ss_value.type() == UniValue::VSTR)
-				safeSearch = ss_value.get_str() == "Yes";	
+	
 			const UniValue& alias_peg_value = find_value(o, "alias_peg");
 			if (alias_peg_value.type() == UniValue::VSTR)
 				alias_peg = alias_peg_value.get_str();	
@@ -243,12 +216,7 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 			const UniValue& sl_value = find_value(o, "safetylevel");
 			if (sl_value.type() == UniValue::VNUM)
 				safetyLevel = sl_value.get_int();
-			if(!safeSearch || safetyLevel > 0)
-			{
-				setOfferNotSafeBecauseOfAlias(QString::fromStdString(name_str));
-			}
-			else
-				resetSafeSearch();
+
 
 			if(expired)
 			{
@@ -261,18 +229,18 @@ void EditOfferDialog::aliasChanged(const QString& alias)
 		}
 		else
 		{
-			resetSafeSearch();
+
 			ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 		}
 	}
 	catch (UniValue& objError)
 	{
-		resetSafeSearch();
+	
 		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 	}
 	catch(std::exception& e)
 	{
-		resetSafeSearch();
+
 		ui->aliasDisclaimer->setText(QString("<font color='blue'>") + tr("Select an alias to own this offer") + QString("</font>"));
 	}  
 	loadCerts(alias);
@@ -294,76 +262,6 @@ void EditOfferDialog::certChanged(int index)
 	}
 }
 
-void EditOfferDialog::addParentItem( QStandardItemModel * model, const QString& text, const QVariant& data )
-{
-	QList<QStandardItem*> lst = model->findItems(text,Qt::MatchExactly);
-	for(unsigned int i=0; i<lst.count(); ++i )
-	{ 
-		if(lst[i]->data(Qt::UserRole) == data)
-			return;
-	}
-    QStandardItem* item = new QStandardItem( text );
-	item->setData( data, Qt::UserRole );
-    item->setData( "parent", Qt::AccessibleDescriptionRole );
-    QFont font = item->font();
-    font.setBold( true );
-    item->setFont( font );
-    model->appendRow( item );
-}
-
-void EditOfferDialog::addChildItem( QStandardItemModel * model, const QString& text, const QVariant& data )
-{
-	QList<QStandardItem*> lst = model->findItems(text,Qt::MatchExactly);
-	for(unsigned int i=0; i<lst.count(); ++i )
-	{ 
-		if(lst[i]->data(Qt::UserRole) == data)
-			return;
-	}
-
-    QStandardItem* item = new QStandardItem( text + QString( 4, QChar( ' ' ) ) );
-    item->setData( data, Qt::UserRole );
-    item->setData( "child", Qt::AccessibleDescriptionRole );
-    model->appendRow( item );
-}
-void EditOfferDialog::loadCategories()
-{
-    QStandardItemModel * model = new QStandardItemModel;
-	vector<string> categoryList;
-	if(!getCategoryList(categoryList))
-	{
-		return;
-	}
-	for(unsigned int i = 0;i< categoryList.size(); i++)
-	{
-		vector<string> categories;
-		boost::split(categories,categoryList[i],boost::is_any_of(">"));
-		if(categories.size() > 0)
-		{
-			if(categories.size() <= 2)
-			{
-				for(unsigned int j = 0;j< categories.size(); j++)
-				{
-					boost::algorithm::trim(categories[j]);
-					// only support 2 levels in qt GUI for categories
-					if(j == 0)
-					{
-						addParentItem(model, QString::fromStdString(categories[0]), QVariant(QString::fromStdString(categories[0])));
-					}
-					else if(j == 1)
-					{
-						addChildItem(model, QString::fromStdString(categories[1]), QVariant(QString::fromStdString(categoryList[i])));
-					}
-				}
-			}
-		}
-		else
-		{
-			addParentItem(model, QString::fromStdString(categoryList[i]), QVariant(QString::fromStdString(categoryList[i])));
-		}
-	}
-    ui->categoryEdit->setModel(model);
-    ui->categoryEdit->setItemDelegate(new ComboBoxDelegate);
-}
 void EditOfferDialog::loadCerts(const QString &alias)
 {
 	ui->certEdit->clear();
@@ -373,7 +271,6 @@ void EditOfferDialog::loadCerts(const QString &alias)
 	params.push_back(alias.toStdString());
 	UniValue result;
 	string name_str;
-	string title_str;
 	string alias_str;
 	bool expired = false;
 	
@@ -383,7 +280,6 @@ void EditOfferDialog::loadCerts(const QString &alias)
 		if (result.type() == UniValue::VARR)
 		{
 			name_str = "";
-			title_str = "";
 			alias_str = "";
 			expired = false;
 
@@ -404,9 +300,6 @@ void EditOfferDialog::loadCerts(const QString &alias)
 				const UniValue& name_value = find_value(o, "cert");
 				if (name_value.type() == UniValue::VSTR)
 					name_str = name_value.get_str();
-				const UniValue& title_value = find_value(o, "title");
-				if (title_value.type() == UniValue::VSTR)
-					title_str = title_value.get_str();	
 				const UniValue& alias_value = find_value(o, "alias");
 				if (alias_value.type() == UniValue::VSTR)
 					alias_str = alias_value.get_str();	
@@ -417,9 +310,8 @@ void EditOfferDialog::loadCerts(const QString &alias)
 				if(expired == false)
 				{
 					QString name = QString::fromStdString(name_str);
-					QString title = QString::fromStdString(title_str);
 					QString alias = QString::fromStdString(alias_str);
-					QString certText = name + " - " + title;
+					QString certText = name;
 					ui->certEdit->addItem(certText,name);
 					if(name == cert)
 					{
@@ -463,7 +355,7 @@ void EditOfferDialog::loadAliases()
 	UniValue result ;
 	string name_str;
 	bool expired = false;
-	bool safeSearch;
+
 	int safetyLevel;
 	try {
 		result = tableRPC.execute(strMethod, params);
@@ -471,7 +363,7 @@ void EditOfferDialog::loadAliases()
 		if (result.type() == UniValue::VARR)
 		{
 			name_str = "";
-			safeSearch = false;
+	
 			expired = safetyLevel = 0;
 
 
@@ -483,7 +375,7 @@ void EditOfferDialog::loadAliases()
 					continue;
 				const UniValue& o = input.get_obj();
 				name_str = "";
-				safeSearch = false;
+			
 				expired = false;
 				safetyLevel = 0;
 
@@ -495,16 +387,11 @@ void EditOfferDialog::loadAliases()
 				const UniValue& expired_value = find_value(o, "expired");
 				if (expired_value.type() == UniValue::VBOOL)
 					expired = expired_value.get_bool();
-				const UniValue& ss_value = find_value(o, "safesearch");
-				if (ss_value.type() == UniValue::VSTR)
-					safeSearch = ss_value.get_str() == "Yes";	
+
 				const UniValue& sl_value = find_value(o, "safetylevel");
 				if (sl_value.type() == UniValue::VNUM)
 					safetyLevel = sl_value.get_int();
-				if(!safeSearch || safetyLevel > 0)
-				{
-					setOfferNotSafeBecauseOfAlias(QString::fromStdString(name_str));
-				}				
+			
 				if(expired == false)
 				{
 					QString name = QString::fromStdString(name_str);
@@ -551,20 +438,16 @@ void EditOfferDialog::setModel(WalletModel* walletModel, OfferTableModel *model)
     mapper->setModel(model);
 	mapper->addMapping(ui->offerEdit, OfferTableModel::Name);
 	mapper->addMapping(ui->certEdit, OfferTableModel::Cert);
-    mapper->addMapping(ui->nameEdit, OfferTableModel::Title);
     mapper->addMapping(ui->priceEdit, OfferTableModel::Price);
 	mapper->addMapping(ui->qtyEdit, OfferTableModel::Qty);	
-	mapper->addMapping(ui->descriptionEdit, OfferTableModel::Description);		
+	mapper->addMapping(ui->detailsEdit, OfferTableModel::Details);		
 	mapper->addMapping(ui->aliasPegEdit, OfferTableModel::AliasPeg);	
-	mapper->addMapping(ui->geoLocationEdit, OfferTableModel::GeoLocation);
-    mapper->addMapping(ui->categoryEdit, OfferTableModel::Category);
 	mapper->addMapping(ui->paymentOptionsEdit, OfferTableModel::PaymentOptions);
 }
 
 void EditOfferDialog::loadRow(int row)
 {
 	const QModelIndex tmpIndex;
-	QVariant currentCategory;
 	if(model)
 	{
 		mapper->setCurrentIndex(row);
@@ -572,8 +455,6 @@ void EditOfferDialog::loadRow(int row)
 		QModelIndex indexPrivate = model->index(row, OfferTableModel::Private, tmpIndex);	
 		QModelIndex indexAlias = model->index(row, OfferTableModel::Alias, tmpIndex);
 		QModelIndex indexQty = model->index(row, OfferTableModel::Qty, tmpIndex);
-		QModelIndex indexSafeSearch = model->index(row, OfferTableModel::SafeSearch, tmpIndex);
-		QModelIndex indexCategory = model->index(row, OfferTableModel::Category, tmpIndex);
 		QModelIndex indexExpired = model->index(row, OfferTableModel::Expired, tmpIndex);
 		if(indexExpired.isValid())
 		{
@@ -589,20 +470,6 @@ void EditOfferDialog::loadRow(int row)
 			QString currencyStr = indexCurrency.data(OfferTableModel::CurrencyRole).toString();
 			ui->currencyEdit->setCurrentIndex(ui->currencyEdit->findText(currencyStr));
 			on_aliasPegEdit_editingFinished();
-		}
-		if(indexSafeSearch.isValid() && !overrideSafeSearch)
-		{
-			QString safeSearchStr = indexSafeSearch.data(OfferTableModel::SafeSearchRole).toString();
-			ui->safeSearchEdit->setCurrentIndex(ui->safeSearchEdit->findText(safeSearchStr));
-		}
-		if(indexCategory.isValid())
-		{
-			QString categoryStr = indexCategory.data(OfferTableModel::CategoryRole).toString();
-			int index = ui->categoryEdit->findData(QVariant(categoryStr));
-			if ( index != -1 ) 
-			{ 
-				ui->categoryEdit->setCurrentIndex(index);
-			}
 		}
 		if(indexAlias.isValid())
 		{
@@ -621,15 +488,9 @@ void EditOfferDialog::loadRow(int row)
 				ui->qtyEdit->setText(qtyStr);
 		}
 	}
-	currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
-	if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
-		m_oldcategory = currentCategory.toString();
-	else
-		m_oldcategory = ui->categoryEdit->currentText();
-	m_oldtitle = ui->nameEdit->text();
 	m_oldqty = ui->qtyEdit->text();
 	m_oldprice = ui->priceEdit->text();
-	m_olddescription = ui->descriptionEdit->toPlainText();
+	m_olddetails = ui->detailsnEdit->toPlainText();
 	m_oldcurrency = ui->currencyEdit->currentText();
 	m_oldprivate = ui->privateEdit->currentText();
 	if(ui->certEdit->currentIndex() > 0)
@@ -639,15 +500,13 @@ void EditOfferDialog::loadRow(int row)
 	else
 		m_oldcert = "";
 	
-	m_oldgeolocation = ui->geoLocationEdit->text();
-	m_oldsafesearch = ui->safeSearchEdit->currentText();
 	m_oldcommission = ui->commissionEdit->text();
 	m_oldpaymentoptions = ui->paymentOptionsEdit->text();
 }
 
 bool EditOfferDialog::saveCurrentRow()
 {
-	string paymentoptions, commission, safesearch, description, geolocation, cert, privates, currency, price, category, qty, title;
+	string paymentoptions, commission, destails, cert, privates, currency, price, qty;
 
     if(!walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
@@ -668,7 +527,6 @@ bool EditOfferDialog::saveCurrentRow()
 		mode = NewOffer;
 	}
 	QString defaultPegAlias;
-	QVariant currentCategory;
 	QSettings settings;
 	UniValue params(UniValue::VARR);
 	string strMethod;
@@ -676,13 +534,6 @@ bool EditOfferDialog::saveCurrentRow()
     {
     case NewOffer:
 	case NewCertOffer:
-        if (ui->nameEdit->text().trimmed().isEmpty()) {
-            ui->nameEdit->setText("");
-            QMessageBox::information(this, windowTitle(),
-            tr("Empty name for Offer not allowed. Please try again"),
-                QMessageBox::Ok, QMessageBox::Ok);
-            return false;
-        }
 		defaultPegAlias = settings.value("defaultPegAlias", "").toString();
 		 if (ui->aliasPegEdit->text() != defaultPegAlias) {
 			QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm Alias Peg"),
@@ -694,15 +545,10 @@ bool EditOfferDialog::saveCurrentRow()
 		}
 		strMethod = string("offernew");
 		params.push_back(ui->aliasEdit->currentText().toStdString());
-		currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
-		if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
-			params.push_back(currentCategory.toString().toStdString());
-		else
-			params.push_back(ui->categoryEdit->currentText().toStdString());
 		params.push_back(ui->nameEdit->text().toStdString());
 		params.push_back(ui->qtyEdit->text().toStdString());
 		params.push_back(ui->priceEdit->text().toStdString());
-		params.push_back(ui->descriptionEdit->toPlainText().toStdString());
+		params.push_back(ui->detailsEdit->toPlainText().toStdString());
 		params.push_back(ui->currencyEdit->currentText().toStdString());
 		if(ui->certEdit->currentIndex() > 0)
 		{
@@ -713,8 +559,6 @@ bool EditOfferDialog::saveCurrentRow()
 			params.push_back("\"\"");
 		}
 		params.push_back(ui->paymentOptionsEdit->text().toStdString());
-		params.push_back(ui->geoLocationEdit->text().toStdString());
-		params.push_back(ui->safeSearchEdit->currentText().toStdString());
 		params.push_back(ui->privateEdit->currentText().toStdString());
 		try {
             UniValue result = tableRPC.execute(strMethod, params);
@@ -769,29 +613,18 @@ bool EditOfferDialog::saveCurrentRow()
 		}
         if(mapper->submit())
         {
-			title = "\"\"";
-			if(ui->nameEdit->text() != m_oldtitle)
-				title = ui->nameEdit->text().toStdString();
 
 			qty = "\"\"";
 			if(ui->qtyEdit->text() != m_oldqty)
 				qty = ui->qtyEdit->text().toStdString();
 
-			currentCategory = ui->categoryEdit->itemData(ui->categoryEdit->currentIndex(), Qt::UserRole);
-			if(ui->categoryEdit->currentIndex() > 0 &&  currentCategory != QVariant::Invalid)
-				category = currentCategory.toString().toStdString();
-			else
-				category = ui->categoryEdit->currentText().toStdString();
-			if(category == m_oldcategory.toStdString())
-				category = "\"\"";
-
 			price = "\"\"";
 			if(ui->priceEdit->text() != m_oldprice)
 				price = ui->priceEdit->text().toStdString();
 
-			description = "\"\"";
-			if(ui->descriptionEdit->toPlainText() != m_olddescription)
-				description = ui->descriptionEdit->toPlainText().toStdString();
+			details = "\"\"";
+			if(ui->detailsEdit->toPlainText() != m_olddetails)
+				details = ui->detailsEdit->toPlainText().toStdString();
 
 			currency = "\"\"";
 			if(ui->currencyEdit->currentText() != m_oldcurrency)
@@ -812,13 +645,6 @@ bool EditOfferDialog::saveCurrentRow()
 			if(cert == m_oldcert.toStdString())
 				cert = "\"\"";
 
-			geolocation = "\"\"";
-			if(ui->geoLocationEdit->text() != m_oldgeolocation)
-				geolocation = ui->geoLocationEdit->text().toStdString();
-
-			safesearch = "\"\"";
-			if(ui->safeSearchEdit->currentText() != m_oldsafesearch)
-				safesearch = ui->safeSearchEdit->currentText().toStdString();
 
 			commission = "\"\"";
 			if(ui->commissionEdit->text() != m_oldcommission)
@@ -831,16 +657,12 @@ bool EditOfferDialog::saveCurrentRow()
 			strMethod = string("offerupdate");
 			params.push_back(ui->aliasEdit->currentText().toStdString());
 			params.push_back(ui->offerEdit->text().toStdString());
-			params.push_back(category);
-			params.push_back(title);
 			params.push_back(qty);
 			params.push_back(price);
-			params.push_back(description);
+			params.push_back(details);
 			params.push_back(currency);
 			params.push_back(privates);
 			params.push_back(cert);
-			params.push_back(geolocation);
-			params.push_back(safesearch);
 			params.push_back(commission);
 			params.push_back(paymentoptions);
 			try {

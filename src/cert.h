@@ -31,14 +31,15 @@ public:
 	std::vector<unsigned char> vchAlias;
 	// to modify vchAlias in certtransfer
 	std::vector<unsigned char> vchLinkAlias;
-    std::vector<unsigned char> vchTitle;
     std::vector<unsigned char> vchData;
 	std::vector<unsigned char> vchPubData;
-	std::vector<unsigned char> sCategory;
+	// cert data encrypted to this public key linked to alias owner's key through encryption
+	std::vector<unsigned char> vchEncryptionPublicKey;
+	// secret key encrypted to vchAlias(owner) private key
+	std::vector<unsigned char> vchEncryptionPrivateKey;
     uint256 txHash;
     uint64_t nHeight;
 	unsigned char safetyLevel;
-	bool safeSearch;
 	bool bTransferViewOnly;
     CCert() {
         SetNull();
@@ -51,13 +52,13 @@ public:
 	{
 		vchData.clear();
 		vchPubData.clear();
-		vchTitle.clear();
-		sCategory.clear();
+		vchEncryptionPublicKey.clear();
+		vchEncryptionPrivateKey.clear();
+
 	}
 	ADD_SERIALIZE_METHODS;
     template <typename Stream, typename Operation>
-	inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-		READWRITE(vchTitle);		
+	inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {		
 		READWRITE(vchData);
 		READWRITE(vchPubData);
 		READWRITE(txHash);
@@ -66,14 +67,13 @@ public:
 		READWRITE(bTransferViewOnly);
 		READWRITE(vchCert);
 		READWRITE(VARINT(safetyLevel));
-		READWRITE(safeSearch);
-		READWRITE(sCategory);
 		READWRITE(vchAlias);
+		READWRITE(vchEncryptionPublicKey);
+		READWRITE(vchEncryptionPrivateKey);
 	}
     friend bool operator==(const CCert &a, const CCert &b) {
         return (
-        a.vchTitle == b.vchTitle
-        && a.vchData == b.vchData
+        a.vchData == b.vchData
 		&& a.vchPubData == b.vchPubData
         && a.txHash == b.txHash
         && a.nHeight == b.nHeight
@@ -81,14 +81,13 @@ public:
 		&& a.vchLinkAlias == b.vchLinkAlias
 		&& a.bTransferViewOnly == b.bTransferViewOnly
 		&& a.safetyLevel == b.safetyLevel
-		&& a.safeSearch == b.safeSearch
 		&& a.vchCert == b.vchCert
-		&& a.sCategory == b.sCategory
+		&& a.vchEncryptionPublicKey == b.vchEncryptionPublicKey
+		&& a.vchEncryptionPrivateKey == b.vchEncryptionPrivateKey
         );
     }
 
     CCert operator=(const CCert &b) {
-        vchTitle = b.vchTitle;
         vchData = b.vchData;
 		vchPubData = b.vchPubData;
         txHash = b.txHash;
@@ -97,9 +96,9 @@ public:
 		vchLinkAlias = b.vchLinkAlias;
 		bTransferViewOnly = b.bTransferViewOnly;
 		safetyLevel = b.safetyLevel;
-		safeSearch = b.safeSearch;
 		vchCert = b.vchCert;
-		sCategory = b.sCategory;
+		a.vchEncryptionPublicKey = b.vchEncryptionPublicKey;
+		a.vchEncryptionPrivateKey = b.vchEncryptionPrivateKey;
         return *this;
     }
 
@@ -127,8 +126,8 @@ public:
         *this = myCert;
         return true;
     }
-    void SetNull() { bTransferViewOnly = false; vchLinkAlias.clear(); sCategory.clear(); vchCert.clear(); safetyLevel = 0; safeSearch = true; nHeight = 0; txHash.SetNull(); vchAlias.clear(); vchTitle.clear(); vchData.clear(); vchPubData.clear();}
-    bool IsNull() const { return (bTransferViewOnly == false && vchLinkAlias.empty() && sCategory.empty() && vchCert.empty() && safetyLevel == 0 && safeSearch && txHash.IsNull() &&  nHeight == 0 && vchData.empty() && vchPubData.empty() && vchTitle.empty() && vchAlias.empty()); }
+    void SetNull() { vchEncryptionPublicKey.clear(); vchEncryptionPrivateKey.clear(); bTransferViewOnly = false; vchLinkAlias.clear(); vchCert.clear(); safetyLevel = 0; nHeight = 0; txHash.SetNull(); vchAlias.clear(); vchData.clear(); vchPubData.clear();}
+    bool IsNull() const { return (vchEncryptionPublicKey.empty() && vchEncryptionPrivateKey.empty() && bTransferViewOnly == false && vchLinkAlias.empty() && vchCert.empty() && safetyLevel == 0 && txHash.IsNull() &&  nHeight == 0 && vchData.empty() && vchPubData.empty() && vchAlias.empty()); }
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);
 	void Serialize(std::vector<unsigned char>& vchData);
@@ -155,10 +154,6 @@ public:
         return Exists(make_pair(std::string("certi"), name));
     }
 
-    bool ScanCerts(
-		const std::vector<unsigned char>& vchCert, const std::string &strRegExp, const std::vector<std::string>& aliasArray, bool safeSearch, const std::string& strCategory,
-            unsigned int nMax,
-            std::vector<CCert>& certScan);
 	bool GetDBCerts(std::vector<CCert>& certs, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 

@@ -2599,17 +2599,6 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey)
 {
     {
         LOCK2(cs_main, cs_wallet);
-		// SYSCOIN
-        if (fBroadcastTransactions)
-        {
-            // Broadcast
-			CValidationState state;
-            if (!wtxNew.AcceptToMemoryPool(false, maxTxFee, state))
-            {
-                LogPrintf("CommitTransaction(): Transaction cannot be broadcast immediately, %s\n", state.GetRejectReason());
-                return false;
-            }
-        }
         LogPrintf("CommitTransaction:\n%s", wtxNew.ToString());
         {
             // This is only to keep the database open to defeat the auto-flush for the
@@ -2639,15 +2628,21 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey)
 
         // Track how many getdata requests our transaction gets
         mapRequestCount[wtxNew.GetHash()] = 0;
-		// SYSCOIN
+
         if (fBroadcastTransactions)
         {
-            wtxNew.RelayWalletTransaction();
+            CValidationState state;
+            // Broadcast
+            if (!wtxNew.AcceptToMemoryPool(false, maxTxFee, state)) {
+                LogPrintf("CommitTransaction(): Transaction cannot be broadcast immediately, %s\n", state.GetRejectReason());
+                // TODO: if we expect the failure to be long term or permanent, instead delete wtx from the wallet and return failure.
+            } else {
+                wtxNew.RelayWalletTransaction();
+            }
         }
     }
     return true;
 }
-
 bool CWallet::AddAccountingEntry(const CAccountingEntry& acentry, CWalletDB & pwalletdb)
 {
     if (!pwalletdb.WriteAccountingEntry_Backend(acentry))

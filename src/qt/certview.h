@@ -10,7 +10,6 @@ class SyscoinGUI;
 class ClientModel;
 class WalletModel;
 class MyCertListPage;
-class CertListPage;
 class PlatformStyle;
 
 QT_BEGIN_NAMESPACE
@@ -53,7 +52,6 @@ private:
 
     QTabWidget *tabWidget;
     MyCertListPage *myCertListPage;
-    CertListPage *certListPage;
 
 public:
     /** Switch to offer page */

@@ -9,7 +9,6 @@
 #include "walletmodel.h"
 #include "optionsmodel.h"
 #include "mycertlistpage.h"
-#include "certlistpage.h"
 #include "certtablemodel.h"
 #include "ui_interface.h"
 
@@ -26,13 +25,10 @@ CertView::CertView(const PlatformStyle *platformStyle, QStackedWidget *parent):
     walletModel(0)
 {
 	tabWidget = new QTabWidget();
-    certListPage = new CertListPage(platformStyle);
     myCertListPage = new MyCertListPage(platformStyle);
 	QString theme = GUIUtil::getThemeName();
 	tabWidget->addTab(myCertListPage, tr("My Certificates"));
-	tabWidget->addTab(certListPage, tr("Search"));
 	tabWidget->setTabIcon(0, platformStyle->SingleColorIcon(":/icons/" + theme + "/cert"));
-	tabWidget->setTabIcon(1, platformStyle->SingleColorIcon(":/icons/" + theme + "/search"));
 	parent->addWidget(tabWidget);
 
 }
@@ -52,7 +48,6 @@ void CertView::setClientModel(ClientModel *clientModel)
     if (clientModel)
     {
        
-        certListPage->setOptionsModel(clientModel->getOptionsModel());
 		myCertListPage->setOptionsModel(clientModel,clientModel->getOptionsModel());
 
     }
@@ -65,7 +60,6 @@ void CertView::setWalletModel(WalletModel *walletModel)
     if (walletModel)
     {
 
-        certListPage->setModel(walletModel, walletModel->getCertTableModelAll());
 		myCertListPage->setModel(walletModel, walletModel->getCertTableModelMine());
 
     }
@@ -74,6 +68,6 @@ void CertView::setWalletModel(WalletModel *walletModel)
 
 void CertView::gotoCertListPage()
 {
-	tabWidget->setCurrentWidget(certListPage);
+	tabWidget->setCurrentWidget(myCertListPage);
 }
 

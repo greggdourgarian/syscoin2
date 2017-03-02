@@ -31,10 +31,6 @@ public:
 
     void setModel(WalletModel*,CertTableModel *model);
     void loadRow(int row);
-    void addParentItem(QStandardItemModel * model, const QString& text, const QVariant& data );
-    void addChildItem( QStandardItemModel * model, const QString& text, const QVariant& data );
-	void setCertNotSafeBecauseOfAlias(const QString &alias);
-	void resetSafeSearch();
     QString getCert() const;
     void setCert(const QString &cert);
 
@@ -45,7 +41,6 @@ public Q_SLOTS:
 private:
     bool saveCurrentRow();
 	void loadAliases();
-	void loadCategories();
     Ui::EditCertDialog *ui;
     QDataWidgetMapper *mapper;
     Mode mode;
@@ -55,10 +50,7 @@ private:
 	QString expiredStr;
 	QString m_oldprivatevalue;
 	QString m_encryptionkey;
-	QString m_oldtitle;
 	QString m_oldpubdata;
-	QString m_oldsafesearch;
-	QString m_oldcategory;
 };
 
 #endif // EDITCERTDIALOG_H

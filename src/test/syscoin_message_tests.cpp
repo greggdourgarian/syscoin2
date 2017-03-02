@@ -16,96 +16,66 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 	AliasNew("node2", "jagmsg2", "password", "changeddata2");
 	AliasNew("node3", "jagmsg3", "password", "changeddata3");
 	// 256 bytes long
-	string goodtitle = "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";
-	// 1024*4 bytes long
-	string gooddata =  "1111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111119762111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111197621111111111111111111976211111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
-	// 1024*4 + 1 bytes long
-	string baddata =   "11111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111111111111111111111111111111111111111111111111197621111111111111111111111111111111111111111111111111111111111111111976211111111111111111111111111111111111111111111111111111111111111119762111111111111111111197621111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111976211111111111111111119762111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
+	string goodprivdata =  "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";
+	// 257 bytes long
+	string badprivdata =   "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdda";
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + toalias));
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+
+	string strCipherGoodPrivateData = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), goodprivdata, strCipherGoodPrivateData), true);
+	if(strCipherGoodPrivateData.empty())
+		strCipherGoodPrivateData = "\"\"";
+	else
+		strCipherGoodPrivateData = HexStr(strCipherGoodPrivateData);
+
+	string strCipherBadPrivateData = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), badprivdata, strCipherBadPrivateData), true);
+	if(strCipherBadPrivateData.empty())
+		strCipherBadPrivateData = "\"\"";
+	else
+		strCipherBadPrivateData = HexStr(strCipherBadPrivateData);
 
 	string fromalias = "jagmsg1";
 	string toalias = "jagmsg2";
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + toalias));
-	string encryptionkeyto = find_value(r.get_obj(), "encryption_publickey").get_str();
-
-	// good data cipher
-	string strCipherGoodPrivateDataTo = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyto), gooddata, strCipherGoodPrivateDataTo), true);
-	if(strCipherGoodPrivateDataTo.empty())
-		strCipherGoodPrivateDataTo = "\"\"";
-	else
-		strCipherGoodPrivateDataTo = HexStr(strCipherGoodPrivateDataTo);
-	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + fromalias));
-	string encryptionkeyfrom = find_value(r.get_obj(), "encryption_publickey").get_str();
-
-	string strCipherGoodPrivateDataFrom = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), gooddata, strCipherGoodPrivateDataFrom), true);
-	if(strCipherGoodPrivateDataFrom.empty())
-		strCipherGoodPrivateDataFrom = "\"\"";
-	else
-		strCipherGoodPrivateDataFrom = HexStr(strCipherGoodPrivateDataFrom);
-
-	// bad data cipher
-	string strCipherBadPrivateDataTo = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyto), baddata, strCipherBadPrivateDataTo), true);
-	if(strCipherBadPrivateDataTo.empty())
-		strCipherBadPrivateDataTo = "\"\"";
-	else
-		strCipherBadPrivateDataTo = HexStr(strCipherBadPrivateDataTo);
-
-	string strCipherBadPrivateDataFrom = "";
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), baddata, strCipherBadPrivateDataFrom), true);
-	if(strCipherBadPrivateDataFrom.empty())
-		strCipherBadPrivateDataFrom = "\"\"";
-	else
-		strCipherBadPrivateDataFrom = HexStr(strCipherBadPrivateDataFrom);
-
-	// if not sending from msg we can send 4kb in the to message
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + goodtitle + " " + strCipherGoodPrivateDataFrom + " " +  strCipherGoodPrivateDataTo + " " + fromalias + " " + toalias + " No"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias +  " " + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))));
 	GenerateBlocks(5);
-	// ensure the from msg doesn't matter when not sending the from msg
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + goodtitle + " \"\" " +  strCipherGoodPrivateDataTo + " " + fromalias + " " + toalias + " No"));
-	GenerateBlocks(5);
-	// 1024 bytes long
-	// largest from message allowed
-	string goodfromdata = "asdfasdfdsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
-	strCipherGoodPrivateDataFrom.clear();
-	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkeyfrom), goodfromdata, strCipherGoodPrivateDataFrom), true);
-	if(strCipherGoodPrivateDataFrom.empty())
-		strCipherGoodPrivateDataFrom = "\"\"";
-	else
-		strCipherGoodPrivateDataFrom = HexStr(strCipherGoodPrivateDataFrom);
-	// you can send from message if from msg is 1kb, so to msg would also be 1kb
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + goodtitle + " " + strCipherGoodPrivateDataFrom + " " +  strCipherGoodPrivateDataFrom + " " + fromalias + " " + toalias + " Yes"));
-	GenerateBlocks(5);
-	// ensure you can't send to msg of 4kb+1 when sending from msg (which is nothing)
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + goodtitle + " \"\" " +  strCipherBadPrivateDataTo + " " + fromalias + " " + toalias + " Yes"), runtime_error);
-
-	// can't send to msg with 4kb+1 even if not sending from msg
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + goodtitle + " " + strCipherBadPrivateDataFrom + " " +  strCipherBadPrivateDataTo + " " + fromalias + " " + toalias + " No"), runtime_error);
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + goodtitle + " \"\" " +  strCipherBadPrivateDataTo + " " + fromalias + " " + toalias + " No"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherBadPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias + " " + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))), runtime_error);
 }
-BOOST_AUTO_TEST_CASE (generate_big_msgsubject)
+BOOST_AUTO_TEST_CASE (generate_big_msgpubdata)
 {
-	printf("Running generate_big_msgsubject...\n");
+	printf("Running generate_big_msgpubdata...\n");
 	GenerateBlocks(5);
 	// 256 bytes long
-	string goodtitle = "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";
-	// 1024 bytes long
-	string gooddata = "asdfasdfdsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfasdfasdfsadfsadassdsfsdfsdfsdfsdfsdsdfssdsfsdfsdfsdfsdfsdsdfdfsdfsdfsdfsd";	
+	string gooddata = "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";	
 	// 257 bytes long
-	string badtitle =   "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
-	MessageNew("node1", "node2", goodtitle, gooddata, "jagmsg1", "jagmsg2");
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + badtitle + " " + HexStr(vchFromString("message")) + " " + HexStr(vchFromString("message")) + " jagmsg1 jagmsg2"), runtime_error);
+	string baddata =   "SfsddfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfddz";
+	
+
+	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + toalias));
+	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
+
+	string strCipherGoodPrivateData = "";
+	BOOST_CHECK_EQUAL(EncryptMessage(ParseHex(encryptionkey), gooddata, strCipherGoodPrivateData), true);
+	if(strCipherGoodPrivateData.empty())
+		strCipherGoodPrivateData = "\"\"";
+	else
+		strCipherGoodPrivateData = HexStr(strCipherGoodPrivateData);
+
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + gooddata + " jagmsg1 jagmsg2" + " " + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))));
+	GenerateBlocks(5);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + baddata + " jagmsg1 jagmsg2" + " " + HexStr(vchFromString("key1")) +  + HexStr(vchFromString("key2")) +  + HexStr(vchFromString("key3"))), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_msgaliastransfer)
 {
 	printf("Running generate_msgaliastransfer...\n");
-	MessageNew("node1", "node2", "title", "data", "jagmsg1", "jagmsg2");
+	MessageNew("node1", "node2", "pubdata", "data", "jagmsg1", "jagmsg2");
 	// transfer an alias and send a message, the new node owner can now read messages to that alias
 	AliasTransfer("node2", "jagmsg2", "node3", "changeddata2", "pvtdata");
 	// send message to new node owning alias
-	MessageNew("node1", "node3", "title", "data", "jagmsg1", "jagmsg2");
+	MessageNew("node1", "node3", "pubdata", "data", "jagmsg1", "jagmsg2");
 }
 BOOST_AUTO_TEST_CASE (generate_messagepruning)
 {
@@ -117,7 +87,7 @@ BOOST_AUTO_TEST_CASE (generate_messagepruning)
 	AliasNew("node3", "messageprune3", "password", "changeddata2");
 	// stop node2 create a service,  mine some blocks to expire the service, when we restart the node the service data won't be synced with node2
 	StopNode("node2");
-	string guid = MessageNew("node1", "node3", "subject", "title", "messageprune1", "messageprune3");
+	string guid = MessageNew("node1", "node3", "pubdata", "msg", "messageprune1", "messageprune3");
 	// messages expire by checking the recipient alias
 	ExpireAlias("messageprune2");
 	StartNode("node2");

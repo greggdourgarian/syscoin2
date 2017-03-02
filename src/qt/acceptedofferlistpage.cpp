@@ -156,7 +156,7 @@ void AcceptedOfferListPage::setModel(WalletModel *walletModel, OfferAcceptTableM
         // Set column widths
         ui->tableView->setColumnWidth(0, 50); //offer
         ui->tableView->setColumnWidth(1, 50); //accept
-        ui->tableView->setColumnWidth(2, 500); //title
+        ui->tableView->setColumnWidth(2, 500); //details
         ui->tableView->setColumnWidth(3, 50); //height
         ui->tableView->setColumnWidth(4, 50); //price
         ui->tableView->setColumnWidth(5, 75); //currency
@@ -297,7 +297,7 @@ void AcceptedOfferListPage::on_exportButton_clicked()
     writer.setModel(proxyModel);
     writer.addColumn(tr("Offer ID"), OfferAcceptTableModel::Name, Qt::EditRole);
     writer.addColumn(tr("Accept ID"), OfferAcceptTableModel::GUID, Qt::EditRole);
-	writer.addColumn(tr("Title"), OfferAcceptTableModel::Title, Qt::EditRole);
+	writer.addColumn(tr("Details"), OfferAcceptTableModel::Details, Qt::EditRole);
 	writer.addColumn(tr("Height"), OfferAcceptTableModel::Height, Qt::EditRole);
 	writer.addColumn(tr("Price"), OfferAcceptTableModel::Price, Qt::EditRole);
 	writer.addColumn(tr("Currency"), OfferAcceptTableModel::Currency, Qt::EditRole);

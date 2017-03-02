@@ -22,21 +22,16 @@ public:
     enum ColumnIndex {
         Name = 0,   /**< offer name */
 		Cert = 1, 
-        Title = 2,  /**< Offer value */
-		Description = 3,
-		Category = 4,
-		Price = 5,
-		Currency = 6,
-		Qty = 7,
-		Sold = 8,
-		Expired = 9,
-		Private = 10,
-		Alias = 11,
-		AliasRating = 12,
-		PaymentOptions = 13,
-		AliasPeg = 14,
-		SafeSearch = 15,
-		GeoLocation = 16,
+		Details = 2,
+		Price = 3
+		Currency = 4,
+		Qty = 5,
+		Expired = 6,
+		Private = 7,
+		Alias = 8,
+		AliasRating = 9,
+		PaymentOptions = 10,
+		AliasPeg = 11,
 		NUMBER_OF_COLUMNS
     };
 
@@ -45,20 +40,17 @@ public:
         /** Offer name */
 		CertRole,
         NameRole,
-		CategoryRole,
-		TitleRole,
 		QtyRole,
 		SoldRole,
 		CurrencyRole,
 		PriceRole,
-		DescriptionRole,
+		DetailsRole,
 		ExpiredRole,
 		PrivateRole,
 		AliasRole,
 		AliasRatingRole,
 		PaymentOptionsRole,
-		AliasPegRole,
-		SafeSearchRole
+		AliasPegRole
     };
 
     /** Return status of edit/insert operation */
@@ -86,7 +78,7 @@ public:
     /* Add an offer to the model.
        Returns the added offer on success, and an empty string otherwise.
      */
-    QString addRow(const QString &type, const QString &offer, const QString &cert, const QString &value, const QString &description, const QString &category,const QString &price, const QString &currency, const QString &qty, const QString &sold, const QString &expired, const QString &private_str, const QString &alias,const QString &aliasRating, const QString &paymentOptions, const QString &alias_peg, const QString &safesearch, const QString &geolocation);
+    QString addRow(const QString &type, const QString &offer, const QString &cert, const QString &details, const QString &price, const QString &currency, const QString &qty, const QString &expired, const QString &private_str, const QString &alias,const QString &aliasRating, const QString &paymentOptions, const QString &alias_peg);
 
     /* Look up row index of an offer in the model.
        Return -1 if not found.
@@ -109,7 +101,7 @@ private:
 public Q_SLOTS:
     /* Update offer list from core.
      */
-    void updateEntry(const QString &offer, const QString &cert, const QString &value, const QString &description, const QString &category, const QString &price, const QString &currency, const QString &qty, const QString &sold, const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString &paymentOptions,const QString &alias_peg, const QString &safesearch, const QString &geolocation, OfferModelType type, int status);
+    void updateEntry(const QString &offer, const QString &cert,  const QString &details, const QString &price, const QString &currency, const QString &qty, const QString &expired, const QString &private_str, const QString &alias, const QString &aliasRating, const QString &paymentOptions,const QString &alias_peg, OfferModelType type, int status);
 
     friend class OfferTablePriv;
 };

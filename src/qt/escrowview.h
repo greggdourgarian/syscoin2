@@ -8,8 +8,6 @@
 
 class SyscoinGUI;
 class ClientModel;
-class WalletModel;
-class EscrowListPage;
 class MyEscrowListPage;
 class PlatformStyle;
 
@@ -54,7 +52,6 @@ private:
     WalletModel *walletModel;
 
     QTabWidget *tabWidget;
-    EscrowListPage *escrowListPage;
 	MyEscrowListPage *myEscrowListPage;
 
 

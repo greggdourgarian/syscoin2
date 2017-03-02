@@ -19,7 +19,7 @@ ResellOfferDialog::ResellOfferDialog(QModelIndex *idx, WalletModel* model, QWidg
     ui->setupUi(this);
 
 	QString offerGUID = idx->data(OfferTableModel::NameRole).toString();
-	ui->descriptionEdit->setPlainText(idx->data(OfferTableModel::DescriptionRole).toString());
+	ui->detailsEdit->setPlainText(idx->data(OfferTableModel::DetailsRole).toString());
 	ui->offerGUIDLabel->setText(offerGUID);
 	ui->commissionDisclaimer->setText(QString("<font color='blue'>") + tr("Enter the 'percentage' amount(without the % sign) that you would like to mark-up the price to") + QString("</font>"));
 	loadAliases();
@@ -45,7 +45,7 @@ bool ResellOfferDialog::saveCurrentRow()
 	params.push_back(ui->aliasEdit->currentText().toStdString());
 	params.push_back(ui->offerGUIDLabel->text().toStdString());
 	params.push_back(ui->commissionEdit->text().toStdString());
-	params.push_back(ui->descriptionEdit->toPlainText().toStdString());
+	params.push_back(ui->detailsEdit->toPlainText().toStdString());
 
 	try {
         UniValue result = tableRPC.execute(strMethod, params);

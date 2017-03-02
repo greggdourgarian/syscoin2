@@ -57,8 +57,6 @@ private Q_SLOTS:
     /** Copy cert of currently selected cert entry to clipboard */
     void on_copyCert_clicked();
 
-    /** Copy value of currently selected cert entry to clipboard (no button) */
-    void onCopyCertValueAction();
     /** Edit currently selected cert entry (no button) */
     void on_editButton_clicked();
     /** Export button clicked */

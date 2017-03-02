@@ -286,7 +286,7 @@ void AcceptandPayOfferListPage::OpenPayDialog()
 {
 	if(!walletModel)
 		return;
-	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), m_encryptionkey, ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, strCategory, nQtyUnits, this);
+	OfferAcceptDialog dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), ui->aliasEdit->currentText(), m_encryptionkey, ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoCurrency->text(), ui->infoPrice->text(), ui->sellerEdit->text(), sAddress, paymentOptions, nQtyUnits, bCoinOffer, this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -308,7 +308,7 @@ void AcceptandPayOfferListPage::OpenBTCPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), m_encryptionkey, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
+	OfferAcceptDialogBTC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), m_encryptionkey, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",nQtyUnits, bCoinOffer, this);
 	if(dlg.exec())
 	{
 		this->offerPaid = dlg.getPaymentStatus();
@@ -331,7 +331,7 @@ void AcceptandPayOfferListPage::OpenZECPayDialog()
 		return;
 	}	
 	QString strSYSPrice = QString::fromStdString(strprintf("%.*f", 8, ValueFromAmount(sysPrice).get_real()));
-	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), m_encryptionkey, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoTitle->text(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "",strCategory, nQtyUnits,this);
+	OfferAcceptDialogZEC dlg(walletModel, platformStyle, ui->aliasPegEdit->text(), m_encryptionkey, ui->aliasEdit->currentText(), ui->offeridEdit->text(), ui->qtyEdit->text(), ui->notesEdit->toPlainText(), ui->infoCurrency->text(), strSYSPrice, ui->sellerEdit->text(), sAddress, "", nQtyUnits,bCoinOffer,this);
 	
 	if(dlg.exec())
 	{
@@ -361,13 +361,6 @@ void AcceptandPayOfferListPage::acceptOffer()
 		QMessageBox::information(this, windowTitle(),
 			tr("Please choose an alias before purchasing this offer."),
 			QMessageBox::Ok, QMessageBox::Ok);
-		return;
-	}
-	if(strCategory.startsWith("wanted") && !strCategory.startsWith("wanted > cryptocurrency"))
-	{
-		QMessageBox::information(this, windowTitle(),
-			tr("Cannot purchase a wanted offer!"),
-				QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}	
 	this->offerPaid = false;
@@ -404,39 +397,18 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 			const string &strRand = find_value(offerObj, "offer").get_str();
 			const string &strAddress = find_value(offerObj, "address").get_str();
 			offerOut.vchCert = vchFromString(find_value(offerObj, "cert").get_str());
-			string alias = find_value(offerObj, "alias").get_str();
-			offerOut.sTitle = vchFromString(find_value(offerObj, "title").get_str());
-			strCategory = QString::fromStdString(find_value(offerObj, "category").get_str());
-			offerOut.sCategory = vchFromString(strCategory.toStdString());
+			offerOut.sDetails = vchFromString(find_value(offerObj, "details").get_str());
 			offerOut.sCurrencyCode = vchFromString(find_value(offerObj, "currency").get_str());
 			string strAliasPeg = find_value(offerObj, "alias_peg").get_str();
-			const QString &strSold = QString::number(find_value(offerObj, "offers_sold").get_int());
 			const QString &strRating = QString::fromStdString(find_value(offerObj, "alias_rating_display").get_str());
 			if(find_value(offerObj, "quantity").get_str() == "unlimited")
 				offerOut.nQty = -1;
 			else
 				offerOut.nQty = QString::fromStdString(find_value(offerObj, "quantity").get_str()).toUInt();	
 			offerOut.paymentOptions = find_value(offerObj, "paymentoptions").get_int();	
-			string descString = find_value(offerObj, "description").get_str();
-		
-			offerOut.sDescription = vchFromString(descString);
-			UniValue outerDescValue(UniValue::VSTR);
-			bool read = outerDescValue.read(descString);
-			if (read)
-			{
-				if(outerDescValue.type() == UniValue::VOBJ)
-				{
-					const UniValue &outerDescObj = outerDescValue.get_obj();
-					const UniValue &descValue = find_value(outerDescObj, "description");
-					if (descValue.type() == UniValue::VSTR)
-					{
-						offerOut.sDescription = vchFromString(descValue.get_str());
-					}
-				}
-
-			}
 			nQtyUnits = find_value(offerObj, "offer_units").get_real();
-			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strSold, strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
+			bCoinOffer = find_value(offerObj, "coinoffer").get_bool();
+			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
 			return true;
 		}
 		 
@@ -481,7 +453,7 @@ bool AcceptandPayOfferListPage::handlePaymentRequest(const SendCoinsRecipient *r
 	}
     return true;
 }
-void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString& strRand, const QString& strSold,  const QString& strRating, COffer &offer, QString price, QString address, QString aliasPeg)
+void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString& strRand, const QString& strRating, COffer &offer, QString price, QString address, QString aliasPeg)
 {
 	loadAliases();
     ui->offeridEdit->setText(strRand);
@@ -494,8 +466,6 @@ void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString&
 		isOfferCert = false;	
 	}
 	ui->sellerEdit->setText(strAlias);
-	ui->infoTitle->setText(QString::fromStdString(stringFromVch(offer.sTitle)));
-	ui->infoCategory->setText(QString::fromStdString(stringFromVch(offer.sCategory)));
 	ui->infoCurrency->setText(QString::fromStdString(stringFromVch(offer.sCurrencyCode)));
 	ui->aliasPegEdit->setText(aliasPeg);
 	ui->sellerRatingEdit->setText(strRating);
@@ -504,15 +474,14 @@ void AcceptandPayOfferListPage::setValue(const QString& strAlias, const QString&
 		ui->infoQty->setText(tr("unlimited"));
 	else
 		ui->infoQty->setText(QString::number(offer.nQty));
-	ui->infoSold->setText(strSold);
-	ui->infoDescription->setPlainText(QString::fromStdString(stringFromVch(offer.sDescription)));
+	ui->infoDetails->setPlainText(QString::fromStdString(stringFromVch(offer.sDetails)));
 	ui->qtyEdit->setText(QString("1"));
 	ui->notesEdit->setPlainText(QString(""));
 	paymentOptions = offer.paymentOptions;
 	sAddress = address;
 	QRegExp rx("(?:https?|ftp)://\\S+");
 
-    rx.indexIn(QString::fromStdString(stringFromVch(offer.sDescription)));
+    rx.indexIn(QString::fromStdString(stringFromVch(offer.sDetails)));
     m_imageList = rx.capturedTexts();
 	RefreshImage();
 

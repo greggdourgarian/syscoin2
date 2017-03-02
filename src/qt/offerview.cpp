@@ -12,7 +12,6 @@
 #include "myacceptedofferlistpage.h"
 #include "acceptedofferlistpage.h"
 #include "acceptandpayofferlistpage.h"
-#include "offerlistpage.h"
 #include "offertablemodel.h"
 #include "offeraccepttablemodel.h"
 #include "ui_interface.h"
@@ -31,8 +30,7 @@ OfferView::OfferView(const PlatformStyle *platformStyle, QStackedWidget *parent)
 {
 
 	tabWidget = new QTabWidget();
-    offerListPage = new OfferListPage(platformStyle, this);
-    myOfferListPage = new MyOfferListPage(platformStyle);
+	myOfferListPage = new MyOfferListPage(platformStyle);
 	acceptandPayOfferListPage = new AcceptandPayOfferListPage(platformStyle);
 	myAcceptedOfferListPage = new MyAcceptedOfferListPage(platformStyle);
 	acceptedOfferListPage = new AcceptedOfferListPage(platformStyle);
@@ -40,13 +38,11 @@ OfferView::OfferView(const PlatformStyle *platformStyle, QStackedWidget *parent)
 	tabWidget->addTab(myOfferListPage, tr("Selling"));
 	tabWidget->addTab(myAcceptedOfferListPage, tr("Sold"));
 	tabWidget->addTab(acceptedOfferListPage, tr("My Purchases"));
-	tabWidget->addTab(offerListPage, tr("Search"));
 	tabWidget->addTab(acceptandPayOfferListPage, tr("Buy"));
 	tabWidget->setTabIcon(0, QIcon(":/icons/" + theme + "/cart"));
 	tabWidget->setTabIcon(1, QIcon(":/icons/" + theme + "/cart"));
 	tabWidget->setTabIcon(2, QIcon(":/icons/" + theme + "/cart"));
-	tabWidget->setTabIcon(3, QIcon(":/icons/" + theme + "/search"));
-	tabWidget->setTabIcon(4, QIcon(":/icons/" + theme + "/send"));
+	tabWidget->setTabIcon(3, QIcon(":/icons/" + theme + "/send"));
 	parent->addWidget(tabWidget);
 }
 
@@ -65,7 +61,6 @@ void OfferView::setClientModel(ClientModel *clientModel)
     if (clientModel)
     {
        
-        offerListPage->setOptionsModel(clientModel->getOptionsModel());
 		myOfferListPage->setOptionsModel(clientModel,clientModel->getOptionsModel());
 		myAcceptedOfferListPage->setOptionsModel(clientModel,clientModel->getOptionsModel());
 		acceptedOfferListPage->setOptionsModel(clientModel,clientModel->getOptionsModel());
@@ -79,7 +74,6 @@ void OfferView::setWalletModel(WalletModel *walletModel)
     if (walletModel)
     {
 
-        offerListPage->setModel(walletModel, walletModel->getOfferTableModelAll());
 		myOfferListPage->setModel(walletModel, walletModel->getOfferTableModelMine());
 		myAcceptedOfferListPage->setModel(walletModel, walletModel->getOfferTableModelMyAccept());
 		acceptedOfferListPage->setModel(walletModel, walletModel->getOfferTableModelAccept());
@@ -91,7 +85,7 @@ void OfferView::setWalletModel(WalletModel *walletModel)
 
 void OfferView::gotoOfferListPage()
 {
-	tabWidget->setCurrentWidget(offerListPage);
+	tabWidget->setCurrentWidget(myOfferListPage);
 }
 
 

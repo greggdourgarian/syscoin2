@@ -249,13 +249,6 @@
          <property name="fieldGrowthPolicy">
           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
          </property>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_16">
-           <property name="text">
-            <string>Offer Title:</string>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="1">
           <widget class="QLineEdit" name="titleEdit"/>
          </item>

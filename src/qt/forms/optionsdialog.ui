@@ -692,31 +692,6 @@
          </item>
         </layout>
        </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6_Pref">
-         <item>
-          <widget class="QLabel" name="labelSafeSearch">
-           <property name="text">
-            <string>Safe Search:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="safeSearch">
-           <item>
-            <property name="text">
-             <string>On</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Off</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tabDirectBTC">

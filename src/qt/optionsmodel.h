@@ -44,7 +44,6 @@ public:
 		Theme,                  // QString
 		DefaultAlias,			// QString
 		DefaultPegAlias,		// QString
-		SafeSearch,				// QString
 		ZecEndPoint,			// QString
 		BTCEndPoint,			// QString
 		ZecRPCLogin,			// QString

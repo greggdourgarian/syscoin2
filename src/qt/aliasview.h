@@ -10,7 +10,6 @@ class SyscoinGUI;
 class ClientModel;
 class WalletModel;
 class MyAliasListPage;
-class AliasListPage;
 class PlatformStyle;
 
 QT_BEGIN_NAMESPACE
@@ -55,7 +54,6 @@ private:
 
     QTabWidget *tabWidget;
     MyAliasListPage *myAliasListPage;
-    AliasListPage *aliasListPage;
 
 public:
     /** Switch to offer page */

@@ -246,36 +246,8 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Title:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="infoTitle">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
      <item row="8" column="1">
       <layout class="QVBoxLayout" name="verticalLayout_3"/>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Category:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QLineEdit" name="infoCategory">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
      </item>
      <item row="10" column="1">
       <layout class="QVBoxLayout" name="verticalLayout_4"/>
@@ -342,33 +314,15 @@
        </property>
       </widget>
      </item>
-     <item row="17" column="0">
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>Quantity Sold:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="17" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout_7">
-       <item>
-        <widget class="QLineEdit" name="infoSold">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
      <item row="18" column="0">
       <widget class="QLabel" name="label_9">
        <property name="text">
-        <string>Description:</string>
+        <string>Details:</string>
        </property>
       </widget>
      </item>
      <item row="18" column="1">
-      <widget class="QPlainTextEdit" name="infoDescription">
+      <widget class="QPlainTextEdit" name="infoDetails">
        <property name="enabled">
         <bool>true</bool>
        </property>

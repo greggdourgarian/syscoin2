@@ -311,7 +311,6 @@ void MyAliasListPage::on_exportButton_clicked()
 	writer.addColumn(tr("Expired"), AliasTableModel::Expired, Qt::EditRole);
 	writer.addColumn(tr("Private Profile"), AliasTableModel::RatingAsArbiter, AliasTableModel::PrivateRole);
 	writer.addColumn(tr("Public Profile"), AliasTableModel::RatingAsArbiter, AliasTableModel::PublicRole);
-	writer.addColumn(tr("Safe Search"), AliasTableModel::RatingAsArbiter, AliasTableModel::SafeSearchRole);
 	writer.addColumn(tr("Buyer Rating"), AliasTableModel::RatingAsBuyer, AliasTableModel::BuyerRatingRole);
 	writer.addColumn(tr("Seller Rating"), AliasTableModel::RatingAsSeller, AliasTableModel::SellerRatingRole);
 	writer.addColumn(tr("Arbiter Rating"), AliasTableModel::RatingAsArbiter, AliasTableModel::ArbiterRatingRole);

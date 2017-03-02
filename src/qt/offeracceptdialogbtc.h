@@ -18,7 +18,7 @@ class OfferAcceptDialogBTC : public QDialog
     Q_OBJECT
 
 public:
-    explicit OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey,QString offer, QString quantity, QString notes, QString title, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter,  QString strCategory, float nQtyUnits,QWidget *parent=0);
+    explicit OfferAcceptDialogBTC(WalletModel* model, const PlatformStyle *platformStyle, QString strAliasPeg, QString alias, QString encryptionkey,QString offer, QString quantity, QString notes, QString currencyCode, QString sysPrice, QString sellerAlias, QString address, QString arbiter, float nQtyUnits, bool bCoinOffer,QWidget *parent=0);
     ~OfferAcceptDialogBTC();
 	void CheckPaymentInBTC();
     bool getPaymentStatus();
@@ -32,7 +32,6 @@ private:
 	QString quantity;
 	QString notes;
 	QString qstrPrice;
-	QString title;
 	QString offer;
 	QString acceptGuid;
 	QString sellerAlias;
@@ -47,7 +46,7 @@ private:
 	QString m_redeemScript;	
 	QString priceBtc;
 	qint64 m_height;
-	QString strCategory;
+	bool bCoinOffer;
 	float nQtyUnits;
 private Q_SLOTS:
 	void on_cancelButton_clicked();

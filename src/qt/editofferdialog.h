@@ -27,15 +27,11 @@ public:
 		NewCertOffer
     };
 
-    explicit EditOfferDialog(Mode mode, const QString &offer="", const QString &cert="", const QString &alias="", const QString &cat="", QWidget *parent = 0);
+    explicit EditOfferDialog(Mode mode, const QString &offer="", const QString &cert="", const QString &alias="", QWidget *parent = 0);
     ~EditOfferDialog();
 
     void setModel(WalletModel*,OfferTableModel *model);
     void loadRow(int row);
-    void addParentItem(QStandardItemModel * model, const QString& text, const QVariant& data );
-    void addChildItem( QStandardItemModel * model, const QString& text, const QVariant& data );
-	void setOfferNotSafeBecauseOfAlias(const QString &alias);
-	void resetSafeSearch();
     QString getOffer() const;
     void setOffer(const QString &offer);
 
@@ -51,7 +47,6 @@ private:
     bool saveCurrentRow();
 	void loadCerts(const QString& alias);
 	void loadAliases();
-	void loadCategories();
     Ui::EditOfferDialog *ui;
     QDataWidgetMapper *mapper;
     Mode mode;
@@ -61,18 +56,13 @@ private:
 	QString cert;
 	QString alias;
 	QString commission;
-	bool overrideSafeSearch;
 	QString expiredStr;
-	QString m_oldcategory;
-	QString m_oldtitle;
 	QString m_oldqty;
 	QString m_oldprice;
-	QString m_olddescription;
+	QString m_olddetails;
 	QString m_oldcurrency;
 	QString m_oldprivate;
 	QString m_oldcert;
-	QString m_oldgeolocation;
-	QString m_oldsafesearch;
 	QString m_oldcommission;
 	QString m_oldpaymentoptions;
 };
