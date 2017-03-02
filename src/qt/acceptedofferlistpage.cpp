@@ -297,7 +297,6 @@ void AcceptedOfferListPage::on_exportButton_clicked()
     writer.setModel(proxyModel);
     writer.addColumn(tr("Offer ID"), OfferAcceptTableModel::Name, Qt::EditRole);
     writer.addColumn(tr("Accept ID"), OfferAcceptTableModel::GUID, Qt::EditRole);
-	writer.addColumn(tr("Details"), OfferAcceptTableModel::Details, Qt::EditRole);
 	writer.addColumn(tr("Height"), OfferAcceptTableModel::Height, Qt::EditRole);
 	writer.addColumn(tr("Price"), OfferAcceptTableModel::Price, Qt::EditRole);
 	writer.addColumn(tr("Currency"), OfferAcceptTableModel::Currency, Qt::EditRole);
