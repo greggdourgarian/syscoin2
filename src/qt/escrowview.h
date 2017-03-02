@@ -8,6 +8,7 @@
 
 class SyscoinGUI;
 class ClientModel;
+class WalletModel;
 class MyEscrowListPage;
 class PlatformStyle;
 
