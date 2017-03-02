@@ -1141,7 +1141,7 @@ bool BuildCertJson(const CCert& cert, const CAliasIndex& alias, UniValue& oCert,
 			CMessageCrypter crypter;
 			if(!strEncryptionPrivateKey.empty())
 			{
-				if(crypter.Decrypt(ParseHex(strEncryptionPrivateKey), stringFromVch(cert.vchData), strDecrypted))
+				if(crypter.Decrypt(stringFromVch(ParseHex(strEncryptionPrivateKey)), stringFromVch(cert.vchData), strDecrypted))
 					strData = strDecrypted;
 			}
 		}
