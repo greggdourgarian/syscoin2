@@ -1634,8 +1634,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [accept transfers=Yes] [expire_timestamp] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Should be encrypted to publickey.\n"
-						"<public value> alias public profile data, 256 chars max.\n"
-						"<private value> alias private profile data, 256 chars max. Will be private and readable by anyone with encryption_privatekey. Should be encrypted to encryption_publickey.\n"
+						"<public value> alias public profile data, 1024 chars max.\n"
+						"<private value> alias private profile data, 1024 chars max. Will be private and readable by anyone with encryption_privatekey. Should be encrypted to encryption_publickey.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
 						"<expire_timestamp> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
 						"<publickey> Public key for this alias.\n"		
@@ -1836,8 +1836,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [alias_pubkey] [password] [accept_transfers=Yes] [expire_timestamp] [address] [password_salt] [encryption_privatekey] [encryption_publickey]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
-						"<public_value> alias public profile data, 256 chars max.\n"
-						"<private_value> alias private profile data, 256 chars max. Will be private and readable by anyone with encryption_privatekey.\n"				
+						"<public_value> alias public profile data, 1024 chars max.\n"
+						"<private_value> alias private profile data, 1024 chars max. Will be private and readable by anyone with encryption_privatekey.\n"				
 						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
 						"<password> used to generate your public/private key that controls this alias.\n"						
 						"<accept_transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
@@ -1905,6 +1905,22 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	CAliasIndex theAlias;
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Could not find an alias with this name"));
+
+	
+	if(!strPublicKey.empty() && strAddress.empty())
+	{
+		CPubKey pubKeyCurrent(theAlias.vchPubKey.begin(), theAlias.vchPubKey.end());
+		CSyscoinAddress currentAddress = CSyscoinAddress(pubKeyCurrent.GetID());
+		// if current pubkey and address match (not using custom address for alias) then update new address from new pubkey
+		// if user has different address/pubkey that don't match then on every xfer/pw change then only update if address is passed in
+		if(currentAddress.ToString() == EncodeBase58(theAlias.vchAddress))
+		{
+			const vector<unsigned char> &vchPubKeyDesired = ParseHex(strPublicKey);
+			CPubKey pubKey(vchPubKeyDesired.begin(), vchPubKeyDesired.end());
+			CSyscoinAddress desiredAddress = CSyscoinAddress(pubKey.GetID());
+			strAddress = desiredAddress.ToString();
+		}
+	}
 
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
