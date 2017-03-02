@@ -78,7 +78,6 @@ public:
     CMessage operator=(const CMessage &b) {
         vchAliasTo = b.vchAliasTo;
 		vchAliasFrom = b.vchAliasFrom;
-		vchSubject = b.vchSubject;
 		vchEncryptionPrivateKeyTo = b.vchEncryptionPrivateKeyTo;
 		vchEncryptionPrivateKeyFrom = b.vchEncryptionPrivateKeyFrom;
 		txHash = b.txHash;

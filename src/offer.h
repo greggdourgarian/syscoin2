@@ -345,7 +345,7 @@ public:
 		&& a.vchAlias == b.vchAlias
 		&& a.vchCert == b.vchCert
 		&& a.bPrivate == b.bPrivate
-		&& a.bCoinOffer == b.bCoinOffer;
+		&& a.bCoinOffer == b.bCoinOffer
 		&& a.paymentOptions == b.paymentOptions
 		&& a.safetyLevel == b.safetyLevel
 		&& a.vchOffer == b.vchOffer

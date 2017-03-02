@@ -1102,7 +1102,7 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& scri
 	if(!address)
 		return;
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	address[0] = CSyscoinAddress(DecodeBase58(alias.vchAddress), myAddressType);
+	address[0] = CSyscoinAddress(EncodeBase58(alias.vchAddress), myAddressType);
 	script = GetScriptForDestination(address[0].Get());
 }
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
@@ -1359,7 +1359,8 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 
 bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, std::vector<unsigned char> &vchPubKey) {
 
-	const vector<unsigned char> &vchAddress = DecodeBase58(strAddress);
+	vector<unsigned char> vchAddress;
+	DecodeBase58(strAddress, vchAddress);
 	if (!paliasdb || !paliasdb->ExistsAddress(vchAddress))
 		return false;
 
@@ -1914,7 +1915,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	if(!strAddress.empty())
-		theAlias.vchAddress = DecodeBase58(strAddress);
+		DecodeBase58(strAddress, theAlias.vchAddress);
 	theAlias.vchAliasPeg = vchAliasPeg;
 	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
@@ -2653,7 +2654,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 	map<uint256, CTransaction> vtxTx;
 	CTransaction tx;
 	CAliasIndex txPos;
-	CAliasIndex txPaymentPos;
+	CAliasPayment txPaymentPos;
 	BOOST_FOREACH(txPos, vtxPos) {
 		if (!GetSyscoinTransaction(txPos.nHeight, txPos.txHash, tx, Params().GetConsensus()))
 			continue;
@@ -2670,7 +2671,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
     vector<vector<unsigned char> > vvch;
     int op, nOut;
 	string opName;
-	BOOST_FOREACH(txIt, vtxTx) {
+	BOOST_FOREACH(map<uint256, CTransaction> &txIt, vtxTx) {
 		const CTransaction& tx = txIt->first;
 		if(DecodeOfferTx(tx, op, nOut, vvch) )
 		{
@@ -2705,11 +2706,11 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 		if(IsAliasOp(op))
 		{
 			CAliasIndex alias(tx);
-			if(!alias.isNull() && BuildAliasJson(alias, false, oDetails, strWalletless)
+			if(!alias.isNull() && BuildAliasJson(alias, false, oDetails, strWalletless))
 				oName.push_back(oDetails);
 		}
 		else
-			oName.push_back(Pair("txid", tx.GetHash()));
+			oName.push_back(Pair("txid", tx.GetHash().GetHex()));
 		oRes.push_back(oName);
 	}
 	
@@ -2758,7 +2759,7 @@ UniValue aliasstats(const UniValue& params, bool fHelp) {
 	std::vector<CAliasIndex> aliases;
 	if (!paliasdb->GetDBAliases(aliases, nExpireFilter))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5539 - " + _("Scan failed"));	
-	if(!BuildAliasStatsJson(aliases, oAliasStats, true))
+	if(!BuildAliasStatsJson(aliases, oAliasStats))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR ERRCODE: 5540 - " + _("Could not find this alias"));
 
 	return oAliasStats;
@@ -2774,7 +2775,7 @@ bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAli
 	UniValue oAliases(UniValue::VARR);
 	BOOST_REVERSE_FOREACH(const CAliasIndex& alias, aliases) {
 		UniValue oAlias(UniValue::VOBJ);
-		if(!BuildAliasJson(alias, false, oAlias))
+		if(!BuildAliasJson(alias, false, oAlias, true))
 			continue;
 		oAliases.push_back(oAlias);
 	}
@@ -2819,7 +2820,7 @@ UniValue aliasaddscript(const UniValue& params, bool fHelp) {
 	if(pwalletMain)
 		pwalletMain->AddCScript(CScript(data.begin(), data.end()));
 	UniValue res(UniValue::VOBJ);
-	res.push_back(Pair("result", "success");
+	res.push_back(Pair("result", "success"));
 	return res;
 }
 	

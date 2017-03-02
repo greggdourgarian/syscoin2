@@ -97,8 +97,8 @@ public:
 		bTransferViewOnly = b.bTransferViewOnly;
 		safetyLevel = b.safetyLevel;
 		vchCert = b.vchCert;
-		a.vchEncryptionPublicKey = b.vchEncryptionPublicKey;
-		a.vchEncryptionPrivateKey = b.vchEncryptionPrivateKey;
+		vchEncryptionPublicKey = b.vchEncryptionPublicKey;
+		vchEncryptionPrivateKey = b.vchEncryptionPrivateKey;
         return *this;
     }
 
