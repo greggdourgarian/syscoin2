@@ -1628,8 +1628,8 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		"aliasnew <aliaspeg> <aliasname> <password> <public value> [private value] [accept transfers=Yes] [expire_timestamp] [publickey] [password_salt] [encryption_privatekey] [encryption_publickey]\n"
 						"<aliasname> alias name.\n"
 						"<password> used to generate your public/private key that controls this alias. Should be encrypted to publickey.\n"
-						"<public value> alias public profile data, 256 chars max. Hex encoded.\n"
-						"<private value> alias private profile data, 256 chars max. Will be private and readable by owner only. Should be encrypted to encryption_publickey.\n"
+						"<public value> alias public profile data, 1024 chars max.\n"
+						"<private value> alias private profile data, 512 chars max. Will be private and readable by owner only. Should be encrypted to encryption_publickey.\n"
 						"<accept transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"	
 						"<expire_timestamp> String. Time in seconds. Future time when to expire alias. It is exponentially more expensive per year, calculation is FEERATE*(2.88^years). FEERATE is the dynamic satoshi per byte fee set in the rate peg alias used for this alias. Defaults to 1 year.\n"	
 						"<publickey> Public key for this alias.\n"		
@@ -1672,12 +1672,16 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 
 
 	vchAlias = vchFromString(strName);
+
+	vector<unsigned char> vchPublicValue;
+	vector<unsigned char> vchPrivateValue;
 	string strPassword = "";
 	if(CheckParam(params, 2))
 		strPassword = params[2].get_str();
 	if(strPassword.size() < 4 && strPassword.size() > 0)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5507 - " + _("Invalid Syscoin Identity. Please enter a password atleast 4 characters long"));
 	string strPublicValue = params[3].get_str();
+	vchPublicValue = vchFromString(strPublicValue);
 
 	string strPrivateValue = "";
 
@@ -1741,7 +1745,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		newAlias.vchEncryptionPublicKey = ParseHex(strEncryptionPublicKey);
 	if(!strEncryptionPrivateKey.empty())
 		newAlias.vchEncryptionPrivateKey = ParseHex(strEncryptionPrivateKey);
-	newAlias.vchPublicValue = ParseHex(strPublicValue);
+	newAlias.vchPublicValue = vchPublicValue;
 	if(!strPrivateValue.empty())
 		newAlias.vchPrivateValue = ParseHex(strPrivateValue);
 	newAlias.nExpireTime = nTime;
@@ -1826,8 +1830,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		"aliasupdate <aliaspeg> <aliasname> [public value] [private value] [alias_pubkey] [password] [accept_transfers=Yes] [expire_timestamp] [address] [password_salt] [encryption_privatekey] [encryption_publickey]\n"
 						"Update and possibly transfer an alias.\n"
 						"<aliasname> alias name.\n"
-						"<public_value> alias public profile data, 256 chars max. Hex encoded.\n"
-						"<private_value> alias private profile data, 367 chars max. Will be private and readable by owner only. Hex encoded.\n"				
+						"<public_value> alias public profile data, 1024 chars max.\n"
+						"<private_value> alias private profile data, 512 chars max. Will be private and readable by owner only.\n"				
 						"<alias_pubkey> Alias pub key, if transferring alias or changing password.\n"
 						"<password> used to generate your public/private key that controls this alias.\n"						
 						"<accept_transfers> set to No if this alias should not allow a certificate to be transferred to it. Defaults to Yes.\n"		
@@ -1908,7 +1912,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 
 	theAlias.nHeight = chainActive.Tip()->nHeight;
 	if(!strPublicValue.empty())
-		theAlias.vchPublicValue = ParseHex(strPublicValue);
+		theAlias.vchPublicValue = vchFromString(strPublicValue);
 	if(!strPrivateValue.empty())
 		theAlias.vchPrivateValue = ParseHex(strPrivateValue);
 	if(!strEncryptionPrivateKey.empty())
@@ -2075,8 +2079,8 @@ void AliasTxToJSON(const int op, const vector<unsigned char> &vchData, const vec
 	entry.push_back(Pair("aliaspeg", aliasPegValue));
 
 	string publicValue = noDifferentStr;
-	if(!alias.vchPublicValue.empty() && alias.vchPublicValue != dbAlias.vchPublicValue)
-		publicValue = string(alias.vchPublicValue.begin(), alias.vchPublicValue.end());
+	if(!alias.vchPublicValue .empty() && alias.vchPublicValue != dbAlias.vchPublicValue)
+		publicValue = stringFromVch(alias.vchPublicValue);
 	entry.push_back(Pair("publicvalue", publicValue));
 
 	string privateValue = noDifferentStr;
@@ -2545,8 +2549,7 @@ bool BuildAliasJson(const CAliasIndex& alias, const bool pending, UniValue& oNam
 
 	if(alias.safetyLevel >= SAFETY_LEVEL2)
 		return false;
-	const string &strPublicValue = string(alias.vchPublicValue.begin(), alias.vchPublicValue.end());
-	oName.push_back(Pair("publicvalue", strPublicValue));
+	oName.push_back(Pair("publicvalue", stringFromVch(alias.vchPublicValue)));
 	string strPrivateValue = "";
 	string strDecrypted = "";
 	if(strWalletless == "Yes")

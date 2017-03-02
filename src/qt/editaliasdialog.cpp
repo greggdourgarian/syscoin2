@@ -282,9 +282,7 @@ bool EditAliasDialog::saveCurrentRow()
 	string strPrivateHex = "";
 	string strEncryptionPrivateKeyHex = "";
 	CPubKey pubEncryptionKey;
-	string pubData = "";;
-	vector<unsigned char> vchPubData;
-	string strPubData = "";
+	string pubData;
 	string strPubKey = "";
 	string strPasswordSalt = "";
 	string strRedeemScript = "";
@@ -446,15 +444,12 @@ bool EditAliasDialog::saveCurrentRow()
 		strEncryptionPrivateKeyHex = HexStr(vchFromString(strCipherEncryptionPrivateKey));
 		if(strCipherEncryptionPrivateKey.empty())
 			strEncryptionPrivateKeyHex = "\"\"";
-		pubData = ui->nameEdit->toPlainText().toStdString();
-		vchPubData = vector<unsigned char>(pubData.begin(), pubData.end());
-		strPubData = HexStr(vchPubData);
-
+	
 		strMethod = string("aliasnew");
 		params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
         params.push_back(ui->aliasEdit->text().trimmed().toStdString());
 		params.push_back(strPasswordHex);
-		params.push_back(strPubData);
+		params.push_back(ui->nameEdit->toPlainText().toStdString());
 		params.push_back(strPrivateHex);
 		params.push_back(ui->acceptCertTransfersEdit->currentText().toStdString());
 		params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
@@ -652,14 +647,10 @@ bool EditAliasDialog::saveCurrentRow()
 				strRedeemScript = redeemScript;
 			if(m_oldRedeemScript.size () > 1  && redeemScript.size () <= 0)
 				strRedeemScript = "X";
-
-			vchPubData = vector<unsigned char>(pubData.begin(), pubData.end());
-			strPubData = HexStr(vchPubData);
-
 			strMethod = string("aliasupdate");
 			params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->text().toStdString());
-			params.push_back(strPubData);
+			params.push_back(pubData);
 			params.push_back(strPrivateHex);
 			params.push_back(strPubKey);
 			params.push_back(strPasswordHex);	

@@ -613,11 +613,9 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	string aliases = "\"\"";
 	string acceptTransfers = "\"\"";
 	string expireTime = "\"\"";
-	const vector<unsigned char> vchPubData(pubdata.begin(), pubData.end());
-	string strPubData = HexStr(vchPubData);
 
 	UniValue r;
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + strPasswordHex + " " + strPubData + " " + strPrivateHex + " " + acceptTransfers +  " " + expireTime + " " + HexStr(vchPubKey) + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex + " " + HexStr(vchPubEncryptionKey)));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasnew sysrates.peg " + aliasname + " " + strPasswordHex + " " + pubdata + " " + strPrivateHex + " " + acceptTransfers +  " " + expireTime + " " + HexStr(vchPubKey) + " " + HexStr(vchPasswordSalt) + " " + strEncryptionPrivateKeyHex + " " + HexStr(vchPubEncryptionKey)));
 	GenerateBlocks(5, node);
 	BOOST_CHECK_THROW(CallRPC(node, "sendtoaddress " + aliasname + " 10"), runtime_error);
 	GenerateBlocks(5, node);
@@ -702,11 +700,8 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	string address = "\"\"";
 	string password = "\"\"";
 	string passwordsalt = "\"\"";
-	const vector<unsigned char> vchPubData(pubdata.begin(), pubData.end());
-	string strPubData = HexStr(vchPubData);
 
-
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + strPubData + " " + strPrivateHex + " " + HexStr(vchPubKey) + " " + password + " " + acceptTransfers + " " + expires + " " + address + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + HexStr(vchPubKey) + " " + password + " " + acceptTransfers + " " + expires + " " + address + " " + passwordsalt + " " + strEncryptionPrivateKeyHex));
 	GenerateBlocks(5, tonode);
 	GenerateBlocks(5, node);
 	// check its not mine anymore
@@ -810,10 +805,8 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		strEncryptionPrivateKeyHex = "\"\"";
 	string acceptTransfers = "\"\"";
 	string expires = "\"\"";
-	const vector<unsigned char> vchPubData(pubdata.begin(), pubData.end());
-	string strPubData = HexStr(vchPubData);
 
-	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + strPubData + " " + strPrivateHex + " " + strPubKey + " " + strPasswordHex + " " + acceptTransfers + " " + expires + " " + addressStr + " " + strPasswordSalt + " " + strEncryptionPrivateKeyHex));
+	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasupdate sysrates.peg " + aliasname + " " + pubdata + " " + strPrivateHex + " " + strPubKey + " " + strPasswordHex + " " + acceptTransfers + " " + expires + " " + addressStr + " " + strPasswordSalt + " " + strEncryptionPrivateKeyHex));
 	const UniValue& resArray = r.get_array();
 	if(resArray.size() > 1)
 	{
