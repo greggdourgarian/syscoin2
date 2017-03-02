@@ -1755,7 +1755,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		newAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	newAlias.safetyLevel = 0;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
-	newAlias.vchAddress = DecodeBase58(desiredAddress.ToString());
+	DecodeBase58(desiredAddress.ToString(), newAlias.vchAddress);
 	
 	CSyscoinAddress newAddress;
 	CScript scriptPubKeyOrig;
