@@ -697,12 +697,12 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 		CMessageCrypter crypter;
 		if(!strEncryptionPrivateKeyFrom.empty())
 		{
-			if(crypter.Decrypt(ParseHex(strEncryptionPrivateKeyFrom), stringFromVch(message.vchData), strDecrypted))
+			if(crypter.Decrypt(stringFromVch(ParseHex(strEncryptionPrivateKeyFrom)), stringFromVch(message.vchData), strDecrypted))
 				strData = strDecrypted;
 		}
 		else if(!strEncryptionPrivateKeyTo.empty())
 		{
-			if(crypter.Decrypt(ParseHex(strEncryptionPrivateKeyTo), stringFromVch(message.vchData), strDecrypted))
+			if(crypter.Decrypt(stringFromVch(ParseHex(strEncryptionPrivateKeyTo)), stringFromVch(message.vchData), strDecrypted))
 				strData = strDecrypted;
 		}
 	}
