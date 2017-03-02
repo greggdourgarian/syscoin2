@@ -946,7 +946,7 @@ const string CertNew(const string& node, const string& alias, const string& pubd
 	else
 	{
 		strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-		strCipherEncryptionPublicKey = HexStr(vchFromString(vchPubEncryptionKey));
+		strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey));
 	}
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + pubdata + " " + strCipherPrivateData + " " + strCipherEncryptionPublicKey + " " + strCipherEncryptionPrivateKey));
@@ -981,8 +981,9 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 {
 	string otherNode1, otherNode2;
 	GetOtherNodes(node, otherNode1, otherNode2);
+	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
-	string oldalias = find_value(r.get_obj(), "alias").get_str(
+	string oldalias = find_value(r.get_obj(), "alias").get_str();
 	string olddata = find_value(r.get_obj(), "privatedata").get_str();
 	string oldpubdata = find_value(r.get_obj(), "publicdata").get_str();
 	CKey privEncryptionKey;
@@ -1016,11 +1017,9 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 	else
 	{
 		strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-		strCipherEncryptionPublicKey = HexStr(vchFromString(vchPubEncryptionKey));
+		strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 	}
 
-
-	UniValue r;
 	if(strCipherPrivateData.empty())
 		strCipherPrivateData = "\"\"";
 	else
@@ -1040,7 +1039,7 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
-		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
+		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == oldalias);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
 		
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatedata").get_str() , "");
@@ -1096,7 +1095,7 @@ void CertTransfer(const string& node, const string &tonode, const string& guid, 
 	else
 	{
 		strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-		strCipherEncryptionPublicKey = HexStr(vchFromString(vchPubEncryptionKey));
+		strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 	}
 
 
@@ -1104,7 +1103,7 @@ void CertTransfer(const string& node, const string &tonode, const string& guid, 
 	GenerateBlocks(5, node);
 	GenerateBlocks(5, tonode);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
-	if(!data.empty())
+	if(!privdata.empty())
 		BOOST_CHECK(find_value(r.get_obj(), "privatedata").get_str() != privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "publicdata").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
