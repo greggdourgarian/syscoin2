@@ -3494,8 +3494,8 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 			}
 			CTransaction tx;
 			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
-				const uint64_t& nHeight = vtxHeight[it->first]->second;
-				const Ctransaction& tx = it->second;
+				const uint64_t& nHeight = vtxHeight[it.first].second;
+				const CTransaction& tx = it.second;
 				CEscrow escrow(tx);
 				if(!escrow.IsNull())
 				{

@@ -3208,11 +3208,11 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			}
 			CTransaction tx;
 			for(map<uint256, CTransaction>::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
-				const uint64_t& nHeight = vtxHeight[it->first]->second;
-				const Ctransaction& tx = it->second;
+				const uint64_t& nHeight = vtxHeight[it.first].second;
+				const CTransaction& tx = it.second;
 				
 				COffer offer(tx);
-				if(!offer.IsNull() && (strAccepts == "Yes" && !offer.accept.IsNull() || strAccepts == "No" && offer.accept.IsNull()))
+				if(!offer.IsNull() && ((strAccepts == "Yes" && !offer.accept.IsNull()) || (strAccepts == "No" && offer.accept.IsNull())))
 				{
 					const vector<unsigned char> &vchKey = strAccepts == "Yes"? offer.accept.vchAcceptRand:offer.vchOffer;
 					if (vNamesI.find(vchKey) != vNamesI.end() && (nHeight <= vNamesI[vchKey] || vNamesI[vchKey] < 0))
@@ -3230,8 +3230,8 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 					UniValue oOffer(UniValue::VOBJ);
 					// for accepts its the same as acceptheight because its the height from transaction
 					vNamesI[vchKey] = nHeight;
-					if(strAccepts == "Yes" && BuildOfferAcceptJson(theOffer, theAlias, oOffer, strWalletless) ||
-						strAccepts == "No" && BuildOfferJson(theOffer, theAlias, oOffer, strWalletless))
+					if((strAccepts == "Yes" && BuildOfferAcceptJson(theOffer, theAlias, oOffer, strWalletless)) ||
+						(strAccepts == "No" && BuildOfferJson(theOffer, theAlias, oOffer, strWalletless)))
 					{
 						oRes.push_back(oOffer);
 					}
