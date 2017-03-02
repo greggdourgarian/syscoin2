@@ -2923,7 +2923,7 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, true, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
 	sendParams.push_back(rawTx);
@@ -2982,14 +2982,12 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 	nRatingSecondary = boost::lexical_cast<int>(params[5].get_str());
     // this is a syscoin transaction
     CWalletTx wtx;
-
-	
-
+	vector<CEscrow> vtxPos;
     // look for a transaction with this key
     CTransaction tx;
 	CEscrow escrow;
-    if (!GetTxOfEscrow( vchEscrow,
-		escrow, tx))
+    if (!GetTxAndVtxOfEscrow( vchEscrow,
+		escrow, tx, vtxPos))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4598 - " + _("Could not find a escrow with this key"));
 
 	CAliasIndex sellerAliasLatest, buyerAliasLatest, arbiterAliasLatest, resellerAliasLatest, buyerAlias, sellerAlias, arbiterAlias, resellerAlias;
@@ -3024,13 +3022,13 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		GetAddress(sellerAliasLatest, &sellerPaymentAddress, sellerScript);
 	}
 	aliasVtxPos.clear();
-	CSyscoinAddress sellerPaymentAddress;
+	CSyscoinAddress resellerPaymentAddress;
 	CScript resellerScript;
 	if(GetTxAndVtxOfAlias(escrow.vchLinkSellerAlias, resellerAliasLatest, reselleraliastx, aliasVtxPos, isExpired, true))
 	{
 		resellerAlias.nHeight = vtxPos.front().nHeight;
 		resellerAlias.GetAliasFromList(aliasVtxPos);
-		GetAddress(resellerAliasLatest, &resellerAddress, resellerScript);
+		GetAddress(resellerAliasLatest, &resellerPaymentAddress, resellerScript);
 	}	
 
 	vector <unsigned char> vchLinkAlias;
@@ -3045,8 +3043,6 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		scriptPubKeyAliasOrig = buyerScript;
 		vchLinkAlias = buyerAliasLatest.vchAlias;
 		theAlias = buyerAliasLatest;
-		if(!resellerAliasLatest.IsNull())
-			sellerAddress = resellerAddress;
 	}
 	else if(role == "seller")
 	{	
@@ -3063,7 +3059,6 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		scriptPubKeyAliasOrig = resellerScript;
 		vchLinkAlias = resellerAliasLatest.vchAlias;
 		theAlias = resellerAliasLatest;
-		sellerAddress = resellerAddress;
 	}
 	else if(role == "arbiter")
 	{		
@@ -3072,8 +3067,6 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		scriptPubKeyAliasOrig = arbiterScript;
 		vchLinkAlias = arbiterAliasLatest.vchAlias;
 		theAlias = arbiterAliasLatest;
-		if(!resellerAliasLatest.IsNull())
-			sellerAddress = resellerAddress;
 	}
 
 	escrow.ClearEscrow();
@@ -3239,6 +3232,16 @@ UniValue escrowinfo(const UniValue& params, bool fHelp) {
 }
 bool BuildEscrowJson(const CEscrow &escrow, UniValue& oEscrow, const string &strWalletless)
 {
+	vector<CEscrow> vtxPos;
+	if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxPos) || vtxPos.empty())
+		  return false;
+	CTransaction tx;
+	if (!GetSyscoinTransaction(escrow.nHeight, escrow.txHash, tx, Params().GetConsensus()))
+		 return false;
+    vector<vector<unsigned char> > vvch;
+    int op, nOut;
+    if (!DecodeEscrowTx(tx, op, nOut, vvch) )
+        return false;
 	CTransaction offertx;
 	COffer offer, linkOffer;
 	vector<COffer> offerVtxPos;
@@ -3542,11 +3545,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 					if (!pescrowdb->ReadEscrow(escrow.vchEscrow, vtxEscrowPos) || vtxEscrowPos.empty())
 						continue;
 					const CEscrow &theEscrow = vtxEscrowPos.back();
-					vector<CAliasIndex> vtxAliasPos;
-					if (!paliasdb->ReadAlias(theEscrow.vchAlias, vtxAliasPos) || vtxAliasPos.empty())
-						continue;
-					const CAliasIndex& theAlias = vtxAliasPos.back();
-					if(theEscrow.vchBuyerAlias != theAlias.vchAlias && theEscrow.vchSellerAlias != theAlias.vchAlias && theEscrow.vchArbiterAlias != theAlias.vchAlias)
+					if(theEscrow.vchBuyerAlias != vchAlias && theEscrow.vchSellerAlias != vchAlias && theEscrow.vchArbiterAlias != vchAlias)
 						continue;
 					
 					UniValue oEscrow(UniValue::VOBJ);
