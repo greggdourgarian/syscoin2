@@ -3132,7 +3132,7 @@ bool BuildOfferAcceptJson(const COffer& theOffer, const CAliasIndex& theAlias, U
 	return true;
 }
 UniValue offerlist(const UniValue& params, bool fHelp) {
-    if (fHelp || 3 < params.size())
+    if (fHelp || 4 < params.size())
         throw runtime_error("offerlist [\"alias\",...] [<guid>] [accepts=No] [walletless=No]\n"
                 "list offers that an array of aliases own. Set of aliases to look up based on alias.");
 	UniValue aliasesValue(UniValue::VARR);
@@ -3206,7 +3206,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				vtxHeight[txPaymentPos.txHash] = txPaymentPos.nHeight;
 			}
 			CTransaction tx;
-			for(std::vector<CTransaction>::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
+			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
 				const uint64_t& nHeight = vtxHeight[it->first]->second;
 				const Ctransaction& tx = it->second;
 				

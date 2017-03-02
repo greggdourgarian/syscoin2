@@ -3493,7 +3493,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 				vtxHeight[txPaymentPos.txHash] = txPaymentPos.nHeight;
 			}
 			CTransaction tx;
-			for(std::vector<CTransaction>::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
+			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
 				const uint64_t& nHeight = vtxHeight[it->first]->second;
 				const Ctransaction& tx = it->second;
 				CEscrow escrow(tx);
