@@ -628,7 +628,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	BOOST_CHECK(balanceAfter >= 10*COIN);
 	BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str(), pubdata);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata == "\"\""? "": privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == true);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
@@ -640,7 +640,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
-			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str(), pubdata);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);
@@ -653,7 +653,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "name").get_str() == aliasname);
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
-			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), pubdata);
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str(), pubdata);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "expired").get_bool(), 0);

@@ -141,7 +141,7 @@ bool AcceptandPayOfferListPage::getProfileData(QString& publicData, QString& pri
 		if (result.type() == UniValue::VOBJ)
 		{	
 			const UniValue &o = result.get_obj();	
-			const UniValue& pub_value = find_value(o, "value");
+			const UniValue& pub_value = find_value(o, "publicvalue");
 			if (pub_value.type() == UniValue::VSTR)
 				publicData = QString::fromStdString(pub_value.get_str());
 			const UniValue& priv_value = find_value(o, "privatevalue");

@@ -141,7 +141,7 @@ void EditAliasDialog::loadAliasDetails()
 		if (result.type() == UniValue::VOBJ)
 		{
 			m_oldPassword = QString::fromStdString(find_value(result.get_obj(), "password").get_str());
-			m_oldvalue = QString::fromStdString(find_value(result.get_obj(), "value").get_str());
+			m_oldvalue = QString::fromStdString(find_value(result.get_obj(), "publicvalue").get_str());
 			m_oldprivatevalue = QString::fromStdString(find_value(result.get_obj(), "privatevalue").get_str());
 			m_encryptionkey = QString::fromStdString(find_value(result.get_obj(), "encryption_publickey").get_str());
 			m_encryptionprivkey = QString::fromStdString(find_value(result.get_obj(), "encryption_privatekey").get_str());

@@ -115,7 +115,7 @@ public:
 						const UniValue& name_value = find_value(o, "name");
 						if (name_value.type() == UniValue::VSTR)
 							name_str = name_value.get_str();
-						const UniValue& value_value = find_value(o, "value");
+						const UniValue& value_value = find_value(o, "publicvalue");
 						if (value_value.type() == UniValue::VSTR)
 							value_str = value_value.get_str();
 						const UniValue& privvalue_value = find_value(o, "privatevalue");
