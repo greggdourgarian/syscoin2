@@ -161,7 +161,6 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	StopNode("node2");
 	string guid = CertNew("node1", "jagprune1", "pub", "data");
 	// we can find it as normal first
-	BOOST_CHECK_EQUAL(CertFilter("node1", guid, "No"), true);
 	
 	AliasUpdate("node1", "jagprune1");
 	GenerateBlocks(5, "node1");
@@ -189,7 +188,7 @@ BOOST_AUTO_TEST_CASE (generate_certpruning)
 	StartNode("node1");
 	GenerateBlocks(5, "node1");
 	// ensure you can still update before expiry
-	CertUpdate("node1", guid1, "newdata", "pubdata1", "privdata");
+	CertUpdate("node1", guid1, "pubdata1", "privdata");
 	// make sure our offer alias doesn't expire
 	AliasUpdate("node1", "jagprune1");
 	GenerateBlocks(5, "node1");
