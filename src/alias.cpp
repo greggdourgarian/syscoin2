@@ -1956,7 +1956,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
     uint256 hash = Hash(data.begin(), data.end());
     vector<unsigned char> vchHashAlias = vchFromValue(hash.GetHex());
 	// if address was not passed in use old address
-	if(strAddress.empty())
+	if(theAlias.vchAddress.empty())
 		theAlias.vchAddress = copyAlias.vchAddress;
 	GetAddress(theAlias, &newAddress, scriptPubKeyOrig);
 
