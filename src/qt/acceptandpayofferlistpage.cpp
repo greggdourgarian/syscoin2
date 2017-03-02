@@ -408,7 +408,7 @@ bool AcceptandPayOfferListPage::lookup(const QString &lookupid)
 			offerOut.paymentOptions = find_value(offerObj, "paymentoptions").get_int();	
 			nQtyUnits = find_value(offerObj, "offer_units").get_real();
 			bCoinOffer = find_value(offerObj, "coinoffer").get_bool();
-			setValue(QString::fromStdString(alias), QString::fromStdString(strRand), strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
+			setValue(QString::fromStdString(find_value(offerObj, "alias").get_str()), QString::fromStdString(strRand), strRating, offerOut, QString::fromStdString(find_value(offerObj, "price").get_str()), QString::fromStdString(strAddress), QString::fromStdString(strAliasPeg));
 			return true;
 		}
 		 

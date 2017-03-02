@@ -153,7 +153,7 @@ public:
 
     }
 
-    void updateEntry(const QString &cert, const QString &data, const QString &pubdata, const QString &expires_on, const QString &expired, CertModelType type, int status)
+    void updateEntry(const QString &cert, const QString &data, const QString &pubdata, const QString &expires_on, const QString &expired, const QString &alias, CertModelType type, int status)
     {
 		if(!parent || parent->modelType != type)
 		{
