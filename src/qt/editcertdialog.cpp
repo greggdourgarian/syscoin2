@@ -408,7 +408,7 @@ bool EditCertDialog::saveCurrentRow()
 				UniValue result = tableRPC.execute(strMethod, params);
 				if (result.type() != UniValue::VNULL)
 				{
-					cert = ui->nameEdit->text() + ui->certEdit->text();
+					cert = ui->certEdit->text();
 
 				}
 				const UniValue& resArray = result.get_array();
