@@ -1102,8 +1102,7 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& scri
 	if(!address)
 		return;
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	CSyscoinAddress address = CSyscoinAddress(EncodeBase58(alias.vchAddress), myAddressType);
-	address[0] = address;
+	address[0] = CSyscoinAddress(EncodeBase58(alias.vchAddress), myAddressType);
 	script = GetScriptForDestination(address[0].Get());
 }
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
