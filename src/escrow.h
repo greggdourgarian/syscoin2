@@ -170,7 +170,7 @@ public:
     bool ExistsEscrowTx(const uint256& txid) {
         return Exists(make_pair(std::string("escrowt"), txid));
     }
-	bool GetDBEscrows(std::vector<std::vector<CEscrow> >& escrows, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
+	bool GetDBEscrows(std::vector<CEscrow>& escrows, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 };
 
@@ -178,7 +178,7 @@ bool GetTxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, 
 bool GetTxAndVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, CTransaction& tx, std::vector<CEscrow> &vtxPos);
 bool GetVtxOfEscrow(const std::vector<unsigned char> &vchEscrow, CEscrow& txPos, std::vector<CEscrow> &vtxPos);
 void HandleEscrowFeedback(const CEscrow& serializedEscrow, CEscrow& dbEscrow, std::vector<CEscrow> &vtxPos);
-bool BuildEscrowJson(const std::vector<CEscrow> &vtxPos, UniValue& oEscrow, const std::string &strWalletless="");
-bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, UniValue& oEscrowStats);
+bool BuildEscrowJson(const CEscrow &escrow, UniValue& oEscrow, const std::string &strWalletless="");
+bool BuildEscrowStatsJson(const std::vector<<CEscrow> &escrows, UniValue& oEscrowStats);
 uint64_t GetEscrowExpiration(const CEscrow& escrow);
 #endif // ESCROW_H

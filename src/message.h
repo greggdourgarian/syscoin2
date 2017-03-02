@@ -119,7 +119,7 @@ public:
     bool ExistsMessage(const std::vector<unsigned char>& name) {
         return Exists(make_pair(std::string("messagei"), name));
     }
-	bool GetDBMessages(std::vector<std::vector<CMessage> >& message, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
+	bool GetDBMessages(std::vector<CMessage>& message, const uint64_t& nExpireFilter, const std::vector<std::string>& aliasArray);
 	bool CleanupDatabase(int &servicesCleaned);
 
 };

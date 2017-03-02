@@ -653,8 +653,8 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 	string strKey = "";
 	if(strWalletless == "Yes")
 	{
-		strEncryptionPrivateKeyFrom = HexStr(alias.vchEncryptionPrivateKeyFrom);
-		strEncryptionPrivateKeyTo = HexStr(alias.vchEncryptionPrivateKeyTo);
+		strEncryptionPrivateKeyFrom = HexStr(message.vchEncryptionPrivateKeyFrom);
+		strEncryptionPrivateKeyTo = HexStr(message.vchEncryptionPrivateKeyTo);
 	}
 	else
 	{
