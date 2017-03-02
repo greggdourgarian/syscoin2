@@ -410,13 +410,13 @@ bool CSyscoinSecret::IsValid() const
                                vchVersion == Params().Base58Prefix(CChainParams::SECRET_KEY_SYS);
     return fExpectedFormat && fCorrectVersion;
 }
-// SYSCOIN
-bool CSyscoinSecret::SetString(const char* pszSecret, CChainParams::AddressType sysVer)
+
+bool CSyscoinSecret::SetString(const char* pszSecret)
 {
-    return CBase58Data::SetString(pszSecret, Params().Base58Prefix(sysVer).size()) && IsValid();
+    return CBase58Data::SetString(pszSecret) && IsValid();
 }
-// SYSCOIN
-bool CSyscoinSecret::SetString(const std::string& strSecret, CChainParams::AddressType sysVer)
+
+bool CSyscoinSecret::SetString(const std::string& strSecret)
 {
-    return SetString(strSecret.c_str(), sysVer);
+    return SetString(strSecret.c_str());
 }

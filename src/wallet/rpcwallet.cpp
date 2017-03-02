@@ -218,9 +218,8 @@ UniValue getzaddress(const UniValue& params, bool fHelp)
 
 	if(!sysAddress.isAlias)
 		throw JSONRPCError(RPC_INVALID_PARAMS, "Error: Please provide an alias or an address belonging to an alias");
-	CTxDestination dest = sysAddress.Get();
 	CSyscoinAddress zecAddress;
-	zecAddress.Set(dest, CChainParams::ADDRESS_ZEC);
+	zecAddress.Set(sysAddress.Get(), CChainParams::ADDRESS_ZEC);
 	return zecAddress.ToString();
 }
 CSyscoinAddress GetAccountAddress(string strAccount, bool bForceNew=false)
