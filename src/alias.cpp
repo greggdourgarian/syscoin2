@@ -2672,7 +2672,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
     int op, nOut;
 	string opName;
 	BOOST_FOREACH(const PAIRTYPE(uint256, CTransaction)& txIt, vtxTx) {
-		const CTransaction& tx = txIt.first;
+		const CTransaction& tx = txIt.second;
 		if(DecodeOfferTx(tx, op, nOut, vvch) )
 		{
 			opName = offerFromOp(op);
