@@ -245,9 +245,7 @@ bool NewMessageDialog::saveCurrentRow()
 		CKey privEncryptionKey;
 		privEncryptionKey.MakeNewKey(true);
 		CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
-		vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
-		
-		BOOST_CHECK(pubEncryptionKey.IsFullyValid());	
+		vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());	
 		vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 		if(!EncryptMessage(ParseHex(m_encryptionkeyto.toStdString()), stringFromVch(vchPrivEncryptionKey), strCipherEncryptionPrivateKeyTo))
 		{
