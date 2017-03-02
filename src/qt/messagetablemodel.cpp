@@ -100,7 +100,6 @@ public:
 				{
 					guid_str = "";
 					time_str = "";
-					subject_str = "";
 					message_str = "";
 					from_str = "";
 					to_str = "";
