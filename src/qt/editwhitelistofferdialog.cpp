@@ -55,7 +55,7 @@ EditWhitelistOfferDialog::EditWhitelistOfferDialog(const PlatformStyle *platform
 	offerGUID = idx->data(OfferTableModel::NameRole).toString();
 	offerQty = idx->data(OfferTableModel::QtyRole).toString();
 	offerPrice = idx->data(OfferTableModel::PriceRole).toString();
-	offerDetails = idx->data(OfferTableModel::DetailsnRole).toString();
+	offerDetails = idx->data(OfferTableModel::DetailsRole).toString();
 	offerPrivate = idx->data(OfferTableModel::PrivateRole).toString();
 	offerCurrency = idx->data(OfferTableModel::CurrencyRole).toString();
 	
