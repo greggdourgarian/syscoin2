@@ -11,6 +11,7 @@
 #include "wallet/wallet.h"
 #include "chainparams.h"
 #include "coincontrol.h"
+#include "messagecrypter.h"
 #include <boost/algorithm/hex.hpp>
 #include <boost/xpressive/xpressive_dynamic.hpp>
 #include <boost/foreach.hpp>
@@ -679,7 +680,7 @@ bool BuildMessageJson(const CMessage& message, UniValue& oName, const string &st
 			return false;
 		if(DecryptMessage(aliasFrom, message.vchEncryptionPrivateKeyFrom, strKey))
 			strEncryptionPrivateKeyFrom = HexStr(strKey);	
-		else if(strKey.clear() && DecryptMessage(aliasTo, message.vchEncryptionPrivateKeyTo, strKey))
+		else if(DecryptMessage(aliasTo, message.vchEncryptionPrivateKeyTo, strKey))
 			strEncryptionPrivateKeyTo = HexStr(strKey);	
 	}
 	oName.push_back(Pair("encryption_privatekey_from", strEncryptionPrivateKeyFrom));
