@@ -490,7 +490,7 @@ void EditOfferDialog::loadRow(int row)
 	}
 	m_oldqty = ui->qtyEdit->text();
 	m_oldprice = ui->priceEdit->text();
-	m_olddetails = ui->detailsnEdit->toPlainText();
+	m_olddetails = ui->detailsEdit->toPlainText();
 	m_oldcurrency = ui->currencyEdit->currentText();
 	m_oldprivate = ui->privateEdit->currentText();
 	if(ui->certEdit->currentIndex() > 0)
@@ -506,7 +506,7 @@ void EditOfferDialog::loadRow(int row)
 
 bool EditOfferDialog::saveCurrentRow()
 {
-	string paymentoptions, commission, destails, cert, privates, currency, price, qty;
+	string paymentoptions, commission, destails, cert, privates, currency, price, qty, details;
 
     if(!walletModel) return false;
     WalletModel::UnlockContext ctx(walletModel->requestUnlock());
