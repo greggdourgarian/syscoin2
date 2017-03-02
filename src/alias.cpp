@@ -957,7 +957,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						}
 						const CPubKey pubKey(theAlias.vchPubKey);
 						const CSyscoinAddress myAddress(pubKey.GetID());
-						const vector<unsigned char> vchAddress(myAddress.begin(), myAddress.end());
+						vector<unsigned char> vchAddress;
+						DecodeBase58(myAddress.ToString(), vchAddress);
 						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
 						// we want to avoid aliases with duplicate public keys (addresses)
 						if (paliasdb->ExistsAddress(vchAddress))
@@ -1920,8 +1921,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPassword = ParseHex(strPassword);
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
-	if(!strPubKey.empty())
-		theAlias.vchPubKey = ParseHex(strPubKey);
+	if(!strPublicKey.empty())
+		theAlias.vchPubKey = ParseHex(strPublicKey);
 	if(!strAddress.empty())
 		DecodeBase58(strAddress, theAlias.vchAddress);
 	theAlias.vchAliasPeg = vchAliasPeg;
