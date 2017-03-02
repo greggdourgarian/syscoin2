@@ -80,10 +80,6 @@ EditCertDialog::EditCertDialog(Mode mode, QWidget *parent) :
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 	aliasChanged(ui->aliasEdit->currentText());
-	if(mode == TransferCert)
-	{
-		ui->categoryEdit->setEnabled(false);
-	}
 	
 }
 	
@@ -120,7 +116,7 @@ void EditCertDialog::aliasChanged(const QString& alias)
 			if (sl_value.type() == UniValue::VNUM)
 				safetyLevel = sl_value.get_int();
 			const UniValue& encryption_value = find_value(o, "encryption_publickey");
-			if (encryption_value.type() == UniValue::VSTRING)
+			if (encryption_value.type() == UniValue::VSTR)
 				m_encryptionkey = QString::fromStdString(encryption_value.get_str());
 			if(expired)
 			{
@@ -222,11 +218,9 @@ void EditCertDialog::loadRow(int row)
 {
     mapper->setCurrentIndex(row);
 	const QModelIndex tmpIndex;
-	QVariant currentCategory;
 	if(model)
 	{
 		QModelIndex indexAlias = model->index(row, CertTableModel::Alias, tmpIndex);
-		QModelIndex indexCategory = model->index(row, CertTableModel::Category, tmpIndex);
 		QModelIndex indexExpired = model->index(row, CertTableModel::Expired, tmpIndex);
 		if(indexExpired.isValid())
 		{
@@ -314,7 +308,7 @@ bool EditCertDialog::saveCurrentRow()
 		else
 		{
 			strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-			strCipherEncryptionPublicKey = HexStr(vchFromString(vchPubEncryptionKey));
+			strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 		}
 		strMethod = string("certnew");
 		params.push_back(ui->aliasEdit->currentText().toStdString());
@@ -326,7 +320,7 @@ bool EditCertDialog::saveCurrentRow()
             UniValue result = tableRPC.execute(strMethod, params);
 			if (result.type() != UniValue::VNULL)
 			{
-				cert = ui->nameEdit->text();
+				cert = ui->aliasEdit->text();
 					
 			}
 			const UniValue& resArray = result.get_array();
@@ -397,7 +391,7 @@ bool EditCertDialog::saveCurrentRow()
 			else
 			{
 				strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-				strCipherEncryptionPublicKey = HexStr(vchFromString(vchPubEncryptionKey));
+				strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 			}
 			pubData = "\"\"";
 			if(ui->certPubDataEdit->toPlainText() != m_oldpubdata)
@@ -485,7 +479,7 @@ bool EditCertDialog::saveCurrentRow()
 			else
 			{
 				strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-				strCipherEncryptionPublicKey = HexStr(vchFromString(vchPubEncryptionKey));
+				strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 			}
 			pubData = "\"\"";
 			if(ui->certPubDataEdit->toPlainText() != m_oldpubdata)
