@@ -1024,7 +1024,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		CAliasUnprunable aliasUnprunable;
 		aliasUnprunable.vchGUID = theAlias.vchGUID;
 		aliasUnprunable.nExpireTime = theAlias.nExpireTime;
-		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, vchFromString(EncodeBase58(theAlias.vchAddress)), vtxPos))
+		if (!dontaddtodb && !paliasdb->WriteAlias(vchAlias, aliasUnprunable, theAlias.vchAddress, vtxPos))
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5034 - " + _("Failed to write to alias DB");
 			return error(errorMessage.c_str());
@@ -1360,7 +1360,8 @@ bool GetAddressFromAlias(const std::string& strAlias, std::string& strAddress, u
 
 bool GetAliasFromAddress(const std::string& strAddress, std::string& strAlias, unsigned char& safetyLevel, std::vector<unsigned char> &vchPubKey) {
 
-	const vector<unsigned char> &vchAddress = vchFromString(strAddress);
+	vector<unsigned char> vchAddress;
+	DecodeBase58(strAddress, vchAddress);
 	if (!paliasdb || !paliasdb->ExistsAddress(vchAddress))
 		return false;
 
@@ -1723,6 +1724,13 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 	if(aliasExists && !isExpired)
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5508 - " + _("This alias already exists"));
 
+	CSyscoinAddress desiredAddress;
+	if(!strPublicKey.empty())
+	{
+		const vector<unsigned char> &vchPubKey = ParseHex(strPublicKey);
+		CPubKey pubKey(vchPubKey.begin(), vchPubKey.end());
+		desiredAddress = CSyscoinAddress(pubKey.GetID());
+	}
 	const vector<unsigned char> &vchRandAlias = vchFromString(GenerateSyscoinGuid());
 
     // build alias
@@ -1747,6 +1755,7 @@ UniValue aliasnew(const UniValue& params, bool fHelp) {
 		newAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
 	newAlias.safetyLevel = 0;
 	newAlias.acceptCertTransfers = strAcceptCertTransfers == "Yes"? true: false;
+	newAlias.vchAddress = DecodeBase58(desiredAddress.ToString());
 	
 	CSyscoinAddress newAddress;
 	CScript scriptPubKeyOrig;
