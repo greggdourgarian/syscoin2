@@ -946,7 +946,7 @@ const string CertNew(const string& node, const string& alias, const string& pubd
 	else
 	{
 		strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
-		strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey));
+		strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 	}
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certnew " + alias + " " + pubdata + " " + strCipherPrivateData + " " + strCipherEncryptionPublicKey + " " + strCipherEncryptionPrivateKey));
