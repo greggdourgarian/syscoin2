@@ -673,7 +673,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1037 - " + _("Cannot leave empty feedback");
 					return error(errorMessage.c_str());
 				}
-				if(theOfferAccept.feedback[0].vchFeedback.size() > MAX_NAME_LENGTH)
+				if(theOfferAccept.feedback[0].vchFeedback.size() > MAX_VALUE_LENGTH)
 				{
 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1038 - " + _("Feedback too long");
 					return error(errorMessage.c_str());
@@ -714,7 +714,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1044 - " + _("Offer accept hex guid too long");
 				return error(errorMessage.c_str());
 			}
-			if (theOfferAccept.vchMessage.size() > MAX_ENCRYPTED_NAME_LENGTH)
+			if (theOfferAccept.vchMessage.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 			{
 				errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1045 - " + _("Payment message too long");
 				return error(errorMessage.c_str());

@@ -767,7 +767,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5005 - " + _("Alias public value too big");
 			return error(errorMessage.c_str());
 		}
-		if(theAlias.vchPrivateValue.size() > MAX_ENCRYPTED_NAME_LENGTH)
+		if(theAlias.vchPrivateValue.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5006 - " + _("Alias private value too big");
 			return error(errorMessage.c_str());
