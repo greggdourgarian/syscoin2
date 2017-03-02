@@ -2672,7 +2672,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
     int op, nOut;
 	string opName;
 	BOOST_FOREACH(const PAIRTYPE(uint256, CTransaction)& txIt, vtxTx) {
-		const CTransaction& tx = txIt->first;
+		const CTransaction& tx = txIt.first;
 		if(DecodeOfferTx(tx, op, nOut, vvch) )
 		{
 			opName = offerFromOp(op);
@@ -2706,7 +2706,7 @@ UniValue aliashistory(const UniValue& params, bool fHelp) {
 		if(IsAliasOp(op))
 		{
 			CAliasIndex alias(tx);
-			if(!alias.isNull() && BuildAliasJson(alias, false, oDetails, strWalletless))
+			if(!alias.IsNull() && BuildAliasJson(alias, false, oDetails, strWalletless))
 				oName.push_back(oDetails);
 		}
 		else
@@ -2775,7 +2775,7 @@ bool BuildAliasStatsJson(const std::vector<CAliasIndex> &aliases, UniValue& oAli
 	UniValue oAliases(UniValue::VARR);
 	BOOST_REVERSE_FOREACH(const CAliasIndex& alias, aliases) {
 		UniValue oAlias(UniValue::VOBJ);
-		if(!BuildAliasJson(alias, false, oAlias, true))
+		if(!BuildAliasJson(alias, false, oAlias, "Yes"))
 			continue;
 		oAliases.push_back(oAlias);
 	}

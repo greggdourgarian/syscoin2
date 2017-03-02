@@ -3672,7 +3672,7 @@ bool BuildEscrowStatsJson(const std::vector<std::vector<CEscrow> > &escrows, Uni
 	UniValue oEscrows(UniValue::VARR);
 	BOOST_REVERSE_FOREACH(const vector<CEscrow> &vtxPos, escrows) {
 		UniValue oEscrow(UniValue::VOBJ);
-		if(!BuildEscrowJson(vtxPos, oEscrow, true))
+		if(!BuildEscrowJson(vtxPos, oEscrow, "Yes"))
 			continue;
 		oEscrows.push_back(oEscrow);
 	}

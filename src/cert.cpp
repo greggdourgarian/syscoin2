@@ -1336,7 +1336,7 @@ bool BuildCertStatsJson(const std::vector<CCert> &certs, UniValue& oCertStats)
 		CTransaction aliastx;
 		if (!GetTxOfAlias(cert.vchAlias, alias, aliastx, true))
 			continue;
-		if(!BuildCertJson(cert, alias, oCert, true))
+		if(!BuildCertJson(cert, alias, oCert, "Yes"))
 			continue;
 		oCerts.push_back(oCert);
 	}
