@@ -468,7 +468,7 @@ UniValue messagenew(const UniValue& params, bool fHelp) {
     CMessage newMessage;
 	newMessage.vchMessage = vchMessage;
 	newMessage.vchData = ParseHex(strMessage);
-	newMessage.vchPubData = strPubData;
+	newMessage.vchPubData = vchFromString(strPubData);
 	newMessage.vchAliasFrom = aliasFrom.vchAlias;
 	newMessage.vchAliasTo = aliasTo.vchAlias;
 	newMessage.nHeight = chainActive.Tip()->nHeight;
@@ -926,7 +926,8 @@ bool CMessageDB::GetDBMessages(std::vector<CMessage>& messages, const uint64_t &
 				}
 				if(aliasArray.size() > 0)
 				{
-					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAlias)) == aliasArray.end())
+					if (std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAliasTo)) == aliasArray.end() &&
+						std::find(aliasArray.begin(), aliasArray.end(), stringFromVch(txPos.vchAliasFrom)) == aliasArray.end()
 					{
 						pcursor->Next();
 						continue;
