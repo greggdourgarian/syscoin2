@@ -1875,7 +1875,6 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 		{
 			resellerAlias.nHeight = vtxPos.front().nHeight;
 			resellerAlias.GetAliasFromList(aliasVtxPos);
-			GetAddress(resellerAlias, &resellerAddressPayment);
 		}
 
 	}
@@ -3318,7 +3317,7 @@ bool BuildEscrowJson(const CEscrow &escrow, UniValue& oEscrow, const string &str
 	oEscrow.push_back(Pair("total", strprintf("%.*f", precision, ValueFromAmount(nTotal).get_real() )));
 	oEscrow.push_back(Pair("systotalwithfee", nEscrowTotal));
 
-	oEscrow.push_back(Pair("currency", fUnits > 0? GetPaymentOptionsString(escrow.nPaymentOption):stringFromVch(offer.sCurrencyCode)));
+	oEscrow.push_back(Pair("currency", offer.bCoinOffer? GetPaymentOptionsString(escrow.nPaymentOption):stringFromVch(offer.sCurrencyCode)));
 
 
 	oEscrow.push_back(Pair("exttxid", escrow.extTxId.IsNull()? "": escrow.extTxId.GetHex()));
