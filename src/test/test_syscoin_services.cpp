@@ -665,7 +665,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + aliasname));
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
-	string oldvalue = find_value(r.get_obj(), "value").get_str();
+	string oldvalue = find_value(r.get_obj(), "publicvalue").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
 	string encryptionprivkey = find_value(r.get_obj(), "encryption_privatekey").get_str();
@@ -714,7 +714,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	CAmount balanceAfter = AmountFromValue(find_value(r.get_obj(), "balance"));
 	BOOST_CHECK(balanceAfter >= (balanceBefore-COIN));
 	BOOST_CHECK(find_value(r.get_obj(), "ismine").get_bool() == false);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , "");
@@ -726,7 +726,7 @@ void AliasTransfer(const string& node, const string& aliasname, const string& to
 	BOOST_CHECK(balanceAfter >= (balanceBefore-COIN));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str(), "");
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata != "\"\""? privdata: "");
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_publickey").get_str() , encryptionkey);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "encryption_privatekey").get_str() , encryptionprivkey);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "passwordsalt").get_str() , "");
@@ -744,7 +744,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 		myPassword = password;
 	string oldPassword = find_value(r.get_obj(), "password").get_str();
 	
-	string oldvalue = find_value(r.get_obj(), "value").get_str();
+	string oldvalue = find_value(r.get_obj(), "publicvalue").get_str();
 	string oldprivatevalue = find_value(r.get_obj(), "privatevalue").get_str();
 	string oldPasswordSalt = find_value(r.get_obj(), "passwordsalt").get_str();
 	string oldAddressStr = find_value(r.get_obj(), "address").get_str();
@@ -837,7 +837,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata != "\"\""? privdata: oldprivatevalue);
 	if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 	
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , password != "\"\""? password: oldPassword);
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
@@ -867,7 +867,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
-			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
@@ -894,7 +894,7 @@ string AliasUpdate(const string& node, const string& aliasname, const string& pu
 
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 		if(aliasname != "sysrates.peg" && aliasname != "sysban" && aliasname != "syscategory")
-			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str() , pubdata != "\"\""? pubdata: oldvalue);
+			BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldvalue);
 		
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "password").get_str() , "");
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "address").get_str() , addressStr != "\"\""? addressStr: oldAddressStr);
