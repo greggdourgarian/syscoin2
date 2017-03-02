@@ -3209,7 +3209,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 			}
 			CTransaction tx;
 			for(auto& it : boost::adaptors::reverse(vtxTx)) {
-				const uint64_t& nHeight = vtxHeight[it.first].second;
+				const uint64_t& nHeight = vtxHeight[it.first];
 				const CTransaction& tx = it.second;
 				
 				COffer offer(tx);
@@ -3298,7 +3298,7 @@ bool GetAcceptByHash(std::vector<COffer> &offerList, COfferAccept &ca, COffer &o
 	if(offerList.empty())
 		return false;
 	for(auto& it : boost::adaptors::reverse(offerList)) {
-		const COffer& myoffer = *it;
+		const COffer& myoffer = it;
 		// skip null states
 		if(myoffer.accept.IsNull())
 			continue;
