@@ -1102,8 +1102,8 @@ void GetAddress(const CAliasIndex& alias, CSyscoinAddress* address,CScript& scri
 	if(!address)
 		return;
 	CChainParams::AddressType myAddressType = PaymentOptionToAddressType(nPaymentOption);
-	const string &addr = EncodeBase58(alias.vchAddress);
-	address[0] = CSyscoinAddress(addr, myAddressType);
+	CSyscoinAddress address = CSyscoinAddress(EncodeBase58(alias.vchAddress), myAddressType);
+	address[0] = address;
 	script = GetScriptForDestination(address[0].Get());
 }
 bool CAliasIndex::UnserializeFromData(const vector<unsigned char> &vchData, const vector<unsigned char> &vchHash) {
@@ -2165,8 +2165,7 @@ UniValue syscoinsignrawtransaction(const UniValue& params, bool fHelp) {
 }
 bool IsMyAlias(const CAliasIndex& alias)
 {
-	const string &addr = EncodeBase58(alias.vchAddress);
-	CSyscoinAddress address(addr);
+	CSyscoinAddress address(EncodeBase58(alias.vchAddress));
 	return IsMine(*pwalletMain, address.Get());
 }
 UniValue aliaslist(const UniValue& params, bool fHelp) {
