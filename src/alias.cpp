@@ -930,6 +930,8 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 						theAlias.vchPasswordSalt = dbAlias.vchPasswordSalt;
 					if(theAlias.vchAddress.empty())
 						theAlias.vchAddress = dbAlias.vchAddress;
+					if(theAlias.vchPubKey.empty())
+						theAlias.vchPubKey = dbAlias.vchPubKey;
 					if(theAlias.vchPassword.empty())
 						theAlias.vchPassword = dbAlias.vchPassword;
 					else
@@ -945,7 +947,7 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					theAlias.vchGUID = dbAlias.vchGUID;
 					theAlias.vchAlias = dbAlias.vchAlias;
 					// if transfer or change pw
-					if(dbAlias.vchAddress != theAlias.vchAddress)
+					if(dbAlias.vchPubKey != theAlias.vchPubKey)
 					{
 						// if transfer clear pw
 						if(!pwChange)
@@ -953,12 +955,15 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 							theAlias.vchPassword.clear();
 							theAlias.vchPasswordSalt.clear();
 						}
+						const CPubKey pubKey(theAlias.vchPubKey);
+						const CSyscoinAddress myAddress(pubKey.GetID());
+						const vector<unsigned char> vchAddress(myAddress.begin(), myAddress.end());
 						// make sure xfer to pubkey doesn't point to an alias already, otherwise don't assign pubkey to alias
 						// we want to avoid aliases with duplicate public keys (addresses)
-						if (paliasdb->ExistsAddress(theAlias.vchAddress))
+						if (paliasdb->ExistsAddress(vchAddress))
 						{
 							vector<unsigned char> vchMyAlias;
-							if (paliasdb->ReadAddress(theAlias.vchAddress, vchMyAlias) && !vchMyAlias.empty() && vchMyAlias != dbAlias.vchAlias)
+							if (paliasdb->ReadAddress(vchAddress, vchMyAlias) && !vchMyAlias.empty() && vchMyAlias != dbAlias.vchAlias)
 							{
 								errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5026 - " + _("An alias already exists with that address, try another public key");
 								theAlias = dbAlias;
@@ -1853,13 +1858,12 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 3))
 		strPrivateValue = params[3].get_str();
 	
-	vector<unsigned char> vchPubKeyByte;
-	
+
 	CWalletTx wtx;
 	CAliasIndex updateAlias;
-	
-    if (CheckParam(params, 4)) 
-		vchPubKeyByte = ParseHex(params[4].get_str());
+	string strPublicKey = "";
+	if(CheckParam(params, 4))
+		strPublicKey = params[4].get_str();
 	
 	string strPassword = "";
 	if(CheckParam(params, 5))
@@ -1901,15 +1905,8 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, theAlias, tx, true))
 		throw runtime_error("SYSCOIN_ALIAS_RPC_ERROR: ERRCODE: 5518 - " + _("Could not find an alias with this name"));
 
-
-
 	CAliasIndex copyAlias = theAlias;
 	theAlias.ClearAlias();
-	CKey vchSecret;
-	if(vchPubKeyByte.empty())
-		vchPubKeyByte = theAlias.vchPubKey;
-	string strCipherText;
-
 	theAlias.nHeight = chainActive.Tip()->nHeight;
 	if(!strPublicValue.empty())
 		theAlias.vchPublicValue = vchFromString(strPublicValue);
@@ -1923,10 +1920,11 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 		theAlias.vchPassword = ParseHex(strPassword);
 	if(!strPasswordSalt.empty())
 		theAlias.vchPasswordSalt = ParseHex(strPasswordSalt);
+	if(!strPubKey.empty())
+		theAlias.vchPubKey = ParseHex(strPubKey);
 	if(!strAddress.empty())
 		DecodeBase58(strAddress, theAlias.vchAddress);
 	theAlias.vchAliasPeg = vchAliasPeg;
-	theAlias.vchPubKey = vchPubKeyByte;
 	theAlias.nExpireTime = nTime;
 	if(strAcceptCertTransfers.empty())
 		theAlias.acceptCertTransfers = copyAlias.acceptCertTransfers;
