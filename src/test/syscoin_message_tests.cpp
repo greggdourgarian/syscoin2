@@ -19,6 +19,8 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 	string goodprivdata =  "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdd";
 	// 257 bytes long
 	string badprivdata =   "SfsdfddfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsfDsdsdsdsfsfsdsfsdsfdsfsdsfdsfsdsfsdSfsdfdfsdsfSfsdfdfsdsDfdfdda";
+	string fromalias = "jagmsg1";
+	string toalias = "jagmsg2";
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo " + toalias));
 	string encryptionkey = find_value(r.get_obj(), "encryption_publickey").get_str();
@@ -37,9 +39,7 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 	else
 		strCipherBadPrivateData = HexStr(strCipherBadPrivateData);
 
-	string fromalias = "jagmsg1";
-	string toalias = "jagmsg2";
-	UniValue r;
+	
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias +  " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))));
 	GenerateBlocks(5);
 	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherBadPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))), runtime_error);
