@@ -213,7 +213,7 @@ bool CEscrowDB::GetDBEscrows(std::vector<CEscrow>& escrows, const uint64_t &nExp
 					}
 				
 				}
-				escrows.push_back(vtxPos);	
+				escrows.push_back(txPos);	
             }
 			
             pcursor->Next();
@@ -1785,13 +1785,13 @@ UniValue escrowrelease(const UniValue& params, bool fHelp) {
 
 	UniValue signParams(UniValue::VARR);
 	signParams.push_back(EncodeHexTx(wtx));
-	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
-	const UniValue& so = resSign.get_obj();
-	string hex_str = "";
+	const UniValue &resSign1 = tableRPC.execute("syscoinsignrawtransaction", signParams);
+	const UniValue& so = resSign1.get_obj();
+	hex_str = "";
 
-	const UniValue& hex_value = find_value(so, "hex");
-	if (hex_value.isStr())
-		hex_str = hex_value.get_str();
+	const UniValue& hex_value1 = find_value(so, "hex");
+	if (hex_value1.isStr())
+		hex_str = hex_value1.get_str();
 	const UniValue& complete_value = find_value(so, "complete");
 	bool bComplete = false;
 	if (complete_value.isBool())
@@ -1991,7 +1991,7 @@ UniValue escrowclaimrelease(const UniValue& params, bool fHelp) {
 		GetAddress(sellerAliasLatest, &sellerAddress, script, escrow.nPaymentOption);
 	}
 	aliasVtxPos.clear();
-	theAlias.SetNull();
+	CAliasIndex theAlias;
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, theAlias, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
 		CScript script;
@@ -2233,7 +2233,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	if (escrow.nPaymentOption != PAYMENTOPTION_SYS)
 		extPayment = true;
 
-	CAliasIndex sellerAliasLatest, buyerAliasLatest, arbiterAliasLatest, resellerAliasLatest;
+	CAliasIndex sellerAliasLatest, buyerAliasLatest, arbiterAliasLatest, resellerAliasLatest, buyerAlias, sellerAlias, arbiterAlias;
 	vector<CAliasIndex> aliasVtxPos;
 	CTransaction selleraliastx, buyeraliastx, arbiteraliastx, reselleraliastx;
 	bool isExpired;
@@ -2241,6 +2241,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	CScript arbiterScript;
 	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
 	{
+		arbiterAlias.nHeight = vtxPos.front().nHeight;
+		arbiterAlias.GetAliasFromList(aliasVtxPos);
 		GetAddress(arbiterAliasLatest, &arbiterPaymentAddress, arbiterScript);
 	}
 
@@ -2249,6 +2251,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	CScript buyerScript;
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
+		buyerAlias.nHeight = vtxPos.front().nHeight;
+		buyerAlias.GetAliasFromList(aliasVtxPos);
 		GetAddress(buyerAliasLatest, &buyerPaymentAddress, buyerScript);
 	}
 	aliasVtxPos.clear();
@@ -2256,6 +2260,8 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	CScript sellerScript;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
+		sellerAlias.nHeight = vtxPos.front().nHeight;
+		sellerAlias.GetAliasFromList(aliasVtxPos);
 		GetAddress(sellerAliasLatest, &sellerPaymentAddress, sellerScript);
 	}
 
@@ -2308,7 +2314,7 @@ UniValue escrowcompleterelease(const UniValue& params, bool fHelp) {
 	CCoinControl coinControl;
 	coinControl.fAllowOtherInputs = false;
 	coinControl.fAllowWatchOnly = false;
-	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, true, &coinControl);
+	SendMoneySyscoin(escrow.vchLinkAlias, aliasRecipient, aliasPaymentRecipient, vecSend, wtx, &coinControl);
 	UniValue returnRes;
 	UniValue sendParams(UniValue::VARR);
 	sendParams.push_back(rawTx);
@@ -2596,13 +2602,13 @@ UniValue escrowrefund(const UniValue& params, bool fHelp) {
 	UniValue res(UniValue::VARR);
 	UniValue signParams(UniValue::VARR);
 	signParams.push_back(EncodeHexTx(wtx));
-	const UniValue &resSign = tableRPC.execute("syscoinsignrawtransaction", signParams);
-	const UniValue& so = resSign.get_obj();
-	string hex_str = "";
+	const UniValue &resSign1 = tableRPC.execute("syscoinsignrawtransaction", signParams);
+	const UniValue& so = resSign1.get_obj();
+	hex_str = "";
 
-	const UniValue& hex_value = find_value(so, "hex");
-	if (hex_value.isStr())
-		hex_str = hex_value.get_str();
+	const UniValue& hex_value1 = find_value(so, "hex");
+	if (hex_value1.isStr())
+		hex_str = hex_value1.get_str();
 	const UniValue& complete_value = find_value(so, "complete");
 	bool bComplete = false;
 	if (complete_value.isBool())
@@ -2836,27 +2842,35 @@ UniValue escrowcompleterefund(const UniValue& params, bool fHelp) {
 	if (escrow.nPaymentOption != PAYMENTOPTION_SYS)
 		extPayment = true;
 
-	CAliasIndex sellerAliasLatest, buyerAliasLatest, arbiterAliasLatest, resellerAliasLatest;
+	CAliasIndex sellerAliasLatest, buyerAliasLatest, arbiterAliasLatest, resellerAliasLatest, buyerAlias, sellerAlias, arbiterAlias;
 	vector<CAliasIndex> aliasVtxPos;
 	CTransaction selleraliastx, buyeraliastx, arbiteraliastx, reselleraliastx;
 	bool isExpired;
 	CSyscoinAddress arbiterPaymentAddress;
-	CScript arbiterScript, buyerScript, sellerScript;
+	CScript arbiterScript;
 	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
 	{
+		arbiterAlias.nHeight = vtxPos.front().nHeight;
+		arbiterAlias.GetAliasFromList(aliasVtxPos);
 		GetAddress(arbiterAliasLatest, &arbiterPaymentAddress, arbiterScript);
 	}
 
 	aliasVtxPos.clear();
 	CSyscoinAddress buyerPaymentAddress;
+	CScript buyerScript;
 	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
 	{
+		buyerAlias.nHeight = vtxPos.front().nHeight;
+		buyerAlias.GetAliasFromList(aliasVtxPos);
 		GetAddress(buyerAliasLatest, &buyerPaymentAddress, buyerScript);
 	}
 	aliasVtxPos.clear();
 	CSyscoinAddress sellerPaymentAddress;
+	CScript sellerScript;
 	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
 	{
+		sellerAlias.nHeight = vtxPos.front().nHeight;
+		sellerAlias.GetAliasFromList(aliasVtxPos);
 		GetAddress(sellerAliasLatest, &sellerPaymentAddress, sellerScript);
 	}
 
@@ -2978,24 +2992,46 @@ UniValue escrowfeedback(const UniValue& params, bool fHelp) {
 		escrow, tx))
         throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4598 - " + _("Could not find a escrow with this key"));
 
-	CAliasIndex arbiterAliasLatest, buyerAliasLatest, sellerAliasLatest, resellerAliasLatest;
-	CTransaction arbiteraliastx, selleraliastx, reselleraliastx, buyeraliastx;
-	CScript buyerScript, sellerScript, arbiterScript, resellerScript;
-	GetTxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, true);
-	CSyscoinAddress arbiterAddress;
-	GetAddress(arbiterAliasLatest, &arbiterAddress, arbiterScript);
+	CAliasIndex sellerAliasLatest, buyerAliasLatest, arbiterAliasLatest, resellerAliasLatest, buyerAlias, sellerAlias, arbiterAlias, resellerAlias;
+	vector<CAliasIndex> aliasVtxPos;
+	CTransaction selleraliastx, buyeraliastx, arbiteraliastx, reselleraliastx;
+	bool isExpired;
+	CSyscoinAddress arbiterPaymentAddress;
+	CScript arbiterScript;
+	if(GetTxAndVtxOfAlias(escrow.vchArbiterAlias, arbiterAliasLatest, arbiteraliastx, aliasVtxPos, isExpired, true))
+	{
+		arbiterAlias.nHeight = vtxPos.front().nHeight;
+		arbiterAlias.GetAliasFromList(aliasVtxPos);
+		GetAddress(arbiterAliasLatest, &arbiterPaymentAddress, arbiterScript);
+	}
 
-	GetTxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, true);
-	CSyscoinAddress buyerAddress;
-	GetAddress(buyerAliasLatest, &buyerAddress, buyerScript);
-
-	GetTxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, true);
-	CSyscoinAddress sellerAddress;
-	GetAddress(sellerAliasLatest, &sellerAddress, sellerScript);
-	
-	GetTxOfAlias(escrow.vchLinkSellerAlias, resellerAliasLatest, reselleraliastx, true);
-	CSyscoinAddress resellerAddress;
-	GetAddress(resellerAliasLatest, &resellerAddress, resellerScript);
+	aliasVtxPos.clear();
+	CSyscoinAddress buyerPaymentAddress;
+	CScript buyerScript;
+	if(GetTxAndVtxOfAlias(escrow.vchBuyerAlias, buyerAliasLatest, buyeraliastx, aliasVtxPos, isExpired, true))
+	{
+		buyerAlias.nHeight = vtxPos.front().nHeight;
+		buyerAlias.GetAliasFromList(aliasVtxPos);
+		GetAddress(buyerAliasLatest, &buyerPaymentAddress, buyerScript);
+	}
+	aliasVtxPos.clear();
+	CSyscoinAddress sellerPaymentAddress;
+	CScript sellerScript;
+	if(GetTxAndVtxOfAlias(escrow.vchSellerAlias, sellerAliasLatest, selleraliastx, aliasVtxPos, isExpired, true))
+	{
+		sellerAlias.nHeight = vtxPos.front().nHeight;
+		sellerAlias.GetAliasFromList(aliasVtxPos);
+		GetAddress(sellerAliasLatest, &sellerPaymentAddress, sellerScript);
+	}
+	aliasVtxPos.clear();
+	CSyscoinAddress sellerPaymentAddress;
+	CScript resellerScript;
+	if(GetTxAndVtxOfAlias(escrow.vchLinkSellerAlias, resellerAliasLatest, reselleraliastx, aliasVtxPos, isExpired, true))
+	{
+		resellerAlias.nHeight = vtxPos.front().nHeight;
+		resellerAlias.GetAliasFromList(aliasVtxPos);
+		GetAddress(resellerAliasLatest, &resellerAddress, resellerScript);
+	}	
 
 	vector <unsigned char> vchLinkAlias;
 	CAliasIndex theAlias;
