@@ -118,8 +118,8 @@ public:
 	// SYSCOIN aliases as addresses
     CSyscoinAddress();
 	CSyscoinAddress(const CTxDestination &dest, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
-    CSyscoinAddress(const std::string& strAddress);
-    CSyscoinAddress(const char* pszAddress);
+    CSyscoinAddress(const std::string& strAddress, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
+    CSyscoinAddress(const char* pszAddress, CChainParams::AddressType sysVer = CChainParams::ADDRESS_SYS);
 
     CTxDestination Get() const;
     bool GetKeyID(CKeyID &keyID) const;
