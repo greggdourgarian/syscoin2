@@ -25,6 +25,7 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/tokenizer.hpp>
+#include <boost/range/adaptor/reversed.hpp>
 using namespace std;
 extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false);
 bool DisconnectAlias(const CBlockIndex *pindex, const CTransaction &tx, int op, vector<vector<unsigned char> > &vvchArgs );
@@ -3207,7 +3208,7 @@ UniValue offerlist(const UniValue& params, bool fHelp) {
 				vtxHeight[txPaymentPos.txHash] = txPaymentPos.nHeight;
 			}
 			CTransaction tx;
-			for(map<uint256, CTransaction>::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
+			for(auto& it : boost::adaptors::reverse(vtxTx)) {
 				const uint64_t& nHeight = vtxHeight[it.first].second;
 				const CTransaction& tx = it.second;
 				
@@ -3296,7 +3297,7 @@ UniValue offerhistory(const UniValue& params, bool fHelp) {
 bool GetAcceptByHash(std::vector<COffer> &offerList, COfferAccept &ca, COffer &offer) {
 	if(offerList.empty())
 		return false;
-	for(std::vector<COffer>::reverse_iterator it = offerList.rbegin(); it != offerList.rend(); ++it) {
+	for(auto& it : boost::adaptors::reverse(offerList)) {
 		const COffer& myoffer = *it;
 		// skip null states
 		if(myoffer.accept.IsNull())

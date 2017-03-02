@@ -21,6 +21,7 @@
 #include <boost/foreach.hpp>
 #include <boost/thread.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/range/adaptor/reversed.hpp>
 extern CScript _createmultisig_redeemScript(const UniValue& params);
 using namespace std;
 extern void SendMoneySyscoin(const vector<unsigned char> &vchAlias, const CRecipient &aliasRecipient, const CRecipient &aliasPaymentRecipient, vector<CRecipient> &vecSend, CWalletTx& wtxNew, CCoinControl* coinControl, bool useOnlyAliasPaymentToFund=false, bool transferAlias=false);
@@ -3493,7 +3494,7 @@ UniValue escrowlist(const UniValue& params, bool fHelp) {
 				vtxHeight[txPaymentPos.txHash] = txPaymentPos.nHeight;
 			}
 			CTransaction tx;
-			for(const PAIRTYPE(uint256, CTransaction)::reverse_iterator it = vtxTx.rbegin(); it != vtxTx.rend(); ++it) {
+			for(auto& it : boost::adaptors::reverse(vtxTx)) {
 				const uint64_t& nHeight = vtxHeight[it.first].second;
 				const CTransaction& tx = it.second;
 				CEscrow escrow(tx);
