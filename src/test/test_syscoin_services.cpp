@@ -965,7 +965,7 @@ const string CertNew(const string& node, const string& alias, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
 	if(privdata != "\"\"")
-		BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata);
 	BOOST_CHECK(find_value(r.get_obj(), "publicvalue").get_str() == pubdata);
 	if(!otherNode1.empty())
 	{
