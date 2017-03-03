@@ -1248,26 +1248,26 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	if (!GetTxOfAlias(vchAlias, alias, aliastx))
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1500 - " + _("Could not find an alias with this name"));
 
-	vector<unsigned char> vchCurrency = vchFromValue(params[6]);
 	vector<unsigned char> vchDetails =  vchFromValue(params[1]);
 	vector<unsigned char> vchCert;
 
 	int nQty;
 
 	try {
-		nQty =  boost::lexical_cast<int>(params[3].get_str());
+		nQty =  boost::lexical_cast<int>(params[2].get_str());
 	} catch (std::exception &e) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1503 - " + _("Invalid quantity value, must be less than 4294967296 and greater than or equal to -1"));
 	}
-	fPrice = boost::lexical_cast<float>(params[4].get_str());
+	fPrice = boost::lexical_cast<float>(params[3].get_str());
+		vector<unsigned char> vchCurrency = vchFromValue(params[4]);
 	CScript scriptPubKeyOrig;
 	CScript scriptPubKey;
-	if(CheckParam(params, 7))
-		vchCert = vchFromValue(params[7]);
+	if(CheckParam(params, 5))
+		vchCert = vchFromValue(params[5]);
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
-	if(CheckParam(params, 8))
-		paymentOptions = params[8].get_str();		
+	if(CheckParam(params, 6))
+		paymentOptions = params[6].get_str();		
 	boost::algorithm::to_upper(paymentOptions);
 	// payment options - validate payment options string
 	if(!paymentOptions.empty() && !ValidatePaymentOptionsString(paymentOptions))
@@ -1280,8 +1280,8 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 	unsigned char paymentOptionsMask = (unsigned char) GetPaymentOptionsMaskFromString(paymentOptions);
 
 	bool bPrivate = false;
-	if(CheckParam(params, 11))
-		bPrivate = params[11].get_str() == "Yes"? true: false;
+	if(CheckParam(params, 7))
+		bPrivate = params[7].get_str() == "Yes"? true: false;
 
 	int precision = 2;
 	CAmount nPricePerUnit = convertCurrencyCodeToSyscoin(alias.vchAliasPeg, vchCurrency, fPrice, chainActive.Tip()->nHeight, precision);
@@ -1878,7 +1878,7 @@ UniValue offerwhitelist(const UniValue& params, bool fHelp) {
     return oRes;
 }
 UniValue offerupdate(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 2 || params.size() > 14)
+	if (fHelp || params.size() < 2 || params.size() > 10)
 		throw runtime_error(
 		"offerupdate <alias> <guid> [quantity] [price] [details] [currency] [private=No] [cert. guid] [commission] [paymentOptions]\n"
 						"Perform an update on an offer you control.\n"
@@ -1895,9 +1895,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 	string strPrice = "";
 	string strCommission = "";
 	string paymentOptions = "";
-	if(CheckParam(params, 4))
+	if(CheckParam(params, 2))
 	{
-		strQty = params[4].get_str();
+		strQty = params[2].get_str();
 		try {
 			int nQty = boost::lexical_cast<int>(strQty);
 
@@ -1905,9 +1905,9 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid quantity value. Quantity must be less than 4294967296 and greater than or equal to -1"));
 		}
 	}
-	if(CheckParam(params, 5))
+	if(CheckParam(params, 3))
 	{
-		strPrice = params[5].get_str();
+		strPrice = params[3].get_str();
 		try {
 			float fPrice = boost::lexical_cast<float>(strPrice);
 
@@ -1915,19 +1915,19 @@ UniValue offerupdate(const UniValue& params, bool fHelp) {
 			throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1533 - " + _("Invalid price value"));
 		}
 	}
+	if(CheckParam(params, 4))
+		vchDetails = vchFromValue(params[4]);
+	if(CheckParam(params, 5))
+		sCurrencyCode = vchFromValue(params[5]);
 	if(CheckParam(params, 6))
-		vchDetails = vchFromValue(params[6]);
+		strPrivate = params[6].get_str();
 	if(CheckParam(params, 7))
-		sCurrencyCode = vchFromValue(params[7]);
+		vchCert = vchFromValue(params[7]);
 	if(CheckParam(params, 8))
-		strPrivate = params[8].get_str();
+		strCommission = params[8].get_str();	
 	if(CheckParam(params, 9))
-		vchCert = vchFromValue(params[9]);
-	if(CheckParam(params, 12))
-		strCommission = params[12].get_str();	
-	if(CheckParam(params, 13))
 	{
-		paymentOptions = params[13].get_str();	
+		paymentOptions = params[9].get_str();	
 		boost::algorithm::to_upper(paymentOptions);
 	}
 	
