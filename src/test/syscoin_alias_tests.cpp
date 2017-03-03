@@ -425,7 +425,7 @@ BOOST_AUTO_TEST_CASE (generate_multisigalias)
 	// pay to multisig and check balance
 	BOOST_CHECK_NO_THROW(r = CallRPC("node1", "aliasinfo jagnodemultisig1"));
 	// make sure alias was updated with new public data
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "value").get_str(), "pubdata1");
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str(), "pubdata1");
 	BOOST_CHECK_THROW(CallRPC("node1", "sendtoaddress jagnodemultisig1 9"), runtime_error);
 	GenerateBlocks(5);
 	GenerateBlocks(5, "node2");
