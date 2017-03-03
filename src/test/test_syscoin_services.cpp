@@ -965,23 +965,23 @@ const string CertNew(const string& node, const string& alias, const string& pubd
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == alias);
 	if(privdata != "\"\"")
-		BOOST_CHECK(find_value(r.get_obj(), "privatedata").get_str() == privdata);
-	BOOST_CHECK(find_value(r.get_obj(), "publicdata").get_str() == pubdata);
+		BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
+	BOOST_CHECK(find_value(r.get_obj(), "publicvalue").get_str() == pubdata);
 	if(!otherNode1.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 		if(privdata != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "privatedata").get_str() != privdata);
-		BOOST_CHECK(find_value(r.get_obj(), "publicdata").get_str() == pubdata);
+			BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+		BOOST_CHECK(find_value(r.get_obj(), "publicvalue").get_str() == pubdata);
 	}
 	if(!otherNode2.empty())
 	{
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 		if(privdata != "\"\"")
-			BOOST_CHECK(find_value(r.get_obj(), "privatedata").get_str() != privdata);
-		BOOST_CHECK(find_value(r.get_obj(), "publicdata").get_str() == pubdata);
+			BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+		BOOST_CHECK(find_value(r.get_obj(), "publicvalue").get_str() == pubdata);
 	}
 	return guid;
 }
@@ -992,8 +992,8 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 	UniValue r;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	string oldalias = find_value(r.get_obj(), "alias").get_str();
-	string olddata = find_value(r.get_obj(), "privatedata").get_str();
-	string oldpubdata = find_value(r.get_obj(), "publicdata").get_str();
+	string olddata = find_value(r.get_obj(), "privatevalue").get_str();
+	string oldpubdata = find_value(r.get_obj(), "publicvalue").get_str();
 	CKey privEncryptionKey;
 	privEncryptionKey.MakeNewKey(true);
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
@@ -1039,8 +1039,8 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == oldalias);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatedata").get_str() , privdata != "\"\""? privdata: olddata);
-	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , privdata != "\"\""? privdata: olddata);
+	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
 
 
 	if(!otherNode1.empty())
@@ -1048,9 +1048,9 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode1, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == oldalias);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
 		
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatedata").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 
 	}
 	if(!otherNode2.empty())
@@ -1058,9 +1058,9 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 		BOOST_CHECK_NO_THROW(r = CallRPC(otherNode2, "certinfo " + guid));
 		BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 		BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == oldalias);
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicdata").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "publicvalue").get_str() , pubdata != "\"\""? pubdata: oldpubdata);
 
-		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatedata").get_str() , "");
+		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "privatevalue").get_str() , "");
 
 	}
 }
@@ -1077,8 +1077,8 @@ void CertTransfer(const string& node, const string &tonode, const string& guid, 
 	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 	
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
-	string privdata = find_value(r.get_obj(), "privatedata").get_str();
-	string pubdata = find_value(r.get_obj(), "publicdata").get_str();
+	string privdata = find_value(r.get_obj(), "privatevalue").get_str();
+	string pubdata = find_value(r.get_obj(), "publicvalue").get_str();
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "aliasinfo " + toalias));
 	string encryptionpublickey = find_value(r.get_obj(), "encryption_publickey").get_str();
@@ -1112,14 +1112,14 @@ void CertTransfer(const string& node, const string &tonode, const string& guid, 
 	GenerateBlocks(5, tonode);
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certinfo " + guid));
 	if(!privdata.empty())
-		BOOST_CHECK(find_value(r.get_obj(), "privatedata").get_str() != privdata);
-	BOOST_CHECK(find_value(r.get_obj(), "publicdata").get_str() == pubdata);
+		BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() != privdata);
+	BOOST_CHECK(find_value(r.get_obj(), "publicvalue").get_str() == pubdata);
 	BOOST_CHECK(find_value(r.get_obj(), "cert").get_str() == guid);
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(tonode, "certinfo " + guid));
 	BOOST_CHECK(find_value(r.get_obj(), "alias").get_str() == toalias);
-	BOOST_CHECK(find_value(r.get_obj(), "privatedata").get_str() == privdata);
-	BOOST_CHECK(find_value(r.get_obj(), "publicdata").get_str() == pubdata);
+	BOOST_CHECK(find_value(r.get_obj(), "privatevalue").get_str() == privdata);
+	BOOST_CHECK(find_value(r.get_obj(), "publicvalue").get_str() == pubdata);
 
 }
 const string MessageNew(const string& fromnode, const string& tonode, const string& pubdata, const string& privdata, const string& fromalias, const string& toalias)

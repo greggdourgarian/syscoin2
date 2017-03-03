@@ -1246,7 +1246,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 }
 
 UniValue offernew(const UniValue& params, bool fHelp) {
-	if (fHelp || params.size() < 5 || params.size() > 8)
+	if (fHelp || params.size() < 5 || params.size() > 10)
 		throw runtime_error(
 		"offernew <alias> <details> <quantity> <price> <currency> [cert. guid] [payment options=SYS] [private=No] [units] [coinoffer=No]\n"
 						"<alias> An alias you own.\n"
