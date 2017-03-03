@@ -904,6 +904,7 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: new escrow with expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpirednode2 " + offerguid + " 1 " + HexStr(vchFromString("message")) + " aliasexpire"), runtime_error);
 
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpire aliasexpire2 01 01 01"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire newdata1"));
 	BOOST_CHECK_NO_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 newdata1"));
 	GenerateBlocks(5, "node1");
