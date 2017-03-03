@@ -563,10 +563,6 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
 	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
 	
-	BOOST_CHECK(pubEncryptionKey.IsFullyValid());
-	BOOST_CHECK_NO_THROW(CallRPC(node, "importprivkey " + CSyscoinSecret(privEncryptionKey).ToString() + " \"\" false", true, false));	
-	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
-	
 	string strCipherPrivateData = "";
 	if(privdata != "\"\"")
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData), true);
