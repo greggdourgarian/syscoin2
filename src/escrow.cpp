@@ -1901,7 +1901,7 @@ UniValue escrowacknowledge(const UniValue& params, bool fHelp) {
 
     CScript scriptPubKeyOrigBuyer, scriptPubKeyOrigArbiter;
 
-    scriptPubKeyOrigBuyer << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << buyerAlias.vchAlias << OP_2DROP;
+    scriptPubKeyOrigBuyer << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
     scriptPubKeyOrigBuyer += buyerScript;
 
 	scriptPubKeyOrigArbiter << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << arbiterAlias.vchAlias << OP_2DROP;
