@@ -1420,13 +1420,13 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 
     vector<unsigned char> vchHashEscrow = vchFromValue(hash.GetHex());
 	scriptPubKeyBuyer << CScript::EncodeOP_N(OP_ESCROW_ACTIVATE) << vchEscrow << vchFromString("0") << vchHashEscrow << OP_2DROP << OP_2DROP;
-	scriptPubKeySeller << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << selleralias.vchAlias << OP_2DROP;
+	scriptPubKeySeller << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << reselleralias.vchAlias << OP_2DROP;
 	scriptPubKeyArbiter << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << arbiteralias.vchAlias << OP_2DROP;
 	scriptPubKeySeller += scriptSeller;
 	scriptPubKeyArbiter += scriptArbiter;
 	scriptPubKeyBuyer += scriptPubKeyAliasOrig;
 
-	scriptPubKeyRootSeller << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << reselleralias.vchAlias << OP_2DROP;
+	scriptPubKeyRootSeller << CScript::EncodeOP_N(OP_ALIAS_PAYMENT) << selleralias.vchAlias << OP_2DROP;
 	scriptPubKeyRootSeller += scriptRootSeller;
 
 
