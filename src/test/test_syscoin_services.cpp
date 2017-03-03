@@ -562,6 +562,7 @@ string AliasNew(const string& node, const string& aliasname, const string& passw
 	privEncryptionKey.MakeNewKey(true);
 	CPubKey pubEncryptionKey = privEncryptionKey.GetPubKey();
 	vector<unsigned char> vchPrivEncryptionKey(privEncryptionKey.begin(), privEncryptionKey.end());
+	vector<unsigned char> vchPubEncryptionKey(pubEncryptionKey.begin(), pubEncryptionKey.end());
 	
 	string strCipherPrivateData = "";
 	if(privdata != "\"\"")
