@@ -773,6 +773,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 							if (!myLinkOffer.IsNull())
 							{
 								myLinkOffer.nQty = nQty;
+								myLinkOffer.nSold++;
 								myLinkOffer.PutToOfferList(myLinkVtxPos);
 								if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
 								{
@@ -783,6 +784,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 							else
 							{
 								dbOffer.nQty = nQty;
+								dbOffer.nSold++;
 								dbOffer.PutToOfferList(myVtxPos);
 								if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
 								{
@@ -996,6 +998,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					if (!myLinkOffer.IsNull())
 					{
 						myLinkOffer.nQty = nQty;
+						myLinkOffer.nSold--;
 						myLinkOffer.PutToOfferList(myLinkVtxPos);
 						if (!dontaddtodb && !pofferdb->WriteOffer(dbOffer.vchLinkOffer, myLinkVtxPos))
 						{
@@ -1006,6 +1009,7 @@ bool CheckEscrowInputs(const CTransaction &tx, int op, int nOut, const vector<ve
 					else
 					{
 						dbOffer.nQty = nQty;
+						dbOffer.nSold--;
 						dbOffer.PutToOfferList(myVtxPos);
 						if (!dontaddtodb && !pofferdb->WriteOffer(theEscrow.vchOffer, myVtxPos))
 						{

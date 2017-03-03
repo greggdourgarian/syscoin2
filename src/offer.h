@@ -224,6 +224,7 @@ public:
 	bool bCoinOffer;
 	unsigned int paymentOptions;
 	unsigned char safetyLevel;
+	unsigned int nSold;
 	COffer() {
         SetNull();
     }
@@ -252,6 +253,7 @@ public:
 			READWRITE(VARINT(nHeight));
     		READWRITE(nPrice);
     		READWRITE(nQty);
+			READWRITE(VARINT(nSold));
 			READWRITE(fUnits);
     		READWRITE(accept);
 			READWRITE(vchLinkOffer);
@@ -334,6 +336,7 @@ public:
         && a.nPrice == b.nPrice
         && a.nQty == b.nQty
 		&& a.fUnits == b.fUnits
+		&& a.nSold == b.nSold
         && a.txHash == b.txHash
         && a.nHeight == b.nHeight
         && a.accept == b.accept
@@ -355,6 +358,8 @@ public:
     inline COffer operator=(const COffer &b) {
         sDetails = b.sDetails;
         nPrice = b.nPrice;
+		nQty = b.nQty;
+		nSold = b.nSold;
         fUnits = b.fUnits;
         txHash = b.txHash;
         nHeight = b.nHeight;
@@ -378,8 +383,8 @@ public:
         return !(a == b);
     }
 
-    inline void SetNull() {vchOffer.clear(); bCoinOffer = false; safetyLevel = fUnits = nHeight = nPrice = nQty =  paymentOptions = 0; txHash.SetNull(); bPrivate = false; accept.SetNull(); sDetails.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();}
-    inline bool IsNull() const { return (vchOffer.empty() && !bCoinOffer && safetyLevel == 0 && fUnits == 0 && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && linkWhitelist.IsNull() && sDetails.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
+    inline void SetNull() {vchOffer.clear(); bCoinOffer = false; safetyLevel = fUnits = nHeight = nPrice = nQty = nSold = paymentOptions = 0; txHash.SetNull(); bPrivate = false; accept.SetNull(); sDetails.clear();vchLinkOffer.clear();vchLinkAlias.clear();linkWhitelist.SetNull();sCurrencyCode.clear();nCommission=0;vchAlias.clear();vchCert.clear();}
+    inline bool IsNull() const { return (vchOffer.empty() && !bCoinOffer && safetyLevel == 0 && fUnits == 0 && vchAlias.empty() && txHash.IsNull() && nHeight == 0 && nPrice == 0 && paymentOptions == 0 && nQty == 0 && nSold ==0 && linkWhitelist.IsNull() && sDetails.empty() && nCommission == 0 && bPrivate == false && paymentOptions == 0 && sCurrencyCode.empty() && vchLinkOffer.empty() && vchLinkAlias.empty() && vchCert.empty() ); }
 
     bool UnserializeFromTx(const CTransaction &tx);
 	bool UnserializeFromData(const std::vector<unsigned char> &vchData, const std::vector<unsigned char> &vchHash);

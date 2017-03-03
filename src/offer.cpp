@@ -757,6 +757,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 		if(op == OP_OFFER_UPDATE) {
 			serializedOffer.vchLinkOffer = theOffer.vchLinkOffer;
 			serializedOffer.vchOffer = theOffer.vchOffer;
+			serializedOffer.nSold = theOffer.nSold;
 			// cannot edit safety level
 			serializedOffer.safetyLevel = theOffer.safetyLevel;
 			serializedOffer.accept.SetNull();
@@ -822,6 +823,8 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 					}
 				}
 			}
+			// init sold to 0
+ 			theOffer.nSold = 0;
 		}
 		else if (op == OP_OFFER_ACCEPT) {
 			theOfferAccept = serializedOffer.accept;
@@ -1112,7 +1115,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				return true;
 			}
 			theOfferAccept.vchAcceptRand = vvchArgs[1];
-			// decrease qty
+			// decrease qty + increase # sold
 			if(theOfferAccept.nQty <= 0)
  				theOfferAccept.nQty = 1;
 			int nQty = theOffer.nQty;
@@ -1131,8 +1134,23 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 				}
 				nQty -= theOfferAccept.nQty;
 			}
+			theOffer.nSold++;
 			theOffer.nQty = nQty;
 			theOffer.accept = theOfferAccept;
+			if (!linkOffer.IsNull())
+ 			{
+ 				linkOffer.nHeight = nHeight;
+ 				linkOffer.nQty = nQty;
+ 				linkOffer.nSold++;
+ 				linkOffer.txHash = tx.GetHash();
+ 				linkOffer.accept = theOfferAccept;
+ 				linkOffer.PutToOfferList(offerVtxPos);
+ 				if (!dontaddtodb && !pofferdb->WriteOffer(myPriceOffer.vchLinkOffer, offerVtxPos))
+ 				{
+ 					errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1090 - " + _("Failed to write to offer link to DB");
+ 					return error(errorMessage.c_str());
+ 				}
+ 			}
 			if(!theOfferAccept.txExtId.IsNull())
 			{
 				if(pofferdb->ExistsOfferTx(theOfferAccept.txExtId) || pescrowdb->ExistsEscrowTx(theOfferAccept.txExtId))
@@ -2937,6 +2955,10 @@ bool BuildOfferJson(const COffer& theOffer, const CAliasIndex &alias, UniValue& 
 	oOffer.push_back(Pair("alias_rating",rating));
 	oOffer.push_back(Pair("alias_rating_count",(int)alias.nRatingCountAsSeller));
 	oOffer.push_back(Pair("alias_rating_display", strprintf("%.1f/5 (%d %s)", rating, alias.nRatingCountAsSeller, _("Votes"))));
+	int sold = theOffer.nSold;
+ 	if(!theOffer.vchLinkOffer.empty())
+ 		sold = linkOffer.nSold;
+ 	oOffer.push_back(Pair("offers_sold", sold));
 	oOffer.push_back(Pair("coinoffer", theOffer.bCoinOffer));
 	oOffer.push_back(Pair("offer_units", theOffer.fUnits));
 	return true;
