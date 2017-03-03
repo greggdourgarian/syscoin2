@@ -62,7 +62,6 @@ private:
 	QString m_encryptionkey;
 	QString m_encryptionprivkey;
 	QString m_oldAcceptCertTransfers;
-	QString m_oldRedeemScript;
 };
 
 #endif // EDITALIASDIALOG_H

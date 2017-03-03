@@ -1235,6 +1235,14 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
                         + HelpRequiringPassphrase());
 	vector<unsigned char> vchAlias = vchFromValue(params[0]);
 	vector<unsigned char> vchOffer = vchFromValue(params[1]);
+	unsigned int nQty = 1;
+
+	try {
+		nQty = boost::lexical_cast<unsigned int>(params[2].get_str());
+	} catch (std::exception &e) {
+		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4511 - " + _("Invalid quantity value. Quantity must be less than 4294967296."));
+	}
+	string strMessage = params[3].get_str();
 	uint64_t nHeight = chainActive.Tip()->nHeight;
 	string strArbiter = params[4].get_str();
 	boost::algorithm::to_lower(strArbiter);
@@ -1248,7 +1256,7 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 5))
 		extTxIdStr = params[5].get_str();
 
-	string strMessage = params[3].get_str();
+	
 	// payment options - get payment options string if specified otherwise default to SYS
 	string paymentOptions = "SYS";
 	if(CheckParam(params, 6))
@@ -1271,13 +1279,6 @@ UniValue escrownew(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 8))
 		nHeight = boost::lexical_cast<uint64_t>(params[8].get_str());
 
-	unsigned int nQty = 1;
-
-	try {
-		nQty = boost::lexical_cast<unsigned int>(params[2].get_str());
-	} catch (std::exception &e) {
-		throw runtime_error("SYSCOIN_ESCROW_RPC_ERROR: ERRCODE: 4511 - " + _("Invalid quantity value. Quantity must be less than 4294967296."));
-	}
 
 	CAliasIndex buyeralias;
 	if (!GetTxOfAlias(vchAlias, buyeralias, buyeraliastx))

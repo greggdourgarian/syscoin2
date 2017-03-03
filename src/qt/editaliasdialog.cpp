@@ -145,34 +145,10 @@ void EditAliasDialog::loadAliasDetails()
 			m_oldprivatevalue = QString::fromStdString(find_value(result.get_obj(), "privatevalue").get_str());
 			m_encryptionkey = QString::fromStdString(find_value(result.get_obj(), "encryption_publickey").get_str());
 			m_encryptionprivkey = QString::fromStdString(find_value(result.get_obj(), "encryption_privatekey").get_str());
-			m_oldRedeemScript = QString::fromStdString(find_value(result.get_obj(), "redeemscript").get_str());
-			try {
-				params1.push_back(m_oldRedeemScript.toStdString());
-				result1 = tableRPC.execute("aliasdecodemultisigredeemscript", params1);
-				const UniValue& reqsigsValue = find_value(result1.get_obj(), "reqsigs");
-				int reqsigs = reqsigsValue.get_int();
-				ui->reqSigsEdit->setText(QString::number(reqsigs));
-				const UniValue& reqsignersValue = find_value(result1.get_obj(), "reqsigners");
-				if (reqsignersValue.type() == UniValue::VARR)
-				{
-					const UniValue& reqsignersArray = reqsignersValue.get_array();
-					for(unsigned int i =0;i<reqsignersArray.size();i++)
-					{
-						string signer = reqsignersArray[i].get_str();
-						ui->multisigList->addItem(QString::fromStdString(signer));
-					}
-				}
-			}
-			catch (UniValue& objError)
-			{
-				ui->reqSigsEdit->setText(QString::number(0));
-				ui->multisigList->clear();
-			}
-			catch(std::exception& e)
-			{
-				ui->reqSigsEdit->setText(QString::number(0));
-				ui->multisigList->clear();
-			} 
+			
+			ui->reqSigsEdit->setText(QString::number(0));
+			ui->multisigList->clear();
+			
 			ui->passwordEdit->setText(m_oldPassword);
 			const UniValue& aliasPegValue = find_value(result.get_obj(), "alias_peg");
 			ui->aliasPegEdit->setText(QString::fromStdString(aliasPegValue.get_str()));
@@ -285,8 +261,7 @@ bool EditAliasDialog::saveCurrentRow()
 	string pubData;
 	string strPubKey = "";
 	string strPasswordSalt = "";
-	string strRedeemScript = "";
-	string redeemScript = "";
+	string addressStr = "";
 	string acceptCertTransfers = "";
 	QString multisigListStr;
     if(!model || !walletModel) return false;
@@ -608,7 +583,7 @@ bool EditAliasDialog::saveCurrentRow()
 			pubData = "\"\"";
 			if(ui->nameEdit->toPlainText() != m_oldvalue)
 				pubData = ui->nameEdit->toPlainText().toStdString();
-
+			addressStr = "\"\"";
 			if(ui->multisigList->count() > 0)
 			{
 				try {
@@ -623,30 +598,25 @@ bool EditAliasDialog::saveCurrentRow()
 					arrayParams.push_back(arrayOfKeys);
 					UniValue resCreate;
 					resCreate = tableRPC.execute("createmultisig", arrayParams);	
-					const UniValue& redeemScript_value = find_value(resCreate, "redeemScript");
-					redeemScript = redeemScript_value.get_str();
+					const UniValue& address_value = find_value(resCreate, "address");
+					addressStr = address_value.get_str();
 				}
 				catch (UniValue& objError)
 				{
 					string strError = find_value(objError, "message").get_str();
 					QMessageBox::critical(this, windowTitle(),
-					tr("Error creating multisig redeemscript: ") + QString::fromStdString(strError),
+					tr("Error creating multisig address: ") + QString::fromStdString(strError),
 						QMessageBox::Ok, QMessageBox::Ok);
 					return false;
 				}
 				catch(std::exception& e)
 				{
 					QMessageBox::critical(this, windowTitle(),
-						tr("General exception creating multisig redeemscript"),
+						tr("General exception creating multisig address"),
 						QMessageBox::Ok, QMessageBox::Ok);
 					return false;
 				}
 			}
-			strRedeemScript = "\"\"";
-			if(m_oldRedeemScript.toStdString() != redeemScript)
-				strRedeemScript = redeemScript;
-			if(m_oldRedeemScript.size () > 1  && redeemScript.size () <= 0)
-				strRedeemScript = "X";
 			strMethod = string("aliasupdate");
 			params.push_back(ui->aliasPegEdit->text().trimmed().toStdString());
 			params.push_back(ui->aliasEdit->text().toStdString());
@@ -656,7 +626,7 @@ bool EditAliasDialog::saveCurrentRow()
 			params.push_back(strPasswordHex);	
 			params.push_back(acceptCertTransfers);
 			params.push_back(ui->expireTimeEdit->text().trimmed().toStdString());
-			params.push_back(strRedeemScript);
+			params.push_back(addressStr);
 			params.push_back(strPasswordSalt);
 			params.push_back(strEncryptionPrivateKeyHex);
 			try {
