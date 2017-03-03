@@ -1206,7 +1206,7 @@ const string OfferNew(const string& node, const string& aliasname, const string&
 	GetOtherNodes(node, otherNode1, otherNode2);
 	CreateSysRatesIfNotExist();
 	UniValue r;
-	string offercreatestr = "offernew " + aliasname + " " + qty + " " + price + " " + details + " " + currency  + " " + certguid + " " + paymentoptions;
+	string offercreatestr = "offernew " + aliasname + " " + details + " " + qty + " " + price + " " + currency  + " " + certguid + " " + paymentoptions;
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, offercreatestr));
 	const UniValue &arr = r.get_array();
 	string guid = arr[1].get_str();
