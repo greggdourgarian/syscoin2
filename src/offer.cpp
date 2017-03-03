@@ -1248,7 +1248,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 UniValue offernew(const UniValue& params, bool fHelp) {
 	if (fHelp || params.size() < 5 || params.size() > 8)
 		throw runtime_error(
-		"offernew <alias> <details> <quantity> <price> <currency> [cert. guid] [payment options=SYS] [private=No]\n"
+		"offernew <alias> <details> <quantity> <price> <currency> [cert. guid] [payment options=SYS] [private=No] [units] [coinoffer=No]\n"
 						"<alias> An alias you own.\n"
 						"<details> Offer details including title, description, category, safesearch and geolocation.\n"
 						"<price> price in <currency>\n"
@@ -1256,6 +1256,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 						"<cert. guid> Set this to the guid of a certificate you wish to sell\n"
 						"<paymentOptions> 'SYS' to accept SYS only, 'BTC' for BTC only, 'ZEC' for zcash only, or a |-delimited string to accept multiple currencies (e.g. 'BTC|SYS' to accept BTC or SYS). Leave empty for default. Defaults to 'SYS'.\n"
 						"<private> set to Yes if this offer should be private not be searchable. Defaults to No.\n"
+						"<units> Units that 1 qty represents. For example if selling 1 BTC.\n"
 						+ HelpRequiringPassphrase());
 	// gather inputs
 	float fPrice;
