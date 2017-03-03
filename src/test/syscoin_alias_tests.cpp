@@ -893,11 +893,11 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 1 0.05 details USD nocert"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpirednode2 "  + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpirednode2 "  + HexStr(vchFromString("key1 ")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))), runtime_error);
 	// should fail: send message from expired alias to non-expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpire "  + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpire "  + HexStr(vchFromString("key1 ")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))), runtime_error);
 	// should fail: send message from non-expired alias to expired alias
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpire aliasexpirednode2 "  + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpire aliasexpirednode2 "  + HexStr(vchFromString("key1 ")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))), runtime_error);
 
 	// should fail: new escrow with expired arbiter alias
 	BOOST_CHECK_THROW(CallRPC("node2", "escrownew aliasexpire2node2 " + offerguid + " 1 " + HexStr(vchFromString("message")) + " aliasexpirednode2"), runtime_error);

@@ -456,7 +456,7 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2004 - " + _("Certificate hex guid too long");
 			return error(errorMessage.c_str());
 		}
-		if(theCert.vchData.size() > MAX_ENCRYPTED_NAME_LENGTH)
+		if(theCert.vchData.size() > MAX_ENCRYPTED_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate private data too big");
 			return error(errorMessage.c_str());

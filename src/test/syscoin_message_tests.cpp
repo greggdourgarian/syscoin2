@@ -40,9 +40,9 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 		strCipherBadPrivateData = HexStr(strCipherBadPrivateData);
 
 	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias +  " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias +  " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))));
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherBadPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherBadPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_msgpubdata)
 {
@@ -64,9 +64,9 @@ BOOST_AUTO_TEST_CASE (generate_big_msgpubdata)
 	else
 		strCipherGoodPrivateData = HexStr(strCipherGoodPrivateData);
 
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + gooddata + " jagmsg1 jagmsg2" + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + gooddata + " jagmsg1 jagmsg2" + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))));
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + baddata + " jagmsg1 jagmsg2" + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2")) + HexStr(vchFromString("key3"))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + baddata + " jagmsg1 jagmsg2" + " " + HexStr(vchFromString("key1")) + HexStr(vchFromString("key2 ")) + HexStr(vchFromString("key3"))), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_msgaliastransfer)
 {
