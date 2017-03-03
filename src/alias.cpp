@@ -1986,8 +1986,7 @@ UniValue aliasupdate(const UniValue& params, bool fHelp) {
 	coinControl.fAllowWatchOnly = false;
 	bool useOnlyAliasPaymentToFund = false;
 	bool transferAlias = false;
-	// move over balance of funds if changing address or pubkey
-	if(newAddress.ToString() != EncodeBase58(theAlias.vchAddress) || copyAlias.vchPubKey != theAlias.vchPubKey)
+	if(newAddress.ToString() != EncodeBase58(copyAlias.vchAddress))
 		transferAlias = true;
 	
 	SendMoneySyscoin(vchAlias, recipient, recipientPayment, vecSend, wtx, &coinControl, useOnlyAliasPaymentToFund, transferAlias);
