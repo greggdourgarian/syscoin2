@@ -278,7 +278,7 @@ public:
 		{
 			if(bCoinOffer)
 				price = fUnits*COIN;
-			else
+			else if(fUnits != 1)
 				price *= fUnits;
 		}
 									
