@@ -1278,7 +1278,7 @@ UniValue offernew(const UniValue& params, bool fHelp) {
 		throw runtime_error("SYSCOIN_OFFER_RPC_ERROR ERRCODE: 1503 - " + _("Invalid quantity value, must be less than 4294967296 and greater than or equal to -1"));
 	}
 	fPrice = boost::lexical_cast<float>(params[3].get_str());
-		vector<unsigned char> vchCurrency = vchFromValue(params[4]);
+	vector<unsigned char> vchCurrency = vchFromValue(params[4]);
 	CScript scriptPubKeyOrig;
 	CScript scriptPubKey;
 	if(CheckParam(params, 5))

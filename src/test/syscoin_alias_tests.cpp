@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	AliasTransfer("node1", "jagnode1", "node2", "changeddata1", "pvtdata");
 
 	// xfer an alias that isn't yours
-	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 \"\" \"\" " + HexStr(vchPubKey)), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node1", "aliasupdate sysrates.peg jagnode1 changedata1 \"\" " + HexStr(vchPubKey)), runtime_error);
 
 	// xfer alias and update it at the same time
 	AliasTransfer("node2", "jagnode2", "node3", "changeddata4", "pvtdata");
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE (generate_aliastransfer)
 	AliasTransfer("node2", "jagnode1", "node3", "changeddata5", "pvtdata2");
 
 	// xfer an alias to another alias is prohibited
-	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate sysrates.peg jagnode2 changedata1 \"\" \"\" " + strPubKey1), runtime_error);
+	BOOST_CHECK_THROW(r = CallRPC("node2", "aliasupdate sysrates.peg jagnode2 changedata1 \"\" " + strPubKey1), runtime_error);
 	
 }
 BOOST_AUTO_TEST_CASE (generate_aliasbalance)
@@ -883,14 +883,14 @@ BOOST_AUTO_TEST_CASE (generate_aliasexpired)
 	// should fail: alias update on expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 newdata1"), runtime_error);
 	// should fail: alias transfer from expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 \"\" \"\" " + HexStr(vchPubKey)), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "aliasupdate sysrates.peg aliasexpirednode2 changedata1 \"\" " + HexStr(vchPubKey)), runtime_error);
 	// should fail: alias transfer to another alias
-	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 \"\" \"\" " + aliasexpirenode2pubkey), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "aliasupdate sysrates.peg aliasexpire2 changedata1 \"\" " + aliasexpirenode2pubkey), runtime_error);
 
 	// should fail: link to an expired alias in offer
 	BOOST_CHECK_THROW(CallRPC("node2", "offerlink aliasexpirednode2 " + offerguid + " 5 newdetails"), runtime_error);
 	// should fail: generate an offer using expired alias
-	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 1 0.05 details USD nocert"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node2", "offernew aliasexpirednode2 details 1 0.05 USD nocert"), runtime_error);
 
 	// should fail: send message from expired alias to expired alias
 	BOOST_CHECK_THROW(CallRPC("node2", "messagenew " + HexStr(vchFromString("message")) + " pubdata aliasexpirednode2 aliasexpirednode2 01 01 01"), runtime_error);
