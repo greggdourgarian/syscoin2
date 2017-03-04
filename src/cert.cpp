@@ -638,7 +638,7 @@ UniValue certnew(const UniValue& params, bool fHelp) {
 	if(CheckParam(params, 3))
 		strEncryptionPublicKey = params[3].get_str();
 	if(CheckParam(params, 4))
-		strEncryptionPrivateKey = params[3].get_str();
+		strEncryptionPrivateKey = params[4].get_str();
 
 	// check for alias existence in DB
 	CTransaction aliastx;
