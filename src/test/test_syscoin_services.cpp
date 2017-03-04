@@ -1004,6 +1004,7 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 	string strCipherEncryptionPrivateKey = "";
 	string strCipherEncryptionPublicKey = "";
 	string strCipherPrivateData = "";
+	// regenerate pub/priv encryption keypair on every update of pvt data
 	if(privdata != "\"\"")
 	{
 		BOOST_CHECK_EQUAL(EncryptMessage(vchPubEncryptionKey, privdata, strCipherPrivateData), true);
@@ -1024,12 +1025,6 @@ void CertUpdate(const string& node, const string& guid, const string& pubdata, c
 		strCipherEncryptionPrivateKey = HexStr(vchFromString(strCipherEncryptionPrivateKey));
 		strCipherEncryptionPublicKey = HexStr(vchPubEncryptionKey);
 	}
-
-	if(strCipherPrivateData.empty())
-		strCipherPrivateData = "\"\"";
-	else
-		strCipherPrivateData = HexStr(strCipherPrivateData);
-
 
 	BOOST_CHECK_NO_THROW(r = CallRPC(node, "certupdate " + guid + " " + pubdata + " " + strCipherPrivateData + " " + strCipherEncryptionPublicKey + " " + strCipherEncryptionPrivateKey));
 	GenerateBlocks(10, node);

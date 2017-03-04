@@ -542,6 +542,11 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1011 - " + _("Offer currency code too long");
 			return error(errorMessage.c_str());
 		}
+		if(theOffer.vchDetails.size() > MAX_VALUE_LENGTH)
+		{
+			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1011 - " + _("Offer details too long");
+			return error(errorMessage.c_str());
+		}
 		if(theOffer.linkWhitelist.entries.size() > 1)
 		{
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1013 - " + _("Offer has too many affiliate entries, only one allowed per transaction");

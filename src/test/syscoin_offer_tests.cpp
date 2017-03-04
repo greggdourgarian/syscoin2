@@ -61,8 +61,6 @@ BOOST_AUTO_TEST_CASE (generate_certoffer)
 	string offerguid = OfferNew("node1", "node1alias", "1", "0.05", "details", "USD", certguid1);
 	string offerguid1 = OfferNew("node1", "node1alias", "1", "0.05", "details", "USD", certguid1);
 
-	// must use certificates category for certoffer
-	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias details 1 0.05 USD " + certguid1), runtime_error);
 
 	// should fail: generate a cert offer using a quantity greater than 1
 	BOOST_CHECK_THROW(r = CallRPC("node1", "offernew node1alias details 2 0.05 USD " + certguid1), runtime_error);
