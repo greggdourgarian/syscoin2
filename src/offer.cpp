@@ -542,7 +542,7 @@ bool CheckOfferInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1011 - " + _("Offer currency code too long");
 			return error(errorMessage.c_str());
 		}
-		if(theOffer.vchDetails.size() > MAX_VALUE_LENGTH)
+		if(theOffer.sDetails.size() > MAX_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_OFFER_CONSENSUS_ERROR: ERRCODE: 1011 - " + _("Offer details too long");
 			return error(errorMessage.c_str());
