@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE (generate_big_certdata)
 	// unencrypted 257 bytes should cause us to trip 257+80 bytes once encrypted
 	BOOST_CHECK_THROW(CallRPC("node1", "certnew jagcertbig1 " + gooddata + " " + HexStr(vchFromString(strCipherBadData))), runtime_error);
 	// update cert with long pub data
-	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " jagcertbig1 " +  " " + baddata + " " + HexStr(vchFromString(strCipherGoodData))), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " " + baddata + " " + HexStr(vchFromString(strCipherGoodData))), runtime_error);
 	MilliSleep(2500);
 	// trying to update to bad data for pub and priv
 	BOOST_CHECK_THROW(CallRPC("node1", "certupdate " + guid + " " + baddata + " " + HexStr(vchFromString(strCipherBadData))), runtime_error);
