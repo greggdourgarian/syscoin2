@@ -772,6 +772,16 @@ bool CheckAliasInputs(const CTransaction &tx, int op, int nOut, const vector<vec
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5006 - " + _("Alias private value too big");
 			return error(errorMessage.c_str());
 		}
+		if(theAlias.vchEncryptionPrivateKey.size() > MAX_ENCRYPTED_GUID_LENGTH)
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encryption private to key too long");
+			return error(errorMessage.c_str());
+		}
+		if(theAlias.vchEncryptionPublicKey.size() > MAX_GUID_LENGTH)
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encryption public key too long");
+			return error(errorMessage.c_str());
+		}
 		if(theAlias.vchAliasPeg.size() > MAX_GUID_LENGTH)
 		{
 			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 5007 - " + _("Alias peg too long");

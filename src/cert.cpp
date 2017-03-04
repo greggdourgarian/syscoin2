@@ -461,6 +461,16 @@ bool CheckCertInputs(const CTransaction &tx, int op, int nOut, const vector<vect
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2006 - " + _("Certificate private data too big");
 			return error(errorMessage.c_str());
 		}
+		if(theCert.vchEncryptionPrivateKey.size() > MAX_ENCRYPTED_GUID_LENGTH)
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encryption private to key too long");
+			return error(errorMessage.c_str());
+		theCert
+		if(theAlias.vchEncryptionPublicKey.size() > MAX_GUID_LENGTH)
+		{
+			errorMessage = "SYSCOIN_ALIAS_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encryption public key too long");
+			return error(errorMessage.c_str());
+		}
 		if(theCert.vchPubData.size() > MAX_VALUE_LENGTH)
 		{
 			errorMessage = "SYSCOIN_CERTIFICATE_CONSENSUS_ERROR: ERRCODE: 2007 - " + _("Certificate public data too big");

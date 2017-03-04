@@ -20,6 +20,7 @@ class COutPoint;
 class CCoinControl;
 struct CRecipient;
 static const unsigned int MAX_GUID_LENGTH = 71;
+static const unsigned int MAX_ENCRYPTED_GUID_LENGTH = 71+80;
 static const unsigned int MAX_NAME_LENGTH = 64;
 static const unsigned int MAX_VALUE_LENGTH = 256;
 static const unsigned int MAX_ID_LENGTH = 20;

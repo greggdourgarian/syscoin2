@@ -328,24 +328,24 @@ bool CheckMessageInputs(const CTransaction &tx, int op, int nOut, const vector<v
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Message too long");
 			return error(errorMessage.c_str());
 		}
-		if(theMessage.vchPubData.size() > MAX_ENCRYPTED_VALUE_LENGTH)
+		if(theMessage.vchPubData.size() > MAX_VALUE_LENGTH)
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Message too long");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Message details too long");
 			return error(errorMessage.c_str());
 		}
-		if(theMessage.vchEncryptionPrivateKeyFrom.size() > MAX_GUID_LENGTH)
+		if(theMessage.vchEncryptionPrivateKeyFrom.size() > MAX_ENCRYPTED_GUID_LENGTH)
 		{
 			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encrypted private from key too long");
 			return error(errorMessage.c_str());
 		}
-		if(theMessage.vchEncryptionPrivateKeyTo.size() > MAX_GUID_LENGTH)
+		if(theMessage.vchEncryptionPrivateKeyTo.size() > MAX_ENCRYPTED_GUID_LENGTH)
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encrypted private to key too long");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encryption private to key too long");
 			return error(errorMessage.c_str());
 		}
 		if(theMessage.vchEncryptionPublicKey.size() > MAX_GUID_LENGTH)
 		{
-			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encrypted public key too long");
+			errorMessage = "SYSCOIN_MESSAGE_CONSENSUS_ERROR: ERRCODE: 3006 - " + _("Encryption public key too long");
 			return error(errorMessage.c_str());
 		}
 		if(!IsValidAliasName(theMessage.vchAliasFrom))

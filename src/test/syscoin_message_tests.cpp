@@ -40,9 +40,9 @@ BOOST_AUTO_TEST_CASE (generate_big_msgdata)
 		strCipherBadPrivateData = HexStr(strCipherBadPrivateData);
 
 	
-	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias +  " 01 01 01"));
+	BOOST_CHECK_NO_THROW(CallRPC("node1", "messagenew " + strCipherGoodPrivateData + " " + goodprivdata + " " + fromalias + " " + toalias +  " 01 01 01"));
 	GenerateBlocks(5);
-	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherBadPrivateData + " " + strCipherGoodPrivateData + " " + fromalias + " " + toalias + " 01 01 01"), runtime_error);
+	BOOST_CHECK_THROW(CallRPC("node1", "messagenew " + strCipherBadPrivateData + " " + goodprivdata + " " + fromalias + " " + toalias + " 01 01 01"), runtime_error);
 }
 BOOST_AUTO_TEST_CASE (generate_big_msgpubdata)
 {
